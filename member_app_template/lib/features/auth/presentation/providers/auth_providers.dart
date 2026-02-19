@@ -1,6 +1,8 @@
 import 'package:core_network/core_network.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/auth/persistent_token_store.dart';
+import '../../../../app/storage/app_storage_providers.dart';
 import '../../data/datasources/auth_remote_data_source.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -10,14 +12,11 @@ import '../controllers/auth_controller.dart';
 import '../state/auth_state.dart';
 
 final tokenStoreProvider = Provider<TokenStore>((ref) {
-  return InMemoryTokenStore();
+  return PersistentTokenStore(ref.watch(secureKeyValueStorageProvider));
 });
 
 final tokenRefresherProvider = Provider<TokenRefresher>((ref) {
-  return EndpointTokenRefresher(
-    Dio(),
-    refreshPath: '/v1/auth/refresh',
-  );
+  return EndpointTokenRefresher(Dio(), refreshPath: '/v1/auth/refresh');
 });
 
 final coreHttpClientProvider = Provider<CoreHttpClient>((ref) {
@@ -47,10 +46,17 @@ final loginWithCodeUseCaseProvider = Provider<LoginWithCodeUseCase>((ref) {
   return LoginWithCodeUseCase(ref.watch(authRepositoryProvider));
 });
 
-final authControllerProvider =
-    StateNotifierProvider<AuthController, AuthState>((ref) {
-  return AuthController(
-    ref.watch(sendLoginCodeUseCaseProvider),
-    ref.watch(loginWithCodeUseCaseProvider),
-  );
+final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(
+  (ref) {
+    return AuthController(
+      ref.watch(sendLoginCodeUseCaseProvider),
+      ref.watch(loginWithCodeUseCaseProvider),
+    );
+  },
+);
+
+final isAuthenticatedProvider = FutureProvider<bool>((ref) async {
+  final tokenStore = ref.watch(tokenStoreProvider);
+  final accessToken = await tokenStore.readAccessToken();
+  return accessToken != null && accessToken.isNotEmpty;
 });

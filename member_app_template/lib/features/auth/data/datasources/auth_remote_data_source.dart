@@ -31,10 +31,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     final response = await _client.dio.post<Map<String, dynamic>>(
       '/v1/auth/login-with-code',
-      data: <String, dynamic>{
-        'account': account,
-        'code': code,
-      },
+      data: <String, dynamic>{'account': account, 'code': code},
       options: authRequired(false),
     );
 

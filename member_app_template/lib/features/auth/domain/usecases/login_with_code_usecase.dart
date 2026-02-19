@@ -6,10 +6,7 @@ class LoginWithCodeUseCase {
 
   final AuthRepository _repository;
 
-  Future<AuthSession> call({
-    required String account,
-    required String code,
-  }) {
+  Future<AuthSession> call({required String account, required String code}) {
     return _repository.loginWithCode(account: account, code: code);
   }
 }

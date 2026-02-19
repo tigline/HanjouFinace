@@ -18,6 +18,8 @@ dependencies:
     path: ../mobile_core_sdk/packages/core_network
   core_foundation:
     path: ../mobile_core_sdk/packages/core_foundation
+  core_storage:
+    path: ../mobile_core_sdk/packages/core_storage
 
 dev_dependencies:
   flutter_test:

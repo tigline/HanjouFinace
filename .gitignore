@@ -1,0 +1,9 @@
+.DS_Store
+
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/build/
+
+# Keep app lockfile, ignore package lockfiles.
+mobile_core_sdk/**/pubspec.lock

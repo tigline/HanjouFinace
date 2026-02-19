@@ -8,8 +8,8 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
     required AuthRemoteDataSource remote,
     required TokenStore tokenStore,
-  })  : _remote = remote,
-        _tokenStore = tokenStore;
+  }) : _remote = remote,
+       _tokenStore = tokenStore;
 
   final AuthRemoteDataSource _remote;
   final TokenStore _tokenStore;
@@ -26,10 +26,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     final dto = await _remote.loginWithCode(account: account, code: code);
     await _tokenStore.save(
-      TokenPair(
-        accessToken: dto.accessToken,
-        refreshToken: dto.refreshToken,
-      ),
+      TokenPair(accessToken: dto.accessToken, refreshToken: dto.refreshToken),
     );
     return dto.toEntity();
   }

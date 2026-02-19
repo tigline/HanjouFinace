@@ -50,9 +50,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             TextField(
               controller: _accountController,
               onChanged: controller.onAccountChanged,
-              decoration: const InputDecoration(
-                labelText: '手机号或邮箱',
-              ),
+              decoration: const InputDecoration(labelText: '手机号或邮箱'),
             ),
             const SizedBox(height: 12),
             TextField(

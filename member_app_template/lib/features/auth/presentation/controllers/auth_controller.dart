@@ -45,10 +45,7 @@ class AuthController extends StateNotifier<AuthState> {
       state = state.copyWith(isLoggingIn: false, session: session);
       return true;
     } catch (_) {
-      state = state.copyWith(
-        isLoggingIn: false,
-        errorMessage: '登录失败，请检查验证码',
-      );
+      state = state.copyWith(isLoggingIn: false, errorMessage: '登录失败，请检查验证码');
       return false;
     }
   }
