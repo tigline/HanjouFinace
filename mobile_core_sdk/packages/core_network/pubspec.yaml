@@ -1,0 +1,15 @@
+name: core_network
+description: Reusable network toolkit with auth and token refresh interceptors.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  dio: ^5.7.0
+  core_foundation:
+    path: ../core_foundation
+
+dev_dependencies:
+  test: ^1.25.8

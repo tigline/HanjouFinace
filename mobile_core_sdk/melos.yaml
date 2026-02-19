@@ -1,0 +1,3 @@
+name: mobile_core_sdk
+packages:
+  - packages/**

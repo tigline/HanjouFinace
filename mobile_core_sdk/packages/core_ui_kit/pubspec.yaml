@@ -1,0 +1,7 @@
+name: core_ui_kit
+description: Shared UI tokens and reusable widgets.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'

@@ -1,0 +1,7 @@
+name: core_testkit
+description: Shared testing utilities for app and core packages.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'

@@ -1,0 +1,29 @@
+name: member_app_template
+description: Company template app based on Clean Architecture + Riverpod.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '>=3.35.1'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.0
+  dio: ^5.7.0
+  meta: ^1.12.0
+  core_network:
+    path: ../mobile_core_sdk/packages/core_network
+  core_foundation:
+    path: ../mobile_core_sdk/packages/core_foundation
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: ^1.25.8
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
