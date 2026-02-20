@@ -6,5 +6,7 @@ abstract class AuthRepository {
     required String account,
     required String code,
   });
+  Future<bool> restoreSession();
+  Future<bool> refreshSession();
   Future<void> logout();
 }

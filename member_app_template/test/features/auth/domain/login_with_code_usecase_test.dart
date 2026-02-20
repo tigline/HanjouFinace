@@ -20,6 +20,16 @@ class _FakeAuthRepository implements AuthRepository {
   Future<void> logout() async {}
 
   @override
+  Future<bool> refreshSession() async {
+    return true;
+  }
+
+  @override
+  Future<bool> restoreSession() async {
+    return true;
+  }
+
+  @override
   Future<void> sendLoginCode({required String account}) async {}
 }
 

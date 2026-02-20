@@ -26,6 +26,16 @@ class _FakeRepository implements AuthRepository {
   }
 
   @override
+  Future<bool> refreshSession() async {
+    return true;
+  }
+
+  @override
+  Future<bool> restoreSession() async {
+    return true;
+  }
+
+  @override
   Future<void> logout() async {}
 }
 

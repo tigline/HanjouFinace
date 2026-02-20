@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:core_network/core_network.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/auth/app_auth_failure_handler.dart';
@@ -15,6 +14,7 @@ import '../../data/datasources/auth_remote_data_source.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/login_with_code_usecase.dart';
+import '../../domain/usecases/logout_usecase.dart';
 import '../../domain/usecases/send_login_code_usecase.dart';
 import '../controllers/auth_controller.dart';
 import '../state/auth_state.dart';
@@ -24,19 +24,40 @@ final tokenStoreProvider = Provider<TokenStore>((ref) {
 });
 
 class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
-  AuthSessionController(this._tokenStore) : super(const AsyncValue.loading()) {
+  AuthSessionController(this._tokenStore, this._tokenRefresher)
+    : super(const AsyncValue.loading()) {
     unawaited(refresh());
   }
 
   final TokenStore _tokenStore;
+  final TokenRefresher _tokenRefresher;
 
   Future<void> refresh() async {
     try {
       final accessToken = await _tokenStore.readAccessToken();
-      final isAuthenticated = accessToken != null && accessToken.isNotEmpty;
-      state = AsyncValue.data(isAuthenticated);
-    } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
+      if (accessToken != null && accessToken.trim().isNotEmpty) {
+        state = const AsyncValue.data(true);
+        return;
+      }
+
+      final refreshToken = await _tokenStore.readRefreshToken();
+      if (refreshToken == null || refreshToken.trim().isEmpty) {
+        state = const AsyncValue.data(false);
+        return;
+      }
+
+      final refreshedPair = await _tokenRefresher.refresh(refreshToken);
+      if (refreshedPair == null) {
+        await _tokenStore.clear();
+        state = const AsyncValue.data(false);
+        return;
+      }
+
+      await _tokenStore.save(refreshedPair);
+      state = const AsyncValue.data(true);
+    } catch (_) {
+      await _tokenStore.clear();
+      state = const AsyncValue.data(false);
     }
   }
 
@@ -51,22 +72,14 @@ class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
 
 final authSessionProvider =
     StateNotifierProvider<AuthSessionController, AsyncValue<bool>>((ref) {
-      return AuthSessionController(ref.watch(tokenStoreProvider));
+      return AuthSessionController(
+        ref.watch(tokenStoreProvider),
+        ref.watch(tokenRefresherProvider),
+      );
     });
 
 final isAuthenticatedProvider = Provider<AsyncValue<bool>>((ref) {
   return ref.watch(authSessionProvider);
-});
-
-final authRouteRefreshListenableProvider = Provider<ValueNotifier<int>>((ref) {
-  final notifier = ValueNotifier<int>(0);
-  ref.listen<AsyncValue<bool>>(authSessionProvider, (previous, next) {
-    if (previous != next) {
-      notifier.value += 1;
-    }
-  });
-  ref.onDispose(notifier.dispose);
-  return notifier;
 });
 
 final authFailureHandlerProvider = Provider<AuthFailureHandler>((ref) {
@@ -140,6 +153,10 @@ final sendLoginCodeUseCaseProvider = Provider<SendLoginCodeUseCase>((ref) {
 
 final loginWithCodeUseCaseProvider = Provider<LoginWithCodeUseCase>((ref) {
   return LoginWithCodeUseCase(ref.watch(authRepositoryProvider));
+});
+
+final logoutUseCaseProvider = Provider<LogoutUseCase>((ref) {
+  return LogoutUseCase(ref.watch(authRepositoryProvider));
 });
 
 final authControllerProvider = StateNotifierProvider<AuthController, AuthState>(

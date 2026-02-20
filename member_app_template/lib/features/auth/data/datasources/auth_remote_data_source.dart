@@ -10,6 +10,8 @@ abstract class AuthRemoteDataSource {
     required String account,
     required String code,
   });
+  Future<AuthSessionDto?> refreshSession({required String refreshToken});
+  Future<void> logout({required String accessToken});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -78,5 +80,57 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     return AuthSessionDto.fromJson(response.data ?? <String, dynamic>{});
+  }
+
+  @override
+  Future<AuthSessionDto?> refreshSession({required String refreshToken}) async {
+    final normalizedRefreshToken = refreshToken.trim();
+    if (normalizedRefreshToken.isEmpty) {
+      return null;
+    }
+
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      LegacyApiPath.oauthToken,
+      data: <String, dynamic>{
+        'grant_type': 'refresh_token',
+        'refresh_token': normalizedRefreshToken,
+      },
+      options: authRequired(false).copyWith(
+        headers: <String, dynamic>{
+          'Authorization': legacyOauthClientAuthorization,
+        },
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
+
+    final data = response.data;
+    if (data == null) {
+      return null;
+    }
+
+    try {
+      return AuthSessionDto.fromJson(data);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> logout({required String accessToken}) async {
+    final normalizedAccessToken = accessToken.trim();
+    if (normalizedAccessToken.isEmpty) {
+      return;
+    }
+
+    await _client.dio.delete<void>(
+      LegacyApiPath.oauthToken,
+      data: <String, dynamic>{'accessToken': normalizedAccessToken},
+      options: authRequired(false).copyWith(
+        headers: <String, dynamic>{
+          'Authorization': legacyOauthClientAuthorization,
+        },
+        contentType: Headers.jsonContentType,
+      ),
+    );
   }
 }

@@ -32,7 +32,50 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> logout() {
-    return _tokenStore.clear();
+  Future<bool> restoreSession() async {
+    final accessToken = await _tokenStore.readAccessToken();
+    if (accessToken != null && accessToken.trim().isNotEmpty) {
+      return true;
+    }
+
+    return refreshSession();
+  }
+
+  @override
+  Future<bool> refreshSession() async {
+    final refreshToken = await _tokenStore.readRefreshToken();
+    if (refreshToken == null || refreshToken.trim().isEmpty) {
+      await _tokenStore.clear();
+      return false;
+    }
+
+    try {
+      final dto = await _remote.refreshSession(refreshToken: refreshToken);
+      if (dto == null) {
+        await _tokenStore.clear();
+        return false;
+      }
+      await _tokenStore.save(
+        TokenPair(accessToken: dto.accessToken, refreshToken: dto.refreshToken),
+      );
+      return true;
+    } catch (_) {
+      await _tokenStore.clear();
+      return false;
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    final accessToken = await _tokenStore.readAccessToken();
+    try {
+      if (accessToken != null && accessToken.trim().isNotEmpty) {
+        await _remote.logout(accessToken: accessToken);
+      }
+    } catch (_) {
+      // Always clear local auth state even when remote revoke fails.
+    } finally {
+      await _tokenStore.clear();
+    }
   }
 }

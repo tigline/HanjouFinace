@@ -30,7 +30,6 @@ Future<void> bootstrap({
   String? memberApiBaseUrlOverride,
   String? hotelApiBaseUrlOverride,
   String? oaApiBaseUrlOverride,
-  String? swaggerUiUrlOverride,
   bool? enableHttpLogOverride,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,8 +48,6 @@ Future<void> bootstrap({
         const String.fromEnvironment('HOTEL_API_BASE_URL'),
     oaApiBaseUrlOverride:
         oaApiBaseUrlOverride ?? const String.fromEnvironment('OA_API_BASE_URL'),
-    swaggerUiUrlOverride:
-        swaggerUiUrlOverride ?? const String.fromEnvironment('SWAGGER_UI_URL'),
     enableHttpLogOverride: enableHttpLogOverride ?? enableHttpLogFromDefine,
   );
   final logger = await FileAppLogger.create(

@@ -7,7 +7,6 @@ class AppEnvironment {
     required this.memberApiBaseUrl,
     required this.hotelApiBaseUrl,
     required this.oaApiBaseUrl,
-    required this.swaggerUiUrl,
     required this.enableHttpLog,
   });
 
@@ -16,7 +15,6 @@ class AppEnvironment {
   final String memberApiBaseUrl;
   final String hotelApiBaseUrl;
   final String oaApiBaseUrl;
-  final String swaggerUiUrl;
   final bool enableHttpLog;
 
   bool get isProduction => flavor == AppFlavor.prod;
@@ -27,7 +25,6 @@ class AppEnvironment {
     String? memberApiBaseUrl,
     String? hotelApiBaseUrl,
     String? oaApiBaseUrl,
-    String? swaggerUiUrl,
     bool? enableHttpLog,
   }) {
     return AppEnvironment(
@@ -36,7 +33,6 @@ class AppEnvironment {
       memberApiBaseUrl: memberApiBaseUrl ?? this.memberApiBaseUrl,
       hotelApiBaseUrl: hotelApiBaseUrl ?? this.hotelApiBaseUrl,
       oaApiBaseUrl: oaApiBaseUrl ?? this.oaApiBaseUrl,
-      swaggerUiUrl: swaggerUiUrl ?? this.swaggerUiUrl,
       enableHttpLog: enableHttpLog ?? this.enableHttpLog,
     );
   }
@@ -50,7 +46,6 @@ class EnvironmentFactory {
     String? memberApiBaseUrlOverride,
     String? hotelApiBaseUrlOverride,
     String? oaApiBaseUrlOverride,
-    String? swaggerUiUrlOverride,
     bool? enableHttpLogOverride,
   }) {
     final defaults = _defaults(flavor);
@@ -67,10 +62,6 @@ class EnvironmentFactory {
         override: oaApiBaseUrlOverride,
         fallback: defaults.oaApiBaseUrl,
       ),
-      swaggerUiUrl: _pickUrl(
-        override: swaggerUiUrlOverride,
-        fallback: defaults.swaggerUiUrl,
-      ),
       enableHttpLog: enableHttpLogOverride ?? defaults.enableHttpLog,
     );
   }
@@ -84,7 +75,6 @@ class EnvironmentFactory {
           memberApiBaseUrl: 'https://sit-new.gutingjun.com/api',
           hotelApiBaseUrl: 'https://hotel-sit.gutingjun.com/api',
           oaApiBaseUrl: 'https://testoa.gutingjun.com/api',
-          swaggerUiUrl: 'https://sit-admin.gutingjun.com/api/swagger-ui.html#/',
           enableHttpLog: true,
         );
       case AppFlavor.staging:
@@ -94,7 +84,6 @@ class EnvironmentFactory {
           memberApiBaseUrl: 'https://sit-new.gutingjun.com/api',
           hotelApiBaseUrl: 'https://hotel-sit.gutingjun.com/api',
           oaApiBaseUrl: 'https://testoa.gutingjun.com/api',
-          swaggerUiUrl: 'https://sit-admin.gutingjun.com/api/swagger-ui.html#/',
           enableHttpLog: true,
         );
       case AppFlavor.prod:
@@ -104,7 +93,6 @@ class EnvironmentFactory {
           memberApiBaseUrl: 'https://new.gutingjun.com/api',
           hotelApiBaseUrl: 'https://hotel.gutingjun.com/api',
           oaApiBaseUrl: 'https://oa.gutingjun.com/api',
-          swaggerUiUrl: 'https://sit-admin.gutingjun.com/api/swagger-ui.html#/',
           enableHttpLog: false,
         );
     }

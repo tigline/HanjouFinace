@@ -75,10 +75,6 @@ Current defaults (aligned with legacy `http_conf.dart`):
   - `HOTEL_API_BASE_URL=https://hotel.gutingjun.com/api`
   - `OA_API_BASE_URL=https://oa.gutingjun.com/api`
 
-SIT Swagger reference:
-
-- `https://sit-admin.gutingjun.com/api/swagger-ui.html#/`
-
 Auth endpoints currently aligned with legacy `http_conf.dart`:
 
 - `mss/smsCode`
@@ -105,6 +101,5 @@ fvm flutter run --flavor staging -t lib/main_staging.dart \
   --dart-define=API_BASE_URL=https://sit-new.gutingjun.com/api \
   --dart-define=HOTEL_API_BASE_URL=https://hotel-sit.gutingjun.com/api \
   --dart-define=OA_API_BASE_URL=https://testoa.gutingjun.com/api \
-  --dart-define='SWAGGER_UI_URL=https://sit-admin.gutingjun.com/api/swagger-ui.html#/' \
   --dart-define=ENABLE_HTTP_LOG=true
 ```

@@ -12,10 +12,6 @@ void main() {
       expect(env.memberApiBaseUrl, 'https://sit-new.gutingjun.com/api');
       expect(env.hotelApiBaseUrl, 'https://hotel-sit.gutingjun.com/api');
       expect(env.oaApiBaseUrl, 'https://testoa.gutingjun.com/api');
-      expect(
-        env.swaggerUiUrl,
-        'https://sit-admin.gutingjun.com/api/swagger-ui.html#/',
-      );
       expect(env.enableHttpLog, isTrue);
     });
 
@@ -43,14 +39,12 @@ void main() {
         memberApiBaseUrlOverride: 'https://custom.example.com',
         hotelApiBaseUrlOverride: 'https://hotel.custom.example.com',
         oaApiBaseUrlOverride: 'https://oa.custom.example.com',
-        swaggerUiUrlOverride: 'https://custom-swagger.example.com',
         enableHttpLogOverride: false,
       );
 
       expect(env.memberApiBaseUrl, 'https://custom.example.com');
       expect(env.hotelApiBaseUrl, 'https://hotel.custom.example.com');
       expect(env.oaApiBaseUrl, 'https://oa.custom.example.com');
-      expect(env.swaggerUiUrl, 'https://custom-swagger.example.com');
       expect(env.enableHttpLog, isFalse);
     });
   });

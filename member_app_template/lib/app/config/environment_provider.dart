@@ -19,7 +19,3 @@ final hotelApiBaseUrlProvider = Provider<String>((ref) {
 final oaApiBaseUrlProvider = Provider<String>((ref) {
   return ref.watch(appEnvironmentProvider).oaApiBaseUrl;
 });
-
-final swaggerUiUrlProvider = Provider<String>((ref) {
-  return ref.watch(appEnvironmentProvider).swaggerUiUrl;
-});

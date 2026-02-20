@@ -123,5 +123,54 @@ void main() {
         expect(dto.refreshToken, 'newR');
       },
     );
+
+    test(
+      'refreshSession uses oauth refresh payload and parses response',
+      () async {
+        final client = _buildClient((options) async {
+          expect(options.method, 'POST');
+          expect(options.path, LegacyApiPath.oauthToken);
+          expect(
+            options.headers['Authorization'],
+            legacyOauthClientAuthorization,
+          );
+          expect(options.contentType, Headers.formUrlEncodedContentType);
+          expect(options.extra['auth_required'], false);
+
+          final body = options.data as Map<String, dynamic>;
+          expect(body['grant_type'], 'refresh_token');
+          expect(body['refresh_token'], 'old-refresh');
+
+          return _jsonOk(
+            '{"access_token":"newA","refresh_token":"newR","expires_in":3600}',
+          );
+        });
+        final source = AuthRemoteDataSourceImpl(client);
+
+        final dto = await source.refreshSession(refreshToken: 'old-refresh');
+
+        expect(dto, isNotNull);
+        expect(dto?.accessToken, 'newA');
+        expect(dto?.refreshToken, 'newR');
+      },
+    );
+
+    test('logout uses oauth revoke endpoint with basic auth', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, 'DELETE');
+        expect(options.path, LegacyApiPath.oauthToken);
+        expect(
+          options.headers['Authorization'],
+          legacyOauthClientAuthorization,
+        );
+        expect(options.contentType, Headers.jsonContentType);
+        expect(options.extra['auth_required'], false);
+        expect(options.data, <String, dynamic>{'accessToken': 'access-token'});
+        return _jsonOk();
+      });
+      final source = AuthRemoteDataSourceImpl(client);
+
+      await source.logout(accessToken: 'access-token');
+    });
   });
 }
