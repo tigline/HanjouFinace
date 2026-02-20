@@ -82,14 +82,14 @@ class EndpointTokenRefresher implements TokenRefresher {
       return noAuthOptions;
     }
 
-    return _requestOptions!.copyWith(
+    return _requestOptions.copyWith(
       headers: <String, dynamic>{
         ...?noAuthOptions.headers,
-        ...?_requestOptions!.headers,
+        ...?_requestOptions.headers,
       },
       extra: <String, dynamic>{
         ...?noAuthOptions.extra,
-        ...?_requestOptions!.extra,
+        ...?_requestOptions.extra,
       },
     );
   }
