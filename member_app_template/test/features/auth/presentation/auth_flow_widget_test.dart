@@ -142,9 +142,9 @@ void main() {
       await tester.enterText(find.byType(TextField).at(0), 'user@example.com');
       await tester.enterText(find.byType(TextField).at(1), '123456');
 
-      await tester.tap(find.text('发送验证码'));
+      await tester.tap(find.byKey(const Key('login_send_code_button')));
       await tester.pump();
-      await tester.tap(find.widgetWithText(ElevatedButton, '登录'));
+      await tester.tap(find.byKey(const Key('login_submit_button')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 200));
 

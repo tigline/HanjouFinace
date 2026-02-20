@@ -1,0 +1,21 @@
+{
+  "@@locale": "ja",
+  "loginTitle": "ログイン",
+  "loginAccountLabel": "電話番号またはメール",
+  "loginCodeLabel": "認証コード",
+  "loginSendCode": "コード送信",
+  "loginSubmit": "ログイン",
+  "loginErrorSendCodeFailed": "コード送信に失敗しました。後でもう一度お試しください。",
+  "loginErrorInvalidCode": "ログインに失敗しました。認証コードを確認してください。",
+  "homeTitle": "ホーム",
+  "homeLogout": "ログアウト",
+  "uiErrorRequestFailed": "リクエストに失敗しました。後でもう一度お試しください。",
+  "uiErrorNetworkUnavailable": "ネットワーク接続に問題があります。後でもう一度お試しください。",
+  "uiErrorAuthExpired": "セッションの有効期限が切れました。再度ログインしてください。",
+  "uiErrorForbidden": "このリソースにアクセスする権限がありません。",
+  "uiErrorServerUnavailable": "サービスは一時的に利用できません。後でもう一度お試しください。",
+  "languageFollowSystem": "システムに従う",
+  "languageChinese": "中国語",
+  "languageEnglish": "英語",
+  "languageJapanese": "日本語"
+}

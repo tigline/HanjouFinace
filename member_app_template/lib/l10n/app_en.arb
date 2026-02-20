@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "loginTitle": "Sign in",
+  "loginAccountLabel": "Phone number or email",
+  "loginCodeLabel": "Verification code",
+  "loginSendCode": "Send code",
+  "loginSubmit": "Sign in",
+  "loginErrorSendCodeFailed": "Unable to send code. Please try again later.",
+  "loginErrorInvalidCode": "Sign in failed. Please verify your code.",
+  "homeTitle": "Home",
+  "homeLogout": "Sign out",
+  "uiErrorRequestFailed": "Request failed. Please try again later.",
+  "uiErrorNetworkUnavailable": "Network connection error. Please try again later.",
+  "uiErrorAuthExpired": "Session expired. Please sign in again.",
+  "uiErrorForbidden": "You do not have permission to access this resource.",
+  "uiErrorServerUnavailable": "Service is temporarily unavailable. Please try again later.",
+  "languageFollowSystem": "Follow system",
+  "languageChinese": "Chinese",
+  "languageEnglish": "English",
+  "languageJapanese": "Japanese"
+}

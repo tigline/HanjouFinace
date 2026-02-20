@@ -4,6 +4,7 @@ import 'package:member_app_template/features/auth/domain/repositories/auth_repos
 import 'package:member_app_template/features/auth/domain/usecases/login_with_code_usecase.dart';
 import 'package:member_app_template/features/auth/domain/usecases/send_login_code_usecase.dart';
 import 'package:member_app_template/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:member_app_template/features/auth/presentation/state/auth_state.dart';
 
 class _FakeRepository implements AuthRepository {
   bool sendCodeCalled = false;
@@ -51,7 +52,7 @@ void main() {
     await controller.sendCode();
 
     expect(repo.sendCodeCalled, true);
-    expect(controller.state.errorMessage, isNull);
+    expect(controller.state.errorKey, isNull);
   });
 
   test('login returns true and sets session', () async {
@@ -67,5 +68,54 @@ void main() {
 
     expect(success, true);
     expect(controller.state.session, isNotNull);
+    expect(controller.state.errorKey, isNull);
   });
+
+  test('send code failure sets localized error key', () async {
+    final controller = AuthController(
+      SendLoginCodeUseCase(
+        _ThrowingSendCodeRepository(loginRepository: _FakeRepository()),
+      ),
+      LoginWithCodeUseCase(_FakeRepository()),
+    );
+
+    controller.onAccountChanged('13900000000');
+    await controller.sendCode();
+
+    expect(controller.state.errorKey, AuthErrorKey.sendCodeFailed);
+  });
+}
+
+class _ThrowingSendCodeRepository implements AuthRepository {
+  _ThrowingSendCodeRepository({required this.loginRepository});
+
+  final AuthRepository loginRepository;
+
+  @override
+  Future<AuthSession> loginWithCode({
+    required String account,
+    required String code,
+  }) {
+    return loginRepository.loginWithCode(account: account, code: code);
+  }
+
+  @override
+  Future<void> logout() {
+    return loginRepository.logout();
+  }
+
+  @override
+  Future<bool> refreshSession() {
+    return loginRepository.refreshSession();
+  }
+
+  @override
+  Future<bool> restoreSession() {
+    return loginRepository.restoreSession();
+  }
+
+  @override
+  Future<void> sendLoginCode({required String account}) {
+    throw Exception('send failed');
+  }
 }

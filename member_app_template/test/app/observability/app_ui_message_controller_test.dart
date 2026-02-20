@@ -6,11 +6,11 @@ void main() {
     test('publishes and clears message by id', () {
       final controller = AppUiMessageController();
 
-      controller.showError('network error');
+      controller.showError(AppUiMessageKey.networkUnavailable);
       final first = controller.state;
 
       expect(first, isNotNull);
-      expect(first!.message, 'network error');
+      expect(first!.key, AppUiMessageKey.networkUnavailable);
 
       controller.clearIfMatches(first.id);
       expect(controller.state, isNull);

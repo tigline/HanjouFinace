@@ -7,19 +7,27 @@ final appLoggerProvider = Provider<AppLogger>((ref) {
   );
 });
 
+enum AppUiMessageKey {
+  requestFailed,
+  networkUnavailable,
+  authExpired,
+  forbidden,
+  serverUnavailable,
+}
+
 class AppUiMessage {
-  const AppUiMessage({required this.id, required this.message});
+  const AppUiMessage({required this.id, required this.key});
 
   final int id;
-  final String message;
+  final AppUiMessageKey key;
 }
 
 class AppUiMessageController extends StateNotifier<AppUiMessage?> {
   AppUiMessageController() : super(null);
 
-  void showError(String message) {
+  void showError(AppUiMessageKey messageKey) {
     final now = DateTime.now().microsecondsSinceEpoch;
-    state = AppUiMessage(id: now, message: message);
+    state = AppUiMessage(id: now, key: messageKey);
   }
 
   void clearIfMatches(int messageId) {

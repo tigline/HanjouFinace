@@ -1,15 +1,17 @@
 import 'package:core_network/core_network.dart';
 import 'package:core_tool_kit/core_tool_kit.dart';
 
+import '../observability/app_observability_providers.dart';
+
 class AppObservabilityInterceptor extends Interceptor {
   AppObservabilityInterceptor({
     required AppLogger logger,
-    required void Function(String message) reportErrorMessage,
+    required void Function(AppUiMessageKey messageKey) reportErrorMessage,
   }) : _logger = logger,
        _reportErrorMessage = reportErrorMessage;
 
   final AppLogger _logger;
-  final void Function(String message) _reportErrorMessage;
+  final void Function(AppUiMessageKey messageKey) _reportErrorMessage;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -72,11 +74,11 @@ class AppObservabilityInterceptor extends Interceptor {
         'path': err.requestOptions.path,
       },
     );
-    _reportErrorMessage('请求失败，请稍后重试');
+    _reportErrorMessage(AppUiMessageKey.requestFailed);
     handler.next(err);
   }
 
-  String? _mapUserMessage(NetworkFailure failure) {
+  AppUiMessageKey? _mapUserMessage(NetworkFailure failure) {
     switch (failure.type) {
       case NetworkFailureType.cancelled:
         return null;
@@ -84,17 +86,17 @@ class AppObservabilityInterceptor extends Interceptor {
       case NetworkFailureType.sendTimeout:
       case NetworkFailureType.receiveTimeout:
       case NetworkFailureType.connectionError:
-        return '网络连接异常，请稍后重试';
+        return AppUiMessageKey.networkUnavailable;
       case NetworkFailureType.unauthorized:
-        return '登录状态已失效，请重新登录';
+        return AppUiMessageKey.authExpired;
       case NetworkFailureType.forbidden:
-        return '暂无权限访问该资源';
+        return AppUiMessageKey.forbidden;
       case NetworkFailureType.serverError:
-        return '服务暂时不可用，请稍后重试';
+        return AppUiMessageKey.serverUnavailable;
       case NetworkFailureType.badCertificate:
       case NetworkFailureType.badResponse:
       case NetworkFailureType.unknown:
-        return '请求失败，请稍后重试';
+        return AppUiMessageKey.requestFailed;
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:core_network/core_network.dart';
+import 'package:flutter/widgets.dart' show Key;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:integration_test/integration_test.dart';
@@ -80,7 +81,7 @@ void main() {
         tokenRefresher: _FakeTokenRefresher((_) async => null),
       );
 
-      expect(find.text('登录'), findsOneWidget);
+      expect(find.byKey(const Key('login_page')), findsOneWidget);
     });
 
     testWidgets('restores session from refresh token and routes to home', (
@@ -98,7 +99,7 @@ void main() {
         }),
       );
 
-      expect(find.text('Home'), findsWidgets);
+      expect(find.byKey(const Key('home_page')), findsOneWidget);
     });
   });
 }

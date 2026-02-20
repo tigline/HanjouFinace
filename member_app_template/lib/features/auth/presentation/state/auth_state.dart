@@ -1,12 +1,14 @@
 import '../../domain/entities/auth_session.dart';
 
+enum AuthErrorKey { sendCodeFailed, loginFailed }
+
 class AuthState {
   const AuthState({
     this.account = '',
     this.code = '',
     this.isSendingCode = false,
     this.isLoggingIn = false,
-    this.errorMessage,
+    this.errorKey,
     this.session,
   });
 
@@ -14,7 +16,7 @@ class AuthState {
   final String code;
   final bool isSendingCode;
   final bool isLoggingIn;
-  final String? errorMessage;
+  final AuthErrorKey? errorKey;
   final AuthSession? session;
 
   bool get canSendCode => account.trim().isNotEmpty && !isSendingCode;
@@ -26,7 +28,7 @@ class AuthState {
     String? code,
     bool? isSendingCode,
     bool? isLoggingIn,
-    String? errorMessage,
+    AuthErrorKey? errorKey,
     bool clearError = false,
     AuthSession? session,
   }) {
@@ -35,7 +37,7 @@ class AuthState {
       code: code ?? this.code,
       isSendingCode: isSendingCode ?? this.isSendingCode,
       isLoggingIn: isLoggingIn ?? this.isLoggingIn,
-      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+      errorKey: clearError ? null : (errorKey ?? this.errorKey),
       session: session ?? this.session,
     );
   }

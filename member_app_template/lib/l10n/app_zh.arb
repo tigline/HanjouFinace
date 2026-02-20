@@ -1,0 +1,21 @@
+{
+  "@@locale": "zh",
+  "loginTitle": "登录",
+  "loginAccountLabel": "手机号或邮箱",
+  "loginCodeLabel": "验证码",
+  "loginSendCode": "发送验证码",
+  "loginSubmit": "登录",
+  "loginErrorSendCodeFailed": "验证码发送失败，请稍后重试",
+  "loginErrorInvalidCode": "登录失败，请检查验证码",
+  "homeTitle": "首页",
+  "homeLogout": "退出登录",
+  "uiErrorRequestFailed": "请求失败，请稍后重试",
+  "uiErrorNetworkUnavailable": "网络连接异常，请稍后重试",
+  "uiErrorAuthExpired": "登录状态已失效，请重新登录",
+  "uiErrorForbidden": "暂无权限访问该资源",
+  "uiErrorServerUnavailable": "服务暂时不可用，请稍后重试",
+  "languageFollowSystem": "跟随系统",
+  "languageChinese": "中文",
+  "languageEnglish": "英文",
+  "languageJapanese": "日文"
+}
