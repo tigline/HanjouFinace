@@ -11,6 +11,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 
 - Release governance with `melos` scripts, changelog policy, and package tag workflow.
 - Added `core_tool_kit` package with `logging`-based file logger and log export APIs.
+- Added iOS-oriented UI baseline documentation and reusable light/dark theme, dialog, and bottom-sheet primitives in `core_ui_kit`.
 
 ## [0.1.0] - 2026-02-20
 

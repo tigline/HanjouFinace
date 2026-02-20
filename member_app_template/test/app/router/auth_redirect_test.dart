@@ -40,6 +40,24 @@ void main() {
       expect(redirect, isNull);
     });
 
+    test('keeps unauthenticated user on register', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(false),
+        location: '/register',
+      );
+
+      expect(redirect, isNull);
+    });
+
+    test('keeps unauthenticated user on forgot password', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(false),
+        location: '/forgot-password',
+      );
+
+      expect(redirect, isNull);
+    });
+
     test('redirects authenticated user from login to home', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(true),
@@ -56,6 +74,15 @@ void main() {
       );
 
       expect(redirect, isNull);
+    });
+
+    test('redirects authenticated user from register to home', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(true),
+        location: '/register',
+      );
+
+      expect(redirect, '/home');
     });
   });
 }

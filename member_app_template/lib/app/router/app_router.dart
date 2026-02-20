@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../pages/splash_page.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
+import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 
 String? resolveAuthRedirect({
@@ -13,21 +15,24 @@ String? resolveAuthRedirect({
 }) {
   final isSplash = location == '/splash';
   final isLogin = location == '/login';
+  final isRegister = location == '/register';
+  final isForgotPassword = location == '/forgot-password';
+  final isAuthRoute = isLogin || isRegister || isForgotPassword;
 
   if (authState.isLoading) {
     return isSplash ? null : '/splash';
   }
 
   if (authState.hasError) {
-    return isLogin ? null : '/login';
+    return isAuthRoute ? null : '/login';
   }
 
   final isAuthenticated = authState.asData?.value ?? false;
   if (!isAuthenticated) {
-    return isLogin ? null : '/login';
+    return isAuthRoute ? null : '/login';
   }
 
-  if (isSplash || isLogin) {
+  if (isSplash || isAuthRoute) {
     return '/home';
   }
 
@@ -55,6 +60,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/login',
         builder: (BuildContext context, GoRouterState state) {
           return const LoginPage();
+        },
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (BuildContext context, GoRouterState state) {
+          return const RegisterPage();
+        },
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ForgotPasswordPage();
         },
       ),
       GoRoute(

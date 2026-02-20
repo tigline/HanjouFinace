@@ -6,9 +6,19 @@ import '../models/auth_session_dto.dart';
 
 abstract class AuthRemoteDataSource {
   Future<void> sendLoginCode({required String account});
+  Future<void> sendRegisterCode({
+    required String account,
+    required String intlCode,
+  });
   Future<AuthSessionDto> loginWithCode({
     required String account,
     required String code,
+  });
+  Future<void> registerApply({
+    required String account,
+    required String code,
+    required String intlCode,
+    String? contact,
   });
   Future<AuthSessionDto?> refreshSession({required String refreshToken});
   Future<void> logout({required String accessToken});
@@ -26,6 +36,49 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final iv = crypto.IV.fromUtf8('fkabushikigaisha');
     final aes = crypto.Encrypter(crypto.AES(key, mode: crypto.AESMode.cbc));
     return aes.encrypt(mobile, iv: iv).base64;
+  }
+
+  Map<String, dynamic> _toJsonMap(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      return data;
+    }
+    if (data is Map) {
+      return Map<String, dynamic>.from(data);
+    }
+    return <String, dynamic>{};
+  }
+
+  bool _isLegacySuccessResponse(Map<String, dynamic> payload) {
+    final code = payload['code'];
+    final data = payload['data'];
+    final codeOk = code == 200 || code == '200';
+
+    if (!codeOk) {
+      return false;
+    }
+
+    if (data == null) {
+      return true;
+    }
+    if (data is bool) {
+      return data;
+    }
+    if (data is num) {
+      return data != 0;
+    }
+    if (data is String) {
+      final normalized = data.toLowerCase();
+      return normalized == 'true' || normalized == '1' || normalized == 'ok';
+    }
+    return true;
+  }
+
+  Never _throwLegacyFailure(
+    Map<String, dynamic> payload, {
+    required String fallbackMessage,
+  }) {
+    final message = payload['msg'] ?? payload['message'] ?? fallbackMessage;
+    throw StateError(message.toString());
   }
 
   @override
@@ -51,6 +104,52 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         false,
       ).copyWith(contentType: Headers.formUrlEncodedContentType),
     );
+  }
+
+  @override
+  Future<void> sendRegisterCode({
+    required String account,
+    required String intlCode,
+  }) async {
+    final normalizedAccount = account.trim();
+    final normalizedIntlCode = intlCode.trim().isEmpty
+        ? defaultIntlCode
+        : intlCode.trim();
+
+    if (_isEmailAccount(normalizedAccount)) {
+      final response = await _client.dio.get<Map<String, dynamic>>(
+        LegacyApiPath.createRegisterEmailCode,
+        queryParameters: <String, dynamic>{'email': normalizedAccount},
+        options: authRequired(false),
+      );
+      final payload = _toJsonMap(response.data);
+      if (!_isLegacySuccessResponse(payload)) {
+        _throwLegacyFailure(
+          payload,
+          fallbackMessage: 'Failed to send registration code.',
+        );
+      }
+      return;
+    }
+
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      LegacyApiPath.createRegisterMobileCode,
+      queryParameters: <String, dynamic>{
+        'mobile': normalizedAccount,
+        'biz': normalizedIntlCode,
+        'secret': _buildSmsSecret(normalizedAccount),
+      },
+      options: authRequired(
+        false,
+      ).copyWith(contentType: Headers.formUrlEncodedContentType),
+    );
+    final payload = _toJsonMap(response.data);
+    if (!_isLegacySuccessResponse(payload)) {
+      _throwLegacyFailure(
+        payload,
+        fallbackMessage: 'Failed to send registration code.',
+      );
+    }
   }
 
   @override
@@ -80,6 +179,54 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     return AuthSessionDto.fromJson(response.data ?? <String, dynamic>{});
+  }
+
+  @override
+  Future<void> registerApply({
+    required String account,
+    required String code,
+    required String intlCode,
+    String? contact,
+  }) async {
+    final normalizedAccount = account.trim();
+    final normalizedCode = code.trim();
+    final normalizedIntlCode = intlCode.trim().isEmpty
+        ? defaultIntlCode
+        : intlCode.trim();
+    final normalizedContact = contact?.trim();
+
+    final isEmail = _isEmailAccount(normalizedAccount);
+
+    final payload = <String, dynamic>{
+      'code': normalizedCode,
+      'intlTelCode': normalizedIntlCode,
+      'type': isEmail ? 'email' : 'mobile',
+      if (isEmail) 'email': normalizedAccount else 'mobile': normalizedAccount,
+    };
+
+    if (isEmail) {
+      if (normalizedContact == null || normalizedContact.isEmpty) {
+        throw StateError('Mobile number is required for email registration.');
+      }
+      payload['mobile'] = normalizedContact;
+    } else if (normalizedContact != null && normalizedContact.contains('@')) {
+      payload['email'] = normalizedContact;
+    }
+
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      LegacyApiPath.registerApply,
+      data: payload,
+      options: authRequired(
+        false,
+      ).copyWith(contentType: Headers.jsonContentType),
+    );
+    final responsePayload = _toJsonMap(response.data);
+    if (!_isLegacySuccessResponse(responsePayload)) {
+      _throwLegacyFailure(
+        responsePayload,
+        fallbackMessage: 'Registration failed.',
+      );
+    }
   }
 
   @override

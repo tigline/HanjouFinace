@@ -50,6 +50,14 @@ template_v2/
 - Dart 固定：`3.9.0`
 - 全部命令使用 `fvm` 前缀（如 `fvm flutter test`、`fvm dart test`）
 
+## 6. UI 基准（后续所有页面统一遵循）
+
+- UI 风格：遵循 iOS 交互与视觉标准，面向日本及国际市场审美。
+- 必须支持 Light / Dark 模式。
+- 字体、颜色、间距、圆角统一沉淀在 `mobile_core_sdk/packages/core_ui_kit`。
+- 通用控件（弹框、底部弹框等）统一由 `core_ui_kit` 提供，不在业务侧重复实现。
+- 业务页面优先复用 SDK 组件，再做业务差异化皮肤。
+
 
 
 ## 阶段一任务：

@@ -89,6 +89,43 @@ void main() {
     });
 
     test(
+      'sendRegisterCode uses email register endpoint for email account',
+      () async {
+        final client = _buildClient((options) async {
+          expect(options.method, 'GET');
+          expect(options.path, LegacyApiPath.createRegisterEmailCode);
+          expect(options.queryParameters['email'], 'user@example.com');
+          expect(options.extra['auth_required'], false);
+          return _jsonOk('{"code":200,"data":true}');
+        });
+        final source = AuthRemoteDataSourceImpl(client);
+
+        await source.sendRegisterCode(
+          account: 'user@example.com',
+          intlCode: '81',
+        );
+      },
+    );
+
+    test(
+      'sendRegisterCode uses mobile register endpoint for mobile account',
+      () async {
+        final client = _buildClient((options) async {
+          expect(options.method, 'GET');
+          expect(options.path, LegacyApiPath.createRegisterMobileCode);
+          expect(options.queryParameters['mobile'], '13900000000');
+          expect(options.queryParameters['biz'], '81');
+          expect(options.queryParameters['secret'], isA<String>());
+          expect(options.extra['auth_required'], false);
+          return _jsonOk('{"code":200,"data":true}');
+        });
+        final source = AuthRemoteDataSourceImpl(client);
+
+        await source.sendRegisterCode(account: '13900000000', intlCode: '81');
+      },
+    );
+
+    test(
       'loginWithCode uses oauth token endpoint and parses response',
       () async {
         final client = _buildClient((options) async {
@@ -171,6 +208,54 @@ void main() {
       final source = AuthRemoteDataSourceImpl(client);
 
       await source.logout(accessToken: 'access-token');
+    });
+
+    test('registerApply uses email payload when account is email', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, 'POST');
+        expect(options.path, LegacyApiPath.registerApply);
+        expect(options.contentType, Headers.jsonContentType);
+        expect(options.extra['auth_required'], false);
+
+        final body = options.data as Map<String, dynamic>;
+        expect(body['type'], 'email');
+        expect(body['email'], 'user@example.com');
+        expect(body['mobile'], '13900000000');
+        expect(body['intlTelCode'], '81');
+        expect(body['code'], '123456');
+        return _jsonOk('{"code":200,"data":true}');
+      });
+      final source = AuthRemoteDataSourceImpl(client);
+
+      await source.registerApply(
+        account: 'user@example.com',
+        code: '123456',
+        intlCode: '81',
+        contact: '13900000000',
+      );
+    });
+
+    test('registerApply uses mobile payload when account is phone', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, 'POST');
+        expect(options.path, LegacyApiPath.registerApply);
+        expect(options.contentType, Headers.jsonContentType);
+        expect(options.extra['auth_required'], false);
+
+        final body = options.data as Map<String, dynamic>;
+        expect(body['type'], 'mobile');
+        expect(body['mobile'], '13900000000');
+        expect(body['intlTelCode'], '81');
+        expect(body['code'], '123456');
+        return _jsonOk('{"code":200,"data":true}');
+      });
+      final source = AuthRemoteDataSourceImpl(client);
+
+      await source.registerApply(
+        account: '13900000000',
+        code: '123456',
+        intlCode: '81',
+      );
     });
   });
 }

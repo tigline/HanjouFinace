@@ -13,8 +13,10 @@ import '../../../../app/storage/app_storage_providers.dart';
 import '../../data/datasources/auth_remote_data_source.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../../domain/usecases/register_account_usecase.dart';
 import '../../domain/usecases/login_with_code_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
+import '../../domain/usecases/send_register_code_usecase.dart';
 import '../../domain/usecases/send_login_code_usecase.dart';
 import '../controllers/auth_controller.dart';
 import '../state/auth_state.dart';
@@ -151,8 +153,18 @@ final sendLoginCodeUseCaseProvider = Provider<SendLoginCodeUseCase>((ref) {
   return SendLoginCodeUseCase(ref.watch(authRepositoryProvider));
 });
 
+final sendRegisterCodeUseCaseProvider = Provider<SendRegisterCodeUseCase>((
+  ref,
+) {
+  return SendRegisterCodeUseCase(ref.watch(authRepositoryProvider));
+});
+
 final loginWithCodeUseCaseProvider = Provider<LoginWithCodeUseCase>((ref) {
   return LoginWithCodeUseCase(ref.watch(authRepositoryProvider));
+});
+
+final registerAccountUseCaseProvider = Provider<RegisterAccountUseCase>((ref) {
+  return RegisterAccountUseCase(ref.watch(authRepositoryProvider));
 });
 
 final logoutUseCaseProvider = Provider<LogoutUseCase>((ref) {

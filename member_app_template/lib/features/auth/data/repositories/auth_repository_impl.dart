@@ -20,6 +20,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> sendRegisterCode({
+    required String account,
+    required String intlCode,
+  }) {
+    return _remote.sendRegisterCode(account: account, intlCode: intlCode);
+  }
+
+  @override
   Future<AuthSession> loginWithCode({
     required String account,
     required String code,
@@ -29,6 +37,21 @@ class AuthRepositoryImpl implements AuthRepository {
       TokenPair(accessToken: dto.accessToken, refreshToken: dto.refreshToken),
     );
     return dto.toEntity();
+  }
+
+  @override
+  Future<void> registerAccount({
+    required String account,
+    required String code,
+    required String intlCode,
+    String? contact,
+  }) {
+    return _remote.registerApply(
+      account: account,
+      code: code,
+      intlCode: intlCode,
+      contact: contact,
+    );
   }
 
   @override

@@ -106,6 +106,12 @@ abstract class AppLocalizations {
   /// **'Sign in'**
   String get loginTitle;
 
+  /// No description provided for @loginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Access your member portfolio and hotel booking privileges.'**
+  String get loginSubtitle;
+
   /// No description provided for @loginAccountLabel.
   ///
   /// In en, this message translates to:
@@ -130,6 +136,24 @@ abstract class AppLocalizations {
   /// **'Sign in'**
   String get loginSubmit;
 
+  /// No description provided for @loginCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get loginCreateAccount;
+
+  /// No description provided for @loginForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password'**
+  String get loginForgotPassword;
+
+  /// No description provided for @loginFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'Designed for global members with Japan-ready UX and privacy standards.'**
+  String get loginFootnote;
+
   /// No description provided for @loginErrorSendCodeFailed.
   ///
   /// In en, this message translates to:
@@ -141,6 +165,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in failed. Please verify your code.'**
   String get loginErrorInvalidCode;
+
+  /// No description provided for @registerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get registerTitle;
+
+  /// No description provided for @registerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up secure access for investment, stays, and member privileges.'**
+  String get registerSubtitle;
+
+  /// No description provided for @registerAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number or email'**
+  String get registerAccountLabel;
+
+  /// No description provided for @registerCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get registerCodeLabel;
+
+  /// No description provided for @registerSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get registerSendCode;
+
+  /// No description provided for @registerSendCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration code sent.'**
+  String get registerSendCodeSuccess;
+
+  /// No description provided for @registerContactLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact info'**
+  String get registerContactLabel;
+
+  /// No description provided for @registerContactHelperEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'For email registration, enter your mobile number.'**
+  String get registerContactHelperEmail;
+
+  /// No description provided for @registerContactHelperMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional: enter your email for account linking.'**
+  String get registerContactHelperMobile;
+
+  /// No description provided for @registerPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get registerPasswordLabel;
+
+  /// No description provided for @registerConfirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get registerConfirmPasswordLabel;
+
+  /// No description provided for @registerInviteCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code (optional)'**
+  String get registerInviteCodeLabel;
+
+  /// No description provided for @registerAcceptPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the Terms of Service and Privacy Policy.'**
+  String get registerAcceptPolicy;
+
+  /// No description provided for @registerPolicyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get registerPolicyButton;
+
+  /// No description provided for @registerPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Privacy'**
+  String get registerPolicyTitle;
+
+  /// No description provided for @registerPolicyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This screen demonstrates reusable policy presentation in a shared bottom sheet. Connect your legal policy content service here.'**
+  String get registerPolicyDescription;
+
+  /// No description provided for @registerSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get registerSubmit;
+
+  /// No description provided for @registerBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get registerBackToLogin;
+
+  /// No description provided for @registerPasswordMismatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get registerPasswordMismatchTitle;
+
+  /// No description provided for @registerPasswordMismatchMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please make sure both passwords are identical.'**
+  String get registerPasswordMismatchMessage;
+
+  /// No description provided for @registerUiReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration UI ready'**
+  String get registerUiReadyTitle;
+
+  /// No description provided for @registerUiReadyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'UI is complete and ready for API integration.'**
+  String get registerUiReadyMessage;
+
+  /// No description provided for @registerEmailMobileRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number is required for email registration.'**
+  String get registerEmailMobileRequired;
+
+  /// No description provided for @registerSubmitFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed. Please try again.'**
+  String get registerSubmitFailed;
+
+  /// No description provided for @registerSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration successful'**
+  String get registerSuccessTitle;
+
+  /// No description provided for @registerSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is created. Please sign in.'**
+  String get registerSuccessMessage;
+
+  /// No description provided for @forgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get forgotPasswordTitle;
+
+  /// No description provided for @forgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore account access with secure verification.'**
+  String get forgotPasswordSubtitle;
+
+  /// No description provided for @forgotPasswordAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number or email'**
+  String get forgotPasswordAccountLabel;
+
+  /// No description provided for @forgotPasswordCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get forgotPasswordCodeLabel;
+
+  /// No description provided for @forgotPasswordSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get forgotPasswordSendCode;
+
+  /// No description provided for @forgotPasswordSendCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code sent.'**
+  String get forgotPasswordSendCodeSuccess;
+
+  /// No description provided for @forgotPasswordNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get forgotPasswordNewPasswordLabel;
+
+  /// No description provided for @forgotPasswordConfirmPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get forgotPasswordConfirmPasswordLabel;
+
+  /// No description provided for @forgotPasswordSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Update password'**
+  String get forgotPasswordSubmit;
+
+  /// No description provided for @forgotPasswordMismatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get forgotPasswordMismatchTitle;
+
+  /// No description provided for @forgotPasswordMismatchMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please verify your new password and confirmation.'**
+  String get forgotPasswordMismatchMessage;
+
+  /// No description provided for @forgotPasswordUiReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset UI ready'**
+  String get forgotPasswordUiReadyTitle;
+
+  /// No description provided for @forgotPasswordUiReadyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'UI is complete and ready for API integration.'**
+  String get forgotPasswordUiReadyMessage;
+
+  /// No description provided for @forgotPasswordRecoverFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to recover access. Please verify your code.'**
+  String get forgotPasswordRecoverFailed;
+
+  /// No description provided for @commonOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get commonOk;
+
+  /// No description provided for @commonBackToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get commonBackToLogin;
 
   /// No description provided for @homeTitle.
   ///

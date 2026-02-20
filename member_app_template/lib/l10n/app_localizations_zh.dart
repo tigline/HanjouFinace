@@ -12,6 +12,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginTitle => '登录';
 
   @override
+  String get loginSubtitle => '进入会员投资与订房权益中心。';
+
+  @override
   String get loginAccountLabel => '手机号或邮箱';
 
   @override
@@ -24,10 +27,145 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginSubmit => '登录';
 
   @override
+  String get loginCreateAccount => '注册账号';
+
+  @override
+  String get loginForgotPassword => '找回密码';
+
+  @override
+  String get loginFootnote => '面向国际会员设计，兼顾日本市场体验与隐私规范。';
+
+  @override
   String get loginErrorSendCodeFailed => '验证码发送失败，请稍后重试';
 
   @override
   String get loginErrorInvalidCode => '登录失败，请检查验证码';
+
+  @override
+  String get registerTitle => '创建账号';
+
+  @override
+  String get registerSubtitle => '开通安全账号，统一管理投资、订房与会员权益。';
+
+  @override
+  String get registerAccountLabel => '手机号或邮箱';
+
+  @override
+  String get registerCodeLabel => '验证码';
+
+  @override
+  String get registerSendCode => '发送验证码';
+
+  @override
+  String get registerSendCodeSuccess => '注册验证码已发送。';
+
+  @override
+  String get registerContactLabel => '联系信息';
+
+  @override
+  String get registerContactHelperEmail => '邮箱注册时请填写手机号。';
+
+  @override
+  String get registerContactHelperMobile => '可选：填写邮箱用于账号绑定。';
+
+  @override
+  String get registerPasswordLabel => '密码';
+
+  @override
+  String get registerConfirmPasswordLabel => '确认密码';
+
+  @override
+  String get registerInviteCodeLabel => '邀请码（选填）';
+
+  @override
+  String get registerAcceptPolicy => '我已阅读并同意《服务条款》与《隐私政策》。';
+
+  @override
+  String get registerPolicyButton => '查看';
+
+  @override
+  String get registerPolicyTitle => '条款与隐私';
+
+  @override
+  String get registerPolicyDescription => '此处示例展示复用的底部弹框。后续可接入正式法务内容与版本记录。';
+
+  @override
+  String get registerSubmit => '创建账号';
+
+  @override
+  String get registerBackToLogin => '已有账号？去登录';
+
+  @override
+  String get registerPasswordMismatchTitle => '两次密码不一致';
+
+  @override
+  String get registerPasswordMismatchMessage => '请确认两次输入的密码完全一致。';
+
+  @override
+  String get registerUiReadyTitle => '注册页面已就绪';
+
+  @override
+  String get registerUiReadyMessage => 'UI 已完成，可继续接入注册接口。';
+
+  @override
+  String get registerEmailMobileRequired => '邮箱注册必须填写手机号。';
+
+  @override
+  String get registerSubmitFailed => '注册失败，请稍后重试。';
+
+  @override
+  String get registerSuccessTitle => '注册成功';
+
+  @override
+  String get registerSuccessMessage => '账号已创建，请登录。';
+
+  @override
+  String get forgotPasswordTitle => '重置密码';
+
+  @override
+  String get forgotPasswordSubtitle => '通过安全验证恢复账号访问。';
+
+  @override
+  String get forgotPasswordAccountLabel => '手机号或邮箱';
+
+  @override
+  String get forgotPasswordCodeLabel => '验证码';
+
+  @override
+  String get forgotPasswordSendCode => '发送验证码';
+
+  @override
+  String get forgotPasswordSendCodeSuccess => '验证码已发送。';
+
+  @override
+  String get forgotPasswordNewPasswordLabel => '新密码';
+
+  @override
+  String get forgotPasswordConfirmPasswordLabel => '确认新密码';
+
+  @override
+  String get forgotPasswordSubmit => '更新密码';
+
+  @override
+  String get forgotPasswordMismatchTitle => '两次密码不一致';
+
+  @override
+  String get forgotPasswordMismatchMessage => '请检查新密码与确认密码是否一致。';
+
+  @override
+  String get forgotPasswordUiReadyTitle => '找回密码页面已就绪';
+
+  @override
+  String get forgotPasswordUiReadyMessage => 'UI 已完成，可继续接入找回密码接口。';
+
+  @override
+  String get forgotPasswordRecoverFailed => '恢复访问失败，请检查验证码。';
+
+  @override
+  String get commonOk => '知道了';
+
+  @override
+  String get commonBackToLogin => '返回登录';
 
   @override
   String get homeTitle => '首页';

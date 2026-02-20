@@ -6,6 +6,11 @@ import 'package:member_app_template/features/auth/data/repositories/auth_reposit
 
 class _FakeRemoteDataSource implements AuthRemoteDataSource {
   String? lastSendCodeAccount;
+  String? lastRegisterCodeAccount;
+  String? lastRegisterIntlCode;
+  String? lastRegisterAccount;
+  String? lastRegisterCode;
+  String? lastRegisterContact;
   String? lastLoginAccount;
   String? lastLoginCode;
   String? lastRefreshToken;
@@ -37,6 +42,28 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
       throw refreshError!;
     }
     return refreshResult;
+  }
+
+  @override
+  Future<void> registerApply({
+    required String account,
+    required String code,
+    required String intlCode,
+    String? contact,
+  }) async {
+    lastRegisterAccount = account;
+    lastRegisterCode = code;
+    lastRegisterIntlCode = intlCode;
+    lastRegisterContact = contact;
+  }
+
+  @override
+  Future<void> sendRegisterCode({
+    required String account,
+    required String intlCode,
+  }) async {
+    lastRegisterCodeAccount = account;
+    lastRegisterIntlCode = intlCode;
   }
 
   @override
@@ -146,6 +173,30 @@ void main() {
       expect(remote.lastLogoutAccessToken, 'old-access');
       expect(await tokenStore.readAccessToken(), isNull);
       expect(await tokenStore.readRefreshToken(), isNull);
+    });
+
+    test('sendRegisterCode forwards account and intl code', () async {
+      await repository.sendRegisterCode(
+        account: 'user@example.com',
+        intlCode: '81',
+      );
+
+      expect(remote.lastRegisterCodeAccount, 'user@example.com');
+      expect(remote.lastRegisterIntlCode, '81');
+    });
+
+    test('registerAccount forwards register payload', () async {
+      await repository.registerAccount(
+        account: 'user@example.com',
+        code: '123456',
+        intlCode: '81',
+        contact: '13900000000',
+      );
+
+      expect(remote.lastRegisterAccount, 'user@example.com');
+      expect(remote.lastRegisterCode, '123456');
+      expect(remote.lastRegisterIntlCode, '81');
+      expect(remote.lastRegisterContact, '13900000000');
     });
   });
 }

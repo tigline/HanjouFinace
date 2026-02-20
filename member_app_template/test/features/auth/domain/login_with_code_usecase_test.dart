@@ -30,7 +30,21 @@ class _FakeAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<void> registerAccount({
+    required String account,
+    required String code,
+    required String intlCode,
+    String? contact,
+  }) async {}
+
+  @override
   Future<void> sendLoginCode({required String account}) async {}
+
+  @override
+  Future<void> sendRegisterCode({
+    required String account,
+    required String intlCode,
+  }) async {}
 }
 
 void main() {

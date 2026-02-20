@@ -1,3 +1,4 @@
+import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,9 +49,9 @@ class MemberTemplateApp extends ConsumerWidget {
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0F766E)),
-      ),
+      theme: AppThemeFactory.light(),
+      darkTheme: AppThemeFactory.dark(),
+      themeMode: ThemeMode.system,
     );
   }
 }

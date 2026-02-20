@@ -117,6 +117,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  core_ui_kit:
+    dependency: "direct main"
+    description:
+      path: "../mobile_core_sdk/packages/core_ui_kit"
+      relative: true
+    source: path
+    version: "0.1.0"
   coverage:
     dependency: transitive
     description:

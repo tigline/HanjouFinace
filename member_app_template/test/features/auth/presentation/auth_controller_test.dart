@@ -37,7 +37,21 @@ class _FakeRepository implements AuthRepository {
   }
 
   @override
+  Future<void> registerAccount({
+    required String account,
+    required String code,
+    required String intlCode,
+    String? contact,
+  }) async {}
+
+  @override
   Future<void> logout() async {}
+
+  @override
+  Future<void> sendRegisterCode({
+    required String account,
+    required String intlCode,
+  }) async {}
 }
 
 void main() {
@@ -115,7 +129,33 @@ class _ThrowingSendCodeRepository implements AuthRepository {
   }
 
   @override
+  Future<void> registerAccount({
+    required String account,
+    required String code,
+    required String intlCode,
+    String? contact,
+  }) {
+    return loginRepository.registerAccount(
+      account: account,
+      code: code,
+      intlCode: intlCode,
+      contact: contact,
+    );
+  }
+
+  @override
   Future<void> sendLoginCode({required String account}) {
     throw Exception('send failed');
+  }
+
+  @override
+  Future<void> sendRegisterCode({
+    required String account,
+    required String intlCode,
+  }) {
+    return loginRepository.sendRegisterCode(
+      account: account,
+      intlCode: intlCode,
+    );
   }
 }
