@@ -21,6 +21,8 @@ dependencies:
     path: ../mobile_core_sdk/packages/core_foundation
   core_storage:
     path: ../mobile_core_sdk/packages/core_storage
+  core_tool_kit:
+    path: ../mobile_core_sdk/packages/core_tool_kit
 
 dev_dependencies:
   flutter_test:

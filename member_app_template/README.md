@@ -9,6 +9,13 @@ Flutter business template repository for membership investment + hotel booking s
 - UI and business logic both testable
 - Core capabilities imported from `mobile_core_sdk`
 
+## Logging & Error Infrastructure
+
+- Uses `core_tool_kit` `FileAppLogger` (`logging` package based) as unified log entry.
+- Logs are persisted to local files (daily rotation by date).
+- Supports log export API: `ref.read(appLoggerProvider).exportLogs()`.
+- Global UI error messages are shown via root `ScaffoldMessenger`.
+
 ## Suggested modules
 
 - `feature_auth`

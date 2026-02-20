@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:core_storage/core_storage.dart';
+import 'package:core_tool_kit/core_tool_kit.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +9,7 @@ import 'app.dart';
 import 'config/app_environment.dart';
 import 'config/app_flavor.dart';
 import 'config/environment_provider.dart';
+import 'observability/app_observability_providers.dart';
 
 bool? _parseOptionalBool(String value) {
   final normalized = value.trim().toLowerCase();
@@ -49,11 +53,34 @@ Future<void> bootstrap({
         swaggerUiUrlOverride ?? const String.fromEnvironment('SWAGGER_UI_URL'),
     enableHttpLogOverride: enableHttpLogOverride ?? enableHttpLogFromDefine,
   );
+  final logger = await FileAppLogger.create(
+    enableDebugLogs: environment.enableHttpLog,
+    loggerName: 'member_app_template',
+  );
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    logger.error(
+      'Flutter framework error',
+      error: details.exception,
+      stackTrace: details.stack,
+    );
+    FlutterError.presentError(details);
+  };
+
+  PlatformDispatcher.instance.onError = (Object error, StackTrace stackTrace) {
+    logger.error(
+      'Unhandled platform error',
+      error: error,
+      stackTrace: stackTrace,
+    );
+    return false;
+  };
 
   runApp(
     ProviderScope(
       overrides: <Override>[
         appEnvironmentProvider.overrideWithValue(environment),
+        appLoggerProvider.overrideWithValue(logger),
       ],
       child: const MemberTemplateApp(),
     ),

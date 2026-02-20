@@ -10,6 +10,7 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 ### Added
 
 - Release governance with `melos` scripts, changelog policy, and package tag workflow.
+- Added `core_tool_kit` package with `logging`-based file logger and log export APIs.
 
 ## [0.1.0] - 2026-02-20
 

@@ -37,6 +37,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       if (previous?.session == null && next.session != null && mounted) {
+        ref.read(authSessionProvider.notifier).markAuthenticated();
         context.go('/home');
       }
     });

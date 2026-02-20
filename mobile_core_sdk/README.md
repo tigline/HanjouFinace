@@ -7,6 +7,7 @@ Independent Git repository for reusable Flutter core plugins.
 - `core_foundation`: result/failure/logging primitives
 - `core_network`: Dio wrapper + auth/refresh interceptors
 - `core_storage`: secure storage abstractions
+- `core_tool_kit`: app logging toolkit (file logger + export)
 - `core_ui_kit`: design token + common widgets
 - `core_testkit`: testing helpers shared by app repos
 
