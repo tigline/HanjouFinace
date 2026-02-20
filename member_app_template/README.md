@@ -50,6 +50,11 @@ The template provides three runtime flavors via separate entrypoints:
 - `lib/main_staging.dart`
 - `lib/main_prod.dart`
 
+Native alignment:
+
+- Android `productFlavors`: `dev`, `staging`, `prod`
+- iOS schemes: `dev`, `staging`, `prod`
+
 Default environment values are defined in `lib/app/config/app_environment.dart`.
 
 Current defaults (aligned with legacy `http_conf.dart`):
@@ -77,19 +82,19 @@ Run examples:
 
 ```bash
 # dev
-fvm flutter run -t lib/main_dev.dart
+fvm flutter run --flavor dev -t lib/main_dev.dart
 
 # staging
-fvm flutter run -t lib/main_staging.dart
+fvm flutter run --flavor staging -t lib/main_staging.dart
 
 # prod
-fvm flutter run -t lib/main_prod.dart
+fvm flutter run --flavor prod -t lib/main_prod.dart
 ```
 
 Override API endpoints with `--dart-define`:
 
 ```bash
-fvm flutter run -t lib/main_staging.dart \
+fvm flutter run --flavor staging -t lib/main_staging.dart \
   --dart-define=API_BASE_URL=https://sit-new.gutingjun.com/api \
   --dart-define=HOTEL_API_BASE_URL=https://hotel-sit.gutingjun.com/api \
   --dart-define=OA_API_BASE_URL=https://testoa.gutingjun.com/api \
