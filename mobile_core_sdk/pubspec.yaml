@@ -1,0 +1,9 @@
+name: mobile_core_sdk_workspace
+description: Workspace tooling config for mobile_core_sdk.
+publish_to: none
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dev_dependencies:
+  melos: ^6.3.2

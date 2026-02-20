@@ -14,6 +14,18 @@ Independent Git repository for reusable Flutter core plugins.
 
 ```bash
 fvm use 3.35.1
-fvm dart pub get
-fvm dart test
+fvm dart run melos run bootstrap
+fvm dart run melos run analyze
+fvm dart run melos run test
 ```
+
+## Release
+
+```bash
+cd mobile_core_sdk
+./scripts/release.sh
+```
+
+- Release workflow doc: `docs/release_process.md`
+- Workspace changelog: `CHANGELOG.md`
+- Package changelog: `packages/*/CHANGELOG.md`

@@ -1,3 +1,32 @@
 name: mobile_core_sdk
+repository: https://github.com/tigline/HanjouFinace
+
 packages:
   - packages/**
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+  version:
+    branch: main
+    message: "chore(release): version packages"
+
+scripts:
+  bootstrap:
+    description: "Initialize workspace dependencies."
+    run: fvm dart pub get && fvm dart run melos bootstrap
+  analyze:
+    description: "Run static analysis in all packages."
+    run: fvm dart run melos exec -- ../../scripts/run_package_analyze.sh
+  test:
+    description: "Run tests in packages that contain test directory."
+    run: fvm dart run melos exec --fail-fast -- ../../scripts/run_package_tests.sh
+  check:
+    description: "Run quality gates before release."
+    run: fvm dart run melos run analyze && fvm dart run melos run test
+  version:
+    description: "Version packages and update changelogs from conventional commits."
+    run: fvm dart run melos version --yes
+  release:
+    description: "Full release flow: checks + versioning."
+    run: fvm dart run melos run check && fvm dart run melos run version
