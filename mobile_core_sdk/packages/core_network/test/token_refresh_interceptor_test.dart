@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:core_network/core_network.dart';
-import 'package:dio/dio.dart';
 import 'package:test/test.dart';
 
 class _FakeAdapter implements HttpClientAdapter {
@@ -31,19 +30,37 @@ class _FakeTokenRefresher implements TokenRefresher {
   Future<TokenPair?> refresh(String refreshToken) => onRefresh(refreshToken);
 }
 
+class _FakeAuthFailureHandler implements AuthFailureHandler {
+  final List<AuthFailureReason> reasons = <AuthFailureReason>[];
+
+  @override
+  Future<void> onAuthFailure(AuthFailureReason reason) async {
+    reasons.add(reason);
+  }
+}
+
+ResponseBody _jsonOk() {
+  return ResponseBody.fromString(
+    '{"ok":true}',
+    200,
+    headers: <String, List<String>>{
+      Headers.contentTypeHeader: <String>['application/json'],
+    },
+  );
+}
+
 void main() {
-  group('TokenRefreshInterceptor', () {
+  group('CoreHttpClient auth + error flow', () {
     test('adds Authorization header from token store on request', () async {
       final store = InMemoryTokenStore();
-      await store
-          .save(const TokenPair(accessToken: 'oldA', refreshToken: 'oldR'));
+      await store.save(
+        const TokenPair(accessToken: 'oldA', refreshToken: 'oldR'),
+      );
 
       final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
       dio.httpClientAdapter = _FakeAdapter((options) async {
         expect(options.headers['Authorization'], 'Bearer oldA');
-        return ResponseBody.fromString('{"ok":true}', 200, headers: {
-          Headers.contentTypeHeader: <String>['application/json']
-        });
+        return _jsonOk();
       });
 
       final client = CoreHttpClient(
@@ -57,30 +74,31 @@ void main() {
       expect(response.statusCode, 200);
     });
 
-    test('refreshes token and retries request after 401', () async {
+    test('refreshes token and retries after single 401', () async {
       final store = InMemoryTokenStore();
       await store.save(
-          const TokenPair(accessToken: 'expiredA', refreshToken: 'validR'));
+        const TokenPair(accessToken: 'expiredA', refreshToken: 'validR'),
+      );
 
       var callCount = 0;
       final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
       dio.httpClientAdapter = _FakeAdapter((options) async {
         callCount += 1;
-
         if (callCount == 1) {
           return ResponseBody.fromString('unauthorized', 401);
         }
 
         expect(options.headers['Authorization'], 'Bearer newA');
-        return ResponseBody.fromString('{"ok":true}', 200, headers: {
-          Headers.contentTypeHeader: <String>['application/json']
-        });
+        expect(options.extra['token_retry_attempt'], 1);
+        return _jsonOk();
       });
 
+      var refreshCount = 0;
       final client = CoreHttpClient(
         baseUrl: 'https://api.example.com',
         tokenStore: store,
         tokenRefresher: _FakeTokenRefresher((refreshToken) async {
+          refreshCount += 1;
           expect(refreshToken, 'validR');
           return const TokenPair(accessToken: 'newA', refreshToken: 'newR');
         }),
@@ -90,19 +108,175 @@ void main() {
       final response = await client.dio.get<Map<String, dynamic>>('/secure');
 
       expect(response.statusCode, 200);
+      expect(refreshCount, 1);
+      expect(callCount, 2);
       expect(await store.readAccessToken(), 'newA');
       expect(await store.readRefreshToken(), 'newR');
-      expect(callCount, 2);
     });
 
-    test('clears token when refresh fails', () async {
+    test('uses one refresh for concurrent 401 responses', () async {
       final store = InMemoryTokenStore();
-      await store
-          .save(const TokenPair(accessToken: 'expiredA', refreshToken: 'badR'));
+      await store.save(
+        const TokenPair(accessToken: 'expiredA', refreshToken: 'validR'),
+      );
 
       final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
-      dio.httpClientAdapter = _FakeAdapter((_) async {
-        return ResponseBody.fromString('unauthorized', 401);
+      dio.httpClientAdapter = _FakeAdapter((options) async {
+        final authHeader = options.headers['Authorization'];
+        if (authHeader == 'Bearer expiredA') {
+          return ResponseBody.fromString('unauthorized', 401);
+        }
+        return _jsonOk();
+      });
+
+      var refreshCount = 0;
+      final client = CoreHttpClient(
+        baseUrl: 'https://api.example.com',
+        tokenStore: store,
+        tokenRefresher: _FakeTokenRefresher((_) async {
+          refreshCount += 1;
+          await Future<void>.delayed(const Duration(milliseconds: 80));
+          return const TokenPair(accessToken: 'newA', refreshToken: 'newR');
+        }),
+        dio: dio,
+      );
+
+      final responses = await Future.wait(<Future<Response<dynamic>>>[
+        client.dio.get<dynamic>('/secure-a'),
+        client.dio.get<dynamic>('/secure-b'),
+      ]);
+
+      expect(responses, hasLength(2));
+      expect(responses.every((response) => response.statusCode == 200), isTrue);
+      expect(refreshCount, 1);
+      expect(await store.readAccessToken(), 'newA');
+    });
+
+    test(
+      'retries more than once when maxAuthRetryAttempts is configured',
+      () async {
+        final store = InMemoryTokenStore();
+        await store.save(
+          const TokenPair(accessToken: 'expiredA', refreshToken: 'validR'),
+        );
+
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+        dio.httpClientAdapter = _FakeAdapter((options) async {
+          final attempt = (options.extra['token_retry_attempt'] as int?) ?? 0;
+          if (attempt < 2) {
+            return ResponseBody.fromString('unauthorized', 401);
+          }
+
+          expect(options.headers['Authorization'], 'Bearer newA2');
+          return _jsonOk();
+        });
+
+        var refreshCount = 0;
+        final client = CoreHttpClient(
+          baseUrl: 'https://api.example.com',
+          tokenStore: store,
+          tokenRefresher: _FakeTokenRefresher((_) async {
+            refreshCount += 1;
+            return TokenPair(
+              accessToken: 'newA$refreshCount',
+              refreshToken: 'newR$refreshCount',
+            );
+          }),
+          maxAuthRetryAttempts: 2,
+          dio: dio,
+        );
+
+        final response = await client.dio.get<dynamic>('/secure');
+
+        expect(response.statusCode, 200);
+        expect(refreshCount, 2);
+        expect(await store.readAccessToken(), 'newA2');
+        expect(await store.readRefreshToken(), 'newR2');
+      },
+    );
+
+    test(
+      'clears token and triggers unified logout when refresh returns null',
+      () async {
+        final store = InMemoryTokenStore();
+        await store.save(
+          const TokenPair(accessToken: 'expiredA', refreshToken: 'badR'),
+        );
+
+        final failureHandler = _FakeAuthFailureHandler();
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+        dio.httpClientAdapter = _FakeAdapter((_) async {
+          return ResponseBody.fromString('unauthorized', 401);
+        });
+
+        final client = CoreHttpClient(
+          baseUrl: 'https://api.example.com',
+          tokenStore: store,
+          tokenRefresher: _FakeTokenRefresher((_) async => null),
+          authFailureHandler: failureHandler,
+          dio: dio,
+        );
+
+        await expectLater(
+          () => client.dio.get<Map<String, dynamic>>('/secure'),
+          throwsA(isA<DioException>()),
+        );
+
+        expect(failureHandler.reasons, <AuthFailureReason>[
+          AuthFailureReason.refreshReturnedNull,
+        ]);
+        expect(await store.readAccessToken(), isNull);
+        expect(await store.readRefreshToken(), isNull);
+      },
+    );
+
+    test(
+      'clears token and triggers unified logout when retry is exhausted',
+      () async {
+        final store = InMemoryTokenStore();
+        await store.save(
+          const TokenPair(accessToken: 'expiredA', refreshToken: 'validR'),
+        );
+
+        final failureHandler = _FakeAuthFailureHandler();
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+        dio.httpClientAdapter = _FakeAdapter((_) async {
+          return ResponseBody.fromString('unauthorized', 401);
+        });
+
+        final client = CoreHttpClient(
+          baseUrl: 'https://api.example.com',
+          tokenStore: store,
+          tokenRefresher: _FakeTokenRefresher((_) async {
+            return const TokenPair(accessToken: 'newA', refreshToken: 'newR');
+          }),
+          authFailureHandler: failureHandler,
+          maxAuthRetryAttempts: 1,
+          dio: dio,
+        );
+
+        await expectLater(
+          () => client.dio.get<Map<String, dynamic>>('/secure'),
+          throwsA(isA<DioException>()),
+        );
+
+        expect(
+          failureHandler.reasons,
+          contains(AuthFailureReason.retryExhausted),
+        );
+        expect(await store.readAccessToken(), isNull);
+        expect(await store.readRefreshToken(), isNull);
+      },
+    );
+
+    test('maps dio errors into NetworkFailure model', () async {
+      final store = InMemoryTokenStore();
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+      dio.httpClientAdapter = _FakeAdapter((options) async {
+        throw DioException.connectionError(
+          requestOptions: options,
+          reason: 'network down',
+        );
       });
 
       final client = CoreHttpClient(
@@ -112,12 +286,15 @@ void main() {
         dio: dio,
       );
 
-      expect(
-        () => client.dio.get<Map<String, dynamic>>('/secure'),
-        throwsA(isA<DioException>()),
-      );
-      expect(await store.readAccessToken(), isNull);
-      expect(await store.readRefreshToken(), isNull);
+      try {
+        await client.dio.get<dynamic>('/health');
+        fail('expected error');
+      } on DioException catch (error) {
+        expect(error.error, isA<NetworkFailure>());
+        final failure = error.error as NetworkFailure;
+        expect(failure.type, NetworkFailureType.connectionError);
+        expect(failure.path, '/health');
+      }
     });
   });
 }

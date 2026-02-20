@@ -8,10 +8,7 @@ abstract class TokenRefresher {
 }
 
 class EndpointTokenRefresher implements TokenRefresher {
-  EndpointTokenRefresher(
-    this._dio, {
-    required this.refreshPath,
-  });
+  EndpointTokenRefresher(this._dio, {required this.refreshPath});
 
   final Dio _dio;
   final String refreshPath;
@@ -34,9 +31,6 @@ class EndpointTokenRefresher implements TokenRefresher {
       return null;
     }
 
-    return TokenPair(
-      accessToken: accessToken,
-      refreshToken: nextRefreshToken,
-    );
+    return TokenPair(accessToken: accessToken, refreshToken: nextRefreshToken);
   }
 }
