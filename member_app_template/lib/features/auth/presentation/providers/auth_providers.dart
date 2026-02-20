@@ -2,6 +2,8 @@ import 'package:core_network/core_network.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/auth/persistent_token_store.dart';
+import '../../../../app/config/api_paths.dart';
+import '../../../../app/config/environment_provider.dart';
 import '../../../../app/storage/app_storage_providers.dart';
 import '../../data/datasources/auth_remote_data_source.dart';
 import '../../data/repositories/auth_repository_impl.dart';
@@ -16,12 +18,18 @@ final tokenStoreProvider = Provider<TokenStore>((ref) {
 });
 
 final tokenRefresherProvider = Provider<TokenRefresher>((ref) {
-  return EndpointTokenRefresher(Dio(), refreshPath: '/v1/auth/refresh');
+  final baseUrl = ref.watch(memberApiBaseUrlProvider);
+  return EndpointTokenRefresher.oauth2(
+    Dio(BaseOptions(baseUrl: baseUrl)),
+    refreshPath: LegacyApiPath.oauthToken,
+    basicAuthorization: legacyOauthClientAuthorization,
+  );
 });
 
 final coreHttpClientProvider = Provider<CoreHttpClient>((ref) {
+  final baseUrl = ref.watch(memberApiBaseUrlProvider);
   return CoreHttpClient(
-    baseUrl: 'https://api.example.com',
+    baseUrl: baseUrl,
     tokenStore: ref.watch(tokenStoreProvider),
     tokenRefresher: ref.watch(tokenRefresherProvider),
   );

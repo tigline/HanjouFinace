@@ -269,6 +269,45 @@ void main() {
       },
     );
 
+    test(
+      'oauth2 endpoint refresher builds legacy payload and parses snake_case',
+      () async {
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+        dio.httpClientAdapter = _FakeAdapter((options) async {
+          expect(options.path, 'uaa/oauth/token');
+          expect(options.method, 'POST');
+          expect(options.contentType, Headers.formUrlEncodedContentType);
+          expect(options.headers['Authorization'], 'Basic abc123');
+          expect(options.extra['auth_required'], false);
+
+          final body = options.data as Map<String, dynamic>;
+          expect(body['grant_type'], 'refresh_token');
+          expect(body['refresh_token'], 'oldR');
+          expect(body['scope'], 'app');
+
+          return ResponseBody.fromString(
+            '{"access_token":"newA","refresh_token":"newR"}',
+            200,
+            headers: <String, List<String>>{
+              Headers.contentTypeHeader: <String>['application/json'],
+            },
+          );
+        });
+
+        final refresher = EndpointTokenRefresher.oauth2(
+          dio,
+          refreshPath: 'uaa/oauth/token',
+          basicAuthorization: 'Basic abc123',
+          scope: 'app',
+        );
+
+        final pair = await refresher.refresh('oldR');
+
+        expect(pair?.accessToken, 'newA');
+        expect(pair?.refreshToken, 'newR');
+      },
+    );
+
     test('maps dio errors into NetworkFailure model', () async {
       final store = InMemoryTokenStore();
       final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));

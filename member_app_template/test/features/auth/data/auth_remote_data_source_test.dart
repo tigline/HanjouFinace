@@ -1,0 +1,127 @@
+import 'dart:async';
+
+import 'package:core_network/core_network.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:member_app_template/app/config/api_paths.dart';
+import 'package:member_app_template/features/auth/data/datasources/auth_remote_data_source.dart';
+
+class _FakeAdapter implements HttpClientAdapter {
+  _FakeAdapter(this._handler);
+
+  final Future<ResponseBody> Function(RequestOptions options) _handler;
+
+  @override
+  void close({bool force = false}) {}
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<List<int>>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    return _handler(options);
+  }
+}
+
+class _NoopTokenRefresher implements TokenRefresher {
+  @override
+  Future<TokenPair?> refresh(String refreshToken) async {
+    return null;
+  }
+}
+
+ResponseBody _jsonOk([String body = '{}']) {
+  return ResponseBody.fromString(
+    body,
+    200,
+    headers: <String, List<String>>{
+      Headers.contentTypeHeader: <String>['application/json'],
+    },
+  );
+}
+
+CoreHttpClient _buildClient(
+  Future<ResponseBody> Function(RequestOptions options) handler,
+) {
+  final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com/api'));
+  dio.httpClientAdapter = _FakeAdapter(handler);
+
+  return CoreHttpClient(
+    baseUrl: 'https://api.example.com/api',
+    tokenStore: InMemoryTokenStore(),
+    tokenRefresher: _NoopTokenRefresher(),
+    dio: dio,
+  );
+}
+
+void main() {
+  group('AuthRemoteDataSourceImpl', () {
+    test('sendLoginCode uses email endpoint for email account', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, 'GET');
+        expect(options.path, LegacyApiPath.emailLoginCode);
+        expect(options.queryParameters['email'], 'user@example.com');
+        expect(options.extra['auth_required'], false);
+        return _jsonOk();
+      });
+      final source = AuthRemoteDataSourceImpl(client);
+
+      await source.sendLoginCode(account: 'user@example.com');
+    });
+
+    test('sendLoginCode uses sms endpoint for mobile account', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, 'GET');
+        expect(options.path, LegacyApiPath.smsCode);
+        expect(options.queryParameters['mobile'], '13900000000');
+        expect(options.queryParameters['biz'], defaultIntlCode);
+        expect(options.queryParameters['secret'], isA<String>());
+        expect(
+          (options.queryParameters['secret'] as String).isNotEmpty,
+          isTrue,
+        );
+        expect(options.extra['auth_required'], false);
+        return _jsonOk();
+      });
+      final source = AuthRemoteDataSourceImpl(client);
+
+      await source.sendLoginCode(account: '13900000000');
+    });
+
+    test(
+      'loginWithCode uses oauth token endpoint and parses response',
+      () async {
+        final client = _buildClient((options) async {
+          expect(options.method, 'POST');
+          expect(options.path, LegacyApiPath.oauthToken);
+          expect(
+            options.headers['Authorization'],
+            legacyOauthClientAuthorization,
+          );
+          expect(options.contentType, Headers.formUrlEncodedContentType);
+          expect(options.extra['auth_required'], false);
+
+          final body = options.data as Map<String, dynamic>;
+          expect(body['username'], 'user@example.com');
+          expect(body['password'], '123456');
+          expect(body['grant_type'], 'password');
+          expect(body['auth_type'], 'email');
+          expect(body['scope'], 'app');
+
+          return _jsonOk(
+            '{"access_token":"newA","refresh_token":"newR","expires_in":3600}',
+          );
+        });
+        final source = AuthRemoteDataSourceImpl(client);
+
+        final dto = await source.loginWithCode(
+          account: 'user@example.com',
+          code: '123456',
+        );
+
+        expect(dto.accessToken, 'newA');
+        expect(dto.refreshToken, 'newR');
+      },
+    );
+  });
+}

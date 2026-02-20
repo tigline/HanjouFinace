@@ -12,11 +12,36 @@ class AuthSessionDto {
   final DateTime expiresAt;
 
   factory AuthSessionDto.fromJson(Map<String, dynamic> json) {
+    final accessToken =
+        (json['accessToken'] as String?) ?? (json['access_token'] as String?);
+    final refreshToken =
+        (json['refreshToken'] as String?) ?? (json['refresh_token'] as String?);
+
+    if (accessToken == null || refreshToken == null) {
+      throw const FormatException('Invalid auth session payload.');
+    }
+
     return AuthSessionDto(
-      accessToken: json['accessToken'] as String,
-      refreshToken: json['refreshToken'] as String,
-      expiresAt: DateTime.parse(json['expiresAt'] as String),
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      expiresAt: _parseExpiresAt(json),
     );
+  }
+
+  static DateTime _parseExpiresAt(Map<String, dynamic> json) {
+    final expiresAtValue = json['expiresAt'] as String?;
+    if (expiresAtValue != null && expiresAtValue.trim().isNotEmpty) {
+      return DateTime.parse(expiresAtValue).toUtc();
+    }
+
+    final expiresInValue = json['expires_in'] ?? json['expiresIn'];
+    if (expiresInValue is num) {
+      return DateTime.now().toUtc().add(
+        Duration(seconds: expiresInValue.toInt()),
+      );
+    }
+
+    return DateTime.now().toUtc().add(const Duration(hours: 4));
   }
 
   AuthSession toEntity() {
