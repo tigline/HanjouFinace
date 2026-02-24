@@ -64,6 +64,151 @@ class AppThemeFactory {
       ),
     );
 
+    final travelHotelTheme = AppTravelHotelTheme(
+      primaryButtonColor: AppColorTokens.travelPrimaryBlue,
+      primaryButtonShadowColor: AppColorTokens.travelPrimaryBlue.withValues(
+        alpha: isDark ? 0.22 : 0.15,
+      ),
+      primaryButtonTextStyle: (textTheme.titleMedium ?? const TextStyle())
+          .copyWith(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            height: 22 / 16,
+          ),
+      categorySelectedBackgroundColor: AppColorTokens.travelPrimaryBlueAlt,
+      categorySelectedForegroundColor: Colors.white,
+      categorySelectedLabelStyle: (textTheme.bodySmall ?? const TextStyle())
+          .copyWith(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            height: 16.5 / 12,
+          ),
+      categoryIdleBackgroundColor: isDark
+          ? const Color(0xFF161E2D)
+          : Colors.white,
+      categoryIdleBorderColor: isDark
+          ? outline.withValues(alpha: 0.9)
+          : AppColorTokens.travelBorderSoft,
+      categoryIdleIconColor: isDark
+          ? AppColorTokens.darkMuted
+          : AppColorTokens.travelTextMuted,
+      categoryIdleLabelStyle: (textTheme.bodySmall ?? const TextStyle())
+          .copyWith(
+            color: isDark
+                ? AppColorTokens.darkMuted
+                : AppColorTokens.travelTextSubtle,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            height: 16.5 / 12,
+          ),
+      categoryShadowColor: AppColorTokens.travelShadowBlue.withValues(
+        alpha: isDark ? 0.18 : 0.5,
+      ),
+      floatingIconBackgroundColor: isDark
+          ? const Color(0xFF17202E)
+          : Colors.white,
+      floatingIconForegroundColor: isDark
+          ? AppColorTokens.darkOnSurface
+          : AppColorTokens.travelIconNavy,
+      floatingIconShadowColor: Colors.black.withValues(
+        alpha: isDark ? 0.24 : 0.10,
+      ),
+      cardBorderColor: isDark
+          ? outline.withValues(alpha: 0.85)
+          : AppColorTokens.travelBorderSoft,
+      cardTileShadowColor: Colors.black.withValues(alpha: isDark ? 0.22 : 0.10),
+      amenityHighlightedShadowColor: Colors.black.withValues(
+        alpha: isDark ? 0.26 : 0.10,
+      ),
+      sectionTitleStyle: (textTheme.headlineSmall ?? const TextStyle())
+          .copyWith(
+            fontSize: 23,
+            fontWeight: FontWeight.w700,
+            height: 22 / 23,
+            color: isDark ? AppColorTokens.darkOnSurface : Colors.black,
+          ),
+      sectionActionColor: isDark
+          ? const Color(0xFFF3BA55)
+          : AppColorTokens.travelLinkGold,
+      mediaCardTitleStyle: (textTheme.titleMedium ?? const TextStyle())
+          .copyWith(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            height: 15.28 / 16,
+          ),
+      mediaCardSubtitleStyle: (textTheme.bodySmall ?? const TextStyle())
+          .copyWith(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            height: 11.46 / 12,
+          ),
+      mediaCardPriceStyle: (textTheme.bodySmall ?? const TextStyle()).copyWith(
+        color: Colors.white,
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        height: 11.46 / 12,
+      ),
+      mediaCardRatingStyle: (textTheme.labelMedium ?? const TextStyle())
+          .copyWith(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w400,
+            height: 9.55 / 10,
+          ),
+      mediaCardOverlayGradientColors: <Color>[
+        Colors.transparent,
+        AppColorTokens.travelOverlayCool.withValues(
+          alpha: isDark ? 0.82 : 0.62,
+        ),
+        Colors.black.withValues(alpha: isDark ? 0.98 : 0.94),
+      ],
+      dealCardOverlayGradientColors: <Color>[
+        AppColorTokens.travelOverlayCharcoal.withValues(
+          alpha: isDark ? 0.86 : 0.78,
+        ),
+        AppColorTokens.travelOverlayCool.withValues(
+          alpha: isDark ? 0.70 : 0.59,
+        ),
+        AppColorTokens.travelOverlayBlackSoft.withValues(
+          alpha: isDark ? 0.88 : 0.47,
+        ),
+        Colors.black.withValues(alpha: isDark ? 1 : 0.96),
+      ],
+      discountChipBackgroundColor: AppColorTokens.travelDiscountCoral,
+      discountChipTextStyle: (textTheme.labelMedium ?? const TextStyle())
+          .copyWith(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            height: 9.55 / 10,
+          ),
+      photoCountChipBackgroundColor: isDark
+          ? const Color(0x99404A56)
+          : const Color(0x801D1A19),
+      photoCountChipTextStyle: (textTheme.labelMedium ?? const TextStyle())
+          .copyWith(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+            height: 9.55 / 10,
+          ),
+      ratingAccentColor: AppColorTokens.travelRatingOrange,
+      hostActionButtonBackgroundColor: AppColorTokens.travelFabOrange,
+      hostActionButtonShadowColor: AppColorTokens.travelShadowOrange.withValues(
+        alpha: isDark ? 0.55 : 1,
+      ),
+      iconNavyColor: isDark
+          ? AppColorTokens.darkOnSurface
+          : AppColorTokens.travelIconNavy,
+      tileCornerRadius: 19,
+      cardCornerRadius: 17,
+      chipCornerRadius: 87,
+    );
+
     final colorScheme = ColorScheme(
       brightness: brightness,
       primary: AppColorTokens.accent,
@@ -89,7 +234,7 @@ class AppThemeFactory {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
       textTheme: textTheme,
-      extensions: <ThemeExtension<dynamic>>[authVisualTheme],
+      extensions: <ThemeExtension<dynamic>>[authVisualTheme, travelHotelTheme],
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),

@@ -58,6 +58,15 @@ void main() {
       expect(redirect, isNull);
     });
 
+    test('keeps unauthenticated user on design showcase', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(false),
+        location: '/design-showcase/hotel',
+      );
+
+      expect(redirect, isNull);
+    });
+
     test('redirects authenticated user from login to home', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(true),

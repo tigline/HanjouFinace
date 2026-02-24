@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../pages/hotel_design_showcase_page.dart';
 import '../pages/splash_page.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
@@ -17,19 +18,21 @@ String? resolveAuthRedirect({
   final isLogin = location == '/login';
   final isRegister = location == '/register';
   final isForgotPassword = location == '/forgot-password';
+  final isHotelDesignShowcase = location == '/design-showcase/hotel';
   final isAuthRoute = isLogin || isRegister || isForgotPassword;
+  final isPublicRoute = isAuthRoute || isHotelDesignShowcase;
 
   if (authState.isLoading) {
     return isSplash ? null : '/splash';
   }
 
   if (authState.hasError) {
-    return isAuthRoute ? null : '/login';
+    return isPublicRoute ? null : '/login';
   }
 
   final isAuthenticated = authState.asData?.value ?? false;
   if (!isAuthenticated) {
-    return isAuthRoute ? null : '/login';
+    return isPublicRoute ? null : '/login';
   }
 
   if (isSplash || isAuthRoute) {
@@ -78,6 +81,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/home',
         builder: (BuildContext context, GoRouterState state) {
           return const HomePage();
+        },
+      ),
+      GoRoute(
+        path: '/design-showcase/hotel',
+        builder: (BuildContext context, GoRouterState state) {
+          return const HotelDesignShowcasePage();
         },
       ),
     ],
