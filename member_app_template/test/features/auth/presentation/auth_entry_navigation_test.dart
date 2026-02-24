@@ -118,6 +118,7 @@ void main() {
       await _pumpApp(tester);
       expect(find.byKey(const Key('login_page')), findsOneWidget);
 
+      await tester.ensureVisible(find.byKey(const Key('to_register_button')));
       await tester.tap(find.byKey(const Key('to_register_button')));
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('register_page')), findsOneWidget);
@@ -136,6 +137,9 @@ void main() {
       await _pumpApp(tester);
       expect(find.byKey(const Key('login_page')), findsOneWidget);
 
+      await tester.ensureVisible(
+        find.byKey(const Key('to_forgot_password_button')),
+      );
       await tester.tap(find.byKey(const Key('to_forgot_password_button')));
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('forgot_password_page')), findsOneWidget);

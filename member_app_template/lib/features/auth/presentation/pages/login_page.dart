@@ -46,6 +46,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final l10n = context.l10n;
     final state = ref.watch(authControllerProvider);
     final controller = ref.read(authControllerProvider.notifier);
+    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
 
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       if (previous?.session == null && next.session != null && mounted) {
@@ -84,68 +85,46 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
-            key: const Key('login_account_input'),
+          HotelEmailTextField(
             controller: _accountController,
-            keyboardType: TextInputType.emailAddress,
+            inputKey: const Key('login_account_input'),
+            labelText: l10n.loginAccountLabel,
+            hintText: l10n.loginAccountLabel,
+            leadingIcon: Icons.person_outline_rounded,
             onChanged: controller.onAccountChanged,
-            decoration: InputDecoration(
-              labelText: l10n.loginAccountLabel,
-              prefixIcon: const Icon(Icons.person_outline_rounded),
-            ),
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: UiTokens.spacing12),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  key: const Key('login_code_input'),
-                  controller: _codeController,
-                  onChanged: controller.onCodeChanged,
-                  decoration: InputDecoration(
-                    labelText: l10n.loginCodeLabel,
-                    prefixIcon: const Icon(Icons.sms_outlined),
-                  ),
-                ),
-              ),
-              const SizedBox(width: UiTokens.spacing12),
-              SizedBox(
-                width: 132,
-                child: OutlinedButton(
-                  key: const Key('login_send_code_button'),
-                  onPressed: state.canSendCode ? controller.sendCode : null,
-                  child: state.isSendingCode
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(l10n.loginSendCode),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: UiTokens.spacing16),
-          FilledButton(
-            key: const Key('login_submit_button'),
-            onPressed: state.canLogin
-                ? () async {
-                    await controller.login();
-                  }
-                : null,
-            child: state.isLoggingIn
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(l10n.loginSubmit),
+          HotelVerificationCodeField(
+            key: const Key('login_code_field'),
+            controller: _codeController,
+            labelText: l10n.loginCodeLabel,
+            hintText: l10n.loginCodeLabel,
+            sendCodeLabel: l10n.loginSendCode,
+            inputKey: const Key('login_code_input'),
+            sendButtonKey: const Key('login_send_code_button'),
+            isSendingCode: state.isSendingCode,
+            onChanged: controller.onCodeChanged,
+            onSendCode: state.canSendCode ? controller.sendCode : null,
+            buttonWidth: 132,
           ),
           if (state.errorKey != null) ...<Widget>[
-            const SizedBox(height: UiTokens.spacing12),
-            Align(
-              alignment: Alignment.centerLeft,
+            const SizedBox(height: UiTokens.spacing8),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: hotelTheme?.discountChipBackgroundColor.withValues(
+                  alpha: 0.12,
+                ),
+                borderRadius: BorderRadius.circular(UiTokens.radius16),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: UiTokens.spacing12,
+                vertical: UiTokens.spacing12,
+              ),
               child: Text(
                 _resolveErrorMessage(context, state.errorKey!),
                 style:
@@ -156,6 +135,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
             ),
           ],
+          const SizedBox(height: UiTokens.spacing16),
+          HotelPrimaryCtaButton(
+            key: const Key('login_submit_button'),
+            label: l10n.loginSubmit,
+            isLoading: state.isLoggingIn,
+            horizontalPadding: 0,
+            onPressed: state.canLogin
+                ? () async {
+                    await controller.login();
+                  }
+                : null,
+          ),
         ],
       ),
     );

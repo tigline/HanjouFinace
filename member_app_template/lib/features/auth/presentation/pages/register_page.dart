@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/config/api_paths.dart';
+import '../../../../app/localization/app_localizations_ext.dart';
 import '../providers/auth_providers.dart';
 import 'auth_visual_scaffold.dart';
 
@@ -202,6 +202,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final travelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
+
     return AuthVisualScaffold(
       pageKey: const Key('register_page'),
       title: l10n.registerTitle,
@@ -216,99 +218,111 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
-            key: const Key('register_account_input'),
+          HotelEmailTextField(
             controller: _accountController,
-            keyboardType: TextInputType.emailAddress,
+            inputKey: const Key('register_account_input'),
+            labelText: l10n.registerAccountLabel,
+            hintText: l10n.registerAccountLabel,
+            leadingIcon: Icons.person_outline_rounded,
             onChanged: (_) => setState(() {}),
-            decoration: InputDecoration(
-              labelText: l10n.registerAccountLabel,
-              prefixIcon: const Icon(Icons.person_outline_rounded),
-            ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  key: const Key('register_code_input'),
-                  controller: _codeController,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: l10n.registerCodeLabel,
-                    prefixIcon: const Icon(Icons.sms_outlined),
-                  ),
-                ),
-              ),
-              const SizedBox(width: UiTokens.spacing12),
-              SizedBox(
-                width: 132,
-                child: OutlinedButton(
-                  key: const Key('register_send_code_button'),
-                  onPressed: _canSendCode ? _sendCode : null,
-                  child: _isSendingCode
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(l10n.registerSendCode),
-                ),
-              ),
-            ],
+          HotelVerificationCodeField(
+            controller: _codeController,
+            labelText: l10n.registerCodeLabel,
+            hintText: l10n.registerCodeLabel,
+            sendCodeLabel: l10n.registerSendCode,
+            inputKey: const Key('register_code_input'),
+            sendButtonKey: const Key('register_send_code_button'),
+            isSendingCode: _isSendingCode,
+            onChanged: (_) => setState(() {}),
+            onSendCode: _canSendCode ? _sendCode : null,
+            buttonWidth: 132,
           ),
           const SizedBox(height: UiTokens.spacing12),
-          TextField(
-            key: const Key('register_contact_input'),
-            controller: _contactController,
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (_) => setState(() {}),
-            decoration: InputDecoration(
-              labelText: l10n.registerContactLabel,
-              helperText: _isEmailAccount
-                  ? l10n.registerContactHelperEmail
-                  : l10n.registerContactHelperMobile,
-              prefixIcon: const Icon(Icons.contact_mail_outlined),
-            ),
-          ),
+          (_isEmailAccount
+                  ? HotelPhoneTextField(
+                      controller: _contactController,
+                      inputKey: const Key('register_contact_input'),
+                      labelText: l10n.registerContactLabel,
+                      hintText: l10n.registerContactHelperEmail,
+                      onChanged: (_) => setState(() {}),
+                    )
+                  : HotelEmailTextField(
+                      controller: _contactController,
+                      inputKey: const Key('register_contact_input'),
+                      labelText: l10n.registerContactLabel,
+                      hintText: l10n.registerContactHelperMobile,
+                      leadingIcon: Icons.contact_mail_outlined,
+                      onChanged: (_) => setState(() {}),
+                    ))
+              as Widget,
           const SizedBox(height: UiTokens.spacing8),
-          Row(
-            children: <Widget>[
-              Checkbox(
-                value: _acceptPolicy,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _acceptPolicy = value ?? false;
-                  });
-                },
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => setState(() => _acceptPolicy = !_acceptPolicy),
-                  child: Text(
-                    l10n.registerAcceptPolicy,
-                    style: Theme.of(context).textTheme.bodySmall,
+          Container(
+            decoration: BoxDecoration(
+              color: travelTheme?.primaryButtonColor.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(UiTokens.radius16),
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: UiTokens.spacing12,
+              vertical: UiTokens.spacing12,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Switch.adaptive(
+                  value: _acceptPolicy,
+                  activeTrackColor: travelTheme?.primaryButtonColor.withValues(
+                    alpha: 0.35,
+                  ),
+                  activeThumbColor: travelTheme?.primaryButtonColor,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _acceptPolicy = value;
+                    });
+                  },
+                ),
+                const SizedBox(width: UiTokens.spacing8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () =>
+                            setState(() => _acceptPolicy = !_acceptPolicy),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(
+                            l10n.registerAcceptPolicy,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: UiTokens.spacing4),
+                      TextButton(
+                        key: const Key('register_policy_button'),
+                        onPressed: _showPolicySheet,
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Text(l10n.registerPolicyButton),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              TextButton(
-                key: const Key('register_policy_button'),
-                onPressed: _showPolicySheet,
-                child: Text(l10n.registerPolicyButton),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: UiTokens.spacing8),
-          FilledButton(
+          const SizedBox(height: UiTokens.spacing16),
+          HotelPrimaryCtaButton(
             key: const Key('register_submit_button'),
+            label: l10n.registerSubmit,
+            isLoading: _isSubmitting,
+            horizontalPadding: 0,
             onPressed: _canSubmit ? _submit : null,
-            child: _isSubmitting
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(l10n.registerSubmit),
           ),
         ],
       ),

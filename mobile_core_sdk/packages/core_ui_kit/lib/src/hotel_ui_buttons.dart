@@ -3,70 +3,194 @@ import 'package:flutter/material.dart';
 import 'app_theme_extensions.dart';
 import 'ui_tokens.dart';
 
-class HotelPrimaryCtaButton extends StatelessWidget {
+class HotelPrimaryCtaButton extends StatefulWidget {
   const HotelPrimaryCtaButton({
-    required this.label,
     super.key,
+    this.label,
+    this.child,
     this.onPressed,
+    this.isLoading = false,
     this.height = 63,
     this.fullWidth = true,
     this.borderRadius,
     this.horizontalPadding = UiTokens.spacing16,
-  });
+    this.loadingIndicatorSize = 18,
+  }) : assert(label != null || child != null, 'label or child is required');
 
-  final String label;
+  final String? label;
+  final Widget? child;
   final VoidCallback? onPressed;
+  final bool isLoading;
   final double height;
   final bool fullWidth;
   final BorderRadius? borderRadius;
   final double horizontalPadding;
+  final double loadingIndicatorSize;
+
+  @override
+  State<HotelPrimaryCtaButton> createState() => _HotelPrimaryCtaButtonState();
+}
+
+class _HotelPrimaryCtaButtonState extends State<HotelPrimaryCtaButton> {
+  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
-    final radius = borderRadius ?? BorderRadius.circular(UiTokens.radius20);
-    final isEnabled = onPressed != null;
+    final radius =
+        widget.borderRadius ?? BorderRadius.circular(UiTokens.radius20);
+    final isEnabled = widget.onPressed != null && !widget.isLoading;
+
+    final buttonChild = widget.isLoading
+        ? SizedBox(
+            width: widget.loadingIndicatorSize,
+            height: widget.loadingIndicatorSize,
+            child: const CircularProgressIndicator(
+              strokeWidth: 2.2,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+          )
+        : (widget.child ??
+              Text(widget.label!, style: hotelTheme.primaryButtonTextStyle));
 
     final content = SizedBox(
-      height: height,
-      width: fullWidth ? double.infinity : null,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: hotelTheme.primaryButtonColor.withValues(
-            alpha: isEnabled ? 1 : 0.42,
-          ),
-          borderRadius: radius,
-          boxShadow: isEnabled
-              ? <BoxShadow>[
-                  BoxShadow(
-                    color: hotelTheme.primaryButtonShadowColor,
-                    blurRadius: 21,
-                    offset: const Offset(1, 21),
-                  ),
-                ]
-              : const <BoxShadow>[],
-        ),
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: onPressed,
+      height: widget.height,
+      width: widget.fullWidth ? double.infinity : null,
+      child: _HotelPressScale(
+        enabled: isEnabled,
+        isPressed: _isPressed,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: hotelTheme.primaryButtonColor.withValues(
+              alpha: (widget.onPressed != null) ? 1 : 0.42,
+            ),
             borderRadius: radius,
-            child: Center(
-              child: Text(label, style: hotelTheme.primaryButtonTextStyle),
+            boxShadow: (widget.onPressed != null)
+                ? <BoxShadow>[
+                    BoxShadow(
+                      color: hotelTheme.primaryButtonShadowColor,
+                      blurRadius: 21,
+                      offset: const Offset(1, 21),
+                    ),
+                  ]
+                : const <BoxShadow>[],
+          ),
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: isEnabled ? widget.onPressed : null,
+              onHighlightChanged: (bool value) {
+                if (_isPressed == value) {
+                  return;
+                }
+                setState(() {
+                  _isPressed = value;
+                });
+              },
+              borderRadius: radius,
+              child: Center(child: buttonChild),
             ),
           ),
         ),
       ),
     );
 
-    if (fullWidth) {
+    if (widget.fullWidth) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+        padding: EdgeInsets.symmetric(horizontal: widget.horizontalPadding),
         child: content,
       );
     }
     return content;
+  }
+}
+
+class HotelCompactActionButton extends StatefulWidget {
+  const HotelCompactActionButton({
+    super.key,
+    required this.label,
+    this.onPressed,
+    this.isLoading = false,
+    this.width = 124,
+    this.height = 52,
+  });
+
+  final String label;
+  final VoidCallback? onPressed;
+  final bool isLoading;
+  final double width;
+  final double height;
+
+  @override
+  State<HotelCompactActionButton> createState() =>
+      _HotelCompactActionButtonState();
+}
+
+class _HotelCompactActionButtonState extends State<HotelCompactActionButton> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final baseColor = hotelTheme.primaryButtonColor;
+    final isEnabled = widget.onPressed != null && !widget.isLoading;
+    final radius = BorderRadius.circular(UiTokens.radius16);
+    final textStyle = (theme.textTheme.labelLarge ?? const TextStyle())
+        .copyWith(color: baseColor, fontWeight: FontWeight.w600);
+
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: _HotelPressScale(
+        enabled: isEnabled,
+        isPressed: _isPressed,
+        scale: 0.97,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: baseColor.withValues(alpha: isEnabled ? 0.12 : 0.06),
+            borderRadius: radius,
+          ),
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: isEnabled ? widget.onPressed : null,
+              onHighlightChanged: (bool value) {
+                if (_isPressed == value) {
+                  return;
+                }
+                setState(() {
+                  _isPressed = value;
+                });
+              },
+              borderRadius: radius,
+              child: Center(
+                child: widget.isLoading
+                    ? SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            baseColor.withValues(alpha: 0.92),
+                          ),
+                        ),
+                      )
+                    : Text(
+                        widget.label,
+                        style: widget.onPressed == null
+                            ? textStyle.copyWith(
+                                color: baseColor.withValues(alpha: 0.45),
+                              )
+                            : textStyle,
+                      ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -360,6 +484,30 @@ class HotelPillChip extends StatelessWidget {
             borderRadius ?? BorderRadius.circular(hotelTheme.chipCornerRadius),
       ),
       child: Padding(padding: padding, child: child),
+    );
+  }
+}
+
+class _HotelPressScale extends StatelessWidget {
+  const _HotelPressScale({
+    required this.enabled,
+    required this.isPressed,
+    required this.child,
+    this.scale = 0.985,
+  });
+
+  final bool enabled;
+  final bool isPressed;
+  final Widget child;
+  final double scale;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: enabled && isPressed ? scale : 1,
+      duration: const Duration(milliseconds: 110),
+      curve: Curves.easeOutCubic,
+      child: child,
     );
   }
 }

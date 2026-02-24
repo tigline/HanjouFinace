@@ -158,6 +158,7 @@ void main() {
 
       await tester.tap(find.byKey(const Key('login_send_code_button')));
       await tester.pump();
+      await tester.ensureVisible(find.byKey(const Key('login_submit_button')));
       await tester.tap(find.byKey(const Key('login_submit_button')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 200));

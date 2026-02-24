@@ -148,59 +148,36 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         ),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
-            key: const Key('forgot_account_input'),
+          HotelEmailTextField(
             controller: _accountController,
+            inputKey: const Key('forgot_account_input'),
+            labelText: l10n.forgotPasswordAccountLabel,
+            hintText: l10n.forgotPasswordAccountLabel,
+            leadingIcon: Icons.person_outline_rounded,
             onChanged: (_) => setState(() {}),
-            decoration: InputDecoration(
-              labelText: l10n.forgotPasswordAccountLabel,
-              prefixIcon: const Icon(Icons.person_outline_rounded),
-            ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  key: const Key('forgot_code_input'),
-                  controller: _codeController,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: l10n.forgotPasswordCodeLabel,
-                    prefixIcon: const Icon(Icons.sms_outlined),
-                  ),
-                ),
-              ),
-              const SizedBox(width: UiTokens.spacing12),
-              SizedBox(
-                width: 136,
-                child: OutlinedButton(
-                  key: const Key('forgot_send_code_button'),
-                  onPressed: _canSendCode ? _sendCode : null,
-                  child: _isSendingCode
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(l10n.forgotPasswordSendCode),
-                ),
-              ),
-            ],
+          HotelVerificationCodeField(
+            controller: _codeController,
+            labelText: l10n.forgotPasswordCodeLabel,
+            hintText: l10n.forgotPasswordCodeLabel,
+            sendCodeLabel: l10n.forgotPasswordSendCode,
+            inputKey: const Key('forgot_code_input'),
+            sendButtonKey: const Key('forgot_send_code_button'),
+            isSendingCode: _isSendingCode,
+            onChanged: (_) => setState(() {}),
+            onSendCode: _canSendCode ? _sendCode : null,
+            buttonWidth: 136,
           ),
-          const SizedBox(height: UiTokens.spacing12),
           const SizedBox(height: UiTokens.spacing16),
-          FilledButton(
+          HotelPrimaryCtaButton(
             key: const Key('forgot_submit_button'),
+            label: l10n.forgotPasswordSubmit,
+            isLoading: _isSubmitting,
+            horizontalPadding: 0,
             onPressed: _canSubmit ? _submit : null,
-            child: _isSubmitting
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : Text(l10n.forgotPasswordSubmit),
           ),
         ],
       ),

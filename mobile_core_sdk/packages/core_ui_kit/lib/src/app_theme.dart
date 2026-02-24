@@ -65,8 +65,8 @@ class AppThemeFactory {
     );
 
     final travelHotelTheme = AppTravelHotelTheme(
-      primaryButtonColor: AppColorTokens.travelPrimaryBlue,
-      primaryButtonShadowColor: AppColorTokens.travelPrimaryBlue.withValues(
+      primaryButtonColor: AppColorTokens.travelPrimaryTeal,
+      primaryButtonShadowColor: AppColorTokens.travelPrimaryTeal.withValues(
         alpha: isDark ? 0.22 : 0.15,
       ),
       primaryButtonTextStyle: (textTheme.titleMedium ?? const TextStyle())

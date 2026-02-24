@@ -25,6 +25,9 @@ class AppColorTokens {
   static const Color danger = Color(0xFFFF3B30);
   static const Color warning = Color(0xFFFF9F0A);
 
+  // Figma inspiration palette (Hotel Booking App - Community)
+  static const Color travelPrimaryTeal = Color(0xFF008080);
+
   // Figma inspiration palette (Hotel Management UI - Community)
   // Extracted from the referenced design nodes to build reusable travel widgets.
   static const Color travelPrimaryBlue = Color(0xFF1AA7FF);

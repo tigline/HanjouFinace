@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 
@@ -24,11 +22,20 @@ class AuthVisualScaffold extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final authVisualTheme = theme.extension<AppAuthVisualTheme>();
+    final travelTheme = theme.extension<AppTravelHotelTheme>();
+
     assert(
       authVisualTheme != null,
       'AppAuthVisualTheme must be configured in theme',
     );
+    assert(
+      travelTheme != null,
+      'AppTravelHotelTheme must be configured in theme',
+    );
+
     final authTheme = authVisualTheme!;
+    final hotelTheme = travelTheme!;
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       key: pageKey,
@@ -39,76 +46,134 @@ class AuthVisualScaffold extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: authTheme.backgroundGradientColors,
+                colors: <Color>[
+                  theme.scaffoldBackgroundColor,
+                  theme.colorScheme.surface.withValues(
+                    alpha: isDark ? 0.84 : 0.98,
+                  ),
+                  hotelTheme.primaryButtonColor.withValues(
+                    alpha: isDark ? 0.05 : 0.08,
+                  ),
+                ],
               ),
             ),
             child: const SizedBox.expand(),
           ),
-          _GlowOrb(
-            alignment: const Alignment(-1.15, -0.78),
-            color: authTheme.orbPrimary,
-            radius: 220,
-          ),
-          _GlowOrb(
-            alignment: const Alignment(1.15, -0.62),
-            color: authTheme.orbSecondary,
-            radius: 200,
-          ),
-          _GlowOrb(
-            alignment: const Alignment(0.88, 1.05),
-            color: authTheme.orbTertiary,
+          _AmbientOrb(
+            alignment: const Alignment(-1.15, -0.9),
+            color: hotelTheme.primaryButtonColor.withValues(
+              alpha: isDark ? 0.14 : 0.16,
+            ),
             radius: 240,
+          ),
+          _AmbientOrb(
+            alignment: const Alignment(1.1, -0.65),
+            color: hotelTheme.discountChipBackgroundColor.withValues(
+              alpha: isDark ? 0.10 : 0.12,
+            ),
+            radius: 220,
           ),
           SafeArea(
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(
-                    UiTokens.spacing20,
-                    UiTokens.spacing20,
-                    UiTokens.spacing20,
-                    UiTokens.spacing24,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(20, 14, 20, 24),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight - 40,
+                      minHeight: constraints.maxHeight - 20,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const SizedBox(height: UiTokens.spacing8),
-                        Text('HANJOU', style: authTheme.brandLabelStyle),
-                        const SizedBox(height: UiTokens.spacing16),
-                        Text(title, style: textTheme.displaySmall),
-                        const SizedBox(height: UiTokens.spacing8),
-                        Text(subtitle, style: authTheme.subtitleStyle),
-                        const SizedBox(height: UiTokens.spacing24),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            UiTokens.radius28,
-                          ),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: authTheme.glassSurfaceColor,
-                                borderRadius: BorderRadius.circular(
-                                  UiTokens.radius28,
-                                ),
-                                border: Border.all(
-                                  color: authTheme.glassBorderColor,
+                        Row(
+                          children: <Widget>[
+                            Text('HANJOU', style: authTheme.brandLabelStyle),
+                            const Spacer(),
+                            HotelPillChip(
+                              backgroundColor: hotelTheme.primaryButtonColor
+                                  .withValues(alpha: isDark ? 0.18 : 0.12),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 7,
+                              ),
+                              child: Text(
+                                'Member',
+                                style:
+                                    (textTheme.labelMedium ?? const TextStyle())
+                                        .copyWith(
+                                          color: hotelTheme.primaryButtonColor,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        const SizedBox(
+                          height: 182,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: <Widget>[
+                              Positioned.fill(
+                                child: HotelDealBannerCard(
+                                  title: 'BaLi Motel Vung Tau',
+                                  location: 'Indonesia',
+                                  priceText: '\$580/night',
+                                  ratingText: '4.9',
+                                  discountText: 'Member',
+                                  height: 182,
                                 ),
                               ),
-                              padding: const EdgeInsets.all(UiTokens.spacing20),
-                              child: child,
-                            ),
+                              Positioned(
+                                right: 12,
+                                bottom: -16,
+                                child: HotelPhotoCountBadge(
+                                  label: 'Hotel Style',
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        if (footer != null) ...<Widget>[
-                          const SizedBox(height: UiTokens.spacing20),
-                          footer!,
-                        ],
+                        const SizedBox(height: 30),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.surface.withValues(
+                              alpha: isDark ? 0.92 : 0.98,
+                            ),
+                            borderRadius: BorderRadius.circular(28),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: isDark ? 0.22 : 0.08,
+                                ),
+                                blurRadius: 28,
+                                offset: const Offset(0, 14),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.fromLTRB(18, 20, 18, 18),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                title,
+                                style: textTheme.displaySmall?.copyWith(
+                                  fontSize: 30,
+                                  height: 1.08,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(subtitle, style: authTheme.subtitleStyle),
+                              const SizedBox(height: 18),
+                              child,
+                              if (footer != null) ...<Widget>[
+                                const SizedBox(height: 14),
+                                footer!,
+                              ],
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -122,8 +187,8 @@ class AuthVisualScaffold extends StatelessWidget {
   }
 }
 
-class _GlowOrb extends StatelessWidget {
-  const _GlowOrb({
+class _AmbientOrb extends StatelessWidget {
+  const _AmbientOrb({
     required this.alignment,
     required this.color,
     required this.radius,
