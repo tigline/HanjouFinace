@@ -1,7 +1,10 @@
 import 'package:core_network/core_network.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:member_app_template/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:member_app_template/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:member_app_template/features/auth/data/models/auth_login_result_dto.dart';
 import 'package:member_app_template/features/auth/data/models/auth_session_dto.dart';
+import 'package:member_app_template/features/auth/data/models/auth_user_dto.dart';
 import 'package:member_app_template/features/auth/data/repositories/auth_repository_impl.dart';
 
 class _FakeRemoteDataSource implements AuthRemoteDataSource {
@@ -16,17 +19,26 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
   String? lastRefreshToken;
   String? lastLogoutAccessToken;
 
-  AuthSessionDto loginResult = AuthSessionDto(
-    accessToken: 'login-access',
-    refreshToken: 'login-refresh',
-    expiresAt: DateTime.utc(2100, 1, 1),
+  AuthLoginResultDto loginResult = AuthLoginResultDto(
+    session: AuthSessionDto(
+      accessToken: 'login-access',
+      refreshToken: 'login-refresh',
+      expiresAt: DateTime.utc(2100, 1, 1),
+    ),
+    user: const AuthUserDto(
+      username: 'user@example.com',
+      userId: 1001,
+      email: 'user@example.com',
+      memberLevel: 10,
+      intlTelCode: '81',
+    ),
   );
   AuthSessionDto? refreshResult;
   Object? refreshError;
   Object? logoutError;
 
   @override
-  Future<AuthSessionDto> loginWithCode({
+  Future<AuthLoginResultDto> loginWithCode({
     required String account,
     required String code,
   }) async {
@@ -80,30 +92,61 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
   }
 }
 
+class _FakeAuthLocalDataSource implements AuthLocalDataSource {
+  AuthUserDto? savedUser;
+  int clearCount = 0;
+
+  @override
+  Future<void> clearCurrentUser() async {
+    clearCount += 1;
+    savedUser = null;
+  }
+
+  @override
+  Future<AuthUserDto?> readCurrentUser() async => savedUser;
+
+  @override
+  Future<void> saveCurrentUser(AuthUserDto user) async {
+    savedUser = user;
+  }
+}
+
 void main() {
   group('AuthRepositoryImpl', () {
     late _FakeRemoteDataSource remote;
+    late _FakeAuthLocalDataSource local;
     late InMemoryTokenStore tokenStore;
     late AuthRepositoryImpl repository;
 
     setUp(() {
       remote = _FakeRemoteDataSource();
+      local = _FakeAuthLocalDataSource();
       tokenStore = InMemoryTokenStore();
-      repository = AuthRepositoryImpl(remote: remote, tokenStore: tokenStore);
-    });
-
-    test('loginWithCode persists token pair from response', () async {
-      final session = await repository.loginWithCode(
-        account: 'user@example.com',
-        code: '123456',
+      repository = AuthRepositoryImpl(
+        remote: remote,
+        local: local,
+        tokenStore: tokenStore,
       );
-
-      expect(session.accessToken, 'login-access');
-      expect(await tokenStore.readAccessToken(), 'login-access');
-      expect(await tokenStore.readRefreshToken(), 'login-refresh');
-      expect(remote.lastLoginAccount, 'user@example.com');
-      expect(remote.lastLoginCode, '123456');
     });
+
+    test(
+      'loginWithCode persists token pair and user profile from response',
+      () async {
+        final session = await repository.loginWithCode(
+          account: 'user@example.com',
+          code: '123456',
+        );
+
+        expect(session.accessToken, 'login-access');
+        expect(await tokenStore.readAccessToken(), 'login-access');
+        expect(await tokenStore.readRefreshToken(), 'login-refresh');
+        expect(remote.lastLoginAccount, 'user@example.com');
+        expect(remote.lastLoginCode, '123456');
+        expect(local.savedUser, isNotNull);
+        expect(local.savedUser?.username, 'user@example.com');
+        expect(local.savedUser?.memberLevel, 10);
+      },
+    );
 
     test('restoreSession returns true when access token exists', () async {
       await tokenStore.save(
@@ -137,43 +180,62 @@ void main() {
       },
     );
 
-    test('refreshSession clears local token when refresh fails', () async {
+    test(
+      'refreshSession clears local token and user cache when refresh fails',
+      () async {
+        await tokenStore.save(
+          const TokenPair(
+            accessToken: 'old-access',
+            refreshToken: 'old-refresh',
+          ),
+        );
+        await local.saveCurrentUser(const AuthUserDto(username: 'cached'));
+        remote.refreshError = StateError('refresh failed');
+
+        final refreshed = await repository.refreshSession();
+
+        expect(refreshed, isFalse);
+        expect(await tokenStore.readAccessToken(), isNull);
+        expect(await tokenStore.readRefreshToken(), isNull);
+        expect(local.savedUser, isNull);
+        expect(local.clearCount, greaterThanOrEqualTo(1));
+      },
+    );
+
+    test('logout calls remote revoke and clears local auth cache', () async {
       await tokenStore.save(
         const TokenPair(accessToken: 'old-access', refreshToken: 'old-refresh'),
       );
-      remote.refreshError = StateError('refresh failed');
-
-      final refreshed = await repository.refreshSession();
-
-      expect(refreshed, isFalse);
-      expect(await tokenStore.readAccessToken(), isNull);
-      expect(await tokenStore.readRefreshToken(), isNull);
-    });
-
-    test('logout calls remote revoke and clears local token', () async {
-      await tokenStore.save(
-        const TokenPair(accessToken: 'old-access', refreshToken: 'old-refresh'),
-      );
+      await local.saveCurrentUser(const AuthUserDto(username: 'cached'));
 
       await repository.logout();
 
       expect(remote.lastLogoutAccessToken, 'old-access');
       expect(await tokenStore.readAccessToken(), isNull);
       expect(await tokenStore.readRefreshToken(), isNull);
+      expect(local.savedUser, isNull);
     });
 
-    test('logout still clears local token when remote revoke fails', () async {
-      await tokenStore.save(
-        const TokenPair(accessToken: 'old-access', refreshToken: 'old-refresh'),
-      );
-      remote.logoutError = StateError('network');
+    test(
+      'logout still clears local auth cache when remote revoke fails',
+      () async {
+        await tokenStore.save(
+          const TokenPair(
+            accessToken: 'old-access',
+            refreshToken: 'old-refresh',
+          ),
+        );
+        await local.saveCurrentUser(const AuthUserDto(username: 'cached'));
+        remote.logoutError = StateError('network');
 
-      await repository.logout();
+        await repository.logout();
 
-      expect(remote.lastLogoutAccessToken, 'old-access');
-      expect(await tokenStore.readAccessToken(), isNull);
-      expect(await tokenStore.readRefreshToken(), isNull);
-    });
+        expect(remote.lastLogoutAccessToken, 'old-access');
+        expect(await tokenStore.readAccessToken(), isNull);
+        expect(await tokenStore.readRefreshToken(), isNull);
+        expect(local.savedUser, isNull);
+      },
+    );
 
     test('sendRegisterCode forwards account and intl code', () async {
       await repository.sendRegisterCode(

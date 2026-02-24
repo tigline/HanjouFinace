@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../providers/auth_providers.dart';
+import '../support/code_send_cooldown.dart';
 import 'auth_visual_scaffold.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
@@ -20,23 +21,34 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   late final TextEditingController _codeController;
   bool _isSubmitting = false;
   bool _isSendingCode = false;
+  late final CodeSendCooldown _sendCodeCooldown;
 
   @override
   void initState() {
     super.initState();
     _accountController = TextEditingController();
     _codeController = TextEditingController();
+    _sendCodeCooldown = CodeSendCooldown(
+      onChanged: () {
+        if (mounted) {
+          setState(() {});
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
+    _sendCodeCooldown.dispose();
     _accountController.dispose();
     _codeController.dispose();
     super.dispose();
   }
 
   bool get _canSendCode {
-    return _accountController.text.trim().isNotEmpty && !_isSendingCode;
+    return _accountController.text.trim().isNotEmpty &&
+        !_isSendingCode &&
+        !_sendCodeCooldown.isActive;
   }
 
   bool get _canSubmit {
@@ -55,6 +67,13 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     return fallback;
   }
 
+  String _sendCodeButtonLabel(String defaultLabel) {
+    if (!_sendCodeCooldown.isActive) {
+      return defaultLabel;
+    }
+    return '${_sendCodeCooldown.remainingSeconds}s';
+  }
+
   Future<void> _sendCode() async {
     setState(() {
       _isSendingCode = true;
@@ -68,6 +87,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       if (!mounted) {
         return;
       }
+      _sendCodeCooldown.start();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(context.l10n.forgotPasswordSendCodeSuccess)),
       );
@@ -183,7 +203,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   controller: _codeController,
                   labelText: l10n.forgotPasswordCodeLabel,
                   hintText: l10n.forgotPasswordCodeLabel,
-                  sendCodeLabel: l10n.forgotPasswordSendCode,
+                  sendCodeLabel: _sendCodeButtonLabel(
+                    l10n.forgotPasswordSendCode,
+                  ),
                   inputKey: const Key('forgot_code_input'),
                   sendButtonKey: const Key('forgot_send_code_button'),
                   isSendingCode: _isSendingCode,

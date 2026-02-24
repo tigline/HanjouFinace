@@ -6,14 +6,16 @@ import 'package:member_app_template/app/app.dart';
 import 'package:member_app_template/app/config/app_environment.dart';
 import 'package:member_app_template/app/config/app_flavor.dart';
 import 'package:member_app_template/app/config/environment_provider.dart';
+import 'package:member_app_template/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:member_app_template/features/auth/data/models/auth_user_dto.dart';
 import 'package:member_app_template/features/auth/domain/entities/auth_session.dart';
 import 'package:member_app_template/features/auth/domain/repositories/auth_repository.dart';
 import 'package:member_app_template/features/auth/presentation/providers/auth_providers.dart';
 
 class _SeededTokenStore implements TokenStore {
   _SeededTokenStore({String? accessToken, String? refreshToken})
-      : _accessToken = accessToken,
-        _refreshToken = refreshToken;
+    : _accessToken = accessToken,
+      _refreshToken = refreshToken;
 
   String? _accessToken;
   String? _refreshToken;
@@ -45,6 +47,23 @@ class _FakeTokenRefresher implements TokenRefresher {
   @override
   Future<TokenPair?> refresh(String refreshToken) {
     return _onRefresh(refreshToken);
+  }
+}
+
+class _InMemoryAuthLocalDataSource implements AuthLocalDataSource {
+  AuthUserDto? _user;
+
+  @override
+  Future<void> clearCurrentUser() async {
+    _user = null;
+  }
+
+  @override
+  Future<AuthUserDto?> readCurrentUser() async => _user;
+
+  @override
+  Future<void> saveCurrentUser(AuthUserDto user) async {
+    _user = user;
   }
 }
 
@@ -115,6 +134,9 @@ Future<void> _pumpApp(
         appEnvironmentProvider.overrideWithValue(environment),
         tokenStoreProvider.overrideWithValue(tokenStore),
         tokenRefresherProvider.overrideWithValue(tokenRefresher),
+        authLocalDataSourceProvider.overrideWithValue(
+          _InMemoryAuthLocalDataSource(),
+        ),
         authRepositoryProvider.overrideWithValue(authRepository),
       ],
       child: const MemberTemplateApp(),
@@ -158,7 +180,9 @@ void main() {
       await tester.enterText(find.byType(TextField).at(0), 'user@example.com');
       await tester.enterText(find.byType(TextField).at(1), '123456');
 
-      await tester.ensureVisible(find.byKey(const Key('login_send_code_button')));
+      await tester.ensureVisible(
+        find.byKey(const Key('login_send_code_button')),
+      );
       await tester.tap(find.byKey(const Key('login_send_code_button')));
       await tester.pump();
       await tester.ensureVisible(find.byKey(const Key('login_submit_button')));

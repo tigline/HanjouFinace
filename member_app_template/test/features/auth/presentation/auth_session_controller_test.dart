@@ -1,5 +1,7 @@
 import 'package:core_network/core_network.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:member_app_template/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:member_app_template/features/auth/data/models/auth_user_dto.dart';
 import 'package:member_app_template/features/auth/presentation/providers/auth_providers.dart';
 
 class _SeededTokenStore implements TokenStore {
@@ -44,6 +46,25 @@ class _FakeTokenRefresher implements TokenRefresher {
   }
 }
 
+class _FakeAuthLocalDataSource implements AuthLocalDataSource {
+  bool clearCalled = false;
+  AuthUserDto? cachedUser;
+
+  @override
+  Future<void> clearCurrentUser() async {
+    clearCalled = true;
+    cachedUser = null;
+  }
+
+  @override
+  Future<AuthUserDto?> readCurrentUser() async => cachedUser;
+
+  @override
+  Future<void> saveCurrentUser(AuthUserDto user) async {
+    cachedUser = user;
+  }
+}
+
 void main() {
   group('AuthSessionController', () {
     test('keeps authenticated state when access token exists', () async {
@@ -52,12 +73,14 @@ void main() {
         refreshToken: 'cached-refresh',
       );
       final refresher = _FakeTokenRefresher((_) async => null);
+      final local = _FakeAuthLocalDataSource();
 
-      final controller = AuthSessionController(tokenStore, refresher);
+      final controller = AuthSessionController(tokenStore, refresher, local);
       await controller.refresh();
 
       expect(controller.state.value, isTrue);
       expect(refresher.refreshCalled, 0);
+      expect(local.clearCalled, isFalse);
     });
 
     test('refreshes with refresh token when access token missing', () async {
@@ -69,30 +92,36 @@ void main() {
           refreshToken: 'new-refresh',
         );
       });
+      final local = _FakeAuthLocalDataSource();
 
-      final controller = AuthSessionController(tokenStore, refresher);
+      final controller = AuthSessionController(tokenStore, refresher, local);
       await controller.refresh();
 
       expect(controller.state.value, isTrue);
       expect(await tokenStore.readAccessToken(), 'new-access');
       expect(await tokenStore.readRefreshToken(), 'new-refresh');
+      expect(local.clearCalled, isFalse);
     });
 
     test(
-      'falls back to unauthenticated and clears token on refresh failure',
+      'falls back to unauthenticated and clears token and cached user on refresh failure',
       () async {
         final tokenStore = _SeededTokenStore(refreshToken: 'old-refresh');
         final refresher = _FakeTokenRefresher((_) async {
           throw StateError('refresh failed');
         });
+        final local = _FakeAuthLocalDataSource()
+          ..cachedUser = const AuthUserDto(username: 'cached-user');
 
-        final controller = AuthSessionController(tokenStore, refresher);
+        final controller = AuthSessionController(tokenStore, refresher, local);
         await controller.refresh();
 
         expect(controller.state.value, isFalse);
         expect(tokenStore.clearCalled, isTrue);
         expect(await tokenStore.readAccessToken(), isNull);
         expect(await tokenStore.readRefreshToken(), isNull);
+        expect(local.clearCalled, isTrue);
+        expect(local.cachedUser, isNull);
       },
     );
   });

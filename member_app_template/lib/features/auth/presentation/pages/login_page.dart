@@ -7,6 +7,7 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import 'auth_visual_scaffold.dart';
 import '../controllers/auth_controller.dart';
 import '../providers/auth_providers.dart';
+import '../support/code_send_cooldown.dart';
 import '../state/auth_state.dart';
 
 enum _LoginChannel { mobile, email }
@@ -25,6 +26,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   late final TextEditingController _codeController;
   _LoginChannel _loginChannel = _LoginChannel.mobile;
   String? _localValidationError;
+  late final CodeSendCooldown _sendCodeCooldown;
 
   bool get _isEmailMode => _loginChannel == _LoginChannel.email;
 
@@ -119,7 +121,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!_ensureValidAccountForSelectedMode(context)) {
       return;
     }
-    await controller.sendCode();
+    final sent = await controller.sendCode();
+    if (sent) {
+      _sendCodeCooldown.start();
+    }
   }
 
   Future<void> _handleLogin(AuthController controller) async {
@@ -129,15 +134,30 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     await controller.login();
   }
 
+  String _sendCodeButtonLabel(String defaultLabel) {
+    if (!_sendCodeCooldown.isActive) {
+      return defaultLabel;
+    }
+    return '${_sendCodeCooldown.remainingSeconds}s';
+  }
+
   @override
   void initState() {
     super.initState();
     _accountController = TextEditingController();
     _codeController = TextEditingController();
+    _sendCodeCooldown = CodeSendCooldown(
+      onChanged: () {
+        if (mounted) {
+          setState(() {});
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
+    _sendCodeCooldown.dispose();
     _accountController.dispose();
     _codeController.dispose();
     super.dispose();
@@ -154,6 +174,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         (state.errorKey != null
             ? _resolveErrorMessage(context, state.errorKey!)
             : null);
+    final canSendCode = state.canSendCode && !_sendCodeCooldown.isActive;
 
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       if (previous?.session == null && next.session != null && mounted) {
@@ -275,13 +296,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   controller: _codeController,
                   labelText: l10n.loginCodeLabel,
                   hintText: l10n.loginCodeLabel,
-                  sendCodeLabel: l10n.loginSendCode,
+                  sendCodeLabel: _sendCodeButtonLabel(l10n.loginSendCode),
                   inputKey: const Key('login_code_input'),
                   sendButtonKey: const Key('login_send_code_button'),
                   isSendingCode: state.isSendingCode,
                   onChanged: (String value) =>
                       _onCodeChanged(value, controller),
-                  onSendCode: state.canSendCode
+                  onSendCode: canSendCode
                       ? () => _handleSendCode(controller)
                       : null,
                   buttonWidth: 132,

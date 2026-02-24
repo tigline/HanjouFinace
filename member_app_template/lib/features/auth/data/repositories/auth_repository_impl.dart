@@ -2,17 +2,30 @@ import 'package:core_network/core_network.dart';
 
 import '../../domain/entities/auth_session.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_local_data_source.dart';
 import '../datasources/auth_remote_data_source.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
     required AuthRemoteDataSource remote,
+    required AuthLocalDataSource local,
     required TokenStore tokenStore,
   }) : _remote = remote,
+       _local = local,
        _tokenStore = tokenStore;
 
   final AuthRemoteDataSource _remote;
+  final AuthLocalDataSource _local;
   final TokenStore _tokenStore;
+
+  Future<void> _clearPersistedAuth() async {
+    await _tokenStore.clear();
+    try {
+      await _local.clearCurrentUser();
+    } catch (_) {
+      // User cache should not block auth recovery/logout.
+    }
+  }
 
   @override
   Future<void> sendLoginCode({required String account}) {
@@ -32,11 +45,21 @@ class AuthRepositoryImpl implements AuthRepository {
     required String account,
     required String code,
   }) async {
-    final dto = await _remote.loginWithCode(account: account, code: code);
+    final result = await _remote.loginWithCode(account: account, code: code);
     await _tokenStore.save(
-      TokenPair(accessToken: dto.accessToken, refreshToken: dto.refreshToken),
+      TokenPair(
+        accessToken: result.session.accessToken,
+        refreshToken: result.session.refreshToken,
+      ),
     );
-    return dto.toEntity();
+    if (result.user != null) {
+      try {
+        await _local.saveCurrentUser(result.user!);
+      } catch (_) {
+        // Token login should succeed even when user cache persistence fails.
+      }
+    }
+    return result.session.toEntity();
   }
 
   @override
@@ -68,14 +91,14 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<bool> refreshSession() async {
     final refreshToken = await _tokenStore.readRefreshToken();
     if (refreshToken == null || refreshToken.trim().isEmpty) {
-      await _tokenStore.clear();
+      await _clearPersistedAuth();
       return false;
     }
 
     try {
       final dto = await _remote.refreshSession(refreshToken: refreshToken);
       if (dto == null) {
-        await _tokenStore.clear();
+        await _clearPersistedAuth();
         return false;
       }
       await _tokenStore.save(
@@ -83,7 +106,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
       return true;
     } catch (_) {
-      await _tokenStore.clear();
+      await _clearPersistedAuth();
       return false;
     }
   }
@@ -98,7 +121,7 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (_) {
       // Always clear local auth state even when remote revoke fails.
     } finally {
-      await _tokenStore.clear();
+      await _clearPersistedAuth();
     }
   }
 }

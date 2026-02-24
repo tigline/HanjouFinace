@@ -18,18 +18,20 @@ class AuthController extends StateNotifier<AuthState> {
     state = state.copyWith(code: value, clearError: true);
   }
 
-  Future<void> sendCode() async {
-    if (!state.canSendCode) return;
+  Future<bool> sendCode() async {
+    if (!state.canSendCode) return false;
     state = state.copyWith(isSendingCode: true, clearError: true);
 
     try {
       await _sendCode.call(account: state.account.trim());
       state = state.copyWith(isSendingCode: false);
+      return true;
     } catch (_) {
       state = state.copyWith(
         isSendingCode: false,
         errorKey: AuthErrorKey.sendCodeFailed,
       );
+      return false;
     }
   }
 

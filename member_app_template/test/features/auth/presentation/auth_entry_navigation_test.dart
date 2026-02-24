@@ -6,6 +6,8 @@ import 'package:member_app_template/app/app.dart';
 import 'package:member_app_template/app/config/app_environment.dart';
 import 'package:member_app_template/app/config/app_flavor.dart';
 import 'package:member_app_template/app/config/environment_provider.dart';
+import 'package:member_app_template/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:member_app_template/features/auth/data/models/auth_user_dto.dart';
 import 'package:member_app_template/features/auth/domain/entities/auth_session.dart';
 import 'package:member_app_template/features/auth/domain/repositories/auth_repository.dart';
 import 'package:member_app_template/features/auth/presentation/providers/auth_providers.dart';
@@ -45,6 +47,23 @@ class _FakeTokenRefresher implements TokenRefresher {
   @override
   Future<TokenPair?> refresh(String refreshToken) {
     return _onRefresh(refreshToken);
+  }
+}
+
+class _InMemoryAuthLocalDataSource implements AuthLocalDataSource {
+  AuthUserDto? _user;
+
+  @override
+  Future<void> clearCurrentUser() async {
+    _user = null;
+  }
+
+  @override
+  Future<AuthUserDto?> readCurrentUser() async => _user;
+
+  @override
+  Future<void> saveCurrentUser(AuthUserDto user) async {
+    _user = user;
   }
 }
 
@@ -102,6 +121,9 @@ Future<void> _pumpApp(WidgetTester tester) async {
         tokenStoreProvider.overrideWithValue(_SeededTokenStore()),
         tokenRefresherProvider.overrideWithValue(
           _FakeTokenRefresher((_) async => null),
+        ),
+        authLocalDataSourceProvider.overrideWithValue(
+          _InMemoryAuthLocalDataSource(),
         ),
         authRepositoryProvider.overrideWithValue(_FakeAuthRepository()),
       ],

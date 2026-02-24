@@ -10,8 +10,10 @@ import '../../../../app/config/environment_provider.dart';
 import '../../../../app/network/app_observability_interceptor.dart';
 import '../../../../app/observability/app_observability_providers.dart';
 import '../../../../app/storage/app_storage_providers.dart';
+import '../../data/datasources/auth_local_data_source.dart';
 import '../../data/datasources/auth_remote_data_source.dart';
 import '../../data/repositories/auth_repository_impl.dart';
+import '../../domain/entities/auth_user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/register_account_usecase.dart';
 import '../../domain/usecases/login_with_code_usecase.dart';
@@ -25,14 +27,35 @@ final tokenStoreProvider = Provider<TokenStore>((ref) {
   return PersistentTokenStore(ref.watch(secureKeyValueStorageProvider));
 });
 
+final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
+  return AuthLocalDataSourceImpl(ref.watch(largeDataStoreProvider));
+});
+
+final currentAuthUserProvider = FutureProvider<AuthUser?>((ref) async {
+  final cachedUser = await ref
+      .watch(authLocalDataSourceProvider)
+      .readCurrentUser();
+  return cachedUser?.toEntity();
+});
+
 class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
-  AuthSessionController(this._tokenStore, this._tokenRefresher)
+  AuthSessionController(this._tokenStore, this._tokenRefresher, this._authLocal)
     : super(const AsyncValue.loading()) {
     unawaited(refresh());
   }
 
   final TokenStore _tokenStore;
   final TokenRefresher _tokenRefresher;
+  final AuthLocalDataSource _authLocal;
+
+  Future<void> _clearPersistedAuth() async {
+    await _tokenStore.clear();
+    try {
+      await _authLocal.clearCurrentUser();
+    } catch (_) {
+      // Hive may be unavailable in lightweight test environments.
+    }
+  }
 
   Future<void> refresh() async {
     try {
@@ -44,13 +67,14 @@ class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
 
       final refreshToken = await _tokenStore.readRefreshToken();
       if (refreshToken == null || refreshToken.trim().isEmpty) {
+        await _clearPersistedAuth();
         state = const AsyncValue.data(false);
         return;
       }
 
       final refreshedPair = await _tokenRefresher.refresh(refreshToken);
       if (refreshedPair == null) {
-        await _tokenStore.clear();
+        await _clearPersistedAuth();
         state = const AsyncValue.data(false);
         return;
       }
@@ -58,7 +82,7 @@ class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
       await _tokenStore.save(refreshedPair);
       state = const AsyncValue.data(true);
     } catch (_) {
-      await _tokenStore.clear();
+      await _clearPersistedAuth();
       state = const AsyncValue.data(false);
     }
   }
@@ -68,6 +92,11 @@ class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
   }
 
   Future<void> markUnauthenticated() async {
+    try {
+      await _authLocal.clearCurrentUser();
+    } catch (_) {
+      // Hive may be unavailable in lightweight test environments.
+    }
     state = const AsyncValue.data(false);
   }
 }
@@ -77,6 +106,7 @@ final authSessionProvider =
       return AuthSessionController(
         ref.watch(tokenStoreProvider),
         ref.watch(tokenRefresherProvider),
+        ref.watch(authLocalDataSourceProvider),
       );
     });
 
@@ -145,6 +175,7 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(
     remote: ref.watch(authRemoteDataSourceProvider),
+    local: ref.watch(authLocalDataSourceProvider),
     tokenStore: ref.watch(tokenStoreProvider),
   );
 });

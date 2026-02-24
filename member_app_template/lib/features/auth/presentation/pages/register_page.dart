@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../app/config/api_paths.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../providers/auth_providers.dart';
+import '../support/code_send_cooldown.dart';
 import 'auth_visual_scaffold.dart';
 
 enum _RegisterChannel { mobile, email }
@@ -28,6 +29,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   bool _acceptPolicy = false;
   bool _isSubmitting = false;
   bool _isSendingCode = false;
+  late final CodeSendCooldown _sendCodeCooldown;
 
   @override
   void initState() {
@@ -35,10 +37,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     _accountController = TextEditingController();
     _codeController = TextEditingController();
     _contactController = TextEditingController();
+    _sendCodeCooldown = CodeSendCooldown(
+      onChanged: () {
+        if (mounted) {
+          setState(() {});
+        }
+      },
+    );
   }
 
   @override
   void dispose() {
+    _sendCodeCooldown.dispose();
     _accountController.dispose();
     _codeController.dispose();
     _contactController.dispose();
@@ -69,7 +79,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   }
 
   bool get _canSendCode {
-    return _isAccountFormatValid && !_isSendingCode;
+    return _isAccountFormatValid &&
+        !_isSendingCode &&
+        !_sendCodeCooldown.isActive;
   }
 
   bool get _canSubmit {
@@ -147,6 +159,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     return fallback;
   }
 
+  String _sendCodeButtonLabel(String defaultLabel) {
+    if (!_sendCodeCooldown.isActive) {
+      return defaultLabel;
+    }
+    return '${_sendCodeCooldown.remainingSeconds}s';
+  }
+
   Future<void> _sendCode() async {
     final l10n = context.l10n;
     if (!await _ensureValidAccountInput()) {
@@ -165,6 +184,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       if (!mounted) {
         return;
       }
+      _sendCodeCooldown.start();
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.registerSendCodeSuccess)));
@@ -352,7 +372,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   controller: _codeController,
                   labelText: l10n.registerCodeLabel,
                   hintText: l10n.registerCodeLabel,
-                  sendCodeLabel: l10n.registerSendCode,
+                  sendCodeLabel: _sendCodeButtonLabel(l10n.registerSendCode),
                   inputKey: const Key('register_code_input'),
                   sendButtonKey: const Key('register_send_code_button'),
                   isSendingCode: _isSendingCode,

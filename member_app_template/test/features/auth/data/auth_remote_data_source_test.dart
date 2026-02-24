@@ -126,7 +126,7 @@ void main() {
     );
 
     test(
-      'loginWithCode uses oauth token endpoint and parses response',
+      'loginWithCode uses oauth token endpoint and parses wrapped response',
       () async {
         final client = _buildClient((options) async {
           expect(options.method, 'POST');
@@ -146,18 +146,22 @@ void main() {
           expect(body['scope'], 'app');
 
           return _jsonOk(
-            '{"access_token":"newA","refresh_token":"newR","expires_in":3600}',
+            '{"msg":"success","code":200,"data":{"access_token":"newA","refresh_token":"newR","expires_in":3600,"userId":126575,"memberLevel":10,"usename":"user@example.com","intlTelCode":""}}',
           );
         });
         final source = AuthRemoteDataSourceImpl(client);
 
-        final dto = await source.loginWithCode(
+        final result = await source.loginWithCode(
           account: 'user@example.com',
           code: '123456',
         );
 
-        expect(dto.accessToken, 'newA');
-        expect(dto.refreshToken, 'newR');
+        expect(result.session.accessToken, 'newA');
+        expect(result.session.refreshToken, 'newR');
+        expect(result.user, isNotNull);
+        expect(result.user?.userId, 126575);
+        expect(result.user?.memberLevel, 10);
+        expect(result.user?.username, 'user@example.com');
       },
     );
 

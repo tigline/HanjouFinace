@@ -2,7 +2,9 @@ import 'package:core_network/core_network.dart';
 import 'package:encrypt/encrypt.dart' as crypto;
 
 import '../../../../app/config/api_paths.dart';
+import '../models/auth_login_result_dto.dart';
 import '../models/auth_session_dto.dart';
+import '../models/auth_user_dto.dart';
 
 abstract class AuthRemoteDataSource {
   Future<void> sendLoginCode({required String account});
@@ -10,7 +12,7 @@ abstract class AuthRemoteDataSource {
     required String account,
     required String intlCode,
   });
-  Future<AuthSessionDto> loginWithCode({
+  Future<AuthLoginResultDto> loginWithCode({
     required String account,
     required String code,
   });
@@ -48,6 +50,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return <String, dynamic>{};
   }
 
+  bool _looksLikeLegacyEnvelope(Map<String, dynamic> payload) {
+    return payload.containsKey('code') ||
+        payload.containsKey('msg') ||
+        payload.containsKey('data');
+  }
+
+  bool _hasOauthTokenFields(Map<String, dynamic> payload) {
+    return payload.containsKey('access_token') ||
+        payload.containsKey('refresh_token') ||
+        payload.containsKey('accessToken') ||
+        payload.containsKey('refreshToken');
+  }
+
   bool _isLegacySuccessResponse(Map<String, dynamic> payload) {
     final code = payload['code'];
     final data = payload['data'];
@@ -81,19 +96,57 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     throw StateError(message.toString());
   }
 
+  void _assertLegacyBoolSuccessIfPresent(
+    Map<String, dynamic> payload, {
+    required String fallbackMessage,
+  }) {
+    if (payload.isEmpty || !_looksLikeLegacyEnvelope(payload)) {
+      return;
+    }
+    if (!_isLegacySuccessResponse(payload)) {
+      _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
+    }
+  }
+
+  Map<String, dynamic> _extractTokenPayload(
+    Map<String, dynamic> payload, {
+    required String fallbackMessage,
+  }) {
+    if (payload.isEmpty) {
+      return payload;
+    }
+
+    if (_hasOauthTokenFields(payload)) {
+      return payload;
+    }
+
+    if (_looksLikeLegacyEnvelope(payload)) {
+      if (!_isLegacySuccessResponse(payload)) {
+        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
+      }
+      return _toJsonMap(payload['data']);
+    }
+
+    return payload;
+  }
+
   @override
   Future<void> sendLoginCode({required String account}) async {
     final normalizedAccount = account.trim();
     if (_isEmailAccount(normalizedAccount)) {
-      await _client.dio.get<void>(
+      final response = await _client.dio.get<Map<String, dynamic>>(
         LegacyApiPath.emailLoginCode,
         queryParameters: <String, dynamic>{'email': normalizedAccount},
         options: authRequired(false),
       );
+      _assertLegacyBoolSuccessIfPresent(
+        _toJsonMap(response.data),
+        fallbackMessage: 'Failed to send login code.',
+      );
       return;
     }
 
-    await _client.dio.get<void>(
+    final response = await _client.dio.get<Map<String, dynamic>>(
       LegacyApiPath.smsCode,
       queryParameters: <String, dynamic>{
         'mobile': normalizedAccount,
@@ -103,6 +156,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       options: authRequired(
         false,
       ).copyWith(contentType: Headers.formUrlEncodedContentType),
+    );
+    _assertLegacyBoolSuccessIfPresent(
+      _toJsonMap(response.data),
+      fallbackMessage: 'Failed to send login code.',
     );
   }
 
@@ -122,13 +179,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         queryParameters: <String, dynamic>{'email': normalizedAccount},
         options: authRequired(false),
       );
-      final payload = _toJsonMap(response.data);
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(
-          payload,
-          fallbackMessage: 'Failed to send registration code.',
-        );
-      }
+      _assertLegacyBoolSuccessIfPresent(
+        _toJsonMap(response.data),
+        fallbackMessage: 'Failed to send registration code.',
+      );
       return;
     }
 
@@ -143,17 +197,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         false,
       ).copyWith(contentType: Headers.formUrlEncodedContentType),
     );
-    final payload = _toJsonMap(response.data);
-    if (!_isLegacySuccessResponse(payload)) {
-      _throwLegacyFailure(
-        payload,
-        fallbackMessage: 'Failed to send registration code.',
-      );
-    }
+    _assertLegacyBoolSuccessIfPresent(
+      _toJsonMap(response.data),
+      fallbackMessage: 'Failed to send registration code.',
+    );
   }
 
   @override
-  Future<AuthSessionDto> loginWithCode({
+  Future<AuthLoginResultDto> loginWithCode({
     required String account,
     required String code,
   }) async {
@@ -178,7 +229,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ),
     );
 
-    return AuthSessionDto.fromJson(response.data ?? <String, dynamic>{});
+    final payload = _extractTokenPayload(
+      _toJsonMap(response.data),
+      fallbackMessage: 'Login failed.',
+    );
+    final session = AuthSessionDto.fromJson(payload);
+    final user = AuthUserDto.tryFromLoginPayload(payload);
+    return AuthLoginResultDto(session: session, user: user);
   }
 
   @override
@@ -221,12 +278,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ).copyWith(contentType: Headers.jsonContentType),
     );
     final responsePayload = _toJsonMap(response.data);
-    if (!_isLegacySuccessResponse(responsePayload)) {
-      _throwLegacyFailure(
-        responsePayload,
-        fallbackMessage: 'Registration failed.',
-      );
-    }
+    _assertLegacyBoolSuccessIfPresent(
+      responsePayload,
+      fallbackMessage: 'Registration failed.',
+    );
   }
 
   @override
@@ -250,13 +305,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ),
     );
 
-    final data = response.data;
-    if (data == null) {
+    final rawPayload = _toJsonMap(response.data);
+    if (rawPayload.isEmpty) {
+      return null;
+    }
+
+    final tokenPayload = _extractTokenPayload(
+      rawPayload,
+      fallbackMessage: 'Failed to refresh session.',
+    );
+    if (tokenPayload.isEmpty) {
       return null;
     }
 
     try {
-      return AuthSessionDto.fromJson(data);
+      return AuthSessionDto.fromJson(tokenPayload);
     } on FormatException {
       return null;
     }
