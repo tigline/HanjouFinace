@@ -109,31 +109,31 @@ class AuthVisualScaffold extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 14),
-                        const SizedBox(
-                          height: 182,
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: <Widget>[
-                              Positioned.fill(
-                                child: HotelDealBannerCard(
-                                  title: 'BaLi Motel Vung Tau',
-                                  location: 'Indonesia',
-                                  priceText: '\$580/night',
-                                  ratingText: '4.9',
-                                  discountText: 'Member',
-                                  height: 182,
-                                ),
-                              ),
-                              Positioned(
-                                right: 12,
-                                bottom: -16,
-                                child: HotelPhotoCountBadge(
-                                  label: 'Hotel Style',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // const SizedBox(
+                        //   height: 182,
+                        //   child: Stack(
+                        //     clipBehavior: Clip.none,
+                        //     children: <Widget>[
+                        //       Positioned.fill(
+                        //         child: HotelDealBannerCard(
+                        //           title: 'BaLi Motel Vung Tau',
+                        //           location: 'Indonesia',
+                        //           priceText: '\$580/night',
+                        //           ratingText: '4.9',
+                        //           discountText: 'Member',
+                        //           height: 182,
+                        //         ),
+                        //       ),
+                        //       Positioned(
+                        //         right: 12,
+                        //         bottom: -16,
+                        //         child: HotelPhotoCountBadge(
+                        //           label: 'Hotel Style',
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         const SizedBox(height: 30),
                         Container(
                           width: double.infinity,
