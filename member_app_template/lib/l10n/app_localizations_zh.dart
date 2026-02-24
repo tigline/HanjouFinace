@@ -18,6 +18,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginAccountLabel => '手机号或邮箱';
 
   @override
+  String get loginModeTitle => '请选择登录方式';
+
+  @override
   String get loginCodeLabel => '验证码';
 
   @override
@@ -42,13 +45,34 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginErrorInvalidCode => '登录失败，请检查验证码';
 
   @override
+  String get loginEmailAccountInvalid => '邮箱登录请填写有效邮箱地址。';
+
+  @override
+  String get loginMobileAccountInvalid => '手机登录请填写有效手机号。';
+
+  @override
   String get registerTitle => '创建账号';
 
   @override
   String get registerSubtitle => '开通安全账号，统一管理投资、订房与会员权益。';
 
   @override
+  String get registerModeTitle => '注册方式';
+
+  @override
+  String get authModeEmail => '邮箱';
+
+  @override
+  String get authModeMobile => '手机';
+
+  @override
   String get registerAccountLabel => '手机号或邮箱';
+
+  @override
+  String get registerEmailAccountLabel => '邮箱';
+
+  @override
+  String get registerMobileAccountLabel => '手机号';
 
   @override
   String get registerCodeLabel => '验证码';
@@ -109,6 +133,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get registerEmailMobileRequired => '邮箱注册必须填写手机号。';
+
+  @override
+  String get registerEmailAccountInvalid => '邮箱注册请填写有效邮箱地址。';
+
+  @override
+  String get registerMobileAccountInvalid => '手机注册请填写有效手机号。';
 
   @override
   String get registerSubmitFailed => '注册失败，请稍后重试。';

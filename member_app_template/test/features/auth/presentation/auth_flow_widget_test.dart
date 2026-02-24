@@ -12,8 +12,8 @@ import 'package:member_app_template/features/auth/presentation/providers/auth_pr
 
 class _SeededTokenStore implements TokenStore {
   _SeededTokenStore({String? accessToken, String? refreshToken})
-    : _accessToken = accessToken,
-      _refreshToken = refreshToken;
+      : _accessToken = accessToken,
+        _refreshToken = refreshToken;
 
   String? _accessToken;
   String? _refreshToken;
@@ -153,9 +153,12 @@ void main() {
       await _pumpUntilVisible(tester, find.byType(TextField));
       expect(find.byType(TextField), findsNWidgets(2));
 
+      await tester.tap(find.byKey(const Key('login_mode_email_button')));
+      await tester.pumpAndSettle();
       await tester.enterText(find.byType(TextField).at(0), 'user@example.com');
       await tester.enterText(find.byType(TextField).at(1), '123456');
 
+      await tester.ensureVisible(find.byKey(const Key('login_send_code_button')));
       await tester.tap(find.byKey(const Key('login_send_code_button')));
       await tester.pump();
       await tester.ensureVisible(find.byKey(const Key('login_submit_button')));

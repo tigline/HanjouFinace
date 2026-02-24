@@ -19,6 +19,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginAccountLabel => 'Phone number or email';
 
   @override
+  String get loginModeTitle => 'Choose login method';
+
+  @override
   String get loginCodeLabel => 'Verification code';
 
   @override
@@ -46,6 +49,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Sign in failed. Please verify your code.';
 
   @override
+  String get loginEmailAccountInvalid =>
+      'Please enter a valid email address for email sign in.';
+
+  @override
+  String get loginMobileAccountInvalid =>
+      'Please enter a valid phone number for phone sign in.';
+
+  @override
   String get registerTitle => 'Create your account';
 
   @override
@@ -53,7 +64,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Set up secure access for investment, stays, and member privileges.';
 
   @override
+  String get registerModeTitle => 'Registration method';
+
+  @override
+  String get authModeEmail => 'Email';
+
+  @override
+  String get authModeMobile => 'Phone';
+
+  @override
   String get registerAccountLabel => 'Phone number or email';
+
+  @override
+  String get registerEmailAccountLabel => 'Email address';
+
+  @override
+  String get registerMobileAccountLabel => 'Phone number';
 
   @override
   String get registerCodeLabel => 'Verification code';
@@ -121,6 +147,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get registerEmailMobileRequired =>
       'Mobile number is required for email registration.';
+
+  @override
+  String get registerEmailAccountInvalid =>
+      'Please enter a valid email address for email registration.';
+
+  @override
+  String get registerMobileAccountInvalid =>
+      'Please enter a valid phone number for phone registration.';
 
   @override
   String get registerSubmitFailed => 'Registration failed. Please try again.';

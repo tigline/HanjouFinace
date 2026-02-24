@@ -9,6 +9,8 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../providers/auth_providers.dart';
 import 'auth_visual_scaffold.dart';
 
+enum _RegisterChannel { mobile, email }
+
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
@@ -17,9 +19,12 @@ class RegisterPage extends ConsumerStatefulWidget {
 }
 
 class _RegisterPageState extends ConsumerState<RegisterPage> {
+  static final RegExp _mobileRegExp = RegExp(r'^[0-9+\-()\s]{6,20}$');
+
   late final TextEditingController _accountController;
   late final TextEditingController _codeController;
   late final TextEditingController _contactController;
+  _RegisterChannel _registerChannel = _RegisterChannel.mobile;
   bool _acceptPolicy = false;
   bool _isSubmitting = false;
   bool _isSendingCode = false;
@@ -40,22 +45,72 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.dispose();
   }
 
-  bool get _isEmailAccount => _accountController.text.contains('@');
+  bool get _isEmailMode => _registerChannel == _RegisterChannel.email;
+
+  bool _looksLikeEmail(String value) {
+    final normalized = value.trim();
+    return normalized.contains('@') && normalized.contains('.');
+  }
+
+  bool _looksLikeMobile(String value) {
+    final normalized = value.trim();
+    if (normalized.isEmpty || normalized.contains('@')) {
+      return false;
+    }
+    return _mobileRegExp.hasMatch(normalized);
+  }
+
+  String get _accountValue => _accountController.text.trim();
+
+  bool get _isAccountFormatValid {
+    return _isEmailMode
+        ? _looksLikeEmail(_accountValue)
+        : _looksLikeMobile(_accountValue);
+  }
 
   bool get _canSendCode {
-    return _accountController.text.trim().isNotEmpty && !_isSendingCode;
+    return _isAccountFormatValid && !_isSendingCode;
   }
 
   bool get _canSubmit {
     final hasRequiredFields =
-        _accountController.text.trim().isNotEmpty &&
-        _codeController.text.trim().isNotEmpty;
-    final hasEmailContact =
-        !_isEmailAccount || _contactController.text.trim().isNotEmpty;
+        _isAccountFormatValid && _codeController.text.trim().isNotEmpty;
+    final hasRequiredContact =
+        !_isEmailMode || _contactController.text.trim().isNotEmpty;
     return hasRequiredFields &&
-        hasEmailContact &&
+        hasRequiredContact &&
         _acceptPolicy &&
         !_isSubmitting;
+  }
+
+  String _invalidAccountMessage(BuildContext context) {
+    final l10n = context.l10n;
+    return _isEmailMode
+        ? l10n.registerEmailAccountInvalid
+        : l10n.registerMobileAccountInvalid;
+  }
+
+  void _switchChannel(_RegisterChannel channel) {
+    if (_registerChannel == channel) {
+      return;
+    }
+    setState(() {
+      _registerChannel = channel;
+      _codeController.clear();
+    });
+  }
+
+  Future<bool> _ensureValidAccountInput() async {
+    if (_isAccountFormatValid) {
+      return true;
+    }
+    if (!mounted) {
+      return false;
+    }
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(_invalidAccountMessage(context))));
+    return false;
   }
 
   Future<void> _showPolicySheet() {
@@ -94,6 +149,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _sendCode() async {
     final l10n = context.l10n;
+    if (!await _ensureValidAccountInput()) {
+      return;
+    }
+
     setState(() {
       _isSendingCode = true;
     });
@@ -101,10 +160,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     try {
       await ref
           .read(sendRegisterCodeUseCaseProvider)
-          .call(
-            account: _accountController.text.trim(),
-            intlCode: defaultIntlCode,
-          );
+          .call(account: _accountValue, intlCode: defaultIntlCode);
 
       if (!mounted) {
         return;
@@ -132,7 +188,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _submit() async {
     final l10n = context.l10n;
-    if (_isEmailAccount && _contactController.text.trim().isEmpty) {
+    if (!await _ensureValidAccountInput()) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+
+    if (_isEmailMode && _contactController.text.trim().isEmpty) {
       await AppDialogs.showAdaptiveAlert<void>(
         context: context,
         title: l10n.registerPolicyTitle,
@@ -152,7 +215,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       await ref
           .read(registerAccountUseCaseProvider)
           .call(
-            account: _accountController.text.trim(),
+            account: _accountValue,
             code: _codeController.text.trim(),
             intlCode: defaultIntlCode,
             contact: _contactController.text.trim(),
@@ -219,8 +282,35 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           HotelSurfacePanelCard(
+            title: l10n.registerModeTitle,
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: _RegisterChannelChip(
+                    key: const Key('register_mode_mobile_button'),
+                    label: l10n.authModeMobile,
+                    icon: Icons.phone_iphone_rounded,
+                    selected: _registerChannel == _RegisterChannel.mobile,
+                    onTap: () => _switchChannel(_RegisterChannel.mobile),
+                  ),
+                ),
+                const SizedBox(width: UiTokens.spacing8),
+                Expanded(
+                  child: _RegisterChannelChip(
+                    key: const Key('register_mode_email_button'),
+                    label: l10n.authModeEmail,
+                    icon: Icons.alternate_email_rounded,
+                    selected: _registerChannel == _RegisterChannel.email,
+                    onTap: () => _switchChannel(_RegisterChannel.email),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: UiTokens.spacing12),
+          HotelSurfacePanelCard(
             title: l10n.registerAccountLabel,
-            subtitle: l10n.registerSubtitle,
             leading: Container(
               width: 38,
               height: 38,
@@ -229,7 +319,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
-                Icons.badge_outlined,
+                _isEmailMode
+                    ? Icons.alternate_email_rounded
+                    : Icons.phone_iphone_rounded,
                 size: 20,
                 color: travelTheme?.primaryButtonColor,
               ),
@@ -237,14 +329,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                HotelEmailTextField(
-                  controller: _accountController,
-                  inputKey: const Key('register_account_input'),
-                  labelText: l10n.registerAccountLabel,
-                  hintText: l10n.registerAccountLabel,
-                  leadingIcon: Icons.person_outline_rounded,
-                  onChanged: (_) => setState(() {}),
-                ),
+                (_isEmailMode
+                        ? HotelEmailTextField(
+                            controller: _accountController,
+                            inputKey: const Key('register_account_input'),
+                            labelText: l10n.registerEmailAccountLabel,
+                            hintText: l10n.registerEmailAccountLabel,
+                            leadingIcon: Icons.alternate_email_rounded,
+                            onChanged: (_) => setState(() {}),
+                          )
+                        : HotelPhoneTextField(
+                            controller: _accountController,
+                            inputKey: const Key('register_account_input'),
+                            labelText: l10n.registerMobileAccountLabel,
+                            hintText: l10n.registerMobileAccountLabel,
+                            leadingIcon: Icons.phone_iphone_rounded,
+                            onChanged: (_) => setState(() {}),
+                          ))
+                    as Widget,
                 const SizedBox(height: UiTokens.spacing12),
                 HotelVerificationCodeField(
                   controller: _codeController,
@@ -264,7 +366,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           const SizedBox(height: UiTokens.spacing12),
           HotelSurfacePanelCard(
             title: l10n.registerContactLabel,
-            subtitle: _isEmailAccount
+            subtitle: _isEmailMode
                 ? l10n.registerContactHelperEmail
                 : l10n.registerContactHelperMobile,
             leading: Container(
@@ -277,7 +379,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
-                Icons.verified_user_outlined,
+                _isEmailMode ? Icons.phone_outlined : Icons.email_outlined,
                 size: 20,
                 color: travelTheme?.discountChipBackgroundColor,
               ),
@@ -285,7 +387,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                (_isEmailAccount
+                (_isEmailMode
                         ? HotelPhoneTextField(
                             controller: _contactController,
                             inputKey: const Key('register_contact_input'),
@@ -375,6 +477,82 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             onPressed: _canSubmit ? _submit : null,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _RegisterChannelChip extends StatelessWidget {
+  const _RegisterChannelChip({
+    super.key,
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final travelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final radius = BorderRadius.circular(16);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 160),
+      curve: Curves.easeOutCubic,
+      decoration: BoxDecoration(
+        color: selected
+            ? travelTheme.primaryButtonColor.withValues(alpha: 0.14)
+            : theme.colorScheme.surface.withValues(alpha: 0.7),
+        borderRadius: radius,
+        border: Border.all(
+          color: selected
+              ? travelTheme.primaryButtonColor.withValues(alpha: 0.45)
+              : travelTheme.cardBorderColor.withValues(alpha: 0.95),
+          width: selected ? 1.2 : 1,
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: radius,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  icon,
+                  size: 18,
+                  color: selected
+                      ? travelTheme.primaryButtonColor
+                      : travelTheme.categoryIdleIconColor,
+                ),
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: (theme.textTheme.labelLarge ?? const TextStyle())
+                        .copyWith(
+                          color: selected
+                              ? travelTheme.primaryButtonColor
+                              : theme.textTheme.bodyMedium?.color,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

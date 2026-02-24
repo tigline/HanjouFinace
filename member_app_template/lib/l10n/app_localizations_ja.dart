@@ -18,6 +18,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loginAccountLabel => '電話番号またはメール';
 
   @override
+  String get loginModeTitle => 'ログイン方法を選択';
+
+  @override
   String get loginCodeLabel => '認証コード';
 
   @override
@@ -42,13 +45,34 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loginErrorInvalidCode => 'ログインに失敗しました。認証コードを確認してください。';
 
   @override
+  String get loginEmailAccountInvalid => 'メールログインには有効なメールアドレスを入力してください。';
+
+  @override
+  String get loginMobileAccountInvalid => '電話ログインには有効な電話番号を入力してください。';
+
+  @override
   String get registerTitle => 'アカウント作成';
 
   @override
   String get registerSubtitle => '投資・予約・会員特典に使う安全なアカウントを設定します。';
 
   @override
+  String get registerModeTitle => '登録方法';
+
+  @override
+  String get authModeEmail => 'メール';
+
+  @override
+  String get authModeMobile => '電話';
+
+  @override
   String get registerAccountLabel => '電話番号またはメール';
+
+  @override
+  String get registerEmailAccountLabel => 'メールアドレス';
+
+  @override
+  String get registerMobileAccountLabel => '電話番号';
 
   @override
   String get registerCodeLabel => '認証コード';
@@ -110,6 +134,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get registerEmailMobileRequired => 'メール登録には電話番号が必要です。';
+
+  @override
+  String get registerEmailAccountInvalid => 'メール登録には有効なメールアドレスを入力してください。';
+
+  @override
+  String get registerMobileAccountInvalid => '電話登録には有効な電話番号を入力してください。';
 
   @override
   String get registerSubmitFailed => '登録に失敗しました。後でもう一度お試しください。';

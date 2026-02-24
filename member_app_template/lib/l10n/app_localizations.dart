@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// **'Phone number or email'**
   String get loginAccountLabel;
 
+  /// No description provided for @loginModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose login method'**
+  String get loginModeTitle;
+
   /// No description provided for @loginCodeLabel.
   ///
   /// In en, this message translates to:
@@ -166,6 +172,18 @@ abstract class AppLocalizations {
   /// **'Sign in failed. Please verify your code.'**
   String get loginErrorInvalidCode;
 
+  /// No description provided for @loginEmailAccountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address for email sign in.'**
+  String get loginEmailAccountInvalid;
+
+  /// No description provided for @loginMobileAccountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number for phone sign in.'**
+  String get loginMobileAccountInvalid;
+
   /// No description provided for @registerTitle.
   ///
   /// In en, this message translates to:
@@ -178,11 +196,41 @@ abstract class AppLocalizations {
   /// **'Set up secure access for investment, stays, and member privileges.'**
   String get registerSubtitle;
 
+  /// No description provided for @registerModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration method'**
+  String get registerModeTitle;
+
+  /// No description provided for @authModeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authModeEmail;
+
+  /// No description provided for @authModeMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get authModeMobile;
+
   /// No description provided for @registerAccountLabel.
   ///
   /// In en, this message translates to:
   /// **'Phone number or email'**
   String get registerAccountLabel;
+
+  /// No description provided for @registerEmailAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email address'**
+  String get registerEmailAccountLabel;
+
+  /// No description provided for @registerMobileAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get registerMobileAccountLabel;
 
   /// No description provided for @registerCodeLabel.
   ///
@@ -303,6 +351,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mobile number is required for email registration.'**
   String get registerEmailMobileRequired;
+
+  /// No description provided for @registerEmailAccountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address for email registration.'**
+  String get registerEmailAccountInvalid;
+
+  /// No description provided for @registerMobileAccountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number for phone registration.'**
+  String get registerMobileAccountInvalid;
 
   /// No description provided for @registerSubmitFailed.
   ///
