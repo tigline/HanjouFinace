@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_theme_extensions.dart';
 import 'hotel_ui_buttons.dart';
+import 'ui_tokens.dart';
 
 class HotelImageCard extends StatelessWidget {
   const HotelImageCard({
@@ -276,6 +277,394 @@ class HotelPhotoCountBadge extends StatelessWidget {
       backgroundColor: hotelTheme.photoCountChipBackgroundColor,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Text(label, style: hotelTheme.photoCountChipTextStyle),
+    );
+  }
+}
+
+class HotelSurfacePanelCard extends StatelessWidget {
+  const HotelSurfacePanelCard({
+    super.key,
+    required this.child,
+    this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.padding = const EdgeInsets.all(UiTokens.spacing16),
+  });
+
+  final Widget child;
+  final String? title;
+  final String? subtitle;
+  final Widget? leading;
+  final Widget? trailing;
+  final EdgeInsetsGeometry padding;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final isDark = theme.brightness == Brightness.dark;
+    final titleStyle = (theme.textTheme.titleMedium ?? const TextStyle())
+        .copyWith(fontWeight: FontWeight.w700);
+    final subtitleStyle = (theme.textTheme.bodySmall ?? const TextStyle())
+        .copyWith(color: theme.textTheme.bodySmall?.color);
+
+    return Container(
+      width: double.infinity,
+      padding: padding,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface.withValues(
+          alpha: isDark ? 0.94 : 0.97,
+        ),
+        borderRadius: BorderRadius.circular(UiTokens.radius20),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: hotelTheme.cardTileShadowColor,
+            blurRadius: 18,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          if (title != null ||
+              subtitle != null ||
+              leading != null ||
+              trailing != null)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                if (leading != null) ...<Widget>[
+                  leading!,
+                  const SizedBox(width: UiTokens.spacing12),
+                ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      if (title != null) Text(title!, style: titleStyle),
+                      if (subtitle != null) ...<Widget>[
+                        const SizedBox(height: UiTokens.spacing4),
+                        Text(subtitle!, style: subtitleStyle),
+                      ],
+                    ],
+                  ),
+                ),
+                if (trailing != null) ...<Widget>[
+                  const SizedBox(width: UiTokens.spacing8),
+                  trailing!,
+                ],
+              ],
+            ),
+          if (title != null ||
+              subtitle != null ||
+              leading != null ||
+              trailing != null)
+            const SizedBox(height: UiTokens.spacing12),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class HotelListItemCard extends StatelessWidget {
+  const HotelListItemCard({
+    super.key,
+    required this.title,
+    required this.location,
+    required this.priceText,
+    required this.ratingText,
+    this.subtitle,
+    this.image,
+    this.onTap,
+    this.trailing,
+    this.showChevron = true,
+  });
+
+  final String title;
+  final String location;
+  final String priceText;
+  final String ratingText;
+  final String? subtitle;
+  final Widget? image;
+  final VoidCallback? onTap;
+  final Widget? trailing;
+  final bool showChevron;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final isDark = theme.brightness == Brightness.dark;
+    final cardRadius = BorderRadius.circular(UiTokens.radius20);
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: cardRadius,
+        child: Ink(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface.withValues(
+              alpha: isDark ? 0.94 : 0.98,
+            ),
+            borderRadius: cardRadius,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: hotelTheme.cardTileShadowColor,
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(UiTokens.spacing12),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: SizedBox(
+                    width: 88,
+                    height: 88,
+                    child:
+                        image ??
+                        const _HotelPlaceholderArtwork(
+                          colors: <Color>[
+                            Color(0xFFE8F6FF),
+                            Color(0xFF9DD8FF),
+                            Color(0xFF4E9CDD),
+                          ],
+                        ),
+                  ),
+                ),
+                const SizedBox(width: UiTokens.spacing12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  (theme.textTheme.titleMedium ??
+                                          const TextStyle())
+                                      .copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          const SizedBox(width: UiTokens.spacing8),
+                          _HotelInlineRatingPill(ratingText: ratingText),
+                        ],
+                      ),
+                      const SizedBox(height: UiTokens.spacing8),
+                      Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.location_on_outlined,
+                            size: 16,
+                            color: hotelTheme.categoryIdleIconColor,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              location,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodySmall,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (subtitle != null) ...<Widget>[
+                        const SizedBox(height: UiTokens.spacing4),
+                        Text(
+                          subtitle!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              (theme.textTheme.bodySmall ?? const TextStyle())
+                                  .copyWith(
+                                    color: theme.textTheme.bodySmall?.color
+                                        ?.withValues(alpha: 0.9),
+                                  ),
+                        ),
+                      ],
+                      const SizedBox(height: UiTokens.spacing8),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            priceText,
+                            style:
+                                (theme.textTheme.titleMedium ??
+                                        const TextStyle())
+                                    .copyWith(
+                                      color: hotelTheme.primaryButtonColor,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                          ),
+                          const Spacer(),
+                          trailing ??
+                              (showChevron
+                                  ? Icon(
+                                      Icons.chevron_right_rounded,
+                                      color: hotelTheme.categoryIdleIconColor,
+                                    )
+                                  : const SizedBox.shrink()),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HotelDetailSummaryCard extends StatelessWidget {
+  const HotelDetailSummaryCard({
+    super.key,
+    required this.title,
+    required this.priceText,
+    required this.location,
+    required this.ratingText,
+    this.description,
+    this.tags = const <String>[],
+    this.footer,
+  });
+
+  final String title;
+  final String priceText;
+  final String location;
+  final String ratingText;
+  final String? description;
+  final List<String> tags;
+  final Widget? footer;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+
+    return HotelSurfacePanelCard(
+      leading: Container(
+        width: 38,
+        height: 38,
+        decoration: BoxDecoration(
+          color: hotelTheme.primaryButtonColor.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(
+          Icons.hotel_class_rounded,
+          color: hotelTheme.primaryButtonColor,
+          size: 20,
+        ),
+      ),
+      title: title,
+      subtitle: location,
+      trailing: _HotelInlineRatingPill(ratingText: ratingText),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(
+                priceText,
+                style: (theme.textTheme.headlineSmall ?? const TextStyle())
+                    .copyWith(
+                      color: hotelTheme.primaryButtonColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+              const SizedBox(width: UiTokens.spacing8),
+              Text('/night', style: theme.textTheme.bodySmall),
+            ],
+          ),
+          if (description != null) ...<Widget>[
+            const SizedBox(height: UiTokens.spacing12),
+            Text(description!, style: theme.textTheme.bodyMedium),
+          ],
+          if (tags.isNotEmpty) ...<Widget>[
+            const SizedBox(height: UiTokens.spacing12),
+            Wrap(
+              spacing: UiTokens.spacing8,
+              runSpacing: UiTokens.spacing8,
+              children: tags
+                  .map(
+                    (String tag) => HotelPillChip(
+                      backgroundColor: hotelTheme.primaryButtonColor.withValues(
+                        alpha: 0.10,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      child: Text(
+                        tag,
+                        style:
+                            (theme.textTheme.labelMedium ?? const TextStyle())
+                                .copyWith(
+                                  color: hotelTheme.primaryButtonColor,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ],
+          if (footer != null) ...<Widget>[
+            const SizedBox(height: UiTokens.spacing12),
+            footer!,
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _HotelInlineRatingPill extends StatelessWidget {
+  const _HotelInlineRatingPill({required this.ratingText});
+
+  final String ratingText;
+
+  @override
+  Widget build(BuildContext context) {
+    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    return HotelPillChip(
+      backgroundColor: hotelTheme.primaryButtonColor.withValues(alpha: 0.10),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      borderRadius: BorderRadius.circular(12),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Icon(
+            Icons.star_rounded,
+            size: 14,
+            color: hotelTheme.ratingAccentColor,
+          ),
+          const SizedBox(width: 2),
+          Text(
+            ratingText,
+            style:
+                (Theme.of(context).textTheme.labelMedium ?? const TextStyle())
+                    .copyWith(
+                      color: hotelTheme.primaryButtonColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+          ),
+        ],
+      ),
     );
   }
 }

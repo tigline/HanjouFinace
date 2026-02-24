@@ -243,6 +243,68 @@ class HotelDesignShowcasePage extends StatelessWidget {
             ),
             const SizedBox(height: 26),
             Text(
+              'List / Detail Cards',
+              style: hotelTheme.sectionTitleStyle.copyWith(fontSize: 22),
+            ),
+            const SizedBox(height: 12),
+            HotelListItemCard(
+              title: 'Hotel Royal Santorini',
+              location: 'Santorini, Greece',
+              subtitle: 'Ocean view • Free breakfast • Flexible check-in',
+              priceText: '\$320/night',
+              ratingText: '4.8',
+              onTap: () {},
+            ),
+            const SizedBox(height: 12),
+            const HotelDetailSummaryCard(
+              title: 'BaLi Motel Vung Tau',
+              location: 'Indonesia',
+              priceText: '\$580',
+              ratingText: '4.9',
+              description:
+                  'Set in Vung Tau, 100 metres from Front Beach, with garden, private parking and family-friendly stay options.',
+              tags: <String>['Front Beach', 'Parking', 'Breakfast', 'Family'],
+            ),
+            const SizedBox(height: 12),
+            HotelSurfacePanelCard(
+              title: 'Segment Panel Card',
+              subtitle:
+                  'Reusable soft panel for auth forms and grouped actions',
+              leading: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: hotelTheme.primaryButtonColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.grid_view_rounded,
+                  color: hotelTheme.primaryButtonColor,
+                  size: 20,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Use this panel to build segmented form sections with a softer Figma-style surface instead of bordered blocks.',
+                    style: textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: HotelCompactActionButton(
+                      label: 'Action',
+                      onPressed: () {},
+                      width: 96,
+                      height: 44,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 26),
+            Text(
               'Detail Page Micro-Elements',
               style: hotelTheme.sectionTitleStyle.copyWith(fontSize: 20),
             ),

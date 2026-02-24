@@ -136,6 +136,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final travelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
     return AuthVisualScaffold(
       pageKey: const Key('forgot_password_page'),
       title: l10n.forgotPasswordTitle,
@@ -150,26 +151,71 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HotelEmailTextField(
-            controller: _accountController,
-            inputKey: const Key('forgot_account_input'),
-            labelText: l10n.forgotPasswordAccountLabel,
-            hintText: l10n.forgotPasswordAccountLabel,
-            leadingIcon: Icons.person_outline_rounded,
-            onChanged: (_) => setState(() {}),
+          HotelSurfacePanelCard(
+            title: l10n.forgotPasswordTitle,
+            subtitle: l10n.forgotPasswordSubtitle,
+            leading: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: travelTheme?.primaryButtonColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                Icons.key_rounded,
+                size: 20,
+                color: travelTheme?.primaryButtonColor,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                HotelEmailTextField(
+                  controller: _accountController,
+                  inputKey: const Key('forgot_account_input'),
+                  labelText: l10n.forgotPasswordAccountLabel,
+                  hintText: l10n.forgotPasswordAccountLabel,
+                  leadingIcon: Icons.person_outline_rounded,
+                  onChanged: (_) => setState(() {}),
+                ),
+                const SizedBox(height: UiTokens.spacing12),
+                HotelVerificationCodeField(
+                  controller: _codeController,
+                  labelText: l10n.forgotPasswordCodeLabel,
+                  hintText: l10n.forgotPasswordCodeLabel,
+                  sendCodeLabel: l10n.forgotPasswordSendCode,
+                  inputKey: const Key('forgot_code_input'),
+                  sendButtonKey: const Key('forgot_send_code_button'),
+                  isSendingCode: _isSendingCode,
+                  onChanged: (_) => setState(() {}),
+                  onSendCode: _canSendCode ? _sendCode : null,
+                  buttonWidth: 136,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelVerificationCodeField(
-            controller: _codeController,
-            labelText: l10n.forgotPasswordCodeLabel,
-            hintText: l10n.forgotPasswordCodeLabel,
-            sendCodeLabel: l10n.forgotPasswordSendCode,
-            inputKey: const Key('forgot_code_input'),
-            sendButtonKey: const Key('forgot_send_code_button'),
-            isSendingCode: _isSendingCode,
-            onChanged: (_) => setState(() {}),
-            onSendCode: _canSendCode ? _sendCode : null,
-            buttonWidth: 136,
+          HotelSurfacePanelCard(
+            title: l10n.loginFootnote,
+            subtitle: l10n.forgotPasswordSendCodeSuccess,
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                HotelListItemCard(
+                  title: l10n.forgotPasswordTitle,
+                  location: l10n.forgotPasswordAccountLabel,
+                  subtitle: l10n.forgotPasswordCodeLabel,
+                  priceText: 'OTP',
+                  ratingText: '1/2',
+                  showChevron: false,
+                  trailing: Icon(
+                    Icons.verified_outlined,
+                    color: travelTheme?.primaryButtonColor,
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: UiTokens.spacing16),
           HotelPrimaryCtaButton(

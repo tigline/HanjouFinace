@@ -218,97 +218,147 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HotelEmailTextField(
-            controller: _accountController,
-            inputKey: const Key('register_account_input'),
-            labelText: l10n.registerAccountLabel,
-            hintText: l10n.registerAccountLabel,
-            leadingIcon: Icons.person_outline_rounded,
-            onChanged: (_) => setState(() {}),
-          ),
-          const SizedBox(height: UiTokens.spacing12),
-          HotelVerificationCodeField(
-            controller: _codeController,
-            labelText: l10n.registerCodeLabel,
-            hintText: l10n.registerCodeLabel,
-            sendCodeLabel: l10n.registerSendCode,
-            inputKey: const Key('register_code_input'),
-            sendButtonKey: const Key('register_send_code_button'),
-            isSendingCode: _isSendingCode,
-            onChanged: (_) => setState(() {}),
-            onSendCode: _canSendCode ? _sendCode : null,
-            buttonWidth: 132,
-          ),
-          const SizedBox(height: UiTokens.spacing12),
-          (_isEmailAccount
-                  ? HotelPhoneTextField(
-                      controller: _contactController,
-                      inputKey: const Key('register_contact_input'),
-                      labelText: l10n.registerContactLabel,
-                      hintText: l10n.registerContactHelperEmail,
-                      onChanged: (_) => setState(() {}),
-                    )
-                  : HotelEmailTextField(
-                      controller: _contactController,
-                      inputKey: const Key('register_contact_input'),
-                      labelText: l10n.registerContactLabel,
-                      hintText: l10n.registerContactHelperMobile,
-                      leadingIcon: Icons.contact_mail_outlined,
-                      onChanged: (_) => setState(() {}),
-                    ))
-              as Widget,
-          const SizedBox(height: UiTokens.spacing8),
-          Container(
-            decoration: BoxDecoration(
-              color: travelTheme?.primaryButtonColor.withValues(alpha: 0.06),
-              borderRadius: BorderRadius.circular(UiTokens.radius16),
+          HotelSurfacePanelCard(
+            title: l10n.registerAccountLabel,
+            subtitle: l10n.registerSubtitle,
+            leading: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: travelTheme?.primaryButtonColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                Icons.badge_outlined,
+                size: 20,
+                color: travelTheme?.primaryButtonColor,
+              ),
             ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: UiTokens.spacing12,
-              vertical: UiTokens.spacing12,
-            ),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Switch.adaptive(
-                  value: _acceptPolicy,
-                  activeTrackColor: travelTheme?.primaryButtonColor.withValues(
-                    alpha: 0.35,
-                  ),
-                  activeThumbColor: travelTheme?.primaryButtonColor,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _acceptPolicy = value;
-                    });
-                  },
+                HotelEmailTextField(
+                  controller: _accountController,
+                  inputKey: const Key('register_account_input'),
+                  labelText: l10n.registerAccountLabel,
+                  hintText: l10n.registerAccountLabel,
+                  leadingIcon: Icons.person_outline_rounded,
+                  onChanged: (_) => setState(() {}),
                 ),
-                const SizedBox(width: UiTokens.spacing8),
-                Expanded(
-                  child: Column(
+                const SizedBox(height: UiTokens.spacing12),
+                HotelVerificationCodeField(
+                  controller: _codeController,
+                  labelText: l10n.registerCodeLabel,
+                  hintText: l10n.registerCodeLabel,
+                  sendCodeLabel: l10n.registerSendCode,
+                  inputKey: const Key('register_code_input'),
+                  sendButtonKey: const Key('register_send_code_button'),
+                  isSendingCode: _isSendingCode,
+                  onChanged: (_) => setState(() {}),
+                  onSendCode: _canSendCode ? _sendCode : null,
+                  buttonWidth: 132,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: UiTokens.spacing12),
+          HotelSurfacePanelCard(
+            title: l10n.registerContactLabel,
+            subtitle: _isEmailAccount
+                ? l10n.registerContactHelperEmail
+                : l10n.registerContactHelperMobile,
+            leading: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: travelTheme?.discountChipBackgroundColor.withValues(
+                  alpha: 0.12,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                Icons.verified_user_outlined,
+                size: 20,
+                color: travelTheme?.discountChipBackgroundColor,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                (_isEmailAccount
+                        ? HotelPhoneTextField(
+                            controller: _contactController,
+                            inputKey: const Key('register_contact_input'),
+                            labelText: l10n.registerContactLabel,
+                            hintText: l10n.registerContactHelperEmail,
+                            onChanged: (_) => setState(() {}),
+                          )
+                        : HotelEmailTextField(
+                            controller: _contactController,
+                            inputKey: const Key('register_contact_input'),
+                            labelText: l10n.registerContactLabel,
+                            hintText: l10n.registerContactHelperMobile,
+                            leadingIcon: Icons.contact_mail_outlined,
+                            onChanged: (_) => setState(() {}),
+                          ))
+                    as Widget,
+                const SizedBox(height: UiTokens.spacing8),
+                Container(
+                  decoration: BoxDecoration(
+                    color: travelTheme?.primaryButtonColor.withValues(
+                      alpha: 0.06,
+                    ),
+                    borderRadius: BorderRadius.circular(UiTokens.radius16),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: UiTokens.spacing12,
+                    vertical: UiTokens.spacing12,
+                  ),
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      GestureDetector(
-                        onTap: () =>
-                            setState(() => _acceptPolicy = !_acceptPolicy),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: Text(
-                            l10n.registerAcceptPolicy,
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ),
+                      Switch.adaptive(
+                        value: _acceptPolicy,
+                        activeTrackColor: travelTheme?.primaryButtonColor
+                            .withValues(alpha: 0.35),
+                        activeThumbColor: travelTheme?.primaryButtonColor,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _acceptPolicy = value;
+                          });
+                        },
                       ),
-                      const SizedBox(height: UiTokens.spacing4),
-                      TextButton(
-                        key: const Key('register_policy_button'),
-                        onPressed: _showPolicySheet,
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          alignment: Alignment.centerLeft,
+                      const SizedBox(width: UiTokens.spacing8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () => setState(
+                                () => _acceptPolicy = !_acceptPolicy,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 2),
+                                child: Text(
+                                  l10n.registerAcceptPolicy,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: UiTokens.spacing4),
+                            TextButton(
+                              key: const Key('register_policy_button'),
+                              onPressed: _showPolicySheet,
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                alignment: Alignment.centerLeft,
+                              ),
+                              child: Text(l10n.registerPolicyButton),
+                            ),
+                          ],
                         ),
-                        child: Text(l10n.registerPolicyButton),
                       ),
                     ],
                   ),

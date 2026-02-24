@@ -278,6 +278,11 @@ class _HotelBaseInputField extends StatelessWidget {
       shadowColor: isDark
           ? Colors.black.withValues(alpha: 0.28)
           : Colors.black.withValues(alpha: 0.06),
+      defaultBorderColor: isDark
+          ? hotelTheme.cardBorderColor.withValues(alpha: 0.88)
+          : hotelTheme.cardBorderColor.withValues(alpha: 1),
+      focusedBorderColor: hotelTheme.primaryButtonColor,
+      disabledBorderColor: hotelTheme.cardBorderColor.withValues(alpha: 0.45),
       child: Row(
         children: <Widget>[
           Container(
@@ -365,6 +370,9 @@ class _HotelInputShell extends StatefulWidget {
     required this.fillColor,
     required this.glowColor,
     required this.shadowColor,
+    required this.defaultBorderColor,
+    required this.focusedBorderColor,
+    required this.disabledBorderColor,
     required this.enabled,
   });
 
@@ -372,6 +380,9 @@ class _HotelInputShell extends StatefulWidget {
   final Color fillColor;
   final Color glowColor;
   final Color shadowColor;
+  final Color defaultBorderColor;
+  final Color focusedBorderColor;
+  final Color disabledBorderColor;
   final bool enabled;
 
   @override
@@ -405,14 +416,22 @@ class _HotelInputShellState extends State<_HotelInputShell> {
                     ? widget.fillColor.withValues(alpha: 1)
                     : widget.fillColor)
               : widget.fillColor.withValues(alpha: 0.62),
+          border: Border.all(
+            color: !widget.enabled
+                ? widget.disabledBorderColor
+                : (_isFocused
+                      ? widget.focusedBorderColor
+                      : widget.defaultBorderColor),
+            width: 1.5,
+          ),
           borderRadius: BorderRadius.circular(18),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: _isFocused ? widget.glowColor : widget.shadowColor,
-              blurRadius: _isFocused ? 20 : 14,
-              offset: _isFocused ? const Offset(0, 6) : const Offset(0, 4),
-            ),
-          ],
+          // boxShadow: <BoxShadow>[
+          //   BoxShadow(
+          //     color: _isFocused ? widget.glowColor : widget.shadowColor,
+          //     blurRadius: _isFocused ? 20 : 14,
+          //     offset: _isFocused ? const Offset(0, 6) : const Offset(0, 4),
+          //   ),
+          // ],
         ),
         child: widget.child,
       ),
