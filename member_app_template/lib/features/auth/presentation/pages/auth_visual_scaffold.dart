@@ -22,20 +22,13 @@ class AuthVisualScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
     final textTheme = theme.textTheme;
-
-    final gradientColors = isDark
-        ? <Color>[
-            const Color(0xFF0B0F17),
-            const Color(0xFF101A2A),
-            const Color(0xFF15253B),
-          ]
-        : <Color>[
-            const Color(0xFFEAF3FF),
-            const Color(0xFFF8FBFF),
-            const Color(0xFFE7FFF8),
-          ];
+    final authVisualTheme = theme.extension<AppAuthVisualTheme>();
+    assert(
+      authVisualTheme != null,
+      'AppAuthVisualTheme must be configured in theme',
+    );
+    final authTheme = authVisualTheme!;
 
     return Scaffold(
       key: pageKey,
@@ -46,24 +39,24 @@ class AuthVisualScaffold extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: gradientColors,
+                colors: authTheme.backgroundGradientColors,
               ),
             ),
             child: const SizedBox.expand(),
           ),
           _GlowOrb(
             alignment: const Alignment(-1.15, -0.78),
-            color: AppColorTokens.accent.withValues(alpha: 0.28),
+            color: authTheme.orbPrimary,
             radius: 220,
           ),
           _GlowOrb(
             alignment: const Alignment(1.15, -0.62),
-            color: AppColorTokens.accentTertiary.withValues(alpha: 0.24),
+            color: authTheme.orbSecondary,
             radius: 200,
           ),
           _GlowOrb(
             alignment: const Alignment(0.88, 1.05),
-            color: AppColorTokens.accentSecondary.withValues(alpha: 0.22),
+            color: authTheme.orbTertiary,
             radius: 240,
           ),
           SafeArea(
@@ -84,27 +77,11 @@ class AuthVisualScaffold extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         const SizedBox(height: UiTokens.spacing8),
-                        Text(
-                          'HANJOU',
-                          style: textTheme.labelLarge?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.72,
-                            ),
-                            letterSpacing: 2.4,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        Text('HANJOU', style: authTheme.brandLabelStyle),
                         const SizedBox(height: UiTokens.spacing16),
                         Text(title, style: textTheme.displaySmall),
                         const SizedBox(height: UiTokens.spacing8),
-                        Text(
-                          subtitle,
-                          style: textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(
-                              alpha: 0.72,
-                            ),
-                          ),
-                        ),
+                        Text(subtitle, style: authTheme.subtitleStyle),
                         const SizedBox(height: UiTokens.spacing24),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(
@@ -115,16 +92,12 @@ class AuthVisualScaffold extends StatelessWidget {
                             child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: theme.colorScheme.surface.withValues(
-                                  alpha: isDark ? 0.66 : 0.82,
-                                ),
+                                color: authTheme.glassSurfaceColor,
                                 borderRadius: BorderRadius.circular(
                                   UiTokens.radius28,
                                 ),
                                 border: Border.all(
-                                  color: theme.colorScheme.onSurface.withValues(
-                                    alpha: 0.14,
-                                  ),
+                                  color: authTheme.glassBorderColor,
                                 ),
                               ),
                               padding: const EdgeInsets.all(UiTokens.spacing20),

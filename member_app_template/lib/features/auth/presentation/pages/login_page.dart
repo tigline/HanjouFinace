@@ -148,9 +148,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               alignment: Alignment.centerLeft,
               child: Text(
                 _resolveErrorMessage(context, state.errorKey!),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
+                style:
+                    Theme.of(
+                      context,
+                    ).extension<AppAuthVisualTheme>()?.inlineErrorTextStyle ??
+                    Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'app_color_tokens.dart';
+import 'app_theme_extensions.dart';
 import 'app_typography_tokens.dart';
 import 'ui_tokens.dart';
 
@@ -31,6 +32,37 @@ class AppThemeFactory {
         ? AppColorTokens.darkBorder
         : AppColorTokens.lightBorder;
     final textTheme = AppTypographyTokens.textTheme(brightness);
+    final contentMuted = onSurface.withValues(alpha: 0.72);
+
+    final authVisualTheme = AppAuthVisualTheme(
+      backgroundGradientColors: isDark
+          ? const <Color>[
+              AppColorTokens.darkBackground,
+              Color(0xFF101A2A),
+              Color(0xFF15253B),
+            ]
+          : const <Color>[
+              Color(0xFFEAF3FF),
+              Color(0xFFF8FBFF),
+              Color(0xFFE7FFF8),
+            ],
+      orbPrimary: AppColorTokens.accent.withValues(alpha: 0.28),
+      orbSecondary: AppColorTokens.accentTertiary.withValues(alpha: 0.24),
+      orbTertiary: AppColorTokens.accentSecondary.withValues(alpha: 0.22),
+      brandLabelStyle: (textTheme.labelLarge ?? const TextStyle()).copyWith(
+        color: contentMuted,
+        letterSpacing: 2.4,
+        fontWeight: FontWeight.w700,
+      ),
+      subtitleStyle: (textTheme.bodyMedium ?? const TextStyle()).copyWith(
+        color: contentMuted,
+      ),
+      glassSurfaceColor: surface.withValues(alpha: isDark ? 0.66 : 0.82),
+      glassBorderColor: onSurface.withValues(alpha: 0.14),
+      inlineErrorTextStyle: (textTheme.bodySmall ?? const TextStyle()).copyWith(
+        color: AppColorTokens.danger,
+      ),
+    );
 
     final colorScheme = ColorScheme(
       brightness: brightness,
@@ -57,6 +89,7 @@ class AppThemeFactory {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
       textTheme: textTheme,
+      extensions: <ThemeExtension<dynamic>>[authVisualTheme],
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
