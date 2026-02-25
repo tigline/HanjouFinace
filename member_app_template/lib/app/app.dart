@@ -46,12 +46,55 @@ class MemberTemplateApp extends ConsumerWidget {
       title: environment.appName,
       scaffoldMessengerKey: _rootScaffoldMessengerKey,
       routerConfig: router,
+      builder: (BuildContext context, Widget? child) {
+        return _GlobalKeyboardDismissLayer(
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: AppThemeFactory.light(),
       darkTheme: AppThemeFactory.dark(),
       themeMode: ThemeMode.system,
+    );
+  }
+}
+
+class _GlobalKeyboardDismissLayer extends StatelessWidget {
+  const _GlobalKeyboardDismissLayer({required this.child});
+
+  final Widget child;
+
+  void _handlePointerDown(PointerDownEvent event) {
+    final currentFocus = FocusManager.instance.primaryFocus;
+    if (currentFocus == null) {
+      return;
+    }
+
+    if (_isTapInsideFocusedRenderObject(currentFocus, event.position)) {
+      return;
+    }
+
+    currentFocus.unfocus();
+  }
+
+  bool _isTapInsideFocusedRenderObject(FocusNode node, Offset globalPosition) {
+    final renderObject = node.context?.findRenderObject();
+    if (renderObject is! RenderBox || !renderObject.hasSize) {
+      return false;
+    }
+
+    final localPosition = renderObject.globalToLocal(globalPosition);
+    return renderObject.size.contains(localPosition);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: _handlePointerDown,
+      child: child,
     );
   }
 }
