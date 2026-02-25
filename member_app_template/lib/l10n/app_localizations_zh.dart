@@ -66,6 +66,54 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authModeMobile => '手机';
 
   @override
+  String get authEntryHeadline => '投资与订房会员服务一站登录';
+
+  @override
+  String get authEntryDescription => '使用手机号或邮箱快速登录，统一管理投资、订房与会员权益。';
+
+  @override
+  String get authEntryPhoneLogin => '手机号登录';
+
+  @override
+  String get authEntryEmailLogin => '邮箱登录';
+
+  @override
+  String get authEntryNonMemberRegisterNow => '非会员？立即注册';
+
+  @override
+  String get authRegisterEntryHeadline => '请选择注册方式';
+
+  @override
+  String get authRegisterEntryDescription => '手机号或邮箱均可创建账号，注册后统一管理会员权益。';
+
+  @override
+  String get authEntryPhoneRegister => '手机号注册';
+
+  @override
+  String get authEntryEmailRegister => '邮箱注册';
+
+  @override
+  String get authBackToLoginEntry => '返回登录入口';
+
+  @override
+  String get authBackToRegisterEntry => '返回注册方式';
+
+  @override
+  String get authMethodFormSubtitle => '使用验证码完成安全验证。';
+
+  @override
+  String get authMobileLoginTitle => '手机号登录';
+
+  @override
+  String get authEmailLoginTitle => '邮箱登录';
+
+  @override
+  String get authMobileRegisterTitle => '手机号注册';
+
+  @override
+  String get authEmailRegisterTitle => '邮箱注册';
+
+  @override
   String get registerAccountLabel => '手机号或邮箱';
 
   @override

@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../pages/hotel_design_showcase_page.dart';
 import '../pages/splash_page.dart';
 import '../../features/auth/presentation/providers/auth_providers.dart';
+import '../../features/auth/presentation/pages/auth_entry_page.dart';
+import '../../features/auth/presentation/pages/auth_mode_pages.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
@@ -15,8 +17,14 @@ String? resolveAuthRedirect({
   required String location,
 }) {
   final isSplash = location == '/splash';
-  final isLogin = location == '/login';
-  final isRegister = location == '/register';
+  final isLogin =
+      location == '/login' ||
+      location.startsWith('/login/') ||
+      location == '/login-legacy';
+  final isRegister =
+      location == '/register' ||
+      location.startsWith('/register/') ||
+      location == '/register-legacy';
   final isForgotPassword = location == '/forgot-password';
   final isHotelDesignShowcase = location == '/design-showcase/hotel';
   final isAuthRoute = isLogin || isRegister || isForgotPassword;
@@ -62,11 +70,47 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         builder: (BuildContext context, GoRouterState state) {
+          return const AuthEntryPage();
+        },
+      ),
+      GoRoute(
+        path: '/login/mobile',
+        builder: (BuildContext context, GoRouterState state) {
+          return const MobileLoginMethodPage();
+        },
+      ),
+      GoRoute(
+        path: '/login/email',
+        builder: (BuildContext context, GoRouterState state) {
+          return const EmailLoginMethodPage();
+        },
+      ),
+      GoRoute(
+        path: '/login-legacy',
+        builder: (BuildContext context, GoRouterState state) {
           return const LoginPage();
         },
       ),
       GoRoute(
         path: '/register',
+        builder: (BuildContext context, GoRouterState state) {
+          return const RegisterEntryPage();
+        },
+      ),
+      GoRoute(
+        path: '/register/mobile',
+        builder: (BuildContext context, GoRouterState state) {
+          return const MobileRegisterMethodPage();
+        },
+      ),
+      GoRoute(
+        path: '/register/email',
+        builder: (BuildContext context, GoRouterState state) {
+          return const EmailRegisterMethodPage();
+        },
+      ),
+      GoRoute(
+        path: '/register-legacy',
         builder: (BuildContext context, GoRouterState state) {
           return const RegisterPage();
         },

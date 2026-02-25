@@ -35,5 +35,41 @@ void main() {
         throwsA(isA<FormatException>()),
       );
     });
+
+    test('throws when token fields are empty strings', () {
+      expect(
+        () => AuthSessionDto.fromJson(<String, dynamic>{
+          'access_token': '   ',
+          'refresh_token': '',
+        }),
+        throwsA(isA<FormatException>()),
+      );
+    });
+
+    test('falls back to expires_in when expiresAt is invalid', () {
+      final before = DateTime.now().toUtc();
+
+      final dto = AuthSessionDto.fromJson(<String, dynamic>{
+        'access_token': 'token-a',
+        'refresh_token': 'token-r',
+        'expiresAt': 'not-a-date',
+        'expires_in': '1800',
+      });
+
+      final lowerBound = before.add(const Duration(minutes: 29));
+      final upperBound = before.add(const Duration(minutes: 31));
+      expect(dto.expiresAt.isAfter(lowerBound), isTrue);
+      expect(dto.expiresAt.isBefore(upperBound), isTrue);
+    });
+
+    test('treats invalid token value types as invalid payload', () {
+      expect(
+        () => AuthSessionDto.fromJson(<String, dynamic>{
+          'access_token': <String, dynamic>{'bad': 'value'},
+          'refresh_token': 'token-r',
+        }),
+        throwsA(isA<FormatException>()),
+      );
+    });
   });
 }

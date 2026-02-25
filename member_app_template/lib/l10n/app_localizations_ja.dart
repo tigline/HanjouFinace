@@ -66,6 +66,55 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authModeMobile => '電話';
 
   @override
+  String get authEntryHeadline => '投資・宿泊会員サービスをひとつのログインで';
+
+  @override
+  String get authEntryDescription => '電話番号またはメールでログインし、投資・予約・会員特典をまとめて管理できます。';
+
+  @override
+  String get authEntryPhoneLogin => '電話でログイン';
+
+  @override
+  String get authEntryEmailLogin => 'メールでログイン';
+
+  @override
+  String get authEntryNonMemberRegisterNow => '会員ではありませんか？ 今すぐ登録';
+
+  @override
+  String get authRegisterEntryHeadline => '登録方法を選択';
+
+  @override
+  String get authRegisterEntryDescription =>
+      '電話番号またはメールでアカウントを作成し、会員サービスを一元管理します。';
+
+  @override
+  String get authEntryPhoneRegister => '電話で登録';
+
+  @override
+  String get authEntryEmailRegister => 'メールで登録';
+
+  @override
+  String get authBackToLoginEntry => 'ログイン方法へ戻る';
+
+  @override
+  String get authBackToRegisterEntry => '登録方法へ戻る';
+
+  @override
+  String get authMethodFormSubtitle => '認証コードで安全に確認を完了します。';
+
+  @override
+  String get authMobileLoginTitle => '電話ログイン';
+
+  @override
+  String get authEmailLoginTitle => 'メールログイン';
+
+  @override
+  String get authMobileRegisterTitle => '電話登録';
+
+  @override
+  String get authEmailRegisterTitle => 'メール登録';
+
+  @override
   String get registerAccountLabel => '電話番号またはメール';
 
   @override

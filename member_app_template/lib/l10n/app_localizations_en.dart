@@ -73,6 +73,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authModeMobile => 'Phone';
 
   @override
+  String get authEntryHeadline =>
+      'One sign-in for investment and hotel member services';
+
+  @override
+  String get authEntryDescription =>
+      'Sign in with phone or email to manage investments, bookings, and member privileges.';
+
+  @override
+  String get authEntryPhoneLogin => 'Sign in with phone';
+
+  @override
+  String get authEntryEmailLogin => 'Sign in with email';
+
+  @override
+  String get authEntryNonMemberRegisterNow => 'Not a member? Register now';
+
+  @override
+  String get authRegisterEntryHeadline => 'Choose registration method';
+
+  @override
+  String get authRegisterEntryDescription =>
+      'Create your account with phone or email and manage all member services in one place.';
+
+  @override
+  String get authEntryPhoneRegister => 'Register with phone';
+
+  @override
+  String get authEntryEmailRegister => 'Register with email';
+
+  @override
+  String get authBackToLoginEntry => 'Back to sign-in options';
+
+  @override
+  String get authBackToRegisterEntry => 'Back to registration options';
+
+  @override
+  String get authMethodFormSubtitle =>
+      'Complete secure verification with a one-time code.';
+
+  @override
+  String get authMobileLoginTitle => 'Phone sign in';
+
+  @override
+  String get authEmailLoginTitle => 'Email sign in';
+
+  @override
+  String get authMobileRegisterTitle => 'Phone registration';
+
+  @override
+  String get authEmailRegisterTitle => 'Email registration';
+
+  @override
   String get registerAccountLabel => 'Phone number or email';
 
   @override

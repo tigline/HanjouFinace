@@ -1,13 +1,16 @@
-class AuthSession {
-  const AuthSession({
-    required this.accessToken,
-    required this.refreshToken,
-    required this.expiresAt,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final String accessToken;
-  final String refreshToken;
-  final DateTime expiresAt;
+part 'auth_session.freezed.dart';
+
+@freezed
+class AuthSession with _$AuthSession {
+  const AuthSession._();
+
+  const factory AuthSession({
+    required String accessToken,
+    required String refreshToken,
+    required DateTime expiresAt,
+  }) = _AuthSession;
 
   bool get isExpired => DateTime.now().isAfter(expiresAt);
 }

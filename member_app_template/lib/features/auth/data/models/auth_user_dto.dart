@@ -1,37 +1,41 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../domain/entities/auth_user.dart';
 
-class AuthUserDto {
-  const AuthUserDto({
-    required this.username,
-    this.userId,
-    this.email,
-    this.mobile,
-    this.memberLevel,
-    this.intlTelCode,
-  });
+part 'auth_user_dto.freezed.dart';
+part 'auth_user_dto.g.dart';
 
-  final String username;
-  final int? userId;
-  final String? email;
-  final String? mobile;
-  final int? memberLevel;
-  final String? intlTelCode;
+@freezed
+class AuthUserDto with _$AuthUserDto {
+  const AuthUserDto._();
 
-  factory AuthUserDto.fromJson(Map<String, dynamic> json) {
+  const factory AuthUserDto({
+    required String username,
+    int? userId,
+    String? email,
+    String? mobile,
+    int? memberLevel,
+    String? intlTelCode,
+  }) = _AuthUserDto;
+
+  factory AuthUserDto.fromJson(Map<String, dynamic> json) =>
+      _$AuthUserDtoFromJson(_normalizedJson(json));
+
+  static Map<String, dynamic> _normalizedJson(Map<String, dynamic> json) {
     final username =
         _stringOrNull(json['username']) ??
         _stringOrNull(json['usename']) ??
         _stringOrNull(json['mobile']) ??
         '';
 
-    return AuthUserDto(
-      username: username,
-      userId: _intOrNull(json['userId']),
-      email: _normalizedOptionalString(json['email']),
-      mobile: _normalizedOptionalString(json['mobile']),
-      memberLevel: _intOrNull(json['memberLevel']),
-      intlTelCode: _normalizedOptionalString(json['intlTelCode']),
-    );
+    return <String, dynamic>{
+      'username': username,
+      'userId': _intOrNull(json['userId']),
+      'email': _normalizedOptionalString(json['email']),
+      'mobile': _normalizedOptionalString(json['mobile']),
+      'memberLevel': _intOrNull(json['memberLevel']),
+      'intlTelCode': _normalizedOptionalString(json['intlTelCode']),
+    };
   }
 
   static AuthUserDto? tryFromLoginPayload(Map<String, dynamic> json) {
@@ -61,17 +65,6 @@ class AuthUserDto {
       memberLevel: memberLevel,
       intlTelCode: intlTelCode,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'username': username,
-      'userId': userId,
-      'email': email,
-      'mobile': mobile,
-      'memberLevel': memberLevel,
-      'intlTelCode': intlTelCode,
-    };
   }
 
   AuthUser toEntity() {

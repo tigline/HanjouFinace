@@ -172,11 +172,17 @@ void main() {
         authRepository: repository,
       );
 
-      await _pumpUntilVisible(tester, find.byType(TextField));
-      expect(find.byType(TextField), findsNWidgets(2));
-
-      await tester.tap(find.byKey(const Key('login_mode_email_button')));
+      await _pumpUntilVisible(tester, find.byKey(const Key('auth_entry_page')));
+      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
+      await tester.ensureVisible(
+        find.byKey(const Key('auth_entry_email_login_button')),
+      );
+      await tester.tap(find.byKey(const Key('auth_entry_email_login_button')));
       await tester.pumpAndSettle();
+
+      await _pumpUntilVisible(tester, find.byType(TextField));
+      expect(find.byKey(const Key('login_email_page')), findsOneWidget);
+      expect(find.byType(TextField), findsNWidgets(2));
       await tester.enterText(find.byType(TextField).at(0), 'user@example.com');
       await tester.enterText(find.byType(TextField).at(1), '123456');
 
@@ -218,7 +224,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
 
       expect(repository.logoutCalled, isTrue);
-      expect(find.byType(TextField), findsNWidgets(2));
+      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
     });
   });
 }

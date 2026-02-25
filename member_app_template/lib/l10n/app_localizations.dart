@@ -214,6 +214,102 @@ abstract class AppLocalizations {
   /// **'Phone'**
   String get authModeMobile;
 
+  /// No description provided for @authEntryHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'One sign-in for investment and hotel member services'**
+  String get authEntryHeadline;
+
+  /// No description provided for @authEntryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with phone or email to manage investments, bookings, and member privileges.'**
+  String get authEntryDescription;
+
+  /// No description provided for @authEntryPhoneLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with phone'**
+  String get authEntryPhoneLogin;
+
+  /// No description provided for @authEntryEmailLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with email'**
+  String get authEntryEmailLogin;
+
+  /// No description provided for @authEntryNonMemberRegisterNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a member? Register now'**
+  String get authEntryNonMemberRegisterNow;
+
+  /// No description provided for @authRegisterEntryHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose registration method'**
+  String get authRegisterEntryHeadline;
+
+  /// No description provided for @authRegisterEntryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account with phone or email and manage all member services in one place.'**
+  String get authRegisterEntryDescription;
+
+  /// No description provided for @authEntryPhoneRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Register with phone'**
+  String get authEntryPhoneRegister;
+
+  /// No description provided for @authEntryEmailRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Register with email'**
+  String get authEntryEmailRegister;
+
+  /// No description provided for @authBackToLoginEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign-in options'**
+  String get authBackToLoginEntry;
+
+  /// No description provided for @authBackToRegisterEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to registration options'**
+  String get authBackToRegisterEntry;
+
+  /// No description provided for @authMethodFormSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete secure verification with a one-time code.'**
+  String get authMethodFormSubtitle;
+
+  /// No description provided for @authMobileLoginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone sign in'**
+  String get authMobileLoginTitle;
+
+  /// No description provided for @authEmailLoginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email sign in'**
+  String get authEmailLoginTitle;
+
+  /// No description provided for @authMobileRegisterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone registration'**
+  String get authMobileRegisterTitle;
+
+  /// No description provided for @authEmailRegisterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email registration'**
+  String get authEmailRegisterTitle;
+
   /// No description provided for @registerAccountLabel.
   ///
   /// In en, this message translates to:
