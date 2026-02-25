@@ -67,6 +67,15 @@ void main() {
       expect(redirect, isNull);
     });
 
+    test('keeps unauthenticated user on member profile onboarding', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(false),
+        location: '/member-profile/onboarding',
+      );
+
+      expect(redirect, isNull);
+    });
+
     test('keeps unauthenticated user on nested login route', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(false),

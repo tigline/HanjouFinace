@@ -11,6 +11,7 @@ import 'package:member_app_template/features/auth/data/models/auth_user_dto.dart
 import 'package:member_app_template/features/auth/domain/entities/auth_session.dart';
 import 'package:member_app_template/features/auth/domain/repositories/auth_repository.dart';
 import 'package:member_app_template/features/auth/presentation/providers/auth_providers.dart';
+import 'package:member_app_template/features/member_profile/presentation/providers/member_profile_providers.dart';
 
 class _SeededTokenStore implements TokenStore {
   _SeededTokenStore({String? accessToken, String? refreshToken})
@@ -142,6 +143,7 @@ Future<void> _pumpApp(
           _InMemoryAuthLocalDataSource(),
         ),
         authRepositoryProvider.overrideWithValue(authRepository),
+        isMemberProfileCompletedProvider.overrideWith((ref) async => false),
       ],
       child: const MemberTemplateApp(),
     ),

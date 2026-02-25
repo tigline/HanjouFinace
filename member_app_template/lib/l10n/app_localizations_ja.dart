@@ -109,6 +109,199 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authMethodFormSubtitle => '認証コードで安全に確認を完了します。';
 
   @override
+  String get profileOnboardingTitle => '詳細情報の入力';
+
+  @override
+  String get profileEditTitle => '詳細情報を編集';
+
+  @override
+  String get profileOnboardingCardTitle => '取引・宿泊前の本人情報確認';
+
+  @override
+  String get profileOnboardingCardSubtitle =>
+      '取引・宿泊の確認要件のため詳細情報を入力してください。あとで入力することもできます。';
+
+  @override
+  String get profileEditCardTitle => '詳細情報';
+
+  @override
+  String get profileEditCardSubtitle => '前回ローカル保存した内容を保持したまま再編集できます。';
+
+  @override
+  String get profileLastSavedHint => '前回保存したローカル情報を読み込みました。';
+
+  @override
+  String get profileSkipButton => 'あとで入力';
+
+  @override
+  String get profileStepName => '氏名';
+
+  @override
+  String get profileStepNameSubtitle => '日本式の順序で姓・名を入力します。';
+
+  @override
+  String get profileStepContact => '連絡先';
+
+  @override
+  String get profileStepContactSubtitle => '住所・電話・メールを入力します（利用可能な場合は自動入力）。';
+
+  @override
+  String get profileStepDocument => '本人確認書類の写真';
+
+  @override
+  String get profileStepDocumentSubtitle => '後続の取引・宿泊確認のため書類写真をアップロードします。';
+
+  @override
+  String get profileFamilyNameLabel => '姓';
+
+  @override
+  String get profileFamilyNameHint => '姓を入力';
+
+  @override
+  String get profileGivenNameLabel => '名';
+
+  @override
+  String get profileGivenNameHint => '名を入力';
+
+  @override
+  String get profileAddressLabel => '住所';
+
+  @override
+  String get profileAddressHint => '住所を入力（都道府県 / 市区町村 / 番地 / 建物名）';
+
+  @override
+  String get profilePhoneLabel => '電話番号';
+
+  @override
+  String get profilePhoneHint => '電話番号を入力';
+
+  @override
+  String get profileEmailLabel => 'メールアドレス';
+
+  @override
+  String get profileEmailHint => 'メールアドレスを入力';
+
+  @override
+  String get profileDocumentPhotoLabel => '本人確認書類の写真';
+
+  @override
+  String get profileDocumentAddPhoto => '書類写真をアップロード';
+
+  @override
+  String get profileDocumentChangePhoto => '書類写真を変更';
+
+  @override
+  String get profileDocumentRemovePhoto => '書類写真を削除';
+
+  @override
+  String get profileDocumentTakePhoto => '写真を撮る';
+
+  @override
+  String get profileDocumentPickFromGallery => '写真ライブラリから選択';
+
+  @override
+  String get profileDocumentHint => '後続の確認作業のため、鮮明で文字が見える書類写真をアップロードしてください。';
+
+  @override
+  String get profileDocumentAttachedBadge => '添付済み';
+
+  @override
+  String get profilePrevStep => '戻る';
+
+  @override
+  String get profileNextStep => '次へ';
+
+  @override
+  String get profileSaveButton => '保存';
+
+  @override
+  String get profileSavedTitle => '詳細情報を保存しました';
+
+  @override
+  String get profileSavedAndContinueLoginMessage =>
+      '詳細情報はローカルに保存されました。続けてログインできます。';
+
+  @override
+  String get profileSavedSnackbar => '詳細情報をローカルに保存しました。';
+
+  @override
+  String get profileIntakeValidationTitle => '入力未完了';
+
+  @override
+  String get profileFamilyNameRequired => '姓を入力してください。';
+
+  @override
+  String get profileGivenNameRequired => '名を入力してください。';
+
+  @override
+  String get profileAddressRequired => '住所を入力してください。';
+
+  @override
+  String get profilePhoneRequired => '有効な電話番号を入力してください。';
+
+  @override
+  String get profileEmailRequired => '有効なメールアドレスを入力してください。';
+
+  @override
+  String get profileDocumentPhotoRequired => '本人確認書類の写真をアップロードしてください。';
+
+  @override
+  String get profileDocumentPickFailed => '書類写真の選択に失敗しました。再度お試しください。';
+
+  @override
+  String get profileIncompleteBannerTitle => '詳細情報が未完了です';
+
+  @override
+  String get profileIncompleteBannerSubtitle => '取引・宿泊には詳細情報の完了が必要です。';
+
+  @override
+  String get profileIncompleteBannerBody =>
+      '氏名、住所、電話、メール、本人確認書類の写真を入力後に取引または宿泊手続きを進めてください。';
+
+  @override
+  String get profileGuardTitle => '先に詳細情報の入力が必要です';
+
+  @override
+  String get profileGuardMessage => '取引または宿泊の前に詳細情報を入力してください。';
+
+  @override
+  String profileGuardMessageWithAction(Object actionLabel) {
+    return '「$actionLabel」の前に詳細情報の入力が必要です。';
+  }
+
+  @override
+  String get profileGuardCancel => 'キャンセル';
+
+  @override
+  String get profileGuardGoFill => '入力する';
+
+  @override
+  String profileGuardPassMessage(Object actionLabel) {
+    return '詳細情報の確認が完了しました。$actionLabelを続けられます。';
+  }
+
+  @override
+  String get profileStatusCardTitle => '詳細情報の状態';
+
+  @override
+  String get profileStatusCompleted => '完了済み。取引・宿泊を進められます。';
+
+  @override
+  String get profileStatusIncomplete => '未完了。取引・宿泊前に詳細情報を入力してください。';
+
+  @override
+  String get profileStatusLoadFailed => '詳細情報の状態を読み込めませんでした。';
+
+  @override
+  String get profileEditEntryButton => '入力 / 編集';
+
+  @override
+  String get profileProtectedBookingAction => '宿泊予約';
+
+  @override
+  String get profileProtectedTradeAction => '取引';
+
+  @override
   String get authMobileLoginTitle => '電話ログイン';
 
   @override

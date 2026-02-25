@@ -108,6 +108,197 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authMethodFormSubtitle => '使用验证码完成安全验证。';
 
   @override
+  String get profileOnboardingTitle => '完善详细资料';
+
+  @override
+  String get profileEditTitle => '编辑详细资料';
+
+  @override
+  String get profileOnboardingCardTitle => '交易与订房前资料确认';
+
+  @override
+  String get profileOnboardingCardSubtitle =>
+      '为符合交易与订房实名要求，请补充详细资料。可先跳过，后续再填写。';
+
+  @override
+  String get profileEditCardTitle => '详细资料';
+
+  @override
+  String get profileEditCardSubtitle => '再次填写会保留你上次保存的内容。';
+
+  @override
+  String get profileLastSavedHint => '已加载本地保存内容，可继续补充或修改。';
+
+  @override
+  String get profileSkipButton => '稍后填写';
+
+  @override
+  String get profileStepName => '姓名';
+
+  @override
+  String get profileStepNameSubtitle => '按日式录入顺序填写姓与名。';
+
+  @override
+  String get profileStepContact => '联系方式';
+
+  @override
+  String get profileStepContactSubtitle => '填写地址、电话与邮箱（如有已自动填充）。';
+
+  @override
+  String get profileStepDocument => '证件照片';
+
+  @override
+  String get profileStepDocumentSubtitle => '上传证件照片用于后续交易与订房校验。';
+
+  @override
+  String get profileFamilyNameLabel => '姓';
+
+  @override
+  String get profileFamilyNameHint => '请输入姓';
+
+  @override
+  String get profileGivenNameLabel => '名';
+
+  @override
+  String get profileGivenNameHint => '请输入名';
+
+  @override
+  String get profileAddressLabel => '地址';
+
+  @override
+  String get profileAddressHint => '请输入完整地址（都道府县 / 市区町村 / 详细地址）';
+
+  @override
+  String get profilePhoneLabel => '电话';
+
+  @override
+  String get profilePhoneHint => '请输入联系电话';
+
+  @override
+  String get profileEmailLabel => '邮箱';
+
+  @override
+  String get profileEmailHint => '请输入邮箱地址';
+
+  @override
+  String get profileDocumentPhotoLabel => '证件照片';
+
+  @override
+  String get profileDocumentAddPhoto => '上传证件照片';
+
+  @override
+  String get profileDocumentChangePhoto => '更换证件照片';
+
+  @override
+  String get profileDocumentRemovePhoto => '移除证件照片';
+
+  @override
+  String get profileDocumentTakePhoto => '拍照上传';
+
+  @override
+  String get profileDocumentPickFromGallery => '从相册选择';
+
+  @override
+  String get profileDocumentHint => '建议上传清晰、无遮挡的证件照片，便于后续人工审核。';
+
+  @override
+  String get profileDocumentAttachedBadge => '已上传';
+
+  @override
+  String get profilePrevStep => '上一步';
+
+  @override
+  String get profileNextStep => '下一步';
+
+  @override
+  String get profileSaveButton => '保存资料';
+
+  @override
+  String get profileSavedTitle => '资料已保存';
+
+  @override
+  String get profileSavedAndContinueLoginMessage => '详细资料已保存在本地，你可以继续登录。';
+
+  @override
+  String get profileSavedSnackbar => '详细资料已保存到本地。';
+
+  @override
+  String get profileIntakeValidationTitle => '资料未完成';
+
+  @override
+  String get profileFamilyNameRequired => '请填写姓。';
+
+  @override
+  String get profileGivenNameRequired => '请填写名。';
+
+  @override
+  String get profileAddressRequired => '请填写地址。';
+
+  @override
+  String get profilePhoneRequired => '请填写有效电话。';
+
+  @override
+  String get profileEmailRequired => '请填写有效邮箱。';
+
+  @override
+  String get profileDocumentPhotoRequired => '请上传证件照片。';
+
+  @override
+  String get profileDocumentPickFailed => '证件照片选择失败，请重试。';
+
+  @override
+  String get profileIncompleteBannerTitle => '资料未完成';
+
+  @override
+  String get profileIncompleteBannerSubtitle => '交易与订房前需要完整资料。';
+
+  @override
+  String get profileIncompleteBannerBody => '请补齐姓名、地址、电话、邮箱和证件照片后再进行交易或订房。';
+
+  @override
+  String get profileGuardTitle => '需要先完善详细资料';
+
+  @override
+  String get profileGuardMessage => '交易或订房前需要先完成详细资料录入。';
+
+  @override
+  String profileGuardMessageWithAction(Object actionLabel) {
+    return '进行“$actionLabel”前需要先完成详细资料录入。';
+  }
+
+  @override
+  String get profileGuardCancel => '取消';
+
+  @override
+  String get profileGuardGoFill => '去填写';
+
+  @override
+  String profileGuardPassMessage(Object actionLabel) {
+    return '已通过资料校验，可继续$actionLabel。';
+  }
+
+  @override
+  String get profileStatusCardTitle => '详细资料状态';
+
+  @override
+  String get profileStatusCompleted => '已完成，可进行交易与订房。';
+
+  @override
+  String get profileStatusIncomplete => '未完成，交易与订房前需先补充资料。';
+
+  @override
+  String get profileStatusLoadFailed => '资料状态读取失败，请稍后重试。';
+
+  @override
+  String get profileEditEntryButton => '填写/编辑资料';
+
+  @override
+  String get profileProtectedBookingAction => '订房';
+
+  @override
+  String get profileProtectedTradeAction => '交易';
+
+  @override
   String get authMobileLoginTitle => '手机号登录';
 
   @override

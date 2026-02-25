@@ -615,7 +615,21 @@ class _AuthMethodRegisterPageState
       setState(() {
         _isSubmitting = false;
       });
-      context.go(_isEmailMode ? '/login/email' : '/login/mobile');
+      final trimmedContact = _contactController.text.trim();
+      final seedPhone = _isEmailMode ? trimmedContact : _accountValue;
+      final seedEmail = _isEmailMode
+          ? _accountValue
+          : (trimmedContact.contains('@') ? trimmedContact : null);
+      final nextRoute = _isEmailMode ? '/login/email' : '/login/mobile';
+      final route = Uri(
+        path: '/member-profile/onboarding',
+        queryParameters: <String, String>{
+          'next': nextRoute,
+          if (seedPhone.isNotEmpty) 'phone': seedPhone,
+          if (seedEmail != null && seedEmail.isNotEmpty) 'email': seedEmail,
+        },
+      ).toString();
+      context.go(route);
     }
   }
 
@@ -803,6 +817,7 @@ class _AuthMethodRegisterPageState
   }
 }
 
+// ignore: unused_element
 class _ModeBadge extends StatelessWidget {
   const _ModeBadge({required this.icon, required this.label});
 

@@ -119,6 +119,214 @@ class AppLocalizationsEn extends AppLocalizations {
       'Complete secure verification with a one-time code.';
 
   @override
+  String get profileOnboardingTitle => 'Complete profile details';
+
+  @override
+  String get profileEditTitle => 'Edit profile details';
+
+  @override
+  String get profileOnboardingCardTitle =>
+      'Profile confirmation before trading & booking';
+
+  @override
+  String get profileOnboardingCardSubtitle =>
+      'To meet transaction and booking verification requirements, please complete your profile details. You can skip for now and return later.';
+
+  @override
+  String get profileEditCardTitle => 'Profile details';
+
+  @override
+  String get profileEditCardSubtitle =>
+      'Your previous local input is retained and can be updated anytime.';
+
+  @override
+  String get profileLastSavedHint =>
+      'Previously saved local details have been loaded.';
+
+  @override
+  String get profileSkipButton => 'Skip for now';
+
+  @override
+  String get profileStepName => 'Name';
+
+  @override
+  String get profileStepNameSubtitle =>
+      'Enter family name first, then given name (JP-style order).';
+
+  @override
+  String get profileStepContact => 'Contact details';
+
+  @override
+  String get profileStepContactSubtitle =>
+      'Enter address, phone, and email (auto-filled when available).';
+
+  @override
+  String get profileStepDocument => 'ID document photo';
+
+  @override
+  String get profileStepDocumentSubtitle =>
+      'Upload an ID photo for future trading and booking verification.';
+
+  @override
+  String get profileFamilyNameLabel => 'Family name';
+
+  @override
+  String get profileFamilyNameHint => 'Enter family name';
+
+  @override
+  String get profileGivenNameLabel => 'Given name';
+
+  @override
+  String get profileGivenNameHint => 'Enter given name';
+
+  @override
+  String get profileAddressLabel => 'Address';
+
+  @override
+  String get profileAddressHint =>
+      'Enter full address (prefecture/city/street/building)';
+
+  @override
+  String get profilePhoneLabel => 'Phone';
+
+  @override
+  String get profilePhoneHint => 'Enter phone number';
+
+  @override
+  String get profileEmailLabel => 'Email';
+
+  @override
+  String get profileEmailHint => 'Enter email address';
+
+  @override
+  String get profileDocumentPhotoLabel => 'ID document photo';
+
+  @override
+  String get profileDocumentAddPhoto => 'Upload document photo';
+
+  @override
+  String get profileDocumentChangePhoto => 'Change document photo';
+
+  @override
+  String get profileDocumentRemovePhoto => 'Remove document photo';
+
+  @override
+  String get profileDocumentTakePhoto => 'Take photo';
+
+  @override
+  String get profileDocumentPickFromGallery => 'Choose from gallery';
+
+  @override
+  String get profileDocumentHint =>
+      'Please upload a clear, unobstructed document photo for later manual review.';
+
+  @override
+  String get profileDocumentAttachedBadge => 'Attached';
+
+  @override
+  String get profilePrevStep => 'Back';
+
+  @override
+  String get profileNextStep => 'Next';
+
+  @override
+  String get profileSaveButton => 'Save details';
+
+  @override
+  String get profileSavedTitle => 'Profile details saved';
+
+  @override
+  String get profileSavedAndContinueLoginMessage =>
+      'Your details have been saved locally. You can continue to sign in.';
+
+  @override
+  String get profileSavedSnackbar => 'Profile details saved locally.';
+
+  @override
+  String get profileIntakeValidationTitle => 'Incomplete profile details';
+
+  @override
+  String get profileFamilyNameRequired => 'Please enter your family name.';
+
+  @override
+  String get profileGivenNameRequired => 'Please enter your given name.';
+
+  @override
+  String get profileAddressRequired => 'Please enter your address.';
+
+  @override
+  String get profilePhoneRequired => 'Please enter a valid phone number.';
+
+  @override
+  String get profileEmailRequired => 'Please enter a valid email address.';
+
+  @override
+  String get profileDocumentPhotoRequired =>
+      'Please upload an ID document photo.';
+
+  @override
+  String get profileDocumentPickFailed =>
+      'Failed to select document photo. Please try again.';
+
+  @override
+  String get profileIncompleteBannerTitle => 'Profile details incomplete';
+
+  @override
+  String get profileIncompleteBannerSubtitle =>
+      'Trading and booking require a complete profile.';
+
+  @override
+  String get profileIncompleteBannerBody =>
+      'Please complete name, address, phone, email, and ID document photo before trading or booking.';
+
+  @override
+  String get profileGuardTitle => 'Profile details required';
+
+  @override
+  String get profileGuardMessage =>
+      'Please complete your profile details before trading or booking.';
+
+  @override
+  String profileGuardMessageWithAction(Object actionLabel) {
+    return 'Please complete your profile details before \"$actionLabel\".';
+  }
+
+  @override
+  String get profileGuardCancel => 'Cancel';
+
+  @override
+  String get profileGuardGoFill => 'Complete now';
+
+  @override
+  String profileGuardPassMessage(Object actionLabel) {
+    return 'Profile validation passed. You can continue with $actionLabel.';
+  }
+
+  @override
+  String get profileStatusCardTitle => 'Profile detail status';
+
+  @override
+  String get profileStatusCompleted =>
+      'Completed. Trading and booking are available.';
+
+  @override
+  String get profileStatusIncomplete =>
+      'Incomplete. Please complete your details before trading or booking.';
+
+  @override
+  String get profileStatusLoadFailed =>
+      'Unable to load profile status. Please try again.';
+
+  @override
+  String get profileEditEntryButton => 'Fill / Edit details';
+
+  @override
+  String get profileProtectedBookingAction => 'Booking';
+
+  @override
+  String get profileProtectedTradeAction => 'Trading';
+
+  @override
   String get authMobileLoginTitle => 'Phone sign in';
 
   @override

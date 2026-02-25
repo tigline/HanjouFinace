@@ -11,6 +11,7 @@ import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
+import '../../features/member_profile/presentation/pages/member_profile_intake_page.dart';
 
 String? resolveAuthRedirect({
   required AsyncValue<bool> authState,
@@ -26,9 +27,11 @@ String? resolveAuthRedirect({
       location.startsWith('/register/') ||
       location == '/register-legacy';
   final isForgotPassword = location == '/forgot-password';
+  final isMemberProfileOnboarding = location == '/member-profile/onboarding';
   final isHotelDesignShowcase = location == '/design-showcase/hotel';
   final isAuthRoute = isLogin || isRegister || isForgotPassword;
-  final isPublicRoute = isAuthRoute || isHotelDesignShowcase;
+  final isPublicRoute =
+      isAuthRoute || isHotelDesignShowcase || isMemberProfileOnboarding;
 
   if (authState.isLoading) {
     return isSplash ? null : '/splash';
@@ -125,6 +128,23 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/home',
         builder: (BuildContext context, GoRouterState state) {
           return const HomePage();
+        },
+      ),
+      GoRoute(
+        path: '/member-profile/onboarding',
+        builder: (BuildContext context, GoRouterState state) {
+          final query = state.uri.queryParameters;
+          return MemberProfileIntakePage.onboarding(
+            nextRoute: query['next'],
+            seedPhone: query['phone'],
+            seedEmail: query['email'],
+          );
+        },
+      ),
+      GoRoute(
+        path: '/member-profile/edit',
+        builder: (BuildContext context, GoRouterState state) {
+          return const MemberProfileIntakePage.edit();
         },
       ),
       GoRoute(

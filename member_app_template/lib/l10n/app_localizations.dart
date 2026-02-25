@@ -298,6 +298,378 @@ abstract class AppLocalizations {
   /// **'Complete secure verification with a one-time code.'**
   String get authMethodFormSubtitle;
 
+  /// No description provided for @profileOnboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete profile details'**
+  String get profileOnboardingTitle;
+
+  /// No description provided for @profileEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile details'**
+  String get profileEditTitle;
+
+  /// No description provided for @profileOnboardingCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile confirmation before trading & booking'**
+  String get profileOnboardingCardTitle;
+
+  /// No description provided for @profileOnboardingCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'To meet transaction and booking verification requirements, please complete your profile details. You can skip for now and return later.'**
+  String get profileOnboardingCardSubtitle;
+
+  /// No description provided for @profileEditCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile details'**
+  String get profileEditCardTitle;
+
+  /// No description provided for @profileEditCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your previous local input is retained and can be updated anytime.'**
+  String get profileEditCardSubtitle;
+
+  /// No description provided for @profileLastSavedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Previously saved local details have been loaded.'**
+  String get profileLastSavedHint;
+
+  /// No description provided for @profileSkipButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get profileSkipButton;
+
+  /// No description provided for @profileStepName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get profileStepName;
+
+  /// No description provided for @profileStepNameSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter family name first, then given name (JP-style order).'**
+  String get profileStepNameSubtitle;
+
+  /// No description provided for @profileStepContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact details'**
+  String get profileStepContact;
+
+  /// No description provided for @profileStepContactSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter address, phone, and email (auto-filled when available).'**
+  String get profileStepContactSubtitle;
+
+  /// No description provided for @profileStepDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'ID document photo'**
+  String get profileStepDocument;
+
+  /// No description provided for @profileStepDocumentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload an ID photo for future trading and booking verification.'**
+  String get profileStepDocumentSubtitle;
+
+  /// No description provided for @profileFamilyNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Family name'**
+  String get profileFamilyNameLabel;
+
+  /// No description provided for @profileFamilyNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter family name'**
+  String get profileFamilyNameHint;
+
+  /// No description provided for @profileGivenNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Given name'**
+  String get profileGivenNameLabel;
+
+  /// No description provided for @profileGivenNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter given name'**
+  String get profileGivenNameHint;
+
+  /// No description provided for @profileAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get profileAddressLabel;
+
+  /// No description provided for @profileAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter full address (prefecture/city/street/building)'**
+  String get profileAddressHint;
+
+  /// No description provided for @profilePhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get profilePhoneLabel;
+
+  /// No description provided for @profilePhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter phone number'**
+  String get profilePhoneHint;
+
+  /// No description provided for @profileEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileEmailLabel;
+
+  /// No description provided for @profileEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email address'**
+  String get profileEmailHint;
+
+  /// No description provided for @profileDocumentPhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ID document photo'**
+  String get profileDocumentPhotoLabel;
+
+  /// No description provided for @profileDocumentAddPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload document photo'**
+  String get profileDocumentAddPhoto;
+
+  /// No description provided for @profileDocumentChangePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Change document photo'**
+  String get profileDocumentChangePhoto;
+
+  /// No description provided for @profileDocumentRemovePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove document photo'**
+  String get profileDocumentRemovePhoto;
+
+  /// No description provided for @profileDocumentTakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get profileDocumentTakePhoto;
+
+  /// No description provided for @profileDocumentPickFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get profileDocumentPickFromGallery;
+
+  /// No description provided for @profileDocumentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Please upload a clear, unobstructed document photo for later manual review.'**
+  String get profileDocumentHint;
+
+  /// No description provided for @profileDocumentAttachedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached'**
+  String get profileDocumentAttachedBadge;
+
+  /// No description provided for @profilePrevStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get profilePrevStep;
+
+  /// No description provided for @profileNextStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get profileNextStep;
+
+  /// No description provided for @profileSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save details'**
+  String get profileSaveButton;
+
+  /// No description provided for @profileSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile details saved'**
+  String get profileSavedTitle;
+
+  /// No description provided for @profileSavedAndContinueLoginMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your details have been saved locally. You can continue to sign in.'**
+  String get profileSavedAndContinueLoginMessage;
+
+  /// No description provided for @profileSavedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile details saved locally.'**
+  String get profileSavedSnackbar;
+
+  /// No description provided for @profileIntakeValidationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete profile details'**
+  String get profileIntakeValidationTitle;
+
+  /// No description provided for @profileFamilyNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your family name.'**
+  String get profileFamilyNameRequired;
+
+  /// No description provided for @profileGivenNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your given name.'**
+  String get profileGivenNameRequired;
+
+  /// No description provided for @profileAddressRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your address.'**
+  String get profileAddressRequired;
+
+  /// No description provided for @profilePhoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number.'**
+  String get profilePhoneRequired;
+
+  /// No description provided for @profileEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get profileEmailRequired;
+
+  /// No description provided for @profileDocumentPhotoRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please upload an ID document photo.'**
+  String get profileDocumentPhotoRequired;
+
+  /// No description provided for @profileDocumentPickFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to select document photo. Please try again.'**
+  String get profileDocumentPickFailed;
+
+  /// No description provided for @profileIncompleteBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile details incomplete'**
+  String get profileIncompleteBannerTitle;
+
+  /// No description provided for @profileIncompleteBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trading and booking require a complete profile.'**
+  String get profileIncompleteBannerSubtitle;
+
+  /// No description provided for @profileIncompleteBannerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete name, address, phone, email, and ID document photo before trading or booking.'**
+  String get profileIncompleteBannerBody;
+
+  /// No description provided for @profileGuardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile details required'**
+  String get profileGuardTitle;
+
+  /// No description provided for @profileGuardMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your profile details before trading or booking.'**
+  String get profileGuardMessage;
+
+  /// No description provided for @profileGuardMessageWithAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your profile details before \"{actionLabel}\".'**
+  String profileGuardMessageWithAction(Object actionLabel);
+
+  /// No description provided for @profileGuardCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get profileGuardCancel;
+
+  /// No description provided for @profileGuardGoFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete now'**
+  String get profileGuardGoFill;
+
+  /// No description provided for @profileGuardPassMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile validation passed. You can continue with {actionLabel}.'**
+  String profileGuardPassMessage(Object actionLabel);
+
+  /// No description provided for @profileStatusCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile detail status'**
+  String get profileStatusCardTitle;
+
+  /// No description provided for @profileStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed. Trading and booking are available.'**
+  String get profileStatusCompleted;
+
+  /// No description provided for @profileStatusIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete. Please complete your details before trading or booking.'**
+  String get profileStatusIncomplete;
+
+  /// No description provided for @profileStatusLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load profile status. Please try again.'**
+  String get profileStatusLoadFailed;
+
+  /// No description provided for @profileEditEntryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill / Edit details'**
+  String get profileEditEntryButton;
+
+  /// No description provided for @profileProtectedBookingAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking'**
+  String get profileProtectedBookingAction;
+
+  /// No description provided for @profileProtectedTradeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Trading'**
+  String get profileProtectedTradeAction;
+
   /// No description provided for @authMobileLoginTitle.
   ///
   /// In en, this message translates to:
