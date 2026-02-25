@@ -28,8 +28,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> sendLoginCode({required String account}) {
-    return _remote.sendLoginCode(account: account);
+  Future<void> sendLoginCode({required String account, String? intlCode}) {
+    return _remote.sendLoginCode(account: account, intlCode: intlCode);
   }
 
   @override
@@ -44,8 +44,13 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<AuthSession> loginWithCode({
     required String account,
     required String code,
+    String? intlCode,
   }) async {
-    final result = await _remote.loginWithCode(account: account, code: code);
+    final result = await _remote.loginWithCode(
+      account: account,
+      code: code,
+      intlCode: intlCode,
+    );
     await _tokenStore.save(
       TokenPair(
         accessToken: result.session.accessToken,

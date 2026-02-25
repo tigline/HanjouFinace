@@ -30,6 +30,8 @@
   "authEntryEmailRegister": "メールで登録",
   "authBackToLoginEntry": "ログイン方法へ戻る",
   "authBackToRegisterEntry": "登録方法へ戻る",
+  "authIntlCodeLabel": "電話国番号",
+  "authIntlCodePickerTitle": "電話国番号を選択",
   "authMethodFormSubtitle": "認証コードで安全に確認を完了します。",
   "authMobileLoginTitle": "電話ログイン",
   "authEmailLoginTitle": "メールログイン",

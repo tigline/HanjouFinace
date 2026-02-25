@@ -97,7 +97,6 @@ class _AuthMarketingEntryScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
-    final authTheme = theme.extension<AppAuthVisualTheme>()!;
     final isDark = theme.brightness == Brightness.dark;
     final panelColor = theme.colorScheme.surface.withValues(
       alpha: isDark ? 0.94 : 0.98,
@@ -170,7 +169,8 @@ class _AuthMarketingEntryScaffold extends StatelessWidget {
                         //_HeroMediaCard(imageUrl: imageUrl),
                         const Center(
                           child: _HeroLogoCard(
-                            logoUrl: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png',
+                            logoUrl:
+                                'https://cdn-icons-png.flaticon.com/512/5968/5968705.png',
                           ),
                         ),
 
@@ -245,7 +245,6 @@ class _HeroLogoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
     final isDark = theme.brightness == Brightness.dark;
     final panelColor = theme.colorScheme.surface.withValues(
       alpha: isDark ? 0.94 : 0.98,
@@ -266,19 +265,20 @@ class _HeroLogoCard extends StatelessWidget {
         ],
       ),
       child: Image.network(
-          logoUrl,
-          errorBuilder: (context, error, stackTrace) {
-            return Icon(
-              Icons.hotel_class_rounded,
-              size: 28,
-              color: theme.colorScheme.onPrimary.withValues(alpha: 0.86),
-            );
-          },
-        ),
+        logoUrl,
+        errorBuilder: (context, error, stackTrace) {
+          return Icon(
+            Icons.hotel_class_rounded,
+            size: 28,
+            color: theme.colorScheme.onPrimary.withValues(alpha: 0.86),
+          );
+        },
+      ),
     );
   }
 }
 
+// ignore: unused_element
 class _HeroMediaCard extends StatelessWidget {
   const _HeroMediaCard({required this.imageUrl});
 

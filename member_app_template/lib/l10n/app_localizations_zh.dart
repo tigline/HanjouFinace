@@ -99,6 +99,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authBackToRegisterEntry => '返回注册方式';
 
   @override
+  String get authIntlCodeLabel => '手机区号';
+
+  @override
+  String get authIntlCodePickerTitle => '选择手机区号';
+
+  @override
   String get authMethodFormSubtitle => '使用验证码完成安全验证。';
 
   @override

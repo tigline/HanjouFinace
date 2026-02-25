@@ -7,7 +7,7 @@ import '../models/auth_session_dto.dart';
 import '../models/auth_user_dto.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<void> sendLoginCode({required String account});
+  Future<void> sendLoginCode({required String account, String? intlCode});
   Future<void> sendRegisterCode({
     required String account,
     required String intlCode,
@@ -15,6 +15,7 @@ abstract class AuthRemoteDataSource {
   Future<AuthLoginResultDto> loginWithCode({
     required String account,
     required String code,
+    String? intlCode,
   });
   Future<void> registerApply({
     required String account,
@@ -32,6 +33,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final CoreHttpClient _client;
 
   bool _isEmailAccount(String account) => account.contains('@');
+
+  String _normalizedIntlCode(String? intlCode) {
+    final value = intlCode?.trim();
+    return (value == null || value.isEmpty) ? defaultIntlCode : value;
+  }
 
   String _buildSmsSecret(String mobile) {
     final key = crypto.Key.fromUtf8('ookawasebirukura');
@@ -131,7 +137,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> sendLoginCode({required String account}) async {
+  Future<void> sendLoginCode({
+    required String account,
+    String? intlCode,
+  }) async {
     final normalizedAccount = account.trim();
     if (_isEmailAccount(normalizedAccount)) {
       final response = await _client.dio.get<Map<String, dynamic>>(
@@ -150,7 +159,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       LegacyApiPath.smsCode,
       queryParameters: <String, dynamic>{
         'mobile': normalizedAccount,
-        'biz': defaultIntlCode,
+        'biz': _normalizedIntlCode(intlCode),
         'secret': _buildSmsSecret(normalizedAccount),
       },
       options: authRequired(
@@ -207,9 +216,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<AuthLoginResultDto> loginWithCode({
     required String account,
     required String code,
+    String? intlCode,
   }) async {
     final normalizedAccount = account.trim();
     final isEmail = _isEmailAccount(normalizedAccount);
+    final normalizedIntlCode = _normalizedIntlCode(intlCode);
 
     final response = await _client.dio.post<Map<String, dynamic>>(
       LegacyApiPath.oauthToken,
@@ -219,7 +230,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'grant_type': 'password',
         'auth_type': isEmail ? 'email' : 'mobile',
         'scope': 'app',
-        if (!isEmail) 'code': defaultIntlCode,
+        if (!isEmail) 'code': normalizedIntlCode,
       },
       options: authRequired(false).copyWith(
         headers: <String, dynamic>{

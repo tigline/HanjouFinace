@@ -18,12 +18,12 @@ class AuthController extends StateNotifier<AuthState> {
     state = state.copyWith(code: value, clearError: true);
   }
 
-  Future<bool> sendCode() async {
+  Future<bool> sendCode({String? intlCode}) async {
     if (!state.canSendCode) return false;
     state = state.copyWith(isSendingCode: true, clearError: true);
 
     try {
-      await _sendCode.call(account: state.account.trim());
+      await _sendCode.call(account: state.account.trim(), intlCode: intlCode);
       state = state.copyWith(isSendingCode: false);
       return true;
     } catch (_) {
@@ -35,7 +35,7 @@ class AuthController extends StateNotifier<AuthState> {
     }
   }
 
-  Future<bool> login() async {
+  Future<bool> login({String? intlCode}) async {
     if (!state.canLogin) return false;
     state = state.copyWith(isLoggingIn: true, clearError: true);
 
@@ -43,6 +43,7 @@ class AuthController extends StateNotifier<AuthState> {
       final session = await _login.call(
         account: state.account.trim(),
         code: state.code.trim(),
+        intlCode: intlCode,
       );
       state = state.copyWith(isLoggingIn: false, session: session);
       return true;

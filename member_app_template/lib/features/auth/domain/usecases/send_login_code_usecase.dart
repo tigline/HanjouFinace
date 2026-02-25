@@ -5,7 +5,7 @@ class SendLoginCodeUseCase {
 
   final AuthRepository _repository;
 
-  Future<void> call({required String account}) {
-    return _repository.sendLoginCode(account: account);
+  Future<void> call({required String account, String? intlCode}) {
+    return _repository.sendLoginCode(account: account, intlCode: intlCode);
   }
 }

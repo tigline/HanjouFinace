@@ -10,7 +10,10 @@ class _FakeRepository implements AuthRepository {
   bool sendCodeCalled = false;
 
   @override
-  Future<void> sendLoginCode({required String account}) async {
+  Future<void> sendLoginCode({
+    required String account,
+    String? intlCode,
+  }) async {
     sendCodeCalled = true;
   }
 
@@ -18,6 +21,7 @@ class _FakeRepository implements AuthRepository {
   Future<AuthSession> loginWithCode({
     required String account,
     required String code,
+    String? intlCode,
   }) async {
     return AuthSession(
       accessToken: 'token',
@@ -109,8 +113,13 @@ class _ThrowingSendCodeRepository implements AuthRepository {
   Future<AuthSession> loginWithCode({
     required String account,
     required String code,
+    String? intlCode,
   }) {
-    return loginRepository.loginWithCode(account: account, code: code);
+    return loginRepository.loginWithCode(
+      account: account,
+      code: code,
+      intlCode: intlCode,
+    );
   }
 
   @override
@@ -144,7 +153,7 @@ class _ThrowingSendCodeRepository implements AuthRepository {
   }
 
   @override
-  Future<void> sendLoginCode({required String account}) {
+  Future<void> sendLoginCode({required String account, String? intlCode}) {
     throw Exception('send failed');
   }
 

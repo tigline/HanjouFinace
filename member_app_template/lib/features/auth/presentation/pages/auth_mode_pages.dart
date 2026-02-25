@@ -10,6 +10,7 @@ import 'auth_visual_scaffold.dart';
 import '../controllers/auth_controller.dart';
 import '../providers/auth_providers.dart';
 import '../support/code_send_cooldown.dart';
+import '../support/intl_code_picker_field.dart';
 import '../state/auth_state.dart';
 
 enum _AuthAccountMode { mobile, email }
@@ -67,6 +68,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
   late final TextEditingController _codeController;
   late final CodeSendCooldown _sendCodeCooldown;
   String? _localValidationError;
+  String _selectedIntlCode = defaultIntlCode;
 
   bool get _isEmailMode => widget.mode == _AuthAccountMode.email;
 
@@ -146,7 +148,9 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
     if (!_ensureValidAccountForSelectedMode(context)) {
       return;
     }
-    final sent = await controller.sendCode();
+    final sent = await controller.sendCode(
+      intlCode: _isEmailMode ? null : _selectedIntlCode,
+    );
     if (sent) {
       _sendCodeCooldown.start();
     }
@@ -156,7 +160,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
     if (!_ensureValidAccountForSelectedMode(context)) {
       return;
     }
-    await controller.login();
+    await controller.login(intlCode: _isEmailMode ? null : _selectedIntlCode);
   }
 
   String _sendCodeButtonLabel(String defaultLabel) {
@@ -240,13 +244,13 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
               ),
             ],
           ),
-          TextButton(
-            key: const Key('login_method_register_button'),
-            onPressed: () => context.push(
-              _isEmailMode ? '/register/email' : '/register/mobile',
-            ),
-            child: Text(l10n.authEntryNonMemberRegisterNow),
-          ),
+          // TextButton(
+          //   key: const Key('login_method_register_button'),
+          //   onPressed: () => context.push(
+          //     _isEmailMode ? '/register/email' : '/register/mobile',
+          //   ),
+          //   child: Text(l10n.authEntryNonMemberRegisterNow),
+          // ),
           TextButton(
             key: const Key('login_method_back_entry_button'),
             onPressed: () => context.go('/login'),
@@ -257,13 +261,25 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _ModeBadge(
-            icon: _isEmailMode
-                ? Icons.alternate_email_rounded
-                : Icons.phone_iphone_rounded,
-            label: _isEmailMode ? l10n.authModeEmail : l10n.authModeMobile,
-          ),
+          // _ModeBadge(
+          //   icon: _isEmailMode
+          //       ? Icons.alternate_email_rounded
+          //       : Icons.phone_iphone_rounded,
+          //   label: _isEmailMode ? l10n.authModeEmail : l10n.authModeMobile,
+          // ),
           const SizedBox(height: UiTokens.spacing12),
+          if (!_isEmailMode) ...<Widget>[
+            IntlCodePickerField(
+              key: const Key('login_intl_code_picker'),
+              selectedIntlCode: _selectedIntlCode,
+              onChanged: (String value) {
+                setState(() {
+                  _selectedIntlCode = value;
+                });
+              },
+            ),
+            const SizedBox(height: UiTokens.spacing12),
+          ],
           (_isEmailMode
                   ? HotelEmailTextField(
                       controller: _accountController,
@@ -360,6 +376,7 @@ class _AuthMethodRegisterPageState
   bool _acceptPolicy = false;
   bool _isSubmitting = false;
   bool _isSendingCode = false;
+  String _selectedIntlCode = defaultIntlCode;
 
   bool get _isEmailMode => widget.mode == _AuthAccountMode.email;
 
@@ -499,7 +516,7 @@ class _AuthMethodRegisterPageState
     try {
       await ref
           .read(sendRegisterCodeUseCaseProvider)
-          .call(account: _accountValue, intlCode: defaultIntlCode);
+          .call(account: _accountValue, intlCode: _selectedIntlCode);
 
       if (!mounted) {
         return;
@@ -557,7 +574,7 @@ class _AuthMethodRegisterPageState
           .call(
             account: _accountValue,
             code: _codeController.text.trim(),
-            intlCode: defaultIntlCode,
+            intlCode: _selectedIntlCode,
             contact: _contactController.text.trim(),
           );
     } catch (error) {
@@ -618,26 +635,26 @@ class _AuthMethodRegisterPageState
       subtitle: l10n.authMethodFormSubtitle,
       footer: Column(
         children: <Widget>[
-          TextButton(
-            key: const Key('register_method_switch_button'),
-            onPressed: () => context.go(
-              _isEmailMode ? '/register/mobile' : '/register/email',
-            ),
-            child: Text(
-              _isEmailMode
-                  ? l10n.authEntryPhoneRegister
-                  : l10n.authEntryEmailRegister,
-            ),
-          ),
-          TextButton(
-            key: const Key('register_method_login_button'),
-            onPressed: () =>
-                context.go(_isEmailMode ? '/login/email' : '/login/mobile'),
-            child: Text(l10n.commonBackToLogin),
-          ),
+          // TextButton(
+          //   key: const Key('register_method_switch_button'),
+          //   onPressed: () => context.go(
+          //     _isEmailMode ? '/register/mobile' : '/register/email',
+          //   ),
+          //   child: Text(
+          //     _isEmailMode
+          //         ? l10n.authEntryPhoneRegister
+          //         : l10n.authEntryEmailRegister,
+          //   ),
+          // ),
+          // TextButton(
+          //   key: const Key('register_method_login_button'),
+          //   onPressed: () =>
+          //       context.go(_isEmailMode ? '/login/email' : '/login/mobile'),
+          //   child: Text(l10n.commonBackToLogin),
+          // ),
           TextButton(
             key: const Key('register_method_back_entry_button'),
-            onPressed: () => context.go('/register'),
+            onPressed: () => context.pop(),
             child: Text(l10n.authBackToRegisterEntry),
           ),
         ],
@@ -645,13 +662,25 @@ class _AuthMethodRegisterPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _ModeBadge(
-            icon: _isEmailMode
-                ? Icons.alternate_email_rounded
-                : Icons.phone_iphone_rounded,
-            label: _isEmailMode ? l10n.authModeEmail : l10n.authModeMobile,
-          ),
+          // _ModeBadge(
+          //   icon: _isEmailMode
+          //       ? Icons.alternate_email_rounded
+          //       : Icons.phone_iphone_rounded,
+          //   label: _isEmailMode ? l10n.authModeEmail : l10n.authModeMobile,
+          // ),
           const SizedBox(height: UiTokens.spacing12),
+          if (!_isEmailMode) ...<Widget>[
+            IntlCodePickerField(
+              key: const Key('register_intl_code_picker'),
+              selectedIntlCode: _selectedIntlCode,
+              onChanged: (String value) {
+                setState(() {
+                  _selectedIntlCode = value;
+                });
+              },
+            ),
+            const SizedBox(height: UiTokens.spacing12),
+          ],
           (_isEmailMode
                   ? HotelEmailTextField(
                       controller: _accountController,
@@ -684,24 +713,24 @@ class _AuthMethodRegisterPageState
             buttonWidth: 132,
           ),
           const SizedBox(height: UiTokens.spacing12),
-          (_isEmailMode
-                  ? HotelPhoneTextField(
-                      controller: _contactController,
-                      inputKey: const Key('register_contact_input'),
-                      labelText: l10n.registerContactLabel,
-                      hintText: l10n.registerContactHelperEmail,
-                      onChanged: (_) => setState(() {}),
-                    )
-                  : HotelEmailTextField(
-                      controller: _contactController,
-                      inputKey: const Key('register_contact_input'),
-                      labelText: l10n.registerContactLabel,
-                      hintText: l10n.registerContactHelperMobile,
-                      leadingIcon: Icons.contact_mail_outlined,
-                      onChanged: (_) => setState(() {}),
-                    ))
-              as Widget,
-          const SizedBox(height: UiTokens.spacing8),
+          // (_isEmailMode
+          //         ? HotelPhoneTextField(
+          //             controller: _contactController,
+          //             inputKey: const Key('register_contact_input'),
+          //             labelText: l10n.registerContactLabel,
+          //             hintText: l10n.registerContactHelperEmail,
+          //             onChanged: (_) => setState(() {}),
+          //           )
+          //         : HotelEmailTextField(
+          //             controller: _contactController,
+          //             inputKey: const Key('register_contact_input'),
+          //             labelText: l10n.registerContactLabel,
+          //             hintText: l10n.registerContactHelperMobile,
+          //             leadingIcon: Icons.contact_mail_outlined,
+          //             onChanged: (_) => setState(() {}),
+          //           ))
+          //     as Widget,
+          // const SizedBox(height: UiTokens.spacing8),
           Container(
             decoration: BoxDecoration(
               color: travelTheme?.primaryButtonColor.withValues(alpha: 0.06),

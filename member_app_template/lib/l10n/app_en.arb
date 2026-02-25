@@ -30,6 +30,8 @@
   "authEntryEmailRegister": "Register with email",
   "authBackToLoginEntry": "Back to sign-in options",
   "authBackToRegisterEntry": "Back to registration options",
+  "authIntlCodeLabel": "Phone region code",
+  "authIntlCodePickerTitle": "Select phone region code",
   "authMethodFormSubtitle": "Complete secure verification with a one-time code.",
   "authMobileLoginTitle": "Phone sign in",
   "authEmailLoginTitle": "Email sign in",

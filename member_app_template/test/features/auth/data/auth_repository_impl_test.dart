@@ -16,6 +16,8 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
   String? lastRegisterContact;
   String? lastLoginAccount;
   String? lastLoginCode;
+  String? lastLoginIntlCode;
+  String? lastSendLoginIntlCode;
   String? lastRefreshToken;
   String? lastLogoutAccessToken;
 
@@ -41,9 +43,11 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
   Future<AuthLoginResultDto> loginWithCode({
     required String account,
     required String code,
+    String? intlCode,
   }) async {
     lastLoginAccount = account;
     lastLoginCode = code;
+    lastLoginIntlCode = intlCode;
     return loginResult;
   }
 
@@ -79,8 +83,12 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> sendLoginCode({required String account}) async {
+  Future<void> sendLoginCode({
+    required String account,
+    String? intlCode,
+  }) async {
     lastSendCodeAccount = account;
+    lastSendLoginIntlCode = intlCode;
   }
 
   @override
@@ -135,6 +143,7 @@ void main() {
         final session = await repository.loginWithCode(
           account: 'user@example.com',
           code: '123456',
+          intlCode: '86',
         );
 
         expect(session.accessToken, 'login-access');
@@ -142,6 +151,7 @@ void main() {
         expect(await tokenStore.readRefreshToken(), 'login-refresh');
         expect(remote.lastLoginAccount, 'user@example.com');
         expect(remote.lastLoginCode, '123456');
+        expect(remote.lastLoginIntlCode, '86');
         expect(local.savedUser, isNotNull);
         expect(local.savedUser?.username, 'user@example.com');
         expect(local.savedUser?.memberLevel, 10);
@@ -245,6 +255,13 @@ void main() {
 
       expect(remote.lastRegisterCodeAccount, 'user@example.com');
       expect(remote.lastRegisterIntlCode, '81');
+    });
+
+    test('sendLoginCode forwards account and optional intl code', () async {
+      await repository.sendLoginCode(account: '13900000000', intlCode: '86');
+
+      expect(remote.lastSendCodeAccount, '13900000000');
+      expect(remote.lastSendLoginIntlCode, '86');
     });
 
     test('registerAccount forwards register payload', () async {

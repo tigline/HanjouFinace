@@ -280,6 +280,18 @@ abstract class AppLocalizations {
   /// **'Back to registration options'**
   String get authBackToRegisterEntry;
 
+  /// No description provided for @authIntlCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone region code'**
+  String get authIntlCodeLabel;
+
+  /// No description provided for @authIntlCodePickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select phone region code'**
+  String get authIntlCodePickerTitle;
+
   /// No description provided for @authMethodFormSubtitle.
   ///
   /// In en, this message translates to:

@@ -109,6 +109,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authBackToRegisterEntry => 'Back to registration options';
 
   @override
+  String get authIntlCodeLabel => 'Phone region code';
+
+  @override
+  String get authIntlCodePickerTitle => 'Select phone region code';
+
+  @override
   String get authMethodFormSubtitle =>
       'Complete secure verification with a one-time code.';
 

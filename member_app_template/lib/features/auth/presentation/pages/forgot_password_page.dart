@@ -217,29 +217,29 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelSurfacePanelCard(
-            title: l10n.loginFootnote,
-            subtitle: l10n.forgotPasswordSendCodeSuccess,
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                HotelListItemCard(
-                  title: l10n.forgotPasswordTitle,
-                  location: l10n.forgotPasswordAccountLabel,
-                  subtitle: l10n.forgotPasswordCodeLabel,
-                  priceText: 'OTP',
-                  ratingText: '1/2',
-                  showChevron: false,
-                  trailing: Icon(
-                    Icons.verified_outlined,
-                    color: travelTheme?.primaryButtonColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: UiTokens.spacing16),
+          // HotelSurfacePanelCard(
+          //   title: l10n.loginFootnote,
+          //   subtitle: l10n.forgotPasswordSendCodeSuccess,
+          //   padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: <Widget>[
+          //       HotelListItemCard(
+          //         title: l10n.forgotPasswordTitle,
+          //         location: l10n.forgotPasswordAccountLabel,
+          //         subtitle: l10n.forgotPasswordCodeLabel,
+          //         priceText: 'OTP',
+          //         ratingText: '1/2',
+          //         showChevron: false,
+          //         trailing: Icon(
+          //           Icons.verified_outlined,
+          //           color: travelTheme?.primaryButtonColor,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // const SizedBox(height: UiTokens.spacing16),
           HotelPrimaryCtaButton(
             key: const Key('forgot_submit_button'),
             label: l10n.forgotPasswordSubmit,

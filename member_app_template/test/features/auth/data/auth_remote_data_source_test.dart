@@ -89,6 +89,22 @@ void main() {
     });
 
     test(
+      'sendLoginCode forwards selected intl code for mobile account',
+      () async {
+        final client = _buildClient((options) async {
+          expect(options.method, 'GET');
+          expect(options.path, LegacyApiPath.smsCode);
+          expect(options.queryParameters['mobile'], '13900000000');
+          expect(options.queryParameters['biz'], '86');
+          return _jsonOk();
+        });
+        final source = AuthRemoteDataSourceImpl(client);
+
+        await source.sendLoginCode(account: '13900000000', intlCode: '86');
+      },
+    );
+
+    test(
       'sendRegisterCode uses email register endpoint for email account',
       () async {
         final client = _buildClient((options) async {
@@ -164,6 +180,30 @@ void main() {
         expect(result.user?.username, 'user@example.com');
       },
     );
+
+    test('loginWithCode forwards selected intl code for mobile login', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, 'POST');
+        expect(options.path, LegacyApiPath.oauthToken);
+        final body = options.data as Map<String, dynamic>;
+        expect(body['username'], '13900000000');
+        expect(body['auth_type'], 'mobile');
+        expect(body['code'], '86');
+        return _jsonOk(
+          '{"msg":"success","code":200,"data":{"access_token":"newA","refresh_token":"newR","expires_in":3600,"mobile":"13900000000"}}',
+        );
+      });
+      final source = AuthRemoteDataSourceImpl(client);
+
+      final result = await source.loginWithCode(
+        account: '13900000000',
+        code: '123456',
+        intlCode: '86',
+      );
+
+      expect(result.session.accessToken, 'newA');
+      expect(result.session.refreshToken, 'newR');
+    });
 
     test(
       'refreshSession uses oauth refresh payload and parses response',

@@ -30,6 +30,8 @@
   "authEntryEmailRegister": "邮箱注册",
   "authBackToLoginEntry": "返回登录入口",
   "authBackToRegisterEntry": "返回注册方式",
+  "authIntlCodeLabel": "手机区号",
+  "authIntlCodePickerTitle": "选择手机区号",
   "authMethodFormSubtitle": "使用验证码完成安全验证。",
   "authMobileLoginTitle": "手机号登录",
   "authEmailLoginTitle": "邮箱登录",

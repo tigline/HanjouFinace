@@ -100,6 +100,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authBackToRegisterEntry => '登録方法へ戻る';
 
   @override
+  String get authIntlCodeLabel => '電話国番号';
+
+  @override
+  String get authIntlCodePickerTitle => '電話国番号を選択';
+
+  @override
   String get authMethodFormSubtitle => '認証コードで安全に確認を完了します。';
 
   @override

@@ -12,6 +12,7 @@ class _FakeAuthRepository implements AuthRepository {
   Future<AuthSession> loginWithCode({
     required String account,
     required String code,
+    String? intlCode,
   }) async {
     return _session;
   }
@@ -38,7 +39,10 @@ class _FakeAuthRepository implements AuthRepository {
   }) async {}
 
   @override
-  Future<void> sendLoginCode({required String account}) async {}
+  Future<void> sendLoginCode({
+    required String account,
+    String? intlCode,
+  }) async {}
 
   @override
   Future<void> sendRegisterCode({
