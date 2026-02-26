@@ -127,7 +127,7 @@ final authFailureHandlerProvider = Provider<AuthFailureHandler>((ref) {
 });
 
 final tokenRefresherProvider = Provider<TokenRefresher>((ref) {
-  final baseUrl = ref.watch(memberApiBaseUrlProvider);
+  final baseUrl = ref.watch(oaApiBaseUrlProvider);
   return EndpointTokenRefresher.oauth2(
     Dio(BaseOptions(baseUrl: baseUrl)),
     refreshPath: FundingAuthApiPath.oauthToken,
@@ -136,7 +136,7 @@ final tokenRefresherProvider = Provider<TokenRefresher>((ref) {
 });
 
 final coreHttpClientProvider = Provider<CoreHttpClient>((ref) {
-  final baseUrl = ref.watch(memberApiBaseUrlProvider);
+  final baseUrl = ref.watch(oaApiBaseUrlProvider);
   final environment = ref.watch(appEnvironmentProvider);
   final logger = ref.watch(appLoggerProvider);
   final messageController = ref.watch(appUiMessageProvider.notifier);
