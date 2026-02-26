@@ -18,24 +18,20 @@ class AuthEntryPage extends StatelessWidget {
           'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
       primaryActions: <Widget>[
         HotelPrimaryCtaButton(
-          key: const Key('auth_entry_mobile_login_button'),
-          label: l10n.authEntryPhoneLogin,
+          key: const Key('auth_before_member_login_button'),
+          label: l10n.authBeforeMemberDirectLogin,
           horizontalPadding: 0,
-          onPressed: () => context.push('/login/mobile'),
+          onPressed: () => context.push('/login-legacy'),
         ),
         const SizedBox(height: UiTokens.spacing12),
         HotelPrimaryCtaButton(
-          key: const Key('auth_entry_email_login_button'),
-          label: l10n.authEntryEmailLogin,
+          key: const Key('auth_before_register_button'),
+          label: l10n.authBeforeNonMemberRegister,
           horizontalPadding: 0,
-          onPressed: () => context.push('/login/email'),
+          onPressed: () => context.push('/register/email'),
         ),
       ],
-      footer: TextButton(
-        key: const Key('auth_entry_register_now_button'),
-        onPressed: () => context.push('/register'),
-        child: Text(l10n.authEntryNonMemberRegisterNow),
-      ),
+      footer: null,
     );
   }
 }
@@ -83,7 +79,7 @@ class _AuthMarketingEntryScaffold extends StatelessWidget {
     required this.description,
     required this.imageUrl,
     required this.primaryActions,
-    required this.footer,
+    this.footer,
   });
 
   final Key pageKey;
@@ -91,7 +87,7 @@ class _AuthMarketingEntryScaffold extends StatelessWidget {
   final String description;
   final String imageUrl;
   final List<Widget> primaryActions;
-  final Widget footer;
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {
@@ -219,8 +215,10 @@ class _AuthMarketingEntryScaffold extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               ...primaryActions,
-                              const SizedBox(height: UiTokens.spacing8),
-                              footer,
+                              if (footer != null) ...<Widget>[
+                                const SizedBox(height: UiTokens.spacing8),
+                                footer!,
+                              ],
                             ],
                           ),
                         ),

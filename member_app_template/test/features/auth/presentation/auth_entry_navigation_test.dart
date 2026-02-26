@@ -145,16 +145,9 @@ void main() {
       expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
 
       await tester.ensureVisible(
-        find.byKey(const Key('auth_entry_register_now_button')),
+        find.byKey(const Key('auth_before_register_button')),
       );
-      await tester.tap(find.byKey(const Key('auth_entry_register_now_button')));
-      await tester.pumpAndSettle();
-      expect(find.byKey(const Key('register_entry_page')), findsOneWidget);
-
-      await tester.ensureVisible(
-        find.byKey(const Key('register_entry_email_button')),
-      );
-      await tester.tap(find.byKey(const Key('register_entry_email_button')));
+      await tester.tap(find.byKey(const Key('auth_before_register_button')));
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('register_email_page')), findsOneWidget);
 
@@ -163,15 +156,6 @@ void main() {
       );
       await tester.tap(
         find.byKey(const Key('register_method_back_entry_button')),
-      );
-      await tester.pumpAndSettle();
-      expect(find.byKey(const Key('register_entry_page')), findsOneWidget);
-
-      await tester.ensureVisible(
-        find.byKey(const Key('register_entry_back_login_button')),
-      );
-      await tester.tap(
-        find.byKey(const Key('register_entry_back_login_button')),
       );
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
@@ -184,16 +168,16 @@ void main() {
       expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
 
       await tester.ensureVisible(
-        find.byKey(const Key('auth_entry_email_login_button')),
+        find.byKey(const Key('auth_before_member_login_button')),
       );
-      await tester.tap(find.byKey(const Key('auth_entry_email_login_button')));
+      await tester.tap(find.byKey(const Key('auth_before_member_login_button')));
       await tester.pumpAndSettle();
 
-      expect(find.byKey(const Key('login_email_page')), findsOneWidget);
+      expect(find.byKey(const Key('login_page')), findsOneWidget);
       await tester.ensureVisible(
-        find.byKey(const Key('login_method_forgot_button')),
+        find.byKey(const Key('to_forgot_password_button')),
       );
-      await tester.tap(find.byKey(const Key('login_method_forgot_button')));
+      await tester.tap(find.byKey(const Key('to_forgot_password_button')));
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('forgot_password_page')), findsOneWidget);
 

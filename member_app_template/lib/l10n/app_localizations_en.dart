@@ -90,6 +90,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authEntryNonMemberRegisterNow => 'Not a member? Register now';
 
   @override
+  String get authBeforeMemberDirectLogin => 'Already a member? Sign in';
+
+  @override
+  String get authBeforeNonMemberRegister => 'Not a member? Register';
+
+  @override
   String get authRegisterEntryHeadline => 'Choose registration method';
 
   @override

@@ -244,6 +244,18 @@ abstract class AppLocalizations {
   /// **'Not a member? Register now'**
   String get authEntryNonMemberRegisterNow;
 
+  /// No description provided for @authBeforeMemberDirectLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Already a member? Sign in'**
+  String get authBeforeMemberDirectLogin;
+
+  /// No description provided for @authBeforeNonMemberRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a member? Register'**
+  String get authBeforeNonMemberRegister;
+
   /// No description provided for @authRegisterEntryHeadline.
   ///
   /// In en, this message translates to:

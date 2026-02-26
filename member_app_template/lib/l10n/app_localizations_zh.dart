@@ -81,6 +81,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authEntryNonMemberRegisterNow => '非会员？立即注册';
 
   @override
+  String get authBeforeMemberDirectLogin => '已经是会员？直接登录';
+
+  @override
+  String get authBeforeNonMemberRegister => '不是会员？立即注册';
+
+  @override
   String get authRegisterEntryHeadline => '请选择注册方式';
 
   @override

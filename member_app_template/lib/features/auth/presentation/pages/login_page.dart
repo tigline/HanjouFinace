@@ -194,7 +194,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             children: <Widget>[
               TextButton(
                 key: const Key('to_register_button'),
-                onPressed: () => context.push('/register'),
+                onPressed: () => context.push('/register/email'),
                 child: Text(l10n.loginCreateAccount),
               ),
               const SizedBox(width: UiTokens.spacing8),
@@ -205,11 +205,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
             ],
           ),
-          Text(
-            l10n.loginFootnote,
-            style: Theme.of(context).textTheme.bodySmall,
-            textAlign: TextAlign.center,
-          ),
+          // Text(
+          //   l10n.loginFootnote,
+          //   style: Theme.of(context).textTheme.bodySmall,
+          //   textAlign: TextAlign.center,
+          // ),
         ],
       ),
       child: Column(

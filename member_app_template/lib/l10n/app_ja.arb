@@ -24,6 +24,8 @@
   "authEntryPhoneLogin": "電話でログイン",
   "authEntryEmailLogin": "メールでログイン",
   "authEntryNonMemberRegisterNow": "会員ではありませんか？ 今すぐ登録",
+  "authBeforeMemberDirectLogin": "会員の方はこちらからログイン",
+  "authBeforeNonMemberRegister": "非会員の方は新規登録",
   "authRegisterEntryHeadline": "登録方法を選択",
   "authRegisterEntryDescription": "電話番号またはメールでアカウントを作成し、会員サービスを一元管理します。",
   "authEntryPhoneRegister": "電話で登録",

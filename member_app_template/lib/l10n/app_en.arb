@@ -24,6 +24,8 @@
   "authEntryPhoneLogin": "Sign in with phone",
   "authEntryEmailLogin": "Sign in with email",
   "authEntryNonMemberRegisterNow": "Not a member? Register now",
+  "authBeforeMemberDirectLogin": "Already a member? Sign in",
+  "authBeforeNonMemberRegister": "Not a member? Register",
   "authRegisterEntryHeadline": "Choose registration method",
   "authRegisterEntryDescription": "Create your account with phone or email and manage all member services in one place.",
   "authEntryPhoneRegister": "Register with phone",

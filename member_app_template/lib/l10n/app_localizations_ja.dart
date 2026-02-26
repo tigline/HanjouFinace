@@ -81,6 +81,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authEntryNonMemberRegisterNow => '会員ではありませんか？ 今すぐ登録';
 
   @override
+  String get authBeforeMemberDirectLogin => '会員の方はこちらからログイン';
+
+  @override
+  String get authBeforeNonMemberRegister => '非会員の方は新規登録';
+
+  @override
   String get authRegisterEntryHeadline => '登録方法を選択';
 
   @override
