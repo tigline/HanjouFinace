@@ -494,6 +494,74 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeTitle => 'Home';
 
   @override
+  String get mainTabHome => 'Home';
+
+  @override
+  String get mainTabHotel => 'Hotels';
+
+  @override
+  String get mainTabDiscussion => 'Board';
+
+  @override
+  String get mainTabInvestment => 'Invest';
+
+  @override
+  String get mainTabProfile => 'Profile';
+
+  @override
+  String get homeHeroTitle => 'Investment Overview';
+
+  @override
+  String get homeHeroSubtitle =>
+      'Quick view of portfolio, floating P/L, and available cash.';
+
+  @override
+  String get homeHeroAssetsLabel => 'Total assets';
+
+  @override
+  String get homeHeroPnlLabel => 'Floating P/L';
+
+  @override
+  String get homeHeroCashLabel => 'Available cash';
+
+  @override
+  String get hotelTabHeadline => 'Hotel Booking Module (Framework)';
+
+  @override
+  String get hotelTabSubtitle =>
+      'Search, list, detail, and booking flows will be integrated here next.';
+
+  @override
+  String get discussionTabHeadline => 'Investment Discussion Board (Framework)';
+
+  @override
+  String get discussionTabSubtitle =>
+      'Interactive message-board area for replies, likes, pinning, and moderation.';
+
+  @override
+  String get discussionTabReplyAction => 'Reply';
+
+  @override
+  String get investmentTabHeadline => 'Investment Module (Framework)';
+
+  @override
+  String get investmentTabSubtitle =>
+      'Products, portfolio, subscriptions/redemptions, and statements will be added here.';
+
+  @override
+  String get investmentTabPortfolioLabel => 'Holdings';
+
+  @override
+  String get investmentTabWatchlistLabel => 'Watchlist';
+
+  @override
+  String get profileTabHeadline => 'Profile Center (Framework)';
+
+  @override
+  String get profileTabSubtitle =>
+      'Manage account details, profile intake, preferences, and member status.';
+
+  @override
   String get homeLogout => 'Sign out';
 
   @override

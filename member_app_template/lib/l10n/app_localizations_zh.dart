@@ -452,6 +452,69 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeTitle => '首页';
 
   @override
+  String get mainTabHome => '首页';
+
+  @override
+  String get mainTabHotel => '酒店预订';
+
+  @override
+  String get mainTabDiscussion => '讨论板';
+
+  @override
+  String get mainTabInvestment => '投资';
+
+  @override
+  String get mainTabProfile => '个人中心';
+
+  @override
+  String get homeHeroTitle => '投资概览';
+
+  @override
+  String get homeHeroSubtitle => '快速查看当前持仓、浮动收益与可用资金。';
+
+  @override
+  String get homeHeroAssetsLabel => '总资产';
+
+  @override
+  String get homeHeroPnlLabel => '浮动收益';
+
+  @override
+  String get homeHeroCashLabel => '可用资金';
+
+  @override
+  String get hotelTabHeadline => '酒店预订模块（框架）';
+
+  @override
+  String get hotelTabSubtitle => '后续在此接入搜索、列表、详情、下单流程。';
+
+  @override
+  String get discussionTabHeadline => '投资讨论板块（框架）';
+
+  @override
+  String get discussionTabSubtitle => '类似留言版的互动区，后续支持回复、点赞、置顶与审核。';
+
+  @override
+  String get discussionTabReplyAction => '回复';
+
+  @override
+  String get investmentTabHeadline => '投资相关模块（框架）';
+
+  @override
+  String get investmentTabSubtitle => '后续承接产品列表、持仓、申购赎回、账单等能力。';
+
+  @override
+  String get investmentTabPortfolioLabel => '持仓项目';
+
+  @override
+  String get investmentTabWatchlistLabel => '关注列表';
+
+  @override
+  String get profileTabHeadline => '个人中心（框架）';
+
+  @override
+  String get profileTabSubtitle => '管理账号资料、详细信息录入、偏好设置与会员状态。';
+
+  @override
   String get homeLogout => '退出登录';
 
   @override

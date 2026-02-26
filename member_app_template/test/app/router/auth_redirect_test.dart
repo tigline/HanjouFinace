@@ -31,6 +31,15 @@ void main() {
       expect(redirect, '/login');
     });
 
+    test('redirects unauthenticated user to login from tab branch route', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(false),
+        location: '/hotel-booking',
+      );
+
+      expect(redirect, '/login');
+    });
+
     test('keeps unauthenticated user on login', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(false),
@@ -98,6 +107,15 @@ void main() {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(true),
         location: '/home',
+      );
+
+      expect(redirect, isNull);
+    });
+
+    test('keeps authenticated user on protected tab branch route', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(true),
+        location: '/profile',
       );
 
       expect(redirect, isNull);

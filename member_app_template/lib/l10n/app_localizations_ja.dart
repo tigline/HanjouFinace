@@ -456,6 +456,69 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeTitle => 'ホーム';
 
   @override
+  String get mainTabHome => 'ホーム';
+
+  @override
+  String get mainTabHotel => 'ホテル';
+
+  @override
+  String get mainTabDiscussion => '掲示板';
+
+  @override
+  String get mainTabInvestment => '投資';
+
+  @override
+  String get mainTabProfile => 'マイページ';
+
+  @override
+  String get homeHeroTitle => '投資サマリー';
+
+  @override
+  String get homeHeroSubtitle => '保有状況、評価損益、利用可能資金をすぐに確認できます。';
+
+  @override
+  String get homeHeroAssetsLabel => '総資産';
+
+  @override
+  String get homeHeroPnlLabel => '評価損益';
+
+  @override
+  String get homeHeroCashLabel => '利用可能資金';
+
+  @override
+  String get hotelTabHeadline => 'ホテル予約モジュール（枠組み）';
+
+  @override
+  String get hotelTabSubtitle => '今後ここに検索・一覧・詳細・予約フローを実装します。';
+
+  @override
+  String get discussionTabHeadline => '投資ディスカッション掲示板（枠組み）';
+
+  @override
+  String get discussionTabSubtitle => '返信・いいね・固定表示・審査に対応する掲示板型UIを今後実装します。';
+
+  @override
+  String get discussionTabReplyAction => '返信';
+
+  @override
+  String get investmentTabHeadline => '投資関連モジュール（枠組み）';
+
+  @override
+  String get investmentTabSubtitle => '商品一覧、保有、申込/解約、明細などを今後実装します。';
+
+  @override
+  String get investmentTabPortfolioLabel => '保有案件';
+
+  @override
+  String get investmentTabWatchlistLabel => 'ウォッチ';
+
+  @override
+  String get profileTabHeadline => '個人センター（枠組み）';
+
+  @override
+  String get profileTabSubtitle => 'アカウント情報、詳細情報入力、設定、会員状態を管理します。';
+
+  @override
   String get homeLogout => 'ログアウト';
 
   @override

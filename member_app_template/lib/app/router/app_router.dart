@@ -10,8 +10,13 @@ import '../../features/auth/presentation/pages/auth_mode_pages.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
-import '../../features/home/presentation/pages/home_page.dart';
+import '../../features/discussion_board/presentation/pages/discussion_board_tab_page.dart';
+import '../../features/home/presentation/pages/home_overview_tab_page.dart';
+import '../../features/hotel_booking/presentation/pages/hotel_booking_tab_page.dart';
+import '../../features/investment/presentation/pages/investment_tab_page.dart';
+import '../../features/main_shell/presentation/pages/main_shell_page.dart';
 import '../../features/member_profile/presentation/pages/member_profile_intake_page.dart';
+import '../../features/member_profile/presentation/pages/profile_center_tab_page.dart';
 
 String? resolveAuthRedirect({
   required AsyncValue<bool> authState,
@@ -124,11 +129,67 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return const ForgotPasswordPage();
         },
       ),
-      GoRoute(
-        path: '/home',
-        builder: (BuildContext context, GoRouterState state) {
-          return const HomePage();
-        },
+      StatefulShellRoute.indexedStack(
+        builder:
+            (
+              BuildContext context,
+              GoRouterState state,
+              StatefulNavigationShell navigationShell,
+            ) {
+              return MainShellPage(navigationShell: navigationShell);
+            },
+        branches: <StatefulShellBranch>[
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: '/home',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const HomeOverviewTabPage();
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: '/hotel-booking',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const HotelBookingTabPage();
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: '/discussion-board',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const DiscussionBoardTabPage();
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: '/investment',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const InvestmentTabPage();
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: '/profile',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const ProfileCenterTabPage();
+                },
+              ),
+            ],
+          ),
+        ],
       ),
       GoRoute(
         path: '/member-profile/onboarding',

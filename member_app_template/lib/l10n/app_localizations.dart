@@ -976,6 +976,132 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get homeTitle;
 
+  /// No description provided for @mainTabHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get mainTabHome;
+
+  /// No description provided for @mainTabHotel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotels'**
+  String get mainTabHotel;
+
+  /// No description provided for @mainTabDiscussion.
+  ///
+  /// In en, this message translates to:
+  /// **'Board'**
+  String get mainTabDiscussion;
+
+  /// No description provided for @mainTabInvestment.
+  ///
+  /// In en, this message translates to:
+  /// **'Invest'**
+  String get mainTabInvestment;
+
+  /// No description provided for @mainTabProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get mainTabProfile;
+
+  /// No description provided for @homeHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment Overview'**
+  String get homeHeroTitle;
+
+  /// No description provided for @homeHeroSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick view of portfolio, floating P/L, and available cash.'**
+  String get homeHeroSubtitle;
+
+  /// No description provided for @homeHeroAssetsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total assets'**
+  String get homeHeroAssetsLabel;
+
+  /// No description provided for @homeHeroPnlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Floating P/L'**
+  String get homeHeroPnlLabel;
+
+  /// No description provided for @homeHeroCashLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Available cash'**
+  String get homeHeroCashLabel;
+
+  /// No description provided for @hotelTabHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel Booking Module (Framework)'**
+  String get hotelTabHeadline;
+
+  /// No description provided for @hotelTabSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search, list, detail, and booking flows will be integrated here next.'**
+  String get hotelTabSubtitle;
+
+  /// No description provided for @discussionTabHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment Discussion Board (Framework)'**
+  String get discussionTabHeadline;
+
+  /// No description provided for @discussionTabSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive message-board area for replies, likes, pinning, and moderation.'**
+  String get discussionTabSubtitle;
+
+  /// No description provided for @discussionTabReplyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get discussionTabReplyAction;
+
+  /// No description provided for @investmentTabHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment Module (Framework)'**
+  String get investmentTabHeadline;
+
+  /// No description provided for @investmentTabSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Products, portfolio, subscriptions/redemptions, and statements will be added here.'**
+  String get investmentTabSubtitle;
+
+  /// No description provided for @investmentTabPortfolioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Holdings'**
+  String get investmentTabPortfolioLabel;
+
+  /// No description provided for @investmentTabWatchlistLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Watchlist'**
+  String get investmentTabWatchlistLabel;
+
+  /// No description provided for @profileTabHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Center (Framework)'**
+  String get profileTabHeadline;
+
+  /// No description provided for @profileTabSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage account details, profile intake, preferences, and member status.'**
+  String get profileTabSubtitle;
+
   /// No description provided for @homeLogout.
   ///
   /// In en, this message translates to:
