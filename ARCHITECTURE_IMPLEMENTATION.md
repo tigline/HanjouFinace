@@ -58,6 +58,20 @@ template_v2/
 - 通用控件（弹框、底部弹框等）统一由 `core_ui_kit` 提供，不在业务侧重复实现。
 - 业务页面优先复用 SDK 组件，再做业务差异化皮肤。
 
+## 7. API 来源与实现规范（Funding / Hotel 分离）
+
+- 酒店业务接口与基金/会员业务接口分开治理，不混用来源。
+- 基金/会员业务（含登录、注册、用户资料）接口来源以 funding Swagger 为准：
+  - Swagger UI：`https://sit-admin.gutingjun.com/api/swagger-ui.html#/`
+  - OpenAPI：`https://sit-admin.gutingjun.com/api/crowdfunding/v2/api-docs`
+- 用户相关实现优先查阅 `user-rest` 与 `off-rest` 两个分组。
+- 除酒店业务外，不再以老工程 `http_conf.dart` 作为新接口实现来源。
+- 若 Swagger 暂缺某接口，允许短期使用真实抓包/线上样例报文作为补充，但必须：
+  - 在 `member_app_template/README_API.md` 记录请求/响应样例
+  - 在代码常量/数据源注释标记“临时来源”
+  - 后续拿到 Swagger 定义后及时回收
+- `api_paths.dart` 中的接口常量命名应体现业务来源（如 funding auth/user），避免继续使用 `legacy` 命名。
+
 
 
 ## 阶段一任务：

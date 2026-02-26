@@ -59,7 +59,7 @@ void main() {
     test('sendLoginCode uses email endpoint for email account', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'GET');
-        expect(options.path, LegacyApiPath.emailLoginCode);
+        expect(options.path, FundingAuthApiPath.emailLoginCode);
         expect(options.queryParameters['email'], 'user@example.com');
         expect(options.extra['auth_required'], false);
         return _jsonOk();
@@ -72,7 +72,7 @@ void main() {
     test('sendLoginCode uses sms endpoint for mobile account', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'GET');
-        expect(options.path, LegacyApiPath.smsCode);
+        expect(options.path, FundingAuthApiPath.smsCode);
         expect(options.queryParameters['mobile'], '13900000000');
         expect(options.queryParameters['biz'], defaultIntlCode);
         expect(options.queryParameters['secret'], isA<String>());
@@ -93,7 +93,7 @@ void main() {
       () async {
         final client = _buildClient((options) async {
           expect(options.method, 'GET');
-          expect(options.path, LegacyApiPath.smsCode);
+          expect(options.path, FundingAuthApiPath.smsCode);
           expect(options.queryParameters['mobile'], '13900000000');
           expect(options.queryParameters['biz'], '86');
           return _jsonOk();
@@ -109,7 +109,7 @@ void main() {
       () async {
         final client = _buildClient((options) async {
           expect(options.method, 'GET');
-          expect(options.path, LegacyApiPath.createRegisterEmailCode);
+          expect(options.path, FundingAuthApiPath.createRegisterEmailCode);
           expect(options.queryParameters['email'], 'user@example.com');
           expect(options.extra['auth_required'], false);
           return _jsonOk('{"code":200,"data":true}');
@@ -128,7 +128,7 @@ void main() {
       () async {
         final client = _buildClient((options) async {
           expect(options.method, 'GET');
-          expect(options.path, LegacyApiPath.createRegisterMobileCode);
+          expect(options.path, FundingAuthApiPath.createRegisterMobileCode);
           expect(options.queryParameters['mobile'], '13900000000');
           expect(options.queryParameters['biz'], '81');
           expect(options.queryParameters['secret'], isA<String>());
@@ -146,10 +146,10 @@ void main() {
       () async {
         final client = _buildClient((options) async {
           expect(options.method, 'POST');
-          expect(options.path, LegacyApiPath.oauthToken);
+          expect(options.path, FundingAuthApiPath.oauthToken);
           expect(
             options.headers['Authorization'],
-            legacyOauthClientAuthorization,
+            fundingOauthClientAuthorization,
           );
           expect(options.contentType, Headers.formUrlEncodedContentType);
           expect(options.extra['auth_required'], false);
@@ -184,7 +184,7 @@ void main() {
     test('loginWithCode forwards selected intl code for mobile login', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, LegacyApiPath.oauthToken);
+        expect(options.path, FundingAuthApiPath.oauthToken);
         final body = options.data as Map<String, dynamic>;
         expect(body['username'], '13900000000');
         expect(body['auth_type'], 'mobile');
@@ -210,10 +210,10 @@ void main() {
       () async {
         final client = _buildClient((options) async {
           expect(options.method, 'POST');
-          expect(options.path, LegacyApiPath.oauthToken);
+          expect(options.path, FundingAuthApiPath.oauthToken);
           expect(
             options.headers['Authorization'],
-            legacyOauthClientAuthorization,
+            fundingOauthClientAuthorization,
           );
           expect(options.contentType, Headers.formUrlEncodedContentType);
           expect(options.extra['auth_required'], false);
@@ -239,10 +239,10 @@ void main() {
     test('logout uses oauth revoke endpoint with basic auth', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'DELETE');
-        expect(options.path, LegacyApiPath.oauthToken);
+        expect(options.path, FundingAuthApiPath.oauthToken);
         expect(
           options.headers['Authorization'],
-          legacyOauthClientAuthorization,
+          fundingOauthClientAuthorization,
         );
         expect(options.contentType, Headers.jsonContentType);
         expect(options.extra['auth_required'], false);
@@ -257,7 +257,7 @@ void main() {
     test('registerApply uses email payload when account is email', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, LegacyApiPath.registerApply);
+        expect(options.path, FundingAuthApiPath.registerApply);
         expect(options.contentType, Headers.jsonContentType);
         expect(options.extra['auth_required'], false);
 
@@ -282,7 +282,7 @@ void main() {
     test('registerApply uses mobile payload when account is phone', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, LegacyApiPath.registerApply);
+        expect(options.path, FundingAuthApiPath.registerApply);
         expect(options.contentType, Headers.jsonContentType);
         expect(options.extra['auth_required'], false);
 

@@ -144,7 +144,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final normalizedAccount = account.trim();
     if (_isEmailAccount(normalizedAccount)) {
       final response = await _client.dio.get<Map<String, dynamic>>(
-        LegacyApiPath.emailLoginCode,
+        FundingAuthApiPath.emailLoginCode,
         queryParameters: <String, dynamic>{'email': normalizedAccount},
         options: authRequired(false),
       );
@@ -156,7 +156,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     final response = await _client.dio.get<Map<String, dynamic>>(
-      LegacyApiPath.smsCode,
+      FundingAuthApiPath.smsCode,
       queryParameters: <String, dynamic>{
         'mobile': normalizedAccount,
         'biz': _normalizedIntlCode(intlCode),
@@ -184,7 +184,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     if (_isEmailAccount(normalizedAccount)) {
       final response = await _client.dio.get<Map<String, dynamic>>(
-        LegacyApiPath.createRegisterEmailCode,
+        FundingAuthApiPath.createRegisterEmailCode,
         queryParameters: <String, dynamic>{'email': normalizedAccount},
         options: authRequired(false),
       );
@@ -196,7 +196,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     final response = await _client.dio.get<Map<String, dynamic>>(
-      LegacyApiPath.createRegisterMobileCode,
+      FundingAuthApiPath.createRegisterMobileCode,
       queryParameters: <String, dynamic>{
         'mobile': normalizedAccount,
         'biz': normalizedIntlCode,
@@ -223,7 +223,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final normalizedIntlCode = _normalizedIntlCode(intlCode);
 
     final response = await _client.dio.post<Map<String, dynamic>>(
-      LegacyApiPath.oauthToken,
+      FundingAuthApiPath.oauthToken,
       data: <String, dynamic>{
         'username': normalizedAccount,
         'password': code.trim(),
@@ -234,7 +234,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       },
       options: authRequired(false).copyWith(
         headers: <String, dynamic>{
-          'Authorization': legacyOauthClientAuthorization,
+          'Authorization': fundingOauthClientAuthorization,
         },
         contentType: Headers.formUrlEncodedContentType,
       ),
@@ -282,7 +282,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     final response = await _client.dio.post<Map<String, dynamic>>(
-      LegacyApiPath.registerApply,
+      FundingAuthApiPath.registerApply,
       data: payload,
       options: authRequired(
         false,
@@ -303,14 +303,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     final response = await _client.dio.post<Map<String, dynamic>>(
-      LegacyApiPath.oauthToken,
+      FundingAuthApiPath.oauthToken,
       data: <String, dynamic>{
         'grant_type': 'refresh_token',
         'refresh_token': normalizedRefreshToken,
       },
       options: authRequired(false).copyWith(
         headers: <String, dynamic>{
-          'Authorization': legacyOauthClientAuthorization,
+          'Authorization': fundingOauthClientAuthorization,
         },
         contentType: Headers.formUrlEncodedContentType,
       ),
@@ -344,11 +344,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     await _client.dio.delete<void>(
-      LegacyApiPath.oauthToken,
+      FundingAuthApiPath.oauthToken,
       data: <String, dynamic>{'accessToken': normalizedAccessToken},
       options: authRequired(false).copyWith(
         headers: <String, dynamic>{
-          'Authorization': legacyOauthClientAuthorization,
+          'Authorization': fundingOauthClientAuthorization,
         },
         contentType: Headers.jsonContentType,
       ),

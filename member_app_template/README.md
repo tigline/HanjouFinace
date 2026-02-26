@@ -64,7 +64,7 @@ Native alignment:
 
 Default environment values are defined in `lib/app/config/app_environment.dart`.
 
-Current defaults (aligned with legacy `http_conf.dart`):
+Current default environment values:
 
 - `dev/staging`
   - `API_BASE_URL=https://sit-new.gutingjun.com/api`
@@ -75,7 +75,23 @@ Current defaults (aligned with legacy `http_conf.dart`):
   - `HOTEL_API_BASE_URL=https://hotel.gutingjun.com/api`
   - `OA_API_BASE_URL=https://oa.gutingjun.com/api`
 
-Auth endpoints currently aligned with legacy `http_conf.dart`:
+## Funding API Source Of Truth (Auth/User)
+
+For funding/member-related APIs (including login/register/user profile), the
+source of truth is the funding Swagger docs, not the legacy GetX project:
+
+- Swagger UI: `https://sit-admin.gutingjun.com/api/swagger-ui.html#/`
+- OpenAPI JSON: `https://sit-admin.gutingjun.com/api/crowdfunding/v2/api-docs`
+- Main modules for user-related work:
+  - `user-rest`
+  - `off-rest`
+
+Implementation rules and source governance are documented in:
+
+- `docs/api_source_of_truth.md`
+- `README_API.md` (captured request/response samples supplementing Swagger)
+
+Current implemented auth paths (transitional, pending Swagger-by-module cleanup):
 
 - `mss/smsCode`
 - `member/user/emailLoginCode`

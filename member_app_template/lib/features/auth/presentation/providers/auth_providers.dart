@@ -130,8 +130,8 @@ final tokenRefresherProvider = Provider<TokenRefresher>((ref) {
   final baseUrl = ref.watch(memberApiBaseUrlProvider);
   return EndpointTokenRefresher.oauth2(
     Dio(BaseOptions(baseUrl: baseUrl)),
-    refreshPath: LegacyApiPath.oauthToken,
-    basicAuthorization: legacyOauthClientAuthorization,
+    refreshPath: FundingAuthApiPath.oauthToken,
+    basicAuthorization: fundingOauthClientAuthorization,
   );
 });
 

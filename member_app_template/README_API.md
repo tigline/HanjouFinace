@@ -2,6 +2,17 @@
 
 # API 相关报文数据
 
+## 来源与范围（重要）
+
+- 基金/会员相关（含登录、注册、用户资料）接口来源以 funding Swagger 为准：
+  - Swagger UI: `https://sit-admin.gutingjun.com/api/swagger-ui.html#/`
+  - OpenAPI JSON: `https://sit-admin.gutingjun.com/api/crowdfunding/v2/api-docs`
+- 用户相关主要查看：
+  - `user-rest`
+  - `off-rest`
+- 除酒店业务外，后续 API 实现不再以老工程 `http_conf.dart` 作为来源。
+- 本文件的作用是补充“真实请求/响应样例报文”，用于 DTO/错误处理/兼容性测试；若与 Swagger 冲突，以 Swagger 为准，并在此文件更新样例。
+
 - 1.登录
   - [HTTP] REQ POST:
   https://sit-new.gutingjun.com/api/uaa/oauth/token 
@@ -25,6 +36,7 @@
   }
 
 - 2.注册
+  - 待补：请按 funding Swagger（`user-rest` / `off-rest`）实际接口定义与真实报文补充。
 
 - 3.获取验证码
   - [HTTP] REQ GET https://sit-new.gutingjun.com/api/member/user/emailLoginCode?email=Aaron.hou%4051fanxing.co.jp headers={content-type: application/json} query={email: Aaron.hou@51fanxing.co.jp} body=null
