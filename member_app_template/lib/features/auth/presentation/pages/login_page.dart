@@ -2,6 +2,8 @@ import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:member_app_template/app/config/api_paths.dart';
+import 'package:member_app_template/features/auth/presentation/support/intl_code_picker_field.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import 'auth_visual_scaffold.dart';
@@ -27,6 +29,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   _LoginChannel _loginChannel = _LoginChannel.mobile;
   String? _localValidationError;
   late final CodeSendCooldown _sendCodeCooldown;
+  String _selectedIntlCode = defaultIntlCode;
 
   bool get _isEmailMode => _loginChannel == _LoginChannel.email;
 
@@ -121,7 +124,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!_ensureValidAccountForSelectedMode(context)) {
       return;
     }
-    final sent = await controller.sendCode();
+    final sent = await controller.sendCode(
+      intlCode: _isEmailMode ? null : _selectedIntlCode,
+    );
     if (sent) {
       _sendCodeCooldown.start();
     }
@@ -131,7 +136,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!_ensureValidAccountForSelectedMode(context)) {
       return;
     }
-    await controller.login();
+    await controller.login(intlCode: _isEmailMode ? null : _selectedIntlCode);
   }
 
   String _sendCodeButtonLabel(String defaultLabel) {
@@ -217,7 +222,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         children: <Widget>[
           HotelSurfacePanelCard(
             title: l10n.loginModeTitle,
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+            //padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -245,71 +250,61 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelSurfacePanelCard(
-            title: _isEmailMode
-                ? l10n.registerEmailAccountLabel
-                : l10n.registerMobileAccountLabel,
-            leading: Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                color: hotelTheme?.primaryButtonColor.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                _isEmailMode
-                    ? Icons.alternate_email_rounded
-                    : Icons.phone_iphone_rounded,
-                size: 20,
-                color: hotelTheme?.primaryButtonColor,
-              ),
+
+          if (!_isEmailMode) ...<Widget>[
+            IntlCodePickerField(
+              key: const Key('login_intl_code_picker'),
+              selectedIntlCode: _selectedIntlCode,
+              onChanged: (String value) {
+                setState(() {
+                  _selectedIntlCode = value;
+                });
+              },
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                (_isEmailMode
-                        ? HotelEmailTextField(
-                            controller: _accountController,
-                            inputKey: const Key('login_account_input'),
-                            labelText: l10n.registerEmailAccountLabel,
-                            hintText: l10n.registerEmailAccountLabel,
-                            leadingIcon: Icons.alternate_email_rounded,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            onChanged: (String value) =>
-                                _onAccountChanged(value, controller),
-                          )
-                        : HotelPhoneTextField(
-                            controller: _accountController,
-                            inputKey: const Key('login_account_input'),
-                            labelText: l10n.registerMobileAccountLabel,
-                            hintText: l10n.registerMobileAccountLabel,
-                            leadingIcon: Icons.phone_iphone_rounded,
-                            textInputAction: TextInputAction.next,
-                            onChanged: (String value) =>
-                                _onAccountChanged(value, controller),
-                          ))
-                    as Widget,
-                const SizedBox(height: UiTokens.spacing12),
-                HotelVerificationCodeField(
-                  key: const Key('login_code_field'),
-                  controller: _codeController,
-                  labelText: l10n.loginCodeLabel,
-                  hintText: l10n.loginCodeLabel,
-                  sendCodeLabel: _sendCodeButtonLabel(l10n.loginSendCode),
-                  inputKey: const Key('login_code_input'),
-                  sendButtonKey: const Key('login_send_code_button'),
-                  isSendingCode: state.isSendingCode,
-                  onChanged: (String value) =>
-                      _onCodeChanged(value, controller),
-                  onSendCode: canSendCode
-                      ? () => _handleSendCode(controller)
-                      : null,
-                  buttonWidth: 132,
-                ),
-              ],
-            ),
+            const SizedBox(height: UiTokens.spacing12),
+          ],
+          (_isEmailMode
+                  ? HotelEmailTextField(
+                      controller: _accountController,
+                      inputKey: const Key('login_account_input'),
+                      labelText: l10n.registerEmailAccountLabel,
+                      hintText: l10n.registerEmailAccountLabel,
+                      leadingIcon: Icons.alternate_email_rounded,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (String value) =>
+                          _onAccountChanged(value, controller),
+                    )
+                  : HotelPhoneTextField(
+                      controller: _accountController,
+                      inputKey: const Key('login_account_input'),
+                      labelText: l10n.registerMobileAccountLabel,
+                      hintText: l10n.registerMobileAccountLabel,
+                      leadingIcon: Icons.phone_iphone_rounded,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (String value) =>
+                          _onAccountChanged(value, controller),
+                    ))
+              as Widget,
+          const SizedBox(height: UiTokens.spacing12),
+          HotelVerificationCodeField(
+            key: const Key('login_code_field'),
+            controller: _codeController,
+            labelText: l10n.loginCodeLabel,
+            hintText: l10n.loginCodeLabel,
+            sendCodeLabel: _sendCodeButtonLabel(l10n.loginSendCode),
+            inputKey: const Key('login_code_input'),
+            sendButtonKey: const Key('login_send_code_button'),
+            isSendingCode: state.isSendingCode,
+            onChanged: (String value) =>
+                _onCodeChanged(value, controller),
+            onSendCode: canSendCode
+                ? () => _handleSendCode(controller)
+                : null,
+            buttonWidth: 132,
           ),
+              
+          
           if (effectiveErrorMessage != null) ...<Widget>[
             const SizedBox(height: UiTokens.spacing8),
             Container(
