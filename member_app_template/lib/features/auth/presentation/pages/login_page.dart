@@ -194,7 +194,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             children: <Widget>[
               TextButton(
                 key: const Key('to_register_button'),
-                onPressed: () => context.push('/register/email'),
+                onPressed: () => context.pop(),//push('/register/email')
                 child: Text(l10n.loginCreateAccount),
               ),
               const SizedBox(width: UiTokens.spacing8),
