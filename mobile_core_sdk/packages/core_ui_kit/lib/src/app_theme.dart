@@ -211,7 +211,7 @@ class AppThemeFactory {
 
     final colorScheme = ColorScheme(
       brightness: brightness,
-      primary: AppColorTokens.accent,
+      primary: AppColorTokens.fundingPrimary,
       onPrimary: Colors.white,
       secondary: AppColorTokens.accentTertiary,
       onSecondary: Colors.white,

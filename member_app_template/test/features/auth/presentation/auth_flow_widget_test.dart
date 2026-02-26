@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:member_app_template/app/app.dart';
+import 'package:member_app_template/app/localization/app_localizations_ext.dart';
 import 'package:member_app_template/app/config/app_environment.dart';
 import 'package:member_app_template/app/config/app_flavor.dart';
 import 'package:member_app_template/app/config/environment_provider.dart';
@@ -183,12 +184,16 @@ void main() {
       await tester.ensureVisible(
         find.byKey(const Key('auth_before_member_login_button')),
       );
-      await tester.tap(find.byKey(const Key('auth_before_member_login_button')));
+      await tester.tap(
+        find.byKey(const Key('auth_before_member_login_button')),
+      );
       await tester.pumpAndSettle();
 
       await _pumpUntilVisible(tester, find.byType(TextField));
       expect(find.byKey(const Key('login_page')), findsOneWidget);
-      await tester.ensureVisible(find.byKey(const Key('login_mode_email_button')));
+      await tester.ensureVisible(
+        find.byKey(const Key('login_mode_email_button')),
+      );
       await tester.tap(find.byKey(const Key('login_mode_email_button')));
       await tester.pumpAndSettle();
       expect(find.byType(TextField), findsNWidgets(2));
@@ -207,8 +212,8 @@ void main() {
 
       expect(repository.sendCodeCalled, isTrue);
       expect(repository.loginCalled, isTrue);
-      await _pumpUntilVisible(tester, find.byKey(const Key('logout_button')));
-      expect(find.byKey(const Key('logout_button')), findsOneWidget);
+      await _pumpUntilVisible(tester, find.byKey(const Key('main_tab_bar')));
+      expect(find.byKey(const Key('main_tab_bar')), findsOneWidget);
     });
 
     testWidgets('home logout triggers repository logout and routes to login', (
@@ -224,6 +229,11 @@ void main() {
         tokenRefresher: _FakeTokenRefresher((_) async => null),
         authRepository: repository,
       );
+
+      final homeContext = tester.element(find.byKey(const Key('home_page')));
+      final l10n = homeContext.l10n;
+      await tester.tap(find.text(l10n.mainTabProfile));
+      await tester.pumpAndSettle();
 
       await _pumpUntilVisible(tester, find.byKey(const Key('logout_button')));
       expect(find.byKey(const Key('logout_button')), findsOneWidget);

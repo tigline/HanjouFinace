@@ -27,6 +27,7 @@ class AppColorTokens {
 
   // Figma inspiration palette (Hotel Booking App - Community)
   static const Color travelPrimaryTeal = Color(0xFF008080);
+  static const Color fundingPrimary = Color(0xFF008080);
 
   // Figma inspiration palette (Hotel Management UI - Community)
   // Extracted from the referenced design nodes to build reusable travel widgets.

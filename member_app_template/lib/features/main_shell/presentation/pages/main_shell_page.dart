@@ -1,152 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/localization/app_locale_providers.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
 
-class MainShellPage extends ConsumerStatefulWidget {
+class MainShellPage extends StatelessWidget {
   const MainShellPage({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
-  @override
-  ConsumerState<MainShellPage> createState() => _MainShellPageState();
-}
-
-class _MainShellPageState extends ConsumerState<MainShellPage> {
-  bool _isLoggingOut = false;
-
-  Future<void> _switchLanguage(AppLanguage language) {
-    return ref.read(appLanguageProvider.notifier).setLanguage(language);
-  }
-
-  String _languageLabel(BuildContext context, AppLanguage language) {
-    final l10n = context.l10n;
-    return switch (language) {
-      AppLanguage.system => l10n.languageFollowSystem,
-      AppLanguage.zh => l10n.languageChinese,
-      AppLanguage.en => l10n.languageEnglish,
-      AppLanguage.ja => l10n.languageJapanese,
-    };
-  }
-
-  Future<void> _logout() async {
-    if (_isLoggingOut) {
-      return;
-    }
-
-    setState(() {
-      _isLoggingOut = true;
-    });
-
-    try {
-      await ref.read(logoutUseCaseProvider).call();
-      await ref.read(authSessionProvider.notifier).markUnauthenticated();
-      if (mounted) {
-        context.go('/login');
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoggingOut = false;
-        });
-      }
-    }
-  }
-
-  void _onDestinationSelected(int index) {
-    widget.navigationShell.goBranch(
-      index,
-      initialLocation: index == widget.navigationShell.currentIndex,
+  SystemUiOverlayStyle _statusBarStyle(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final baseStyle = brightness == Brightness.dark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
+    return baseStyle.copyWith(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
     );
   }
 
-  String _tabTitle(BuildContext context, int index) {
-    final l10n = context.l10n;
-    return switch (index) {
-      0 => l10n.mainTabHome,
-      1 => l10n.mainTabHotel,
-      2 => l10n.mainTabDiscussion,
-      3 => l10n.mainTabInvestment,
-      4 => l10n.mainTabProfile,
-      _ => l10n.mainTabHome,
-    };
+  void _onDestinationSelected(int index) {
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final currentLanguage = ref.watch(appLanguageProvider);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    return Scaffold(
-      key: const Key('home_page'),
-      appBar: AppBar(
-        title: Text(_tabTitle(context, widget.navigationShell.currentIndex)),
-        actions: <Widget>[
-          PopupMenuButton<AppLanguage>(
-            key: const Key('language_menu_button'),
-            initialValue: currentLanguage,
-            onSelected: _switchLanguage,
-            itemBuilder: (BuildContext context) {
-              return AppLanguage.values.map((language) {
-                return PopupMenuItem<AppLanguage>(
-                  value: language,
-                  child: Text(_languageLabel(context, language)),
-                );
-              }).toList();
-            },
-            icon: const Icon(Icons.language),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: _statusBarStyle(context),
+      child: Scaffold(
+        key: const Key('home_page'),
+        body: SafeArea(bottom: false, child: navigationShell),
+        bottomNavigationBar: NavigationBarTheme(
+          data: NavigationBarThemeData(
+            indicatorColor: colorScheme.primary.withValues(alpha: 0.14),
+            iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
+              Set<WidgetState> states,
+            ) {
+              return IconThemeData(
+                color: states.contains(WidgetState.selected)
+                    ? colorScheme.primary
+                    : colorScheme.onSurfaceVariant,
+              );
+            }),
+            labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((
+              Set<WidgetState> states,
+            ) {
+              final base = theme.textTheme.labelMedium;
+              return base?.copyWith(
+                color: states.contains(WidgetState.selected)
+                    ? colorScheme.primary
+                    : colorScheme.onSurfaceVariant,
+                fontWeight: states.contains(WidgetState.selected)
+                    ? FontWeight.w700
+                    : FontWeight.w500,
+              );
+            }),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: TextButton(
-              key: const Key('logout_button'),
-              onPressed: _isLoggingOut ? null : _logout,
-              child: _isLoggingOut
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(l10n.homeLogout),
-            ),
+          child: NavigationBar(
+            key: const Key('main_tab_bar'),
+            selectedIndex: navigationShell.currentIndex,
+            onDestinationSelected: _onDestinationSelected,
+            destinations: <NavigationDestination>[
+              NavigationDestination(
+                icon: const Icon(Icons.home_outlined),
+                selectedIcon: const Icon(Icons.home_rounded),
+                label: l10n.mainTabHome,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.hotel_outlined),
+                selectedIcon: const Icon(Icons.hotel_rounded),
+                label: l10n.mainTabHotel,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.show_chart_outlined),
+                selectedIcon: const Icon(Icons.show_chart_rounded),
+                label: l10n.mainTabInvestment,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.forum_outlined),
+                selectedIcon: const Icon(Icons.forum_rounded),
+                label: l10n.mainTabDiscussion,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.person_outline_rounded),
+                selectedIcon: const Icon(Icons.person_rounded),
+                label: l10n.mainTabProfile,
+              ),
+            ],
           ),
-        ],
-      ),
-      body: widget.navigationShell,
-      bottomNavigationBar: NavigationBar(
-        key: const Key('main_tab_bar'),
-        selectedIndex: widget.navigationShell.currentIndex,
-        onDestinationSelected: _onDestinationSelected,
-        destinations: <NavigationDestination>[
-          NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: const Icon(Icons.home_rounded),
-            label: l10n.mainTabHome,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.hotel_outlined),
-            selectedIcon: const Icon(Icons.hotel_rounded),
-            label: l10n.mainTabHotel,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.forum_outlined),
-            selectedIcon: const Icon(Icons.forum_rounded),
-            label: l10n.mainTabDiscussion,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.show_chart_outlined),
-            selectedIcon: const Icon(Icons.show_chart_rounded),
-            label: l10n.mainTabInvestment,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.person_outline_rounded),
-            selectedIcon: const Icon(Icons.person_rounded),
-            label: l10n.mainTabProfile,
-          ),
-        ],
+        ),
       ),
     );
   }

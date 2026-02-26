@@ -162,9 +162,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
-                path: '/discussion-board',
+                path: '/investment',
                 builder: (BuildContext context, GoRouterState state) {
-                  return const DiscussionBoardTabPage();
+                  return const InvestmentTabPage();
                 },
               ),
             ],
@@ -172,9 +172,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
-                path: '/investment',
+                path: '/discussion-board',
                 builder: (BuildContext context, GoRouterState state) {
-                  return const InvestmentTabPage();
+                  return const DiscussionBoardTabPage();
                 },
               ),
             ],
