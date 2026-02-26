@@ -104,6 +104,45 @@ void main() {
     });
 
     test(
+      'refreshes with refresh token and syncs cached user via fetchCurrentUser callback',
+      () async {
+        final tokenStore = _SeededTokenStore(refreshToken: 'old-refresh');
+        final refresher = _FakeTokenRefresher((_) async {
+          return const TokenPair(
+            accessToken: 'new-access',
+            refreshToken: 'new-refresh',
+          );
+        });
+        final local = _FakeAuthLocalDataSource();
+        var fetchCalled = 0;
+
+        final controller = AuthSessionController(
+          tokenStore,
+          refresher,
+          local,
+          fetchCurrentUser: () async {
+            fetchCalled += 1;
+            return const AuthUserDto(
+              username: 'dennis.diao@51fanxing.co.jp',
+              email: 'dennis.diao@51fanxing.co.jp',
+              phone: '09085309521',
+              memberId: 125530,
+              intlTelCode: '81',
+            );
+          },
+        );
+        await controller.refresh();
+
+        expect(controller.state.value, isTrue);
+        expect(fetchCalled, greaterThanOrEqualTo(1));
+        expect(local.cachedUser, isNotNull);
+        expect(local.cachedUser?.email, 'dennis.diao@51fanxing.co.jp');
+        expect(local.cachedUser?.phone, '09085309521');
+        expect(local.cachedUser?.memberId, 125530);
+      },
+    );
+
+    test(
       'falls back to unauthenticated and clears token and cached user on refresh failure',
       () async {
         final tokenStore = _SeededTokenStore(refreshToken: 'old-refresh');

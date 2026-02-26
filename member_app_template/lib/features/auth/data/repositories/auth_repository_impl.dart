@@ -18,6 +18,18 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource _local;
   final TokenStore _tokenStore;
 
+  Future<void> _syncCurrentUserCacheBestEffort() async {
+    try {
+      final user = await _remote.fetchCurrentUser();
+      if (user == null) {
+        return;
+      }
+      await _local.saveCurrentUser(user);
+    } catch (_) {
+      // Keep auth flow available even when user sync fails transiently.
+    }
+  }
+
   Future<void> _clearPersistedAuth() async {
     await _tokenStore.clear();
     try {
@@ -57,9 +69,19 @@ class AuthRepositoryImpl implements AuthRepository {
         refreshToken: result.session.refreshToken,
       ),
     );
-    if (result.user != null) {
+    var user = result.user;
+    try {
+      final fetchedUser = await _remote.fetchCurrentUser();
+      user = fetchedUser ?? user;
+    } catch (_) {
+      if (user == null) {
+        await _clearPersistedAuth();
+        rethrow;
+      }
+    }
+    if (user != null) {
       try {
-        await _local.saveCurrentUser(result.user!);
+        await _local.saveCurrentUser(user);
       } catch (_) {
         // Token login should succeed even when user cache persistence fails.
       }
@@ -73,13 +95,18 @@ class AuthRepositoryImpl implements AuthRepository {
     required String code,
     required String intlCode,
     String? contact,
-  }) {
-    return _remote.registerApply(
+  }) async {
+    await _remote.registerApply(
       account: account,
       code: code,
       intlCode: intlCode,
       contact: contact,
     );
+
+    final accessToken = await _tokenStore.readAccessToken();
+    if (accessToken != null && accessToken.trim().isNotEmpty) {
+      await _syncCurrentUserCacheBestEffort();
+    }
   }
 
   @override
@@ -109,6 +136,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _tokenStore.save(
         TokenPair(accessToken: dto.accessToken, refreshToken: dto.refreshToken),
       );
+      await _syncCurrentUserCacheBestEffort();
       return true;
     } catch (_) {
       await _clearPersistedAuth();

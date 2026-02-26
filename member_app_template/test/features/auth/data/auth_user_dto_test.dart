@@ -10,8 +10,11 @@ void main() {
       expect(dto.userId, isNull);
       expect(dto.email, isNull);
       expect(dto.mobile, isNull);
+      expect(dto.phone, isNull);
       expect(dto.memberLevel, isNull);
       expect(dto.intlTelCode, isNull);
+      expect(dto.memberId, isNull);
+      expect(dto.address, isNull);
     });
 
     test('supports legacy usename field and numeric strings', () {
@@ -35,6 +38,40 @@ void main() {
 
       expect(dto.username, '13900000000');
       expect(dto.mobile, '13900000000');
+      expect(dto.phone, '13900000000');
+    });
+
+    test('parses crowdfunding user index payload safely', () {
+      final dto = AuthUserDto.fromJson(<String, dynamic>{
+        'id': '438786029784006656',
+        'memberId': 125530,
+        'accountId': '0125530',
+        'email': 'dennis.diao@51fanxing.co.jp',
+        'firstName': '张',
+        'lastName': '冠李戴',
+        'taxRadio': 0.2042,
+        'intlTelCode': 81,
+        'phone': '09085309521',
+        'zipCode': '5370011',
+        'address': '東今里１－７－２４',
+        'status': 4,
+        'frontUrl': 'https://example.com/front.jpg',
+        'backUrl': 'https://example.com/back.jpg',
+      });
+
+      expect(dto.id, '438786029784006656');
+      expect(dto.memberId, 125530);
+      expect(dto.userId, 125530);
+      expect(dto.accountId, '0125530');
+      expect(dto.email, 'dennis.diao@51fanxing.co.jp');
+      expect(dto.phone, '09085309521');
+      expect(dto.mobile, '09085309521');
+      expect(dto.intlTelCode, '81');
+      expect(dto.firstName, '张');
+      expect(dto.lastName, '冠李戴');
+      expect(dto.taxRadio, 0.2042);
+      expect(dto.address, '東今里１－７－２４');
+      expect(dto.status, 4);
     });
   });
 
@@ -75,6 +112,34 @@ void main() {
       expect(dto?.username, 'user@example.com');
       expect(dto?.userId, isNull);
       expect(dto?.memberLevel, isNull);
+    });
+  });
+
+  group('AuthUserDto.tryFromCurrentUserPayload', () {
+    test('returns null when payload has no meaningful user profile fields', () {
+      final dto = AuthUserDto.tryFromCurrentUserPayload(<String, dynamic>{});
+
+      expect(dto, isNull);
+    });
+
+    test('builds user from current user profile payload', () {
+      final dto = AuthUserDto.tryFromCurrentUserPayload(<String, dynamic>{
+        'id': '438786029784006656',
+        'memberId': '125530',
+        'email': 'dennis.diao@51fanxing.co.jp',
+        'phone': '09085309521',
+        'intlTelCode': 81,
+      });
+
+      expect(dto, isNotNull);
+      expect(dto?.id, '438786029784006656');
+      expect(dto?.memberId, 125530);
+      expect(dto?.userId, 125530);
+      expect(dto?.email, 'dennis.diao@51fanxing.co.jp');
+      expect(dto?.phone, '09085309521');
+      expect(dto?.mobile, '09085309521');
+      expect(dto?.intlTelCode, '81');
+      expect(dto?.username, 'dennis.diao@51fanxing.co.jp');
     });
   });
 }

@@ -19,6 +19,7 @@ class FundingAuthApiPath {
       '/member/user/createRegisterEmailCode';
   static const String registerApply = '/member/user/registerApply';
   static const String oauthToken = '/uaa/oauth/token';
+  static const String crowdfundingUserIndex = '/crowdfunding/user/index';
 }
 
 const String fundingOauthClientAuthorization = 'Basic d2ViQXBwOndlYkFwcA==';

@@ -104,7 +104,7 @@ class _MemberProfileIntakePageState
           .mergeWithSeed(phone: widget.seedPhone, email: widget.seedEmail)
           .mergeWithSeed(
             phoneIntlCode: authUser?.intlTelCode,
-            phone: authUser?.mobile,
+            phone: authUser?.phone ?? authUser?.mobile,
             email: authUser?.email,
           );
 

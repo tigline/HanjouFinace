@@ -20,6 +20,20 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
   String? lastSendLoginIntlCode;
   String? lastRefreshToken;
   String? lastLogoutAccessToken;
+  int fetchCurrentUserCallCount = 0;
+  AuthUserDto? fetchedCurrentUser = const AuthUserDto(
+    username: 'user@example.com',
+    userId: 1001,
+    memberId: 1001,
+    email: 'user@example.com',
+    phone: '09000000000',
+    mobile: '09000000000',
+    memberLevel: 10,
+    intlTelCode: '81',
+    firstName: 'Taro',
+    lastName: 'Yamada',
+  );
+  Object? fetchCurrentUserError;
 
   AuthLoginResultDto loginResult = AuthLoginResultDto(
     session: AuthSessionDto(
@@ -58,6 +72,15 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
       throw refreshError!;
     }
     return refreshResult;
+  }
+
+  @override
+  Future<AuthUserDto?> fetchCurrentUser() async {
+    fetchCurrentUserCallCount += 1;
+    if (fetchCurrentUserError != null) {
+      throw fetchCurrentUserError!;
+    }
+    return fetchedCurrentUser;
   }
 
   @override
@@ -138,8 +161,16 @@ void main() {
     });
 
     test(
-      'loginWithCode persists token pair and user profile from response',
+      'loginWithCode persists token pair and fetched current user profile',
       () async {
+        remote.loginResult = AuthLoginResultDto(
+          session: AuthSessionDto(
+            accessToken: 'login-access',
+            refreshToken: 'login-refresh',
+            expiresAt: DateTime.utc(2100, 1, 1),
+          ),
+          user: null,
+        );
         final session = await repository.loginWithCode(
           account: 'user@example.com',
           code: '123456',
@@ -152,9 +183,36 @@ void main() {
         expect(remote.lastLoginAccount, 'user@example.com');
         expect(remote.lastLoginCode, '123456');
         expect(remote.lastLoginIntlCode, '86');
+        expect(remote.fetchCurrentUserCallCount, 1);
         expect(local.savedUser, isNotNull);
         expect(local.savedUser?.username, 'user@example.com');
         expect(local.savedUser?.memberLevel, 10);
+        expect(local.savedUser?.firstName, 'Taro');
+        expect(local.savedUser?.phone, '09000000000');
+      },
+    );
+
+    test(
+      'loginWithCode clears persisted auth and rethrows when user fetch fails without fallback user',
+      () async {
+        remote.loginResult = AuthLoginResultDto(
+          session: AuthSessionDto(
+            accessToken: 'login-access',
+            refreshToken: 'login-refresh',
+            expiresAt: DateTime.utc(2100, 1, 1),
+          ),
+          user: null,
+        );
+        remote.fetchCurrentUserError = StateError('user fetch failed');
+
+        await expectLater(
+          repository.loginWithCode(account: 'user@example.com', code: '123456'),
+          throwsA(isA<StateError>()),
+        );
+
+        expect(await tokenStore.readAccessToken(), isNull);
+        expect(await tokenStore.readRefreshToken(), isNull);
+        expect(local.savedUser, isNull);
       },
     );
 
@@ -187,6 +245,33 @@ void main() {
         expect(remote.lastRefreshToken, 'r1');
         expect(await tokenStore.readAccessToken(), 'new-access');
         expect(await tokenStore.readRefreshToken(), 'new-refresh');
+        expect(local.savedUser?.username, 'user@example.com');
+      },
+    );
+
+    test(
+      'registerAccount refreshes current user cache when access token already exists',
+      () async {
+        await tokenStore.save(
+          const TokenPair(accessToken: 'access', refreshToken: 'refresh'),
+        );
+        remote.fetchedCurrentUser = const AuthUserDto(
+          username: 'registered@example.com',
+          email: 'registered@example.com',
+          memberId: 2002,
+        );
+
+        await repository.registerAccount(
+          account: 'user@example.com',
+          code: '123456',
+          intlCode: '81',
+          contact: '13900000000',
+        );
+
+        expect(remote.lastRegisterAccount, 'user@example.com');
+        expect(remote.fetchCurrentUserCallCount, 1);
+        expect(local.savedUser?.username, 'registered@example.com');
+        expect(local.savedUser?.memberId, 2002);
       },
     );
 

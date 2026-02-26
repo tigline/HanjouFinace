@@ -12,6 +12,7 @@ import '../../../../app/observability/app_observability_providers.dart';
 import '../../../../app/storage/app_storage_providers.dart';
 import '../../data/datasources/auth_local_data_source.dart';
 import '../../data/datasources/auth_remote_data_source.dart';
+import '../../data/models/auth_user_dto.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/entities/auth_user.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -39,14 +40,20 @@ final currentAuthUserProvider = FutureProvider<AuthUser?>((ref) async {
 });
 
 class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
-  AuthSessionController(this._tokenStore, this._tokenRefresher, this._authLocal)
-    : super(const AsyncValue.loading()) {
+  AuthSessionController(
+    this._tokenStore,
+    this._tokenRefresher,
+    this._authLocal, {
+    Future<AuthUserDto?> Function()? fetchCurrentUser,
+  }) : _fetchCurrentUser = fetchCurrentUser,
+       super(const AsyncValue.loading()) {
     unawaited(refresh());
   }
 
   final TokenStore _tokenStore;
   final TokenRefresher _tokenRefresher;
   final AuthLocalDataSource _authLocal;
+  final Future<AuthUserDto?> Function()? _fetchCurrentUser;
 
   Future<void> _clearPersistedAuth() async {
     await _tokenStore.clear();
@@ -57,10 +64,28 @@ class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
     }
   }
 
+  Future<void> _syncCurrentUserCacheBestEffort() async {
+    final fetchCurrentUser = _fetchCurrentUser;
+    if (fetchCurrentUser == null) {
+      return;
+    }
+
+    try {
+      final user = await fetchCurrentUser();
+      if (user == null) {
+        return;
+      }
+      await _authLocal.saveCurrentUser(user);
+    } catch (_) {
+      // Do not block auth state restoration when user sync fails.
+    }
+  }
+
   Future<void> refresh() async {
     try {
       final accessToken = await _tokenStore.readAccessToken();
       if (accessToken != null && accessToken.trim().isNotEmpty) {
+        await _syncCurrentUserCacheBestEffort();
         state = const AsyncValue.data(true);
         return;
       }
@@ -80,6 +105,7 @@ class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
       }
 
       await _tokenStore.save(refreshedPair);
+      await _syncCurrentUserCacheBestEffort();
       state = const AsyncValue.data(true);
     } catch (_) {
       await _clearPersistedAuth();
@@ -103,10 +129,20 @@ class AuthSessionController extends StateNotifier<AsyncValue<bool>> {
 
 final authSessionProvider =
     StateNotifierProvider<AuthSessionController, AsyncValue<bool>>((ref) {
+      final baseUrl = ref.watch(oaApiBaseUrlProvider);
+      final authUserSyncRemote = AuthRemoteDataSourceImpl(
+        CoreHttpClient(
+          baseUrl: baseUrl,
+          tokenStore: ref.watch(tokenStoreProvider),
+          tokenRefresher: ref.watch(tokenRefresherProvider),
+          authFailureHandler: const NoopAuthFailureHandler(),
+        ),
+      );
       return AuthSessionController(
         ref.watch(tokenStoreProvider),
         ref.watch(tokenRefresherProvider),
         ref.watch(authLocalDataSourceProvider),
+        fetchCurrentUser: authUserSyncRemote.fetchCurrentUser,
       );
     });
 

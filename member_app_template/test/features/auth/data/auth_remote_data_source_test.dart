@@ -206,6 +206,39 @@ void main() {
     });
 
     test(
+      'fetchCurrentUser uses crowdfunding user endpoint and parses wrapped response',
+      () async {
+        final client = _buildClient((options) async {
+          expect(options.method, 'GET');
+          expect(options.path, FundingAuthApiPath.crowdfundingUserIndex);
+          expect(options.extra['auth_required'], true);
+          return _jsonOk(
+            '{"msg":"success","code":200,"data":{"id":"438786029784006656","memberId":125530,"accountId":"0125530","email":"dennis.diao@51fanxing.co.jp","firstName":"张","lastName":"冠李戴","intlTelCode":81,"phone":"09085309521","address":"東今里１－７－２４","status":4,"frontUrl":"https://example.com/front.jpg","backUrl":"https://example.com/back.jpg"}}',
+          );
+        });
+        final source = AuthRemoteDataSourceImpl(client);
+
+        final user = await source.fetchCurrentUser();
+
+        expect(user, isNotNull);
+        expect(user?.id, '438786029784006656');
+        expect(user?.memberId, 125530);
+        expect(user?.userId, 125530);
+        expect(user?.accountId, '0125530');
+        expect(user?.email, 'dennis.diao@51fanxing.co.jp');
+        expect(user?.phone, '09085309521');
+        expect(user?.mobile, '09085309521');
+        expect(user?.intlTelCode, '81');
+        expect(user?.firstName, '张');
+        expect(user?.lastName, '冠李戴');
+        expect(user?.address, '東今里１－７－２４');
+        expect(user?.status, 4);
+        expect(user?.frontUrl, 'https://example.com/front.jpg');
+        expect(user?.backUrl, 'https://example.com/back.jpg');
+      },
+    );
+
+    test(
       'refreshSession uses oauth refresh payload and parses response',
       () async {
         final client = _buildClient((options) async {

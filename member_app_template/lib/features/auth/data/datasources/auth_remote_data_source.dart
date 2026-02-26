@@ -17,6 +17,7 @@ abstract class AuthRemoteDataSource {
     required String code,
     String? intlCode,
   });
+  Future<AuthUserDto?> fetchCurrentUser();
   Future<void> registerApply({
     required String account,
     required String code,
@@ -123,6 +124,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
 
     if (_hasOauthTokenFields(payload)) {
+      return payload;
+    }
+
+    if (_looksLikeLegacyEnvelope(payload)) {
+      if (!_isLegacySuccessResponse(payload)) {
+        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
+      }
+      return _toJsonMap(payload['data']);
+    }
+
+    return payload;
+  }
+
+  Map<String, dynamic> _extractEnvelopeDataPayload(
+    Map<String, dynamic> payload, {
+    required String fallbackMessage,
+  }) {
+    if (payload.isEmpty) {
       return payload;
     }
 
@@ -247,6 +266,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final session = AuthSessionDto.fromJson(payload);
     final user = AuthUserDto.tryFromLoginPayload(payload);
     return AuthLoginResultDto(session: session, user: user);
+  }
+
+  @override
+  Future<AuthUserDto?> fetchCurrentUser() async {
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      FundingAuthApiPath.crowdfundingUserIndex,
+      options: authRequired(true),
+    );
+
+    final payload = _extractEnvelopeDataPayload(
+      _toJsonMap(response.data),
+      fallbackMessage: 'Failed to load current user profile.',
+    );
+    if (payload.isEmpty) {
+      return null;
+    }
+
+    return AuthUserDto.tryFromCurrentUserPayload(payload);
   }
 
   @override
