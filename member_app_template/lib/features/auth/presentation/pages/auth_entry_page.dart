@@ -166,7 +166,7 @@ class _AuthMarketingEntryScaffold extends StatelessWidget {
                         const Center(
                           child: _HeroLogoCard(
                             logoUrl:
-                                'https://cdn-icons-png.flaticon.com/512/5968/5968705.png',
+                                'https://testoa.gutingjun.com/img/logo.803cfc19.png',
                           ),
                         ),
 
