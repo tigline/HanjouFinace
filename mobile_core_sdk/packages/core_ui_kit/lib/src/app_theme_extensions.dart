@@ -477,3 +477,36 @@ class AppTravelHotelTheme extends ThemeExtension<AppTravelHotelTheme> {
     );
   }
 }
+
+@immutable
+class AppShellNavigationTheme extends ThemeExtension<AppShellNavigationTheme> {
+  const AppShellNavigationTheme({required this.bottomTabInactiveColor});
+
+  final Color bottomTabInactiveColor;
+
+  @override
+  AppShellNavigationTheme copyWith({Color? bottomTabInactiveColor}) {
+    return AppShellNavigationTheme(
+      bottomTabInactiveColor:
+          bottomTabInactiveColor ?? this.bottomTabInactiveColor,
+    );
+  }
+
+  @override
+  AppShellNavigationTheme lerp(
+    covariant ThemeExtension<AppShellNavigationTheme>? other,
+    double t,
+  ) {
+    if (other is! AppShellNavigationTheme) {
+      return this;
+    }
+
+    return AppShellNavigationTheme(
+      bottomTabInactiveColor: _lerpColor(
+        bottomTabInactiveColor,
+        other.bottomTabInactiveColor,
+        t,
+      ),
+    );
+  }
+}

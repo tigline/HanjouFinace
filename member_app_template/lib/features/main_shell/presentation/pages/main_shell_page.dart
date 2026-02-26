@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:core_ui_kit/core_ui_kit.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 
@@ -32,6 +33,7 @@ class MainShellPage extends StatelessWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final shellNavigationTheme = theme.extension<AppShellNavigationTheme>()!;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: _statusBarStyle(context),
@@ -47,7 +49,7 @@ class MainShellPage extends StatelessWidget {
               return IconThemeData(
                 color: states.contains(WidgetState.selected)
                     ? colorScheme.primary
-                    : colorScheme.onSurfaceVariant,
+                    : shellNavigationTheme.bottomTabInactiveColor,
               );
             }),
             labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>((
@@ -57,7 +59,7 @@ class MainShellPage extends StatelessWidget {
               return base?.copyWith(
                 color: states.contains(WidgetState.selected)
                     ? colorScheme.primary
-                    : colorScheme.onSurfaceVariant,
+                    : shellNavigationTheme.bottomTabInactiveColor,
                 fontWeight: states.contains(WidgetState.selected)
                     ? FontWeight.w700
                     : FontWeight.w500,

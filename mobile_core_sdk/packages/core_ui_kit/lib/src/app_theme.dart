@@ -209,6 +209,12 @@ class AppThemeFactory {
       chipCornerRadius: 87,
     );
 
+    final shellNavigationTheme = AppShellNavigationTheme(
+      bottomTabInactiveColor: isDark
+          ? onSurface.withValues(alpha: 0.84)
+          : onSurface.withValues(alpha: 0.68),
+    );
+
     final colorScheme = ColorScheme(
       brightness: brightness,
       primary: AppColorTokens.fundingPrimary,
@@ -234,7 +240,11 @@ class AppThemeFactory {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
       textTheme: textTheme,
-      extensions: <ThemeExtension<dynamic>>[authVisualTheme, travelHotelTheme],
+      extensions: <ThemeExtension<dynamic>>[
+        authVisualTheme,
+        travelHotelTheme,
+        shellNavigationTheme,
+      ],
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: <TargetPlatform, PageTransitionsBuilder>{
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
