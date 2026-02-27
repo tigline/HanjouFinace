@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FUNDEX - FTK App MVP Demo v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--pri:#0A1628;--pri2:#142240;--acc:#2563EB;--acc2:#3B82F6;--acc-g:rgba(37,99,235,.12);
+--grn:#10B981;--grn-l:#D1FAE5;--red:#EF4444;--red-l:#FEE2E2;--org:#F59E0B;--org-l:#FEF3C7;
+--vio:#8B5CF6;--vio-l:#EDE9FE;--pink:#EC4899;--pink-l:#FCE7F3;
+--bg:#F8FAFC;--card:#FFF;--bdr:#E2E8F0;--tx:#0F172A;--tx2:#475569;--tx3:#94A3B8;
+--r:16px;--rs:10px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+--kz1:#6366F1;--kz2:#818CF8;--kz-g:linear-gradient(135deg,#6366F1,#8B5CF6);
+}
+html{font-size:16px}
+body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:flex;justify-content:center;align-items:center;min-height:100vh;overflow:hidden}
+.phone{width:390px;height:844px;background:var(--bg);border-radius:44px;overflow:hidden;position:relative;box-shadow:0 0 0 3px #222,0 0 0 6px #444,0 25px 60px rgba(0,0,0,.6);display:flex;flex-direction:column}
+.sb{height:54px;background:var(--pri);display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 8px;flex-shrink:0;z-index:100}
+.sb .t{color:#fff;font-size:15px;font-weight:600;font-family:'DM Sans'}
+.sb .ic{display:flex;gap:6px;align-items:center}
+.sb .ic svg{width:15px;height:15px;fill:#fff}
+.notch{width:126px;height:34px;background:#000;border-radius:0 0 20px 20px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:200}
+.sc{flex:1;overflow:hidden;position:relative}
+.s{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;transform:translateX(12px);-webkit-overflow-scrolling:touch}
+.s.a{opacity:1;pointer-events:all;transform:translateX(0)}
+.s::-webkit-scrollbar{display:none}
+/* Bottom Nav */
+.bn{height:78px;background:#fff;border-top:1px solid var(--bdr);display:flex;align-items:flex-start;padding-top:6px;flex-shrink:0;z-index:100}
+.bn::after{content:'';position:absolute;bottom:0;left:0;right:0;height:16px;background:#fff}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 0;transition:.2s;position:relative}
+.ni svg{width:22px;height:22px;fill:var(--tx3);transition:.2s}
+.ni>span{font-size:9px;color:var(--tx3);font-weight:500;transition:.2s}
+.ni.a svg{fill:var(--acc)}
+.ni.a>span{color:var(--acc);font-weight:700}
+.ni.kz.a svg{fill:var(--kz1)}
+.ni.kz.a>span{color:var(--kz1)}
+
+.lang-opt{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;transition:.15s;border-bottom:1px solid var(--bdr);font-size:13px;font-weight:600}
+.lang-opt:last-child{border-bottom:none}
+.lang-opt:active{background:var(--bg)}
+.lang-ck{margin-left:auto;color:var(--acc);font-weight:800;font-size:16px}
+.bdg{position:absolute;top:-2px;right:calc(50% - 18px);min-width:16px;height:16px;background:var(--red);border-radius:50%;font-size:8px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+/* Shared */
+.hdr{background:#fff;padding:14px 20px;border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:10}
+.hdr h2{font-size:18px;font-weight:800;color:var(--tx)}
+.hdr-row{display:flex;align-items:center;gap:12px}
+.hdr-row .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none}
+.hdr-row .bk svg{width:20px;height:20px;fill:var(--tx)}
+.hdr-row h3{font-size:16px;font-weight:700}
+.fr{display:flex;gap:8px;overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
+.fr::-webkit-scrollbar{display:none}
+.fc{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--bdr);background:#fff;color:var(--tx2);cursor:pointer;white-space:nowrap;transition:.2s}
+.fc.a{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn{width:100%;padding:15px;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Noto Sans JP';transition:.15s}
+.btn:active{transform:scale(.97)}
+.btn-p{background:linear-gradient(135deg,var(--acc),#3B82F6);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,.35)}
+.btn-g{background:linear-gradient(135deg,var(--grn),#34D399);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.3)}
+.btn-o{background:#fff;color:var(--tx);border:1.5px solid var(--bdr)}
+.btn-d{background:#CBD5E1;color:#fff;cursor:not-allowed;box-shadow:none}
+.btn-v{background:var(--kz-g);color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.3)}
+.sect{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 10px}
+.sect h3{font-size:15px;font-weight:700;color:var(--tx)}
+.sect a{font-size:12px;color:var(--acc);font-weight:600;text-decoration:none}
+.tag{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.tag-b{background:rgba(37,99,235,.9);color:#fff}
+.tag-g{background:rgba(16,185,129,.9);color:#fff}
+.tag-o{background:rgba(245,158,11,.9);color:#fff}
+.tag-pk{background:rgba(236,72,153,.85);color:#fff}
+.ibox{margin:0 20px 16px;border-radius:var(--r);padding:14px;border-left:4px solid var(--acc);background:#EFF6FF}
+.ibox h5{font-size:13px;font-weight:700;color:var(--acc);margin-bottom:4px}
+.ibox p{font-size:12px;color:var(--tx2);line-height:1.6}
+.toast{position:absolute;top:60px;left:20px;right:20px;background:var(--tx);color:#fff;padding:14px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:500;opacity:0;transform:translateY(-10px);transition:.3s;pointer-events:none;text-align:center}
+.toast.sh{opacity:1;transform:translateY(0)}
+.fg{margin-bottom:14px}
+.fg label{font-size:12px;font-weight:600;color:var(--tx2);display:block;margin-bottom:6px}
+.fg input,.fg select{width:100%;padding:13px 16px;border:1.5px solid var(--bdr);border-radius:12px;font-size:14px;font-family:'Noto Sans JP';outline:none;background:#fff;transition:.2s;-webkit-appearance:none}
+.fg input:focus,.fg select:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-g)}
+.fg input::placeholder{color:var(--tx3)}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pb{height:5px;background:var(--bdr);border-radius:3px;overflow:hidden}
+.pb .f{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--acc),#60A5FA);transition:width 1s}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:16px;border:1px solid var(--bdr)}
+.ig .c{background:#fff;padding:12px;display:flex;flex-direction:column;gap:2px}
+.ig .c label{font-size:10px;color:var(--tx3);font-weight:500}
+.ig .c .v{font-size:13px;font-weight:700;color:var(--tx)}
+.ck{width:20px;height:20px;border:2px solid var(--bdr);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s}
+.ck.on{background:var(--acc);border-color:var(--acc)}
+.ck.on svg{fill:#fff}
+.ck svg{width:12px;height:12px;fill:transparent}
+.copy-btn{font-size:10px;background:var(--acc-g);color:var(--acc);border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-weight:600;margin-left:6px}
+/* Property image placeholders */
+.pi{width:100%;height:100%;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pi .sk{position:absolute;inset:0}
+.pi>svg{position:relative;z-index:1;width:100%;height:100%;opacity:.85}
+.pi-tk .sk{background:linear-gradient(160deg,#0f172a,#1e3a5f 50%,#2563eb)}
+.pi-os .sk{background:linear-gradient(160deg,#7c2d12,#c2410c 50%,#f97316)}
+.pi-kt .sk{background:linear-gradient(160deg,#14532d,#166534 50%,#22c55e)}
+.pi-fk .sk{background:linear-gradient(160deg,#3b0764,#7c3aed 50%,#a78bfa)}
+.pi-mp .sk{background:linear-gradient(135deg,#e0f2fe,#bae6fd);display:flex;align-items:center;justify-content:center}
+.pi-mp .sk::after{content:'📍 東京都港区赤坂';font-size:14px;font-weight:700;color:var(--acc);background:#fff;padding:8px 16px;border-radius:8px;box-shadow:var(--sh)}
+.fade{animation:fi .4s ease both}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* ═══ SPLASH ═══ */
+.splash-bg{background:linear-gradient(160deg,#0A1628 0%,#1E3A5F 50%,#0A1628 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+.sp-logo{width:80px;height:80px;background:linear-gradient(135deg,var(--acc),#60A5FA);border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;animation:spP 2s ease infinite;box-shadow:0 8px 32px rgba(37,99,235,.4)}
+.sp-logo svg{width:44px;height:44px;fill:#fff}
+@keyframes spP{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.sp-bar{width:120px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:48px;overflow:hidden}
+.sp-fill{height:100%;background:linear-gradient(90deg,var(--acc),#60A5FA);border-radius:3px;animation:spL 2s ease forwards}
+@keyframes spL{0%{width:0}100%{width:100%}}
+
+/* ═══ LOGIN ═══ */
+.login-top{background:linear-gradient(160deg,#0A1628,#1E3A5F);padding:60px 30px 40px;text-align:center;border-radius:0 0 32px 32px}
+.login-logo{width:56px;height:56px;background:linear-gradient(135deg,var(--acc),#60A5FA);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 6px 24px rgba(37,99,235,.4)}
+.login-logo svg{width:28px;height:28px;fill:#fff}
+.login-top h2{color:#fff;font-size:22px;font-weight:800}
+.login-top p{color:rgba(255,255,255,.5);font-size:13px;margin-top:4px}
+.login-form{padding:28px 24px}
+.link-r{text-align:right;margin-top:-8px;margin-bottom:16px}
+.link-r a{font-size:12px;color:var(--acc);text-decoration:none;font-weight:600}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.divider span{font-size:11px;color:var(--tx3)}
+.sns-row{display:flex;gap:12px}
+.sns-btn{flex:1;padding:12px;border:1.5px solid var(--bdr);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:600;color:var(--tx);cursor:pointer}
+.register-link{text-align:center;margin-top:20px;font-size:13px;color:var(--tx2)}
+.register-link a{color:var(--acc);font-weight:700;text-decoration:none}
+
+/* ═══ REGISTER (Quick → Complete later) ═══ */
+.reg-body{padding:20px}
+.reg-body h4{font-size:16px;font-weight:700;margin-bottom:4px}
+.reg-body .sub{font-size:12px;color:var(--tx3);margin-bottom:20px}
+.skip-link{text-align:center;margin-top:12px}
+.skip-link a{font-size:13px;color:var(--tx3);text-decoration:none;font-weight:600}
+.reg-steps{display:flex;padding:14px 20px;gap:4px}
+.reg-step{flex:1;height:4px;border-radius:2px;background:var(--bdr);transition:.3s}
+.reg-step.done{background:var(--acc)}
+.reg-step.cur{background:var(--acc);animation:pulse 1.5s ease infinite}
+.check-row{display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:var(--rs);background:var(--bg);margin-bottom:10px;cursor:pointer}
+.check-row p{font-size:13px;color:var(--tx2);line-height:1.5}
+.ekyc-box{border:2px dashed var(--bdr);border-radius:var(--r);padding:36px 20px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:14px}
+.ekyc-box:hover{border-color:var(--acc);background:var(--acc-g)}
+.ekyc-box svg{width:44px;height:44px;fill:var(--tx3);margin-bottom:10px}
+.ekyc-box h5{font-size:14px;font-weight:700;margin-bottom:4px}
+.ekyc-box p{font-size:12px;color:var(--tx3)}
+/* Profile completion banner */
+.complete-banner{margin:12px 20px;background:linear-gradient(135deg,#FEF3C7,#FFFBEB);border:1.5px solid #FCD34D;border-radius:var(--r);padding:14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.complete-banner .ci{font-size:20px;flex-shrink:0}
+.complete-banner h5{font-size:12px;font-weight:700;color:#92400E;margin-bottom:2px}
+.complete-banner p{font-size:11px;color:#A16207;line-height:1.5}
+.complete-banner .prog{height:4px;background:#FDE68A;border-radius:2px;margin-top:6px;overflow:hidden}
+.complete-banner .prog .f{height:100%;background:#F59E0B;border-radius:2px}
+
+/* ═══ HOME ═══ */
+.hm-hd{background:linear-gradient(160deg,#0A1628,#1E3A5F);padding:18px 20px 26px;border-radius:0 0 28px 28px;position:relative;overflow:hidden}
+.hm-hd::after{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(37,99,235,.2),transparent);border-radius:50%}
+.hm-gr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;position:relative;z-index:1}
+.hm-gr h2{color:#fff;font-size:16px;font-weight:600}
+.nb{width:38px;height:38px;background:rgba(255,255,255,.1);border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;position:relative}
+.nb svg{width:18px;height:18px;fill:#fff}
+.nb .dot{width:8px;height:8px;background:var(--red);border-radius:50%;position:absolute;top:7px;right:7px;border:2px solid var(--pri)}
+.as{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
+.ac{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.08)}
+.ac.m{grid-column:1/-1;background:rgba(37,99,235,.15);border-color:rgba(37,99,235,.2)}
+.ac label{font-size:10px;color:rgba(255,255,255,.5);font-weight:500;display:block;margin-bottom:3px}
+.ac .v{font-size:20px;font-weight:800;color:#fff;font-family:'DM Sans'}
+.ac.m .v{font-size:26px}
+.ac .su{font-size:10px;color:var(--grn);font-weight:600;margin-top:2px}
+.fscr{display:flex;gap:12px;padding:0 20px 4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+.fscr::-webkit-scrollbar{display:none}
+.fcd{min-width:260px;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);scroll-snap-align:start;cursor:pointer;border:1px solid var(--bdr);transition:.2s}
+.fcd:active{transform:scale(.98)}
+.fcd .im{height:130px;position:relative;overflow:hidden}
+.fcd .im img{width:100%;height:100%;object-fit:cover}
+.fcd .brow{position:absolute;top:8px;left:8px;display:flex;gap:4px}
+.fcd .inf{padding:12px}
+.fcd .inf h4{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:6px;line-height:1.4}
+.fy{display:flex;flex-direction:column}
+.fy label{font-size:9px;color:var(--tx3);font-weight:500}
+.fy .rt{font-size:24px;font-weight:900;color:var(--red);font-family:'DM Sans';line-height:1}
+.fy .rt span{font-size:12px}
+.afd{margin:0 20px 12px;background:#fff;border-radius:var(--r);padding:12px;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.afd .at{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.afd h5{font-size:12px;font-weight:700;color:var(--tx);line-height:1.4}
+.afd .ar{font-size:16px;font-weight:900;color:var(--red);font-family:'DM Sans'}
+.afd .rw{display:flex;justify-content:space-between;font-size:11px;color:var(--tx2);margin-bottom:4px}
+.afd .rw .v{font-weight:700;color:var(--tx)}
+.cool-off{margin:12px 20px;background:linear-gradient(135deg,#FEF3C7,#FFFBEB);border:1.5px solid #FCD34D;border-radius:var(--r);padding:14px;display:flex;align-items:flex-start;gap:10px}
+.cool-off .ci{font-size:20px;flex-shrink:0}
+.cool-off h5{font-size:12px;font-weight:700;color:#92400E;margin-bottom:2px}
+.cool-off p{font-size:11px;color:#A16207;line-height:1.5}
+.cool-off .cbtn{margin-top:8px;padding:6px 14px;border-radius:8px;border:1.5px solid #F59E0B;background:#fff;font-size:11px;font-weight:700;color:#D97706;cursor:pointer}
+
+/* ═══ FUND LIST ═══ */
+.fl{padding:14px 20px;display:flex;flex-direction:column;gap:16px}
+.fli{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);border:1px solid var(--bdr);cursor:pointer;transition:.2s}
+.fli:active{transform:scale(.97)}
+.fli-hero{height:160px;position:relative;overflow:hidden}
+.fli-hero .pi{width:100%;height:100%}
+.fli-hero .fli-overlay{position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.6));display:flex;flex-direction:column;justify-content:flex-end;padding:12px 14px}
+.fli-hero .fli-vol{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.9);padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;color:var(--tx2)}
+.fli-hero .fli-fn{color:#fff;font-size:16px;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.5);line-height:1.3;margin-bottom:6px}
+.fli-hero .fli-bubs{display:flex;gap:6px}
+.fli-bub{background:rgba(255,255,255,.85);backdrop-filter:blur(4px);border-radius:20px;padding:4px 10px;text-align:center}
+.fli-bub label{display:block;font-size:8px;color:var(--tx3);font-weight:500}
+.fli-bub .v{font-size:12px;font-weight:800;color:var(--tx)}
+.fli-body{padding:12px 14px}
+.fli-row1{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.fli-name{font-size:13px;font-weight:700;color:var(--tx)}
+.fli-tgs{display:flex;gap:4px;margin-bottom:8px}
+.fli-amt{background:linear-gradient(90deg,var(--acc),#3B82F6);color:#fff;border-radius:20px;padding:5px 14px;font-size:11px;font-weight:700;text-align:center;margin-bottom:8px}
+.fli-stats{display:flex;border-top:1px solid var(--bdr);padding-top:8px;margin-bottom:6px}
+.fli-stat{flex:1;text-align:center}
+.fli-stat:not(:last-child){border-right:1px solid var(--bdr)}
+.fli-stat label{display:block;font-size:9px;color:var(--tx3)}
+.fli-stat .v{font-size:14px;font-weight:800;color:var(--tx)}
+.fli-stat .v.red{color:var(--red)}
+.fli-foot{display:flex;justify-content:space-between;align-items:center}
+.fli-link{font-size:12px;font-weight:600;color:var(--acc);display:flex;align-items:center;gap:2px}
+/* Favorite */
+.fav-btn{width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;flex-shrink:0;backdrop-filter:blur(4px)}
+.fav-btn svg{width:18px;height:18px;fill:var(--tx3);transition:.2s}
+.fav-btn.on{background:var(--red-l)}
+.fav-btn.on svg{fill:var(--red)}
+.fli-fav{position:absolute;top:10px;left:10px;z-index:2}
+
+/* ═══ DETAIL ═══ */
+.dh{height:200px;position:relative;overflow:hidden}
+.dh img{width:100%;height:100%;object-fit:cover}
+.dh .ov{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.7))}
+.dh .bbk{position:absolute;top:12px;left:12px;width:34px;height:34px;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;z-index:2}
+.dh .bbk svg{width:18px;height:18px;fill:#fff}
+.dh .hb{position:absolute;bottom:14px;left:14px;display:flex;gap:6px}
+.db{padding:0 20px 20px}
+.dt{padding:18px 0 14px}
+.dt h2{font-size:17px;font-weight:800;color:var(--tx);line-height:1.5}
+.yh{background:linear-gradient(135deg,#FEF2F2,#FFF1F2);border:1.5px solid #FECACA;border-radius:var(--r);padding:18px;text-align:center;margin-bottom:16px}
+.yh label{font-size:11px;color:var(--tx2)}
+.yh .br{font-size:44px;font-weight:900;color:var(--red);font-family:'DM Sans';line-height:1.1}
+.yh .br span{font-size:18px}
+.yh .nt{font-size:10px;color:var(--tx3);margin-top:3px}
+.stb{background:#F0F9FF;border:1.5px solid #BAE6FD;border-radius:var(--r);padding:14px;margin-bottom:16px}
+.stb h4{font-size:12px;font-weight:700;color:var(--acc);margin-bottom:10px}
+.stbar{display:flex;height:28px;border-radius:8px;overflow:hidden;margin-bottom:6px}
+.stbar .inv{background:var(--acc);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700}
+.stbar .op{background:#F59E0B;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700}
+.ds{margin-bottom:16px}
+.ds h4{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:8px}
+.mp{height:140px;background:#E2E8F0;border-radius:var(--rs);overflow:hidden}
+.mp img{width:100%;height:100%;object-fit:cover;filter:brightness(.95)}
+.ra{border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden}
+.ri{border-bottom:1px solid var(--bdr)}
+.ri:last-child{border:none}
+.ri summary{padding:10px 12px;font-size:12px;font-weight:600;color:var(--tx2);cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.ri summary::after{content:'+';font-size:13px;color:var(--tx3)}
+.ri[open] summary::after{content:'-'}
+.ri .rb{padding:0 12px 10px;font-size:11px;color:var(--tx3);line-height:1.7}
+.scta{position:sticky;bottom:0;left:0;right:0;background:linear-gradient(transparent,#fff 20%);padding:20px 20px 24px;z-index:10}
+
+/* ═══ INVEST FLOW (Lottery) ═══ */
+.inv-s{display:flex;padding:14px 20px;gap:4px}
+.inv-st{flex:1;height:4px;border-radius:2px;background:var(--bdr)}
+.inv-st.d{background:var(--acc)}
+.inv-st.c{background:var(--acc);animation:pulse 1.5s ease infinite}
+.inv-c{padding:20px}
+.inv-c h4{font-size:15px;font-weight:700;color:var(--tx);margin-bottom:14px}
+.aiw{background:var(--bg);border:2px solid var(--bdr);border-radius:var(--r);padding:18px;text-align:center;margin-bottom:14px;transition:.2s}
+.aiw:focus-within{border-color:var(--acc)}
+.aiw label{font-size:11px;color:var(--tx3);display:block;margin-bottom:6px}
+.ai{font-size:32px;font-weight:900;color:var(--tx);border:none;background:none;text-align:center;width:100%;outline:none;font-family:'DM Sans'}
+.acs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.ach{padding:7px 14px;border-radius:10px;border:1.5px solid var(--bdr);background:#fff;font-size:12px;font-weight:600;color:var(--tx2);cursor:pointer;transition:.2s}
+.ach:hover,.ach.sl{background:var(--acc-g);border-color:var(--acc);color:var(--acc)}
+.smr{background:linear-gradient(135deg,#F0FDF4,#ECFDF5);border:1.5px solid #A7F3D0;border-radius:var(--r);padding:14px;text-align:center;margin-bottom:16px}
+.smr label{font-size:11px;color:var(--tx2)}
+.smr .v{font-size:26px;font-weight:900;color:var(--grn);font-family:'DM Sans'}
+.smr .v span{font-size:13px}
+.dci{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg);border-radius:var(--rs);cursor:pointer;margin-bottom:8px}
+.dci .di{width:36px;height:36px;background:var(--red-l);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dci .di svg{width:18px;height:18px;fill:var(--red)}
+.dci .dt2{flex:1}
+.dci .dt2 p{font-size:12px;font-weight:600;color:var(--tx)}
+.dci .dt2 small{font-size:10px;color:var(--tx3)}
+.cc{background:var(--bg);border-radius:var(--r);padding:14px;margin-bottom:14px}
+.cr{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bdr)}
+.cr:last-child{border:none}
+.cr label{font-size:12px;color:var(--tx2)}
+.cr .v{font-size:12px;font-weight:700;color:var(--tx)}
+/* Lottery result */
+.lottery-box{text-align:center;padding:30px 20px}
+.lottery-icon{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:36px}
+.lottery-icon.win{background:var(--grn-l)}
+.lottery-icon.pending{background:var(--vio-l)}
+.lottery-box h3{font-size:18px;font-weight:800;margin-bottom:6px}
+.lottery-box p{font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:20px}
+.lottery-box .deadline{background:var(--red-l);border-radius:var(--rs);padding:12px;margin-bottom:20px}
+.lottery-box .deadline h5{font-size:12px;font-weight:700;color:var(--red);margin-bottom:2px}
+.lottery-box .deadline p{font-size:16px;font-weight:900;color:var(--red);font-family:'DM Sans';margin:0}
+.lottery-pending{background:var(--vio-l);border-radius:var(--rs);padding:14px;margin-bottom:20px;text-align:center}
+.lottery-pending h5{font-size:13px;font-weight:700;color:var(--vio);margin-bottom:2px}
+.lottery-pending p{font-size:18px;font-weight:900;color:var(--vio);font-family:'DM Sans';margin:0}
+.deposit-info{background:var(--bg);border-radius:var(--r);padding:14px;text-align:left;margin-bottom:16px}
+.deposit-info .dr{display:flex;justify-content:space-between;padding:6px 0;font-size:12px}
+.deposit-info .dr label{color:var(--tx3)}
+.deposit-info .dr .v{font-weight:700;color:var(--tx);font-family:'DM Sans','Noto Sans JP'}
+.suc{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 20px;text-align:center}
+.suc .si{width:72px;height:72px;background:var(--grn-l);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.suc .si svg{width:36px;height:36px;fill:var(--grn)}
+.suc h3{font-size:18px;font-weight:800;margin-bottom:6px}
+.suc p{font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:20px}
+.suc .sid{background:var(--bg);padding:10px 18px;border-radius:var(--rs);font-size:12px;color:var(--tx2);margin-bottom:24px}
+.suc .sid strong{color:var(--tx);font-family:'DM Sans'}
+
+/* ═══ MYPAGE (simplified, no charts) ═══ */
+.mh{background:linear-gradient(160deg,#0A1628,#1E3A5F);padding:18px 20px 55px}
+.mh h2{color:#fff;font-size:17px;font-weight:800;margin-bottom:14px}
+.mta{text-align:center}
+.mta label{font-size:11px;color:rgba(255,255,255,.5)}
+.mta .bv{font-size:32px;font-weight:900;color:#fff;font-family:'DM Sans'}
+.mcs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:-36px 20px 0;position:relative;z-index:2}
+.ms{background:#fff;border-radius:var(--rs);padding:12px 8px;text-align:center;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.ms label{font-size:9px;color:var(--tx3);display:block;margin-bottom:3px}
+.ms .v{font-size:14px;font-weight:800;font-family:'DM Sans'}
+.ms .v.g{color:var(--grn)}
+.dw-btns{display:flex;gap:10px;margin:16px 20px}
+.dw-btn{flex:1;padding:12px;border-radius:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;transition:.2s;border:none}
+.dw-btn:active{transform:scale(.96)}
+.dw-dep{background:var(--acc-g);color:var(--acc)}
+.dw-wit{background:var(--bg);color:var(--tx2);border:1.5px solid var(--bdr)}
+
+/* ═══ DEPOSIT / WITHDRAW ═══ */
+.dw-card{margin:20px;background:#fff;border-radius:var(--r);padding:16px;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.dw-card h4{font-size:14px;font-weight:700;margin-bottom:12px}
+.dw-info{background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:12px}
+.dw-row{display:flex;justify-content:space-between;padding:6px 0;font-size:12px}
+.dw-row label{color:var(--tx3)}
+.dw-row .v{font-weight:700;color:var(--tx);font-family:'DM Sans','Noto Sans JP'}
+
+/* ═══ HISTORY ═══ */
+.hl{padding:0 20px 20px;display:flex;flex-direction:column;gap:8px}
+.hi{display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border-radius:var(--rs);border:1px solid var(--bdr)}
+.hi .hic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hi .hic svg{width:18px;height:18px}
+.hic-b{background:#DBEAFE}.hic-b svg{fill:var(--acc)}
+.hic-g{background:#D1FAE5}.hic-g svg{fill:var(--grn)}
+.hic-o{background:#FEF3C7}.hic-o svg{fill:var(--org)}
+.hic-r{background:#FEE2E2}.hic-r svg{fill:var(--red)}
+.hi .hb2{flex:1}
+.hi .hb2 h5{font-size:12px;font-weight:700;color:var(--tx)}
+.hi .hb2 p{font-size:10px;color:var(--tx3)}
+.hi .ha{text-align:right}
+.hi .ha .v{font-size:13px;font-weight:800;font-family:'DM Sans'}
+.hi .ha .v.plus{color:var(--grn)}
+.hi .ha .v.minus{color:var(--tx)}
+.hi .ha .d{font-size:10px;color:var(--tx3)}
+
+/* ═══ KIZUNARK (no likes, comment + quote only, investor-only posting) ═══ */
+.kz-hd{background:var(--kz-g);padding:18px 20px 14px}
+.kz-hd h2{color:#fff;font-size:18px;font-weight:900;letter-spacing:-.5px}
+.kz-hd p{color:rgba(255,255,255,.6);font-size:11px;margin-top:2px}
+.kz-notice{margin:12px 20px;background:var(--vio-l);border-radius:var(--rs);padding:10px 14px;font-size:11px;color:var(--vio);font-weight:600;display:flex;align-items:center;gap:6px}
+.kz-compose{margin:10px 20px 14px;display:flex;gap:10px;align-items:flex-start}
+.kz-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.kz-input-wrap{flex:1;background:#fff;border-radius:14px;border:1.5px solid var(--bdr);overflow:hidden}
+.kz-input{width:100%;padding:10px 14px;border:none;outline:none;font-size:13px;font-family:'Noto Sans JP';resize:none;min-height:38px}
+.kz-input::placeholder{color:var(--tx3)}
+.kz-toolbar{display:flex;justify-content:flex-end;padding:6px 10px;border-top:1px solid var(--bdr)}
+.kz-post-btn{padding:6px 16px;border-radius:8px;background:var(--kz-g);color:#fff;border:none;font-size:12px;font-weight:700;cursor:pointer}
+.kz-feed{padding:0 20px 20px;display:flex;flex-direction:column;gap:12px}
+.kz-card{background:#fff;border-radius:var(--r);padding:14px;box-shadow:var(--sh);border:1px solid var(--bdr)}
+.kz-card-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.kz-card-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0}
+.kz-card-name{font-size:13px;font-weight:700;color:var(--tx)}
+.kz-card-time{font-size:10px;color:var(--tx3);margin-left:auto}
+.kz-card-badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700}
+.kz-card-body{font-size:13px;color:var(--tx);line-height:1.7;margin-bottom:10px}
+.fund-ref{display:inline-flex;align-items:center;gap:4px;background:var(--acc-g);color:var(--acc);padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;margin-top:6px;cursor:pointer;transition:.2s}
+.fund-ref:hover{background:var(--acc);color:#fff}
+/* Quote block */
+.kz-quote{background:var(--bg);border-left:3px solid var(--kz1);border-radius:0 var(--rs) var(--rs) 0;padding:10px 12px;margin-bottom:10px;font-size:12px;color:var(--tx2);line-height:1.6}
+.kz-quote .qname{font-weight:700;color:var(--tx);font-size:11px;margin-bottom:2px}
+/* Comment actions */
+.kz-actions{display:flex;gap:16px;padding-top:10px;border-top:1px solid var(--bdr)}
+.kz-act{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx3);cursor:pointer;border:none;background:none;padding:4px 0;transition:.2s}
+.kz-act svg{width:16px;height:16px;fill:var(--tx3);transition:.2s}
+.kz-act:hover{color:var(--kz1)}
+.kz-act:hover svg{fill:var(--kz1)}
+/* Reply thread */
+.kz-replies{margin-top:10px;padding-top:10px;border-top:1px solid var(--bdr);display:flex;flex-direction:column;gap:8px}
+.kz-reply{display:flex;gap:8px;padding:8px;background:var(--bg);border-radius:var(--rs)}
+.kz-reply-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
+.kz-reply-body{flex:1}
+.kz-reply-body .rn{font-size:11px;font-weight:700;color:var(--tx)}
+.kz-reply-body .rn span{font-weight:400;color:var(--tx3);margin-left:6px;font-size:10px}
+.kz-reply-body .rt2{font-size:12px;color:var(--tx2);line-height:1.5;margin-top:2px}
+.kz-reply-input{display:flex;gap:8px;align-items:center;padding:8px;background:var(--bg);border-radius:var(--rs);margin-top:6px}
+.kz-reply-input input{flex:1;border:1.5px solid var(--bdr);border-radius:8px;padding:8px 12px;font-size:12px;font-family:'Noto Sans JP';outline:none}
+.kz-reply-input input:focus{border-color:var(--kz1)}
+.kz-reply-input button{padding:8px 12px;background:var(--kz-g);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* ═══ NOTIF ═══ */
+.nl{padding:14px 20px;display:flex;flex-direction:column;gap:2px}
+.nit{display:flex;gap:10px;padding:12px;border-radius:var(--rs);cursor:pointer;transition:.2s}
+.nit:hover{background:var(--bg)}
+.nit.ur{background:#F0F9FF}
+.nic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nic svg{width:16px;height:16px}
+.nic-b{background:#DBEAFE}.nic-b svg{fill:var(--acc)}
+.nic-g{background:#D1FAE5}.nic-g svg{fill:var(--grn)}
+.nic-o{background:#FEF3C7}.nic-o svg{fill:var(--org)}
+.nb2{flex:1}
+.nb2 h5{font-size:12px;font-weight:700;color:var(--tx);margin-bottom:2px}
+.nb2 p{font-size:11px;color:var(--tx3);line-height:1.5}
+.nb2 .tm{font-size:9px;color:var(--tx3);margin-top:3px}
+
+/* ═══ SETTINGS (with マイページ entry) ═══ */
+.sl{padding:16px 20px}
+.sg{margin-bottom:18px}
+.sg h4{font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;padding-left:4px}
+.si2{display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border-radius:var(--rs);margin-bottom:2px;cursor:pointer;border:1px solid var(--bdr);transition:.2s}
+.si2:hover{background:var(--bg)}
+.si2 .sic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.si2 .sic svg{width:16px;height:16px}
+.si2 .st{flex:1;font-size:13px;font-weight:600;color:var(--tx)}
+.si2 .aw{font-size:16px;color:var(--tx3)}
+.sib{background:#DBEAFE}.sib svg{fill:var(--acc)}
+.sig{background:#D1FAE5}.sig svg{fill:var(--grn)}
+.sio{background:#FEF3C7}.sio svg{fill:var(--org)}
+.sir{background:#FEE2E2}.sir svg{fill:var(--red)}
+.siv{background:#EDE9FE}.siv svg{fill:#7C3AED}
+.siy{background:#F1F5F9}.siy svg{fill:var(--tx2)}
+</style>
+</head>
+<body>
+<div class="phone" id="app">
+<div class="notch"></div>
+<div class="sb"><span class="t" id="ck">12:34</span><div class="ic"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+<div class="sc">
+<div class="toast" id="toast"></div>
+
+<!-- ═══ SPLASH ═══ -->
+<div class="s a" id="p-splash"><div class="splash-bg"><div class="sp-logo"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg></div><h1 style="color:#fff;font-size:28px;font-weight:800">FUNDEX</h1><p style="color:rgba(255,255,255,.5);font-size:13px;margin-top:8px">不動産クラウドファンディング</p><div class="sp-bar"><div class="sp-fill"></div></div></div></div>
+
+<!-- ═══ LOGIN ═══ -->
+<div class="s" id="p-login">
+<div class="login-top"><div class="login-logo"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg></div><h2>FUNDEX</h2><p data-t="login">ログイン</p></div>
+<div class="login-form">
+<div class="fg"><label data-t="email">メールアドレス</label><input type="email" placeholder="example@mail.com"></div>
+<div class="fg"><label data-t="password">パスワード</label><input type="password" placeholder="パスワードを入力" data-tp="pw_placeholder"></div>
+<div class="link-r"><a href="#" data-t="forgot_pw">パスワードをお忘れですか？</a></div>
+<button class="btn btn-p" onclick="go('p-home');setNav(0)" style="margin-bottom:12px" data-t="login_btn">ログイン</button>
+<div class="divider"><span data-t="or">または</span></div>
+<div class="sns-row"><button class="sns-btn" onclick="go('p-home');setNav(0)">Google</button><button class="sns-btn" onclick="go('p-home');setNav(0)">Apple</button></div>
+<div class="register-link"><span data-t="no_account">アカウントをお持ちでない方は</span> <a href="#" onclick="go('p-reg');return false" data-t="register_link">新規登録</a></div>
+</div>
+</div>
+
+<!-- ═══ REGISTER (Quick: email+pass → done → complete later) ═══ -->
+<div class="s" id="p-reg">
+<div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-login')"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3 data-t="register_title">新規会員登録</h3></div></div>
+<div class="reg-body">
+<h4 data-t="create_account_title">まずはアカウントを作成</h4><p class="sub"><span data-t="create_account_desc1">メールアドレスとパスワードだけで登録できます。</span><br><span data-t="create_account_desc2">投資に必要な情報は後からいつでも入力できます。</span></p>
+<div class="fg"><label>メールアドレス</label><input type="email" placeholder="example@mail.com"></div>
+<div class="fg"><label>パスワード</label><input type="password" placeholder="8文字以上の英数字" data-tp="pw_rule"></div>
+<div class="fg"><label data-t="pw_confirm">パスワード（確認）</label><input type="password" placeholder="もう一度入力" data-tp="pw_again"></div>
+<div class="check-row" onclick="tgCk(this)"><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><p data-t="agree_terms">利用規約・プライバシーポリシーに同意します</p></div>
+<button class="btn btn-p" onclick="go('p-home');setNav(0);toast('アカウントを作成しました！')" data-t="create_account_btn">アカウントを作成</button>
+<div class="divider"><span>または</span></div>
+<div class="sns-row"><button class="sns-btn" onclick="go('p-home');setNav(0);toast('アカウントを作成しました！')" data-t="google_reg">Google で登録</button><button class="sns-btn" onclick="go('p-home');setNav(0);toast('アカウントを作成しました！')" data-t="apple_reg">Apple で登録</button></div>
+</div>
+</div>
+
+<!-- ═══ COMPLETE PROFILE (called from home banner or before invest) ═══ -->
+<div class="s" id="p-complete" style="background:#fff">
+<div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-home');setNav(0)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3 data-t="profile_input">本人情報の入力</h3></div></div>
+<div class="reg-steps" id="cpSteps"><div class="reg-step cur"></div><div class="reg-step"></div><div class="reg-step"></div><div class="reg-step"></div><div class="reg-step"></div><div class="reg-step"></div></div>
+<div id="cp1" class="reg-body">
+<h4 data-t="step1_title">Step 1：基本情報</h4><p class="sub" data-t="step1_desc">氏名・連絡先を入力してください</p>
+<div class="fg-row"><div class="fg"><label data-t="name_kanji">氏名（漢字）</label><input placeholder="田中 太郎"></div><div class="fg"><label data-t="name_kana">フリガナ</label><input placeholder="タナカ タロウ"></div></div>
+<div class="fg"><label data-t="dob">生年月日</label><input type="date" id="dobInput" onchange="checkAge()"></div>
+<div id="ageWarn" style="display:none;background:var(--red-l);border:1.5px solid var(--red);border-radius:var(--rs);padding:12px;margin-bottom:12px"><div style="display:flex;align-items:flex-start;gap:8px"><span>🚫</span><div style="font-size:12px;color:var(--red);line-height:1.6;font-weight:600">本サービスは18歳以上の方のみご利用いただけます。<br><span style="font-weight:400;font-size:11px">不動産特定共同事業法に基づき、未成年者の投資申込はお受けできません。</span></div></div></div>
+<div class="fg"><label data-t="phone">電話番号</label><input placeholder="090-1234-5678"></div>
+<button class="btn btn-p" id="cp1Btn" onclick="cpStep(2)" data-t="next">次へ</button>
+<div class="skip-link"><a href="#" onclick="cpStep(2);return false" data-t="skip">スキップ ›</a></div>
+</div>
+<div id="cp2" class="reg-body" style="display:none">
+<h4 data-t="step2_title">Step 2：住所情報</h4><p class="sub" data-t="step2_desc">本人確認に必要です</p>
+<div class="fg-row"><div class="fg"><label data-t="postal">郵便番号</label><input placeholder="100-0001"></div><div class="fg"><label style="visibility:hidden">.</label><button class="btn btn-o" style="padding:13px;font-size:12px" data-t="addr_search">住所検索</button></div></div>
+<div class="fg"><label data-t="prefecture">都道府県</label><select><option>東京都</option><option>大阪府</option></select></div>
+<div class="fg"><label data-t="city_addr">市区町村・番地</label><input placeholder="千代田区丸の内1-1-1"></div>
+<button class="btn btn-p" onclick="cpStep(3)">次へ</button>
+<div class="skip-link"><a href="#" onclick="cpStep(3);return false">スキップ ›</a></div>
+</div>
+<div id="cp3" class="reg-body" style="display:none">
+<h4 data-t="step3_title">Step 3：投資者適合性確認</h4><p class="sub">不動産特定共同事業法第25条に基づき、お客様の投資経験等を確認いたします。</p>
+<div class="fg"><label data-t="occupation">ご職業</label><select><option>会社員</option><option>自営業</option><option>公務員</option><option>主婦/主夫</option><option>学生</option><option>年金受給者</option><option>その他</option></select></div>
+<div class="fg-row"><div class="fg"><label data-t="income">年収</label><select><option>300万円未満</option><option>300〜500万円</option><option>500〜1000万円</option><option>1000万円以上</option></select></div><div class="fg"><label data-t="fin_assets">金融資産</label><select><option>100万円未満</option><option>100〜500万円</option><option>500〜1000万円</option><option>1000万円以上</option></select></div></div>
+<div class="fg"><label data-t="inv_exp">投資経験（複数選択可）</label>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+<span class="ach" onclick="this.classList.toggle('sl')" style="font-size:11px;padding:6px 10px">株式・ETF</span>
+<span class="ach" onclick="this.classList.toggle('sl')" style="font-size:11px;padding:6px 10px">投資信託</span>
+<span class="ach" onclick="this.classList.toggle('sl')" style="font-size:11px;padding:6px 10px">不動産投資</span>
+<span class="ach" onclick="this.classList.toggle('sl')" style="font-size:11px;padding:6px 10px">不動産クラファン/FTK</span>
+<span class="ach" onclick="this.classList.toggle('sl')" style="font-size:11px;padding:6px 10px">債券</span>
+<span class="ach" onclick="this.classList.toggle('sl')" style="font-size:11px;padding:6px 10px">FX・暗号資産</span>
+<span class="ach" onclick="this.classList.toggle('sl')" style="font-size:11px;padding:6px 10px">投資経験なし</span>
+</div></div>
+<div class="fg"><label data-t="inv_purpose">投資目的</label><select><option>資産形成（長期的な資産の増加）</option><option>配当・分配金の定期収入</option><option>余裕資金の運用</option><option>ポートフォリオの分散</option></select></div>
+<div class="fg"><label data-t="fund_source_label">投資資金の性質</label><select id="fundSource" onchange="checkFundSource()"><option value="ok">余裕資金（生活に影響のない資金）</option><option value="warn">生活資金の一部</option><option value="ng">借入金</option></select></div>
+<div id="fundWarn" style="display:none;background:var(--red-l);border:1.5px solid var(--red);border-radius:var(--rs);padding:12px;margin-bottom:12px"><div style="display:flex;align-items:flex-start;gap:8px"><span>⚠️</span><div style="font-size:11px;color:var(--red);line-height:1.6"><strong>ご注意ください</strong><br>本商品は元本保証ではなく、出資金の全額を失う可能性があります。生活資金や借入金での投資は推奨しておりません。余裕資金の範囲内でのご投資をお願いいたします。</div></div></div>
+<div class="fg"><label data-t="risk_tolerance">リスク許容度</label><select><option>元本毀損リスクを理解し許容できる</option><option>低リスクの投資のみ希望</option><option>高リスク・高リターンも許容できる</option></select></div>
+<button class="btn btn-p" onclick="cpStep(4)">次へ</button>
+</div>
+<div id="cp4" class="reg-body" style="display:none">
+<h4 data-t="step4_title">Step 4：本人確認（eKYC）</h4><p class="sub" data-t="step4_desc">本人確認書類を撮影してください</p>
+<div class="fg"><label data-t="select_doc">書類を選択</label><select><option>運転免許証</option><option>マイナンバーカード</option><option>パスポート</option></select></div>
+<div class="ekyc-box" onclick="toast('カメラ起動（デモ）')"><svg viewBox="0 0 24 24"><path d="M12 12m-3.2 0a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0-6.4 0M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg><h5 data-t="photo_doc">書類を撮影（表面+裏面）</h5><p>タップしてカメラを起動</p></div>
+<div class="ekyc-box" onclick="toast('カメラ起動（デモ）')"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><h5 data-t="selfie">自撮り写真を撮影</h5><p>正面を向いて撮影</p></div>
+<button class="btn btn-p" onclick="cpStep(5)">次へ</button>
+</div>
+<div id="cp5" class="reg-body" style="display:none">
+<h4 data-t="step5_title">Step 5：銀行口座登録</h4><p class="sub" data-t="step5_desc">分配金の振込先を登録してください</p>
+<div class="fg"><label data-t="bank_name">金融機関名</label><input placeholder="三菱UFJ銀行"></div>
+<div class="fg-row"><div class="fg"><label data-t="branch">支店名</label><input placeholder="丸の内支店"></div><div class="fg"><label data-t="acc_type">口座種類</label><select><option>普通</option><option>当座</option></select></div></div>
+<div class="fg"><label data-t="acc_num">口座番号</label><input placeholder="1234567"></div>
+<div class="fg"><label data-t="acc_holder">口座名義（カタカナ）</label><input placeholder="タナカ タロウ"></div>
+<button class="btn btn-p" onclick="cpStep(6)" data-t="next_consent">次へ：同意事項の確認</button>
+</div>
+<div id="cp6" class="reg-body" style="display:none">
+<h4 data-t="step6_title">Step 6：同意事項の確認</h4><p class="sub">以下の事項をご確認いただき、すべてに同意してください。</p>
+<!-- 電子交付同意 -->
+<div style="background:#F0F9FF;border:1.5px solid #BAE6FD;border-radius:var(--r);padding:14px;margin-bottom:14px">
+<h5 style="font-size:13px;font-weight:700;color:var(--acc);margin-bottom:8px">📄 書面の電子交付について</h5>
+<p style="font-size:11px;color:var(--tx2);line-height:1.7;margin-bottom:10px">当社は、不動産特定共同事業法に基づく以下の書面を、紙面ではなく電子的方法（PDFファイルによるアプリ内交付）により交付いたします。</p>
+<ul style="font-size:11px;color:var(--tx2);line-height:1.8;margin:0 0 10px 16px;list-style:disc">
+<li>契約締結前交付書面</li>
+<li>契約締結時交付書面</li>
+<li>財産の管理に関する報告書</li>
+<li>業務及び財産の状況に関する書類</li>
+</ul>
+<p style="font-size:10px;color:var(--tx3);line-height:1.6">※ 電子交付の同意は、設定画面からいつでも撤回できます。撤回後は紙面にて書面を郵送いたします。<br>※ 交付ファイル形式：PDF（Adobe Acrobat Reader等で閲覧可能）</p>
+</div>
+<div class="check-row" onclick="tgCk(this);chkAll6()" style="margin-bottom:6px"><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><p style="font-size:12px">上記の電子交付方法に同意します</p></div>
+<!-- 反社確約 -->
+<div style="background:var(--bg);border:1.5px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:14px">
+<h5 style="font-size:13px;font-weight:700;color:var(--tx);margin-bottom:8px">🛡️ 反社会的勢力でないことの確約</h5>
+<p style="font-size:11px;color:var(--tx2);line-height:1.7">私は、現在および将来にわたり、暴力団、暴力団員、暴力団準構成員、暴力団関係企業、総会屋、社会運動等標ぼうゴロ、特殊知能暴力集団等の反社会的勢力に該当しないことを表明・確約いたします。</p>
+</div>
+<div class="check-row" onclick="tgCk(this);chkAll6()" style="margin-bottom:6px"><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><p style="font-size:12px">反社会的勢力に該当しないことを確約します</p></div>
+<!-- 個人情報 -->
+<div class="check-row" onclick="tgCk(this);chkAll6()" style="margin-bottom:14px"><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><p style="font-size:12px">個人情報の取扱い・プライバシーポリシーに同意します</p></div>
+<button class="btn btn-d" id="cp6Btn" onclick="go('p-home');setNav(0);toast('本人情報の登録が完了しました！')" data-t="agree_complete">すべてに同意して登録を完了する</button>
+</div>
+</div>
+
+<!-- ═══ HOME ═══ -->
+<div class="s" id="p-home">
+<div class="hm-hd"><div class="hm-gr"><h2 data-t="welcome">おかえりなさい、田中さん 👋</h2><button class="nb" onclick="go('p-notif')"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div class="dot"></div></button></div>
+<div class="as"><div class="ac m"><label data-t="total_assets">総資産額</label><div class="v">¥3,850,000</div><div class="su">+¥127,500（前月比 +3.4%）</div></div><div class="ac"><label data-t="active_inv">運用中</label><div class="v" style="font-size:16px">¥3,200,000</div></div><div class="ac"><label data-t="total_div">累計分配金</label><div class="v" style="font-size:16px">¥285,000</div></div></div></div>
+
+<!-- Profile completion banner -->
+<div class="complete-banner" onclick="go('p-complete')">
+<div class="ci">📋</div>
+<div style="flex:1"><h5 data-t="complete_profile_h">本人情報を入力して投資を始めましょう</h5><p data-t="complete_profile_p">投資するには本人確認が必要です。あと3ステップで完了。</p><div class="prog"><div class="f" style="width:40%"></div></div></div>
+</div>
+
+<!-- Cooling-off -->
+<div class="cool-off"><div class="ci">⏰</div><div><h5 data-t="cooloff_title">クーリングオフ期間中</h5><p>「商業ビル心斎橋」<br>契約書面交付日 3/2 → 取消期限 3/10（8日間）<br>残り5日</p><button class="cbtn" onclick="toast('クーリングオフ申請画面へ（デモ）')" data-t="cancel_proc">取消手続き</button></div></div>
+
+<div class="sect"><h3 data-t="featured">🔥 注目ファンド</h3><a href="#" onclick="go('p-list');setNav(1);return false" data-t="view_all">すべて見る</a></div>
+<div class="fscr">
+<div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="113" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="155" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/><circle cx="110" cy="18" r="12" fill="rgba(255,255,255,.08)"/></svg></div><div class="brow"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk" data-t="tag_lottery">抽選</span></div></div><div class="inf"><h4>東京都港区 プレミアムレジデンス赤坂</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">8.5<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">12ヶ月 ・ 2億円</p></div></div><div class="pb"><div class="f" style="width:72%"></div></div></div></div>
+<div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-os"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="30" y="25" width="60" height="95" rx="3" fill="rgba(255,255,255,.18)"/><rect x="36" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="80" width="48" height="16" rx="2" fill="rgba(255,255,255,.25)"/><rect x="110" y="35" width="50" height="85" rx="3" fill="rgba(255,255,255,.15)"/><rect x="116" y="42" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="42" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="116" y="56" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="56" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="116" y="70" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="70" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="175" y="50" width="30" height="70" rx="2" fill="rgba(255,255,255,.1)"/></svg></div><div class="brow"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk" data-t="tag_lottery">抽選</span></div></div><div class="inf"><h4>大阪市中央区 商業ビル心斎橋</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">6.2<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">18ヶ月 ・ 1.5億円</p></div></div><div class="pb"><div class="f" style="width:45%"></div></div></div></div>
+<div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-kt"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><polygon points="60,35 30,55 90,55" fill="rgba(255,255,255,.2)"/><rect x="35" y="55" width="50" height="45" rx="1" fill="rgba(255,255,255,.15)"/><polygon points="60,25 35,40 85,40" fill="rgba(255,255,255,.15)"/><rect x="50" y="70" width="16" height="30" rx="1" fill="rgba(255,255,255,.25)"/><rect x="40" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.2)"/><rect x="70" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.2)"/><polygon points="150,30 115,55 185,55" fill="rgba(255,255,255,.18)"/><rect x="120" y="55" width="60" height="45" rx="1" fill="rgba(255,255,255,.12)"/><polygon points="150,20 120,38 180,38" fill="rgba(255,255,255,.12)"/><rect x="140" y="68" width="14" height="32" rx="1" fill="rgba(255,255,255,.22)"/><rect x="125" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.18)"/><rect x="160" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.18)"/><circle cx="200" cy="30" r="15" fill="rgba(255,255,255,.06)"/><line x1="95" y1="100" x2="115" y2="100" stroke="rgba(255,255,255,.15)" stroke-width="2"/></svg></div><div class="brow"><span class="tag tag-o" data-t="tag_soon">募集前</span></div></div><div class="inf"><h4>京都市東山区 町家リノベホテル</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">10.0<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">24ヶ月 ・ 3億円</p></div></div></div></div>
+</div>
+
+<div class="sect"><h3 data-t="active_funds_h">📊 運用中ファンド</h3></div>
+<div class="afd"><div class="at"><h5>渋谷区 オフィスビル #12</h5><div class="ar">7.2%</div></div><div class="rw"><span data-t="inv_amount">投資額</span><span class="v">¥1,000,000</span></div><div class="rw"><span data-t="next_div">次回配当</span><span class="v">2025/03/15</span></div><div class="pb" style="margin-top:4px"><div class="f" style="width:65%;background:linear-gradient(90deg,var(--grn),#34D399)"></div></div></div>
+<div class="afd" style="margin-bottom:20px"><div class="at"><h5>名古屋市 物流施設 #09</h5><div class="ar">5.8%</div></div><div class="rw"><span data-t="inv_amount">投資額</span><span class="v">¥500,000</span></div><div class="rw"><span>次回配当</span><span class="v">2025/04/01</span></div></div>
+</div>
+
+<!-- ═══ FUND LIST ═══ -->
+<div class="s" id="p-list">
+<div class="hdr"><h2 data-t="fund_list_h">ファンド一覧</h2><div class="fr" id="flFilters"><div class="fc a" onclick="filterFund('all',this)" data-t="filter_all">すべて</div><div class="fc" onclick="filterFund('open',this)" data-t="filter_open">募集中</div><div class="fc" onclick="filterFund('soon',this)" data-t="filter_soon">募集前</div><div class="fc" onclick="filterFund('active',this)" data-t="filter_active">運用中</div><div class="fc" onclick="filterFund('done',this)" data-t="filter_done">償還済</div><div class="fc" style="border-color:var(--red);color:var(--red)" onclick="filterFund('fav',this)">❤️ お気に入り</div></div></div>
+<div class="fl" id="fundList">
+
+<!-- Fund 1: Tokyo -->
+<div class="fli" data-status="open" data-fav="1" onclick="go('p-detail')">
+<div class="fli-hero"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/></svg></div>
+<div class="fli-overlay"><div class="fli-fn">プレミアムレジデンス赤坂</div><div class="fli-bubs"><div class="fli-bub"><label data-t="yield_label">利回り</label><div class="v">8.5%</div></div><div class="fli-bub"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div><div class="fli-bub"><label data-t="method_label">募集方式</label><div class="v" data-t="lottery_val">抽選</div></div></div></div>
+<div class="fli-fav"><button class="fav-btn on" onclick="event.stopPropagation();tgFav(this)"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>
+<div class="fli-vol">Vol. 23</div>
+</div>
+<div class="fli-body">
+<div class="fli-tgs"><span class="tag tag-g" style="font-size:9px;padding:2px 6px" data-t="tag_open">募集中</span><span class="tag tag-pk" style="font-size:9px;padding:2px 6px" data-t="tag_lottery">抽選</span></div>
+<div class="fli-amt">応募金額 144,000,000円（72%）</div>
+<div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">8.5%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">東京都港区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+</div>
+</div>
+
+<!-- Fund 2: Osaka -->
+<div class="fli" data-status="open" data-fav="0" onclick="go('p-detail')">
+<div class="fli-hero"><div class="pi pi-os"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="30" y="25" width="60" height="95" rx="3" fill="rgba(255,255,255,.18)"/><rect x="36" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="110" y="35" width="50" height="85" rx="3" fill="rgba(255,255,255,.15)"/><rect x="175" y="50" width="30" height="70" rx="2" fill="rgba(255,255,255,.1)"/></svg></div>
+<div class="fli-overlay"><div class="fli-fn">商業ビル心斎橋</div><div class="fli-bubs"><div class="fli-bub"><label data-t="yield_label">利回り</label><div class="v">6.2%</div></div><div class="fli-bub"><label data-t="period_label">運用期間</label><div class="v">18ヶ月</div></div><div class="fli-bub"><label data-t="method_label">募集方式</label><div class="v">抽選</div></div></div></div>
+<div class="fli-fav"><button class="fav-btn" onclick="event.stopPropagation();tgFav(this)"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>
+<div class="fli-vol">Vol. 18</div>
+</div>
+<div class="fli-body">
+<div class="fli-tgs"><span class="tag tag-g" style="font-size:9px;padding:2px 6px" data-t="tag_open">募集中</span><span class="tag tag-pk" style="font-size:9px;padding:2px 6px" data-t="tag_lottery">抽選</span></div>
+<div class="fli-amt">応募金額 67,500,000円（45%）</div>
+<div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">6.2%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">18ヶ月</div></div></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">大阪市中央区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+</div>
+</div>
+
+<!-- Fund 3: Kyoto -->
+<div class="fli" data-status="soon" data-fav="1" onclick="go('p-detail')">
+<div class="fli-hero"><div class="pi pi-kt"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><polygon points="60,35 30,55 90,55" fill="rgba(255,255,255,.2)"/><rect x="35" y="55" width="50" height="45" rx="1" fill="rgba(255,255,255,.15)"/><polygon points="60,25 35,40 85,40" fill="rgba(255,255,255,.15)"/><rect x="50" y="70" width="16" height="30" rx="1" fill="rgba(255,255,255,.25)"/><polygon points="150,30 115,55 185,55" fill="rgba(255,255,255,.18)"/><rect x="120" y="55" width="60" height="45" rx="1" fill="rgba(255,255,255,.12)"/><polygon points="150,20 120,38 180,38" fill="rgba(255,255,255,.12)"/><rect x="140" y="68" width="14" height="32" rx="1" fill="rgba(255,255,255,.22)"/></svg></div>
+<div class="fli-overlay"><div class="fli-fn">町家リノベホテル京都</div><div class="fli-bubs"><div class="fli-bub"><label data-t="yield_label">利回り</label><div class="v">10.0%</div></div><div class="fli-bub"><label data-t="period_label">運用期間</label><div class="v">24ヶ月</div></div><div class="fli-bub"><label data-t="method_label">募集方式</label><div class="v">抽選</div></div></div></div>
+<div class="fli-fav"><button class="fav-btn on" onclick="event.stopPropagation();tgFav(this)"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>
+<div class="fli-vol">Vol. 31</div>
+</div>
+<div class="fli-body">
+<div class="fli-tgs"><span class="tag tag-o" style="font-size:9px;padding:2px 6px" data-t="tag_soon">募集前</span></div>
+<div class="fli-amt" style="background:linear-gradient(90deg,var(--org),#FBBF24)">募集開始 2025年4月1日〜</div>
+<div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">10.0%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">24ヶ月</div></div></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">京都市東山区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+</div>
+</div>
+
+<!-- Fund 4: Fukuoka -->
+<div class="fli" data-status="active" data-fav="0">
+<div class="fli-hero"><div class="pi pi-fk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="40" y="30" width="55" height="90" rx="3" fill="rgba(255,255,255,.16)"/><rect x="46" y="36" width="8" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="58" y="36" width="8" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="70" y="36" width="8" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="46" y="50" width="8" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="58" y="50" width="8" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="70" y="50" width="8" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="120" y="45" width="45" height="75" rx="3" fill="rgba(255,255,255,.12)"/></svg></div>
+<div class="fli-overlay"><div class="fli-fn">マンションファンド博多</div><div class="fli-bubs"><div class="fli-bub"><label data-t="yield_label">利回り</label><div class="v">5.5%</div></div><div class="fli-bub"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div><div class="fli-bub"><label data-t="method_label">募集方式</label><div class="v">抽選</div></div></div></div>
+<div class="fli-fav"><button class="fav-btn" onclick="event.stopPropagation();tgFav(this)"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div>
+<div class="fli-vol">Vol. 09</div>
+</div>
+<div class="fli-body">
+<div class="fli-tgs"><span class="tag tag-b" style="font-size:9px;padding:2px 6px">運用中</span></div>
+<div class="fli-amt" style="background:linear-gradient(90deg,var(--grn),#34D399)">応募金額 100,000,000円（100%）</div>
+<div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">5.5%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">福岡市博多区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ FUND DETAIL ═══ -->
+<div class="s" id="p-detail">
+<div class="dh"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="113" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="155" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/><circle cx="110" cy="18" r="12" fill="rgba(255,255,255,.08)"/></svg></div><div class="ov"></div><button class="bbk" onclick="go('p-home');setNav(0)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><button class="fav-btn on" onclick="tgFav(this)" style="position:absolute;top:12px;right:12px;z-index:2;background:rgba(0,0,0,.4);backdrop-filter:blur(8px)"><svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button><div class="hb"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk">抽選募集</span></div></div>
+<div class="db"><div class="dt"><h2>東京都港区<br>プレミアムレジデンス赤坂</h2></div>
+<div class="yh"><label data-t="est_yield_annual">想定利回り（年率）</label><div class="br">8.5<span>%</span></div><div class="nt" data-t="yield_disclaimer">※ 想定であり、保証するものではありません</div></div>
+<div class="ig"><div class="c"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div><div class="c"><label data-t="fund_total">募集金額</label><div class="v">2億円</div></div><div class="c"><label data-t="min_invest">最低投資額</label><div class="v">10万円（1口）</div></div><div class="c"><label data-t="method_label">募集方式</label><div class="v">抽選</div></div><div class="c"><label data-t="dividend">配当</label><div class="v">半年毎</div></div><div class="c"><label data-t="lottery_date">抽選日</label><div class="v">3月20日</div></div></div>
+<div class="stb"><h4 data-t="pref_sub">🛡️ 優先劣後構造</h4><div class="stbar"><div class="inv" style="width:70%" data-t="inv_70">投資者 70%</div><div class="op" style="width:30%" data-t="op_30">事業者 30%</div></div><div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:var(--tx2)" data-t="senior">優先出資</span><span style="font-size:10px;color:var(--tx2)" data-t="junior">劣後出資</span></div></div>
+<div class="ds"><h4 data-t="prop_info">📍 物件情報</h4><div class="mp"><div class="pi pi-mp"><div class="sk"></div></div></div><div class="ig" style="margin-top:10px"><div class="c"><label data-t="location">所在地</label><div class="v">東京都港区赤坂</div></div><div class="c"><label data-t="prop_type">種別</label><div class="v">マンション</div></div><div class="c"><label data-t="structure">構造</label><div class="v">RC造 15階建</div></div><div class="c"><label data-t="built">竣工</label><div class="v">2019年</div></div></div></div>
+<div class="ds"><h4>⚠️ リスク説明</h4>
+<div style="background:var(--red-l);border:1.5px solid #FECACA;border-radius:var(--rs);padding:12px;margin-bottom:10px">
+<p style="font-size:12px;font-weight:700;color:var(--red);line-height:1.6">本商品は元本保証ではありません。出資金の全額を失う可能性があります。投資判断はご自身の責任でお願いいたします。</p>
+</div>
+<div class="ra"><details class="ri"><summary>元本毀損リスク</summary><div class="rb">不動産市場の変動、対象不動産の評価額の下落等により、元本が毀損する可能性があります。出資金の全額を失う可能性があります。</div></details><details class="ri"><summary>流動性リスク</summary><div class="rb">運用期間中の途中解約は原則できません。資金が長期間拘束される可能性があります。</div></details><details class="ri"><summary>空室・天災リスク</summary><div class="rb">テナント退去による賃料収入の低下、地震・火災等の天災により対象不動産の価値が毀損する可能性があります。</div></details><details class="ri"><summary>事業者の信用リスク</summary><div class="rb">事業者の経営状況悪化・倒産等により、出資金の返還や分配金の支払いが困難になる可能性があります。</div></details><details class="ri"><summary>金利変動リスク</summary><div class="rb">金利の上昇により、不動産価格が下落し、本商品の収益に悪影響を及ぼす可能性があります。</div></details><details class="ri"><summary>法規制変更リスク</summary><div class="rb">不動産関連法規や税制の変更により、本事業の収益性が低下する可能性があります。</div></details></div>
+<p style="font-size:10px;color:var(--tx3);margin-top:8px;line-height:1.5">※ 上記は主なリスクであり、すべてのリスクを網羅しているわけではありません。詳細は契約締結前交付書面をご確認ください。<br>※ 過去の実績は将来の運用成果を保証するものではありません。</p>
+</div>
+
+<!-- Fix 3: 契約概要（法定記載事項） -->
+<div class="ds"><h4 data-t="contract_overview">📋 契約概要（法定記載事項）</h4>
+<div class="ig"><div class="c"><label data-t="contract_type">契約形態</label><div class="v">匿名組合型</div></div><div class="c"><label>対象不動産の種類</label><div class="v">区分所有マンション</div></div><div class="c"><label>不動産鑑定評価額</label><div class="v">2億8,000万円</div></div><div class="c"><label>取得予定価格</label><div class="v">2億6,000万円</div></div></div>
+<div class="ig" style="margin-top:1px"><div class="c"><label>募集期間</label><div class="v">2025/3/1〜3/18</div></div><div class="c"><label>運用開始予定日</label><div class="v">2025/4/1</div></div><div class="c"><label>運用終了予定日</label><div class="v">2026/3/31</div></div><div class="c"><label>クーリングオフ</label><div class="v">書面交付日翌日から8日間</div></div></div>
+
+<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-top:10px;margin-bottom:10px">
+<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">収益・利益の分配方法</h5>
+<p style="font-size:11px;color:var(--tx2);line-height:1.7">対象不動産から生じる賃料収入等から、必要経費（管理費・修繕積立金・固定資産税・事業者報酬等）を控除した利益を、出資比率に応じて半年毎（9月・3月末日基準）に分配します。分配金は源泉徴収（20.42%）後の金額をお支払いいたします。</p>
+</div>
+
+<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:10px">
+<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">費用・手数料</h5>
+<div style="font-size:11px;color:var(--tx2);line-height:1.8">
+<div style="display:flex;justify-content:space-between;padding:2px 0"><span>出資手数料</span><span style="font-weight:700;color:var(--tx)">無料</span></div>
+<div style="display:flex;justify-content:space-between;padding:2px 0"><span>運用管理報酬</span><span style="font-weight:700;color:var(--tx)">賃料収入の2.0%</span></div>
+<div style="display:flex;justify-content:space-between;padding:2px 0"><span>売却時報酬</span><span style="font-weight:700;color:var(--tx)">売却益の30%</span></div>
+<div style="display:flex;justify-content:space-between;padding:2px 0"><span>出金手数料</span><span style="font-weight:700;color:var(--tx)">¥145/回</span></div>
+</div>
+</div>
+
+<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:10px">
+<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">税務上の取扱い</h5>
+<p style="font-size:11px;color:var(--tx2);line-height:1.7">分配金は「雑所得」として総合課税の対象です。支払時に20.42%（所得税20%+復興特別所得税0.42%）を源泉徴収いたします。確定申告が必要な場合があります。詳細は税務署または税理士にご相談ください。</p>
+</div>
+
+<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:10px">
+<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">契約の解除について</h5>
+<p style="font-size:11px;color:var(--tx2);line-height:1.7">契約締結時交付書面を受領した日の翌日から起算して8日間は、書面によりクーリングオフ（無条件解除）が可能です。当該期間経過後は、やむを得ない事由がある場合を除き、原則として中途解約はできません。</p>
+</div>
+
+<div style="background:var(--bg);border-radius:var(--rs);padding:12px">
+<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">対象不動産の権利関係</h5>
+<p style="font-size:11px;color:var(--tx2);line-height:1.7">所有権：FUNDEX株式会社（事業者）が取得・保有。抵当権の設定はありません。出資者は匿名組合員として利益分配請求権を有しますが、不動産の所有権は取得しません。</p>
+</div>
+</div>
+
+<div class="ds"><h4>🏢 事業者情報</h4><div class="ig"><div class="c"><label>運営会社</label><div class="v">FUNDEX株式会社</div></div><div class="c"><label>許可番号</label><div class="v">東京都知事 第XXX号</div></div><div class="c"><label>代表者</label><div class="v">代表取締役 山田 一郎</div></div><div class="c"><label>所在地</label><div class="v">東京都千代田区丸の内1-1-1</div></div></div>
+<p style="font-size:10px;color:var(--tx3);margin-top:6px;line-height:1.5">資本金：1億円 ・ 設立：2020年4月 ・ 事業開始届出：2020年6月<br><a href="#" onclick="toast('財務諸表ページへ（デモ）');return false" style="color:var(--acc);font-weight:600;text-decoration:none">📊 事業者の財務状況を確認する →</a></p>
+</div>
+<!-- KIZUNARK discussion link -->
+<div class="ds"><h4>💬 投資家の声（KIZUNARK）</h4>
+<div style="background:#fff;border:1.5px solid var(--kz1);border-radius:var(--r);padding:14px;margin-bottom:8px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#EC4899,#F472B6);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff">佐</div><div><span style="font-size:11px;font-weight:700">佐藤**</span> <span style="font-size:9px;color:var(--tx3)">2時間前</span></div></div>
+<p style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">赤坂のレジデンス案件、立地が最高ですね。利回り8.5%は魅力的。劣後出資30%は安心感あり。</p>
+<div style="display:flex;gap:8px;align-items:center"><span style="font-size:10px;color:var(--tx3)">💬 3件のコメント</span></div>
+</div>
+<button class="btn btn-o" style="padding:10px;font-size:12px;border-color:var(--kz1);color:var(--kz1)" onclick="go('p-kz');setNav(2)">💜 KIZUNARKでもっと見る</button>
+</div>
+</div>
+<div class="scta"><button class="btn btn-p" onclick="go('p-invest')" data-t="apply_lottery">抽選に申し込む</button></div>
+</div>
+
+<!-- ═══ INVEST FLOW (Lottery: Apply → Wait → Win → Deposit → Done) ═══ -->
+<div class="s" id="p-invest" style="background:#fff">
+<div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-detail')"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3 data-t="lottery_apply">抽選申込</h3></div></div>
+<div class="inv-s" id="invSteps"><div class="inv-st d"></div><div class="inv-st"></div><div class="inv-st"></div><div class="inv-st"></div><div class="inv-st"></div><div class="inv-st"></div></div>
+
+<!-- Step1: Amount -->
+<div id="is1" class="inv-c">
+<h4 data-t="step1_invest">① 投資金額を入力</h4>
+<div style="background:var(--bg);border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center"><div><span style="font-size:10px;color:var(--tx3)" data-t="balance_label">💰 待機資金残高</span><div style="font-size:18px;font-weight:900;font-family:'DM Sans'" id="balDisp">¥650,000</div></div><button style="font-size:11px;font-weight:700;color:var(--acc);background:var(--acc-g);border:none;border-radius:8px;padding:6px 12px;cursor:pointer" onclick="go('p-dep')" data-t="deposit_btn">入金する</button></div>
+<div class="aiw"><label>投資金額（1口 = 10万円）</label><div style="display:flex;align-items:center;justify-content:center;gap:4px"><span style="font-size:22px;font-weight:700;color:var(--tx3)">¥</span><input class="ai" value="500,000" id="iAmt"></div></div>
+<div class="acs"><div class="ach" onclick="sAmt(100000,this)">10万</div><div class="ach" onclick="sAmt(300000,this)">30万</div><div class="ach sl" onclick="sAmt(500000,this)">50万</div><div class="ach" onclick="sAmt(1000000,this)">100万</div></div>
+<div id="balWarn" style="display:none;background:var(--red-l);border-radius:var(--rs);padding:12px;margin-bottom:12px;display:none"><div style="display:flex;align-items:flex-start;gap:8px"><span>⚠️</span><div style="font-size:11px;color:var(--red);line-height:1.6;flex:1"><strong>待機資金が不足しています</strong><br>申込金額に対して残高が不足しています。先に入金してから申込してください。</div></div><button style="margin-top:8px;width:100%;padding:10px;border-radius:10px;border:1.5px solid var(--red);background:#fff;font-size:12px;font-weight:700;color:var(--red);cursor:pointer" onclick="go('p-dep')">💰 入金ページへ</button></div>
+<div class="smr"><label>想定分配金（税引前）</label><div class="v" id="simR">¥42,500 <span>/年</span></div></div>
+<button class="btn btn-p" id="invNextBtn" onclick="iStep(2)" data-t="next_docs">次へ：書面確認</button>
+</div>
+
+<!-- Step2: Docs -->
+<div id="is2" class="inv-c" style="display:none">
+<h4 data-t="step2_invest">② 契約書面の確認</h4><p style="font-size:11px;color:var(--tx3);margin-bottom:14px">投資判断に必要な書面です。すべて確認のうえチェックしてください。</p>
+<div class="dci" onclick="tgCk2(this)"><div class="di"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></div><div class="dt2"><p>契約締結前交付書面</p><small>PDF 12ページ ｜ 重要事項・リスク説明を含む</small></div><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div></div>
+<div class="dci" onclick="tgCk2(this)"><div class="di"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></div><div class="dt2"><p>匿名組合契約約款</p><small>PDF 8ページ ｜ 契約条件・分配方法の詳細</small></div><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div></div>
+<div style="background:var(--bg);border-radius:var(--rs);padding:10px 12px;margin-bottom:14px;display:flex;gap:8px"><span>💡</span><div style="font-size:10px;color:var(--tx3);line-height:1.6">書面の電子交付に関する同意は、会員登録時に取得済みです。<br>設定画面からいつでも撤回・変更できます。</div></div>
+<button class="btn btn-d" id="docBtn" onclick="iStep(3)">すべて確認してから次へ</button>
+</div>
+
+<!-- Step3: Confirm + Apply -->
+<div id="is3" class="inv-c" style="display:none">
+<h4 data-t="step3_invest">③ 申込内容の確認</h4>
+<div class="cc"><div class="cr"><label data-t="fund_name_l">ファンド名</label><span class="v">プレミアムレジデンス赤坂</span></div><div class="cr"><label data-t="inv_amount_l">投資金額</label><span class="v" id="cAmt">¥500,000</span></div><div class="cr"><label data-t="est_yield">想定利回り</label><span class="v">年率 8.5%</span></div><div class="cr"><label data-t="method_label">募集方式</label><span class="v" style="color:var(--vio)" data-t="tag_lottery">抽選</span></div><div class="cr"><label>抽選日</label><span class="v">2025年3月20日</span></div></div>
+<div style="background:var(--org-l);border-radius:var(--rs);padding:12px;margin-bottom:14px;display:flex;gap:8px"><span>⚠️</span><div style="font-size:11px;color:#92400E;line-height:1.6"><strong>ご注意</strong><br>本投資は元本保証ではありません。抽選に当選した場合、指定期限内にご入金が必要です。</div></div>
+<div class="dci" style="margin-bottom:16px" onclick="tgCk2(this)"><div class="dt2"><p style="font-size:11px">上記内容を確認し、抽選申込に同意します</p></div><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div></div>
+<button class="btn btn-v" onclick="iStep(4)" data-t="apply_lottery_btn">🎲 抽選に申し込む</button>
+</div>
+
+<!-- Step4: 申込完了 → 結果待ち -->
+<div id="is4" class="inv-c" style="display:none">
+<div class="lottery-box">
+<div class="lottery-icon pending">📩</div>
+<h3 data-t="lottery_done">抽選申込が完了しました！</h3>
+<p>「プレミアムレジデンス赤坂」の抽選に申し込みました。<br>抽選結果は下記の日程で発表予定です。<br>結果はアプリの通知でお知らせいたします。</p>
+<div class="lottery-pending"><h5>🗓️ 抽選結果発表日</h5><p>2025年3月20日</p></div>
+<div class="cc" style="text-align:left"><div class="cr"><label>申込番号</label><span class="v" style="font-family:'DM Sans'">FDX-2025-03-00847</span></div><div class="cr"><label>申込金額</label><span class="v" id="pAmt">¥500,000</span></div><div class="cr"><label data-t="method_label">募集方式</label><span class="v" style="color:var(--vio)" data-t="tag_lottery">抽選</span></div></div>
+<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:16px;display:flex;gap:8px;text-align:left"><span>💡</span><div style="font-size:11px;color:var(--tx2);line-height:1.6">当選した場合、指定の入金期限までにお振込みが必要です。落選の場合は特に手続きは不要です。</div></div>
+<button class="btn btn-p" onclick="go('p-home');setNav(0);riStep()" data-t="back_home">ホームに戻る</button>
+<div style="margin-top:10px"><button class="btn btn-o" style="font-size:13px" onclick="iStep(5)">（デモ）抽選結果を確認する →</button></div>
+</div>
+</div>
+
+<!-- Step5: 当選！入金案内 -->
+<div id="is5" class="inv-c" style="display:none">
+<div class="lottery-box">
+<div class="lottery-icon win">🎉</div>
+<h3 data-t="congrats">当選おめでとうございます！</h3>
+<p>「プレミアムレジデンス赤坂」の抽選に当選しました。<br>下記の入金期限までに指定口座へお振込みください。</p>
+<div class="deadline"><h5>⏰ 入金期限</h5><p>2025年3月25日 23:59</p></div>
+<div class="deposit-info">
+<div class="dr"><label>入金金額</label><span class="v" id="dAmt">¥500,000</span></div>
+<div class="dr"><label>振込先</label><span class="v">GMOあおぞらネット銀行</span></div>
+<div class="dr"><label>支店</label><span class="v">法人第一支店（101）</span></div>
+<div class="dr"><label>口座番号</label><span class="v">普通 1234567 <button class="copy-btn" onclick="toast('コピーしました')">コピー</button></span></div>
+<div class="dr"><label>名義</label><span class="v">ファンデックス（カ</span></div>
+</div>
+<button class="btn btn-g" onclick="iStep(6)" data-t="deposit_done">入金を完了しました</button>
+<div style="margin-top:10px"><button class="btn btn-o" onclick="go('p-home');setNav(0);riStep()" data-t="later_deposit">あとで入金する</button></div>
+</div>
+</div>
+
+<!-- Step6: Complete! -->
+<div id="is6" class="inv-c" style="display:none">
+<div class="suc">
+<div class="si"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+<h3>投資が完了しました！</h3>
+<p>入金確認ができました。運用開始までお待ちください。<br>配当スケジュールは通知でお知らせいたします。</p>
+<div class="sid">受付番号：<strong>FDX-2025-03-00847</strong></div>
+<button class="btn btn-p" onclick="go('p-home');setNav(0);riStep()">ホームに戻る</button>
+</div>
+</div>
+</div>
+
+<!-- ═══ DEPOSIT ═══ -->
+<div class="s" id="p-dep" style="background:#fff">
+<div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-mypage');setNav(3)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3 data-t="deposit_h">入金</h3></div></div>
+<div class="dw-card"><h4>💰 振込先口座情報</h4><div class="dw-info"><div class="dw-row"><label>銀行名</label><span class="v">GMOあおぞらネット銀行</span></div><div class="dw-row"><label>支店</label><span class="v">法人第一支店（101）</span></div><div class="dw-row"><label>口座番号</label><span class="v">普通 1234567 <button class="copy-btn" onclick="toast('コピーしました')">コピー</button></span></div></div></div>
+<div class="dw-card"><h4>📋 入金履歴</h4><div class="dw-info"><div class="dw-row"><label>2025/02/20</label><span class="v" style="color:var(--grn)">+¥500,000</span></div><div class="dw-row"><label>2025/01/15</label><span class="v" style="color:var(--grn)">+¥300,000</span></div></div></div>
+<div style="padding:0 20px"><div class="ibox"><h5>残高</h5><p style="font-size:18px;font-weight:900;color:var(--tx);font-family:'DM Sans'">¥650,000</p></div></div>
+</div>
+
+<!-- ═══ WITHDRAW ═══ -->
+<div class="s" id="p-wit" style="background:#fff">
+<div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-mypage');setNav(3)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3>出金申請</h3></div></div>
+<div style="padding:20px">
+<div style="background:var(--bg);border-radius:var(--r);padding:14px;margin-bottom:16px;text-align:center"><label style="font-size:11px;color:var(--tx3);display:block;margin-bottom:4px">出金可能額</label><div style="font-size:28px;font-weight:900;font-family:'DM Sans'">¥650,000</div></div>
+<div class="fg"><label>出金金額</label><input placeholder="¥100,000" style="font-size:18px;font-weight:700;text-align:center"></div>
+<div class="dw-info" style="margin-bottom:16px"><div class="dw-row"><label>振込先</label><span class="v">三菱UFJ 丸の内支店</span></div><div class="dw-row"><label>手数料</label><span class="v" style="color:var(--red)">¥145</span></div></div>
+<button class="btn btn-p" onclick="toast('出金申請完了');setTimeout(()=>{go('p-mypage');setNav(3)},1200)">出金を申請する</button>
+</div>
+</div>
+
+<!-- ═══ HISTORY ═══ -->
+<div class="s" id="p-hist" style="background:var(--bg)">
+<div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-mypage');setNav(3)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3>取引履歴</h3></div><div class="fr"><div class="fc a">すべて</div><div class="fc">出資</div><div class="fc">分配</div><div class="fc">償還</div><div class="fc">入出金</div></div></div>
+<div style="padding:12px 20px"><button class="btn btn-o" style="padding:10px;font-size:12px" onclick="toast('CSV ダウンロード（デモ）')">📥 CSV ダウンロード（確定申告用）</button></div>
+<div class="hl">
+<div class="hi"><div class="hic hic-b" style="border-radius:12px"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div><div class="hb2"><h5>出資：プレミアムレジデンス赤坂</h5><p>抽選当選・入金</p></div><div class="ha"><div class="v minus">-¥500,000</div><div class="d">2025/03/01</div></div></div>
+<div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>分配金：オフィスビル #12</h5><p>源泉徴収 ¥3,674</p></div><div class="ha"><div class="v plus">+¥18,000</div><div class="d">2025/02/15</div></div></div>
+<div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>入金</h5><p>GMOあおぞら経由</p></div><div class="ha"><div class="v plus">+¥500,000</div><div class="d">2025/02/20</div></div></div>
+<div class="hi"><div class="hic hic-o" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="hb2"><h5>償還：横浜マンション #05</h5><p>元本返還</p></div><div class="ha"><div class="v plus">+¥300,000</div><div class="d">2025/02/01</div></div></div>
+<div class="hi"><div class="hic hic-r" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg></div><div class="hb2"><h5>出金</h5><p>三菱UFJ銀行へ振込</p></div><div class="ha"><div class="v minus">-¥200,000</div><div class="d">2025/01/20</div></div></div>
+</div>
+</div>
+
+<!-- ═══ MYPAGE (simplified: no charts, no portfolio) ═══ -->
+<div class="s" id="p-mypage">
+<div class="mh"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h2 data-t="mypage_h">マイページ</h2><button class="nb" onclick="go('p-notif')"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div class="dot"></div></button></div><div class="mta"><label data-t="total_assets2">総資産額</label><div class="bv">¥3,850,000</div></div></div>
+<div class="mcs"><div class="ms"><label data-t="mp_active">運用中</label><div class="v">¥3.2M</div></div><div class="ms"><label data-t="mp_standby">待機資金</label><div class="v">¥650K</div></div><div class="ms"><label data-t="mp_total_div">累計分配</label><div class="v g">¥285K</div></div></div>
+<div class="dw-btns"><button class="dw-btn dw-dep" onclick="go('p-dep')" data-t="mp_deposit">💰 入金</button><button class="dw-btn dw-wit" onclick="go('p-wit')" data-t="mp_withdraw">💸 出金</button></div>
+
+<!-- 抽選待ちセクション -->
+<div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_pending">📩 申込中・抽選待ち</h4></div>
+<div class="afd" style="border-left:3px solid var(--vio)"><div class="at"><h5>東京都港区 プレミアムレジデンス赤坂</h5><span class="tag" style="background:var(--vio-l);color:var(--vio);font-size:10px;padding:3px 8px" data-t="tag_waiting">抽選待ち</span></div><div class="rw"><span data-t="app_amount">申込金額</span><span class="v">¥500,000</span></div><div class="rw"><span data-t="result_date">結果発表</span><span class="v">2025/03/20</span></div></div>
+
+<!-- クーリングオフ（契約成立）セクション -->
+<div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_cooloff">⏰ クーリングオフ期間中（契約成立）</h4></div>
+<div class="afd" style="border-left:3px solid var(--org)"><div class="at"><h5>大阪市中央区 商業ビル心斎橋</h5><div class="ar">6.2%</div></div><div class="rw"><span data-t="inv_amount">投資額</span><span class="v">¥300,000</span></div><div class="rw"><span data-t="doc_date">書面交付日</span><span class="v">2025/03/02</span></div><div class="rw"><span data-t="cancel_deadline">取消期限</span><span class="v" style="color:var(--red);font-weight:800">3/10まで（残り5日）</span></div><div style="font-size:10px;color:var(--tx3);margin-top:4px;line-height:1.5;padding:0 4px">※ 契約締結時交付書面を受領した日の翌日から8日間はクーリングオフ（無条件解除）が可能です。</div><div style="margin-top:8px;text-align:right"><button style="padding:6px 16px;border-radius:8px;border:1.5px solid var(--red);background:#fff;font-size:11px;font-weight:700;color:var(--red);cursor:pointer" onclick="toast('キャンセル申請画面へ（デモ）')" data-t="cancel_btn">キャンセル申請</button></div></div>
+
+<!-- 運用中ファンド -->
+<div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_active_funds">📊 運用中ファンド</h4></div>
+<div class="afd"><div class="at"><h5>渋谷区 オフィスビル #12</h5><div class="ar">7.2%</div></div><div class="rw"><span data-t="inv_amount">投資額</span><span class="v">¥1,000,000</span></div><div class="rw"><span data-t="total_div_label">累計分配金</span><span class="v" style="color:var(--grn)">¥36,000</span></div></div>
+<div class="afd" style="margin-bottom:80px"><div class="at"><h5>名古屋市 物流施設 #09</h5><div class="ar">5.8%</div></div><div class="rw"><span data-t="inv_amount">投資額</span><span class="v">¥500,000</span></div><div class="rw"><span>累計分配金</span><span class="v" style="color:var(--grn)">¥14,500</span></div></div>
+
+<div style="padding:0 20px;margin-bottom:80px"><button class="btn btn-o" style="padding:10px;font-size:12px" onclick="go('p-hist')" data-t="tx_history">📋 取引履歴を見る</button></div>
+</div>
+
+<!-- ═══ KIZUNARK (no likes, comments + quotes, investor-only posting) ═══ -->
+<div class="s" id="p-kz">
+<div class="kz-hd"><h2>KIZUNARK</h2><p data-t="kz_subtitle">投資家コミュニティ</p></div>
+<div class="kz-notice" data-t="kz_notice">🔒 投資家のみ投稿・コメントできます</div>
+
+<!-- Compose (investor only) -->
+<div class="kz-compose"><div class="kz-av" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">田</div><div class="kz-input-wrap"><textarea class="kz-input" placeholder="投資の話題を共有しよう..." data-tp="kz_input" id="kzInput"></textarea><div class="kz-toolbar"><button class="kz-post-btn" onclick="postKz()" data-t="post_btn">投稿</button></div></div></div>
+
+<div class="kz-feed" id="kzFeed">
+
+<!-- Card 1: with quote -->
+<div class="kz-card">
+<div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#EC4899,#F472B6)">佐</div><div><div class="kz-card-name">佐藤** <span class="kz-card-badge" style="background:var(--vio-l);color:var(--vio)">Gold投資家</span></div><div style="font-size:10px;color:var(--tx3)">sat***@</div></div><span class="kz-card-time">2時間前</span></div>
+<div class="kz-card-body">赤坂のレジデンス案件、立地が最高ですね。港区の賃貸需要を考えると稼働率は安定しそう。利回り8.5%は魅力的です。<br><span class="fund-ref" onclick="event.stopPropagation();go('p-detail')">🏠 プレミアムレジデンス赤坂 →</span></div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r1')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span data-t="comments_3">3件のコメント</span></button></div>
+<div class="kz-replies" id="r1" style="display:none">
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,var(--acc),#60A5FA)">山</div><div class="kz-reply-body"><div class="rn">yam*** <span>1時間前</span></div><div class="rt2">同感です！RC造15階建で2019年竣工なので築浅。管理状態も良さそう。</div></div></div>
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,var(--grn),#34D399)">鈴</div><div class="kz-reply-body"><div class="rn">suz*** <span>45分前</span></div><div class="rt2">劣後出資30%は安心感ありますね。私も申し込む予定です！</div></div></div>
+<!-- Quote reply -->
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">高</div><div class="kz-reply-body"><div class="rn">tak*** <span>30分前</span></div><div class="kz-quote"><div class="qname">佐藤** の投稿を引用：</div>利回り8.5%は魅力的です。</div><div class="rt2">確かに！ただ抽選倍率も高そうですね。人気案件は競争率が厳しい…</div></div></div>
+<div class="kz-reply-input"><input placeholder="コメントを入力..." id="ri1"><button onclick="addReply('r1','ri1')">送信</button></div>
+</div>
+</div>
+
+<!-- Card 2 -->
+<div class="kz-card">
+<div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">高</div><div><div class="kz-card-name">高橋** <span class="kz-card-badge" style="background:var(--grn-l);color:var(--grn)">投資家</span></div><div style="font-size:10px;color:var(--tx3)">tak***@</div></div><span class="kz-card-time">5時間前</span></div>
+<div class="kz-card-body">先月の分配金が入金されました！オフィスビル案件、予定通りの利回りで安定運用中 📈 不動産クラファン始めて半年ですが、銀行預金とは比べものにならないリターンです。</div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r2')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>5件のコメント</span></button></div>
+<div class="kz-replies" id="r2" style="display:none">
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#6366F1,#818CF8)">渡</div><div class="kz-reply-body"><div class="rn">wat*** <span>4時間前</span></div><div class="rt2">おめでとうございます！分配金が安定して入ると嬉しいですよね。</div></div></div>
+<div class="kz-reply-input"><input placeholder="コメントを入力..." id="ri2"><button onclick="addReply('r2','ri2')">送信</button></div>
+</div>
+</div>
+
+<!-- Card 3: with quote reply -->
+<div class="kz-card">
+<div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#6366F1,#818CF8)">渡</div><div><div class="kz-card-name">渡辺** <span class="kz-card-badge" style="background:var(--vio-l);color:var(--vio)">Gold投資家</span></div><div style="font-size:10px;color:var(--tx3)">wat***@</div></div><span class="kz-card-time">昨日</span></div>
+<div class="kz-card-body">京都の町家ホテル案件が気になります。インバウンド需要回復中、東山区の立地は最高。利回り10%は高めですが、観光需要リスクもありますね。皆さんどう思いますか？<br><span class="fund-ref" onclick="event.stopPropagation();go('p-detail')">🏠 町家リノベーションホテル →</span></div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r3')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>2件のコメント</span></button></div>
+<div class="kz-replies" id="r3" style="display:none">
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#EC4899,#F472B6)">佐</div><div class="kz-reply-body"><div class="rn">sat*** <span>20時間前</span></div><div class="kz-quote"><div class="qname">渡辺** の投稿を引用：</div>観光需要リスクもありますね。</div><div class="rt2">インバウンドはコロナ前を超えてるのでポジティブに見てます。ただ24ヶ月は長いですね。</div></div></div>
+<div class="kz-reply-input"><input placeholder="コメントを入力..." id="ri3"><button onclick="addReply('r3','ri3')">送信</button></div>
+</div>
+</div>
+
+<!-- Card 4 -->
+<div class="kz-card" style="margin-bottom:80px">
+<div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#10B981,#34D399)">中</div><div><div class="kz-card-name">中村** <span class="kz-card-badge" style="background:#DBEAFE;color:var(--acc)">新人投資家</span></div><div style="font-size:10px;color:var(--tx3)">nak***@</div></div><span class="kz-card-time">2日前</span></div>
+<div class="kz-card-body">不動産クラファン初心者です🔰 優先劣後構造の仕組みを理解して安心しました。まずは10万円から！先輩方、アドバイスお願いします 🙏</div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r4')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>12件のコメント</span></button></div>
+<div class="kz-replies" id="r4" style="display:none">
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#6366F1,#818CF8)">渡</div><div class="kz-reply-body"><div class="rn">wat*** <span>2日前</span></div><div class="rt2">ようこそ！最初は劣後出資比率が高い案件を選ぶのがおすすめです。30%以上あると安心感が違います。</div></div></div>
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#EC4899,#F472B6)">佐</div><div class="kz-reply-body"><div class="rn">sat*** <span>2日前</span></div><div class="rt2">複数案件に分散投資するのも大事ですよ。1案件に集中するよりリスク分散できます！</div></div></div>
+<div class="kz-reply-input"><input placeholder="コメントを入力..." id="ri4"><button onclick="addReply('r4','ri4')">送信</button></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ═══ NOTIFICATIONS ═══ -->
+<div class="s" id="p-notif">
+<div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-home');setNav(0)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3 data-t="notif_h">お知らせ</h3></div><div class="fr"><div class="fc a">すべて</div><div class="fc">ファンド</div><div class="fc">分配金</div><div class="fc">システム</div></div></div>
+<div class="nl">
+<div class="nit ur" onclick="go('p-invest');iStep(5)"><div class="nic nic-b"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></div><div class="nb2"><h5 data-t="notif_lottery">🎉 抽選結果のお知らせ</h5><p>プレミアムレジデンス赤坂に当選！タップして入金手続きへ →</p><div class="tm">2時間前</div></div></div>
+<div class="nit ur"><div class="nic nic-g"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="nb2"><h5 data-t="notif_div">分配金入金</h5><p>オフィスビル #12: ¥18,000</p><div class="tm">1日前</div></div></div>
+<div class="nit"><div class="nic nic-o"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="nb2"><h5 data-t="notif_report">運用レポート公開</h5><p>2月度レポートをご確認ください</p><div class="tm">3日前</div></div></div>
+</div>
+</div>
+
+<!-- ═══ SETTINGS / MENU (with マイページ entry at top) ═══ -->
+<div class="s" id="p-set">
+<div class="hdr"><h2 data-t="menu_h">メニュー</h2></div>
+
+<div class="sl">
+<div class="sg"><h4 data-t="account">アカウント</h4>
+<div class="si2" onclick="go('p-complete')"><div class="sic sib"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><span class="st" data-t="edit_profile">会員情報の編集</span><span class="aw">›</span></div>
+<div class="si2" onclick="go('p-dep')"><div class="sic sig"><svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div><span class="st" data-t="bank_setting">銀行口座設定</span><span class="aw">›</span></div>
+</div>
+<div class="sg"><h4 data-t="security">セキュリティ</h4>
+<div class="si2"><div class="sic sio"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div><span class="st" data-t="change_pw">パスワード変更</span><span class="aw">›</span></div>
+<div class="si2"><div class="sic siv"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><span class="st" data-t="two_factor">二段階認証</span><span class="aw">›</span></div>
+</div>
+<div class="sg"><h4 data-t="docs_tax">書類・税務</h4>
+<div class="si2"><div class="sic sir"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></div><span class="st" data-t="annual_report">年間取引報告書</span><span class="aw">›</span></div>
+<div class="si2"><div class="sic siy"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></div><span class="st" data-t="contract_list">契約書面一覧</span><span class="aw">›</span></div>
+<div class="si2"><div class="sic sio"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2z"/></svg></div><span class="st" data-t="my_number">マイナンバー管理</span><span class="aw">›</span></div>
+</div>
+<div class="sg"><h4 data-t="set_lang">設定</h4>
+<div class="si2" onclick="showLangPicker()"><div class="sic" style="background:var(--acc-g)"><svg viewBox="0 0 24 24" style="fill:var(--acc)"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg></div><span class="st" data-t="lang_label">言語</span><span class="aw" id="curLangDisp">日本語 ›</span></div>
+</div>
+<div id="langPicker" style="display:none;padding:0 20px 6px">
+<div style="background:#fff;border:1.5px solid var(--bdr);border-radius:var(--r);overflow:hidden">
+<div class="lang-opt" onclick="setLang('ja')"><span>🇯🇵</span><span>日本語</span><span class="lang-ck" id="lck-ja">✓</span></div>
+<div class="lang-opt" onclick="setLang('zh')"><span>🇹🇼</span><span>繁體中文</span><span class="lang-ck" id="lck-zh" style="display:none">✓</span></div>
+<div class="lang-opt" onclick="setLang('en')"><span>🇺🇸</span><span>English</span><span class="lang-ck" id="lck-en" style="display:none">✓</span></div>
+</div>
+</div>
+<div class="sg"><h4 data-t="support">サポート</h4>
+<div class="si2"><div class="sic sib"><svg viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg></div><span class="st" data-t="faq">FAQ・ヘルプ</span><span class="aw">›</span></div>
+<div class="si2"><div class="sic sig"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div><span class="st" data-t="chat_support">チャットサポート</span><span class="aw">›</span></div>
+</div>
+<div style="text-align:center;padding:10px 0 80px"><p style="font-size:10px;color:var(--tx3)">FUNDEX v1.0.0 ・ 不動産特定共同事業 第XXX号</p></div>
+</div>
+</div>
+</div>
+
+<!-- BOTTOM NAV (5 tabs: Home, Fund, KIZUNARK, Notif, Menu) -->
+<div class="bn" id="bn" style="display:none">
+<div class="ni a" onclick="go('p-home');setNav(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span data-t="nav_home">ホーム</span></div>
+<div class="ni" onclick="go('p-list');setNav(1)"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg><span data-t="nav_fund">ファンド</span></div>
+<div class="ni kz" onclick="go('p-kz');setNav(2)"><svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg><span>KIZUNARK</span></div>
+<div class="ni" onclick="go('p-mypage');setNav(3)"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span data-t="nav_mypage">マイページ</span></div>
+<div class="ni" onclick="go('p-set');setNav(4)"><svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg><span data-t="nav_menu">メニュー</span></div>
+</div>
+</div>
+
+<script>
+function uc(){const n=new Date();document.getElementById('ck').textContent=n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0')}uc();setInterval(uc,10000);
+setTimeout(()=>{document.getElementById('p-splash').classList.remove('a');document.getElementById('p-login').classList.add('a')},2500);
+
+const hideNav=['p-invest','p-splash','p-login','p-reg','p-complete','p-dep','p-wit','p-hist','p-notif'];
+function go(id){document.querySelectorAll('.s').forEach(s=>s.classList.remove('a'));document.getElementById(id).classList.add('a');document.getElementById(id).scrollTop=0;document.getElementById('bn').style.display=hideNav.includes(id)?'none':'flex'}
+function setNav(i){document.querySelectorAll('.ni').forEach((n,j)=>n.classList.toggle('a',j===i))}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),2500)}
+
+// Checkbox
+function tgCk(el){el.querySelector('.ck').classList.toggle('on')}
+function tgCk2(el){const c=el.querySelector('.ck');c.classList.toggle('on');const p=el.closest('.inv-c');if(p&&p.id==='is2'){const all=p.querySelectorAll('.ck');const cnt=[...all].filter(c=>c.classList.contains('on')).length;const b=document.getElementById('docBtn');if(cnt>=all.length){b.className='btn btn-p';b.disabled=false;b.textContent='次へ：申込確認'}else{b.className='btn btn-d';b.disabled=true;b.textContent='残り'+(all.length-cnt)+'件'}}}
+
+// Complete profile steps (6 steps)
+function cpStep(n){for(let i=1;i<=6;i++)document.getElementById('cp'+i).style.display=i===n?'block':'none';document.querySelectorAll('#cpSteps .reg-step').forEach((s,i)=>{if(i<n-1)s.className='reg-step done';else if(i===n-1)s.className='reg-step cur';else s.className='reg-step'})}
+
+// Fix 1: Age check
+function checkAge(){const d=document.getElementById('dobInput').value;if(!d)return;const bd=new Date(d);const now=new Date();let age=now.getFullYear()-bd.getFullYear();const m=now.getMonth()-bd.getMonth();if(m<0||(m===0&&now.getDate()<bd.getDate()))age--;const w=document.getElementById('ageWarn');const b=document.getElementById('cp1Btn');if(age<18){w.style.display='block';b.className='btn btn-d';b.disabled=true}else{w.style.display='none';b.className='btn btn-p';b.disabled=false}}
+
+// Fix 2: Fund source check
+function checkFundSource(){const v=document.getElementById('fundSource').value;document.getElementById('fundWarn').style.display=v!=='ok'?'block':'none'}
+
+// Fix 4: Step 6 all-consent check
+function chkAll6(){const cks=document.querySelectorAll('#cp6 .ck');const cnt=[...cks].filter(c=>c.classList.contains('on')).length;const b=document.getElementById('cp6Btn');if(cnt>=cks.length){b.className='btn btn-g';b.disabled=false}else{b.className='btn btn-d';b.disabled=true}}
+
+// Invest steps (6 steps for lottery flow)
+function iStep(n){for(let i=1;i<=6;i++)document.getElementById('is'+i).style.display=i===n?'block':'none';document.querySelectorAll('#invSteps .inv-st').forEach((s,i)=>{if(i<n-1)s.className='inv-st d';else if(i===n-1)s.className='inv-st c';else s.className='inv-st'})}
+function riStep(){iStep(1);document.querySelectorAll('#p-invest .ck').forEach(c=>c.classList.remove('on'));const b=document.getElementById('docBtn');b.className='btn btn-d';b.disabled=true;b.textContent='すべて確認してから次へ'}
+
+// Amount + balance check
+var userBal=650000;
+function sAmt(v,el){document.getElementById('iAmt').value=v.toLocaleString();document.querySelectorAll('.ach').forEach(c=>c.classList.remove('sl'));el.classList.add('sl');const s=Math.round(v*0.085);document.getElementById('simR').innerHTML='¥'+s.toLocaleString()+' <span>/年</span>';document.getElementById('cAmt').textContent='¥'+v.toLocaleString();document.getElementById('dAmt').textContent='¥'+v.toLocaleString();document.getElementById('pAmt').textContent='¥'+v.toLocaleString();
+const w=document.getElementById('balWarn');const b=document.getElementById('invNextBtn');if(v>userBal){w.style.display='block';b.className='btn btn-d';b.disabled=true}else{w.style.display='none';b.className='btn btn-p';b.disabled=false}}
+
+// Fund list filter
+function filterFund(status,el){document.querySelectorAll('#flFilters .fc').forEach(f=>f.classList.remove('a'));el.classList.add('a');document.querySelectorAll('#fundList .fli').forEach(card=>{if(status==='all'){card.style.display=''}else if(status==='fav'){card.style.display=card.querySelector('.fav-btn.on')?'':'none'}else{card.style.display=card.dataset.status===status?'':'none'}})}
+
+// KIZUNARK
+function postKz(){const inp=document.getElementById('kzInput');const txt=inp.value.trim();if(!txt)return;const feed=document.getElementById('kzFeed');const card=document.createElement('div');card.className='kz-card fade';const rid='rn'+Date.now();card.innerHTML='<div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">田</div><div><div class="kz-card-name">田中** <span class="kz-card-badge" style="background:#DBEAFE;color:var(--acc)">投資家</span></div><div style="font-size:10px;color:var(--tx3)">tan***@</div></div><span class="kz-card-time">たった今</span></div><div class="kz-card-body">'+txt.replace(/</g,'&lt;')+'</div><div class="kz-actions"><button class="kz-act" onclick="toggleReply(\''+rid+'\')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>コメント</span></button></div><div class="kz-replies" id="'+rid+'" style="display:none"><div class="kz-reply-input"><input placeholder="コメントを入力..." id="i'+rid+'"><button onclick="addReply(\''+rid+'\',\'i'+rid+'\')">送信</button></div></div>';feed.insertBefore(card,feed.firstChild);inp.value='';toast('投稿しました！')}
+
+function toggleReply(id){const el=document.getElementById(id);el.style.display=el.style.display==='none'?'flex':'none'}
+
+function tgFav(el){el.classList.toggle('on');const card=el.closest('.fli');if(card)card.dataset.fav=el.classList.contains('on')?'1':'0';toast(el.classList.contains('on')?'お気に入りに追加しました':'お気に入りから削除しました')}
+
+function addReply(rid,iid){const inp=document.getElementById(iid);const txt=inp.value.trim();if(!txt)return;const replies=document.getElementById(rid);const r=document.createElement('div');r.className='kz-reply fade';r.innerHTML='<div class="kz-reply-av" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">田</div><div class="kz-reply-body"><div class="rn">tan*** <span>たった今</span></div><div class="rt2">'+txt.replace(/</g,'&lt;')+'</div></div>';const inputEl=replies.querySelector('.kz-reply-input');replies.insertBefore(r,inputEl);inp.value=''}
+
+// ═══ i18n SYSTEM ═══
+var curLang='ja';
+var T={
+// ── Login / Register ──
+login:{zh:'登入',en:'Login'},
+email:{zh:'電子郵件',en:'Email'},
+password:{zh:'密碼',en:'Password'},
+pw_placeholder:{zh:'請輸入密碼',en:'Enter password'},
+forgot_pw:{zh:'忘記密碼？',en:'Forgot password?'},
+login_btn:{zh:'登入',en:'Login'},
+or:{zh:'或',en:'or'},
+no_account:{zh:'還沒有帳號？',en:"Don't have an account?"},
+register_link:{zh:'免費註冊',en:'Sign Up'},
+register_title:{zh:'新會員註冊',en:'Create Account'},
+create_account_title:{zh:'首先建立帳號',en:'Create your account'},
+create_account_desc1:{zh:'只需電子郵件和密碼即可註冊。',en:'Register with just your email and password.'},
+create_account_desc2:{zh:'投資所需資訊可稍後隨時填寫。',en:'You can enter investment details later.'},
+pw_confirm:{zh:'密碼（確認）',en:'Confirm Password'},
+pw_rule:{zh:'8位以上英數字',en:'8+ alphanumeric characters'},
+pw_again:{zh:'再次輸入',en:'Enter again'},
+agree_terms:{zh:'同意使用條款及隱私權政策',en:'I agree to the Terms & Privacy Policy'},
+create_account_btn:{zh:'建立帳號',en:'Create Account'},
+google_reg:{zh:'使用 Google 註冊',en:'Sign up with Google'},
+apple_reg:{zh:'使用 Apple 註冊',en:'Sign up with Apple'},
+// ── Profile ──
+profile_input:{zh:'本人資訊填寫',en:'Personal Information'},
+step1_title:{zh:'Step 1：基本資訊',en:'Step 1: Basic Info'},
+step1_desc:{zh:'請輸入姓名及聯絡方式',en:'Enter your name and contact info'},
+name_kanji:{zh:'姓名（漢字）',en:'Full Name (Kanji)'},
+name_kana:{zh:'姓名（片假名）',en:'Name (Katakana)'},
+dob:{zh:'出生日期',en:'Date of Birth'},
+phone:{zh:'電話號碼',en:'Phone Number'},
+next:{zh:'下一步',en:'Next'},
+skip:{zh:'略過 ›',en:'Skip ›'},
+step2_title:{zh:'Step 2：地址資訊',en:'Step 2: Address'},
+step2_desc:{zh:'本人確認所需',en:'Required for identity verification'},
+postal:{zh:'郵遞區號',en:'Postal Code'},
+addr_search:{zh:'搜尋地址',en:'Search'},
+prefecture:{zh:'都道府縣',en:'Prefecture'},
+city_addr:{zh:'市區町村・地址',en:'City & Address'},
+step3_title:{zh:'Step 3：投資者適合性確認',en:'Step 3: Investor Suitability'},
+occupation:{zh:'職業',en:'Occupation'},
+income:{zh:'年收入',en:'Annual Income'},
+fin_assets:{zh:'金融資產',en:'Financial Assets'},
+inv_exp:{zh:'投資經驗（可複選）',en:'Investment Experience (multiple)'},
+inv_purpose:{zh:'投資目的',en:'Investment Purpose'},
+fund_source_label:{zh:'投資資金性質',en:'Source of Funds'},
+risk_tolerance:{zh:'風險承受度',en:'Risk Tolerance'},
+step4_title:{zh:'Step 4：本人確認（eKYC）',en:'Step 4: Identity Verification (eKYC)'},
+step4_desc:{zh:'請拍攝本人確認文件',en:'Please photograph your ID document'},
+select_doc:{zh:'選擇文件',en:'Select Document'},
+photo_doc:{zh:'拍攝文件（正面+反面）',en:'Photograph Document (front + back)'},
+selfie:{zh:'拍攝自拍照',en:'Take a Selfie'},
+step5_title:{zh:'Step 5：銀行帳戶登錄',en:'Step 5: Bank Account'},
+step5_desc:{zh:'請登錄分配金匯款帳戶',en:'Register your bank account for distributions'},
+bank_name:{zh:'金融機構名稱',en:'Bank Name'},
+branch:{zh:'分行名稱',en:'Branch'},
+acc_type:{zh:'帳戶類型',en:'Account Type'},
+acc_num:{zh:'帳號',en:'Account Number'},
+acc_holder:{zh:'帳戶名義（片假名）',en:'Account Holder (Katakana)'},
+next_consent:{zh:'下一步：確認同意事項',en:'Next: Consent Confirmation'},
+step6_title:{zh:'Step 6：同意事項確認',en:'Step 6: Consent'},
+agree_complete:{zh:'全部同意並完成註冊',en:'Agree All & Complete'},
+// ── Home ──
+welcome:{zh:'歡迎回來，田中先生 👋',en:'Welcome back, Tanaka-san 👋'},
+total_assets:{zh:'總資產',en:'Total Assets'},
+active_inv:{zh:'運用中',en:'Active'},
+total_div:{zh:'累計分配金',en:'Total Distributions'},
+complete_profile_h:{zh:'填寫個人資料開始投資',en:'Complete your profile to start investing'},
+complete_profile_p:{zh:'投資需要本人確認。還差3步即可完成。',en:'Identity verification required. 3 steps remaining.'},
+cooloff_title:{zh:'クーリングオフ期間中',en:'Cooling-off Period'},
+cancel_proc:{zh:'取消手續',en:'Cancel'},
+featured:{zh:'🔥 精選基金',en:'🔥 Featured Funds'},
+view_all:{zh:'查看全部',en:'View All'},
+est_yield:{zh:'預期收益率',en:'Est. Yield'},
+active_funds_h:{zh:'📊 運用中基金',en:'📊 Active Funds'},
+inv_amount:{zh:'投資額',en:'Invested'},
+next_div:{zh:'下次分配',en:'Next Dist.'},
+// ── Tags ──
+tag_open:{zh:'募集中',en:'Open'},
+tag_lottery:{zh:'抽選',en:'Lottery'},
+tag_soon:{zh:'募集前',en:'Coming'},
+tag_waiting:{zh:'抽選待ち',en:'Pending'},
+// ── Fund List ──
+fund_list_h:{zh:'基金列表',en:'Fund List'},
+filter_all:{zh:'全部',en:'All'},
+filter_open:{zh:'募集中',en:'Open'},
+filter_soon:{zh:'募集前',en:'Coming'},
+filter_active:{zh:'運用中',en:'Active'},
+filter_done:{zh:'已償還',en:'Closed'},
+yield_label:{zh:'收益率',en:'Yield'},
+period_label:{zh:'運用期間',en:'Period'},
+method_label:{zh:'募集方式',en:'Method'},
+view_detail:{zh:'查看詳情 →',en:'View Details →'},
+// ── Fund Detail ──
+est_yield_annual:{zh:'預期收益率（年率）',en:'Est. Annual Yield'},
+yield_disclaimer:{zh:'※ 為預估值，不保證收益',en:'※ Estimated, not guaranteed'},
+op_period:{zh:'運用期間',en:'Period'},
+fund_total:{zh:'募集金額',en:'Fund Size'},
+min_invest:{zh:'最低投資額',en:'Min. Investment'},
+lottery_val:{zh:'抽選',en:'Lottery'},
+dividend:{zh:'分配',en:'Distributions'},
+lottery_date:{zh:'抽選日',en:'Lottery Date'},
+pref_sub:{zh:'🛡️ 優先劣後結構',en:'🛡️ Priority Structure'},
+inv_70:{zh:'投資者 70%',en:'Investors 70%'},
+op_30:{zh:'事業者 30%',en:'Operator 30%'},
+senior:{zh:'優先出資',en:'Senior'},
+junior:{zh:'劣後出資',en:'Subordinate'},
+prop_info:{zh:'📍 物件資訊',en:'📍 Property Info'},
+location:{zh:'所在地',en:'Location'},
+prop_type:{zh:'類型',en:'Type'},
+structure:{zh:'構造',en:'Structure'},
+built:{zh:'竣工',en:'Built'},
+apply_lottery:{zh:'申請抽選',en:'Apply for Lottery'},
+contract_overview:{zh:'📋 契約概要（法定記載事項）',en:'📋 Contract Overview (Statutory)'},
+contract_type:{zh:'契約形態',en:'Contract Type'},
+// ── Invest Flow ──
+lottery_apply:{zh:'抽選申請',en:'Lottery Application'},
+step1_invest:{zh:'① 輸入投資金額',en:'① Enter Amount'},
+balance_label:{zh:'💰 待機資金餘額',en:'💰 Available Balance'},
+deposit_btn:{zh:'入金',en:'Deposit'},
+next_docs:{zh:'下一步：確認文件',en:'Next: Document Review'},
+step2_invest:{zh:'② 確認契約文件',en:'② Review Documents'},
+step3_invest:{zh:'③ 確認申請內容',en:'③ Confirm Application'},
+fund_name_l:{zh:'基金名稱',en:'Fund Name'},
+inv_amount_l:{zh:'投資金額',en:'Amount'},
+est_yield_l:{zh:'預期收益率',en:'Est. Yield'},
+apply_lottery_btn:{zh:'🎲 申請抽選',en:'🎲 Apply for Lottery'},
+lottery_done:{zh:'抽選申請已完成！',en:'Application Submitted!'},
+back_home:{zh:'返回首頁',en:'Back to Home'},
+congrats:{zh:'恭喜中選！',en:'Congratulations!'},
+deposit_done:{zh:'已完成入金',en:'Deposit Completed'},
+later_deposit:{zh:'稍後入金',en:'Deposit Later'},
+invest_complete:{zh:'投資手續已完成！',en:'Investment Complete!'},
+// ── MyPage ──
+mypage_h:{zh:'我的頁面',en:'My Page'},
+total_assets2:{zh:'總資產',en:'Total Assets'},
+mp_active:{zh:'運用中',en:'Active'},
+mp_standby:{zh:'待機資金',en:'Available'},
+mp_total_div:{zh:'累計分配',en:'Distributions'},
+mp_deposit:{zh:'💰 入金',en:'💰 Deposit'},
+mp_withdraw:{zh:'💸 出金',en:'💸 Withdraw'},
+mp_pending:{zh:'📩 申請中・抽選等待中',en:'📩 Pending / Lottery'},
+app_amount:{zh:'申請金額',en:'Applied'},
+result_date:{zh:'結果公佈',en:'Result Date'},
+mp_cooloff:{zh:'⏰ クーリングオフ期間中（契約成立）',en:'⏰ Cooling-off Period (Contracted)'},
+doc_date:{zh:'書面交付日',en:'Doc. Delivered'},
+cancel_deadline:{zh:'取消期限',en:'Cancel By'},
+cancel_btn:{zh:'取消申請',en:'Cancel'},
+mp_active_funds:{zh:'📊 運用中基金',en:'📊 Active Funds'},
+total_div_label:{zh:'累計分配金',en:'Total Dist.'},
+tx_history:{zh:'📋 查看交易紀錄',en:'📋 Transaction History'},
+// ── KIZUNARK ──
+kz_subtitle:{zh:'投資者社群',en:'Investor Community'},
+kz_notice:{zh:'🔒 僅限投資者發文及留言',en:'🔒 Investors only can post & comment'},
+kz_input:{zh:'分享投資話題...',en:'Share investment topics...'},
+post_btn:{zh:'發佈',en:'Post'},
+comments_3:{zh:'3則留言',en:'3 comments'},
+// ── Notifications ──
+notif_h:{zh:'通知',en:'Notifications'},
+notif_lottery:{zh:'🎉 抽選結果通知',en:'🎉 Lottery Result'},
+notif_div:{zh:'分配金入帳',en:'Distribution Received'},
+notif_report:{zh:'運用報告公開',en:'Report Published'},
+// ── Menu ──
+menu_h:{zh:'選單',en:'Menu'},
+account:{zh:'帳戶',en:'Account'},
+edit_profile:{zh:'編輯會員資訊',en:'Edit Profile'},
+bank_setting:{zh:'銀行帳戶設定',en:'Bank Account'},
+security:{zh:'安全性',en:'Security'},
+change_pw:{zh:'變更密碼',en:'Change Password'},
+two_factor:{zh:'兩步驟驗證',en:'Two-Factor Auth'},
+docs_tax:{zh:'文件・稅務',en:'Documents & Tax'},
+annual_report:{zh:'年度交易報告',en:'Annual Report'},
+contract_list:{zh:'契約書面一覽',en:'Contract Documents'},
+my_number:{zh:'My Number 管理',en:'My Number'},
+set_lang:{zh:'設定',en:'Settings'},
+lang_label:{zh:'語言',en:'Language'},
+support:{zh:'客服支援',en:'Support'},
+faq:{zh:'常見問題',en:'FAQ & Help'},
+chat_support:{zh:'線上客服',en:'Chat Support'},
+// ── Bottom Nav ──
+nav_home:{zh:'首頁',en:'Home'},
+nav_fund:{zh:'基金',en:'Funds'},
+nav_mypage:{zh:'我的',en:'My Page'},
+nav_menu:{zh:'選單',en:'Menu'},
+// ── Deposit / Withdraw ──
+deposit_h:{zh:'入金',en:'Deposit'},
+withdraw_h:{zh:'出金',en:'Withdraw'},
+};
+
+function showLangPicker(){var p=document.getElementById('langPicker');p.style.display=p.style.display==='none'?'block':'none'}
+
+function setLang(lang){
+curLang=lang;
+// Update check marks
+['ja','zh','en'].forEach(function(l){document.getElementById('lck-'+l).style.display=l===lang?'inline':'none'});
+// Update display
+var names={ja:'日本語 ›',zh:'繁體中文 ›',en:'English ›'};
+document.getElementById('curLangDisp').textContent=names[lang];
+// Close picker
+document.getElementById('langPicker').style.display='none';
+
+if(lang==='ja'){
+// Reset to original Japanese
+document.querySelectorAll('[data-t]').forEach(function(el){el.textContent=el.getAttribute('data-orig')||el.textContent});
+document.querySelectorAll('[data-tp]').forEach(function(el){el.placeholder=el.getAttribute('data-orig-p')||el.placeholder});
+toast('日本語に切り替えました');
+return;
+}
+
+// Translate all data-t elements
+document.querySelectorAll('[data-t]').forEach(function(el){
+var key=el.getAttribute('data-t');
+if(!el.getAttribute('data-orig'))el.setAttribute('data-orig',el.textContent);
+if(T[key]&&T[key][lang])el.textContent=T[key][lang];
+});
+// Translate placeholders
+document.querySelectorAll('[data-tp]').forEach(function(el){
+var key=el.getAttribute('data-tp');
+if(!el.getAttribute('data-orig-p'))el.setAttribute('data-orig-p',el.placeholder);
+if(T[key]&&T[key][lang])el.placeholder=T[key][lang];
+});
+
+var toastMsg={zh:'已切換為繁體中文',en:'Switched to English'};
+toast(toastMsg[lang]);
+}
+
+</script>
+</body>
+</html>

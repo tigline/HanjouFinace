@@ -3,31 +3,52 @@ import 'package:flutter/material.dart';
 class AppColorTokens {
   const AppColorTokens._();
 
-  // Accent palette
-  static const Color accent = Color(0xFF007AFF);
-  static const Color accentSecondary = Color(0xFF34C759);
-  static const Color accentTertiary = Color(0xFF00C7BE);
+  // FUNDEX core palette (from demo source)
+  static const Color fundexPrimaryDark = Color(0xFF0A1628);
+  static const Color fundexPrimaryDarkAlt = Color(0xFF142240);
+  static const Color fundexAccent = Color(0xFF2563EB);
+  static const Color fundexAccentAlt = Color(0xFF3B82F6);
+  static const Color fundexSuccess = Color(0xFF10B981);
+  static const Color fundexSuccessLight = Color(0xFFD1FAE5);
+  static const Color fundexDanger = Color(0xFFEF4444);
+  static const Color fundexDangerLight = Color(0xFFFEE2E2);
+  static const Color fundexWarning = Color(0xFFF59E0B);
+  static const Color fundexWarningLight = Color(0xFFFEF3C7);
+  static const Color fundexViolet = Color(0xFF8B5CF6);
+  static const Color fundexVioletLight = Color(0xFFEDE9FE);
+  static const Color fundexPink = Color(0xFFEC4899);
+  static const Color fundexPinkLight = Color(0xFFFCE7F3);
+  static const Color fundexBackground = Color(0xFFF8FAFC);
+  static const Color fundexSurface = Color(0xFFFFFFFF);
+  static const Color fundexBorder = Color(0xFFE2E8F0);
+  static const Color fundexText = Color(0xFF0F172A);
+  static const Color fundexTextSecondary = Color(0xFF475569);
+  static const Color fundexTextTertiary = Color(0xFF94A3B8);
 
-  // Light palette
-  static const Color lightBackground = Color(0xFFF3F5F8);
-  static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightOnSurface = Color(0xFF0F172A);
-  static const Color lightMuted = Color(0xFF5B6578);
-  static const Color lightBorder = Color(0xFFD9E0EA);
+  // Semantic aliases used across the app.
+  static const Color accent = fundexAccent;
+  static const Color accentSecondary = fundexSuccess;
+  static const Color accentTertiary = fundexAccentAlt;
 
-  // Dark palette
-  static const Color darkBackground = Color(0xFF0B0F17);
-  static const Color darkSurface = Color(0xFF111827);
-  static const Color darkOnSurface = Color(0xFFE5EAF3);
-  static const Color darkMuted = Color(0xFF99A4B8);
-  static const Color darkBorder = Color(0xFF293244);
+  static const Color lightBackground = fundexBackground;
+  static const Color lightSurface = fundexSurface;
+  static const Color lightOnSurface = fundexText;
+  static const Color lightMuted = fundexTextSecondary;
+  static const Color lightBorder = fundexBorder;
 
-  static const Color danger = Color(0xFFFF3B30);
-  static const Color warning = Color(0xFFFF9F0A);
+  // Dark palette derived from FUNDEX brand tones.
+  static const Color darkBackground = fundexPrimaryDark;
+  static const Color darkSurface = fundexPrimaryDarkAlt;
+  static const Color darkOnSurface = Color(0xFFF8FAFC);
+  static const Color darkMuted = Color(0xFF94A3B8);
+  static const Color darkBorder = Color(0xFF334155);
 
-  // Figma inspiration palette (Hotel Booking App - Community)
-  static const Color travelPrimaryTeal = Color(0xFF008080);
-  static const Color fundingPrimary = Color(0xFF008080);
+  static const Color danger = fundexDanger;
+  static const Color warning = fundexWarning;
+
+  // Funding semantic aliases.
+  static const Color fundingPrimary = fundexAccent;
+  static const Color fundingPrimaryAlt = fundexAccentAlt;
 
   // Figma inspiration palette (Hotel Management UI - Community)
   // Extracted from the referenced design nodes to build reusable travel widgets.
@@ -50,4 +71,7 @@ class AppColorTokens {
   static const Color travelOverlayCharcoal = Color(0xFF232321);
   static const Color travelOverlayCool = Color(0xFF333941);
   static const Color travelOverlayBlackSoft = Color(0xFF1D1D1C);
+
+  // Kept for compatibility with existing auth/hotel widgets.
+  static const Color travelPrimaryTeal = fundingPrimary;
 }
