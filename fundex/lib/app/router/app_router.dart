@@ -12,11 +12,12 @@ import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/discussion_board/presentation/pages/discussion_board_tab_page.dart';
 import '../../features/home/presentation/pages/home_overview_tab_page.dart';
-import '../../features/hotel_booking/presentation/pages/hotel_booking_tab_page.dart';
 import '../../features/investment/presentation/pages/investment_tab_page.dart';
 import '../../features/main_shell/presentation/pages/main_shell_page.dart';
 import '../../features/member_profile/presentation/pages/member_profile_intake_page.dart';
+import '../../features/notifications/presentation/pages/notifications_page.dart';
 import '../../features/member_profile/presentation/pages/profile_center_tab_page.dart';
+import '../../features/settings/presentation/pages/settings_page.dart';
 
 String? resolveAuthRedirect({
   required AsyncValue<bool> authState,
@@ -152,17 +153,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
-                path: '/hotel-booking',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const HotelBookingTabPage();
-                },
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: <RouteBase>[
-              GoRoute(
-                path: '/investment',
+                path: '/funds',
                 builder: (BuildContext context, GoRouterState state) {
                   return const InvestmentTabPage();
                 },
@@ -189,7 +180,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          StatefulShellBranch(
+            routes: <RouteBase>[
+              GoRoute(
+                path: '/settings',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const SettingsPage();
+                },
+              ),
+            ],
+          ),
         ],
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (BuildContext context, GoRouterState state) {
+          return const NotificationsPage();
+        },
+      ),
+      GoRoute(
+        path: '/investment',
+        redirect: (BuildContext context, GoRouterState state) => '/funds',
+      ),
+      GoRoute(
+        path: '/hotel-booking',
+        redirect: (BuildContext context, GoRouterState state) => '/funds',
       ),
       GoRoute(
         path: '/member-profile/onboarding',

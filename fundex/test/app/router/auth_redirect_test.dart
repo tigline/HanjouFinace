@@ -31,10 +31,10 @@ void main() {
       expect(redirect, '/login');
     });
 
-    test('redirects unauthenticated user to login from tab branch route', () {
+    test('redirects unauthenticated user to login from funds tab route', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(false),
-        location: '/hotel-booking',
+        location: '/funds',
       );
 
       expect(redirect, '/login');

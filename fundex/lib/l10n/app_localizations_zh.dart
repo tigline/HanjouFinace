@@ -467,6 +467,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mainTabProfile => '个人中心';
 
   @override
+  String get mainTabKizunark => 'KIZUNARK';
+
+  @override
+  String get mainTabSettings => '设置';
+
+  @override
   String get homeHeroTitle => '投资概览';
 
   @override
@@ -513,6 +519,27 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get profileTabSubtitle => '管理账号资料、详细信息录入、偏好设置与会员状态。';
+
+  @override
+  String get settingsTabHeadline => '设置';
+
+  @override
+  String get settingsTabSubtitle => '账号、安全、法定文档与偏好设置将在此统一管理。';
+
+  @override
+  String get notificationsTitle => '通知';
+
+  @override
+  String get notificationsLotteryTitle => '抽签结果';
+
+  @override
+  String get notificationsLotterySubtitle => '接入 API 后，抽签结果与入金提醒会显示在这里。';
+
+  @override
+  String get notificationsSystemTitle => '系统通知';
+
+  @override
+  String get notificationsSystemSubtitle => '维护、报表与法规相关通知。';
 
   @override
   String get homeLogout => '退出登录';

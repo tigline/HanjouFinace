@@ -509,6 +509,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mainTabProfile => 'Profile';
 
   @override
+  String get mainTabKizunark => 'KIZUNARK';
+
+  @override
+  String get mainTabSettings => 'Settings';
+
+  @override
   String get homeHeroTitle => 'Investment Overview';
 
   @override
@@ -560,6 +566,30 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profileTabSubtitle =>
       'Manage account details, profile intake, preferences, and member status.';
+
+  @override
+  String get settingsTabHeadline => 'Settings';
+
+  @override
+  String get settingsTabSubtitle =>
+      'Account, security, legal documents, and preference settings will be integrated here.';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsLotteryTitle => 'Lottery result';
+
+  @override
+  String get notificationsLotterySubtitle =>
+      'After API integration, lottery and deposit notifications will appear here.';
+
+  @override
+  String get notificationsSystemTitle => 'System notices';
+
+  @override
+  String get notificationsSystemSubtitle =>
+      'Maintenance, statements, and legal updates.';
 
   @override
   String get homeLogout => 'Sign out';

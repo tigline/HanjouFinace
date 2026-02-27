@@ -1006,6 +1006,18 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get mainTabProfile;
 
+  /// No description provided for @mainTabKizunark.
+  ///
+  /// In en, this message translates to:
+  /// **'KIZUNARK'**
+  String get mainTabKizunark;
+
+  /// No description provided for @mainTabSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get mainTabSettings;
+
   /// No description provided for @homeHeroTitle.
   ///
   /// In en, this message translates to:
@@ -1101,6 +1113,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage account details, profile intake, preferences, and member status.'**
   String get profileTabSubtitle;
+
+  /// No description provided for @settingsTabHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTabHeadline;
+
+  /// No description provided for @settingsTabSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account, security, legal documents, and preference settings will be integrated here.'**
+  String get settingsTabSubtitle;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsLotteryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lottery result'**
+  String get notificationsLotteryTitle;
+
+  /// No description provided for @notificationsLotterySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'After API integration, lottery and deposit notifications will appear here.'**
+  String get notificationsLotterySubtitle;
+
+  /// No description provided for @notificationsSystemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'System notices'**
+  String get notificationsSystemTitle;
+
+  /// No description provided for @notificationsSystemSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance, statements, and legal updates.'**
+  String get notificationsSystemSubtitle;
 
   /// No description provided for @homeLogout.
   ///

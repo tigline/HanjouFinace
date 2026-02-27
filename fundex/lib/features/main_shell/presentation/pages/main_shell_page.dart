@@ -77,11 +77,6 @@ class MainShellPage extends StatelessWidget {
                 label: l10n.mainTabHome,
               ),
               NavigationDestination(
-                icon: const Icon(Icons.hotel_outlined),
-                selectedIcon: const Icon(Icons.hotel_rounded),
-                label: l10n.mainTabHotel,
-              ),
-              NavigationDestination(
                 icon: const Icon(Icons.show_chart_outlined),
                 selectedIcon: const Icon(Icons.show_chart_rounded),
                 label: l10n.mainTabInvestment,
@@ -89,12 +84,17 @@ class MainShellPage extends StatelessWidget {
               NavigationDestination(
                 icon: const Icon(Icons.forum_outlined),
                 selectedIcon: const Icon(Icons.forum_rounded),
-                label: l10n.mainTabDiscussion,
+                label: l10n.mainTabKizunark,
               ),
               NavigationDestination(
                 icon: const Icon(Icons.person_outline_rounded),
                 selectedIcon: const Icon(Icons.person_rounded),
                 label: l10n.mainTabProfile,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.settings_outlined),
+                selectedIcon: const Icon(Icons.settings_rounded),
+                label: l10n.mainTabSettings,
               ),
             ],
           ),

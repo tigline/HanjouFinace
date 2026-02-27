@@ -471,6 +471,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mainTabProfile => 'マイページ';
 
   @override
+  String get mainTabKizunark => 'KIZUNARK';
+
+  @override
+  String get mainTabSettings => '設定';
+
+  @override
   String get homeHeroTitle => '投資サマリー';
 
   @override
@@ -517,6 +523,27 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get profileTabSubtitle => 'アカウント情報、詳細情報入力、設定、会員状態を管理します。';
+
+  @override
+  String get settingsTabHeadline => '設定';
+
+  @override
+  String get settingsTabSubtitle => 'アカウント・セキュリティ・法定書面・各種設定をここに統合します。';
+
+  @override
+  String get notificationsTitle => 'お知らせ';
+
+  @override
+  String get notificationsLotteryTitle => '抽選結果';
+
+  @override
+  String get notificationsLotterySubtitle => 'API連携後、抽選結果と入金案内の通知をここに表示します。';
+
+  @override
+  String get notificationsSystemTitle => 'システム通知';
+
+  @override
+  String get notificationsSystemSubtitle => 'メンテナンス、報告書、法令関連のお知らせ。';
 
   @override
   String get homeLogout => 'ログアウト';
