@@ -505,6 +505,102 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeHeroCashLabel => '利用可能資金';
 
   @override
+  String homeWelcomeUser(Object name) {
+    return 'おかえりなさい、$name 👋';
+  }
+
+  @override
+  String get homeHeroTotalAssetsAmountLabel => '総資産額';
+
+  @override
+  String get homeHeroMonthlyDelta => '+¥127,500（前月比 +3.4%）';
+
+  @override
+  String get homeHeroActiveInvestmentLabel => '運用中';
+
+  @override
+  String get homeHeroTotalDividendsLabel => '累計分配金';
+
+  @override
+  String get homeReminderProfileTitle => '本人情報を入力して投資を始めましょう';
+
+  @override
+  String get homeReminderProfileBody => '投資するには本人確認が必要です。あと3ステップで完了。';
+
+  @override
+  String get homeReminderCoolingOffTitle => 'クーリングオフ期間中';
+
+  @override
+  String get homeReminderCoolingOffBody =>
+      '「商業ビル心斎橋」\n契約書面交付日 3/2 → 取消期限 3/10（8日間）\n残り5日';
+
+  @override
+  String get homeReminderCoolingOffAction => '取消手続き';
+
+  @override
+  String get homeFeaturedFundsTitle => '🔥 注目ファンド';
+
+  @override
+  String get homeViewAllAction => 'すべて見る';
+
+  @override
+  String get homeEstimatedYieldLabel => '想定利回り';
+
+  @override
+  String get homeTagOpen => '募集中';
+
+  @override
+  String get homeTagLottery => '抽選';
+
+  @override
+  String get homeTagUpcoming => '募集前';
+
+  @override
+  String get homeActiveFundsTitle => '📊 運用中ファンド';
+
+  @override
+  String get homeInvestedAmountLabel => '投資額';
+
+  @override
+  String get homeNextDividendLabel => '次回配当';
+
+  @override
+  String get homeShowMoreAction => 'もっと見る';
+
+  @override
+  String get homeShowLessAction => '表示を減らす';
+
+  @override
+  String get homeMockFeaturedFundA => '東京都港区 プレミアムレジデンス赤坂';
+
+  @override
+  String get homeMockFeaturedFundB => '大阪市中央区 商業ビル心斎橋';
+
+  @override
+  String get homeMockFeaturedFundC => '京都市東山区 町家リノベホテル';
+
+  @override
+  String get homeMockFeaturedMetaA => '12ヶ月 ・ 2億円';
+
+  @override
+  String get homeMockFeaturedMetaB => '18ヶ月 ・ 1.5億円';
+
+  @override
+  String get homeMockFeaturedMetaC => '24ヶ月 ・ 3億円';
+
+  @override
+  String get homeMockActiveFundA => '渋谷区 オフィスビル #12';
+
+  @override
+  String get homeMockActiveFundB => '名古屋市 物流施設 #09';
+
+  @override
+  String get homeMockActiveFundC => '福岡市 レジデンスファンド #07';
+
+  @override
+  String get homeMockActiveFundD => '札幌市 複合施設ファンド #03';
+
+  @override
   String get hotelTabHeadline => 'ホテル予約モジュール（枠組み）';
 
   @override

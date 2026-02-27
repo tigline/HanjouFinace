@@ -500,6 +500,102 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeHeroCashLabel => '可用资金';
 
   @override
+  String homeWelcomeUser(Object name) {
+    return '欢迎回来，$name 👋';
+  }
+
+  @override
+  String get homeHeroTotalAssetsAmountLabel => '总资产额';
+
+  @override
+  String get homeHeroMonthlyDelta => '+¥127,500（较上月 +3.4%）';
+
+  @override
+  String get homeHeroActiveInvestmentLabel => '运用中';
+
+  @override
+  String get homeHeroTotalDividendsLabel => '累计分配金';
+
+  @override
+  String get homeReminderProfileTitle => '完善个人资料后即可开始投资';
+
+  @override
+  String get homeReminderProfileBody => '投资前需要完成身份确认。还差 3 个步骤。';
+
+  @override
+  String get homeReminderCoolingOffTitle => 'クーリングオフ期间中';
+
+  @override
+  String get homeReminderCoolingOffBody =>
+      '「心斋桥商业楼」\n合同书面交付日 3/2 → 取消期限 3/10（8天）\n剩余 5 天';
+
+  @override
+  String get homeReminderCoolingOffAction => '办理取消';
+
+  @override
+  String get homeFeaturedFundsTitle => '🔥 注目基金';
+
+  @override
+  String get homeViewAllAction => '查看全部';
+
+  @override
+  String get homeEstimatedYieldLabel => '预计年化';
+
+  @override
+  String get homeTagOpen => '募集中';
+
+  @override
+  String get homeTagLottery => '抽选';
+
+  @override
+  String get homeTagUpcoming => '募集前';
+
+  @override
+  String get homeActiveFundsTitle => '📊 运用中基金';
+
+  @override
+  String get homeInvestedAmountLabel => '投资金额';
+
+  @override
+  String get homeNextDividendLabel => '下次分配';
+
+  @override
+  String get homeShowMoreAction => '查看更多';
+
+  @override
+  String get homeShowLessAction => '收起';
+
+  @override
+  String get homeMockFeaturedFundA => '东京都港区 赤坂高端公寓';
+
+  @override
+  String get homeMockFeaturedFundB => '大阪市中央区 心斋桥商业楼';
+
+  @override
+  String get homeMockFeaturedFundC => '京都市东山区 町家改造酒店';
+
+  @override
+  String get homeMockFeaturedMetaA => '12个月 ・ 2亿日元';
+
+  @override
+  String get homeMockFeaturedMetaB => '18个月 ・ 1.5亿日元';
+
+  @override
+  String get homeMockFeaturedMetaC => '24个月 ・ 3亿日元';
+
+  @override
+  String get homeMockActiveFundA => '涩谷区 办公楼 #12';
+
+  @override
+  String get homeMockActiveFundB => '名古屋市 物流设施 #09';
+
+  @override
+  String get homeMockActiveFundC => '福冈市 住宅基金 #07';
+
+  @override
+  String get homeMockActiveFundD => '札幌市 复合设施基金 #03';
+
+  @override
   String get hotelTabHeadline => '酒店预订模块（框架）';
 
   @override

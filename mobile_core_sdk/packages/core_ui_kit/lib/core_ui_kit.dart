@@ -7,4 +7,5 @@ export 'src/app_dialogs.dart';
 export 'src/app_bottom_sheet.dart';
 export 'src/ui_buttons.dart';
 export 'src/ui_cards.dart';
+export 'src/fund_home_widgets.dart';
 export 'src/form_fields.dart';

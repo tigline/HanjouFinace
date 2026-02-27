@@ -1072,6 +1072,192 @@ abstract class AppLocalizations {
   /// **'Available cash'**
   String get homeHeroCashLabel;
 
+  /// No description provided for @homeWelcomeUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back, {name} 👋'**
+  String homeWelcomeUser(Object name);
+
+  /// No description provided for @homeHeroTotalAssetsAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total assets'**
+  String get homeHeroTotalAssetsAmountLabel;
+
+  /// No description provided for @homeHeroMonthlyDelta.
+  ///
+  /// In en, this message translates to:
+  /// **'+¥127,500 (vs last month +3.4%)'**
+  String get homeHeroMonthlyDelta;
+
+  /// No description provided for @homeHeroActiveInvestmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Active investments'**
+  String get homeHeroActiveInvestmentLabel;
+
+  /// No description provided for @homeHeroTotalDividendsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total dividends'**
+  String get homeHeroTotalDividendsLabel;
+
+  /// No description provided for @homeReminderProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile to start investing'**
+  String get homeReminderProfileTitle;
+
+  /// No description provided for @homeReminderProfileBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity verification is required before investing. 3 steps remaining.'**
+  String get homeReminderProfileBody;
+
+  /// No description provided for @homeReminderCoolingOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooling-off period in progress'**
+  String get homeReminderCoolingOffTitle;
+
+  /// No description provided for @homeReminderCoolingOffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Shinsaibashi Commercial Building\"\nContract document issued 3/2 → Cancellation deadline 3/10 (8 days)\n5 days remaining'**
+  String get homeReminderCoolingOffBody;
+
+  /// No description provided for @homeReminderCoolingOffAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel contract'**
+  String get homeReminderCoolingOffAction;
+
+  /// No description provided for @homeFeaturedFundsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🔥 Featured Funds'**
+  String get homeFeaturedFundsTitle;
+
+  /// No description provided for @homeViewAllAction.
+  ///
+  /// In en, this message translates to:
+  /// **'View all'**
+  String get homeViewAllAction;
+
+  /// No description provided for @homeEstimatedYieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Est. yield'**
+  String get homeEstimatedYieldLabel;
+
+  /// No description provided for @homeTagOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get homeTagOpen;
+
+  /// No description provided for @homeTagLottery.
+  ///
+  /// In en, this message translates to:
+  /// **'Lottery'**
+  String get homeTagLottery;
+
+  /// No description provided for @homeTagUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get homeTagUpcoming;
+
+  /// No description provided for @homeActiveFundsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📊 Active Funds'**
+  String get homeActiveFundsTitle;
+
+  /// No description provided for @homeInvestedAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment amount'**
+  String get homeInvestedAmountLabel;
+
+  /// No description provided for @homeNextDividendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Next dividend'**
+  String get homeNextDividendLabel;
+
+  /// No description provided for @homeShowMoreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get homeShowMoreAction;
+
+  /// No description provided for @homeShowLessAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get homeShowLessAction;
+
+  /// No description provided for @homeMockFeaturedFundA.
+  ///
+  /// In en, this message translates to:
+  /// **'Akasaka Premium Residence, Minato, Tokyo'**
+  String get homeMockFeaturedFundA;
+
+  /// No description provided for @homeMockFeaturedFundB.
+  ///
+  /// In en, this message translates to:
+  /// **'Shinsaibashi Commercial Building, Chuo, Osaka'**
+  String get homeMockFeaturedFundB;
+
+  /// No description provided for @homeMockFeaturedFundC.
+  ///
+  /// In en, this message translates to:
+  /// **'Machiya Renovation Hotel, Higashiyama, Kyoto'**
+  String get homeMockFeaturedFundC;
+
+  /// No description provided for @homeMockFeaturedMetaA.
+  ///
+  /// In en, this message translates to:
+  /// **'12 months ・ ¥200M'**
+  String get homeMockFeaturedMetaA;
+
+  /// No description provided for @homeMockFeaturedMetaB.
+  ///
+  /// In en, this message translates to:
+  /// **'18 months ・ ¥150M'**
+  String get homeMockFeaturedMetaB;
+
+  /// No description provided for @homeMockFeaturedMetaC.
+  ///
+  /// In en, this message translates to:
+  /// **'24 months ・ ¥300M'**
+  String get homeMockFeaturedMetaC;
+
+  /// No description provided for @homeMockActiveFundA.
+  ///
+  /// In en, this message translates to:
+  /// **'Shibuya Office Building #12'**
+  String get homeMockActiveFundA;
+
+  /// No description provided for @homeMockActiveFundB.
+  ///
+  /// In en, this message translates to:
+  /// **'Nagoya Logistics Facility #09'**
+  String get homeMockActiveFundB;
+
+  /// No description provided for @homeMockActiveFundC.
+  ///
+  /// In en, this message translates to:
+  /// **'Fukuoka Residence Fund #07'**
+  String get homeMockActiveFundC;
+
+  /// No description provided for @homeMockActiveFundD.
+  ///
+  /// In en, this message translates to:
+  /// **'Sapporo Mixed-Use Fund #03'**
+  String get homeMockActiveFundD;
+
   /// No description provided for @hotelTabHeadline.
   ///
   /// In en, this message translates to:

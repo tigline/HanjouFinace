@@ -544,6 +544,107 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeHeroCashLabel => 'Available cash';
 
   @override
+  String homeWelcomeUser(Object name) {
+    return 'Welcome back, $name 👋';
+  }
+
+  @override
+  String get homeHeroTotalAssetsAmountLabel => 'Total assets';
+
+  @override
+  String get homeHeroMonthlyDelta => '+¥127,500 (vs last month +3.4%)';
+
+  @override
+  String get homeHeroActiveInvestmentLabel => 'Active investments';
+
+  @override
+  String get homeHeroTotalDividendsLabel => 'Total dividends';
+
+  @override
+  String get homeReminderProfileTitle =>
+      'Complete your profile to start investing';
+
+  @override
+  String get homeReminderProfileBody =>
+      'Identity verification is required before investing. 3 steps remaining.';
+
+  @override
+  String get homeReminderCoolingOffTitle => 'Cooling-off period in progress';
+
+  @override
+  String get homeReminderCoolingOffBody =>
+      '\"Shinsaibashi Commercial Building\"\nContract document issued 3/2 → Cancellation deadline 3/10 (8 days)\n5 days remaining';
+
+  @override
+  String get homeReminderCoolingOffAction => 'Cancel contract';
+
+  @override
+  String get homeFeaturedFundsTitle => '🔥 Featured Funds';
+
+  @override
+  String get homeViewAllAction => 'View all';
+
+  @override
+  String get homeEstimatedYieldLabel => 'Est. yield';
+
+  @override
+  String get homeTagOpen => 'Open';
+
+  @override
+  String get homeTagLottery => 'Lottery';
+
+  @override
+  String get homeTagUpcoming => 'Upcoming';
+
+  @override
+  String get homeActiveFundsTitle => '📊 Active Funds';
+
+  @override
+  String get homeInvestedAmountLabel => 'Investment amount';
+
+  @override
+  String get homeNextDividendLabel => 'Next dividend';
+
+  @override
+  String get homeShowMoreAction => 'Show more';
+
+  @override
+  String get homeShowLessAction => 'Show less';
+
+  @override
+  String get homeMockFeaturedFundA =>
+      'Akasaka Premium Residence, Minato, Tokyo';
+
+  @override
+  String get homeMockFeaturedFundB =>
+      'Shinsaibashi Commercial Building, Chuo, Osaka';
+
+  @override
+  String get homeMockFeaturedFundC =>
+      'Machiya Renovation Hotel, Higashiyama, Kyoto';
+
+  @override
+  String get homeMockFeaturedMetaA => '12 months ・ ¥200M';
+
+  @override
+  String get homeMockFeaturedMetaB => '18 months ・ ¥150M';
+
+  @override
+  String get homeMockFeaturedMetaC => '24 months ・ ¥300M';
+
+  @override
+  String get homeMockActiveFundA => 'Shibuya Office Building #12';
+
+  @override
+  String get homeMockActiveFundB => 'Nagoya Logistics Facility #09';
+
+  @override
+  String get homeMockActiveFundC => 'Fukuoka Residence Fund #07';
+
+  @override
+  String get homeMockActiveFundD => 'Sapporo Mixed-Use Fund #03';
+
+  @override
   String get hotelTabHeadline => 'Hotel Booking Module (Framework)';
 
   @override
