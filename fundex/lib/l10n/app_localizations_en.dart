@@ -64,6 +64,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Set up secure access for investment, stays, and member privileges.';
 
   @override
+  String get registerQuickTitle => 'Create your account first';
+
+  @override
+  String get registerQuickSubtitle =>
+      'Register with your email and verification code. You can complete investment profile details later.';
+
+  @override
   String get registerModeTitle => 'Registration method';
 
   @override

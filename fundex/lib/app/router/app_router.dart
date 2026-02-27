@@ -118,7 +118,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/register',
         builder: (BuildContext context, GoRouterState state) {
-          return const RegisterEntryPage();
+          return const RegisterPage();
         },
       ),
       GoRoute(
@@ -135,9 +135,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/register-legacy',
-        builder: (BuildContext context, GoRouterState state) {
-          return const RegisterPage();
-        },
+        redirect: (BuildContext context, GoRouterState state) => '/register',
       ),
       GoRoute(
         path: '/forgot-password',

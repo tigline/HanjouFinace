@@ -16,6 +16,8 @@
   "loginMobileAccountInvalid": "手机登录请填写有效手机号。",
   "registerTitle": "创建账号",
   "registerSubtitle": "开通安全账号，统一管理投资、订房与会员权益。",
+  "registerQuickTitle": "先完成账号创建",
+  "registerQuickSubtitle": "使用邮箱与验证码即可注册，投资相关资料可在注册后继续完善。",
   "registerModeTitle": "注册方式",
   "authModeEmail": "邮箱",
   "authModeMobile": "手机",

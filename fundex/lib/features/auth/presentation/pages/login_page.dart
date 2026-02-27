@@ -291,14 +291,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         buttonWidth: 132,
                       ),
                       const SizedBox(height: UiTokens.spacing8),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          key: const Key('to_forgot_password_button'),
-                          onPressed: () => context.push('/forgot-password'),
-                          child: Text(l10n.loginForgotPassword),
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   child: TextButton(
+                      //     key: const Key('to_forgot_password_button'),
+                      //     onPressed: () => context.push('/forgot-password'),
+                      //     child: Text(l10n.loginForgotPassword),
+                      //   ),
+                      // ),
                       if (effectiveErrorMessage != null) ...<Widget>[
                         const SizedBox(height: UiTokens.spacing4),
                         Container(
@@ -338,7 +338,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       Center(
                         child: TextButton(
                           key: const Key('to_register_button'),
-                          onPressed: () => context.go('/register'),
+                          onPressed: () => context.push('/register'),
                           child: Text(l10n.loginCreateAccount),
                         ),
                       ),

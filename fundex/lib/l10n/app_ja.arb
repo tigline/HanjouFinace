@@ -16,6 +16,8 @@
   "loginMobileAccountInvalid": "電話ログインには有効な電話番号を入力してください。",
   "registerTitle": "アカウント作成",
   "registerSubtitle": "投資・予約・会員特典に使う安全なアカウントを設定します。",
+  "registerQuickTitle": "まずはアカウントを作成",
+  "registerQuickSubtitle": "メールアドレスと認証コードで登録できます。投資に必要な情報は登録後に入力できます。",
   "registerModeTitle": "登録方法",
   "authModeEmail": "メール",
   "authModeMobile": "電話",

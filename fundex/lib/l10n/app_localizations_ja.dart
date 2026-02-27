@@ -57,6 +57,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get registerSubtitle => '投資・予約・会員特典に使う安全なアカウントを設定します。';
 
   @override
+  String get registerQuickTitle => 'まずはアカウントを作成';
+
+  @override
+  String get registerQuickSubtitle =>
+      'メールアドレスと認証コードで登録できます。投資に必要な情報は登録後に入力できます。';
+
+  @override
   String get registerModeTitle => '登録方法';
 
   @override

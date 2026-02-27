@@ -57,6 +57,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get registerSubtitle => '开通安全账号，统一管理投资、订房与会员权益。';
 
   @override
+  String get registerQuickTitle => '先完成账号创建';
+
+  @override
+  String get registerQuickSubtitle => '使用邮箱与验证码即可注册，投资相关资料可在注册后继续完善。';
+
+  @override
   String get registerModeTitle => '注册方式';
 
   @override

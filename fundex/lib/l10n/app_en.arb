@@ -16,6 +16,8 @@
   "loginMobileAccountInvalid": "Please enter a valid phone number for phone sign in.",
   "registerTitle": "Create your account",
   "registerSubtitle": "Set up secure access for investment, stays, and member privileges.",
+  "registerQuickTitle": "Create your account first",
+  "registerQuickSubtitle": "Register with your email and verification code. You can complete investment profile details later.",
   "registerModeTitle": "Registration method",
   "authModeEmail": "Email",
   "authModeMobile": "Phone",

@@ -196,6 +196,18 @@ abstract class AppLocalizations {
   /// **'Set up secure access for investment, stays, and member privileges.'**
   String get registerSubtitle;
 
+  /// No description provided for @registerQuickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account first'**
+  String get registerQuickTitle;
+
+  /// No description provided for @registerQuickSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Register with your email and verification code. You can complete investment profile details later.'**
+  String get registerQuickSubtitle;
+
   /// No description provided for @registerModeTitle.
   ///
   /// In en, this message translates to:
