@@ -2,7 +2,7 @@
 
 This folder contains deliverables for the new company template strategy:
 
-1. `member_app_template`: business app repository scaffold (Clean Architecture + Riverpod).
+1. `fundex` (directory: `fundex`): business app repository scaffold (Clean Architecture + Riverpod).
 2. `mobile_core_sdk`: reusable core plugin repository scaffold (independent Git + versioned packages).
 3. `core_network` token refresh interceptor draft with tests.
 

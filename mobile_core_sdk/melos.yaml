@@ -1,5 +1,5 @@
 name: mobile_core_sdk
-repository: https://github.com/tigline/HanjouFinace
+repository: https://github.com/tigline/fundex
 
 packages:
   - packages/**

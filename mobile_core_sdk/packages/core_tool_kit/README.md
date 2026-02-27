@@ -14,7 +14,7 @@ Shared app tooling utilities.
 ```dart
 final logger = await FileAppLogger.create(
   enableDebugLogs: true,
-  loggerName: 'member_app_template',
+  loggerName: 'fundex',
 );
 
 logger.info('app started');

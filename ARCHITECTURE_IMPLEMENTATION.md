@@ -10,16 +10,16 @@
 
 ```text
 template_v2/
-  member_app_template/
+  fundex/  (pub name: fundex)
   mobile_core_sdk/
 ```
 
-- `member_app_template`：公司业务模板 App 仓。
+- `fundex`：公司业务模板 App 仓。
 - `mobile_core_sdk`：独立 Git 管理的核心插件仓。
 
 > 真正落地时建议拆成两个独立远端仓库：
-> - `mobile-member-template-app`
-> - `mobile-core-sdk`
+> - `fundex`
+> - `fundex-mobile-core-sdk`
 
 ## 2. 业务仓关键规则（Clean + Riverpod）
 
@@ -67,7 +67,7 @@ template_v2/
 - 用户相关实现优先查阅 `user-rest` 与 `off-rest` 两个分组。
 - 除酒店业务外，不再以老工程 `http_conf.dart` 作为新接口实现来源。
 - 若 Swagger 暂缺某接口，允许短期使用真实抓包/线上样例报文作为补充，但必须：
-  - 在 `member_app_template/README_API.md` 记录请求/响应样例
+  - 在 `fundex/README_API.md`（FUNDEX API 文档）记录请求/响应样例
   - 在代码常量/数据源注释标记“临时来源”
   - 后续拿到 Swagger 定义后及时回收
 - `api_paths.dart` 中的接口常量命名应体现业务来源（如 funding auth/user），避免继续使用 `legacy` 命名。
