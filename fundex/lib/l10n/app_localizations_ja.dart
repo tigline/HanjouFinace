@@ -601,6 +601,99 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeMockActiveFundD => '札幌市 複合施設ファンド #03';
 
   @override
+  String get fundListTitle => 'ファンド一覧';
+
+  @override
+  String get fundListFilterAll => 'すべて';
+
+  @override
+  String get fundListFilterOperating => '運用中';
+
+  @override
+  String get fundListFilterOperatingEnded => '運用終了';
+
+  @override
+  String get fundListFilterOpen => '募集中';
+
+  @override
+  String get fundListFilterUpcoming => '募集前';
+
+  @override
+  String get fundListFilterClosed => '募集終了';
+
+  @override
+  String get fundListFilterCompleted => '募集完成';
+
+  @override
+  String get fundListFilterFailed => '募集失敗';
+
+  @override
+  String get fundListYieldLabel => '利回り';
+
+  @override
+  String get fundListPeriodLabel => '運用期間';
+
+  @override
+  String get fundListMethodLabel => '募集方式';
+
+  @override
+  String get fundListMethodLottery => '抽選';
+
+  @override
+  String get fundListMethodUnknown => '未設定';
+
+  @override
+  String fundListAppliedAmount(Object amount, Object progress) {
+    return '応募金額 $amount（$progress）';
+  }
+
+  @override
+  String fundListOpenStartAt(Object start) {
+    return '募集開始 $start〜';
+  }
+
+  @override
+  String get fundListViewDetail => '詳細を確認 →';
+
+  @override
+  String get fundListLoadError => 'ファンド一覧の取得に失敗しました。再度お試しください。';
+
+  @override
+  String get fundListRetry => '再試行';
+
+  @override
+  String get fundListEmpty => 'この条件に一致するファンドがありません。';
+
+  @override
+  String get fundListStatusOperating => '運用中';
+
+  @override
+  String get fundListStatusOperatingEnded => '運用終了';
+
+  @override
+  String get fundListStatusOpen => '募集中';
+
+  @override
+  String get fundListStatusUpcoming => '募集前';
+
+  @override
+  String get fundListStatusClosed => '募集終了';
+
+  @override
+  String get fundListStatusCompleted => '募集完成';
+
+  @override
+  String get fundListStatusFailed => '募集失敗';
+
+  @override
+  String get fundListStatusUnknown => '未設定';
+
+  @override
+  String fundListVolume(Object number) {
+    return 'Vol. $number';
+  }
+
+  @override
   String get hotelTabHeadline => 'ホテル予約モジュール（枠組み）';
 
   @override

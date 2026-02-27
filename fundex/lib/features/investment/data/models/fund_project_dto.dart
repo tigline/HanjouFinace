@@ -11,6 +11,7 @@ class FundProjectDto {
     this.scheduledEndDate,
     this.offeringStartDatetime,
     this.offeringEndDatetime,
+    this.offeringMethod,
     this.investmentUnit,
     this.maximumInvestmentPerPerson,
     this.achievementRate,
@@ -20,6 +21,7 @@ class FundProjectDto {
     this.projectStatus,
     this.operatingCompany,
     this.periodType,
+    this.times,
     this.photos = const <String>[],
     this.investorTypes = const <FundProjectInvestorTypeDto>[],
     this.pdfDocuments = const <FundProjectPdfDocumentDto>[],
@@ -44,6 +46,9 @@ class FundProjectDto {
       offeringEndDatetime: _normalizedOptionalString(
         json['offeringEndDatetime'],
       ),
+      offeringMethod:
+          _normalizedOptionalString(json['offeringMethod']) ??
+          _normalizedOptionalString(json['typeOfOffering']),
       investmentUnit: _intOrNull(json['investmentUnit']),
       maximumInvestmentPerPerson: _intOrNull(
         json['maximumInvestmentPerPerson'],
@@ -55,6 +60,7 @@ class FundProjectDto {
       projectStatus: _intOrNull(json['projectStatus']),
       operatingCompany: _normalizedOptionalString(json['operatingCompany']),
       periodType: _normalizedOptionalString(json['periodType']),
+      times: _intOrNull(json['times']),
       photos: _photoUrlsFrom(json['photos']),
       investorTypes: _investorTypesFrom(json['investorTypeList']),
       pdfDocuments: _pdfDocumentsFrom(json['pdfs']),
@@ -70,6 +76,7 @@ class FundProjectDto {
   final String? scheduledEndDate;
   final String? offeringStartDatetime;
   final String? offeringEndDatetime;
+  final String? offeringMethod;
   final int? investmentUnit;
   final int? maximumInvestmentPerPerson;
   final double? achievementRate;
@@ -79,6 +86,7 @@ class FundProjectDto {
   final int? projectStatus;
   final String? operatingCompany;
   final String? periodType;
+  final int? times;
   final List<String> photos;
   final List<FundProjectInvestorTypeDto> investorTypes;
   final List<FundProjectPdfDocumentDto> pdfDocuments;
@@ -94,6 +102,7 @@ class FundProjectDto {
       scheduledEndDate: scheduledEndDate,
       offeringStartDatetime: offeringStartDatetime,
       offeringEndDatetime: offeringEndDatetime,
+      offeringMethod: offeringMethod,
       investmentUnit: investmentUnit,
       maximumInvestmentPerPerson: maximumInvestmentPerPerson,
       achievementRate: achievementRate,
@@ -103,6 +112,7 @@ class FundProjectDto {
       projectStatus: projectStatus,
       operatingCompany: operatingCompany,
       periodType: periodType,
+      times: times,
       photos: List<String>.unmodifiable(photos),
       investorTypes: List<FundProjectInvestorType>.unmodifiable(
         investorTypes.map((item) => item.toEntity()),

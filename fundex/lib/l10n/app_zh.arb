@@ -208,6 +208,51 @@
   "homeMockActiveFundB": "名古屋市 物流设施 #09",
   "homeMockActiveFundC": "福冈市 住宅基金 #07",
   "homeMockActiveFundD": "札幌市 复合设施基金 #03",
+  "fundListTitle": "基金列表",
+  "fundListFilterAll": "全部",
+  "fundListFilterOperating": "运用中",
+  "fundListFilterOperatingEnded": "运用结束",
+  "fundListFilterOpen": "募集中",
+  "fundListFilterUpcoming": "募集前",
+  "fundListFilterClosed": "募集结束",
+  "fundListFilterCompleted": "募集完成",
+  "fundListFilterFailed": "募集失败",
+  "fundListYieldLabel": "收益率",
+  "fundListPeriodLabel": "运用期间",
+  "fundListMethodLabel": "募集方式",
+  "fundListMethodLottery": "抽选",
+  "fundListMethodUnknown": "未设置",
+  "fundListAppliedAmount": "申请金额 {amount}（{progress}）",
+  "@fundListAppliedAmount": {
+    "placeholders": {
+      "amount": {},
+      "progress": {}
+    }
+  },
+  "fundListOpenStartAt": "募集开始 {start}",
+  "@fundListOpenStartAt": {
+    "placeholders": {
+      "start": {}
+    }
+  },
+  "fundListViewDetail": "查看详情 →",
+  "fundListLoadError": "获取基金列表失败，请重试。",
+  "fundListRetry": "重试",
+  "fundListEmpty": "当前筛选条件下没有基金。",
+  "fundListStatusOperating": "运用中",
+  "fundListStatusOperatingEnded": "运用结束",
+  "fundListStatusOpen": "募集中",
+  "fundListStatusUpcoming": "募集前",
+  "fundListStatusClosed": "募集结束",
+  "fundListStatusCompleted": "募集完成",
+  "fundListStatusFailed": "募集失败",
+  "fundListStatusUnknown": "未设置",
+  "fundListVolume": "Vol. {number}",
+  "@fundListVolume": {
+    "placeholders": {
+      "number": {}
+    }
+  },
   "hotelTabHeadline": "酒店预订模块（框架）",
   "hotelTabSubtitle": "后续在此接入搜索、列表、详情、下单流程。",
   "discussionTabHeadline": "投资讨论板块（框架）",

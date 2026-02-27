@@ -645,6 +645,99 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeMockActiveFundD => 'Sapporo Mixed-Use Fund #03';
 
   @override
+  String get fundListTitle => 'Fund List';
+
+  @override
+  String get fundListFilterAll => 'All';
+
+  @override
+  String get fundListFilterOperating => 'Operating';
+
+  @override
+  String get fundListFilterOperatingEnded => 'Operation Ended';
+
+  @override
+  String get fundListFilterOpen => 'Open';
+
+  @override
+  String get fundListFilterUpcoming => 'Upcoming';
+
+  @override
+  String get fundListFilterClosed => 'Closed';
+
+  @override
+  String get fundListFilterCompleted => 'Completed';
+
+  @override
+  String get fundListFilterFailed => 'Failed';
+
+  @override
+  String get fundListYieldLabel => 'Yield';
+
+  @override
+  String get fundListPeriodLabel => 'Period';
+
+  @override
+  String get fundListMethodLabel => 'Method';
+
+  @override
+  String get fundListMethodLottery => 'Lottery';
+
+  @override
+  String get fundListMethodUnknown => 'Unknown';
+
+  @override
+  String fundListAppliedAmount(Object amount, Object progress) {
+    return 'Applied $amount ($progress)';
+  }
+
+  @override
+  String fundListOpenStartAt(Object start) {
+    return 'Subscription starts $start';
+  }
+
+  @override
+  String get fundListViewDetail => 'View details →';
+
+  @override
+  String get fundListLoadError => 'Failed to load funds. Please try again.';
+
+  @override
+  String get fundListRetry => 'Retry';
+
+  @override
+  String get fundListEmpty => 'No funds found for this filter.';
+
+  @override
+  String get fundListStatusOperating => 'Operating';
+
+  @override
+  String get fundListStatusOperatingEnded => 'Operation Ended';
+
+  @override
+  String get fundListStatusOpen => 'Open';
+
+  @override
+  String get fundListStatusUpcoming => 'Upcoming';
+
+  @override
+  String get fundListStatusClosed => 'Closed';
+
+  @override
+  String get fundListStatusCompleted => 'Completed';
+
+  @override
+  String get fundListStatusFailed => 'Failed';
+
+  @override
+  String get fundListStatusUnknown => 'Unknown';
+
+  @override
+  String fundListVolume(Object number) {
+    return 'Vol. $number';
+  }
+
+  @override
   String get hotelTabHeadline => 'Hotel Booking Module (Framework)';
 
   @override

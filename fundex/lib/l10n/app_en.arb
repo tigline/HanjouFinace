@@ -208,6 +208,51 @@
   "homeMockActiveFundB": "Nagoya Logistics Facility #09",
   "homeMockActiveFundC": "Fukuoka Residence Fund #07",
   "homeMockActiveFundD": "Sapporo Mixed-Use Fund #03",
+  "fundListTitle": "Fund List",
+  "fundListFilterAll": "All",
+  "fundListFilterOperating": "Operating",
+  "fundListFilterOperatingEnded": "Operation Ended",
+  "fundListFilterOpen": "Open",
+  "fundListFilterUpcoming": "Upcoming",
+  "fundListFilterClosed": "Closed",
+  "fundListFilterCompleted": "Completed",
+  "fundListFilterFailed": "Failed",
+  "fundListYieldLabel": "Yield",
+  "fundListPeriodLabel": "Period",
+  "fundListMethodLabel": "Method",
+  "fundListMethodLottery": "Lottery",
+  "fundListMethodUnknown": "Unknown",
+  "fundListAppliedAmount": "Applied {amount} ({progress})",
+  "@fundListAppliedAmount": {
+    "placeholders": {
+      "amount": {},
+      "progress": {}
+    }
+  },
+  "fundListOpenStartAt": "Subscription starts {start}",
+  "@fundListOpenStartAt": {
+    "placeholders": {
+      "start": {}
+    }
+  },
+  "fundListViewDetail": "View details →",
+  "fundListLoadError": "Failed to load funds. Please try again.",
+  "fundListRetry": "Retry",
+  "fundListEmpty": "No funds found for this filter.",
+  "fundListStatusOperating": "Operating",
+  "fundListStatusOperatingEnded": "Operation Ended",
+  "fundListStatusOpen": "Open",
+  "fundListStatusUpcoming": "Upcoming",
+  "fundListStatusClosed": "Closed",
+  "fundListStatusCompleted": "Completed",
+  "fundListStatusFailed": "Failed",
+  "fundListStatusUnknown": "Unknown",
+  "fundListVolume": "Vol. {number}",
+  "@fundListVolume": {
+    "placeholders": {
+      "number": {}
+    }
+  },
   "hotelTabHeadline": "Hotel Booking Module (Framework)",
   "hotelTabSubtitle": "Search, list, detail, and booking flows will be integrated here next.",
   "discussionTabHeadline": "Investment Discussion Board (Framework)",

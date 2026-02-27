@@ -208,6 +208,51 @@
   "homeMockActiveFundB": "名古屋市 物流施設 #09",
   "homeMockActiveFundC": "福岡市 レジデンスファンド #07",
   "homeMockActiveFundD": "札幌市 複合施設ファンド #03",
+  "fundListTitle": "ファンド一覧",
+  "fundListFilterAll": "すべて",
+  "fundListFilterOperating": "運用中",
+  "fundListFilterOperatingEnded": "運用終了",
+  "fundListFilterOpen": "募集中",
+  "fundListFilterUpcoming": "募集前",
+  "fundListFilterClosed": "募集終了",
+  "fundListFilterCompleted": "募集完成",
+  "fundListFilterFailed": "募集失敗",
+  "fundListYieldLabel": "利回り",
+  "fundListPeriodLabel": "運用期間",
+  "fundListMethodLabel": "募集方式",
+  "fundListMethodLottery": "抽選",
+  "fundListMethodUnknown": "未設定",
+  "fundListAppliedAmount": "応募金額 {amount}（{progress}）",
+  "@fundListAppliedAmount": {
+    "placeholders": {
+      "amount": {},
+      "progress": {}
+    }
+  },
+  "fundListOpenStartAt": "募集開始 {start}〜",
+  "@fundListOpenStartAt": {
+    "placeholders": {
+      "start": {}
+    }
+  },
+  "fundListViewDetail": "詳細を確認 →",
+  "fundListLoadError": "ファンド一覧の取得に失敗しました。再度お試しください。",
+  "fundListRetry": "再試行",
+  "fundListEmpty": "この条件に一致するファンドがありません。",
+  "fundListStatusOperating": "運用中",
+  "fundListStatusOperatingEnded": "運用終了",
+  "fundListStatusOpen": "募集中",
+  "fundListStatusUpcoming": "募集前",
+  "fundListStatusClosed": "募集終了",
+  "fundListStatusCompleted": "募集完成",
+  "fundListStatusFailed": "募集失敗",
+  "fundListStatusUnknown": "未設定",
+  "fundListVolume": "Vol. {number}",
+  "@fundListVolume": {
+    "placeholders": {
+      "number": {}
+    }
+  },
   "hotelTabHeadline": "ホテル予約モジュール（枠組み）",
   "hotelTabSubtitle": "今後ここに検索・一覧・詳細・予約フローを実装します。",
   "discussionTabHeadline": "投資ディスカッション掲示板（枠組み）",

@@ -1258,6 +1258,180 @@ abstract class AppLocalizations {
   /// **'Sapporo Mixed-Use Fund #03'**
   String get homeMockActiveFundD;
 
+  /// No description provided for @fundListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund List'**
+  String get fundListTitle;
+
+  /// No description provided for @fundListFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get fundListFilterAll;
+
+  /// No description provided for @fundListFilterOperating.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating'**
+  String get fundListFilterOperating;
+
+  /// No description provided for @fundListFilterOperatingEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation Ended'**
+  String get fundListFilterOperatingEnded;
+
+  /// No description provided for @fundListFilterOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get fundListFilterOpen;
+
+  /// No description provided for @fundListFilterUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get fundListFilterUpcoming;
+
+  /// No description provided for @fundListFilterClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get fundListFilterClosed;
+
+  /// No description provided for @fundListFilterCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get fundListFilterCompleted;
+
+  /// No description provided for @fundListFilterFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get fundListFilterFailed;
+
+  /// No description provided for @fundListYieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yield'**
+  String get fundListYieldLabel;
+
+  /// No description provided for @fundListPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get fundListPeriodLabel;
+
+  /// No description provided for @fundListMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Method'**
+  String get fundListMethodLabel;
+
+  /// No description provided for @fundListMethodLottery.
+  ///
+  /// In en, this message translates to:
+  /// **'Lottery'**
+  String get fundListMethodLottery;
+
+  /// No description provided for @fundListMethodUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get fundListMethodUnknown;
+
+  /// No description provided for @fundListAppliedAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied {amount} ({progress})'**
+  String fundListAppliedAmount(Object amount, Object progress);
+
+  /// No description provided for @fundListOpenStartAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription starts {start}'**
+  String fundListOpenStartAt(Object start);
+
+  /// No description provided for @fundListViewDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'View details →'**
+  String get fundListViewDetail;
+
+  /// No description provided for @fundListLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load funds. Please try again.'**
+  String get fundListLoadError;
+
+  /// No description provided for @fundListRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get fundListRetry;
+
+  /// No description provided for @fundListEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No funds found for this filter.'**
+  String get fundListEmpty;
+
+  /// No description provided for @fundListStatusOperating.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating'**
+  String get fundListStatusOperating;
+
+  /// No description provided for @fundListStatusOperatingEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation Ended'**
+  String get fundListStatusOperatingEnded;
+
+  /// No description provided for @fundListStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get fundListStatusOpen;
+
+  /// No description provided for @fundListStatusUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get fundListStatusUpcoming;
+
+  /// No description provided for @fundListStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get fundListStatusClosed;
+
+  /// No description provided for @fundListStatusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get fundListStatusCompleted;
+
+  /// No description provided for @fundListStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get fundListStatusFailed;
+
+  /// No description provided for @fundListStatusUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get fundListStatusUnknown;
+
+  /// No description provided for @fundListVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Vol. {number}'**
+  String fundListVolume(Object number);
+
   /// No description provided for @hotelTabHeadline.
   ///
   /// In en, this message translates to:

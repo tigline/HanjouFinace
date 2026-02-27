@@ -596,6 +596,99 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeMockActiveFundD => '札幌市 复合设施基金 #03';
 
   @override
+  String get fundListTitle => '基金列表';
+
+  @override
+  String get fundListFilterAll => '全部';
+
+  @override
+  String get fundListFilterOperating => '运用中';
+
+  @override
+  String get fundListFilterOperatingEnded => '运用结束';
+
+  @override
+  String get fundListFilterOpen => '募集中';
+
+  @override
+  String get fundListFilterUpcoming => '募集前';
+
+  @override
+  String get fundListFilterClosed => '募集结束';
+
+  @override
+  String get fundListFilterCompleted => '募集完成';
+
+  @override
+  String get fundListFilterFailed => '募集失败';
+
+  @override
+  String get fundListYieldLabel => '收益率';
+
+  @override
+  String get fundListPeriodLabel => '运用期间';
+
+  @override
+  String get fundListMethodLabel => '募集方式';
+
+  @override
+  String get fundListMethodLottery => '抽选';
+
+  @override
+  String get fundListMethodUnknown => '未设置';
+
+  @override
+  String fundListAppliedAmount(Object amount, Object progress) {
+    return '申请金额 $amount（$progress）';
+  }
+
+  @override
+  String fundListOpenStartAt(Object start) {
+    return '募集开始 $start';
+  }
+
+  @override
+  String get fundListViewDetail => '查看详情 →';
+
+  @override
+  String get fundListLoadError => '获取基金列表失败，请重试。';
+
+  @override
+  String get fundListRetry => '重试';
+
+  @override
+  String get fundListEmpty => '当前筛选条件下没有基金。';
+
+  @override
+  String get fundListStatusOperating => '运用中';
+
+  @override
+  String get fundListStatusOperatingEnded => '运用结束';
+
+  @override
+  String get fundListStatusOpen => '募集中';
+
+  @override
+  String get fundListStatusUpcoming => '募集前';
+
+  @override
+  String get fundListStatusClosed => '募集结束';
+
+  @override
+  String get fundListStatusCompleted => '募集完成';
+
+  @override
+  String get fundListStatusFailed => '募集失败';
+
+  @override
+  String get fundListStatusUnknown => '未设置';
+
+  @override
+  String fundListVolume(Object number) {
+    return 'Vol. $number';
+  }
+
+  @override
   String get hotelTabHeadline => '酒店预订模块（框架）';
 
   @override

@@ -12,6 +12,7 @@ class FundProject {
     this.scheduledEndDate,
     this.offeringStartDatetime,
     this.offeringEndDatetime,
+    this.offeringMethod,
     this.investmentUnit,
     this.maximumInvestmentPerPerson,
     this.achievementRate,
@@ -21,6 +22,7 @@ class FundProject {
     this.projectStatus,
     this.operatingCompany,
     this.periodType,
+    this.times,
     this.photos = const <String>[],
     this.investorTypes = const <FundProjectInvestorType>[],
     this.pdfDocuments = const <FundProjectPdfDocument>[],
@@ -35,6 +37,7 @@ class FundProject {
   final String? scheduledEndDate;
   final String? offeringStartDatetime;
   final String? offeringEndDatetime;
+  final String? offeringMethod;
   final int? investmentUnit;
   final int? maximumInvestmentPerPerson;
   final double? achievementRate;
@@ -44,6 +47,7 @@ class FundProject {
   final int? projectStatus;
   final String? operatingCompany;
   final String? periodType;
+  final int? times;
   final List<String> photos;
   final List<FundProjectInvestorType> investorTypes;
   final List<FundProjectPdfDocument> pdfDocuments;
