@@ -1,0 +1,30 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../data/datasources/fund_project_remote_data_source.dart';
+import '../../data/repositories/fund_project_repository_impl.dart';
+import '../../domain/entities/fund_project.dart';
+import '../../domain/repositories/fund_project_repository.dart';
+import '../../domain/usecases/fetch_fund_project_list_usecase.dart';
+
+final fundProjectRemoteDataSourceProvider =
+    Provider<FundProjectRemoteDataSource>((ref) {
+      return FundProjectRemoteDataSourceImpl(ref.watch(coreHttpClientProvider));
+    });
+
+final fundProjectRepositoryProvider = Provider<FundProjectRepository>((ref) {
+  return FundProjectRepositoryImpl(
+    remote: ref.watch(fundProjectRemoteDataSourceProvider),
+  );
+});
+
+final fetchFundProjectListUseCaseProvider =
+    Provider<FetchFundProjectListUseCase>((ref) {
+      return FetchFundProjectListUseCase(
+        ref.watch(fundProjectRepositoryProvider),
+      );
+    });
+
+final fundProjectListProvider = FutureProvider<List<FundProject>>((ref) async {
+  return ref.watch(fetchFundProjectListUseCaseProvider).call();
+});
