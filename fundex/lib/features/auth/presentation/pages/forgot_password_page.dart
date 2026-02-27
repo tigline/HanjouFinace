@@ -156,7 +156,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final travelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
+    final travelTheme = Theme.of(context).extension<AppFTKTheme>();
     return AuthVisualScaffold(
       pageKey: const Key('forgot_password_page'),
       title: l10n.forgotPasswordTitle,
@@ -171,7 +171,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HotelSurfacePanelCard(
+          SurfacePanelCard(
             title: l10n.forgotPasswordTitle,
             subtitle: l10n.forgotPasswordSubtitle,
             leading: Container(
@@ -190,7 +190,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                HotelEmailTextField(
+                EmailTextField(
                   controller: _accountController,
                   inputKey: const Key('forgot_account_input'),
                   labelText: l10n.forgotPasswordAccountLabel,
@@ -199,7 +199,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                   onChanged: (_) => setState(() {}),
                 ),
                 const SizedBox(height: UiTokens.spacing12),
-                HotelVerificationCodeField(
+                VerificationCodeField(
                   controller: _codeController,
                   labelText: l10n.forgotPasswordCodeLabel,
                   hintText: l10n.forgotPasswordCodeLabel,
@@ -217,14 +217,14 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          // HotelSurfacePanelCard(
+          // SurfacePanelCard(
           //   title: l10n.loginFootnote,
           //   subtitle: l10n.forgotPasswordSendCodeSuccess,
           //   padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
           //   child: Column(
           //     crossAxisAlignment: CrossAxisAlignment.start,
           //     children: <Widget>[
-          //       HotelListItemCard(
+          //       ListItemCard(
           //         title: l10n.forgotPasswordTitle,
           //         location: l10n.forgotPasswordAccountLabel,
           //         subtitle: l10n.forgotPasswordCodeLabel,
@@ -240,7 +240,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           //   ),
           // ),
           // const SizedBox(height: UiTokens.spacing16),
-          HotelPrimaryCtaButton(
+          PrimaryCtaButton(
             key: const Key('forgot_submit_button'),
             label: l10n.forgotPasswordSubmit,
             isLoading: _isSubmitting,

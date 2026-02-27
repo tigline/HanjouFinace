@@ -135,19 +135,27 @@ Future<void> _pumpApp(WidgetTester tester) async {
     ),
   );
   await tester.pump();
-  await tester.pump(const Duration(milliseconds: 220));
+  await tester.pump(const Duration(milliseconds: 2600));
+  await tester.pumpAndSettle();
 }
 
 void main() {
-  group('Auth entry navigation', () {
-    testWidgets('navigates from login to register and back', (tester) async {
+  group('Auth login navigation', () {
+    testWidgets('navigates from login to register flow and back', (
+      tester,
+    ) async {
       await _pumpApp(tester);
-      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
+      expect(find.byKey(const Key('login_page')), findsOneWidget);
+
+      await tester.ensureVisible(find.byKey(const Key('to_register_button')));
+      await tester.tap(find.byKey(const Key('to_register_button')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('register_entry_page')), findsOneWidget);
 
       await tester.ensureVisible(
-        find.byKey(const Key('auth_before_register_button')),
+        find.byKey(const Key('register_entry_email_button')),
       );
-      await tester.tap(find.byKey(const Key('auth_before_register_button')));
+      await tester.tap(find.byKey(const Key('register_entry_email_button')));
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('register_email_page')), findsOneWidget);
 
@@ -158,21 +166,22 @@ void main() {
         find.byKey(const Key('register_method_back_entry_button')),
       );
       await tester.pumpAndSettle();
-      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
+      expect(find.byKey(const Key('register_entry_page')), findsOneWidget);
+
+      await tester.ensureVisible(
+        find.byKey(const Key('register_entry_back_login_button')),
+      );
+      await tester.tap(
+        find.byKey(const Key('register_entry_back_login_button')),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('login_page')), findsOneWidget);
     });
 
     testWidgets('navigates from login to forgot password and back', (
       tester,
     ) async {
       await _pumpApp(tester);
-      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
-
-      await tester.ensureVisible(
-        find.byKey(const Key('auth_before_member_login_button')),
-      );
-      await tester.tap(find.byKey(const Key('auth_before_member_login_button')));
-      await tester.pumpAndSettle();
-
       expect(find.byKey(const Key('login_page')), findsOneWidget);
       await tester.ensureVisible(
         find.byKey(const Key('to_forgot_password_button')),
@@ -186,7 +195,7 @@ void main() {
       );
       await tester.tap(find.byKey(const Key('forgot_back_login_button')));
       await tester.pumpAndSettle();
-      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
+      expect(find.byKey(const Key('login_page')), findsOneWidget);
     });
   });
 }

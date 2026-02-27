@@ -22,16 +22,13 @@ class AuthVisualScaffold extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     final authVisualTheme = theme.extension<AppAuthVisualTheme>();
-    final travelTheme = theme.extension<AppTravelHotelTheme>();
+    final travelTheme = theme.extension<AppFTKTheme>();
 
     assert(
       authVisualTheme != null,
       'AppAuthVisualTheme must be configured in theme',
     );
-    assert(
-      travelTheme != null,
-      'AppTravelHotelTheme must be configured in theme',
-    );
+    assert(travelTheme != null, 'AppFTKTheme must be configured in theme');
 
     final authTheme = authVisualTheme!;
     final hotelTheme = travelTheme!;
@@ -89,7 +86,7 @@ class AuthVisualScaffold extends StatelessWidget {
                           children: <Widget>[
                             Text('FUNDEX', style: authTheme.brandLabelStyle),
                             const Spacer(),
-                            HotelPillChip(
+                            PillChip(
                               backgroundColor: hotelTheme.primaryButtonColor
                                   .withValues(alpha: isDark ? 0.18 : 0.12),
                               padding: const EdgeInsets.symmetric(
@@ -115,7 +112,7 @@ class AuthVisualScaffold extends StatelessWidget {
                         //     clipBehavior: Clip.none,
                         //     children: <Widget>[
                         //       Positioned.fill(
-                        //         child: HotelDealBannerCard(
+                        //         child: DealBannerCard(
                         //           title: 'BaLi Motel Vung Tau',
                         //           location: 'Indonesia',
                         //           priceText: '\$580/night',
@@ -127,7 +124,7 @@ class AuthVisualScaffold extends StatelessWidget {
                         //       Positioned(
                         //         right: 12,
                         //         bottom: -16,
-                        //         child: HotelPhotoCountBadge(
+                        //         child: PhotoCountBadge(
                         //           label: 'Hotel Style',
                         //         ),
                         //       ),

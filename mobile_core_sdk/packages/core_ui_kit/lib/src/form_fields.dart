@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'app_theme_extensions.dart';
-import 'hotel_ui_buttons.dart';
+import 'ui_buttons.dart';
 import 'ui_tokens.dart';
 
-class HotelEmailTextField extends StatelessWidget {
-  const HotelEmailTextField({
+class EmailTextField extends StatelessWidget {
+  const EmailTextField({
     super.key,
     required this.controller,
     required this.labelText,
@@ -32,7 +32,7 @@ class HotelEmailTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _HotelBaseInputField(
+    return _BaseInputField(
       fieldKey: inputKey,
       controller: controller,
       labelText: labelText,
@@ -47,8 +47,8 @@ class HotelEmailTextField extends StatelessWidget {
   }
 }
 
-class HotelPhoneTextField extends StatelessWidget {
-  const HotelPhoneTextField({
+class PhoneTextField extends StatelessWidget {
+  const PhoneTextField({
     super.key,
     required this.controller,
     required this.labelText,
@@ -73,7 +73,7 @@ class HotelPhoneTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _HotelBaseInputField(
+    return _BaseInputField(
       fieldKey: inputKey,
       controller: controller,
       labelText: labelText,
@@ -88,8 +88,8 @@ class HotelPhoneTextField extends StatelessWidget {
   }
 }
 
-class HotelPasswordTextField extends StatefulWidget {
-  const HotelPasswordTextField({
+class PasswordTextField extends StatefulWidget {
+  const PasswordTextField({
     super.key,
     required this.controller,
     required this.labelText,
@@ -113,16 +113,16 @@ class HotelPasswordTextField extends StatefulWidget {
   final Iterable<String> autofillHints;
 
   @override
-  State<HotelPasswordTextField> createState() => _HotelPasswordTextFieldState();
+  State<PasswordTextField> createState() => _PasswordTextFieldState();
 }
 
-class _HotelPasswordTextFieldState extends State<HotelPasswordTextField> {
+class _PasswordTextFieldState extends State<PasswordTextField> {
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
-    return _HotelBaseInputField(
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
+    return _BaseInputField(
       fieldKey: widget.inputKey,
       controller: widget.controller,
       labelText: widget.labelText,
@@ -151,8 +151,8 @@ class _HotelPasswordTextFieldState extends State<HotelPasswordTextField> {
   }
 }
 
-class HotelVerificationCodeField extends StatelessWidget {
-  const HotelVerificationCodeField({
+class VerificationCodeField extends StatelessWidget {
+  const VerificationCodeField({
     super.key,
     required this.controller,
     required this.labelText,
@@ -184,13 +184,13 @@ class HotelVerificationCodeField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _HotelFieldLabel(labelText: labelText),
+        _FieldLabel(labelText: labelText),
         const SizedBox(height: UiTokens.spacing8),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
-              child: _HotelBaseInputField(
+              child: _BaseInputField(
                 fieldKey: inputKey,
                 controller: controller,
                 labelText: labelText,
@@ -204,7 +204,7 @@ class HotelVerificationCodeField extends StatelessWidget {
               ),
             ),
             const SizedBox(width: UiTokens.spacing12),
-            HotelCompactActionButton(
+            CompactActionButton(
               key: sendButtonKey,
               label: sendCodeLabel,
               width: buttonWidth,
@@ -218,8 +218,8 @@ class HotelVerificationCodeField extends StatelessWidget {
   }
 }
 
-class _HotelBaseInputField extends StatelessWidget {
-  const _HotelBaseInputField({
+class _BaseInputField extends StatelessWidget {
+  const _BaseInputField({
     this.fieldKey,
     required this.controller,
     required this.labelText,
@@ -252,7 +252,7 @@ class _HotelBaseInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
     final isDark = theme.brightness == Brightness.dark;
     final surfaceColor = theme.colorScheme.surface;
     final fillColor = isDark
@@ -271,7 +271,7 @@ class _HotelBaseInputField extends StatelessWidget {
       fontWeight: FontWeight.w600,
     );
 
-    final inputShell = _HotelInputShell(
+    final inputShell = _InputShell(
       enabled: enabled,
       fillColor: fillColor,
       glowColor: hotelTheme.primaryButtonColor.withValues(alpha: 0.16),
@@ -338,7 +338,7 @@ class _HotelBaseInputField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _HotelFieldLabel(labelText: labelText),
+        _FieldLabel(labelText: labelText),
         const SizedBox(height: UiTokens.spacing8),
         inputShell,
       ],
@@ -346,8 +346,8 @@ class _HotelBaseInputField extends StatelessWidget {
   }
 }
 
-class _HotelFieldLabel extends StatelessWidget {
-  const _HotelFieldLabel({required this.labelText});
+class _FieldLabel extends StatelessWidget {
+  const _FieldLabel({required this.labelText});
 
   final String labelText;
 
@@ -364,8 +364,8 @@ class _HotelFieldLabel extends StatelessWidget {
   }
 }
 
-class _HotelInputShell extends StatefulWidget {
-  const _HotelInputShell({
+class _InputShell extends StatefulWidget {
+  const _InputShell({
     required this.child,
     required this.fillColor,
     required this.glowColor,
@@ -386,10 +386,10 @@ class _HotelInputShell extends StatefulWidget {
   final bool enabled;
 
   @override
-  State<_HotelInputShell> createState() => _HotelInputShellState();
+  State<_InputShell> createState() => _InputShellState();
 }
 
-class _HotelInputShellState extends State<_HotelInputShell> {
+class _InputShellState extends State<_InputShell> {
   bool _isFocused = false;
 
   @override

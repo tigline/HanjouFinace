@@ -285,7 +285,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final travelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
+    final travelTheme = Theme.of(context).extension<AppFTKTheme>();
 
     return AuthVisualScaffold(
       pageKey: const Key('register_page'),
@@ -301,7 +301,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          HotelSurfacePanelCard(
+          SurfacePanelCard(
             title: l10n.registerModeTitle,
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
             child: Row(
@@ -329,7 +329,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelSurfacePanelCard(
+          SurfacePanelCard(
             title: l10n.registerAccountLabel,
             leading: Container(
               width: 38,
@@ -350,7 +350,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 (_isEmailMode
-                        ? HotelEmailTextField(
+                        ? EmailTextField(
                             controller: _accountController,
                             inputKey: const Key('register_account_input'),
                             labelText: l10n.registerEmailAccountLabel,
@@ -358,7 +358,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             leadingIcon: Icons.alternate_email_rounded,
                             onChanged: (_) => setState(() {}),
                           )
-                        : HotelPhoneTextField(
+                        : PhoneTextField(
                             controller: _accountController,
                             inputKey: const Key('register_account_input'),
                             labelText: l10n.registerMobileAccountLabel,
@@ -368,7 +368,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ))
                     as Widget,
                 const SizedBox(height: UiTokens.spacing12),
-                HotelVerificationCodeField(
+                VerificationCodeField(
                   controller: _codeController,
                   labelText: l10n.registerCodeLabel,
                   hintText: l10n.registerCodeLabel,
@@ -384,7 +384,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelSurfacePanelCard(
+          SurfacePanelCard(
             title: l10n.registerContactLabel,
             subtitle: _isEmailMode
                 ? l10n.registerContactHelperEmail
@@ -408,14 +408,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 (_isEmailMode
-                        ? HotelPhoneTextField(
+                        ? PhoneTextField(
                             controller: _contactController,
                             inputKey: const Key('register_contact_input'),
                             labelText: l10n.registerContactLabel,
                             hintText: l10n.registerContactHelperEmail,
                             onChanged: (_) => setState(() {}),
                           )
-                        : HotelEmailTextField(
+                        : EmailTextField(
                             controller: _contactController,
                             inputKey: const Key('register_contact_input'),
                             labelText: l10n.registerContactLabel,
@@ -489,7 +489,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             ),
           ),
           const SizedBox(height: UiTokens.spacing16),
-          HotelPrimaryCtaButton(
+          PrimaryCtaButton(
             key: const Key('register_submit_button'),
             label: l10n.registerSubmit,
             isLoading: _isSubmitting,
@@ -519,7 +519,7 @@ class _RegisterChannelChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final travelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final travelTheme = theme.extension<AppFTKTheme>()!;
     final radius = BorderRadius.circular(16);
 
     return AnimatedContainer(

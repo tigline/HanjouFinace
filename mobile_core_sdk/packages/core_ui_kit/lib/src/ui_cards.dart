@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'app_theme_extensions.dart';
-import 'hotel_ui_buttons.dart';
+import 'ui_buttons.dart';
 import 'ui_tokens.dart';
 
-class HotelImageCard extends StatelessWidget {
-  const HotelImageCard({
+class ImageCard extends StatelessWidget {
+  const ImageCard({
     required this.title,
     required this.location,
     required this.priceText,
@@ -30,7 +30,7 @@ class HotelImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     final radius = BorderRadius.circular(hotelTheme.cardCornerRadius);
 
     return SizedBox(
@@ -41,7 +41,7 @@ class HotelImageCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            background ?? const _HotelPlaceholderArtwork(),
+            background ?? const _PlaceholderArtwork(),
             Align(
               alignment: Alignment.bottomCenter,
               child: IgnorePointer(
@@ -109,7 +109,7 @@ class HotelImageCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      _HotelRatingInline(ratingText: ratingText),
+                      _RatingInline(ratingText: ratingText),
                     ],
                   ),
                 ],
@@ -122,8 +122,8 @@ class HotelImageCard extends StatelessWidget {
   }
 }
 
-class HotelDealBannerCard extends StatelessWidget {
-  const HotelDealBannerCard({
+class DealBannerCard extends StatelessWidget {
+  const DealBannerCard({
     required this.title,
     required this.location,
     required this.priceText,
@@ -146,7 +146,7 @@ class HotelDealBannerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     final radius = BorderRadius.circular(hotelTheme.cardCornerRadius);
 
     return SizedBox(
@@ -158,7 +158,7 @@ class HotelDealBannerCard extends StatelessWidget {
           fit: StackFit.expand,
           children: <Widget>[
             background ??
-                const _HotelPlaceholderArtwork(
+                const _PlaceholderArtwork(
                   colors: <Color>[
                     Color(0xFF77927B),
                     Color(0xFF3D6D57),
@@ -186,7 +186,7 @@ class HotelDealBannerCard extends StatelessWidget {
               Positioned(
                 top: 12,
                 left: 12,
-                child: HotelPillChip(
+                child: PillChip(
                   backgroundColor: hotelTheme.discountChipBackgroundColor,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -245,7 +245,7 @@ class HotelDealBannerCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          _HotelRatingInline(ratingText: ratingText),
+                          _RatingInline(ratingText: ratingText),
                           const SizedBox(height: 6),
                           Text(
                             priceText,
@@ -265,15 +265,15 @@ class HotelDealBannerCard extends StatelessWidget {
   }
 }
 
-class HotelPhotoCountBadge extends StatelessWidget {
-  const HotelPhotoCountBadge({required this.label, super.key});
+class PhotoCountBadge extends StatelessWidget {
+  const PhotoCountBadge({required this.label, super.key});
 
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
-    return HotelPillChip(
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
+    return PillChip(
       backgroundColor: hotelTheme.photoCountChipBackgroundColor,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Text(label, style: hotelTheme.photoCountChipTextStyle),
@@ -281,8 +281,8 @@ class HotelPhotoCountBadge extends StatelessWidget {
   }
 }
 
-class HotelSurfacePanelCard extends StatelessWidget {
-  const HotelSurfacePanelCard({
+class SurfacePanelCard extends StatelessWidget {
+  const SurfacePanelCard({
     super.key,
     required this.child,
     this.title,
@@ -302,7 +302,7 @@ class HotelSurfacePanelCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
     final isDark = theme.brightness == Brightness.dark;
     final titleStyle = (theme.textTheme.titleMedium ?? const TextStyle())
         .copyWith(fontWeight: FontWeight.w700);
@@ -369,8 +369,8 @@ class HotelSurfacePanelCard extends StatelessWidget {
   }
 }
 
-class HotelListItemCard extends StatelessWidget {
-  const HotelListItemCard({
+class ListItemCard extends StatelessWidget {
+  const ListItemCard({
     super.key,
     required this.title,
     required this.location,
@@ -396,7 +396,7 @@ class HotelListItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
     final isDark = theme.brightness == Brightness.dark;
     final cardRadius = BorderRadius.circular(UiTokens.radius20);
 
@@ -431,7 +431,7 @@ class HotelListItemCard extends StatelessWidget {
                     height: 88,
                     child:
                         image ??
-                        const _HotelPlaceholderArtwork(
+                        const _PlaceholderArtwork(
                           colors: <Color>[
                             Color(0xFFE8F6FF),
                             Color(0xFF9DD8FF),
@@ -460,7 +460,7 @@ class HotelListItemCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: UiTokens.spacing8),
-                          _HotelInlineRatingPill(ratingText: ratingText),
+                          _InlineRatingPill(ratingText: ratingText),
                         ],
                       ),
                       const SizedBox(height: UiTokens.spacing8),
@@ -531,8 +531,8 @@ class HotelListItemCard extends StatelessWidget {
   }
 }
 
-class HotelDetailSummaryCard extends StatelessWidget {
-  const HotelDetailSummaryCard({
+class DetailSummaryCard extends StatelessWidget {
+  const DetailSummaryCard({
     super.key,
     required this.title,
     required this.priceText,
@@ -554,9 +554,9 @@ class HotelDetailSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
 
-    return HotelSurfacePanelCard(
+    return SurfacePanelCard(
       leading: Container(
         width: 38,
         height: 38,
@@ -572,7 +572,7 @@ class HotelDetailSummaryCard extends StatelessWidget {
       ),
       title: title,
       subtitle: location,
-      trailing: _HotelInlineRatingPill(ratingText: ratingText),
+      trailing: _InlineRatingPill(ratingText: ratingText),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -601,7 +601,7 @@ class HotelDetailSummaryCard extends StatelessWidget {
               runSpacing: UiTokens.spacing8,
               children: tags
                   .map(
-                    (String tag) => HotelPillChip(
+                    (String tag) => PillChip(
                       backgroundColor: hotelTheme.primaryButtonColor.withValues(
                         alpha: 0.10,
                       ),
@@ -633,15 +633,15 @@ class HotelDetailSummaryCard extends StatelessWidget {
   }
 }
 
-class _HotelInlineRatingPill extends StatelessWidget {
-  const _HotelInlineRatingPill({required this.ratingText});
+class _InlineRatingPill extends StatelessWidget {
+  const _InlineRatingPill({required this.ratingText});
 
   final String ratingText;
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
-    return HotelPillChip(
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
+    return PillChip(
       backgroundColor: hotelTheme.primaryButtonColor.withValues(alpha: 0.10),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       borderRadius: BorderRadius.circular(12),
@@ -669,14 +669,14 @@ class _HotelInlineRatingPill extends StatelessWidget {
   }
 }
 
-class _HotelRatingInline extends StatelessWidget {
-  const _HotelRatingInline({required this.ratingText});
+class _RatingInline extends StatelessWidget {
+  const _RatingInline({required this.ratingText});
 
   final String ratingText;
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -688,8 +688,8 @@ class _HotelRatingInline extends StatelessWidget {
   }
 }
 
-class _HotelPlaceholderArtwork extends StatelessWidget {
-  const _HotelPlaceholderArtwork({
+class _PlaceholderArtwork extends StatelessWidget {
+  const _PlaceholderArtwork({
     this.colors = const <Color>[
       Color(0xFFD2E8FF),
       Color(0xFF79C8FF),

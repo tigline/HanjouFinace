@@ -17,6 +17,10 @@ List<Color> _lerpColorList(List<Color> a, List<Color> b, double t) {
 class AppAuthVisualTheme extends ThemeExtension<AppAuthVisualTheme> {
   const AppAuthVisualTheme({
     required this.backgroundGradientColors,
+    required this.loginHeroGradientColors,
+    required this.loginHeroLogoGradientColors,
+    required this.loginHeroLogoShadowColor,
+    required this.loginHeroForegroundColor,
     required this.orbPrimary,
     required this.orbSecondary,
     required this.orbTertiary,
@@ -28,6 +32,10 @@ class AppAuthVisualTheme extends ThemeExtension<AppAuthVisualTheme> {
   });
 
   final List<Color> backgroundGradientColors;
+  final List<Color> loginHeroGradientColors;
+  final List<Color> loginHeroLogoGradientColors;
+  final Color loginHeroLogoShadowColor;
+  final Color loginHeroForegroundColor;
   final Color orbPrimary;
   final Color orbSecondary;
   final Color orbTertiary;
@@ -40,6 +48,10 @@ class AppAuthVisualTheme extends ThemeExtension<AppAuthVisualTheme> {
   @override
   AppAuthVisualTheme copyWith({
     List<Color>? backgroundGradientColors,
+    List<Color>? loginHeroGradientColors,
+    List<Color>? loginHeroLogoGradientColors,
+    Color? loginHeroLogoShadowColor,
+    Color? loginHeroForegroundColor,
     Color? orbPrimary,
     Color? orbSecondary,
     Color? orbTertiary,
@@ -52,6 +64,14 @@ class AppAuthVisualTheme extends ThemeExtension<AppAuthVisualTheme> {
     return AppAuthVisualTheme(
       backgroundGradientColors:
           backgroundGradientColors ?? this.backgroundGradientColors,
+      loginHeroGradientColors:
+          loginHeroGradientColors ?? this.loginHeroGradientColors,
+      loginHeroLogoGradientColors:
+          loginHeroLogoGradientColors ?? this.loginHeroLogoGradientColors,
+      loginHeroLogoShadowColor:
+          loginHeroLogoShadowColor ?? this.loginHeroLogoShadowColor,
+      loginHeroForegroundColor:
+          loginHeroForegroundColor ?? this.loginHeroForegroundColor,
       orbPrimary: orbPrimary ?? this.orbPrimary,
       orbSecondary: orbSecondary ?? this.orbSecondary,
       orbTertiary: orbTertiary ?? this.orbTertiary,
@@ -76,6 +96,26 @@ class AppAuthVisualTheme extends ThemeExtension<AppAuthVisualTheme> {
       backgroundGradientColors: _lerpColorList(
         backgroundGradientColors,
         other.backgroundGradientColors,
+        t,
+      ),
+      loginHeroGradientColors: _lerpColorList(
+        loginHeroGradientColors,
+        other.loginHeroGradientColors,
+        t,
+      ),
+      loginHeroLogoGradientColors: _lerpColorList(
+        loginHeroLogoGradientColors,
+        other.loginHeroLogoGradientColors,
+        t,
+      ),
+      loginHeroLogoShadowColor: _lerpColor(
+        loginHeroLogoShadowColor,
+        other.loginHeroLogoShadowColor,
+        t,
+      ),
+      loginHeroForegroundColor: _lerpColor(
+        loginHeroForegroundColor,
+        other.loginHeroForegroundColor,
         t,
       ),
       orbPrimary: _lerpColor(orbPrimary, other.orbPrimary, t),
@@ -103,8 +143,8 @@ class AppAuthVisualTheme extends ThemeExtension<AppAuthVisualTheme> {
 }
 
 @immutable
-class AppTravelHotelTheme extends ThemeExtension<AppTravelHotelTheme> {
-  const AppTravelHotelTheme({
+class AppFTKTheme extends ThemeExtension<AppFTKTheme> {
+  const AppFTKTheme({
     required this.primaryButtonColor,
     required this.primaryButtonShadowColor,
     required this.primaryButtonTextStyle,
@@ -189,7 +229,7 @@ class AppTravelHotelTheme extends ThemeExtension<AppTravelHotelTheme> {
   final double chipCornerRadius;
 
   @override
-  AppTravelHotelTheme copyWith({
+  AppFTKTheme copyWith({
     Color? primaryButtonColor,
     Color? primaryButtonShadowColor,
     TextStyle? primaryButtonTextStyle,
@@ -227,7 +267,7 @@ class AppTravelHotelTheme extends ThemeExtension<AppTravelHotelTheme> {
     double? cardCornerRadius,
     double? chipCornerRadius,
   }) {
-    return AppTravelHotelTheme(
+    return AppFTKTheme(
       primaryButtonColor: primaryButtonColor ?? this.primaryButtonColor,
       primaryButtonShadowColor:
           primaryButtonShadowColor ?? this.primaryButtonShadowColor,
@@ -293,15 +333,12 @@ class AppTravelHotelTheme extends ThemeExtension<AppTravelHotelTheme> {
   }
 
   @override
-  AppTravelHotelTheme lerp(
-    covariant ThemeExtension<AppTravelHotelTheme>? other,
-    double t,
-  ) {
-    if (other is! AppTravelHotelTheme) {
+  AppFTKTheme lerp(covariant ThemeExtension<AppFTKTheme>? other, double t) {
+    if (other is! AppFTKTheme) {
       return this;
     }
 
-    return AppTravelHotelTheme(
+    return AppFTKTheme(
       primaryButtonColor: _lerpColor(
         primaryButtonColor,
         other.primaryButtonColor,

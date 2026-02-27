@@ -103,7 +103,7 @@ class IntlCodePickerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final travelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final travelTheme = theme.extension<AppFTKTheme>()!;
     final selected = phoneCountryCodeOptionByCode(selectedIntlCode);
 
     return Column(

@@ -17,14 +17,14 @@ class AuthEntryPage extends StatelessWidget {
       imageUrl:
           'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
       primaryActions: <Widget>[
-        HotelPrimaryCtaButton(
+        PrimaryCtaButton(
           key: const Key('auth_before_member_login_button'),
           label: l10n.authBeforeMemberDirectLogin,
           horizontalPadding: 0,
           onPressed: () => context.push('/login-legacy'),
         ),
         const SizedBox(height: UiTokens.spacing12),
-        HotelPrimaryCtaButton(
+        PrimaryCtaButton(
           key: const Key('auth_before_register_button'),
           label: l10n.authBeforeNonMemberRegister,
           horizontalPadding: 0,
@@ -49,14 +49,14 @@ class RegisterEntryPage extends StatelessWidget {
       imageUrl:
           'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80',
       primaryActions: <Widget>[
-        HotelPrimaryCtaButton(
+        PrimaryCtaButton(
           key: const Key('register_entry_mobile_button'),
           label: l10n.authEntryPhoneRegister,
           horizontalPadding: 0,
           onPressed: () => context.push('/register/mobile'),
         ),
         const SizedBox(height: UiTokens.spacing12),
-        HotelPrimaryCtaButton(
+        PrimaryCtaButton(
           key: const Key('register_entry_email_button'),
           label: l10n.authEntryEmailRegister,
           horizontalPadding: 0,
@@ -92,7 +92,7 @@ class _AuthMarketingEntryScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
     final isDark = theme.brightness == Brightness.dark;
     final panelColor = theme.colorScheme.surface.withValues(
       alpha: isDark ? 0.94 : 0.98,

@@ -404,7 +404,7 @@ class _MemberProfileIntakePageState
 
   Widget _buildNameStep(BuildContext context) {
     final l10n = context.l10n;
-    return HotelSurfacePanelCard(
+    return SurfacePanelCard(
       title: l10n.profileStepName,
       subtitle: l10n.profileStepNameSubtitle,
       child: Column(
@@ -431,7 +431,7 @@ class _MemberProfileIntakePageState
 
   Widget _buildContactStep(BuildContext context) {
     final l10n = context.l10n;
-    return HotelSurfacePanelCard(
+    return SurfacePanelCard(
       title: l10n.profileStepContact,
       subtitle: l10n.profileStepContactSubtitle,
       child: Column(
@@ -446,7 +446,7 @@ class _MemberProfileIntakePageState
             },
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelPhoneTextField(
+          PhoneTextField(
             controller: _phoneController,
             inputKey: const Key('profile_phone_input'),
             labelText: l10n.profilePhoneLabel,
@@ -454,7 +454,7 @@ class _MemberProfileIntakePageState
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelEmailTextField(
+          EmailTextField(
             controller: _emailController,
             inputKey: const Key('profile_email_input'),
             labelText: l10n.profileEmailLabel,
@@ -482,7 +482,7 @@ class _MemberProfileIntakePageState
     final hasPhoto =
         _documentPhotoPath != null && _documentPhotoPath!.trim().isNotEmpty;
 
-    return HotelSurfacePanelCard(
+    return SurfacePanelCard(
       title: l10n.profileStepDocument,
       subtitle: l10n.profileStepDocumentSubtitle,
       child: Column(
@@ -514,7 +514,7 @@ class _MemberProfileIntakePageState
                         Positioned(
                           right: 10,
                           top: 10,
-                          child: HotelPhotoCountBadge(
+                          child: PhotoCountBadge(
                             label: context.l10n.profileDocumentAttachedBadge,
                           ),
                         ),
@@ -527,7 +527,7 @@ class _MemberProfileIntakePageState
             ),
           ),
           const SizedBox(height: UiTokens.spacing12),
-          HotelCompactActionButton(
+          CompactActionButton(
             key: const Key('profile_document_pick_button'),
             label: hasPhoto
                 ? l10n.profileDocumentChangePhoto
@@ -581,7 +581,7 @@ class _MemberProfileIntakePageState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    HotelSurfacePanelCard(
+                    SurfacePanelCard(
                       title: widget.isOnboarding
                           ? l10n.profileOnboardingCardTitle
                           : l10n.profileEditCardTitle,
@@ -616,7 +616,7 @@ class _MemberProfileIntakePageState
                     ),
                     const SizedBox(height: UiTokens.spacing12),
                     if (_isEditMode && !draft.isComplete)
-                      HotelSurfacePanelCard(
+                      SurfacePanelCard(
                         title: l10n.profileIncompleteBannerTitle,
                         subtitle: l10n.profileIncompleteBannerSubtitle,
                         child: Text(
@@ -630,7 +630,7 @@ class _MemberProfileIntakePageState
                       children: <Widget>[
                         if (_stepIndex > 0)
                           Expanded(
-                            child: HotelCompactActionButton(
+                            child: CompactActionButton(
                               key: const Key('profile_back_step_button'),
                               label: l10n.profilePrevStep,
                               onPressed: _isSaving ? null : _goPrevStep,
@@ -640,7 +640,7 @@ class _MemberProfileIntakePageState
                         if (_stepIndex > 0)
                           const SizedBox(width: UiTokens.spacing8),
                         Expanded(
-                          child: HotelPrimaryCtaButton(
+                          child: PrimaryCtaButton(
                             key: const Key('profile_next_or_save_button'),
                             label: nextButtonLabel,
                             isLoading: _isSaving,
@@ -676,7 +676,7 @@ class _ProfileStepHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final travelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final travelTheme = theme.extension<AppFTKTheme>()!;
 
     return Column(
       children: List<Widget>.generate(steps.length, (int index) {
@@ -800,7 +800,7 @@ class _EmptyDocumentPhotoPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final travelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final travelTheme = theme.extension<AppFTKTheme>()!;
 
     return Material(
       color: Colors.transparent,

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'app_theme_extensions.dart';
 import 'ui_tokens.dart';
 
-class HotelPrimaryCtaButton extends StatefulWidget {
-  const HotelPrimaryCtaButton({
+class PrimaryCtaButton extends StatefulWidget {
+  const PrimaryCtaButton({
     super.key,
     this.label,
     this.child,
@@ -28,16 +28,16 @@ class HotelPrimaryCtaButton extends StatefulWidget {
   final double loadingIndicatorSize;
 
   @override
-  State<HotelPrimaryCtaButton> createState() => _HotelPrimaryCtaButtonState();
+  State<PrimaryCtaButton> createState() => _PrimaryCtaButtonState();
 }
 
-class _HotelPrimaryCtaButtonState extends State<HotelPrimaryCtaButton> {
+class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
   bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
     final radius =
         widget.borderRadius ?? BorderRadius.circular(UiTokens.radius20);
     final isEnabled = widget.onPressed != null && !widget.isLoading;
@@ -57,7 +57,7 @@ class _HotelPrimaryCtaButtonState extends State<HotelPrimaryCtaButton> {
     final content = SizedBox(
       height: widget.height,
       width: widget.fullWidth ? double.infinity : null,
-      child: _HotelPressScale(
+      child: _PressScale(
         enabled: isEnabled,
         isPressed: _isPressed,
         child: DecoratedBox(
@@ -106,8 +106,8 @@ class _HotelPrimaryCtaButtonState extends State<HotelPrimaryCtaButton> {
   }
 }
 
-class HotelCompactActionButton extends StatefulWidget {
-  const HotelCompactActionButton({
+class CompactActionButton extends StatefulWidget {
+  const CompactActionButton({
     super.key,
     required this.label,
     this.onPressed,
@@ -123,17 +123,16 @@ class HotelCompactActionButton extends StatefulWidget {
   final double height;
 
   @override
-  State<HotelCompactActionButton> createState() =>
-      _HotelCompactActionButtonState();
+  State<CompactActionButton> createState() => _CompactActionButtonState();
 }
 
-class _HotelCompactActionButtonState extends State<HotelCompactActionButton> {
+class _CompactActionButtonState extends State<CompactActionButton> {
   bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
     final baseColor = hotelTheme.primaryButtonColor;
     final isEnabled = widget.onPressed != null && !widget.isLoading;
     final radius = BorderRadius.circular(UiTokens.radius16);
@@ -143,7 +142,7 @@ class _HotelCompactActionButtonState extends State<HotelCompactActionButton> {
     return SizedBox(
       width: widget.width,
       height: widget.height,
-      child: _HotelPressScale(
+      child: _PressScale(
         enabled: isEnabled,
         isPressed: _isPressed,
         scale: 0.97,
@@ -194,8 +193,8 @@ class _HotelCompactActionButtonState extends State<HotelCompactActionButton> {
   }
 }
 
-class HotelCircleIconButton extends StatelessWidget {
-  const HotelCircleIconButton({
+class CircleIconButton extends StatelessWidget {
+  const CircleIconButton({
     required this.icon,
     super.key,
     this.onPressed,
@@ -214,7 +213,7 @@ class HotelCircleIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     final radius = BorderRadius.circular(size / 2);
 
     return SizedBox.square(
@@ -254,8 +253,8 @@ class HotelCircleIconButton extends StatelessWidget {
   }
 }
 
-class HotelAccentSquareIconButton extends StatelessWidget {
-  const HotelAccentSquareIconButton({
+class AccentSquareIconButton extends StatelessWidget {
+  const AccentSquareIconButton({
     required this.icon,
     super.key,
     this.onPressed,
@@ -268,7 +267,7 @@ class HotelAccentSquareIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     final radius = BorderRadius.circular(9);
 
     return SizedBox.square(
@@ -301,8 +300,8 @@ class HotelAccentSquareIconButton extends StatelessWidget {
   }
 }
 
-class HotelCategoryTileButton extends StatelessWidget {
-  const HotelCategoryTileButton({
+class CategoryTileButton extends StatelessWidget {
+  const CategoryTileButton({
     required this.icon,
     required this.label,
     super.key,
@@ -321,7 +320,7 @@ class HotelCategoryTileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     final borderRadius = BorderRadius.circular(hotelTheme.tileCornerRadius);
     final foregroundColor = isSelected
         ? hotelTheme.categorySelectedForegroundColor
@@ -385,8 +384,8 @@ class HotelCategoryTileButton extends StatelessWidget {
   }
 }
 
-class HotelAmenityTileCard extends StatelessWidget {
-  const HotelAmenityTileCard({
+class AmenityTileCard extends StatelessWidget {
+  const AmenityTileCard({
     required this.icon,
     required this.label,
     super.key,
@@ -405,7 +404,7 @@ class HotelAmenityTileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     final borderRadius = BorderRadius.circular(hotelTheme.tileCornerRadius);
 
     return SizedBox(
@@ -460,8 +459,8 @@ class HotelAmenityTileCard extends StatelessWidget {
   }
 }
 
-class HotelPillChip extends StatelessWidget {
-  const HotelPillChip({
+class PillChip extends StatelessWidget {
+  const PillChip({
     required this.child,
     super.key,
     this.backgroundColor,
@@ -476,7 +475,7 @@ class HotelPillChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>()!;
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>()!;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor ?? hotelTheme.photoCountChipBackgroundColor,
@@ -488,8 +487,8 @@ class HotelPillChip extends StatelessWidget {
   }
 }
 
-class _HotelPressScale extends StatelessWidget {
-  const _HotelPressScale({
+class _PressScale extends StatelessWidget {
+  const _PressScale({
     required this.enabled,
     required this.isPressed,
     required this.child,

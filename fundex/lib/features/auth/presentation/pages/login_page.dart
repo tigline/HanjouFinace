@@ -6,7 +6,6 @@ import 'package:fundex/app/config/api_paths.dart';
 import 'package:fundex/features/auth/presentation/support/intl_code_picker_field.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
-import 'auth_visual_scaffold.dart';
 import '../controllers/auth_controller.dart';
 import '../providers/auth_providers.dart';
 import '../support/code_send_cooldown.dart';
@@ -26,7 +25,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   late final TextEditingController _accountController;
   late final TextEditingController _codeController;
-  _LoginChannel _loginChannel = _LoginChannel.mobile;
+  _LoginChannel _loginChannel = _LoginChannel.email;
   String? _localValidationError;
   late final CodeSendCooldown _sendCodeCooldown;
   String _selectedIntlCode = defaultIntlCode;
@@ -173,7 +172,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final l10n = context.l10n;
     final state = ref.watch(authControllerProvider);
     final controller = ref.read(authControllerProvider.notifier);
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
+    final theme = Theme.of(context);
+    final hotelTheme = theme.extension<AppFTKTheme>();
     final effectiveErrorMessage =
         _localValidationError ??
         (state.errorKey != null
@@ -188,154 +188,252 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
     });
 
-    return AuthVisualScaffold(
-      pageKey: const Key('login_page'),
-      title: l10n.loginTitle,
-      subtitle: l10n.loginSubtitle,
-      footer: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      key: const Key('login_page'),
+      body: DecoratedBox(
+        decoration: BoxDecoration(color: theme.colorScheme.surface),
+        child: SafeArea(
+          child: Column(
             children: <Widget>[
-              TextButton(
-                key: const Key('to_register_button'),
-                onPressed: () => context.pop(),//push('/register/email')
-                child: Text(l10n.loginCreateAccount),
+              _LoginHeroHeader(
+                title: l10n.splashBrandName,
+                subtitle: l10n.loginTitle,
               ),
-              const SizedBox(width: UiTokens.spacing8),
-              TextButton(
-                key: const Key('to_forgot_password_button'),
-                onPressed: () => context.push('/forgot-password'),
-                child: Text(l10n.loginForgotPassword),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SurfacePanelCard(
+                        title: l10n.loginModeTitle,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: _LoginChannelChip(
+                                key: const Key('login_mode_email_button'),
+                                label: l10n.authModeEmail,
+                                icon: Icons.alternate_email_rounded,
+                                selected: _loginChannel == _LoginChannel.email,
+                                onTap: () => _switchLoginChannel(
+                                  _LoginChannel.email,
+                                  controller,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: UiTokens.spacing8),
+                            Expanded(
+                              child: _LoginChannelChip(
+                                key: const Key('login_mode_mobile_button'),
+                                label: l10n.authModeMobile,
+                                icon: Icons.phone_iphone_rounded,
+                                selected: _loginChannel == _LoginChannel.mobile,
+                                onTap: () => _switchLoginChannel(
+                                  _LoginChannel.mobile,
+                                  controller,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: UiTokens.spacing12),
+                      if (!_isEmailMode) ...<Widget>[
+                        IntlCodePickerField(
+                          key: const Key('login_intl_code_picker'),
+                          selectedIntlCode: _selectedIntlCode,
+                          onChanged: (String value) {
+                            setState(() {
+                              _selectedIntlCode = value;
+                            });
+                          },
+                        ),
+                        const SizedBox(height: UiTokens.spacing12),
+                      ],
+                      (_isEmailMode
+                              ? EmailTextField(
+                                  controller: _accountController,
+                                  inputKey: const Key('login_account_input'),
+                                  labelText: l10n.registerEmailAccountLabel,
+                                  hintText: l10n.registerEmailAccountLabel,
+                                  leadingIcon: Icons.alternate_email_rounded,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
+                                  onChanged: (String value) =>
+                                      _onAccountChanged(value, controller),
+                                )
+                              : PhoneTextField(
+                                  controller: _accountController,
+                                  inputKey: const Key('login_account_input'),
+                                  labelText: l10n.registerMobileAccountLabel,
+                                  hintText: l10n.registerMobileAccountLabel,
+                                  leadingIcon: Icons.phone_iphone_rounded,
+                                  textInputAction: TextInputAction.next,
+                                  onChanged: (String value) =>
+                                      _onAccountChanged(value, controller),
+                                ))
+                          as Widget,
+                      const SizedBox(height: UiTokens.spacing12),
+                      VerificationCodeField(
+                        key: const Key('login_code_field'),
+                        controller: _codeController,
+                        labelText: l10n.loginCodeLabel,
+                        hintText: l10n.loginCodeLabel,
+                        sendCodeLabel: _sendCodeButtonLabel(l10n.loginSendCode),
+                        inputKey: const Key('login_code_input'),
+                        sendButtonKey: const Key('login_send_code_button'),
+                        isSendingCode: state.isSendingCode,
+                        onChanged: (String value) =>
+                            _onCodeChanged(value, controller),
+                        onSendCode: canSendCode
+                            ? () => _handleSendCode(controller)
+                            : null,
+                        buttonWidth: 132,
+                      ),
+                      const SizedBox(height: UiTokens.spacing8),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          key: const Key('to_forgot_password_button'),
+                          onPressed: () => context.push('/forgot-password'),
+                          child: Text(l10n.loginForgotPassword),
+                        ),
+                      ),
+                      if (effectiveErrorMessage != null) ...<Widget>[
+                        const SizedBox(height: UiTokens.spacing4),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: hotelTheme?.discountChipBackgroundColor
+                                .withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(
+                              UiTokens.radius16,
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: UiTokens.spacing12,
+                            vertical: UiTokens.spacing12,
+                          ),
+                          child: Text(
+                            effectiveErrorMessage,
+                            style:
+                                theme
+                                    .extension<AppAuthVisualTheme>()
+                                    ?.inlineErrorTextStyle ??
+                                theme.textTheme.bodySmall,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: UiTokens.spacing12),
+                      PrimaryCtaButton(
+                        key: const Key('login_submit_button'),
+                        label: l10n.loginSubmit,
+                        isLoading: state.isLoggingIn,
+                        horizontalPadding: 0,
+                        onPressed: state.canLogin
+                            ? () => _handleLogin(controller)
+                            : null,
+                      ),
+                      const SizedBox(height: UiTokens.spacing16),
+                      Center(
+                        child: TextButton(
+                          key: const Key('to_register_button'),
+                          onPressed: () => context.go('/register'),
+                          child: Text(l10n.loginCreateAccount),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
-          // Text(
-          //   l10n.loginFootnote,
-          //   style: Theme.of(context).textTheme.bodySmall,
-          //   textAlign: TextAlign.center,
-          // ),
-        ],
+        ),
       ),
+    );
+  }
+}
+
+class _LoginHeroHeader extends StatelessWidget {
+  const _LoginHeroHeader({required this.title, required this.subtitle});
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final authTheme = theme.extension<AppAuthVisualTheme>();
+    final heroGradientColors =
+        authTheme?.loginHeroGradientColors ??
+        <Color>[
+          theme.colorScheme.primary,
+          theme.colorScheme.primaryContainer,
+          theme.colorScheme.primary.withValues(alpha: 0.82),
+        ];
+    final heroLogoGradientColors =
+        authTheme?.loginHeroLogoGradientColors ??
+        <Color>[theme.colorScheme.primary, theme.colorScheme.tertiary];
+    final heroLogoShadowColor =
+        authTheme?.loginHeroLogoShadowColor ??
+        theme.colorScheme.primary.withValues(alpha: 0.42);
+    final heroForegroundColor =
+        authTheme?.loginHeroForegroundColor ?? theme.colorScheme.onPrimary;
+
+    return Container(
+      width: double.infinity,
+      height: 220,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: heroGradientColors,
+        ),
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
+      ),
+      padding: const EdgeInsets.fromLTRB(24, 26, 24, 34),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          HotelSurfacePanelCard(
-            title: l10n.loginModeTitle,
-            //padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: _LoginChannelChip(
-                    key: const Key('login_mode_mobile_button'),
-                    label: l10n.authModeMobile,
-                    icon: Icons.phone_iphone_rounded,
-                    selected: _loginChannel == _LoginChannel.mobile,
-                    onTap: () =>
-                        _switchLoginChannel(_LoginChannel.mobile, controller),
-                  ),
-                ),
-                const SizedBox(width: UiTokens.spacing8),
-                Expanded(
-                  child: _LoginChannelChip(
-                    key: const Key('login_mode_email_button'),
-                    label: l10n.authModeEmail,
-                    icon: Icons.alternate_email_rounded,
-                    selected: _loginChannel == _LoginChannel.email,
-                    onTap: () =>
-                        _switchLoginChannel(_LoginChannel.email, controller),
-                  ),
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: heroLogoGradientColors,
+              ),
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: heroLogoShadowColor,
+                  blurRadius: 24,
+                  offset: const Offset(0, 6),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: UiTokens.spacing12),
-
-          if (!_isEmailMode) ...<Widget>[
-            IntlCodePickerField(
-              key: const Key('login_intl_code_picker'),
-              selectedIntlCode: _selectedIntlCode,
-              onChanged: (String value) {
-                setState(() {
-                  _selectedIntlCode = value;
-                });
-              },
+            child: Icon(
+              Icons.home_rounded,
+              color: heroForegroundColor,
+              size: 30,
             ),
-            const SizedBox(height: UiTokens.spacing12),
-          ],
-          (_isEmailMode
-                  ? HotelEmailTextField(
-                      controller: _accountController,
-                      inputKey: const Key('login_account_input'),
-                      labelText: l10n.registerEmailAccountLabel,
-                      hintText: l10n.registerEmailAccountLabel,
-                      leadingIcon: Icons.alternate_email_rounded,
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      onChanged: (String value) =>
-                          _onAccountChanged(value, controller),
-                    )
-                  : HotelPhoneTextField(
-                      controller: _accountController,
-                      inputKey: const Key('login_account_input'),
-                      labelText: l10n.registerMobileAccountLabel,
-                      hintText: l10n.registerMobileAccountLabel,
-                      leadingIcon: Icons.phone_iphone_rounded,
-                      textInputAction: TextInputAction.next,
-                      onChanged: (String value) =>
-                          _onAccountChanged(value, controller),
-                    ))
-              as Widget,
-          const SizedBox(height: UiTokens.spacing12),
-          HotelVerificationCodeField(
-            key: const Key('login_code_field'),
-            controller: _codeController,
-            labelText: l10n.loginCodeLabel,
-            hintText: l10n.loginCodeLabel,
-            sendCodeLabel: _sendCodeButtonLabel(l10n.loginSendCode),
-            inputKey: const Key('login_code_input'),
-            sendButtonKey: const Key('login_send_code_button'),
-            isSendingCode: state.isSendingCode,
-            onChanged: (String value) =>
-                _onCodeChanged(value, controller),
-            onSendCode: canSendCode
-                ? () => _handleSendCode(controller)
-                : null,
-            buttonWidth: 132,
           ),
-              
-          
-          if (effectiveErrorMessage != null) ...<Widget>[
-            const SizedBox(height: UiTokens.spacing8),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: hotelTheme?.discountChipBackgroundColor.withValues(
-                  alpha: 0.12,
-                ),
-                borderRadius: BorderRadius.circular(UiTokens.radius16),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: UiTokens.spacing12,
-                vertical: UiTokens.spacing12,
-              ),
-              child: Text(
-                effectiveErrorMessage,
-                style:
-                    Theme.of(
-                      context,
-                    ).extension<AppAuthVisualTheme>()?.inlineErrorTextStyle ??
-                    Theme.of(context).textTheme.bodySmall,
-              ),
+          const SizedBox(height: 16),
+          Text(
+            title,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: heroForegroundColor,
+              fontWeight: FontWeight.w800,
             ),
-          ],
-          const SizedBox(height: UiTokens.spacing16),
-          HotelPrimaryCtaButton(
-            key: const Key('login_submit_button'),
-            label: l10n.loginSubmit,
-            isLoading: state.isLoggingIn,
-            horizontalPadding: 0,
-            onPressed: state.canLogin ? () => _handleLogin(controller) : null,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: heroForegroundColor.withValues(alpha: 0.72),
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -360,7 +458,7 @@ class _LoginChannelChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final travelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final travelTheme = theme.extension<AppFTKTheme>()!;
     final radius = BorderRadius.circular(16);
 
     return AnimatedContainer(

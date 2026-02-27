@@ -7,7 +7,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
     final textTheme = theme.textTheme;
 
     return Scaffold(
@@ -74,38 +74,35 @@ class HotelDesignShowcasePage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: SizedBox(
                 width: 320,
-                child: HotelPrimaryCtaButton(
-                  label: 'Get Started',
-                  fullWidth: false,
-                ),
+                child: PrimaryCtaButton(label: 'Get Started', fullWidth: false),
               ),
             ),
             const SizedBox(height: 18),
             Row(
               children: <Widget>[
-                HotelCircleIconButton(
+                CircleIconButton(
                   icon: const Icon(Icons.arrow_back_ios_new_rounded),
                   onPressed: () {},
                 ),
                 const SizedBox(width: 10),
-                HotelCircleIconButton(
+                CircleIconButton(
                   icon: const Icon(Icons.search_rounded),
                   onPressed: () {},
                 ),
                 const SizedBox(width: 10),
-                HotelCircleIconButton(
+                CircleIconButton(
                   icon: const Icon(Icons.ios_share_rounded),
                   size: 38,
                   onPressed: () {},
                 ),
                 const SizedBox(width: 10),
-                HotelCircleIconButton(
+                CircleIconButton(
                   icon: const Icon(Icons.favorite_border_rounded),
                   size: 38,
                   onPressed: () {},
                 ),
                 const Spacer(),
-                HotelAccentSquareIconButton(
+                AccentSquareIconButton(
                   icon: const Icon(Icons.chat_bubble_outline_rounded),
                   onPressed: () {},
                 ),
@@ -116,26 +113,26 @@ class HotelDesignShowcasePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: <Widget>[
-                  HotelCategoryTileButton(
+                  CategoryTileButton(
                     icon: const Icon(Icons.apartment_rounded),
                     label: 'Hotel',
                     isSelected: true,
                     onPressed: () {},
                   ),
                   const SizedBox(width: 14),
-                  HotelCategoryTileButton(
+                  CategoryTileButton(
                     icon: const Icon(Icons.flight_rounded),
                     label: 'Flight',
                     onPressed: () {},
                   ),
                   const SizedBox(width: 14),
-                  HotelCategoryTileButton(
+                  CategoryTileButton(
                     icon: const Icon(Icons.place_outlined),
                     label: 'Place',
                     onPressed: () {},
                   ),
                   const SizedBox(width: 14),
-                  HotelCategoryTileButton(
+                  CategoryTileButton(
                     icon: const Icon(Icons.room_service_outlined),
                     label: 'Food',
                     onPressed: () {},
@@ -163,7 +160,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: <Widget>[
-                  HotelImageCard(
+                  ImageCard(
                     title: 'Santorini',
                     location: 'Greece',
                     priceText: '\$488/night',
@@ -175,7 +172,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(width: 14),
-                  HotelImageCard(
+                  ImageCard(
                     title: 'Hotel Royal',
                     location: 'Spain',
                     priceText: '\$280/night',
@@ -187,7 +184,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(width: 14),
-                  HotelImageCard(
+                  ImageCard(
                     title: 'BaLi Motel',
                     location: 'Indonesia',
                     priceText: '\$580/night',
@@ -197,7 +194,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 22),
-            const HotelDealBannerCard(
+            const DealBannerCard(
               title: 'BaLi Motel Vung Tau',
               location: 'Indonesia',
               priceText: '\$580/night',
@@ -214,26 +211,26 @@ class HotelDesignShowcasePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: <Widget>[
-                  HotelAmenityTileCard(
+                  AmenityTileCard(
                     icon: const Icon(Icons.bed_outlined),
                     label: '2 Bed',
                     onPressed: () {},
                   ),
                   const SizedBox(width: 10),
-                  HotelAmenityTileCard(
+                  AmenityTileCard(
                     icon: const Icon(Icons.restaurant_outlined),
                     label: 'Dinner',
                     highlighted: true,
                     onPressed: () {},
                   ),
                   const SizedBox(width: 10),
-                  HotelAmenityTileCard(
+                  AmenityTileCard(
                     icon: const Icon(Icons.hot_tub_outlined),
                     label: 'Hot Tub',
                     onPressed: () {},
                   ),
                   const SizedBox(width: 10),
-                  HotelAmenityTileCard(
+                  AmenityTileCard(
                     icon: const Icon(Icons.ac_unit_rounded),
                     label: '1 AC',
                     onPressed: () {},
@@ -247,7 +244,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
               style: hotelTheme.sectionTitleStyle.copyWith(fontSize: 22),
             ),
             const SizedBox(height: 12),
-            HotelListItemCard(
+            ListItemCard(
               title: 'Hotel Royal Santorini',
               location: 'Santorini, Greece',
               subtitle: 'Ocean view • Free breakfast • Flexible check-in',
@@ -256,7 +253,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
               onTap: () {},
             ),
             const SizedBox(height: 12),
-            const HotelDetailSummaryCard(
+            const DetailSummaryCard(
               title: 'BaLi Motel Vung Tau',
               location: 'Indonesia',
               priceText: '\$580',
@@ -266,7 +263,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
               tags: <String>['Front Beach', 'Parking', 'Breakfast', 'Family'],
             ),
             const SizedBox(height: 12),
-            HotelSurfacePanelCard(
+            SurfacePanelCard(
               title: 'Segment Panel Card',
               subtitle:
                   'Reusable soft panel for auth forms and grouped actions',
@@ -293,7 +290,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: HotelCompactActionButton(
+                    child: CompactActionButton(
                       label: 'Action',
                       onPressed: () {},
                       width: 96,
@@ -323,19 +320,19 @@ class HotelDesignShowcasePage extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      HotelCircleIconButton(
+                      CircleIconButton(
                         icon: const Icon(Icons.arrow_back_ios_new_rounded),
                         size: 38,
                         onPressed: () {},
                       ),
                       const Spacer(),
-                      HotelCircleIconButton(
+                      CircleIconButton(
                         icon: const Icon(Icons.ios_share_rounded),
                         size: 38,
                         onPressed: () {},
                       ),
                       const SizedBox(width: 8),
-                      HotelCircleIconButton(
+                      CircleIconButton(
                         icon: const Icon(Icons.favorite_border_rounded),
                         size: 38,
                         onPressed: () {},
@@ -343,7 +340,7 @@ class HotelDesignShowcasePage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 14),
-                  const HotelPhotoCountBadge(label: '124 Photos'),
+                  const PhotoCountBadge(label: '124 Photos'),
                 ],
               ),
             ),

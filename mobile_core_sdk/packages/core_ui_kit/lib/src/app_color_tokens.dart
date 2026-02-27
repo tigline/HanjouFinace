@@ -5,8 +5,10 @@ class AppColorTokens {
 
   // FUNDEX core palette (from demo source)
   static const Color fundexPrimaryDark = Color(0xFF0A1628);
+  static const Color fundexPrimaryDarkDradient = Color(0xFF1E3A5F);
   static const Color fundexPrimaryDarkAlt = Color(0xFF142240);
   static const Color fundexAccent = Color(0xFF2563EB);
+  static const Color fundexAccentDradient = Color(0xFF60A5FA);
   static const Color fundexAccentAlt = Color(0xFF3B82F6);
   static const Color fundexSuccess = Color(0xFF10B981);
   static const Color fundexSuccessLight = Color(0xFFD1FAE5);

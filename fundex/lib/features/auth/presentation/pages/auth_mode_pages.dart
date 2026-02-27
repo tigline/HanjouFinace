@@ -197,7 +197,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
     final l10n = context.l10n;
     final state = ref.watch(authControllerProvider);
     final controller = ref.read(authControllerProvider.notifier);
-    final hotelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
+    final hotelTheme = Theme.of(context).extension<AppFTKTheme>();
     final effectiveErrorMessage =
         _localValidationError ??
         (state.errorKey != null
@@ -281,7 +281,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
             const SizedBox(height: UiTokens.spacing12),
           ],
           (_isEmailMode
-                  ? HotelEmailTextField(
+                  ? EmailTextField(
                       controller: _accountController,
                       inputKey: const Key('login_account_input'),
                       labelText: l10n.registerEmailAccountLabel,
@@ -292,7 +292,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
                       onChanged: (String value) =>
                           _onAccountChanged(value, controller),
                     )
-                  : HotelPhoneTextField(
+                  : PhoneTextField(
                       controller: _accountController,
                       inputKey: const Key('login_account_input'),
                       labelText: l10n.registerMobileAccountLabel,
@@ -304,7 +304,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
                     ))
               as Widget,
           const SizedBox(height: UiTokens.spacing12),
-          HotelVerificationCodeField(
+          VerificationCodeField(
             key: const Key('login_code_field'),
             controller: _codeController,
             labelText: l10n.loginCodeLabel,
@@ -342,7 +342,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
             ),
           ],
           const SizedBox(height: UiTokens.spacing16),
-          HotelPrimaryCtaButton(
+          PrimaryCtaButton(
             key: const Key('login_submit_button'),
             label: l10n.loginSubmit,
             isLoading: state.isLoggingIn,
@@ -636,7 +636,7 @@ class _AuthMethodRegisterPageState
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final travelTheme = Theme.of(context).extension<AppTravelHotelTheme>();
+    final travelTheme = Theme.of(context).extension<AppFTKTheme>();
     final pageKey = _isEmailMode
         ? const Key('register_email_page')
         : const Key('register_mobile_page');
@@ -696,7 +696,7 @@ class _AuthMethodRegisterPageState
             const SizedBox(height: UiTokens.spacing12),
           ],
           (_isEmailMode
-                  ? HotelEmailTextField(
+                  ? EmailTextField(
                       controller: _accountController,
                       inputKey: const Key('register_account_input'),
                       labelText: l10n.registerEmailAccountLabel,
@@ -704,7 +704,7 @@ class _AuthMethodRegisterPageState
                       leadingIcon: Icons.alternate_email_rounded,
                       onChanged: (_) => setState(() {}),
                     )
-                  : HotelPhoneTextField(
+                  : PhoneTextField(
                       controller: _accountController,
                       inputKey: const Key('register_account_input'),
                       labelText: l10n.registerMobileAccountLabel,
@@ -714,7 +714,7 @@ class _AuthMethodRegisterPageState
                     ))
               as Widget,
           const SizedBox(height: UiTokens.spacing12),
-          HotelVerificationCodeField(
+          VerificationCodeField(
             controller: _codeController,
             labelText: l10n.registerCodeLabel,
             hintText: l10n.registerCodeLabel,
@@ -728,14 +728,14 @@ class _AuthMethodRegisterPageState
           ),
           const SizedBox(height: UiTokens.spacing12),
           // (_isEmailMode
-          //         ? HotelPhoneTextField(
+          //         ? PhoneTextField(
           //             controller: _contactController,
           //             inputKey: const Key('register_contact_input'),
           //             labelText: l10n.registerContactLabel,
           //             hintText: l10n.registerContactHelperEmail,
           //             onChanged: (_) => setState(() {}),
           //           )
-          //         : HotelEmailTextField(
+          //         : EmailTextField(
           //             controller: _contactController,
           //             inputKey: const Key('register_contact_input'),
           //             labelText: l10n.registerContactLabel,
@@ -804,7 +804,7 @@ class _AuthMethodRegisterPageState
             ),
           ),
           const SizedBox(height: UiTokens.spacing16),
-          HotelPrimaryCtaButton(
+          PrimaryCtaButton(
             key: const Key('register_submit_button'),
             label: l10n.registerSubmit,
             isLoading: _isSubmitting,
@@ -827,7 +827,7 @@ class _ModeBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppTravelHotelTheme>()!;
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
 
     return Container(
       decoration: BoxDecoration(

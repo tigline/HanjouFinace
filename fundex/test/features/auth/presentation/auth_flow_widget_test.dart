@@ -150,7 +150,8 @@ Future<void> _pumpApp(
     ),
   );
   await tester.pump();
-  await tester.pump(const Duration(milliseconds: 200));
+  await tester.pump(const Duration(milliseconds: 2600));
+  await tester.pumpAndSettle();
 }
 
 Future<void> _pumpUntilVisible(
@@ -178,16 +179,6 @@ void main() {
         tokenRefresher: _FakeTokenRefresher((_) async => null),
         authRepository: repository,
       );
-
-      await _pumpUntilVisible(tester, find.byKey(const Key('auth_entry_page')));
-      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
-      await tester.ensureVisible(
-        find.byKey(const Key('auth_before_member_login_button')),
-      );
-      await tester.tap(
-        find.byKey(const Key('auth_before_member_login_button')),
-      );
-      await tester.pumpAndSettle();
 
       await _pumpUntilVisible(tester, find.byType(TextField));
       expect(find.byKey(const Key('login_page')), findsOneWidget);
@@ -243,7 +234,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 200));
 
       expect(repository.logoutCalled, isTrue);
-      expect(find.byKey(const Key('auth_entry_page')), findsOneWidget);
+      await _pumpUntilVisible(tester, find.byKey(const Key('login_page')));
+      expect(find.byKey(const Key('login_page')), findsOneWidget);
     });
   });
 }

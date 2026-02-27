@@ -83,7 +83,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         builder: (BuildContext context, GoRouterState state) {
-          return const AuthEntryPage();
+          return const LoginPage();
         },
       ),
       GoRoute(
@@ -100,8 +100,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/login-legacy',
+        redirect: (BuildContext context, GoRouterState state) => '/login',
+      ),
+      GoRoute(
+        path: '/login-entry',
         builder: (BuildContext context, GoRouterState state) {
-          return const LoginPage();
+          return const AuthEntryPage();
         },
       ),
       GoRoute(

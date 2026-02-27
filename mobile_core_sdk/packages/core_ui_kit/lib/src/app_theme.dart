@@ -46,6 +46,25 @@ class AppThemeFactory {
               Color(0xFFF8FBFF),
               Color(0xFFE7FFF8),
             ],
+      loginHeroGradientColors: isDark
+          ? const <Color>[
+              AppColorTokens.darkBackground,
+              AppColorTokens.darkSurface,
+              AppColorTokens.darkBackground,
+            ]
+          : const <Color>[
+              AppColorTokens.fundexPrimaryDark,
+              AppColorTokens.fundexPrimaryDarkDradient,
+              AppColorTokens.fundexPrimaryDarkAlt,
+            ],
+      loginHeroLogoGradientColors: const <Color>[
+        AppColorTokens.fundexAccent,
+        AppColorTokens.fundexAccentDradient,
+      ],
+      loginHeroLogoShadowColor: AppColorTokens.fundexAccent.withValues(
+        alpha: isDark ? 0.52 : 0.42,
+      ),
+      loginHeroForegroundColor: Colors.white,
       orbPrimary: AppColorTokens.accent.withValues(alpha: 0.28),
       orbSecondary: AppColorTokens.accentTertiary.withValues(alpha: 0.24),
       orbTertiary: AppColorTokens.accentSecondary.withValues(alpha: 0.22),
@@ -64,7 +83,7 @@ class AppThemeFactory {
       ),
     );
 
-    final travelHotelTheme = AppTravelHotelTheme(
+    final travelHotelTheme = AppFTKTheme(
       primaryButtonColor: AppColorTokens.travelPrimaryTeal,
       primaryButtonShadowColor: AppColorTokens.travelPrimaryTeal.withValues(
         alpha: isDark ? 0.22 : 0.15,
