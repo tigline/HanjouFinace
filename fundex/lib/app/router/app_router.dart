@@ -64,10 +64,17 @@ String? resolveAuthRedirect({
 }
 
 final appRouterProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(isAuthenticatedProvider);
+  final refreshNotifier = ValueNotifier<int>(0);
+  ref.onDispose(refreshNotifier.dispose);
+  ref.listen<AsyncValue<bool>>(isAuthenticatedProvider, (previous, next) {
+    refreshNotifier.value++;
+  });
+
   return GoRouter(
     initialLocation: '/splash',
+    refreshListenable: refreshNotifier,
     redirect: (BuildContext context, GoRouterState state) {
+      final authState = ref.read(isAuthenticatedProvider);
       return resolveAuthRedirect(
         authState: authState,
         location: state.matchedLocation,
