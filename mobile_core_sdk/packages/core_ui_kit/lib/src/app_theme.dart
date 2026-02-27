@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_color_tokens.dart';
 import 'app_theme_extensions.dart';
@@ -15,6 +16,28 @@ class AppThemeFactory {
 
   static ThemeData dark() {
     return _build(Brightness.dark);
+  }
+
+  static Color statusBarColorFor(Brightness brightness) {
+    return brightness == Brightness.dark
+        ? AppColorTokens.statusBarBackgroundDark
+        : AppColorTokens.statusBarBackgroundLight;
+  }
+
+  static SystemUiOverlayStyle statusBarOverlayStyleFor(Brightness brightness) {
+    final backgroundColor = statusBarColorFor(brightness);
+    final backgroundBrightness = ThemeData.estimateBrightnessForColor(
+      backgroundColor,
+    );
+    final foregroundBrightness = backgroundBrightness == Brightness.dark
+        ? Brightness.light
+        : Brightness.dark;
+
+    return SystemUiOverlayStyle(
+      statusBarColor: backgroundColor,
+      statusBarIconBrightness: foregroundBrightness,
+      statusBarBrightness: backgroundBrightness,
+    );
   }
 
   static ThemeData _build(Brightness brightness) {
@@ -252,6 +275,7 @@ class AppThemeFactory {
       borderRadius: BorderRadius.circular(UiTokens.radius16),
       borderSide: BorderSide(color: outline),
     );
+    final statusBarOverlayStyle = statusBarOverlayStyleFor(brightness);
 
     return ThemeData(
       useMaterial3: true,
@@ -281,6 +305,7 @@ class AppThemeFactory {
         surfaceTintColor: Colors.transparent,
         foregroundColor: onSurface,
         titleTextStyle: textTheme.titleLarge,
+        systemOverlayStyle: statusBarOverlayStyle,
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,

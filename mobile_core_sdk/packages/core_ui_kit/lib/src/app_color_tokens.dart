@@ -45,6 +45,11 @@ class AppColorTokens {
   static const Color darkMuted = Color(0xFF94A3B8);
   static const Color darkBorder = Color(0xFF334155);
 
+  // System UI status bar palette.
+  // Keep light/dark entries separated for future adjustments; currently same.
+  static const Color statusBarBackgroundLight = fundexPrimaryDark;
+  static const Color statusBarBackgroundDark = fundexPrimaryDark;
+
   static const Color danger = fundexDanger;
   static const Color warning = fundexWarning;
 

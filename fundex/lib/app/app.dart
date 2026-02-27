@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
@@ -47,8 +48,36 @@ class MemberTemplateApp extends ConsumerWidget {
       scaffoldMessengerKey: _rootScaffoldMessengerKey,
       routerConfig: router,
       builder: (BuildContext context, Widget? child) {
-        return _GlobalKeyboardDismissLayer(
+        final mediaQuery = MediaQuery.of(context);
+        final brightness = Theme.of(context).brightness;
+        final statusBarColor = brightness == Brightness.dark
+            ? AppColorTokens.statusBarBackgroundDark
+            : AppColorTokens.statusBarBackgroundLight;
+        final statusBarOverlayStyle = AppThemeFactory.statusBarOverlayStyleFor(
+          brightness,
+        ).copyWith(statusBarColor: statusBarColor);
+        SystemChrome.setSystemUIOverlayStyle(statusBarOverlayStyle);
+        final appChild = _GlobalKeyboardDismissLayer(
           child: child ?? const SizedBox.shrink(),
+        );
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: statusBarOverlayStyle,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              appChild,
+              if (mediaQuery.viewPadding.top > 0)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: mediaQuery.viewPadding.top,
+                  child: IgnorePointer(
+                    child: ColoredBox(color: statusBarColor),
+                  ),
+                ),
+            ],
+          ),
         );
       },
       locale: locale,
