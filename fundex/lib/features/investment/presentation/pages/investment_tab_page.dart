@@ -594,261 +594,270 @@ class _FundProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(UiTokens.radius16),
-        onTap: () {},
-        child: Ink(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(UiTokens.radius16),
-            border: Border.all(color: AppColorTokens.fundexBorder),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.06),
-                blurRadius: 14,
-                offset: const Offset(0, 6),
-              ),
-            ],
+    final cardRadius = BorderRadius.circular(UiTokens.radius16);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(2, 2, 2, 8),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: cardRadius,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 14,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: cardRadius,
+            side: const BorderSide(color: AppColorTokens.fundexBorder),
           ),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 160,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(UiTokens.radius16),
-                        ),
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: palette.heroGradientColors,
-                        ),
-                      ),
-                    ),
-                    const _CardHeroArtwork(),
-                    Positioned.fill(
-                      child: DecoratedBox(
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            borderRadius: cardRadius,
+            onTap: () {},
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 160,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(UiTokens.radius16),
                           ),
                           gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: <Color>[
-                              Colors.transparent,
-                              Colors.black.withValues(alpha: 0.56),
-                            ],
-                            stops: const <double>[0.25, 1],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: palette.heroGradientColors,
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: 10,
-                      top: 10,
-                      child: _FavoriteButton(
-                        selected: isFavorite,
-                        onTap: onFavoriteTap,
-                      ),
-                    ),
-                    Positioned(
-                      right: 10,
-                      top: 10,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.9),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          volumeText,
-                          style:
-                              (Theme.of(context).textTheme.labelSmall ??
-                                      const TextStyle())
-                                  .copyWith(
-                                    color: AppColorTokens.fundexTextSecondary,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 14,
-                      right: 14,
-                      bottom: 12,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            project.projectName,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style:
-                                (Theme.of(context).textTheme.titleLarge ??
-                                        const TextStyle())
-                                    .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 16,
-                                      height: 1.25,
-                                      shadows: <Shadow>[
-                                        Shadow(
-                                          color: Colors.black.withValues(
-                                            alpha: 0.35,
-                                          ),
-                                          blurRadius: 6,
-                                          offset: const Offset(0, 1),
-                                        ),
-                                      ],
-                                    ),
-                          ),
-                          const SizedBox(height: 6),
-                          Wrap(
-                            spacing: 6,
-                            runSpacing: 6,
-                            children: <Widget>[
-                              _HeroInfoBubble(
-                                label: yieldLabel,
-                                value: annualYieldText,
-                              ),
-                              _HeroInfoBubble(
-                                label: periodLabel,
-                                value: periodValueText,
-                              ),
-                              _HeroInfoBubble(
-                                label: methodTitleLabel,
-                                value: methodLabel,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Wrap(
-                      spacing: 4,
-                      runSpacing: 4,
-                      children: <Widget>[
-                        _PillTag(
-                          label: statusLabel,
-                          backgroundColor: palette.tagBackgroundColor,
-                          foregroundColor: palette.tagForegroundColor,
-                        ),
-                        _PillTag(
-                          label: methodLabel,
-                          backgroundColor: AppColorTokens.fundexPinkLight,
-                          foregroundColor: AppColorTokens.fundexPink,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: UiTokens.spacing8),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: palette.amountGradientColors,
-                        ),
-                      ),
-                      child: Text(
-                        appliedAmountText,
-                        textAlign: TextAlign.center,
-                        style:
-                            (Theme.of(context).textTheme.labelMedium ??
-                                    const TextStyle())
-                                .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                      ),
-                    ),
-                    const SizedBox(height: UiTokens.spacing8),
-                    Container(
-                      padding: const EdgeInsets.only(top: UiTokens.spacing8),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(color: AppColorTokens.fundexBorder),
-                        ),
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: _CardStatCell(
-                              label: yieldLabel,
-                              value: annualYieldText,
-                              valueColor: AppColorTokens.fundexDanger,
+                      const _CardHeroArtwork(),
+                      Positioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(UiTokens.radius16),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                Colors.transparent,
+                                Colors.black.withValues(alpha: 0.56),
+                              ],
+                              stops: const <double>[0.25, 1],
                             ),
                           ),
-                          const SizedBox(
-                            height: 36,
-                            child: VerticalDivider(
-                              width: 16,
-                              thickness: 1,
-                              color: AppColorTokens.fundexBorder,
-                            ),
-                          ),
-                          Expanded(
-                            child: _CardStatCell(
-                              label: periodLabel,
-                              value: periodValueText,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
+                      Positioned(
+                        left: 10,
+                        top: 10,
+                        child: _FavoriteButton(
+                          selected: isFavorite,
+                          onTap: onFavoriteTap,
+                        ),
+                      ),
+                      Positioned(
+                        right: 10,
+                        top: 10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
                           child: Text(
-                            locationText,
+                            volumeText,
                             style:
                                 (Theme.of(context).textTheme.labelSmall ??
                                         const TextStyle())
                                     .copyWith(
-                                      color: AppColorTokens.fundexTextTertiary,
+                                      color: AppColorTokens.fundexTextSecondary,
+                                      fontWeight: FontWeight.w700,
                                     ),
                           ),
                         ),
-                        Text(
-                          viewDetailText,
+                      ),
+                      Positioned(
+                        left: 14,
+                        right: 14,
+                        bottom: 12,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              project.projectName,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  (Theme.of(context).textTheme.titleLarge ??
+                                          const TextStyle())
+                                      .copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 16,
+                                        height: 1.25,
+                                        shadows: <Shadow>[
+                                          Shadow(
+                                            color: Colors.black.withValues(
+                                              alpha: 0.35,
+                                            ),
+                                            blurRadius: 6,
+                                            offset: const Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                            ),
+                            const SizedBox(height: 6),
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 6,
+                              children: <Widget>[
+                                _HeroInfoBubble(
+                                  label: yieldLabel,
+                                  value: annualYieldText,
+                                ),
+                                _HeroInfoBubble(
+                                  label: periodLabel,
+                                  value: periodValueText,
+                                ),
+                                _HeroInfoBubble(
+                                  label: methodTitleLabel,
+                                  value: methodLabel,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
+                        children: <Widget>[
+                          _PillTag(
+                            label: statusLabel,
+                            backgroundColor: palette.tagBackgroundColor,
+                            foregroundColor: palette.tagForegroundColor,
+                          ),
+                          _PillTag(
+                            label: methodLabel,
+                            backgroundColor: AppColorTokens.fundexPinkLight,
+                            foregroundColor: AppColorTokens.fundexPink,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: UiTokens.spacing8),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: palette.amountGradientColors,
+                          ),
+                        ),
+                        child: Text(
+                          appliedAmountText,
+                          textAlign: TextAlign.center,
                           style:
                               (Theme.of(context).textTheme.labelMedium ??
                                       const TextStyle())
                                   .copyWith(
-                                    color: AppColorTokens.fundexAccent,
-                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
                                   ),
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      const SizedBox(height: UiTokens.spacing8),
+                      Container(
+                        padding: const EdgeInsets.only(top: UiTokens.spacing8),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(color: AppColorTokens.fundexBorder),
+                          ),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: _CardStatCell(
+                                label: yieldLabel,
+                                value: annualYieldText,
+                                valueColor: AppColorTokens.fundexDanger,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 36,
+                              child: VerticalDivider(
+                                width: 16,
+                                thickness: 1,
+                                color: AppColorTokens.fundexBorder,
+                              ),
+                            ),
+                            Expanded(
+                              child: _CardStatCell(
+                                label: periodLabel,
+                                value: periodValueText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              locationText,
+                              style:
+                                  (Theme.of(context).textTheme.labelSmall ??
+                                          const TextStyle())
+                                      .copyWith(
+                                        color:
+                                            AppColorTokens.fundexTextTertiary,
+                                      ),
+                            ),
+                          ),
+                          Text(
+                            viewDetailText,
+                            style:
+                                (Theme.of(context).textTheme.labelMedium ??
+                                        const TextStyle())
+                                    .copyWith(
+                                      color: AppColorTokens.fundexAccent,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
