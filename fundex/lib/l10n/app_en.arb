@@ -19,6 +19,8 @@
   "registerModeTitle": "Registration method",
   "authModeEmail": "Email",
   "authModeMobile": "Phone",
+  "splashBrandName": "FUNDEX",
+  "splashTagline": "Real estate crowdfunding",
   "authEntryHeadline": "One sign-in for investment and hotel member services",
   "authEntryDescription": "Sign in with phone or email to manage investments, bookings, and member privileges.",
   "authEntryPhoneLogin": "Sign in with phone",

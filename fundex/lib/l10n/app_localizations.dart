@@ -214,6 +214,18 @@ abstract class AppLocalizations {
   /// **'Phone'**
   String get authModeMobile;
 
+  /// No description provided for @splashBrandName.
+  ///
+  /// In en, this message translates to:
+  /// **'FUNDEX'**
+  String get splashBrandName;
+
+  /// No description provided for @splashTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Real estate crowdfunding'**
+  String get splashTagline;
+
   /// No description provided for @authEntryHeadline.
   ///
   /// In en, this message translates to:

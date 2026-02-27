@@ -66,6 +66,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authModeMobile => '手机';
 
   @override
+  String get splashBrandName => 'FUNDEX';
+
+  @override
+  String get splashTagline => '不动产众筹投资';
+
+  @override
   String get authEntryHeadline => '投资与订房会员服务一站登录';
 
   @override

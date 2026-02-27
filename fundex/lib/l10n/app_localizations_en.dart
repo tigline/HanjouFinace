@@ -73,6 +73,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authModeMobile => 'Phone';
 
   @override
+  String get splashBrandName => 'FUNDEX';
+
+  @override
+  String get splashTagline => 'Real estate crowdfunding';
+
+  @override
   String get authEntryHeadline =>
       'One sign-in for investment and hotel member services';
 

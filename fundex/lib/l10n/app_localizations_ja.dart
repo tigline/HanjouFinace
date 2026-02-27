@@ -66,6 +66,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authModeMobile => '電話';
 
   @override
+  String get splashBrandName => 'FUNDEX';
+
+  @override
+  String get splashTagline => '不動産クラウドファンディング';
+
+  @override
   String get authEntryHeadline => '投資・宿泊会員サービスをひとつのログインで';
 
   @override

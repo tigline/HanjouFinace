@@ -39,8 +39,12 @@ String? resolveAuthRedirect({
   final isPublicRoute =
       isAuthRoute || isHotelDesignShowcase || isMemberProfileOnboarding;
 
+  if (isSplash) {
+    return null;
+  }
+
   if (authState.isLoading) {
-    return isSplash ? null : '/splash';
+    return '/splash';
   }
 
   if (authState.hasError) {
@@ -52,7 +56,7 @@ String? resolveAuthRedirect({
     return isPublicRoute ? null : '/login';
   }
 
-  if (isSplash || isAuthRoute) {
+  if (isAuthRoute) {
     return '/home';
   }
 

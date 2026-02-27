@@ -19,6 +19,8 @@
   "registerModeTitle": "登録方法",
   "authModeEmail": "メール",
   "authModeMobile": "電話",
+  "splashBrandName": "FUNDEX",
+  "splashTagline": "不動産クラウドファンディング",
   "authEntryHeadline": "投資・宿泊会員サービスをひとつのログインで",
   "authEntryDescription": "電話番号またはメールでログインし、投資・予約・会員特典をまとめて管理できます。",
   "authEntryPhoneLogin": "電話でログイン",

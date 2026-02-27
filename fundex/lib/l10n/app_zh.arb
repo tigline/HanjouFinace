@@ -19,6 +19,8 @@
   "registerModeTitle": "注册方式",
   "authModeEmail": "邮箱",
   "authModeMobile": "手机",
+  "splashBrandName": "FUNDEX",
+  "splashTagline": "不动产众筹投资",
   "authEntryHeadline": "投资与订房会员服务一站登录",
   "authEntryDescription": "使用手机号或邮箱快速登录，统一管理投资、订房与会员权益。",
   "authEntryPhoneLogin": "手机号登录",

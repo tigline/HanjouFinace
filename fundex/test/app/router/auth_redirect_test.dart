@@ -22,6 +22,24 @@ void main() {
       expect(redirect, isNull);
     });
 
+    test('keeps splash while unauthenticated', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(false),
+        location: '/splash',
+      );
+
+      expect(redirect, isNull);
+    });
+
+    test('keeps splash while authenticated', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(true),
+        location: '/splash',
+      );
+
+      expect(redirect, isNull);
+    });
+
     test('redirects unauthenticated user to login', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(false),
