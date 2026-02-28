@@ -114,6 +114,15 @@ class HomeOverviewTabPage extends StatelessWidget {
       ),
     ];
 
+    final featuredFundCards = featuredFunds
+        .map(
+          (fund) => FundFeaturedFundCard(
+            data: fund,
+            yieldLabel: l10n.homeEstimatedYieldLabel,
+          ),
+        )
+        .toList(growable: false);
+
     final activeFunds = <FundActiveFundCardData>[
       FundActiveFundCardData(
         title: l10n.homeMockActiveFundA,
@@ -179,6 +188,10 @@ class HomeOverviewTabPage extends StatelessWidget {
       ),
     ];
 
+    final activeFundCards = activeFunds
+        .map((fund) => FundActiveFundCard(data: fund))
+        .toList(growable: false);
+
     return ListView(
       key: const Key('home_tab_content'),
       padding: EdgeInsets.zero,
@@ -195,32 +208,39 @@ class HomeOverviewTabPage extends StatelessWidget {
           showNotificationDot: true,
           onNotificationTap: () => context.push('/notifications'),
         ),
+
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
           child: Column(
+            spacing: UiTokens.spacing16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              FundReminderFeed(items: reminders),
-              const SizedBox(height: UiTokens.spacing16),
-              FundSectionHeader(
+              Padding(padding: 
+                  const EdgeInsets.symmetric(horizontal: UiTokens.spacing16),
+                  child: FundReminderFeed(items: reminders),
+              ),
+              
+
+              FundFeaturedFundCarousel(
                 title: l10n.homeFeaturedFundsTitle,
                 actionLabel: l10n.homeViewAllAction,
                 onActionTap: () => context.go('/funds'),
+                children: featuredFundCards,
               ),
-              const SizedBox(height: UiTokens.spacing8),
-              FundFeaturedFundCarousel(
-                items: featuredFunds,
-                yieldLabel: l10n.homeEstimatedYieldLabel,
+
+              Padding(padding: 
+                  const EdgeInsets.symmetric(horizontal: UiTokens.spacing16),
+                  child: FundActiveFundsList(
+                          title: l10n.homeActiveFundsTitle,
+                          showMoreLabel: l10n.homeShowMoreAction,
+                          showLessLabel: l10n.homeShowLessAction,
+                          initialVisibleCount: 3,
+                          children: activeFundCards,
+                          onActionTap: () => context.go('/funds'),
+                        ),
               ),
-              const SizedBox(height: UiTokens.spacing16),
-              FundSectionHeader(title: l10n.homeActiveFundsTitle),
-              const SizedBox(height: UiTokens.spacing8),
-              FundActiveFundsList(
-                items: activeFunds,
-                showMoreLabel: l10n.homeShowMoreAction,
-                showLessLabel: l10n.homeShowLessAction,
-                initialVisibleCount: 3,
-              ),
+
+              
             ],
           ),
         ),

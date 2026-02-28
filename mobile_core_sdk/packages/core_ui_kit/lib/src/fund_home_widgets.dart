@@ -538,25 +538,62 @@ class FundFeaturedFundCardData {
 class FundFeaturedFundCarousel extends StatelessWidget {
   const FundFeaturedFundCarousel({
     super.key,
-    required this.items,
-    required this.yieldLabel,
+    required this.title,
+    required this.children,
+    this.actionLabel,
+    this.onActionTap,
+    this.height = 240,
+    this.itemSpacing = 12,
+    this.headerSpacing = 0,
   });
 
-  final List<FundFeaturedFundCardData> items;
-  final String yieldLabel;
+  final String title;
+  final String? actionLabel;
+  final VoidCallback? onActionTap;
+  final List<Widget> children;
+  final double height;
+  final double itemSpacing;
+  final double headerSpacing;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: <Widget>[
-          for (var index = 0; index < items.length; index++) ...<Widget>[
-            FundFeaturedFundCard(data: items[index], yieldLabel: yieldLabel),
-            if (index < items.length - 1) const SizedBox(width: 12),
-          ],
-        ],
-      ),
+    if (children.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(padding: const EdgeInsets.symmetric(horizontal: UiTokens.spacing16),
+          child:
+          FundSectionHeader(
+            title: title,
+            actionLabel: actionLabel,
+            onActionTap: onActionTap,
+          ),
+        ),
+        SizedBox(height: headerSpacing),
+        SizedBox(
+          height: height,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                for (
+                  var index = 0;
+                  index < children.length;
+                  index++
+                ) ...<Widget>[
+                  children[index],
+                  if (index < children.length - 1) SizedBox(width: itemSpacing),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -566,12 +603,14 @@ class FundFeaturedFundCard extends StatelessWidget {
     super.key,
     required this.data,
     required this.yieldLabel,
-    this.width = 260,
+    this.width = 280,
+    this.shadowPadding = const EdgeInsets.fromLTRB(2, 2, 2, 8),
   });
 
   final FundFeaturedFundCardData data;
   final String yieldLabel;
   final double width;
+  final EdgeInsetsGeometry shadowPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -581,29 +620,34 @@ class FundFeaturedFundCard extends StatelessWidget {
         hotelTheme?.cardBorderColor.withValues(alpha: 0.9) ??
         theme.dividerColor.withValues(alpha: 0.8);
     final shadowColor = hotelTheme?.cardTileShadowColor ?? Colors.black12;
+    final cardRadius = BorderRadius.circular(UiTokens.radius16);
 
     return SizedBox(
       width: width,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(UiTokens.radius16),
-          onTap: data.onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(UiTokens.radius16),
-              border: Border.all(color: borderColor),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: shadowColor.withValues(alpha: 0.35),
-                  blurRadius: 14,
-                  offset: const Offset(0, 6),
-                ),
-              ],
+      height: double.infinity,
+      child: Padding(
+        padding: shadowPadding,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: cardRadius,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: shadowColor.withValues(alpha: 0.35),
+                blurRadius: 14,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Material(
+            color: theme.colorScheme.surface,
+            shape: RoundedRectangleBorder(
+              borderRadius: cardRadius,
+              side: BorderSide(color: borderColor),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(UiTokens.radius16),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              borderRadius: cardRadius,
+              onTap: data.onTap,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -658,57 +702,86 @@ class FundFeaturedFundCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          data.title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              (theme.textTheme.titleSmall ?? const TextStyle())
-                                  .copyWith(fontWeight: FontWeight.w700),
-                        ),
-                        const SizedBox(height: UiTokens.spacing8),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    yieldLabel,
-                                    style:
-                                        (theme.textTheme.labelSmall ??
-                                                const TextStyle())
-                                            .copyWith(
-                                              color: AppColorTokens
-                                                  .fundexTextSecondary,
-                                            ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    data.annualYield,
-                                    style:
-                                        (theme.textTheme.headlineSmall ??
-                                                const TextStyle())
-                                            .copyWith(
-                                              color:
-                                                  AppColorTokens.fundexDanger,
-                                              fontWeight: FontWeight.w900,
-                                              height: 1.0,
-                                            ),
-                                  ),
-                                ],
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                              data.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  (theme.textTheme.titleSmall ??
+                                          const TextStyle())
+                                      .copyWith(fontWeight: FontWeight.w900),
+                          ),
+                          
+                          const SizedBox(height: UiTokens.spacing8),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      yieldLabel,
+                                      style:
+                                          (theme.textTheme.labelSmall ??
+                                                  const TextStyle())
+                                              .copyWith(
+                                                color: AppColorTokens
+                                                    .fundexTextSecondary,
+                                              ),
+                                    ),
+                                    //const SizedBox(height: 2),
+                                    Text(
+                                      data.annualYield,
+                                      style:
+                                          (theme.textTheme.headlineSmall ??
+                                                  const TextStyle())
+                                              .copyWith(
+                                                color:
+                                                    AppColorTokens.fundexDanger,
+                                                fontWeight: FontWeight.w900,
+                                                height: 1.0,
+                                              ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: UiTokens.spacing8),
+                              Text(
+                                data.metadata,
+                                textAlign: TextAlign.end,
+                                style:
+                                    (theme.textTheme.labelSmall ??
+                                            const TextStyle())
+                                        .copyWith(
+                                          color: AppColorTokens
+                                              .fundexTextSecondary,
+                                        ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: UiTokens.spacing4),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(3),
+                            child: LinearProgressIndicator(
+                              minHeight: 5,
+                              value: data.progress.clamp(0, 1),
+                              backgroundColor: AppColorTokens.fundexBorder,
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                AppColorTokens.fundexAccent,
                               ),
                             ),
-                            const SizedBox(width: UiTokens.spacing8),
+                          ),
+                          if (data.progressLabel != null) ...<Widget>[
+                            const SizedBox(height: UiTokens.spacing4),
                             Text(
-                              data.metadata,
-                              textAlign: TextAlign.end,
+                              data.progressLabel!,
                               style:
                                   (theme.textTheme.labelSmall ??
                                           const TextStyle())
@@ -718,32 +791,8 @@ class FundFeaturedFundCard extends StatelessWidget {
                                       ),
                             ),
                           ],
-                        ),
-                        const SizedBox(height: UiTokens.spacing8),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(3),
-                          child: LinearProgressIndicator(
-                            minHeight: 5,
-                            value: data.progress.clamp(0, 1),
-                            backgroundColor: AppColorTokens.fundexBorder,
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                              AppColorTokens.fundexAccent,
-                            ),
-                          ),
-                        ),
-                        if (data.progressLabel != null) ...<Widget>[
-                          const SizedBox(height: UiTokens.spacing4),
-                          Text(
-                            data.progressLabel!,
-                            style:
-                                (theme.textTheme.labelSmall ??
-                                        const TextStyle())
-                                    .copyWith(
-                                      color: AppColorTokens.fundexTextSecondary,
-                                    ),
-                          ),
                         ],
-                      ],
+                      ),
                     ),
                   ),
                 ],
@@ -839,16 +888,26 @@ class FundActiveFundCardData {
 class FundActiveFundsList extends StatefulWidget {
   const FundActiveFundsList({
     super.key,
-    required this.items,
-    required this.showMoreLabel,
-    required this.showLessLabel,
+    required this.title,
+    required this.children,
+    this.actionLabel,
+    this.onActionTap,
+    this.showMoreLabel,
+    this.showLessLabel,
     this.initialVisibleCount = 3,
+    this.itemSpacing = 4,
+    this.headerSpacing = UiTokens.spacing8,
   });
 
-  final List<FundActiveFundCardData> items;
-  final String showMoreLabel;
-  final String showLessLabel;
+  final String title;
+  final List<Widget> children;
+  final String? actionLabel;
+  final VoidCallback? onActionTap;
+  final String? showMoreLabel;
+  final String? showLessLabel;
   final int initialVisibleCount;
+  final double itemSpacing;
+  final double headerSpacing;
 
   @override
   State<FundActiveFundsList> createState() => _FundActiveFundsListState();
@@ -859,28 +918,38 @@ class _FundActiveFundsListState extends State<FundActiveFundsList> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.items.isEmpty) {
+    if (widget.children.isEmpty) {
       return const SizedBox.shrink();
     }
 
     final shouldShowMoreAction =
-        widget.items.length > widget.initialVisibleCount;
+        widget.showMoreLabel != null &&
+        widget.showLessLabel != null &&
+        widget.children.length > widget.initialVisibleCount;
     final visibleItems = _expanded
-        ? widget.items
-        : widget.items.take(widget.initialVisibleCount).toList();
+        ? widget.children
+        : widget.children.take(widget.initialVisibleCount).toList();
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
+        FundSectionHeader(
+          title: widget.title,
+          actionLabel: widget.actionLabel,
+          onActionTap: widget.onActionTap,
+        ),
+        SizedBox(height: widget.headerSpacing),
         for (var index = 0; index < visibleItems.length; index++) ...<Widget>[
-          FundActiveFundCard(data: visibleItems[index]),
-          if (index < visibleItems.length - 1) const SizedBox(height: 12),
+          visibleItems[index],
+          if (index < visibleItems.length - 1)
+            SizedBox(height: widget.itemSpacing),
         ],
         if (shouldShowMoreAction) ...<Widget>[
           const SizedBox(height: UiTokens.spacing8),
           TextButton(
-            onPressed: () => setState(() => _expanded = !_expanded),
+            onPressed: widget.onActionTap,
             child: Text(
-              _expanded ? widget.showLessLabel : widget.showMoreLabel,
+              _expanded ? widget.showLessLabel! : widget.showMoreLabel!,
             ),
           ),
         ],
@@ -890,9 +959,14 @@ class _FundActiveFundsListState extends State<FundActiveFundsList> {
 }
 
 class FundActiveFundCard extends StatelessWidget {
-  const FundActiveFundCard({super.key, required this.data});
+  const FundActiveFundCard({
+    super.key,
+    required this.data,
+    this.shadowPadding = const EdgeInsets.fromLTRB(2, 2, 2, 8),
+  });
 
   final FundActiveFundCardData data;
+  final EdgeInsetsGeometry shadowPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -904,92 +978,101 @@ class FundActiveFundCard extends StatelessWidget {
         theme.dividerColor.withValues(alpha: 0.85);
     final shadowColor = hotelTheme?.cardTileShadowColor ?? Colors.black12;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: cardRadius,
-        onTap: data.onTap,
-        child: Ink(
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
+    return Padding(
+      padding: shadowPadding,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: cardRadius,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: shadowColor.withValues(alpha: 0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Material(
+          color: theme.colorScheme.surface,
+          shape: RoundedRectangleBorder(
             borderRadius: cardRadius,
-            border: Border.all(color: borderColor),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: shadowColor.withValues(alpha: 0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 5),
-              ),
-            ],
+            side: BorderSide(color: borderColor),
           ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        data.title,
-                        style: (theme.textTheme.titleSmall ?? const TextStyle())
-                            .copyWith(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                    const SizedBox(width: UiTokens.spacing8),
-                    Text(
-                      data.annualYield,
-                      style: (theme.textTheme.titleLarge ?? const TextStyle())
-                          .copyWith(
-                            color: AppColorTokens.fundexDanger,
-                            fontWeight: FontWeight.w800,
-                          ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: UiTokens.spacing8),
-                for (final row in data.rows) ...<Widget>[
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            borderRadius: cardRadius,
+            onTap: data.onTap,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+              child: Column(
+                children: <Widget>[
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          row.label,
+                          data.title,
                           style:
-                              (theme.textTheme.bodySmall ?? const TextStyle())
-                                  .copyWith(
-                                    color: AppColorTokens.fundexTextSecondary,
-                                  ),
+                              (theme.textTheme.titleSmall ?? const TextStyle())
+                                  .copyWith(fontWeight: FontWeight.w700),
                         ),
                       ),
                       const SizedBox(width: UiTokens.spacing8),
                       Text(
-                        row.value,
-                        style: (theme.textTheme.bodySmall ?? const TextStyle())
+                        data.annualYield,
+                        style: (theme.textTheme.titleLarge ?? const TextStyle())
                             .copyWith(
-                              color:
-                                  row.valueColor ?? AppColorTokens.fundexText,
-                              fontWeight: FontWeight.w700,
+                              color: AppColorTokens.fundexDanger,
+                              fontWeight: FontWeight.w800,
                             ),
                       ),
                     ],
                   ),
-                  if (row != data.rows.last) const SizedBox(height: 4),
-                ],
-                if (data.progress != null) ...<Widget>[
                   const SizedBox(height: UiTokens.spacing8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(2),
-                    child: LinearProgressIndicator(
-                      minHeight: 5,
-                      value: data.progress!.clamp(0, 1),
-                      backgroundColor: AppColorTokens.fundexBorder,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        data.progressColor ?? AppColorTokens.fundexSuccess,
+                  for (final row in data.rows) ...<Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            row.label,
+                            style:
+                                (theme.textTheme.bodySmall ?? const TextStyle())
+                                    .copyWith(
+                                      color: AppColorTokens.fundexTextSecondary,
+                                    ),
+                          ),
+                        ),
+                        const SizedBox(width: UiTokens.spacing8),
+                        Text(
+                          row.value,
+                          style:
+                              (theme.textTheme.bodySmall ?? const TextStyle())
+                                  .copyWith(
+                                    color:
+                                        row.valueColor ??
+                                        AppColorTokens.fundexText,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                        ),
+                      ],
+                    ),
+                    if (row != data.rows.last) const SizedBox(height: 4),
+                  ],
+                  if (data.progress != null) ...<Widget>[
+                    const SizedBox(height: UiTokens.spacing8),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(2),
+                      child: LinearProgressIndicator(
+                        minHeight: 5,
+                        value: data.progress!.clamp(0, 1),
+                        backgroundColor: AppColorTokens.fundexBorder,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          data.progressColor ?? AppColorTokens.fundexSuccess,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),
