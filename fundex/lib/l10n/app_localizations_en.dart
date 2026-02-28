@@ -830,4 +830,140 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageJapanese => 'Japanese';
+
+  @override
+  String get fundDetailEstimatedYieldAnnualLabel =>
+      'Estimated yield (annualized)';
+
+  @override
+  String get fundDetailYieldDisclaimer => '* Estimate only. Not guaranteed.';
+
+  @override
+  String get fundDetailKeyFactsTitle => '📌 Key facts';
+
+  @override
+  String get fundDetailFundTotalLabel => 'Fund size';
+
+  @override
+  String get fundDetailMinimumInvestmentLabel => 'Minimum investment';
+
+  @override
+  String get fundDetailDividendLabel => 'Distribution';
+
+  @override
+  String get fundDetailLotteryDateLabel => 'Lottery date';
+
+  @override
+  String get fundDetailPreferredStructureTitle =>
+      '🛡️ Preferred/Subordinated Structure';
+
+  @override
+  String get fundDetailSeniorInvestmentLabel => 'Preferred';
+
+  @override
+  String get fundDetailJuniorInvestmentLabel => 'Subordinated';
+
+  @override
+  String get fundDetailPropertyInfoTitle => '📍 Property details';
+
+  @override
+  String get fundDetailLocationLabel => 'Location';
+
+  @override
+  String get fundDetailPropertyTypeLabel => 'Property type';
+
+  @override
+  String get fundDetailStructureLabel => 'Structure';
+
+  @override
+  String get fundDetailBuiltYearLabel => 'Built';
+
+  @override
+  String get fundDetailContractOverviewTitle => '📋 Contract overview';
+
+  @override
+  String get fundDetailContractTypeLabel => 'Contract type';
+
+  @override
+  String get fundDetailContractTypeValue => 'Silent partnership';
+
+  @override
+  String get fundDetailTargetPropertyTypeLabel => 'Target real estate type';
+
+  @override
+  String get fundDetailAppraisalValueLabel => 'Appraisal value';
+
+  @override
+  String get fundDetailAcquisitionPriceLabel => 'Planned acquisition price';
+
+  @override
+  String get fundDetailOfferPeriodLabel => 'Offering period';
+
+  @override
+  String get fundDetailOperationStartLabel => 'Planned start date';
+
+  @override
+  String get fundDetailOperationEndLabel => 'Planned end date';
+
+  @override
+  String get fundDetailOperatorInfoTitle => '🏢 Operator information';
+
+  @override
+  String get fundDetailOperatorCompanyLabel => 'Operator';
+
+  @override
+  String get fundDetailPermitNumberLabel => 'License number';
+
+  @override
+  String get fundDetailRepresentativeLabel => 'Representative';
+
+  @override
+  String get fundDetailCompanyAddressLabel => 'Address';
+
+  @override
+  String get fundDetailDocumentsTitle => '📄 Related documents';
+
+  @override
+  String get fundDetailDocumentReady => 'Tap to review';
+
+  @override
+  String get fundDetailDocumentUnavailable => 'Document URL not available';
+
+  @override
+  String get fundDetailCommentsTitle => '💬 Investor voices';
+
+  @override
+  String get fundDetailCommentsPlaceholder =>
+      'Comments are intentionally left empty for now. UI integration will be added later.';
+
+  @override
+  String get fundDetailApplyNowAction => 'Apply for lottery';
+
+  @override
+  String get fundDetailOpenSoonAction => 'Waiting for opening';
+
+  @override
+  String get fundDetailUnavailableAction => 'Unavailable now';
+
+  @override
+  String get fundDetailApplyComingSoonToast =>
+      'The application flow will be connected in the next implementation.';
+
+  @override
+  String get fundDetailUnknownValue => '--';
+
+  @override
+  String get fundDetailOneUnitSuffix => '(1 unit)';
+
+  @override
+  String get fundDetailMonthlyDistribution => 'Monthly';
+
+  @override
+  String get fundDetailQuarterlyDistribution => 'Quarterly';
+
+  @override
+  String get fundDetailSemiAnnualDistribution => 'Semi-annually';
+
+  @override
+  String get fundDetailAnnualDistribution => 'Annually';
 }

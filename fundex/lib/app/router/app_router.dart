@@ -12,6 +12,7 @@ import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/discussion_board/presentation/pages/discussion_board_tab_page.dart';
 import '../../features/home/presentation/pages/home_overview_tab_page.dart';
+import '../../features/investment/presentation/pages/fund_project_detail_page.dart';
 import '../../features/investment/presentation/pages/investment_tab_page.dart';
 import '../../features/main_shell/presentation/pages/main_shell_page.dart';
 import '../../features/member_profile/presentation/pages/member_profile_intake_page.dart';
@@ -209,6 +210,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/notifications',
         builder: (BuildContext context, GoRouterState state) {
           return const NotificationsPage();
+        },
+      ),
+      GoRoute(
+        path: '/funds/:id',
+        builder: (BuildContext context, GoRouterState state) {
+          final id = state.pathParameters['id'] ?? '';
+          return FundProjectDetailPage(projectId: id);
         },
       ),
       GoRoute(

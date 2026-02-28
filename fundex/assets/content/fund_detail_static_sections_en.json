@@ -1,0 +1,68 @@
+{
+  "riskSection": {
+    "title": "⚠️ Risk Notice",
+    "warning": "This product is not principal-guaranteed. You may lose the full amount of your investment. Please make investment decisions at your own responsibility.",
+    "items": [
+      {
+        "title": "Principal loss risk",
+        "body": "Changes in the real estate market or a decline in the appraised value of the target property may cause a loss of principal. You may lose the full amount invested."
+      },
+      {
+        "title": "Liquidity risk",
+        "body": "Early cancellation during the operating period is generally not allowed. Your funds may be locked up for a long period."
+      },
+      {
+        "title": "Vacancy and disaster risk",
+        "body": "Rental income may decline due to tenant vacancy, and the value of the target property may be damaged by disasters such as earthquakes or fires."
+      },
+      {
+        "title": "Operator credit risk",
+        "body": "If the operator's financial condition deteriorates or the operator becomes insolvent, the return of principal and payment of distributions may become difficult."
+      },
+      {
+        "title": "Interest rate risk",
+        "body": "A rise in interest rates may reduce real estate prices and negatively affect the profitability of this product."
+      },
+      {
+        "title": "Regulatory change risk",
+        "body": "Changes to real-estate-related laws or tax rules may reduce the profitability of this project."
+      }
+    ],
+    "footnotes": [
+      "The above are major risks only and do not cover every possible risk. Please review the pre-contract disclosure documents for details.",
+      "Past performance does not guarantee future investment results."
+    ]
+  },
+  "legalSections": [
+    {
+      "id": "distribution",
+      "title": "Distribution of returns and profits",
+      "body": "Profits generated from rent and other income from the target property, after deducting necessary expenses such as management fees, repair reserves, property tax, and operator fees, are distributed every six months based on the investment ratio. Distribution amounts are paid after withholding tax (20.42%)."
+    },
+    {
+      "id": "fees",
+      "title": "Fees and charges",
+      "rows": [
+        {"label": "Investment fee", "value": "Free"},
+        {"label": "Management fee", "value": "2.0% of rental income"},
+        {"label": "Exit fee", "value": "30% of capital gain"},
+        {"label": "Withdrawal fee", "value": "JPY 145 / time"}
+      ]
+    },
+    {
+      "id": "tax",
+      "title": "Tax treatment",
+      "body": "Distributions are treated as miscellaneous income and subject to comprehensive taxation. A withholding tax of 20.42% is deducted at payment. You may need to file a final tax return. Please consult the tax office or a licensed tax professional for details."
+    },
+    {
+      "id": "cancellation",
+      "title": "Contract cancellation",
+      "body": "For eight days starting from the day after you receive the contract completion disclosure document, you may exercise cooling-off in writing. After that period, mid-term cancellation is generally not permitted except for unavoidable circumstances."
+    },
+    {
+      "id": "rights",
+      "title": "Rights related to the target property",
+      "body": "Ownership of the target property is acquired and held by the operator. Investors have a claim to profit distributions as silent partnership members, but do not obtain ownership of the real estate itself. Any material encumbrances will be described in the contract documents."
+    }
+  ]
+}

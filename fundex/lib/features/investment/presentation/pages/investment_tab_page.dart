@@ -1,6 +1,7 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
@@ -618,7 +619,7 @@ class _FundProjectCard extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             borderRadius: cardRadius,
-            onTap: () {},
+            onTap: () => context.push('/funds/${project.id}'),
             child: Column(
               children: <Widget>[
                 SizedBox(

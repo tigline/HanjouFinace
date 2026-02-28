@@ -13,4 +13,10 @@ class FundProjectRepositoryImpl implements FundProjectRepository {
     final dtos = await _remote.fetchFundProjectList();
     return dtos.map((dto) => dto.toEntity()).toList(growable: false);
   }
+
+  @override
+  Future<FundProject> fetchFundProjectDetail({required String id}) async {
+    final dto = await _remote.fetchFundProjectDetail(id: id);
+    return dto.toEntity();
+  }
 }

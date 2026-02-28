@@ -7,11 +7,13 @@ class FundProject {
     required this.projectName,
     this.expectedDistributionRatioMax,
     this.expectedDistributionRatioMin,
+    this.distributionDate,
     this.investmentPeriod,
     this.scheduledStartDate,
     this.scheduledEndDate,
     this.offeringStartDatetime,
     this.offeringEndDatetime,
+    this.typeOfOffering,
     this.offeringMethod,
     this.investmentUnit,
     this.maximumInvestmentPerPerson,
@@ -21,8 +23,11 @@ class FundProject {
     this.daysRemaining,
     this.projectStatus,
     this.operatingCompany,
+    this.operatingCompanyAccount,
     this.periodType,
     this.times,
+    this.accountId,
+    this.detailData = const <String, Object?>{},
     this.photos = const <String>[],
     this.investorTypes = const <FundProjectInvestorType>[],
     this.pdfDocuments = const <FundProjectPdfDocument>[],
@@ -32,11 +37,13 @@ class FundProject {
   final String projectName;
   final double? expectedDistributionRatioMax;
   final double? expectedDistributionRatioMin;
+  final String? distributionDate;
   final String? investmentPeriod;
   final String? scheduledStartDate;
   final String? scheduledEndDate;
   final String? offeringStartDatetime;
   final String? offeringEndDatetime;
+  final String? typeOfOffering;
   final String? offeringMethod;
   final int? investmentUnit;
   final int? maximumInvestmentPerPerson;
@@ -46,8 +53,11 @@ class FundProject {
   final int? daysRemaining;
   final int? projectStatus;
   final String? operatingCompany;
+  final int? operatingCompanyAccount;
   final String? periodType;
   final int? times;
+  final String? accountId;
+  final Map<String, Object?> detailData;
   final List<String> photos;
   final List<FundProjectInvestorType> investorTypes;
   final List<FundProjectPdfDocument> pdfDocuments;

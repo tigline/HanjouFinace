@@ -1,15 +1,30 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../investment/domain/entities/fund_project.dart';
+import '../../../investment/presentation/providers/fund_project_providers.dart';
 
-class HomeOverviewTabPage extends StatelessWidget {
+const Set<int> _featuredProjectStatuses = <int>{0, 1};
+const int _operatingProjectStatus = 4;
+
+class HomeOverviewTabPage extends ConsumerWidget {
   const HomeOverviewTabPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final asyncProjects = ref.watch(fundProjectListProvider);
+    final projects = asyncProjects.asData?.value ?? const <FundProject>[];
+    final locale = Localizations.localeOf(context);
+    final currencyFormatter = NumberFormat.currency(
+      locale: locale.toLanguageTag(),
+      symbol: '¥',
+      decimalDigits: 0,
+    );
 
     final reminders = <FundReminderData>[
       FundReminderData(
@@ -38,159 +53,41 @@ class HomeOverviewTabPage extends StatelessWidget {
       ),
     ];
 
-    final featuredFunds = <FundFeaturedFundCardData>[
-      FundFeaturedFundCardData(
-        title: l10n.homeMockFeaturedFundA,
-        annualYield: '8.5%',
-        metadata: l10n.homeMockFeaturedMetaA,
-        progress: 0.72,
-        tags: <FundFeaturedFundTagData>[
-          FundFeaturedFundTagData(
-            label: l10n.homeTagOpen,
-            backgroundColor: AppColorTokens.fundexSuccess.withValues(
-              alpha: 0.9,
-            ),
-            foregroundColor: Colors.white,
-          ),
-          FundFeaturedFundTagData(
-            label: l10n.homeTagLottery,
-            backgroundColor: AppColorTokens.fundexPink.withValues(alpha: 0.85),
-            foregroundColor: Colors.white,
-          ),
-        ],
-        artworkGradientColors: const <Color>[
-          Color(0xFF0F172A),
-          Color(0xFF1E3A5F),
-          Color(0xFF2563EB),
-        ],
-        onTap: () => context.go('/funds'),
-      ),
-      FundFeaturedFundCardData(
-        title: l10n.homeMockFeaturedFundB,
-        annualYield: '6.2%',
-        metadata: l10n.homeMockFeaturedMetaB,
-        progress: 0.45,
-        tags: <FundFeaturedFundTagData>[
-          FundFeaturedFundTagData(
-            label: l10n.homeTagOpen,
-            backgroundColor: AppColorTokens.fundexSuccess.withValues(
-              alpha: 0.9,
-            ),
-            foregroundColor: Colors.white,
-          ),
-          FundFeaturedFundTagData(
-            label: l10n.homeTagLottery,
-            backgroundColor: AppColorTokens.fundexPink.withValues(alpha: 0.85),
-            foregroundColor: Colors.white,
-          ),
-        ],
-        artworkGradientColors: const <Color>[
-          Color(0xFF7C2D12),
-          Color(0xFFC2410C),
-          Color(0xFFF97316),
-        ],
-        onTap: () => context.go('/funds'),
-      ),
-      FundFeaturedFundCardData(
-        title: l10n.homeMockFeaturedFundC,
-        annualYield: '10.0%',
-        metadata: l10n.homeMockFeaturedMetaC,
-        progress: 0.18,
-        tags: <FundFeaturedFundTagData>[
-          FundFeaturedFundTagData(
-            label: l10n.homeTagUpcoming,
-            backgroundColor: AppColorTokens.fundexWarning.withValues(
-              alpha: 0.92,
-            ),
-            foregroundColor: Colors.white,
-          ),
-        ],
-        artworkGradientColors: const <Color>[
-          Color(0xFF14532D),
-          Color(0xFF166534),
-          Color(0xFF22C55E),
-        ],
-        onTap: () => context.go('/funds'),
-      ),
-    ];
+    final featuredProjects = projects
+        .where(
+          (FundProject project) =>
+              _featuredProjectStatuses.contains(project.projectStatus),
+        )
+        .take(6)
+        .toList(growable: false);
+    final activeProjects = projects
+        .where(
+          (FundProject project) =>
+              project.projectStatus == _operatingProjectStatus,
+        )
+        .take(3)
+        .toList(growable: false);
 
-    final featuredFundCards = featuredFunds
+    final featuredFundCards = featuredProjects
         .map(
-          (fund) => FundFeaturedFundCard(
-            data: fund,
+          (FundProject project) => FundFeaturedFundCard(
+            data: _buildFeaturedFundCardData(
+              context,
+              project,
+              currencyFormatter,
+            ),
             yieldLabel: l10n.homeEstimatedYieldLabel,
           ),
         )
         .toList(growable: false);
-
-    final activeFunds = <FundActiveFundCardData>[
-      FundActiveFundCardData(
-        title: l10n.homeMockActiveFundA,
-        annualYield: '7.2%',
-        rows: <FundLabeledValue>[
-          FundLabeledValue(
-            label: l10n.homeInvestedAmountLabel,
-            value: '¥1,000,000',
+    final activeFundCards = activeProjects
+        .map(
+          (FundProject project) => FundActiveFundCard(
+            data: _buildActiveFundCardData(context, project),
           ),
-          FundLabeledValue(
-            label: l10n.homeNextDividendLabel,
-            value: '2025/03/15',
-          ),
-        ],
-        progress: 0.65,
-        progressColor: AppColorTokens.fundexSuccess,
-        onTap: () => context.go('/funds'),
-      ),
-      FundActiveFundCardData(
-        title: l10n.homeMockActiveFundB,
-        annualYield: '5.8%',
-        rows: <FundLabeledValue>[
-          FundLabeledValue(
-            label: l10n.homeInvestedAmountLabel,
-            value: '¥500,000',
-          ),
-          FundLabeledValue(
-            label: l10n.homeNextDividendLabel,
-            value: '2025/04/01',
-          ),
-        ],
-        onTap: () => context.go('/funds'),
-      ),
-      FundActiveFundCardData(
-        title: l10n.homeMockActiveFundC,
-        annualYield: '6.1%',
-        rows: <FundLabeledValue>[
-          FundLabeledValue(
-            label: l10n.homeInvestedAmountLabel,
-            value: '¥800,000',
-          ),
-          FundLabeledValue(
-            label: l10n.homeNextDividendLabel,
-            value: '2025/04/18',
-          ),
-        ],
-        onTap: () => context.go('/funds'),
-      ),
-      FundActiveFundCardData(
-        title: l10n.homeMockActiveFundD,
-        annualYield: '5.3%',
-        rows: <FundLabeledValue>[
-          FundLabeledValue(
-            label: l10n.homeInvestedAmountLabel,
-            value: '¥300,000',
-          ),
-          FundLabeledValue(
-            label: l10n.homeNextDividendLabel,
-            value: '2025/05/02',
-          ),
-        ],
-        onTap: () => context.go('/funds'),
-      ),
-    ];
-
-    final activeFundCards = activeFunds
-        .map((fund) => FundActiveFundCard(data: fund))
+        )
         .toList(growable: false);
+    final loadError = asyncProjects.asError;
 
     return ListView(
       key: const Key('home_tab_content'),
@@ -208,43 +105,350 @@ class HomeOverviewTabPage extends StatelessWidget {
           showNotificationDot: true,
           onNotificationTap: () => context.push('/notifications'),
         ),
-
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
           child: Column(
             spacing: UiTokens.spacing16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(padding: 
-                  const EdgeInsets.symmetric(horizontal: UiTokens.spacing16),
-                  child: FundReminderFeed(items: reminders),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: UiTokens.spacing16,
+                ),
+                child: FundReminderFeed(items: reminders),
               ),
-              
-
-              FundFeaturedFundCarousel(
-                title: l10n.homeFeaturedFundsTitle,
-                actionLabel: l10n.homeViewAllAction,
-                onActionTap: () => context.go('/funds'),
-                children: featuredFundCards,
-              ),
-
-              Padding(padding: 
-                  const EdgeInsets.symmetric(horizontal: UiTokens.spacing16),
-                  child: FundActiveFundsList(
-                          title: l10n.homeActiveFundsTitle,
-                          showMoreLabel: l10n.homeShowMoreAction,
-                          showLessLabel: l10n.homeShowLessAction,
-                          initialVisibleCount: 3,
-                          children: activeFundCards,
-                          onActionTap: () => context.go('/funds'),
+              if (asyncProjects.isLoading && projects.isEmpty)
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: UiTokens.spacing16),
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                ),
+              if (loadError != null && projects.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: UiTokens.spacing16,
+                  ),
+                  child: Center(
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          l10n.fundListLoadError,
+                          textAlign: TextAlign.center,
+                          style:
+                              (Theme.of(context).textTheme.bodyMedium ??
+                                      const TextStyle())
+                                  .copyWith(
+                                    color: AppColorTokens.fundexTextSecondary,
+                                  ),
                         ),
-              ),
-
-              
+                        const SizedBox(height: UiTokens.spacing12),
+                        OutlinedButton(
+                          onPressed: () =>
+                              ref.invalidate(fundProjectListProvider),
+                          child: Text(l10n.fundListRetry),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              if (featuredFundCards.isNotEmpty)
+                FundFeaturedFundCarousel(
+                  title: l10n.homeFeaturedFundsTitle,
+                  actionLabel: l10n.homeViewAllAction,
+                  onActionTap: () => context.go('/funds'),
+                  children: featuredFundCards,
+                ),
+              if (activeFundCards.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: UiTokens.spacing16,
+                  ),
+                  child: FundActiveFundsList(
+                    title: l10n.homeActiveFundsTitle,
+                    actionLabel: l10n.homeViewAllAction,
+                    onActionTap: () => context.go('/funds'),
+                    initialVisibleCount: 3,
+                    children: activeFundCards,
+                  ),
+                ),
             ],
           ),
         ),
       ],
     );
   }
+}
+
+FundFeaturedFundCardData _buildFeaturedFundCardData(
+  BuildContext context,
+  FundProject project,
+  NumberFormat currencyFormatter,
+) {
+  final status = project.projectStatus;
+  final statusTag = _buildStatusTag(context, status);
+  final methodTag = _buildMethodTag(context, project.offeringMethod);
+  final metadata = _buildFeaturedMetadata(context, project);
+
+  return FundFeaturedFundCardData(
+    title: project.projectName,
+    annualYield: _formatYieldPercent(
+      project.expectedDistributionRatioMax ??
+          project.expectedDistributionRatioMin ??
+          project.investorTypes.firstOrNull?.earningsRadio,
+    ),
+    metadata: metadata,
+    progress: _normalizeProgress(project.achievementRate),
+    progressLabel: _buildProgressLabel(context, project, currencyFormatter),
+    tags: <FundFeaturedFundTagData>[
+      statusTag,
+      if (methodTag != null) methodTag,
+    ],
+    artworkGradientColors: _featuredArtworkGradientColors(status),
+    onTap: () => context.push('/funds/${project.id}'),
+  );
+}
+
+FundActiveFundCardData _buildActiveFundCardData(
+  BuildContext context,
+  FundProject project,
+) {
+  return FundActiveFundCardData(
+    title: project.projectName,
+    annualYield: _formatYieldPercent(
+      project.expectedDistributionRatioMax ??
+          project.expectedDistributionRatioMin ??
+          project.investorTypes.firstOrNull?.earningsRadio,
+    ),
+    rows: <FundLabeledValue>[
+      FundLabeledValue(
+        label: context.l10n.fundListPeriodLabel,
+        value: _resolvePeriodText(project),
+      ),
+      FundLabeledValue(
+        label: context.l10n.fundListMethodLabel,
+        value: _resolveMethodLabel(context, project.offeringMethod),
+      ),
+    ],
+    progress: _normalizeProgress(project.achievementRate),
+    progressColor: AppColorTokens.fundexSuccess,
+    onTap: () => context.push('/funds/${project.id}'),
+  );
+}
+
+FundFeaturedFundTagData _buildStatusTag(BuildContext context, int? status) {
+  switch (status) {
+    case 1:
+      return FundFeaturedFundTagData(
+        label: context.l10n.fundListStatusOpen,
+        backgroundColor: AppColorTokens.fundexSuccess.withValues(alpha: 0.92),
+        foregroundColor: Colors.white,
+      );
+    case 0:
+      return FundFeaturedFundTagData(
+        label: context.l10n.fundListStatusUpcoming,
+        backgroundColor: AppColorTokens.fundexWarning.withValues(alpha: 0.92),
+        foregroundColor: Colors.white,
+      );
+    case 4:
+      return FundFeaturedFundTagData(
+        label: context.l10n.fundListStatusOperating,
+        backgroundColor: AppColorTokens.fundexAccent.withValues(alpha: 0.88),
+        foregroundColor: Colors.white,
+      );
+    default:
+      return FundFeaturedFundTagData(
+        label: context.l10n.fundListStatusUnknown,
+        backgroundColor: AppColorTokens.fundexTextSecondary.withValues(
+          alpha: 0.88,
+        ),
+        foregroundColor: Colors.white,
+      );
+  }
+}
+
+FundFeaturedFundTagData? _buildMethodTag(
+  BuildContext context,
+  String? offeringMethod,
+) {
+  final label = _resolveMethodLabel(context, offeringMethod).trim();
+  if (label.isEmpty) {
+    return null;
+  }
+  return FundFeaturedFundTagData(
+    label: label,
+    backgroundColor: AppColorTokens.fundexPink.withValues(alpha: 0.85),
+    foregroundColor: Colors.white,
+  );
+}
+
+List<Color> _featuredArtworkGradientColors(int? status) {
+  switch (status) {
+    case 1:
+      return const <Color>[
+        Color(0xFF0F172A),
+        Color(0xFF1E3A8A),
+        Color(0xFF2563EB),
+      ];
+    case 0:
+      return const <Color>[
+        Color(0xFF7C2D12),
+        Color(0xFFC2410C),
+        Color(0xFFF97316),
+      ];
+    case 4:
+      return const <Color>[
+        Color(0xFF14532D),
+        Color(0xFF166534),
+        Color(0xFF22C55E),
+      ];
+    default:
+      return const <Color>[
+        Color(0xFF334155),
+        Color(0xFF475569),
+        Color(0xFF64748B),
+      ];
+  }
+}
+
+String _buildFeaturedMetadata(BuildContext context, FundProject project) {
+  final company = project.operatingCompany?.trim();
+  if (company != null && company.isNotEmpty) {
+    return company;
+  }
+  final period = project.investmentPeriod?.trim();
+  if (period != null && period.isNotEmpty) {
+    return period;
+  }
+  return _resolveStatusLabel(context, project.projectStatus);
+}
+
+String _buildProgressLabel(
+  BuildContext context,
+  FundProject project,
+  NumberFormat currencyFormatter,
+) {
+  if (project.projectStatus == 0) {
+    final openDate =
+        _parseDateTime(project.offeringStartDatetime) ??
+        _parseDateTime(project.scheduledStartDate);
+    if (openDate != null) {
+      return context.l10n.fundListOpenStartAt(
+        _formatDateForLocale(openDate, Localizations.localeOf(context)),
+      );
+    }
+  }
+
+  final amount = _formatCurrency(
+    project.currentlySubscribed ?? project.amountApplication,
+    currencyFormatter,
+  );
+  return context.l10n.fundListAppliedAmount(
+    amount,
+    _formatProgressPercent(project.achievementRate),
+  );
+}
+
+String _resolvePeriodText(FundProject project) {
+  final period = project.investmentPeriod?.trim();
+  if (period != null && period.isNotEmpty) {
+    return period;
+  }
+  return '--';
+}
+
+String _resolveMethodLabel(BuildContext context, String? offeringMethod) {
+  final l10n = context.l10n;
+  final value = offeringMethod?.trim();
+  if (value == null || value.isEmpty) {
+    return l10n.fundListMethodLottery;
+  }
+
+  final normalized = value.toLowerCase();
+  if (normalized.contains('lottery') ||
+      value.contains('抽選') ||
+      value.contains('抽签')) {
+    return l10n.fundListMethodLottery;
+  }
+  return value;
+}
+
+String _resolveStatusLabel(BuildContext context, int? status) {
+  final l10n = context.l10n;
+  switch (status) {
+    case 4:
+      return l10n.fundListStatusOperating;
+    case 5:
+      return l10n.fundListStatusOperatingEnded;
+    case 1:
+      return l10n.fundListStatusOpen;
+    case 0:
+      return l10n.fundListStatusUpcoming;
+    case 3:
+      return l10n.fundListStatusClosed;
+    case 7:
+      return l10n.fundListStatusCompleted;
+    case 2:
+      return l10n.fundListStatusFailed;
+    default:
+      return l10n.fundListStatusUnknown;
+  }
+}
+
+String _formatYieldPercent(double? ratio) {
+  if (ratio == null) {
+    return '--';
+  }
+  final percentage = ratio > 1 ? ratio : ratio * 100;
+  final hasFraction = percentage % 1 != 0;
+  return '${percentage.toStringAsFixed(hasFraction ? 1 : 0)}%';
+}
+
+double _normalizeProgress(double? ratio) {
+  if (ratio == null) {
+    return 0;
+  }
+  if (ratio < 0) {
+    return 0;
+  }
+  return ratio > 1 ? ratio / 100 : ratio;
+}
+
+String _formatProgressPercent(double? ratio) {
+  if (ratio == null) {
+    return '--';
+  }
+  final percentage = ratio > 1 ? ratio : ratio * 100;
+  final hasFraction = percentage % 1 != 0;
+  return '${percentage.toStringAsFixed(hasFraction ? 1 : 0)}%';
+}
+
+String _formatCurrency(int? amount, NumberFormat formatter) {
+  if (amount == null) {
+    return '-';
+  }
+  return formatter.format(amount);
+}
+
+DateTime? _parseDateTime(String? raw) {
+  if (raw == null || raw.trim().isEmpty) {
+    return null;
+  }
+  final normalized = raw.trim().replaceAll(' ', 'T');
+  return DateTime.tryParse(normalized);
+}
+
+String _formatDateForLocale(DateTime value, Locale locale) {
+  final languageCode = locale.languageCode;
+  if (languageCode == 'ja') {
+    return DateFormat.yMMMMd('ja').format(value);
+  }
+  if (languageCode == 'zh') {
+    return DateFormat.yMd('zh').format(value);
+  }
+  return DateFormat.yMMMd(locale.toLanguageTag()).format(value);
+}
+
+extension<T> on List<T> {
+  T? get firstOrNull => isEmpty ? null : first;
 }

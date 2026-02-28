@@ -5,12 +5,23 @@ import 'package:fundex/features/investment/data/repositories/fund_project_reposi
 
 class _FakeFundProjectRemoteDataSource implements FundProjectRemoteDataSource {
   List<FundProjectDto> result = const <FundProjectDto>[];
+  FundProjectDto detailResult = const FundProjectDto(
+    id: 'detail',
+    projectName: 'detail',
+  );
   int callCount = 0;
+  int detailCallCount = 0;
 
   @override
   Future<List<FundProjectDto>> fetchFundProjectList() async {
     callCount += 1;
     return result;
+  }
+
+  @override
+  Future<FundProjectDto> fetchFundProjectDetail({required String id}) async {
+    detailCallCount += 1;
+    return detailResult;
   }
 }
 
@@ -61,6 +72,34 @@ void main() {
       expect(entities.first.pdfDocuments.first.urls, <String>[
         'https://cdn.example.com/a.pdf',
       ]);
+    });
+
+    test('fetchFundProjectDetail maps DTO to domain entity', () async {
+      final remote = _FakeFundProjectRemoteDataSource()
+        ..detailResult = const FundProjectDto(
+          id: 'p-detail',
+          projectName: '繁星優選Fund商品20241123',
+          distributionDate: '2025-03-31',
+          typeOfOffering: 'LOTTERY',
+          operatingCompany: '運営会社',
+          operatingCompanyAccount: 127005,
+          accountId: '48978',
+          detailData: <String, Object?>{'permitNumber': '東京都知事 第001号'},
+        );
+
+      final repository = FundProjectRepositoryImpl(remote: remote);
+
+      final entity = await repository.fetchFundProjectDetail(id: 'p-detail');
+
+      expect(remote.detailCallCount, 1);
+      expect(entity.id, 'p-detail');
+      expect(entity.projectName, '繁星優選Fund商品20241123');
+      expect(entity.distributionDate, '2025-03-31');
+      expect(entity.typeOfOffering, 'LOTTERY');
+      expect(entity.operatingCompany, '運営会社');
+      expect(entity.operatingCompanyAccount, 127005);
+      expect(entity.accountId, '48978');
+      expect(entity.detailData['permitNumber'], '東京都知事 第001号');
     });
   });
 }

@@ -542,7 +542,7 @@ class FundFeaturedFundCarousel extends StatelessWidget {
     required this.children,
     this.actionLabel,
     this.onActionTap,
-    this.height = 240,
+    this.height = 260,
     this.itemSpacing = 12,
     this.headerSpacing = 0,
   });
@@ -564,9 +564,9 @@ class FundFeaturedFundCarousel extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(padding: const EdgeInsets.symmetric(horizontal: UiTokens.spacing16),
-          child:
-          FundSectionHeader(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: UiTokens.spacing16),
+          child: FundSectionHeader(
             title: title,
             actionLabel: actionLabel,
             onActionTap: onActionTap,
@@ -632,9 +632,9 @@ class FundFeaturedFundCard extends StatelessWidget {
             borderRadius: cardRadius,
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: shadowColor.withValues(alpha: 0.35),
-                blurRadius: 14,
-                offset: const Offset(0, 6),
+                color: shadowColor.withValues(alpha: 0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
@@ -709,15 +709,15 @@ class FundFeaturedFundCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                              data.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                                  (theme.textTheme.titleSmall ??
-                                          const TextStyle())
-                                      .copyWith(fontWeight: FontWeight.w900),
+                            data.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                (theme.textTheme.titleSmall ??
+                                        const TextStyle())
+                                    .copyWith(fontWeight: FontWeight.w900),
                           ),
-                          
+
                           const SizedBox(height: UiTokens.spacing8),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -931,7 +931,7 @@ class _FundActiveFundsListState extends State<FundActiveFundsList> {
         : widget.children.take(widget.initialVisibleCount).toList();
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         FundSectionHeader(
           title: widget.title,
@@ -985,9 +985,9 @@ class FundActiveFundCard extends StatelessWidget {
           borderRadius: cardRadius,
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: shadowColor.withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 5),
+              color: shadowColor.withValues(alpha: 0.09),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
           ],
         ),

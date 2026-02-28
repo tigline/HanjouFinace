@@ -776,4 +776,136 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get languageJapanese => '日本語';
+
+  @override
+  String get fundDetailEstimatedYieldAnnualLabel => '想定利回り（年率）';
+
+  @override
+  String get fundDetailYieldDisclaimer => '※ 想定であり、保証するものではありません';
+
+  @override
+  String get fundDetailKeyFactsTitle => '📌 基本情報';
+
+  @override
+  String get fundDetailFundTotalLabel => '募集金額';
+
+  @override
+  String get fundDetailMinimumInvestmentLabel => '最低投資額';
+
+  @override
+  String get fundDetailDividendLabel => '配当';
+
+  @override
+  String get fundDetailLotteryDateLabel => '抽選日';
+
+  @override
+  String get fundDetailPreferredStructureTitle => '🛡️ 優先劣後構造';
+
+  @override
+  String get fundDetailSeniorInvestmentLabel => '優先出資';
+
+  @override
+  String get fundDetailJuniorInvestmentLabel => '劣後出資';
+
+  @override
+  String get fundDetailPropertyInfoTitle => '📍 物件情報';
+
+  @override
+  String get fundDetailLocationLabel => '所在地';
+
+  @override
+  String get fundDetailPropertyTypeLabel => '種別';
+
+  @override
+  String get fundDetailStructureLabel => '構造';
+
+  @override
+  String get fundDetailBuiltYearLabel => '竣工';
+
+  @override
+  String get fundDetailContractOverviewTitle => '📋 契約概要（法定記載事項）';
+
+  @override
+  String get fundDetailContractTypeLabel => '契約形態';
+
+  @override
+  String get fundDetailContractTypeValue => '匿名組合型';
+
+  @override
+  String get fundDetailTargetPropertyTypeLabel => '対象不動産の種類';
+
+  @override
+  String get fundDetailAppraisalValueLabel => '不動産鑑定評価額';
+
+  @override
+  String get fundDetailAcquisitionPriceLabel => '取得予定価格';
+
+  @override
+  String get fundDetailOfferPeriodLabel => '募集期間';
+
+  @override
+  String get fundDetailOperationStartLabel => '運用開始予定日';
+
+  @override
+  String get fundDetailOperationEndLabel => '運用終了予定日';
+
+  @override
+  String get fundDetailOperatorInfoTitle => '🏢 事業者情報';
+
+  @override
+  String get fundDetailOperatorCompanyLabel => '運営会社';
+
+  @override
+  String get fundDetailPermitNumberLabel => '許可番号';
+
+  @override
+  String get fundDetailRepresentativeLabel => '代表者';
+
+  @override
+  String get fundDetailCompanyAddressLabel => '所在地';
+
+  @override
+  String get fundDetailDocumentsTitle => '📄 関連書面';
+
+  @override
+  String get fundDetailDocumentReady => 'タップして確認';
+
+  @override
+  String get fundDetailDocumentUnavailable => '書面URL未設定';
+
+  @override
+  String get fundDetailCommentsTitle => '💬 投資家の声';
+
+  @override
+  String get fundDetailCommentsPlaceholder => 'コメント機能は今回未実装です。UIのみ後続で接続します。';
+
+  @override
+  String get fundDetailApplyNowAction => '抽選に申し込む';
+
+  @override
+  String get fundDetailOpenSoonAction => '募集開始を待つ';
+
+  @override
+  String get fundDetailUnavailableAction => '現在申込できません';
+
+  @override
+  String get fundDetailApplyComingSoonToast => '申込フローは次の実装で接続します。';
+
+  @override
+  String get fundDetailUnknownValue => '--';
+
+  @override
+  String get fundDetailOneUnitSuffix => '（1口）';
+
+  @override
+  String get fundDetailMonthlyDistribution => '毎月';
+
+  @override
+  String get fundDetailQuarterlyDistribution => '四半期毎';
+
+  @override
+  String get fundDetailSemiAnnualDistribution => '半年毎';
+
+  @override
+  String get fundDetailAnnualDistribution => '年1回';
 }

@@ -1599,6 +1599,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Japanese'**
   String get languageJapanese;
+
+  /// No description provided for @fundDetailEstimatedYieldAnnualLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated yield (annualized)'**
+  String get fundDetailEstimatedYieldAnnualLabel;
+
+  /// No description provided for @fundDetailYieldDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'* Estimate only. Not guaranteed.'**
+  String get fundDetailYieldDisclaimer;
+
+  /// No description provided for @fundDetailKeyFactsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📌 Key facts'**
+  String get fundDetailKeyFactsTitle;
+
+  /// No description provided for @fundDetailFundTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund size'**
+  String get fundDetailFundTotalLabel;
+
+  /// No description provided for @fundDetailMinimumInvestmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum investment'**
+  String get fundDetailMinimumInvestmentLabel;
+
+  /// No description provided for @fundDetailDividendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Distribution'**
+  String get fundDetailDividendLabel;
+
+  /// No description provided for @fundDetailLotteryDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Lottery date'**
+  String get fundDetailLotteryDateLabel;
+
+  /// No description provided for @fundDetailPreferredStructureTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🛡️ Preferred/Subordinated Structure'**
+  String get fundDetailPreferredStructureTitle;
+
+  /// No description provided for @fundDetailSeniorInvestmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred'**
+  String get fundDetailSeniorInvestmentLabel;
+
+  /// No description provided for @fundDetailJuniorInvestmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subordinated'**
+  String get fundDetailJuniorInvestmentLabel;
+
+  /// No description provided for @fundDetailPropertyInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📍 Property details'**
+  String get fundDetailPropertyInfoTitle;
+
+  /// No description provided for @fundDetailLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get fundDetailLocationLabel;
+
+  /// No description provided for @fundDetailPropertyTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Property type'**
+  String get fundDetailPropertyTypeLabel;
+
+  /// No description provided for @fundDetailStructureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Structure'**
+  String get fundDetailStructureLabel;
+
+  /// No description provided for @fundDetailBuiltYearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Built'**
+  String get fundDetailBuiltYearLabel;
+
+  /// No description provided for @fundDetailContractOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📋 Contract overview'**
+  String get fundDetailContractOverviewTitle;
+
+  /// No description provided for @fundDetailContractTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract type'**
+  String get fundDetailContractTypeLabel;
+
+  /// No description provided for @fundDetailContractTypeValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent partnership'**
+  String get fundDetailContractTypeValue;
+
+  /// No description provided for @fundDetailTargetPropertyTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Target real estate type'**
+  String get fundDetailTargetPropertyTypeLabel;
+
+  /// No description provided for @fundDetailAppraisalValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal value'**
+  String get fundDetailAppraisalValueLabel;
+
+  /// No description provided for @fundDetailAcquisitionPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned acquisition price'**
+  String get fundDetailAcquisitionPriceLabel;
+
+  /// No description provided for @fundDetailOfferPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Offering period'**
+  String get fundDetailOfferPeriodLabel;
+
+  /// No description provided for @fundDetailOperationStartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned start date'**
+  String get fundDetailOperationStartLabel;
+
+  /// No description provided for @fundDetailOperationEndLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned end date'**
+  String get fundDetailOperationEndLabel;
+
+  /// No description provided for @fundDetailOperatorInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'🏢 Operator information'**
+  String get fundDetailOperatorInfoTitle;
+
+  /// No description provided for @fundDetailOperatorCompanyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Operator'**
+  String get fundDetailOperatorCompanyLabel;
+
+  /// No description provided for @fundDetailPermitNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'License number'**
+  String get fundDetailPermitNumberLabel;
+
+  /// No description provided for @fundDetailRepresentativeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Representative'**
+  String get fundDetailRepresentativeLabel;
+
+  /// No description provided for @fundDetailCompanyAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get fundDetailCompanyAddressLabel;
+
+  /// No description provided for @fundDetailDocumentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📄 Related documents'**
+  String get fundDetailDocumentsTitle;
+
+  /// No description provided for @fundDetailDocumentReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to review'**
+  String get fundDetailDocumentReady;
+
+  /// No description provided for @fundDetailDocumentUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Document URL not available'**
+  String get fundDetailDocumentUnavailable;
+
+  /// No description provided for @fundDetailCommentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'💬 Investor voices'**
+  String get fundDetailCommentsTitle;
+
+  /// No description provided for @fundDetailCommentsPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments are intentionally left empty for now. UI integration will be added later.'**
+  String get fundDetailCommentsPlaceholder;
+
+  /// No description provided for @fundDetailApplyNowAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply for lottery'**
+  String get fundDetailApplyNowAction;
+
+  /// No description provided for @fundDetailOpenSoonAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for opening'**
+  String get fundDetailOpenSoonAction;
+
+  /// No description provided for @fundDetailUnavailableAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable now'**
+  String get fundDetailUnavailableAction;
+
+  /// No description provided for @fundDetailApplyComingSoonToast.
+  ///
+  /// In en, this message translates to:
+  /// **'The application flow will be connected in the next implementation.'**
+  String get fundDetailApplyComingSoonToast;
+
+  /// No description provided for @fundDetailUnknownValue.
+  ///
+  /// In en, this message translates to:
+  /// **'--'**
+  String get fundDetailUnknownValue;
+
+  /// No description provided for @fundDetailOneUnitSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'(1 unit)'**
+  String get fundDetailOneUnitSuffix;
+
+  /// No description provided for @fundDetailMonthlyDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get fundDetailMonthlyDistribution;
+
+  /// No description provided for @fundDetailQuarterlyDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarterly'**
+  String get fundDetailQuarterlyDistribution;
+
+  /// No description provided for @fundDetailSemiAnnualDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Semi-annually'**
+  String get fundDetailSemiAnnualDistribution;
+
+  /// No description provided for @fundDetailAnnualDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Annually'**
+  String get fundDetailAnnualDistribution;
 }
 
 class _AppLocalizationsDelegate

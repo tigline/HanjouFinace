@@ -5,7 +5,9 @@ import '../../data/datasources/fund_project_remote_data_source.dart';
 import '../../data/repositories/fund_project_repository_impl.dart';
 import '../../domain/entities/fund_project.dart';
 import '../../domain/repositories/fund_project_repository.dart';
+import '../../domain/usecases/fetch_fund_project_detail_usecase.dart';
 import '../../domain/usecases/fetch_fund_project_list_usecase.dart';
+import '../support/fund_detail_static_content.dart';
 
 final fundProjectRemoteDataSourceProvider =
     Provider<FundProjectRemoteDataSource>((ref) {
@@ -25,6 +27,28 @@ final fetchFundProjectListUseCaseProvider =
       );
     });
 
+final fetchFundProjectDetailUseCaseProvider =
+    Provider<FetchFundProjectDetailUseCase>((ref) {
+      return FetchFundProjectDetailUseCase(
+        ref.watch(fundProjectRepositoryProvider),
+      );
+    });
+
 final fundProjectListProvider = FutureProvider<List<FundProject>>((ref) async {
   return ref.watch(fetchFundProjectListUseCaseProvider).call();
 });
+
+final fundProjectDetailProvider = FutureProvider.family<FundProject, String>((
+  ref,
+  String id,
+) async {
+  return ref.watch(fetchFundProjectDetailUseCaseProvider).call(id: id);
+});
+
+final fundDetailStaticContentProvider =
+    FutureProvider.family<FundDetailStaticContent, String>((
+      ref,
+      String languageCode,
+    ) async {
+      return FundDetailStaticContent.load(languageCode);
+    });

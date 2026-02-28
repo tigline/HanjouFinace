@@ -5,6 +5,7 @@ import '../models/fund_project_dto.dart';
 
 abstract class FundProjectRemoteDataSource {
   Future<List<FundProjectDto>> fetchFundProjectList();
+  Future<FundProjectDto> fetchFundProjectDetail({required String id});
 }
 
 class FundProjectRemoteDataSourceImpl implements FundProjectRemoteDataSource {
@@ -73,6 +74,24 @@ class FundProjectRemoteDataSourceImpl implements FundProjectRemoteDataSource {
     return _toJsonMapList(payload);
   }
 
+  Map<String, dynamic> _extractEnvelopeDataMap(
+    Map<String, dynamic> payload, {
+    required String fallbackMessage,
+  }) {
+    if (payload.isEmpty) {
+      return <String, dynamic>{};
+    }
+
+    if (_looksLikeLegacyEnvelope(payload)) {
+      if (!_isLegacySuccessResponse(payload)) {
+        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
+      }
+      return _toJsonMap(payload['data']);
+    }
+
+    return payload;
+  }
+
   @override
   Future<List<FundProjectDto>> fetchFundProjectList() async {
     final response = await _client.dio.get<Map<String, dynamic>>(
@@ -87,5 +106,23 @@ class FundProjectRemoteDataSourceImpl implements FundProjectRemoteDataSource {
     return rows
         .map((row) => FundProjectDto.fromJson(row))
         .toList(growable: false);
+  }
+
+  @override
+  Future<FundProjectDto> fetchFundProjectDetail({required String id}) async {
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      FundingFundApiPath.projectDetail,
+      queryParameters: <String, dynamic>{'id': id},
+      options: authRequired(true),
+    );
+
+    final row = _extractEnvelopeDataMap(
+      _toJsonMap(response.data),
+      fallbackMessage: 'Failed to load fund project detail.',
+    );
+    if (row.isEmpty) {
+      throw StateError('Failed to load fund project detail.');
+    }
+    return FundProjectDto.fromJson(row);
   }
 }

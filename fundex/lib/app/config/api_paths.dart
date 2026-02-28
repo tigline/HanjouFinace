@@ -29,6 +29,11 @@ class FundingFundApiPath {
   /// Full URL sample:
   /// https://testoa.gutingjun.com/api/crowdfunding/offline/project/list
   static const String projectList = '/crowdfunding/offline/project/list';
+
+  /// Source: README_API.md section 6.
+  /// Full URL sample:
+  /// https://testoa.gutingjun.com/api/crowdfunding/offline/project/detail?id=453461223669231137
+  static const String projectDetail = '/crowdfunding/offline/project/detail';
 }
 
 const String fundingOauthClientAuthorization = 'Basic d2ViQXBwOndlYkFwcA==';

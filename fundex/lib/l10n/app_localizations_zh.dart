@@ -771,4 +771,136 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get languageJapanese => '日文';
+
+  @override
+  String get fundDetailEstimatedYieldAnnualLabel => '预计收益率（年化）';
+
+  @override
+  String get fundDetailYieldDisclaimer => '※ 仅为预计值，不构成保证';
+
+  @override
+  String get fundDetailKeyFactsTitle => '📌 基本信息';
+
+  @override
+  String get fundDetailFundTotalLabel => '募集金额';
+
+  @override
+  String get fundDetailMinimumInvestmentLabel => '最低投资额';
+
+  @override
+  String get fundDetailDividendLabel => '分配';
+
+  @override
+  String get fundDetailLotteryDateLabel => '抽签日';
+
+  @override
+  String get fundDetailPreferredStructureTitle => '🛡️ 优先/劣后结构';
+
+  @override
+  String get fundDetailSeniorInvestmentLabel => '优先出资';
+
+  @override
+  String get fundDetailJuniorInvestmentLabel => '劣后出资';
+
+  @override
+  String get fundDetailPropertyInfoTitle => '📍 物件信息';
+
+  @override
+  String get fundDetailLocationLabel => '所在地';
+
+  @override
+  String get fundDetailPropertyTypeLabel => '类型';
+
+  @override
+  String get fundDetailStructureLabel => '结构';
+
+  @override
+  String get fundDetailBuiltYearLabel => '竣工';
+
+  @override
+  String get fundDetailContractOverviewTitle => '📋 合同概要（法定记载事项）';
+
+  @override
+  String get fundDetailContractTypeLabel => '合同形式';
+
+  @override
+  String get fundDetailContractTypeValue => '匿名组合型';
+
+  @override
+  String get fundDetailTargetPropertyTypeLabel => '目标不动产种类';
+
+  @override
+  String get fundDetailAppraisalValueLabel => '不动产评估价';
+
+  @override
+  String get fundDetailAcquisitionPriceLabel => '预计取得价格';
+
+  @override
+  String get fundDetailOfferPeriodLabel => '募集期间';
+
+  @override
+  String get fundDetailOperationStartLabel => '预计运用开始日';
+
+  @override
+  String get fundDetailOperationEndLabel => '预计运用结束日';
+
+  @override
+  String get fundDetailOperatorInfoTitle => '🏢 运营方信息';
+
+  @override
+  String get fundDetailOperatorCompanyLabel => '运营公司';
+
+  @override
+  String get fundDetailPermitNumberLabel => '许可编号';
+
+  @override
+  String get fundDetailRepresentativeLabel => '代表人';
+
+  @override
+  String get fundDetailCompanyAddressLabel => '所在地';
+
+  @override
+  String get fundDetailDocumentsTitle => '📄 相关书面';
+
+  @override
+  String get fundDetailDocumentReady => '点击查看';
+
+  @override
+  String get fundDetailDocumentUnavailable => '未配置书面链接';
+
+  @override
+  String get fundDetailCommentsTitle => '💬 投资者声音';
+
+  @override
+  String get fundDetailCommentsPlaceholder => '评论功能本次暂不实现，后续只接 UI 行为。';
+
+  @override
+  String get fundDetailApplyNowAction => '立即申请抽签';
+
+  @override
+  String get fundDetailOpenSoonAction => '等待募集开始';
+
+  @override
+  String get fundDetailUnavailableAction => '当前不可申请';
+
+  @override
+  String get fundDetailApplyComingSoonToast => '申购流程会在下一步实现中接入。';
+
+  @override
+  String get fundDetailUnknownValue => '--';
+
+  @override
+  String get fundDetailOneUnitSuffix => '（1口）';
+
+  @override
+  String get fundDetailMonthlyDistribution => '每月';
+
+  @override
+  String get fundDetailQuarterlyDistribution => '每季度';
+
+  @override
+  String get fundDetailSemiAnnualDistribution => '每半年';
+
+  @override
+  String get fundDetailAnnualDistribution => '每年';
 }
