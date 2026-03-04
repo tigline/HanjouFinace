@@ -190,8 +190,8 @@ class FundDetailContentCard extends StatelessWidget {
     super.key,
     required this.child,
     this.padding = const EdgeInsets.all(12),
-    this.backgroundColor = AppColorTokens.fundexSurface,
-    this.borderColor = AppColorTokens.fundexBorder,
+    this.backgroundColor = AppColorTokens.fundexBackground,
+    this.borderColor = const Color(0xFFE8EEF5),
   });
 
   final Widget child;
@@ -210,6 +210,98 @@ class FundDetailContentCard extends StatelessWidget {
         border: Border.all(color: borderColor),
       ),
       child: child,
+    );
+  }
+}
+
+class FundDetailMediaPreview extends StatelessWidget {
+  const FundDetailMediaPreview({
+    super.key,
+    this.imageUrl,
+    this.height = 164,
+    this.overlayLabel,
+    this.placeholder,
+  });
+
+  final String? imageUrl;
+  final double height;
+  final String? overlayLabel;
+  final Widget? placeholder;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(UiTokens.radius16),
+      child: SizedBox(
+        height: height,
+        width: double.infinity,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[Color(0xFFEAF1FF), Color(0xFFD9E7FF)],
+                ),
+              ),
+            ),
+            if (imageUrl != null && imageUrl!.trim().isNotEmpty)
+              Image.network(
+                imageUrl!,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) =>
+                    placeholder ?? const _DefaultMediaPlaceholder(),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return placeholder ?? const _DefaultMediaPlaceholder();
+                },
+              )
+            else
+              placeholder ?? const _DefaultMediaPlaceholder(),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.16),
+                  ],
+                ),
+              ),
+            ),
+            if (overlayLabel != null && overlayLabel!.trim().isNotEmpty)
+              Positioned(
+                left: 12,
+                bottom: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.92),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    overlayLabel!,
+                    style:
+                        (Theme.of(context).textTheme.labelSmall ??
+                                const TextStyle())
+                            .copyWith(
+                              color: AppColorTokens.fundexText,
+                              fontWeight: FontWeight.w700,
+                            ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -482,7 +574,7 @@ class FundDetailStickyActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: <BoxShadow>[
@@ -503,7 +595,7 @@ class FundDetailStickyActionBar extends StatelessWidget {
               backgroundColor: AppColorTokens.fundexAccent,
               disabledBackgroundColor: AppColorTokens.fundexTextSecondary
                   .withValues(alpha: 0.35),
-              padding: const EdgeInsets.symmetric(vertical: 14),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -520,6 +612,32 @@ class FundDetailStickyActionBar extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _DefaultMediaPlaceholder extends StatelessWidget {
+  const _DefaultMediaPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                AppColorTokens.fundexPrimaryDark.withValues(alpha: 0.92),
+                AppColorTokens.fundexAccent.withValues(alpha: 0.82),
+              ],
+            ),
+          ),
+        ),
+        const _FundDetailArtworkLayer(),
+      ],
     );
   }
 }

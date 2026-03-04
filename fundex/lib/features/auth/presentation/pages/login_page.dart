@@ -138,6 +138,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     await controller.login(intlCode: _isEmailMode ? null : _selectedIntlCode);
   }
 
+  void _continueWithoutLogin() {
+    context.go('/home');
+  }
+
   String _sendCodeButtonLabel(String defaultLabel) {
     if (!_sendCodeCooldown.isActive) {
       return defaultLabel;
@@ -174,6 +178,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final controller = ref.read(authControllerProvider.notifier);
     final theme = Theme.of(context);
     final hotelTheme = theme.extension<AppFTKTheme>();
+    final titleStyle = (theme.textTheme.titleSmall ?? const TextStyle())
+        .copyWith(fontWeight: FontWeight.bold);
     final effectiveErrorMessage =
         _localValidationError ??
         (state.errorKey != null
@@ -193,11 +199,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       body: DecoratedBox(
         decoration: BoxDecoration(color: theme.colorScheme.surface),
         child: SafeArea(
+          bottom: false,
           child: Column(
             children: <Widget>[
               _LoginHeroHeader(
                 title: l10n.splashBrandName,
                 subtitle: l10n.loginTitle,
+                onClose: _continueWithoutLogin,
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -291,14 +299,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         buttonWidth: 132,
                       ),
                       const SizedBox(height: UiTokens.spacing8),
-                      // Align(
-                      //   alignment: Alignment.centerRight,
-                      //   child: TextButton(
-                      //     key: const Key('to_forgot_password_button'),
-                      //     onPressed: () => context.push('/forgot-password'),
-                      //     child: Text(l10n.loginForgotPassword),
-                      //   ),
-                      // ),
                       if (effectiveErrorMessage != null) ...<Widget>[
                         const SizedBox(height: UiTokens.spacing4),
                         Container(
@@ -334,12 +334,29 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ? () => _handleLogin(controller)
                             : null,
                       ),
-                      const SizedBox(height: UiTokens.spacing16),
+                      const SizedBox(height: UiTokens.spacing4),
                       Center(
                         child: TextButton(
                           key: const Key('to_register_button'),
                           onPressed: () => context.push('/register'),
                           child: Text(l10n.loginCreateAccount),
+                        ),
+                      ),
+                      const SizedBox(height: UiTokens.spacing4),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          key: const Key('continue_as_guest_button'),
+                          onPressed: _continueWithoutLogin,
+                          style: OutlinedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(52),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                UiTokens.radius20,
+                              ),
+                            ),
+                          ),
+                          child: Text(l10n.loginBrowseAsGuest, style: titleStyle),
                         ),
                       ),
                     ],
@@ -355,10 +372,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 }
 
 class _LoginHeroHeader extends StatelessWidget {
-  const _LoginHeroHeader({required this.title, required this.subtitle});
+  const _LoginHeroHeader({
+    required this.title,
+    required this.subtitle,
+    required this.onClose,
+  });
 
   final String title;
   final String subtitle;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -380,59 +402,97 @@ class _LoginHeroHeader extends StatelessWidget {
     final heroForegroundColor =
         authTheme?.loginHeroForegroundColor ?? theme.colorScheme.onPrimary;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 220,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: heroGradientColors,
-        ),
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
-      ),
-      padding: const EdgeInsets.fromLTRB(24, 26, 24, 34),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
         children: <Widget>[
           Container(
-            width: 56,
-            height: 56,
+            width: double.infinity,
+            height: 220,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: heroLogoGradientColors,
+                colors: heroGradientColors,
               ),
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: heroLogoShadowColor,
-                  blurRadius: 24,
-                  offset: const Offset(0, 6),
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(32),
+              ),
+            ),
+            padding: const EdgeInsets.fromLTRB(24, 26, 24, 34),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: heroLogoGradientColors,
+                    ),
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: heroLogoShadowColor,
+                        blurRadius: 24,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.home_rounded,
+                    color: heroForegroundColor,
+                    size: 30,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  title,
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    color: heroForegroundColor,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: heroForegroundColor.withValues(alpha: 0.72),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
-            child: Icon(
-              Icons.home_rounded,
-              color: heroForegroundColor,
-              size: 30,
-            ),
           ),
-          const SizedBox(height: 16),
-          Text(
-            title,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              color: heroForegroundColor,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: heroForegroundColor.withValues(alpha: 0.72),
-              fontWeight: FontWeight.w600,
+          Positioned(
+            top: 16,
+            right: 20,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                key: const Key('login_close_button'),
+                onTap: onClose,
+                borderRadius: BorderRadius.circular(16),
+                child: Ink(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Tooltip(
+                    message: context.l10n.commonClose,
+                    child: Icon(
+                      Icons.close_rounded,
+                      size: 18,
+                      color: heroForegroundColor,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ],

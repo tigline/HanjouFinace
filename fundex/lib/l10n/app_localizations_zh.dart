@@ -30,7 +30,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get loginSubmit => '登录';
 
   @override
+  String get loginBrowseAsGuest => '不登录直接浏览（访客模式）';
+
+  @override
   String get loginCreateAccount => '注册账号';
+
+  @override
+  String get commonClose => '关闭';
 
   @override
   String get loginForgotPassword => '找回密码';
@@ -869,10 +875,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fundDetailDocumentUnavailable => '未配置书面链接';
 
   @override
+  String get fundDetailPropertyPreviewBadge => '物件预览';
+
+  @override
   String get fundDetailCommentsTitle => '💬 投资者声音';
 
   @override
   String get fundDetailCommentsPlaceholder => '评论功能本次暂不实现，后续只接 UI 行为。';
+
+  @override
+  String get fundDetailFinancialStatusAction => '📊 查看运营方财务状况 →';
+
+  @override
+  String get fundDetailFinancialStatusToast => '财务状况页面会在后续实现中接入。';
 
   @override
   String get fundDetailApplyNowAction => '立即申请抽签';

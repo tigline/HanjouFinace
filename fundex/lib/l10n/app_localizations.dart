@@ -142,11 +142,23 @@ abstract class AppLocalizations {
   /// **'Sign in'**
   String get loginSubmit;
 
+  /// No description provided for @loginBrowseAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse without signing in (Guest mode)'**
+  String get loginBrowseAsGuest;
+
   /// No description provided for @loginCreateAccount.
   ///
   /// In en, this message translates to:
   /// **'Create account'**
   String get loginCreateAccount;
+
+  /// No description provided for @commonClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get commonClose;
 
   /// No description provided for @loginForgotPassword.
   ///
@@ -1792,6 +1804,12 @@ abstract class AppLocalizations {
   /// **'Document URL not available'**
   String get fundDetailDocumentUnavailable;
 
+  /// No description provided for @fundDetailPropertyPreviewBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Property preview'**
+  String get fundDetailPropertyPreviewBadge;
+
   /// No description provided for @fundDetailCommentsTitle.
   ///
   /// In en, this message translates to:
@@ -1803,6 +1821,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comments are intentionally left empty for now. UI integration will be added later.'**
   String get fundDetailCommentsPlaceholder;
+
+  /// No description provided for @fundDetailFinancialStatusAction.
+  ///
+  /// In en, this message translates to:
+  /// **'📊 View operator financial status →'**
+  String get fundDetailFinancialStatusAction;
+
+  /// No description provided for @fundDetailFinancialStatusToast.
+  ///
+  /// In en, this message translates to:
+  /// **'The financial status page will be connected in a later implementation.'**
+  String get fundDetailFinancialStatusToast;
 
   /// No description provided for @fundDetailApplyNowAction.
   ///

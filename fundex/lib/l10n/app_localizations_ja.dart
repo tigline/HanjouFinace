@@ -30,7 +30,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loginSubmit => 'ログイン';
 
   @override
+  String get loginBrowseAsGuest => 'ログインせずに閲覧する（ゲストモード）';
+
+  @override
   String get loginCreateAccount => '新規登録';
+
+  @override
+  String get commonClose => '閉じる';
 
   @override
   String get loginForgotPassword => 'パスワードを忘れた場合';
@@ -874,10 +880,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fundDetailDocumentUnavailable => '書面URL未設定';
 
   @override
+  String get fundDetailPropertyPreviewBadge => '物件プレビュー';
+
+  @override
   String get fundDetailCommentsTitle => '💬 投資家の声';
 
   @override
   String get fundDetailCommentsPlaceholder => 'コメント機能は今回未実装です。UIのみ後続で接続します。';
+
+  @override
+  String get fundDetailFinancialStatusAction => '📊 事業者の財務状況を確認する →';
+
+  @override
+  String get fundDetailFinancialStatusToast => '財務状況ページは次の実装で接続します。';
 
   @override
   String get fundDetailApplyNowAction => '抽選に申し込む';

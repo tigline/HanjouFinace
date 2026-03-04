@@ -24,6 +24,11 @@ String? resolveAuthRedirect({
   required AsyncValue<bool> authState,
   required String location,
 }) {
+  final isGuestAccessibleRoute =
+      location == '/home' ||
+      location == '/funds' ||
+      location.startsWith('/funds/') ||
+      location == '/discussion-board';
   final isSplash = location == '/splash';
   final isLogin =
       location == '/login' ||
@@ -38,7 +43,10 @@ String? resolveAuthRedirect({
   final isHotelDesignShowcase = location == '/design-showcase/hotel';
   final isAuthRoute = isLogin || isRegister || isForgotPassword;
   final isPublicRoute =
-      isAuthRoute || isHotelDesignShowcase || isMemberProfileOnboarding;
+      isAuthRoute ||
+      isHotelDesignShowcase ||
+      isMemberProfileOnboarding ||
+      isGuestAccessibleRoute;
 
   if (isSplash) {
     return null;
@@ -194,17 +202,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          StatefulShellBranch(
-            routes: <RouteBase>[
-              GoRoute(
-                path: '/settings',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const SettingsPage();
-                },
-              ),
-            ],
-          ),
         ],
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (BuildContext context, GoRouterState state) {
+          return const SettingsPage();
+        },
       ),
       GoRoute(
         path: '/notifications',

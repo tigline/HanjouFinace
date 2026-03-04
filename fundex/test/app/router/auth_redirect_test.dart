@@ -40,19 +40,52 @@ void main() {
       expect(redirect, isNull);
     });
 
-    test('redirects unauthenticated user to login', () {
+    test('keeps unauthenticated user on guest-accessible home route', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(false),
         location: '/home',
       );
 
-      expect(redirect, '/login');
+      expect(redirect, isNull);
     });
 
-    test('redirects unauthenticated user to login from funds tab route', () {
+    test('keeps unauthenticated user on guest-accessible funds route', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncData<bool>(false),
         location: '/funds',
+      );
+
+      expect(redirect, isNull);
+    });
+
+    test(
+      'keeps unauthenticated user on guest-accessible fund detail route',
+      () {
+        final redirect = resolveAuthRedirect(
+          authState: const AsyncData<bool>(false),
+          location: '/funds/123',
+        );
+
+        expect(redirect, isNull);
+      },
+    );
+
+    test(
+      'keeps unauthenticated user on guest-accessible discussion board route',
+      () {
+        final redirect = resolveAuthRedirect(
+          authState: const AsyncData<bool>(false),
+          location: '/discussion-board',
+        );
+
+        expect(redirect, isNull);
+      },
+    );
+
+    test('redirects unauthenticated user to login from profile route', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncData<bool>(false),
+        location: '/profile',
       );
 
       expect(redirect, '/login');

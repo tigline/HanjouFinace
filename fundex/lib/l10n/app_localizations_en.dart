@@ -31,7 +31,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginSubmit => 'Sign in';
 
   @override
+  String get loginBrowseAsGuest => 'Browse without signing in (Guest mode)';
+
+  @override
   String get loginCreateAccount => 'Create account';
+
+  @override
+  String get commonClose => 'Close';
 
   @override
   String get loginForgotPassword => 'Forgot password';
@@ -930,11 +936,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fundDetailDocumentUnavailable => 'Document URL not available';
 
   @override
+  String get fundDetailPropertyPreviewBadge => 'Property preview';
+
+  @override
   String get fundDetailCommentsTitle => '💬 Investor voices';
 
   @override
   String get fundDetailCommentsPlaceholder =>
       'Comments are intentionally left empty for now. UI integration will be added later.';
+
+  @override
+  String get fundDetailFinancialStatusAction =>
+      '📊 View operator financial status →';
+
+  @override
+  String get fundDetailFinancialStatusToast =>
+      'The financial status page will be connected in a later implementation.';
 
   @override
   String get fundDetailApplyNowAction => 'Apply for lottery';
