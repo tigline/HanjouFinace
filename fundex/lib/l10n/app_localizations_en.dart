@@ -799,6 +799,77 @@ class AppLocalizationsEn extends AppLocalizations {
       'Account, security, legal documents, and preference settings will be integrated here.';
 
   @override
+  String get menuTitle => 'Menu';
+
+  @override
+  String get menuSectionAccount => 'Account';
+
+  @override
+  String get menuSectionSecurity => 'Security';
+
+  @override
+  String get menuSectionDocsTax => 'Documents & Tax';
+
+  @override
+  String get menuSectionPreferences => 'Preferences';
+
+  @override
+  String get menuSectionSupport => 'Support';
+
+  @override
+  String get menuItemEditProfile => 'Edit member profile';
+
+  @override
+  String get menuItemBankSettings => 'Bank account settings';
+
+  @override
+  String get menuItemChangePassword => 'Change password';
+
+  @override
+  String get menuItemTwoFactor => 'Two-factor authentication';
+
+  @override
+  String get menuItemAnnualReport => 'Annual transaction report';
+
+  @override
+  String get menuItemContractList => 'Contract document list';
+
+  @override
+  String get menuItemMyNumber => 'My Number management';
+
+  @override
+  String get menuItemLanguage => 'Language';
+
+  @override
+  String get menuItemFaqHelp => 'FAQ / Help';
+
+  @override
+  String get menuItemChatSupport => 'Chat support';
+
+  @override
+  String get menuVersionFootnote =>
+      'FUNDEX v1.0.0 · Real Estate Specified Joint Enterprise License No. XXX';
+
+  @override
+  String get menuDeleteAccountAction => 'Delete account';
+
+  @override
+  String get menuDeleteAccountConfirmTitle => 'Delete account?';
+
+  @override
+  String get menuDeleteAccountConfirmBody =>
+      'This action cannot be undone. The actual account deletion flow will be connected later.';
+
+  @override
+  String get menuDeleteAccountComingSoon =>
+      'Account deletion flow will be connected in a later implementation.';
+
+  @override
+  String menuFeatureComingSoon(Object feature) {
+    return '$feature will be connected in a later implementation.';
+  }
+
+  @override
   String get notificationsTitle => 'Notifications';
 
   @override

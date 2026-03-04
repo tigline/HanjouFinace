@@ -44,10 +44,18 @@ class ProfileCenterTabPage extends ConsumerWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             FundMyPageAssetOverview(
-              title: l10n.myPageTitle,
               totalAssetsLabel: l10n.myPageTotalAssetsLabel,
               totalAssetsValue: '¥4,350,000',
               totalAssetsCaption: l10n.myPageTotalAssetsCaption,
+              leading: _HeroHeaderActionButton(
+                icon: Icons.notifications_none_rounded,
+                showDot: true,
+                onTap: () => context.push('/notifications'),
+              ),
+              trailing: _HeroHeaderActionButton(
+                icon: Icons.menu_rounded,
+                onTap: () => context.push('/settings'),
+              ),
               metrics: <FundMyPageMetricData>[
                 FundMyPageMetricData(
                   label: l10n.myPageMetricOperating,
@@ -91,8 +99,6 @@ class ProfileCenterTabPage extends ConsumerWidget {
                   ),
                 ),
               ],
-              showNotificationDot: true,
-              onNotificationTap: () => context.push('/notifications'),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
@@ -738,6 +744,59 @@ class _PendingStatusBadge extends StatelessWidget {
               color: AppColorTokens.fundexViolet,
               fontWeight: FontWeight.w700,
             ),
+      ),
+    );
+  }
+}
+
+class _HeroHeaderActionButton extends StatelessWidget {
+  const _HeroHeaderActionButton({
+    required this.icon,
+    this.onTap,
+    this.showDot = false,
+  });
+
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool showDot;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 38,
+      height: 38,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          Positioned.fill(
+            child: Material(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(11),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(11),
+                onTap: onTap,
+                child: Icon(icon, size: 19, color: Colors.white),
+              ),
+            ),
+          ),
+          if (showDot)
+            Positioned(
+              right: 6,
+              top: 6,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: AppColorTokens.fundexDanger,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColorTokens.fundexPrimaryDark,
+                    width: 1.5,
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

@@ -751,6 +751,74 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsTabSubtitle => 'アカウント・セキュリティ・法定書面・各種設定をここに統合します。';
 
   @override
+  String get menuTitle => 'メニュー';
+
+  @override
+  String get menuSectionAccount => 'アカウント';
+
+  @override
+  String get menuSectionSecurity => 'セキュリティ';
+
+  @override
+  String get menuSectionDocsTax => '書類・税務';
+
+  @override
+  String get menuSectionPreferences => '設定';
+
+  @override
+  String get menuSectionSupport => 'サポート';
+
+  @override
+  String get menuItemEditProfile => '会員情報の編集';
+
+  @override
+  String get menuItemBankSettings => '銀行口座設定';
+
+  @override
+  String get menuItemChangePassword => 'パスワード変更';
+
+  @override
+  String get menuItemTwoFactor => '二段階認証';
+
+  @override
+  String get menuItemAnnualReport => '年間取引報告書';
+
+  @override
+  String get menuItemContractList => '契約書面一覧';
+
+  @override
+  String get menuItemMyNumber => 'マイナンバー管理';
+
+  @override
+  String get menuItemLanguage => '言語';
+
+  @override
+  String get menuItemFaqHelp => 'FAQ・ヘルプ';
+
+  @override
+  String get menuItemChatSupport => 'チャットサポート';
+
+  @override
+  String get menuVersionFootnote => 'FUNDEX v1.0.0 ・ 不動産特定共同事業 第XXX号';
+
+  @override
+  String get menuDeleteAccountAction => 'アカウントを削除（退会）';
+
+  @override
+  String get menuDeleteAccountConfirmTitle => '退会しますか？';
+
+  @override
+  String get menuDeleteAccountConfirmBody => 'この操作は取り消せません。退会申請機能は後続で接続します。';
+
+  @override
+  String get menuDeleteAccountComingSoon => '退会申請機能は次の実装で接続します。';
+
+  @override
+  String menuFeatureComingSoon(Object feature) {
+    return '$feature は次の実装で接続します。';
+  }
+
+  @override
   String get notificationsTitle => 'お知らせ';
 
   @override

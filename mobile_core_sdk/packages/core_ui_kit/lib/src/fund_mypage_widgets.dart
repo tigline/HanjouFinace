@@ -38,24 +38,24 @@ class FundMyPageQuickActionData {
 class FundMyPageAssetOverview extends StatelessWidget {
   const FundMyPageAssetOverview({
     super.key,
-    required this.title,
     required this.totalAssetsLabel,
     required this.totalAssetsValue,
     required this.totalAssetsCaption,
     required this.metrics,
     required this.quickActions,
-    this.onNotificationTap,
-    this.showNotificationDot = false,
+    this.title,
+    this.leading,
+    this.trailing,
   });
 
-  final String title;
   final String totalAssetsLabel;
   final String totalAssetsValue;
   final String totalAssetsCaption;
   final List<FundMyPageMetricData> metrics;
   final List<FundMyPageQuickActionData> quickActions;
-  final VoidCallback? onNotificationTap;
-  final bool showNotificationDot;
+  final String? title;
+  final Widget? leading;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -82,22 +82,28 @@ class FundMyPageAssetOverview extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            title,
-                            style:
-                                (Theme.of(context).textTheme.titleMedium ??
-                                        const TextStyle())
-                                    .copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                          ),
-                        ),
-                        _FundMyPageNotificationButton(
-                          showDot: showNotificationDot,
-                          onTap: onNotificationTap,
-                        ),
+                        if (leading != null) leading!,
+                        if (leading != null && title != null)
+                          const SizedBox(width: 12),
+                        if (title != null)
+                          Expanded(
+                            child: Text(
+                              title!,
+                              style:
+                                  (Theme.of(context).textTheme.titleMedium ??
+                                          const TextStyle())
+                                      .copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                            ),
+                          )
+                        else
+                          const Spacer(),
+                        if (trailing != null) ...<Widget>[
+                          if (title != null) const SizedBox(width: 12),
+                          trailing!,
+                        ],
                       ],
                     ),
                     const SizedBox(height: UiTokens.spacing16),
@@ -464,61 +470,6 @@ class _FundMyPageQuickActionButton extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _FundMyPageNotificationButton extends StatelessWidget {
-  const _FundMyPageNotificationButton({
-    required this.showDot,
-    required this.onTap,
-  });
-
-  final bool showDot;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 38,
-      height: 38,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Positioned.fill(
-            child: Material(
-              color: Colors.white.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(12),
-                onTap: onTap,
-                child: const Icon(
-                  Icons.notifications_none_rounded,
-                  size: 20,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          if (showDot)
-            Positioned(
-              right: 6,
-              top: 6,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: AppColorTokens.fundexDanger,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppColorTokens.fundexPrimaryDark,
-                    width: 1.5,
-                  ),
-                ),
-              ),
-            ),
-        ],
       ),
     );
   }

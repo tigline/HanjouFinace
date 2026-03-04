@@ -746,6 +746,74 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsTabSubtitle => '账号、安全、法定文档与偏好设置将在此统一管理。';
 
   @override
+  String get menuTitle => '菜单';
+
+  @override
+  String get menuSectionAccount => '账户';
+
+  @override
+  String get menuSectionSecurity => '安全';
+
+  @override
+  String get menuSectionDocsTax => '文档与税务';
+
+  @override
+  String get menuSectionPreferences => '设置';
+
+  @override
+  String get menuSectionSupport => '支持';
+
+  @override
+  String get menuItemEditProfile => '编辑会员资料';
+
+  @override
+  String get menuItemBankSettings => '银行账户设置';
+
+  @override
+  String get menuItemChangePassword => '修改密码';
+
+  @override
+  String get menuItemTwoFactor => '双重认证';
+
+  @override
+  String get menuItemAnnualReport => '年度交易报告书';
+
+  @override
+  String get menuItemContractList => '合同文档列表';
+
+  @override
+  String get menuItemMyNumber => 'My Number 管理';
+
+  @override
+  String get menuItemLanguage => '语言';
+
+  @override
+  String get menuItemFaqHelp => 'FAQ・帮助';
+
+  @override
+  String get menuItemChatSupport => '聊天支持';
+
+  @override
+  String get menuVersionFootnote => 'FUNDEX v1.0.0 ・ 不动产特定共同事业 第XXX号';
+
+  @override
+  String get menuDeleteAccountAction => '删除账户（退会）';
+
+  @override
+  String get menuDeleteAccountConfirmTitle => '确认删除账户？';
+
+  @override
+  String get menuDeleteAccountConfirmBody => '此操作不可撤销。实际退会申请功能会在后续接入。';
+
+  @override
+  String get menuDeleteAccountComingSoon => '退会申请功能会在后续实现中接入。';
+
+  @override
+  String menuFeatureComingSoon(Object feature) {
+    return '$feature 会在后续实现中接入。';
+  }
+
+  @override
   String get notificationsTitle => '通知';
 
   @override

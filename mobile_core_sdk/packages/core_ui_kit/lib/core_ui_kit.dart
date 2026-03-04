@@ -5,6 +5,8 @@ export 'src/app_theme.dart';
 export 'src/app_theme_extensions.dart';
 export 'src/app_dialogs.dart';
 export 'src/app_bottom_sheet.dart';
+export 'src/app_navigation_bar.dart';
+export 'src/app_menu_widgets.dart';
 export 'src/ui_buttons.dart';
 export 'src/ui_cards.dart';
 export 'src/fund_detail_widgets.dart';

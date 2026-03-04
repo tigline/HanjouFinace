@@ -54,6 +54,7 @@ class MainShellPage extends StatelessWidget {
         ),
         child: NavigationBar(
           key: const Key('main_tab_bar'),
+          height: 60,
           selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: _onDestinationSelected,
           destinations: <NavigationDestination>[

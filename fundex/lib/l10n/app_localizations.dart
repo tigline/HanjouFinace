@@ -1546,6 +1546,138 @@ abstract class AppLocalizations {
   /// **'Account, security, legal documents, and preference settings will be integrated here.'**
   String get settingsTabSubtitle;
 
+  /// No description provided for @menuTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menuTitle;
+
+  /// No description provided for @menuSectionAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get menuSectionAccount;
+
+  /// No description provided for @menuSectionSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get menuSectionSecurity;
+
+  /// No description provided for @menuSectionDocsTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents & Tax'**
+  String get menuSectionDocsTax;
+
+  /// No description provided for @menuSectionPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get menuSectionPreferences;
+
+  /// No description provided for @menuSectionSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get menuSectionSupport;
+
+  /// No description provided for @menuItemEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit member profile'**
+  String get menuItemEditProfile;
+
+  /// No description provided for @menuItemBankSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank account settings'**
+  String get menuItemBankSettings;
+
+  /// No description provided for @menuItemChangePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get menuItemChangePassword;
+
+  /// No description provided for @menuItemTwoFactor.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication'**
+  String get menuItemTwoFactor;
+
+  /// No description provided for @menuItemAnnualReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual transaction report'**
+  String get menuItemAnnualReport;
+
+  /// No description provided for @menuItemContractList.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract document list'**
+  String get menuItemContractList;
+
+  /// No description provided for @menuItemMyNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'My Number management'**
+  String get menuItemMyNumber;
+
+  /// No description provided for @menuItemLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get menuItemLanguage;
+
+  /// No description provided for @menuItemFaqHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ / Help'**
+  String get menuItemFaqHelp;
+
+  /// No description provided for @menuItemChatSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat support'**
+  String get menuItemChatSupport;
+
+  /// No description provided for @menuVersionFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'FUNDEX v1.0.0 · Real Estate Specified Joint Enterprise License No. XXX'**
+  String get menuVersionFootnote;
+
+  /// No description provided for @menuDeleteAccountAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get menuDeleteAccountAction;
+
+  /// No description provided for @menuDeleteAccountConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account?'**
+  String get menuDeleteAccountConfirmTitle;
+
+  /// No description provided for @menuDeleteAccountConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone. The actual account deletion flow will be connected later.'**
+  String get menuDeleteAccountConfirmBody;
+
+  /// No description provided for @menuDeleteAccountComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deletion flow will be connected in a later implementation.'**
+  String get menuDeleteAccountComingSoon;
+
+  /// No description provided for @menuFeatureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'{feature} will be connected in a later implementation.'**
+  String menuFeatureComingSoon(Object feature);
+
   /// No description provided for @notificationsTitle.
   ///
   /// In en, this message translates to:
