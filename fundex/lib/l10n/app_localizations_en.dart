@@ -573,19 +573,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeGuestBrowsingBody => 'An account is required to invest.';
 
   @override
-  String get homeReminderProfileTitle =>
-      'Complete your profile to start investing';
+  String get homeReminderProfileTitle => 'Profile information is required';
 
   @override
   String get homeReminderProfileBody =>
-      'Identity verification is required before investing. 3 steps remaining.';
+      'Identity verification is required for investing and withdrawals. Please complete your profile information.';
+
+  @override
+  String get homeReminderProfileBadge => 'Action needed';
 
   @override
   String get homeReminderCoolingOffTitle => 'Cooling-off period in progress';
 
   @override
   String get homeReminderCoolingOffBody =>
-      '\"Shinsaibashi Commercial Building\"\nContract document issued 3/2 → Cancellation deadline 3/10 (8 days)\n5 days remaining';
+      '\"Shinsaibashi Commercial Building\" Contract document issued 3/2 → Cancellation deadline 3/10 (8 days)';
+
+  @override
+  String get homeReminderCoolingOffBadge => '5 days left';
 
   @override
   String get homeReminderCoolingOffAction => 'Cancel contract';

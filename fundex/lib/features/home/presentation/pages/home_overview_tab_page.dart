@@ -33,10 +33,17 @@ class HomeOverviewTabPage extends ConsumerWidget {
 
     final reminders = <FundReminderData>[
       FundReminderData(
-        leading: const Text('📋', style: TextStyle(fontSize: 20)),
+        leading: const Icon(
+          Icons.warning_rounded,
+          size: 18,
+          color: Color(0xFFFBBF24),
+        ),
         title: l10n.homeReminderProfileTitle,
         message: l10n.homeReminderProfileBody,
-        progress: 0.4,
+        tone: FundReminderTone.danger,
+        badgeLabel: l10n.homeReminderProfileBadge,
+        segmentCount: 5,
+        completedSegmentCount: 2,
         onTap: () {
           final route = Uri(
             path: '/member-profile/onboarding',
@@ -46,11 +53,12 @@ class HomeOverviewTabPage extends ConsumerWidget {
         },
       ),
       FundReminderData(
-        leading: const Text('⏰', style: TextStyle(fontSize: 20)),
+        leading: const Text('⏰', style: TextStyle(fontSize: 18)),
         title: l10n.homeReminderCoolingOffTitle,
         message: l10n.homeReminderCoolingOffBody,
-        actionLabel: l10n.homeReminderCoolingOffAction,
-        onActionTap: () {
+        tone: FundReminderTone.warning,
+        badgeLabel: l10n.homeReminderCoolingOffBadge,
+        onTap: () {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(l10n.homeReminderCoolingOffAction)),
           );

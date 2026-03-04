@@ -534,17 +534,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeGuestBrowsingBody => '投資するにはアカウントが必要です';
 
   @override
-  String get homeReminderProfileTitle => '本人情報を入力して投資を始めましょう';
+  String get homeReminderProfileTitle => '本人情報の入力が必要です';
 
   @override
-  String get homeReminderProfileBody => '投資するには本人確認が必要です。あと3ステップで完了。';
+  String get homeReminderProfileBody => 'ご投資・ご出金には本人確認が必要です。本人情報を入力してください。';
+
+  @override
+  String get homeReminderProfileBadge => '要対応';
 
   @override
   String get homeReminderCoolingOffTitle => 'クーリングオフ期間中';
 
   @override
   String get homeReminderCoolingOffBody =>
-      '「商業ビル心斎橋」\n契約書面交付日 3/2 → 取消期限 3/10（8日間）\n残り5日';
+      '「商業ビル心斎橋」契約書面交付日 3/2 → 取消期限 3/10（8日間）';
+
+  @override
+  String get homeReminderCoolingOffBadge => '残り5日';
 
   @override
   String get homeReminderCoolingOffAction => '取消手続き';

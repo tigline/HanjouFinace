@@ -1129,14 +1129,20 @@ abstract class AppLocalizations {
   /// No description provided for @homeReminderProfileTitle.
   ///
   /// In en, this message translates to:
-  /// **'Complete your profile to start investing'**
+  /// **'Profile information is required'**
   String get homeReminderProfileTitle;
 
   /// No description provided for @homeReminderProfileBody.
   ///
   /// In en, this message translates to:
-  /// **'Identity verification is required before investing. 3 steps remaining.'**
+  /// **'Identity verification is required for investing and withdrawals. Please complete your profile information.'**
   String get homeReminderProfileBody;
+
+  /// No description provided for @homeReminderProfileBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Action needed'**
+  String get homeReminderProfileBadge;
 
   /// No description provided for @homeReminderCoolingOffTitle.
   ///
@@ -1147,8 +1153,14 @@ abstract class AppLocalizations {
   /// No description provided for @homeReminderCoolingOffBody.
   ///
   /// In en, this message translates to:
-  /// **'\"Shinsaibashi Commercial Building\"\nContract document issued 3/2 → Cancellation deadline 3/10 (8 days)\n5 days remaining'**
+  /// **'\"Shinsaibashi Commercial Building\" Contract document issued 3/2 → Cancellation deadline 3/10 (8 days)'**
   String get homeReminderCoolingOffBody;
+
+  /// No description provided for @homeReminderCoolingOffBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'5 days left'**
+  String get homeReminderCoolingOffBadge;
 
   /// No description provided for @homeReminderCoolingOffAction.
   ///

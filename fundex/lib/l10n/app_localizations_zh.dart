@@ -529,17 +529,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeGuestBrowsingBody => '如需投资，请先注册或登录账号';
 
   @override
-  String get homeReminderProfileTitle => '完善个人资料后即可开始投资';
+  String get homeReminderProfileTitle => '需要录入本人信息';
 
   @override
-  String get homeReminderProfileBody => '投资前需要完成身份确认。还差 3 个步骤。';
+  String get homeReminderProfileBody => '投资和出金都需要完成本人确认，请先录入本人资料。';
+
+  @override
+  String get homeReminderProfileBadge => '待处理';
 
   @override
   String get homeReminderCoolingOffTitle => 'クーリングオフ期间中';
 
   @override
   String get homeReminderCoolingOffBody =>
-      '「心斋桥商业楼」\n合同书面交付日 3/2 → 取消期限 3/10（8天）\n剩余 5 天';
+      '「心斋桥商业楼」合同书面交付日 3/2 → 取消期限 3/10（8天）';
+
+  @override
+  String get homeReminderCoolingOffBadge => '剩余5天';
 
   @override
   String get homeReminderCoolingOffAction => '办理取消';

@@ -392,7 +392,7 @@ class _FundHeroMetricCard extends StatelessWidget {
   }
 }
 
-enum FundReminderTone { warning, info }
+enum FundReminderTone { danger, warning, info }
 
 class FundReminderData {
   const FundReminderData({
@@ -400,7 +400,10 @@ class FundReminderData {
     required this.title,
     required this.message,
     this.tone = FundReminderTone.warning,
+    this.badgeLabel,
     this.progress,
+    this.segmentCount,
+    this.completedSegmentCount,
     this.actionLabel,
     this.onActionTap,
     this.onTap,
@@ -410,7 +413,10 @@ class FundReminderData {
   final String title;
   final String message;
   final FundReminderTone tone;
+  final String? badgeLabel;
   final double? progress;
+  final int? segmentCount;
+  final int? completedSegmentCount;
   final String? actionLabel;
   final VoidCallback? onActionTap;
   final VoidCallback? onTap;
@@ -448,6 +454,7 @@ class FundReminderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final palette = _paletteFor(data.tone);
+    final cardRadius = BorderRadius.circular(UiTokens.radius16);
     final card = Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
@@ -457,19 +464,28 @@ class FundReminderCard extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: palette.backgroundGradientColors,
         ),
-        borderRadius: BorderRadius.circular(UiTokens.radius16),
+        borderRadius: cardRadius,
         border: Border.all(color: palette.borderColor, width: 1.5),
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          data.leading,
-          const SizedBox(width: UiTokens.spacing8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: palette.dotColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 8),
+              data.leading,
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
                   data.title,
                   style: (theme.textTheme.labelLarge ?? const TextStyle())
                       .copyWith(
@@ -477,61 +493,103 @@ class FundReminderCard extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  data.message,
-                  style: (theme.textTheme.bodySmall ?? const TextStyle())
-                      .copyWith(color: palette.messageColor, height: 1.45),
+              ),
+              if (data.badgeLabel != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: palette.badgeBackgroundColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    data.badgeLabel!,
+                    style: (theme.textTheme.labelSmall ?? const TextStyle())
+                        .copyWith(
+                          color: palette.badgeForegroundColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
                 ),
-                if (data.progress != null) ...<Widget>[
-                  const SizedBox(height: UiTokens.spacing8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(2),
-                    child: LinearProgressIndicator(
-                      value: data.progress!.clamp(0, 1),
-                      minHeight: 4,
-                      backgroundColor: palette.progressTrackColor,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        palette.progressFillColor,
-                      ),
-                    ),
-                  ),
-                ],
-                if (data.actionLabel != null) ...<Widget>[
-                  const SizedBox(height: UiTokens.spacing8),
-                  OutlinedButton(
-                    onPressed: data.onActionTap,
-                    style: OutlinedButton.styleFrom(
-                      visualDensity: const VisualDensity(
-                        horizontal: -2,
-                        vertical: -2,
-                      ),
-                      foregroundColor: palette.actionTextColor,
-                      side: BorderSide(
-                        color: palette.actionBorderColor,
-                        width: 1.5,
-                      ),
-                      backgroundColor: Colors.white,
-                      minimumSize: const Size(0, 30),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 6,
-                      ),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Text(
-                      data.actionLabel!,
-                      style: (theme.textTheme.labelSmall ?? const TextStyle())
-                          .copyWith(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ],
-              ],
+            ],
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Text(
+              data.message,
+              style: (theme.textTheme.bodySmall ?? const TextStyle()).copyWith(
+                color: palette.messageColor,
+                height: 1.6,
+              ),
             ),
           ),
+          if (data.segmentCount != null &&
+              data.completedSegmentCount != null) ...<Widget>[
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: FundSegmentedProgressBar(
+                segmentCount: data.segmentCount!,
+                completedSegmentCount: data.completedSegmentCount!,
+                activeColor: palette.progressFillColor,
+                inactiveColor: palette.progressTrackColor,
+              ),
+            ),
+          ] else if (data.progress != null) ...<Widget>[
+            const SizedBox(height: UiTokens.spacing8),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(2),
+                child: LinearProgressIndicator(
+                  value: data.progress!.clamp(0, 1),
+                  minHeight: 4,
+                  backgroundColor: palette.progressTrackColor,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    palette.progressFillColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
+          if (data.actionLabel != null) ...<Widget>[
+            const SizedBox(height: UiTokens.spacing8),
+            Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: OutlinedButton(
+                onPressed: data.onActionTap,
+                style: OutlinedButton.styleFrom(
+                  visualDensity: const VisualDensity(
+                    horizontal: -2,
+                    vertical: -2,
+                  ),
+                  foregroundColor: palette.actionTextColor,
+                  side: BorderSide(
+                    color: palette.actionBorderColor,
+                    width: 1.5,
+                  ),
+                  backgroundColor: Colors.white,
+                  minimumSize: const Size(0, 30),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 6,
+                  ),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  data.actionLabel!,
+                  style: (theme.textTheme.labelSmall ?? const TextStyle())
+                      .copyWith(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -542,11 +600,49 @@ class FundReminderCard extends StatelessWidget {
 
     return Material(
       color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(UiTokens.radius16),
-        onTap: data.onTap,
-        child: card,
-      ),
+      child: InkWell(borderRadius: cardRadius, onTap: data.onTap, child: card),
+    );
+  }
+}
+
+class FundSegmentedProgressBar extends StatelessWidget {
+  const FundSegmentedProgressBar({
+    super.key,
+    required this.segmentCount,
+    required this.completedSegmentCount,
+    required this.activeColor,
+    required this.inactiveColor,
+    this.spacing = 8,
+    this.height = 6,
+  });
+
+  final int segmentCount;
+  final int completedSegmentCount;
+  final Color activeColor;
+  final Color inactiveColor;
+  final double spacing;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final safeSegmentCount = segmentCount <= 0 ? 1 : segmentCount;
+    final safeCompletedCount = completedSegmentCount.clamp(0, safeSegmentCount);
+
+    return Row(
+      children: <Widget>[
+        for (var index = 0; index < safeSegmentCount; index++) ...<Widget>[
+          Expanded(
+            child: Container(
+              height: height,
+              decoration: BoxDecoration(
+                color: index < safeCompletedCount ? activeColor : inactiveColor,
+                borderRadius: BorderRadius.circular(height / 2),
+              ),
+            ),
+          ),
+          if (index < safeSegmentCount - 1) SizedBox(width: spacing),
+        ],
+      ],
     );
   }
 }
@@ -557,6 +653,9 @@ class _FundReminderPalette {
     required this.borderColor,
     required this.titleColor,
     required this.messageColor,
+    required this.dotColor,
+    required this.badgeBackgroundColor,
+    required this.badgeForegroundColor,
     required this.progressTrackColor,
     required this.progressFillColor,
     required this.actionTextColor,
@@ -567,6 +666,9 @@ class _FundReminderPalette {
   final Color borderColor;
   final Color titleColor;
   final Color messageColor;
+  final Color dotColor;
+  final Color badgeBackgroundColor;
+  final Color badgeForegroundColor;
   final Color progressTrackColor;
   final Color progressFillColor;
   final Color actionTextColor;
@@ -575,12 +677,29 @@ class _FundReminderPalette {
 
 _FundReminderPalette _paletteFor(FundReminderTone tone) {
   switch (tone) {
+    case FundReminderTone.danger:
+      return const _FundReminderPalette(
+        backgroundGradientColors: <Color>[Color(0xFFFEE2E2), Color(0xFFFFF1F2)],
+        borderColor: Color(0xFFFCA5A5),
+        titleColor: Color(0xFFEF4444),
+        messageColor: Color(0xFF991B1B),
+        dotColor: Color(0xFFEF4444),
+        badgeBackgroundColor: Color(0xFFEF4444),
+        badgeForegroundColor: Colors.white,
+        progressTrackColor: Color(0xFFFECACA),
+        progressFillColor: Color(0xFFEF4444),
+        actionTextColor: Color(0xFFDC2626),
+        actionBorderColor: Color(0xFFF87171),
+      );
     case FundReminderTone.warning:
       return const _FundReminderPalette(
         backgroundGradientColors: <Color>[Color(0xFFFEF3C7), Color(0xFFFFFBEB)],
         borderColor: Color(0xFFFCD34D),
         titleColor: Color(0xFF92400E),
         messageColor: Color(0xFFA16207),
+        dotColor: Color(0xFFF59E0B),
+        badgeBackgroundColor: Color(0xFFF59E0B),
+        badgeForegroundColor: Colors.white,
         progressTrackColor: Color(0xFFFDE68A),
         progressFillColor: Color(0xFFF59E0B),
         actionTextColor: Color(0xFFD97706),
@@ -592,6 +711,9 @@ _FundReminderPalette _paletteFor(FundReminderTone tone) {
         borderColor: Color(0xFFBFDBFE),
         titleColor: Color(0xFF1D4ED8),
         messageColor: Color(0xFF1E3A8A),
+        dotColor: Color(0xFF2563EB),
+        badgeBackgroundColor: Color(0xFF2563EB),
+        badgeForegroundColor: Colors.white,
         progressTrackColor: Color(0xFFDBEAFE),
         progressFillColor: Color(0xFF2563EB),
         actionTextColor: Color(0xFF1D4ED8),
