@@ -196,7 +196,7 @@ class HomeOverviewTabPage extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(
                     horizontal: UiTokens.spacing16,
                   ),
-                  child: FundActiveFundsList(
+                  child: FundSectionList(
                     title: l10n.homeActiveFundsTitle,
                     actionLabel: l10n.homeViewAllAction,
                     onActionTap: () => context.go('/funds'),

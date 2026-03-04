@@ -1,0 +1,19 @@
+import '../entities/mypage_models.dart';
+
+abstract class MyPageRepository {
+  Future<List<MyPageApplyRecord>> fetchApplyList({
+    int startPage = 1,
+    int limit = 20,
+  });
+
+  Future<List<MyPageOrderInquiryRecord>> fetchOrderInquiryList({
+    required int userId,
+    int startPage = 1,
+    int limit = 20,
+  });
+
+  Future<List<MyPageInvestmentRecord>> fetchInvestmentList({
+    int startPage = 1,
+    int limit = 20,
+  });
+}

@@ -1,0 +1,525 @@
+import 'package:flutter/material.dart';
+
+import 'app_color_tokens.dart';
+import 'fund_home_widgets.dart';
+import 'app_theme_extensions.dart';
+import 'ui_tokens.dart';
+
+class FundMyPageMetricData {
+  const FundMyPageMetricData({
+    required this.label,
+    required this.value,
+    this.valueColor,
+  });
+
+  final String label;
+  final String value;
+  final Color? valueColor;
+}
+
+class FundMyPageQuickActionData {
+  const FundMyPageQuickActionData({
+    required this.icon,
+    required this.label,
+    this.onTap,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.borderColor,
+  });
+
+  final Widget icon;
+  final String label;
+  final VoidCallback? onTap;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final Color? borderColor;
+}
+
+class FundMyPageAssetOverview extends StatelessWidget {
+  const FundMyPageAssetOverview({
+    super.key,
+    required this.title,
+    required this.totalAssetsLabel,
+    required this.totalAssetsValue,
+    required this.totalAssetsCaption,
+    required this.metrics,
+    required this.quickActions,
+    this.onNotificationTap,
+    this.showNotificationDot = false,
+  });
+
+  final String title;
+  final String totalAssetsLabel;
+  final String totalAssetsValue;
+  final String totalAssetsCaption;
+  final List<FundMyPageMetricData> metrics;
+  final List<FundMyPageQuickActionData> quickActions;
+  final VoidCallback? onNotificationTap;
+  final bool showNotificationDot;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    AppColorTokens.fundexPrimaryDark,
+                    AppColorTokens.fundexPrimaryDarkDradient,
+                  ],
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 18, 20, 54),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            title,
+                            style:
+                                (Theme.of(context).textTheme.titleMedium ??
+                                        const TextStyle())
+                                    .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                          ),
+                        ),
+                        _FundMyPageNotificationButton(
+                          showDot: showNotificationDot,
+                          onTap: onNotificationTap,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: UiTokens.spacing16),
+                    Center(
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            totalAssetsLabel,
+                            style:
+                                (Theme.of(context).textTheme.labelSmall ??
+                                        const TextStyle())
+                                    .copyWith(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.52,
+                                      ),
+                                    ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            totalAssetsValue,
+                            style:
+                                (Theme.of(context).textTheme.headlineMedium ??
+                                        const TextStyle())
+                                    .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            totalAssetsCaption,
+                            textAlign: TextAlign.center,
+                            style:
+                                (Theme.of(context).textTheme.labelSmall ??
+                                        const TextStyle())
+                                    .copyWith(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.42,
+                                      ),
+                                      height: 1.3,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (metrics.isNotEmpty)
+              Positioned(
+                left: UiTokens.spacing16,
+                right: UiTokens.spacing16,
+                bottom: -36,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    for (
+                      var index = 0;
+                      index < metrics.length;
+                      index++
+                    ) ...<Widget>[
+                      Expanded(
+                        child: _FundMyPageMetricCard(data: metrics[index]),
+                      ),
+                      if (index < metrics.length - 1)
+                        const SizedBox(width: UiTokens.spacing8),
+                    ],
+                  ],
+                ),
+              ),
+          ],
+        ),
+        SizedBox(height: metrics.isEmpty ? UiTokens.spacing16 : 52),
+        if (quickActions.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Row(
+              children: <Widget>[
+                for (
+                  var index = 0;
+                  index < quickActions.length;
+                  index++
+                ) ...<Widget>[
+                  Expanded(
+                    child: _FundMyPageQuickActionButton(
+                      data: quickActions[index],
+                    ),
+                  ),
+                  if (index < quickActions.length - 1)
+                    const SizedBox(width: 10),
+                ],
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class FundMyPageProjectCard extends StatelessWidget {
+  const FundMyPageProjectCard({
+    super.key,
+    required this.title,
+    required this.rows,
+    this.trailing,
+    this.accentColor,
+    this.footnote,
+    this.footer,
+    this.onTap,
+    this.shadowPadding = const EdgeInsets.fromLTRB(2, 2, 2, 8),
+  });
+
+  final String title;
+  final List<FundLabeledValue> rows;
+  final Widget? trailing;
+  final Color? accentColor;
+  final String? footnote;
+  final Widget? footer;
+  final VoidCallback? onTap;
+  final EdgeInsetsGeometry shadowPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ftkTheme = theme.extension<AppFTKTheme>();
+    final cardRadius = BorderRadius.circular(UiTokens.radius16);
+    final borderColor =
+        ftkTheme?.cardBorderColor.withValues(alpha: 0.92) ??
+        theme.dividerColor.withValues(alpha: 0.9);
+    final shadowColor = ftkTheme?.cardTileShadowColor ?? Colors.black12;
+
+    return Padding(
+      padding: shadowPadding,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: cardRadius,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: shadowColor.withValues(alpha: 0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Material(
+          color: theme.colorScheme.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: cardRadius,
+            side: BorderSide(color: borderColor),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            borderRadius: cardRadius,
+            onTap: onTap,
+            child: Stack(
+              children: <Widget>[
+                if (accentColor != null)
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: ColoredBox(
+                      color: accentColor!,
+                      child: const SizedBox(width: 3),
+                    ),
+                  ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    accentColor == null ? 12 : 15,
+                    12,
+                    12,
+                    12,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  (theme.textTheme.titleSmall ??
+                                          const TextStyle())
+                                      .copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.4,
+                                      ),
+                            ),
+                          ),
+                          if (trailing != null) ...<Widget>[
+                            const SizedBox(width: UiTokens.spacing8),
+                            trailing!,
+                          ],
+                        ],
+                      ),
+                      if (rows.isNotEmpty) const SizedBox(height: 8),
+                      for (
+                        var index = 0;
+                        index < rows.length;
+                        index++
+                      ) ...<Widget>[
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                rows[index].label,
+                                style:
+                                    (theme.textTheme.bodySmall ??
+                                            const TextStyle())
+                                        .copyWith(
+                                          color: AppColorTokens
+                                              .fundexTextSecondary,
+                                        ),
+                              ),
+                            ),
+                            const SizedBox(width: UiTokens.spacing8),
+                            Text(
+                              rows[index].value,
+                              style:
+                                  (theme.textTheme.bodySmall ??
+                                          const TextStyle())
+                                      .copyWith(
+                                        color:
+                                            rows[index].valueColor ??
+                                            AppColorTokens.fundexText,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                            ),
+                          ],
+                        ),
+                        if (index < rows.length - 1) const SizedBox(height: 4),
+                      ],
+                      if (footnote != null) ...<Widget>[
+                        const SizedBox(height: 6),
+                        Text(
+                          footnote!,
+                          style:
+                              (theme.textTheme.labelSmall ?? const TextStyle())
+                                  .copyWith(
+                                    color: AppColorTokens.fundexTextTertiary,
+                                    height: 1.5,
+                                  ),
+                        ),
+                      ],
+                      if (footer != null) ...<Widget>[
+                        const SizedBox(height: UiTokens.spacing8),
+                        Align(alignment: Alignment.centerRight, child: footer),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FundMyPageMetricCard extends StatelessWidget {
+  const _FundMyPageMetricCard({required this.data});
+
+  final FundMyPageMetricData data;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColorTokens.fundexBorder),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        child: Column(
+          children: <Widget>[
+            Text(
+              data.label,
+              textAlign: TextAlign.center,
+              style: (theme.textTheme.labelSmall ?? const TextStyle()).copyWith(
+                color: AppColorTokens.fundexTextTertiary,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              data.value,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: (theme.textTheme.titleSmall ?? const TextStyle()).copyWith(
+                color: data.valueColor ?? AppColorTokens.fundexText,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FundMyPageQuickActionButton extends StatelessWidget {
+  const _FundMyPageQuickActionButton({required this.data});
+
+  final FundMyPageQuickActionData data;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: data.onTap,
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          decoration: BoxDecoration(
+            color: data.backgroundColor ?? AppColorTokens.fundexBackground,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: data.borderColor ?? Colors.transparent,
+              width: 1.5,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconTheme(
+                data: IconThemeData(
+                  size: 18,
+                  color: data.foregroundColor ?? AppColorTokens.fundexText,
+                ),
+                child: data.icon,
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  data.label,
+                  overflow: TextOverflow.ellipsis,
+                  style: (theme.textTheme.labelLarge ?? const TextStyle())
+                      .copyWith(
+                        color:
+                            data.foregroundColor ?? AppColorTokens.fundexText,
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FundMyPageNotificationButton extends StatelessWidget {
+  const _FundMyPageNotificationButton({
+    required this.showDot,
+    required this.onTap,
+  });
+
+  final bool showDot;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 38,
+      height: 38,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          Positioned.fill(
+            child: Material(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: onTap,
+                child: const Icon(
+                  Icons.notifications_none_rounded,
+                  size: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          if (showDot)
+            Positioned(
+              right: 6,
+              top: 6,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: AppColorTokens.fundexDanger,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColorTokens.fundexPrimaryDark,
+                    width: 1.5,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

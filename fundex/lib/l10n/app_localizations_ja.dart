@@ -935,4 +935,141 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fundDetailAnnualDistribution => '年1回';
+
+  @override
+  String get myPageTitle => 'マイページ';
+
+  @override
+  String get myPageTotalAssetsLabel => '総資産額';
+
+  @override
+  String get myPageTotalAssetsCaption => '運用中 + 待機資金 + 分配金 + 貸付型';
+
+  @override
+  String get myPageMetricOperating => '運用中';
+
+  @override
+  String get myPageMetricStandby => '待機資金';
+
+  @override
+  String get myPageMetricAccumulatedDistribution => '累計分配';
+
+  @override
+  String get myPageMetricLoanType => '貸付型';
+
+  @override
+  String get myPageDepositAction => '入金';
+
+  @override
+  String get myPageWithdrawAction => '出金';
+
+  @override
+  String get myPagePendingApplicationsTitle => '申込中・抽選待ち';
+
+  @override
+  String get myPageCoolingOffTitle => 'クーリングオフ期間中（契約成立）';
+
+  @override
+  String get myPageOperatingFundsTitle => '運用中ファンド';
+
+  @override
+  String get myPageTransactionHistoryAction => '取引履歴を見る';
+
+  @override
+  String get myPageApplyAmountLabel => '申込金額';
+
+  @override
+  String get myPageResultAnnouncementLabel => '結果発表';
+
+  @override
+  String get myPageResultAnnouncementTbd => '未定';
+
+  @override
+  String get myPageApplySubmittedAtLabel => '申込日時';
+
+  @override
+  String get myPageApplyReviewedAtLabel => '審査日時';
+
+  @override
+  String get myPageApplyPaymentNoticeLabel => '入金案内';
+
+  @override
+  String get myPageApplyPaidAtLabel => '入金日時';
+
+  @override
+  String get myPageApplyCancellationRequestedAtLabel => 'キャンセル申請';
+
+  @override
+  String get myPageApplyCancelledAtLabel => 'キャンセル完了';
+
+  @override
+  String get myPageInvestmentAmountLabel => '投資額';
+
+  @override
+  String get myPageAccumulatedDistributionLabel => '累計分配金';
+
+  @override
+  String get myPageDocumentDeliveryDateLabel => '書面交付日';
+
+  @override
+  String get myPageCancelDeadlineLabel => '取消期限';
+
+  @override
+  String get myPageCoolingOffFootnote =>
+      '※ 契約締結時交付書面を受領した日の翌日から8日間はクーリングオフ（無条件解除）が可能です。';
+
+  @override
+  String get myPageCancelRequestAction => 'キャンセル申請';
+
+  @override
+  String get myPageCancelRequestComingSoon => 'キャンセル申請機能は次の実装で接続します。';
+
+  @override
+  String get myPageDepositComingSoon => '入金画面は次の実装で接続します。';
+
+  @override
+  String get myPageWithdrawComingSoon => '出金画面は次の実装で接続します。';
+
+  @override
+  String get myPageHistoryComingSoon => '取引履歴画面は次の実装で接続します。';
+
+  @override
+  String get myPagePendingEmptyState => '申込中または抽選待ちの案件はありません。';
+
+  @override
+  String get myPageCoolingOffEmptyState => 'クーリングオフ期間中の案件はありません。';
+
+  @override
+  String get myPageOperatingFundsEmptyState => '運用中のファンドはありません。';
+
+  @override
+  String get myPageSectionLoadError => 'このセクションの取得に失敗しました。再度お試しください。';
+
+  @override
+  String get myPageApplyStatusUnderReview => '審査中';
+
+  @override
+  String get myPageApplyStatusReviewed => '審査済み';
+
+  @override
+  String get myPageApplyStatusAwaitingPayment => '入金待ち';
+
+  @override
+  String get myPageApplyStatusPaid => '入金済み';
+
+  @override
+  String get myPageApplyStatusCancellationReview => 'キャンセル審査中';
+
+  @override
+  String get myPageApplyStatusCancelled => 'キャンセル済み';
+
+  @override
+  String myPageCoolingOffDeadlineRemaining(Object date, int days) {
+    return '$dateまで（残り$days日）';
+  }
+
+  @override
+  String myPageCoolingOffDeadlineExpired(Object date) {
+    return '$dateで期限終了';
+  }
 }

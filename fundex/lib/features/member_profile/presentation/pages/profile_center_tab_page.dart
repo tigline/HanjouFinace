@@ -1,181 +1,858 @@
+import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
-import '../../../../app/localization/app_locale_providers.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
-import '../providers/member_profile_providers.dart';
-import '../support/member_profile_action_guard.dart';
+import '../../../investment/domain/entities/fund_project.dart';
+import '../../../investment/presentation/providers/fund_project_providers.dart';
+import '../../domain/entities/mypage_models.dart';
+import '../providers/mypage_providers.dart';
+import '../support/mypage_section_support.dart';
 
-class ProfileCenterTabPage extends ConsumerStatefulWidget {
+class ProfileCenterTabPage extends ConsumerWidget {
   const ProfileCenterTabPage({super.key});
 
   @override
-  ConsumerState<ProfileCenterTabPage> createState() =>
-      _ProfileCenterTabPageState();
-}
-
-class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
-  bool _isLoggingOut = false;
-
-  Future<void> _switchLanguage(AppLanguage language) {
-    return ref.read(appLanguageProvider.notifier).setLanguage(language);
-  }
-
-  String _languageLabel(BuildContext context, AppLanguage language) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    return switch (language) {
-      AppLanguage.system => l10n.languageFollowSystem,
-      AppLanguage.zh => l10n.languageChinese,
-      AppLanguage.en => l10n.languageEnglish,
-      AppLanguage.ja => l10n.languageJapanese,
+    final locale = Localizations.localeOf(context);
+    final localeTag = locale.toLanguageTag();
+    final currencyFormatter = NumberFormat.currency(
+      locale: localeTag,
+      symbol: '¥',
+      decimalDigits: 0,
+    );
+    final applyAsync = ref.watch(myPageApplyListProvider);
+    final orderInquiryAsync = ref.watch(myPageOrderInquiryListProvider);
+    final investmentAsync = ref.watch(myPageInvestmentListProvider);
+    final fundProjects =
+        ref.watch(fundProjectListProvider).asData?.value ??
+        const <FundProject>[];
+    final fundProjectsById = <String, FundProject>{
+      for (final project in fundProjects) project.id: project,
     };
-  }
 
-  Future<void> _logout() async {
-    if (_isLoggingOut) {
-      return;
-    }
-
-    setState(() {
-      _isLoggingOut = true;
-    });
-
-    try {
-      await ref.read(logoutUseCaseProvider).call();
-      await ref.read(authSessionProvider.notifier).markUnauthenticated();
-      if (mounted) {
-        context.go('/login');
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoggingOut = false;
-        });
-      }
-    }
-  }
-
-  Future<void> _runProtectedActionCheck({required String actionLabel}) async {
-    final allowed = await ref
-        .read(memberProfileActionGuardProvider)
-        .ensureCompleted(context, actionLabel: actionLabel);
-    if (!allowed || !mounted) {
-      return;
-    }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(context.l10n.profileGuardPassMessage(actionLabel)),
+    return ColoredBox(
+      color: AppColorTokens.fundexBackground,
+      child: RefreshIndicator(
+        onRefresh: () => _refreshPage(ref),
+        child: ListView(
+          key: const Key('profile_tab_content'),
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            FundMyPageAssetOverview(
+              title: l10n.myPageTitle,
+              totalAssetsLabel: l10n.myPageTotalAssetsLabel,
+              totalAssetsValue: '¥4,350,000',
+              totalAssetsCaption: l10n.myPageTotalAssetsCaption,
+              metrics: <FundMyPageMetricData>[
+                FundMyPageMetricData(
+                  label: l10n.myPageMetricOperating,
+                  value: '¥3.2M',
+                ),
+                FundMyPageMetricData(
+                  label: l10n.myPageMetricStandby,
+                  value: '¥650K',
+                ),
+                FundMyPageMetricData(
+                  label: l10n.myPageMetricAccumulatedDistribution,
+                  value: '¥285K',
+                  valueColor: AppColorTokens.fundexSuccess,
+                ),
+                FundMyPageMetricData(
+                  label: l10n.myPageMetricLoanType,
+                  value: '¥500K',
+                  valueColor: AppColorTokens.fundexViolet,
+                ),
+              ],
+              quickActions: <FundMyPageQuickActionData>[
+                FundMyPageQuickActionData(
+                  icon: const Text('💰', style: TextStyle(fontSize: 16)),
+                  label: l10n.myPageDepositAction,
+                  backgroundColor: const Color(0xFFE0F2FE),
+                  foregroundColor: AppColorTokens.fundexAccent,
+                  onTap: () => _showSnackBar(
+                    context,
+                    message: l10n.myPageDepositComingSoon,
+                  ),
+                ),
+                FundMyPageQuickActionData(
+                  icon: const Text('💸', style: TextStyle(fontSize: 16)),
+                  label: l10n.myPageWithdrawAction,
+                  backgroundColor: AppColorTokens.fundexBackground,
+                  borderColor: AppColorTokens.fundexBorder,
+                  foregroundColor: AppColorTokens.fundexTextSecondary,
+                  onTap: () => _showSnackBar(
+                    context,
+                    message: l10n.myPageWithdrawComingSoon,
+                  ),
+                ),
+              ],
+              showNotificationDot: true,
+              onNotificationTap: () => context.push('/notifications'),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _buildPendingApplicationsSection(
+                    context,
+                    ref,
+                    asyncValue: applyAsync,
+                    formatter: currencyFormatter,
+                  ),
+                  const SizedBox(height: UiTokens.spacing12),
+                  _buildCoolingOffSection(
+                    context,
+                    ref,
+                    asyncValue: orderInquiryAsync,
+                    formatter: currencyFormatter,
+                    fundProjectsById: fundProjectsById,
+                    localeTag: localeTag,
+                  ),
+                  const SizedBox(height: UiTokens.spacing12),
+                  _buildActiveFundsSection(
+                    context,
+                    ref,
+                    asyncValue: investmentAsync,
+                    formatter: currencyFormatter,
+                    fundProjectsById: fundProjectsById,
+                  ),
+                  const SizedBox(height: UiTokens.spacing8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => _showSnackBar(
+                        context,
+                        message: l10n.myPageHistoryComingSoon,
+                      ),
+                      icon: const Icon(Icons.receipt_long_outlined),
+                      label: Text(l10n.myPageTransactionHistoryAction),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: UiTokens.spacing12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => _logout(context, ref),
+                      icon: const Icon(Icons.logout_rounded),
+                      label: Text(l10n.homeLogout),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColorTokens.fundexDanger,
+                        side: const BorderSide(
+                          color: AppColorTokens.fundexDanger,
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+Widget _buildPendingApplicationsSection(
+  BuildContext context,
+  WidgetRef ref, {
+  required AsyncValue<List<MyPageApplyRecord>> asyncValue,
+  required NumberFormat formatter,
+}) {
+  final l10n = context.l10n;
+
+  return asyncValue.when(
+    data: (records) {
+      final displayRecords = _selectPendingApplyRecords(records);
+      final cards = displayRecords
+          .map(
+            (record) => FundMyPageProjectCard(
+              title: record.projectName,
+              accentColor: AppColorTokens.fundexViolet,
+              trailing: _PendingStatusBadge(
+                label: _resolveApplyStatusLabel(l10n, record),
+              ),
+              rows: <FundLabeledValue>[
+                FundLabeledValue(
+                  label: l10n.myPageApplyAmountLabel,
+                  value: _formatCurrency(record.applyMoney, formatter),
+                ),
+                _buildApplySecondaryRow(l10n, record),
+              ],
+              footer: _canShowApplyCancelAction(record.status)
+                  ? OutlinedButton(
+                      onPressed: () => _showSnackBar(
+                        context,
+                        message: l10n.myPageCancelRequestComingSoon,
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColorTokens.fundexDanger,
+                        side: const BorderSide(
+                          color: AppColorTokens.fundexDanger,
+                        ),
+                        visualDensity: const VisualDensity(
+                          horizontal: -1,
+                          vertical: -2,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                      ),
+                      child: Text(l10n.myPageCancelRequestAction),
+                    )
+                  : null,
+              onTap: _buildProjectTapHandler(context, record.projectId),
+            ),
+          )
+          .toList(growable: false);
+
+      return FundSectionList(
+        title: '📩 ${l10n.myPagePendingApplicationsTitle}',
+        initialVisibleCount: cards.isEmpty ? 1 : 3,
+        actionLabel: l10n.homeViewAllAction,
+        onActionTap: () => context.push(
+          '/my/section-list?type=${MyPageSectionType.pendingApplications.queryValue}',
+        ),
+        children: cards.isEmpty
+            ? <Widget>[_SectionStateCard(message: l10n.myPagePendingEmptyState)]
+            : cards,
+      );
+    },
+    loading: () => FundSectionList(
+      title: '📩 ${l10n.myPagePendingApplicationsTitle}',
+      initialVisibleCount: 1,
+      children: const <Widget>[_SectionLoadingCard()],
+    ),
+    error: (_, __) => FundSectionList(
+      title: '📩 ${l10n.myPagePendingApplicationsTitle}',
+      initialVisibleCount: 1,
+      children: <Widget>[
+        _SectionStateCard(
+          message: l10n.myPageSectionLoadError,
+          actionLabel: l10n.fundListRetry,
+          onActionTap: () => ref.invalidate(myPageApplyListProvider),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildCoolingOffSection(
+  BuildContext context,
+  WidgetRef ref, {
+  required AsyncValue<List<MyPageOrderInquiryRecord>> asyncValue,
+  required NumberFormat formatter,
+  required Map<String, FundProject> fundProjectsById,
+  required String localeTag,
+}) {
+  final l10n = context.l10n;
+
+  return asyncValue.when(
+    data: (records) {
+      final displayRecords = _selectCoolingOffRecords(records);
+      final cards = displayRecords
+          .map((record) {
+            final projectId = _resolveOrderProjectId(record);
+            final project = projectId == null
+                ? null
+                : fundProjectsById[projectId];
+            final deadline = _resolveCoolingOffDeadline(record);
+            final deadlineLabel = _formatCoolingOffDeadlineLabel(
+              context,
+              deadline,
+              localeTag: localeTag,
+            );
+
+            return FundMyPageProjectCard(
+              title: record.projectName,
+              accentColor: AppColorTokens.fundexWarning,
+              trailing: Text(
+                _resolveYieldLabel(
+                  project,
+                  fallbackRatio: record.investorType?.earningsRadio,
+                ),
+                style:
+                    (Theme.of(context).textTheme.titleLarge ??
+                            const TextStyle())
+                        .copyWith(
+                          color: AppColorTokens.fundexDanger,
+                          fontWeight: FontWeight.w900,
+                        ),
+              ),
+              rows: <FundLabeledValue>[
+                FundLabeledValue(
+                  label: l10n.myPageInvestmentAmountLabel,
+                  value: _formatCurrency(record.price, formatter),
+                ),
+                FundLabeledValue(
+                  label: l10n.myPageDocumentDeliveryDateLabel,
+                  value:
+                      _formatDateOrNull(record.createTime) ??
+                      l10n.myPageResultAnnouncementTbd,
+                ),
+                FundLabeledValue(
+                  label: l10n.myPageCancelDeadlineLabel,
+                  value: deadlineLabel,
+                  valueColor: _resolveCoolingOffDeadlineColor(deadline),
+                ),
+              ],
+              footnote: l10n.myPageCoolingOffFootnote,
+              footer: OutlinedButton(
+                onPressed: () => _showSnackBar(
+                  context,
+                  message: l10n.myPageCancelRequestComingSoon,
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFFD97706),
+                  side: const BorderSide(color: AppColorTokens.fundexWarning),
+                  visualDensity: const VisualDensity(
+                    horizontal: -1,
+                    vertical: -2,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                ),
+                child: Text(l10n.myPageCancelRequestAction),
+              ),
+              onTap: _buildProjectTapHandler(context, projectId),
+            );
+          })
+          .toList(growable: false);
+
+      return FundSectionList(
+        title: '⏰ ${l10n.myPageCoolingOffTitle}',
+        initialVisibleCount: cards.isEmpty ? 1 : 3,
+        actionLabel: l10n.homeViewAllAction,
+        onActionTap: () => context.push(
+          '/my/section-list?type=${MyPageSectionType.coolingOff.queryValue}',
+        ),
+        children: cards.isEmpty
+            ? <Widget>[
+                _SectionStateCard(message: l10n.myPageCoolingOffEmptyState),
+              ]
+            : cards,
+      );
+    },
+    loading: () => FundSectionList(
+      title: '⏰ ${l10n.myPageCoolingOffTitle}',
+      initialVisibleCount: 1,
+      children: const <Widget>[_SectionLoadingCard()],
+    ),
+    error: (_, __) => FundSectionList(
+      title: '⏰ ${l10n.myPageCoolingOffTitle}',
+      initialVisibleCount: 1,
+      children: <Widget>[
+        _SectionStateCard(
+          message: l10n.myPageSectionLoadError,
+          actionLabel: l10n.fundListRetry,
+          onActionTap: () => ref.invalidate(myPageOrderInquiryListProvider),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildActiveFundsSection(
+  BuildContext context,
+  WidgetRef ref, {
+  required AsyncValue<List<MyPageInvestmentRecord>> asyncValue,
+  required NumberFormat formatter,
+  required Map<String, FundProject> fundProjectsById,
+}) {
+  final l10n = context.l10n;
+
+  return asyncValue.when(
+    data: (records) {
+      final displayGroups = _groupActiveInvestmentRecords(records);
+      final cards = displayGroups
+          .map((group) {
+            final project = fundProjectsById[group.projectId];
+            return FundActiveFundCard(
+              data: FundActiveFundCardData(
+                title: group.projectName,
+                annualYield: _resolveYieldLabel(
+                  project,
+                  fallbackRatio: group.earningRatio,
+                ),
+                rows: <FundLabeledValue>[
+                  FundLabeledValue(
+                    label: l10n.myPageInvestmentAmountLabel,
+                    value: _formatCurrency(group.investMoney, formatter),
+                  ),
+                  FundLabeledValue(
+                    label: l10n.myPageAccumulatedDistributionLabel,
+                    value: _formatCurrency(group.earnings, formatter),
+                    valueColor: AppColorTokens.fundexSuccess,
+                  ),
+                ],
+                onTap: _buildProjectTapHandler(context, group.projectId),
+              ),
+            );
+          })
+          .toList(growable: false);
+
+      return FundSectionList(
+        title: '📊 ${l10n.myPageOperatingFundsTitle}',
+        initialVisibleCount: cards.isEmpty ? 1 : 3,
+        actionLabel: l10n.homeViewAllAction,
+        children: cards.isEmpty
+            ? <Widget>[
+                _SectionStateCard(message: l10n.myPageOperatingFundsEmptyState),
+              ]
+            : cards,
+        onActionTap: () => context.push(
+          '/my/section-list?type=${MyPageSectionType.activeFunds.queryValue}',
+        ),
+      );
+    },
+    loading: () => FundSectionList(
+      title: '📊 ${l10n.myPageOperatingFundsTitle}',
+      initialVisibleCount: 1,
+      children: const <Widget>[_SectionLoadingCard()],
+    ),
+    error: (_, __) => FundSectionList(
+      title: '📊 ${l10n.myPageOperatingFundsTitle}',
+      initialVisibleCount: 1,
+      children: <Widget>[
+        _SectionStateCard(
+          message: l10n.myPageSectionLoadError,
+          actionLabel: l10n.fundListRetry,
+          onActionTap: () => ref.invalidate(myPageInvestmentListProvider),
+        ),
+      ],
+    ),
+  );
+}
+
+Future<void> _refreshPage(WidgetRef ref) async {
+  ref.invalidate(fundProjectListProvider);
+  await Future.wait<void>(<Future<void>>[
+    ref.refresh(fundProjectListProvider.future).then((_) {}),
+    ref.refresh(myPageApplyListProvider.future).then((_) {}),
+    ref.refresh(myPageOrderInquiryListProvider.future).then((_) {}),
+    ref.refresh(myPageInvestmentListProvider.future).then((_) {}),
+  ]);
+}
+
+Future<void> _logout(BuildContext context, WidgetRef ref) async {
+  await ref.read(logoutUseCaseProvider).call();
+  await ref.read(authSessionProvider.notifier).markUnauthenticated();
+  if (context.mounted) {
+    context.go('/login');
+  }
+}
+
+VoidCallback? _buildProjectTapHandler(BuildContext context, String? projectId) {
+  if (projectId == null || projectId.trim().isEmpty) {
+    return null;
+  }
+  return () => context.push('/funds/$projectId');
+}
+
+List<MyPageApplyRecord> _selectPendingApplyRecords(
+  List<MyPageApplyRecord> records,
+) {
+  final sorted = [...records]
+    ..sort((a, b) => _compareByDateDesc(a.applyTime, b.applyTime));
+  final filtered = sorted
+      .where((record) {
+        return switch (record.status) {
+          0 => true,
+          _ => false,
+        };
+      })
+      .toList(growable: false);
+  return filtered;
+}
+
+List<MyPageOrderInquiryRecord> _selectCoolingOffRecords(
+  List<MyPageOrderInquiryRecord> records,
+) {
+  final sorted = [...records]
+    ..sort((a, b) => _compareByDateDesc(a.createTime, b.createTime));
+  final uniqueByProject = <String, MyPageOrderInquiryRecord>{};
+  for (final record in sorted) {
+    final key =
+        _resolveOrderProjectId(record) ??
+        record.id ??
+        '${record.projectName}_${record.createTime ?? ''}';
+    uniqueByProject.putIfAbsent(key, () => record);
+  }
+  return uniqueByProject.values.take(3).toList(growable: false);
+}
+
+List<_InvestmentGroup> _groupActiveInvestmentRecords(
+  List<MyPageInvestmentRecord> records,
+) {
+  final source = records.where((record) => record.projectStatus == 4).toList();
+  final filtered = source.isEmpty ? [...records] : source;
+  filtered.sort((a, b) => _compareByDateDesc(a.createTime, b.createTime));
+
+  final groups = <String, _InvestmentGroupAccumulator>{};
+  for (final record in filtered) {
+    final key = record.projectId;
+    groups.putIfAbsent(key, () => _InvestmentGroupAccumulator(record));
+    groups[key]!.add(record);
+  }
+
+  final values = groups.values
+      .map((accumulator) => accumulator.build())
+      .toList(growable: false);
+  values.sort(
+    (a, b) => _compareDateTimeDesc(a.latestCreateTime, b.latestCreateTime),
+  );
+  return values;
+}
+
+String _resolveApplyStatusLabel(dynamic l10n, MyPageApplyRecord record) {
+  return switch (record.status) {
+    0 => l10n.myPageApplyStatusUnderReview,
+    1 => l10n.myPageApplyStatusReviewed,
+    2 => l10n.myPageApplyStatusAwaitingPayment,
+    3 => l10n.myPageApplyStatusPaid,
+    4 => l10n.myPageApplyStatusCancellationReview,
+    5 => l10n.myPageApplyStatusCancelled,
+    _ => l10n.myPageApplyStatusUnderReview,
+  };
+}
+
+FundLabeledValue _buildApplySecondaryRow(
+  dynamic l10n,
+  MyPageApplyRecord record,
+) {
+  return switch (record.status) {
+    0 => FundLabeledValue(
+      label: l10n.myPageApplySubmittedAtLabel,
+      value:
+          _formatDateTimeOrNull(record.applyTime) ??
+          l10n.myPageResultAnnouncementTbd,
+    ),
+    1 => FundLabeledValue(
+      label: l10n.myPageApplyReviewedAtLabel,
+      value:
+          _formatDateTimeOrNull(record.passTime ?? record.applyTime) ??
+          l10n.myPageResultAnnouncementTbd,
+    ),
+    2 => FundLabeledValue(
+      label: l10n.myPageApplyPaymentNoticeLabel,
+      value:
+          _formatDateTimeOrNull(record.passTime ?? record.applyTime) ??
+          l10n.myPageResultAnnouncementTbd,
+    ),
+    3 => FundLabeledValue(
+      label: l10n.myPageApplyPaidAtLabel,
+      value:
+          _formatDateTimeOrNull(
+            record.actualArrivalTime ?? record.passTime ?? record.applyTime,
+          ) ??
+          l10n.myPageResultAnnouncementTbd,
+    ),
+    4 => FundLabeledValue(
+      label: l10n.myPageApplyCancellationRequestedAtLabel,
+      value:
+          _formatDateTimeOrNull(record.passTime ?? record.applyTime) ??
+          l10n.myPageResultAnnouncementTbd,
+    ),
+    5 => FundLabeledValue(
+      label: l10n.myPageApplyCancelledAtLabel,
+      value:
+          _formatDateTimeOrNull(record.passTime ?? record.applyTime) ??
+          l10n.myPageResultAnnouncementTbd,
+    ),
+    _ => FundLabeledValue(
+      label: l10n.myPageApplySubmittedAtLabel,
+      value:
+          _formatDateTimeOrNull(record.applyTime) ??
+          l10n.myPageResultAnnouncementTbd,
+    ),
+  };
+}
+
+bool _canShowApplyCancelAction(int? status) {
+  return switch (status) {
+    0 || 1 || 2 => true,
+    _ => false,
+  };
+}
+
+String? _resolveOrderProjectId(MyPageOrderInquiryRecord record) {
+  return record.investorType?.projectId ??
+      (record.pdfDocuments.isNotEmpty
+          ? record.pdfDocuments.first.projectId
+          : null);
+}
+
+DateTime? _resolveCoolingOffDeadline(MyPageOrderInquiryRecord record) {
+  final base = _parseApiDate(record.createTime);
+  if (base == null) {
+    return null;
+  }
+  return DateTime(base.year, base.month, base.day).add(const Duration(days: 8));
+}
+
+Color _resolveCoolingOffDeadlineColor(DateTime? deadline) {
+  if (deadline == null) {
+    return AppColorTokens.fundexTextSecondary;
+  }
+  final today = DateTime.now();
+  final todayDate = DateTime(today.year, today.month, today.day);
+  final deadlineDate = DateTime(deadline.year, deadline.month, deadline.day);
+  return deadlineDate.isBefore(todayDate)
+      ? AppColorTokens.fundexTextSecondary
+      : AppColorTokens.fundexDanger;
+}
+
+String _formatCoolingOffDeadlineLabel(
+  BuildContext context,
+  DateTime? deadline, {
+  required String localeTag,
+}) {
+  if (deadline == null) {
+    return context.l10n.myPageResultAnnouncementTbd;
+  }
+
+  final dateText = DateFormat('M/d', localeTag).format(deadline);
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final deadlineDate = DateTime(deadline.year, deadline.month, deadline.day);
+  final remainingDays = deadlineDate.difference(today).inDays;
+
+  if (remainingDays >= 0) {
+    return context.l10n.myPageCoolingOffDeadlineRemaining(
+      dateText,
+      remainingDays,
+    );
+  }
+  return context.l10n.myPageCoolingOffDeadlineExpired(dateText);
+}
+
+String _resolveYieldLabel(FundProject? project, {double? fallbackRatio}) {
+  final ratio =
+      project?.expectedDistributionRatioMax ??
+      project?.expectedDistributionRatioMin ??
+      project?.investorTypes.firstOrNull?.earningsRadio ??
+      fallbackRatio;
+  return _formatYieldPercent(ratio);
+}
+
+String _formatYieldPercent(double? ratio) {
+  if (ratio == null) {
+    return '--';
+  }
+  final percentage = ratio > 1 ? ratio : ratio * 100;
+  final hasFraction = percentage % 1 != 0;
+  return '${percentage.toStringAsFixed(hasFraction ? 1 : 0)}%';
+}
+
+String _formatCurrency(num? amount, NumberFormat formatter) {
+  if (amount == null) {
+    return '--';
+  }
+  return formatter.format(amount);
+}
+
+String? _formatDateOrNull(String? raw) {
+  final date = _parseApiDate(raw);
+  if (date == null) {
+    return null;
+  }
+  return DateFormat('yyyy/MM/dd').format(date);
+}
+
+String? _formatDateTimeOrNull(String? raw) {
+  final date = _parseApiDate(raw);
+  if (date == null) {
+    return null;
+  }
+  return DateFormat('yyyy/MM/dd HH:mm').format(date);
+}
+
+DateTime? _parseApiDate(String? raw) {
+  if (raw == null || raw.trim().isEmpty) {
+    return null;
+  }
+
+  final value = raw.trim();
+  for (final pattern in <String>['yyyy-MM-dd HH:mm:ss', 'yyyy-MM-dd']) {
+    try {
+      return DateFormat(pattern).parseStrict(value);
+    } catch (_) {
+      continue;
+    }
+  }
+
+  return DateTime.tryParse(value);
+}
+
+int _compareByDateDesc(String? left, String? right) {
+  return _compareDateTimeDesc(_parseApiDate(left), _parseApiDate(right));
+}
+
+int _compareDateTimeDesc(DateTime? left, DateTime? right) {
+  if (left == null && right == null) {
+    return 0;
+  }
+  if (left == null) {
+    return 1;
+  }
+  if (right == null) {
+    return -1;
+  }
+  return right.compareTo(left);
+}
+
+void _showSnackBar(BuildContext context, {required String message}) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+}
+
+class _PendingStatusBadge extends StatelessWidget {
+  const _PendingStatusBadge({required this.label});
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final currentLanguage = ref.watch(appLanguageProvider);
-    final profileCompletion = ref.watch(isMemberProfileCompletedProvider);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColorTokens.fundexVioletLight,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
+            .copyWith(
+              color: AppColorTokens.fundexViolet,
+              fontWeight: FontWeight.w700,
+            ),
+      ),
+    );
+  }
+}
 
-    return ListView(
-      key: const Key('profile_tab_content'),
-      padding: const EdgeInsets.all(16),
-      children: <Widget>[
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  l10n.profileTabHeadline,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(l10n.profileTabSubtitle),
-                const SizedBox(height: 12),
-                profileCompletion.when(
-                  data: (bool isCompleted) => Text(
-                    isCompleted
-                        ? l10n.profileStatusCompleted
-                        : l10n.profileStatusIncomplete,
-                  ),
-                  loading: () => const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                  error: (_, __) => Text(l10n.profileStatusLoadFailed),
-                ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: <Widget>[
-                    FilledButton.tonal(
-                      key: const Key('profile_edit_entry_button'),
-                      onPressed: () => context.push('/member-profile/edit'),
-                      child: Text(l10n.profileEditEntryButton),
-                    ),
-                    OutlinedButton(
-                      onPressed: () => _runProtectedActionCheck(
-                        actionLabel: l10n.profileProtectedBookingAction,
-                      ),
-                      child: Text(l10n.profileProtectedBookingAction),
-                    ),
-                    OutlinedButton(
-                      onPressed: () => _runProtectedActionCheck(
-                        actionLabel: l10n.profileProtectedTradeAction,
-                      ),
-                      child: Text(l10n.profileProtectedTradeAction),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+class _SectionLoadingCard extends StatelessWidget {
+  const _SectionLoadingCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _SectionStateCard(
+      indicator: CircularProgressIndicator.adaptive(strokeWidth: 2),
+    );
+  }
+}
+
+class _SectionStateCard extends StatelessWidget {
+  const _SectionStateCard({
+    this.message,
+    this.actionLabel,
+    this.onActionTap,
+    this.indicator,
+  });
+
+  final String? message;
+  final String? actionLabel;
+  final VoidCallback? onActionTap;
+  final Widget? indicator;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(UiTokens.radius16),
+        border: Border.all(color: AppColorTokens.fundexBorder),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        child: Column(
+          children: <Widget>[
+            if (indicator != null) indicator!,
+            if (message != null) ...<Widget>[
+              if (indicator != null) const SizedBox(height: UiTokens.spacing8),
+              Text(
+                message!,
+                textAlign: TextAlign.center,
+                style: (theme.textTheme.bodySmall ?? const TextStyle())
+                    .copyWith(color: AppColorTokens.fundexTextSecondary),
+              ),
+            ],
+            if (actionLabel != null && onActionTap != null) ...<Widget>[
+              const SizedBox(height: UiTokens.spacing8),
+              OutlinedButton(onPressed: onActionTap, child: Text(actionLabel!)),
+            ],
+          ],
         ),
-        const SizedBox(height: 12),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: <Widget>[
-                PopupMenuButton<AppLanguage>(
-                  key: const Key('language_menu_button'),
-                  initialValue: currentLanguage,
-                  onSelected: _switchLanguage,
-                  itemBuilder: (BuildContext context) {
-                    return AppLanguage.values.map((language) {
-                      return PopupMenuItem<AppLanguage>(
-                        value: language,
-                        child: Text(_languageLabel(context, language)),
-                      );
-                    }).toList();
-                  },
-                  icon: const Icon(Icons.language),
-                  tooltip: l10n.languageFollowSystem,
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 148,
-                  child: OutlinedButton(
-                    key: const Key('logout_button'),
-                    onPressed: _isLoggingOut ? null : _logout,
-                    child: _isLoggingOut
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l10n.homeLogout),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
+    );
+  }
+}
+
+class _InvestmentGroup {
+  const _InvestmentGroup({
+    required this.projectId,
+    required this.projectName,
+    required this.investMoney,
+    required this.earnings,
+    required this.earningRatio,
+    required this.latestCreateTime,
+  });
+
+  final String projectId;
+  final String projectName;
+  final num investMoney;
+  final num earnings;
+  final double? earningRatio;
+  final DateTime? latestCreateTime;
+}
+
+class _InvestmentGroupAccumulator {
+  _InvestmentGroupAccumulator(MyPageInvestmentRecord seed)
+    : projectId = seed.projectId,
+      projectName = seed.projectName,
+      investMoney = seed.investMoney ?? 0,
+      earnings = seed.earnings ?? 0,
+      latestCreateTime = _parseApiDate(seed.createTime),
+      earningRatio = seed.earningRadio ?? seed.investorType?.earningsRadio;
+
+  final String projectId;
+  final String projectName;
+  num investMoney;
+  num earnings;
+  double? earningRatio;
+  DateTime? latestCreateTime;
+
+  void add(MyPageInvestmentRecord record) {
+    investMoney += record.investMoney ?? 0;
+    earnings += record.earnings ?? 0;
+    earningRatio ??= record.earningRadio ?? record.investorType?.earningsRadio;
+    final candidateDate = _parseApiDate(record.createTime);
+    if (_compareDateTimeDesc(latestCreateTime, candidateDate) > 0) {
+      latestCreateTime = candidateDate;
+    }
+  }
+
+  _InvestmentGroup build() {
+    return _InvestmentGroup(
+      projectId: projectId,
+      projectName: projectName,
+      investMoney: investMoney,
+      earnings: earnings,
+      earningRatio: earningRatio,
+      latestCreateTime: latestCreateTime,
     );
   }
 }

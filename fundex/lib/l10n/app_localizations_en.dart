@@ -994,4 +994,150 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fundDetailAnnualDistribution => 'Annually';
+
+  @override
+  String get myPageTitle => 'My Page';
+
+  @override
+  String get myPageTotalAssetsLabel => 'Total assets';
+
+  @override
+  String get myPageTotalAssetsCaption =>
+      'Operating + standby cash + distributions + lending';
+
+  @override
+  String get myPageMetricOperating => 'Operating';
+
+  @override
+  String get myPageMetricStandby => 'Standby cash';
+
+  @override
+  String get myPageMetricAccumulatedDistribution => 'Total distributions';
+
+  @override
+  String get myPageMetricLoanType => 'Lending';
+
+  @override
+  String get myPageDepositAction => 'Deposit';
+
+  @override
+  String get myPageWithdrawAction => 'Withdraw';
+
+  @override
+  String get myPagePendingApplicationsTitle => 'Applications / Lottery waiting';
+
+  @override
+  String get myPageCoolingOffTitle => 'Cooling-off period (contract formed)';
+
+  @override
+  String get myPageOperatingFundsTitle => 'Operating funds';
+
+  @override
+  String get myPageTransactionHistoryAction => 'View transaction history';
+
+  @override
+  String get myPageApplyAmountLabel => 'Application amount';
+
+  @override
+  String get myPageResultAnnouncementLabel => 'Result date';
+
+  @override
+  String get myPageResultAnnouncementTbd => 'TBD';
+
+  @override
+  String get myPageApplySubmittedAtLabel => 'Applied at';
+
+  @override
+  String get myPageApplyReviewedAtLabel => 'Reviewed at';
+
+  @override
+  String get myPageApplyPaymentNoticeLabel => 'Payment notice';
+
+  @override
+  String get myPageApplyPaidAtLabel => 'Paid at';
+
+  @override
+  String get myPageApplyCancellationRequestedAtLabel =>
+      'Cancellation requested';
+
+  @override
+  String get myPageApplyCancelledAtLabel => 'Cancelled at';
+
+  @override
+  String get myPageInvestmentAmountLabel => 'Investment amount';
+
+  @override
+  String get myPageAccumulatedDistributionLabel => 'Total distributions';
+
+  @override
+  String get myPageDocumentDeliveryDateLabel => 'Document date';
+
+  @override
+  String get myPageCancelDeadlineLabel => 'Cancellation deadline';
+
+  @override
+  String get myPageCoolingOffFootnote =>
+      '* Cooling-off cancellation is available for 8 days from the day after receiving the contract document.';
+
+  @override
+  String get myPageCancelRequestAction => 'Request cancellation';
+
+  @override
+  String get myPageCancelRequestComingSoon =>
+      'Cancellation flow will be connected in a later implementation.';
+
+  @override
+  String get myPageDepositComingSoon =>
+      'Deposit page will be connected in a later implementation.';
+
+  @override
+  String get myPageWithdrawComingSoon =>
+      'Withdraw page will be connected in a later implementation.';
+
+  @override
+  String get myPageHistoryComingSoon =>
+      'Transaction history page will be connected in a later implementation.';
+
+  @override
+  String get myPagePendingEmptyState =>
+      'No applications or lottery-waiting items.';
+
+  @override
+  String get myPageCoolingOffEmptyState =>
+      'No contracts in the cooling-off period.';
+
+  @override
+  String get myPageOperatingFundsEmptyState => 'No operating funds yet.';
+
+  @override
+  String get myPageSectionLoadError =>
+      'Failed to load this section. Please try again.';
+
+  @override
+  String get myPageApplyStatusUnderReview => 'Under review';
+
+  @override
+  String get myPageApplyStatusReviewed => 'Reviewed';
+
+  @override
+  String get myPageApplyStatusAwaitingPayment => 'Awaiting payment';
+
+  @override
+  String get myPageApplyStatusPaid => 'Paid';
+
+  @override
+  String get myPageApplyStatusCancellationReview => 'Cancellation in review';
+
+  @override
+  String get myPageApplyStatusCancelled => 'Cancelled';
+
+  @override
+  String myPageCoolingOffDeadlineRemaining(Object date, int days) {
+    return 'Until $date ($days days left)';
+  }
+
+  @override
+  String myPageCoolingOffDeadlineExpired(Object date) {
+    return 'Expired on $date';
+  }
 }

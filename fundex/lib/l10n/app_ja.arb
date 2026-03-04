@@ -333,5 +333,62 @@
   "fundDetailMonthlyDistribution": "毎月",
   "fundDetailQuarterlyDistribution": "四半期毎",
   "fundDetailSemiAnnualDistribution": "半年毎",
-  "fundDetailAnnualDistribution": "年1回"
+  "fundDetailAnnualDistribution": "年1回",
+  "myPageTitle": "マイページ",
+  "myPageTotalAssetsLabel": "総資産額",
+  "myPageTotalAssetsCaption": "運用中 + 待機資金 + 分配金 + 貸付型",
+  "myPageMetricOperating": "運用中",
+  "myPageMetricStandby": "待機資金",
+  "myPageMetricAccumulatedDistribution": "累計分配",
+  "myPageMetricLoanType": "貸付型",
+  "myPageDepositAction": "入金",
+  "myPageWithdrawAction": "出金",
+  "myPagePendingApplicationsTitle": "申込中・抽選待ち",
+  "myPageCoolingOffTitle": "クーリングオフ期間中（契約成立）",
+  "myPageOperatingFundsTitle": "運用中ファンド",
+  "myPageTransactionHistoryAction": "取引履歴を見る",
+  "myPageApplyAmountLabel": "申込金額",
+  "myPageResultAnnouncementLabel": "結果発表",
+  "myPageResultAnnouncementTbd": "未定",
+  "myPageApplySubmittedAtLabel": "申込日時",
+  "myPageApplyReviewedAtLabel": "審査日時",
+  "myPageApplyPaymentNoticeLabel": "入金案内",
+  "myPageApplyPaidAtLabel": "入金日時",
+  "myPageApplyCancellationRequestedAtLabel": "キャンセル申請",
+  "myPageApplyCancelledAtLabel": "キャンセル完了",
+  "myPageInvestmentAmountLabel": "投資額",
+  "myPageAccumulatedDistributionLabel": "累計分配金",
+  "myPageDocumentDeliveryDateLabel": "書面交付日",
+  "myPageCancelDeadlineLabel": "取消期限",
+  "myPageCoolingOffFootnote": "※ 契約締結時交付書面を受領した日の翌日から8日間はクーリングオフ（無条件解除）が可能です。",
+  "myPageCancelRequestAction": "キャンセル申請",
+  "myPageCancelRequestComingSoon": "キャンセル申請機能は次の実装で接続します。",
+  "myPageDepositComingSoon": "入金画面は次の実装で接続します。",
+  "myPageWithdrawComingSoon": "出金画面は次の実装で接続します。",
+  "myPageHistoryComingSoon": "取引履歴画面は次の実装で接続します。",
+  "myPagePendingEmptyState": "申込中または抽選待ちの案件はありません。",
+  "myPageCoolingOffEmptyState": "クーリングオフ期間中の案件はありません。",
+  "myPageOperatingFundsEmptyState": "運用中のファンドはありません。",
+  "myPageSectionLoadError": "このセクションの取得に失敗しました。再度お試しください。",
+  "myPageApplyStatusUnderReview": "審査中",
+  "myPageApplyStatusReviewed": "審査済み",
+  "myPageApplyStatusAwaitingPayment": "入金待ち",
+  "myPageApplyStatusPaid": "入金済み",
+  "myPageApplyStatusCancellationReview": "キャンセル審査中",
+  "myPageApplyStatusCancelled": "キャンセル済み",
+  "myPageCoolingOffDeadlineRemaining": "{date}まで（残り{days}日）",
+  "@myPageCoolingOffDeadlineRemaining": {
+    "placeholders": {
+      "date": {},
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "myPageCoolingOffDeadlineExpired": "{date}で期限終了",
+  "@myPageCoolingOffDeadlineExpired": {
+    "placeholders": {
+      "date": {}
+    }
+  }
 }

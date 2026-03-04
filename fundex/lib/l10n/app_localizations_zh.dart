@@ -930,4 +930,140 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get fundDetailAnnualDistribution => '每年';
+
+  @override
+  String get myPageTitle => '我的页面';
+
+  @override
+  String get myPageTotalAssetsLabel => '总资产';
+
+  @override
+  String get myPageTotalAssetsCaption => '运用中 + 待机资金 + 分配金 + 借贷型';
+
+  @override
+  String get myPageMetricOperating => '运用中';
+
+  @override
+  String get myPageMetricStandby => '待机资金';
+
+  @override
+  String get myPageMetricAccumulatedDistribution => '累计分配';
+
+  @override
+  String get myPageMetricLoanType => '借贷型';
+
+  @override
+  String get myPageDepositAction => '入金';
+
+  @override
+  String get myPageWithdrawAction => '出金';
+
+  @override
+  String get myPagePendingApplicationsTitle => '申请中・等待抽签';
+
+  @override
+  String get myPageCoolingOffTitle => '冷静期内（合同成立）';
+
+  @override
+  String get myPageOperatingFundsTitle => '运用中基金';
+
+  @override
+  String get myPageTransactionHistoryAction => '查看交易记录';
+
+  @override
+  String get myPageApplyAmountLabel => '申请金额';
+
+  @override
+  String get myPageResultAnnouncementLabel => '结果公布';
+
+  @override
+  String get myPageResultAnnouncementTbd => '待定';
+
+  @override
+  String get myPageApplySubmittedAtLabel => '申请时间';
+
+  @override
+  String get myPageApplyReviewedAtLabel => '审核时间';
+
+  @override
+  String get myPageApplyPaymentNoticeLabel => '入金通知';
+
+  @override
+  String get myPageApplyPaidAtLabel => '入金时间';
+
+  @override
+  String get myPageApplyCancellationRequestedAtLabel => '取消申请';
+
+  @override
+  String get myPageApplyCancelledAtLabel => '取消完成';
+
+  @override
+  String get myPageInvestmentAmountLabel => '投资金额';
+
+  @override
+  String get myPageAccumulatedDistributionLabel => '累计分配金';
+
+  @override
+  String get myPageDocumentDeliveryDateLabel => '书面交付日';
+
+  @override
+  String get myPageCancelDeadlineLabel => '取消期限';
+
+  @override
+  String get myPageCoolingOffFootnote => '※ 自收到合同成立时交付书面的次日起 8 日内，可无条件解除合同。';
+
+  @override
+  String get myPageCancelRequestAction => '申请取消';
+
+  @override
+  String get myPageCancelRequestComingSoon => '取消申请流程会在后续实现中接入。';
+
+  @override
+  String get myPageDepositComingSoon => '入金页面会在后续实现中接入。';
+
+  @override
+  String get myPageWithdrawComingSoon => '出金页面会在后续实现中接入。';
+
+  @override
+  String get myPageHistoryComingSoon => '交易记录页面会在后续实现中接入。';
+
+  @override
+  String get myPagePendingEmptyState => '当前没有申请中或等待抽签的项目。';
+
+  @override
+  String get myPageCoolingOffEmptyState => '当前没有处于冷静期内的项目。';
+
+  @override
+  String get myPageOperatingFundsEmptyState => '当前没有运用中的基金。';
+
+  @override
+  String get myPageSectionLoadError => '该区块加载失败，请重试。';
+
+  @override
+  String get myPageApplyStatusUnderReview => '审核中';
+
+  @override
+  String get myPageApplyStatusReviewed => '已审核';
+
+  @override
+  String get myPageApplyStatusAwaitingPayment => '待入金';
+
+  @override
+  String get myPageApplyStatusPaid => '已入金';
+
+  @override
+  String get myPageApplyStatusCancellationReview => '取消审核中';
+
+  @override
+  String get myPageApplyStatusCancelled => '已取消';
+
+  @override
+  String myPageCoolingOffDeadlineRemaining(Object date, int days) {
+    return '截止 $date（剩余 $days 天）';
+  }
+
+  @override
+  String myPageCoolingOffDeadlineExpired(Object date) {
+    return '$date 已截止';
+  }
 }

@@ -1917,6 +1917,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Annually'**
   String get fundDetailAnnualDistribution;
+
+  /// No description provided for @myPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Page'**
+  String get myPageTitle;
+
+  /// No description provided for @myPageTotalAssetsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total assets'**
+  String get myPageTotalAssetsLabel;
+
+  /// No description provided for @myPageTotalAssetsCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating + standby cash + distributions + lending'**
+  String get myPageTotalAssetsCaption;
+
+  /// No description provided for @myPageMetricOperating.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating'**
+  String get myPageMetricOperating;
+
+  /// No description provided for @myPageMetricStandby.
+  ///
+  /// In en, this message translates to:
+  /// **'Standby cash'**
+  String get myPageMetricStandby;
+
+  /// No description provided for @myPageMetricAccumulatedDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Total distributions'**
+  String get myPageMetricAccumulatedDistribution;
+
+  /// No description provided for @myPageMetricLoanType.
+  ///
+  /// In en, this message translates to:
+  /// **'Lending'**
+  String get myPageMetricLoanType;
+
+  /// No description provided for @myPageDepositAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit'**
+  String get myPageDepositAction;
+
+  /// No description provided for @myPageWithdrawAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get myPageWithdrawAction;
+
+  /// No description provided for @myPagePendingApplicationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications / Lottery waiting'**
+  String get myPagePendingApplicationsTitle;
+
+  /// No description provided for @myPageCoolingOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooling-off period (contract formed)'**
+  String get myPageCoolingOffTitle;
+
+  /// No description provided for @myPageOperatingFundsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating funds'**
+  String get myPageOperatingFundsTitle;
+
+  /// No description provided for @myPageTransactionHistoryAction.
+  ///
+  /// In en, this message translates to:
+  /// **'View transaction history'**
+  String get myPageTransactionHistoryAction;
+
+  /// No description provided for @myPageApplyAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Application amount'**
+  String get myPageApplyAmountLabel;
+
+  /// No description provided for @myPageResultAnnouncementLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Result date'**
+  String get myPageResultAnnouncementLabel;
+
+  /// No description provided for @myPageResultAnnouncementTbd.
+  ///
+  /// In en, this message translates to:
+  /// **'TBD'**
+  String get myPageResultAnnouncementTbd;
+
+  /// No description provided for @myPageApplySubmittedAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied at'**
+  String get myPageApplySubmittedAtLabel;
+
+  /// No description provided for @myPageApplyReviewedAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed at'**
+  String get myPageApplyReviewedAtLabel;
+
+  /// No description provided for @myPageApplyPaymentNoticeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment notice'**
+  String get myPageApplyPaymentNoticeLabel;
+
+  /// No description provided for @myPageApplyPaidAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid at'**
+  String get myPageApplyPaidAtLabel;
+
+  /// No description provided for @myPageApplyCancellationRequestedAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation requested'**
+  String get myPageApplyCancellationRequestedAtLabel;
+
+  /// No description provided for @myPageApplyCancelledAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled at'**
+  String get myPageApplyCancelledAtLabel;
+
+  /// No description provided for @myPageInvestmentAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment amount'**
+  String get myPageInvestmentAmountLabel;
+
+  /// No description provided for @myPageAccumulatedDistributionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total distributions'**
+  String get myPageAccumulatedDistributionLabel;
+
+  /// No description provided for @myPageDocumentDeliveryDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Document date'**
+  String get myPageDocumentDeliveryDateLabel;
+
+  /// No description provided for @myPageCancelDeadlineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation deadline'**
+  String get myPageCancelDeadlineLabel;
+
+  /// No description provided for @myPageCoolingOffFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'* Cooling-off cancellation is available for 8 days from the day after receiving the contract document.'**
+  String get myPageCoolingOffFootnote;
+
+  /// No description provided for @myPageCancelRequestAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Request cancellation'**
+  String get myPageCancelRequestAction;
+
+  /// No description provided for @myPageCancelRequestComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation flow will be connected in a later implementation.'**
+  String get myPageCancelRequestComingSoon;
+
+  /// No description provided for @myPageDepositComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit page will be connected in a later implementation.'**
+  String get myPageDepositComingSoon;
+
+  /// No description provided for @myPageWithdrawComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw page will be connected in a later implementation.'**
+  String get myPageWithdrawComingSoon;
+
+  /// No description provided for @myPageHistoryComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction history page will be connected in a later implementation.'**
+  String get myPageHistoryComingSoon;
+
+  /// No description provided for @myPagePendingEmptyState.
+  ///
+  /// In en, this message translates to:
+  /// **'No applications or lottery-waiting items.'**
+  String get myPagePendingEmptyState;
+
+  /// No description provided for @myPageCoolingOffEmptyState.
+  ///
+  /// In en, this message translates to:
+  /// **'No contracts in the cooling-off period.'**
+  String get myPageCoolingOffEmptyState;
+
+  /// No description provided for @myPageOperatingFundsEmptyState.
+  ///
+  /// In en, this message translates to:
+  /// **'No operating funds yet.'**
+  String get myPageOperatingFundsEmptyState;
+
+  /// No description provided for @myPageSectionLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load this section. Please try again.'**
+  String get myPageSectionLoadError;
+
+  /// No description provided for @myPageApplyStatusUnderReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Under review'**
+  String get myPageApplyStatusUnderReview;
+
+  /// No description provided for @myPageApplyStatusReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed'**
+  String get myPageApplyStatusReviewed;
+
+  /// No description provided for @myPageApplyStatusAwaitingPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting payment'**
+  String get myPageApplyStatusAwaitingPayment;
+
+  /// No description provided for @myPageApplyStatusPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get myPageApplyStatusPaid;
+
+  /// No description provided for @myPageApplyStatusCancellationReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation in review'**
+  String get myPageApplyStatusCancellationReview;
+
+  /// No description provided for @myPageApplyStatusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get myPageApplyStatusCancelled;
+
+  /// No description provided for @myPageCoolingOffDeadlineRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {date} ({days} days left)'**
+  String myPageCoolingOffDeadlineRemaining(Object date, int days);
+
+  /// No description provided for @myPageCoolingOffDeadlineExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired on {date}'**
+  String myPageCoolingOffDeadlineExpired(Object date);
 }
 
 class _AppLocalizationsDelegate

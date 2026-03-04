@@ -36,5 +36,19 @@ class FundingFundApiPath {
   static const String projectDetail = '/crowdfunding/offline/project/detail';
 }
 
+/// Funding member/my-page APIs used by `feature_member_profile`.
+class FundingMemberApiPath {
+  const FundingMemberApiPath._();
+
+  /// Source: README_API.md section 7.
+  static const String applyList = '/crowdfunding/user/apply/list';
+
+  /// Source: README_API.md section 8.
+  static const String orderInquiryPage = '/crowdfunding/secondary/market/page';
+
+  /// Source: README_API.md section 9.
+  static const String myInvestmentList = '/crowdfunding/user/invest/list';
+}
+
 const String fundingOauthClientAuthorization = 'Basic d2ViQXBwOndlYkFwcA==';
 const String defaultIntlCode = '81';

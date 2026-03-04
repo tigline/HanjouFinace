@@ -1150,8 +1150,8 @@ class FundActiveFundCardData {
   final VoidCallback? onTap;
 }
 
-class FundActiveFundsList extends StatefulWidget {
-  const FundActiveFundsList({
+class FundSectionList extends StatefulWidget {
+  const FundSectionList({
     super.key,
     required this.title,
     required this.children,
@@ -1175,10 +1175,10 @@ class FundActiveFundsList extends StatefulWidget {
   final double headerSpacing;
 
   @override
-  State<FundActiveFundsList> createState() => _FundActiveFundsListState();
+  State<FundSectionList> createState() => _FundSectionListState();
 }
 
-class _FundActiveFundsListState extends State<FundActiveFundsList> {
+class _FundSectionListState extends State<FundSectionList> {
   bool _expanded = false;
 
   @override

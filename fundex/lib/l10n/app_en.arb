@@ -333,5 +333,62 @@
   "fundDetailMonthlyDistribution": "Monthly",
   "fundDetailQuarterlyDistribution": "Quarterly",
   "fundDetailSemiAnnualDistribution": "Semi-annually",
-  "fundDetailAnnualDistribution": "Annually"
+  "fundDetailAnnualDistribution": "Annually",
+  "myPageTitle": "My Page",
+  "myPageTotalAssetsLabel": "Total assets",
+  "myPageTotalAssetsCaption": "Operating + standby cash + distributions + lending",
+  "myPageMetricOperating": "Operating",
+  "myPageMetricStandby": "Standby cash",
+  "myPageMetricAccumulatedDistribution": "Total distributions",
+  "myPageMetricLoanType": "Lending",
+  "myPageDepositAction": "Deposit",
+  "myPageWithdrawAction": "Withdraw",
+  "myPagePendingApplicationsTitle": "Applications / Lottery waiting",
+  "myPageCoolingOffTitle": "Cooling-off period (contract formed)",
+  "myPageOperatingFundsTitle": "Operating funds",
+  "myPageTransactionHistoryAction": "View transaction history",
+  "myPageApplyAmountLabel": "Application amount",
+  "myPageResultAnnouncementLabel": "Result date",
+  "myPageResultAnnouncementTbd": "TBD",
+  "myPageApplySubmittedAtLabel": "Applied at",
+  "myPageApplyReviewedAtLabel": "Reviewed at",
+  "myPageApplyPaymentNoticeLabel": "Payment notice",
+  "myPageApplyPaidAtLabel": "Paid at",
+  "myPageApplyCancellationRequestedAtLabel": "Cancellation requested",
+  "myPageApplyCancelledAtLabel": "Cancelled at",
+  "myPageInvestmentAmountLabel": "Investment amount",
+  "myPageAccumulatedDistributionLabel": "Total distributions",
+  "myPageDocumentDeliveryDateLabel": "Document date",
+  "myPageCancelDeadlineLabel": "Cancellation deadline",
+  "myPageCoolingOffFootnote": "* Cooling-off cancellation is available for 8 days from the day after receiving the contract document.",
+  "myPageCancelRequestAction": "Request cancellation",
+  "myPageCancelRequestComingSoon": "Cancellation flow will be connected in a later implementation.",
+  "myPageDepositComingSoon": "Deposit page will be connected in a later implementation.",
+  "myPageWithdrawComingSoon": "Withdraw page will be connected in a later implementation.",
+  "myPageHistoryComingSoon": "Transaction history page will be connected in a later implementation.",
+  "myPagePendingEmptyState": "No applications or lottery-waiting items.",
+  "myPageCoolingOffEmptyState": "No contracts in the cooling-off period.",
+  "myPageOperatingFundsEmptyState": "No operating funds yet.",
+  "myPageSectionLoadError": "Failed to load this section. Please try again.",
+  "myPageApplyStatusUnderReview": "Under review",
+  "myPageApplyStatusReviewed": "Reviewed",
+  "myPageApplyStatusAwaitingPayment": "Awaiting payment",
+  "myPageApplyStatusPaid": "Paid",
+  "myPageApplyStatusCancellationReview": "Cancellation in review",
+  "myPageApplyStatusCancelled": "Cancelled",
+  "myPageCoolingOffDeadlineRemaining": "Until {date} ({days} days left)",
+  "@myPageCoolingOffDeadlineRemaining": {
+    "placeholders": {
+      "date": {},
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "myPageCoolingOffDeadlineExpired": "Expired on {date}",
+  "@myPageCoolingOffDeadlineExpired": {
+    "placeholders": {
+      "date": {}
+    }
+  }
 }

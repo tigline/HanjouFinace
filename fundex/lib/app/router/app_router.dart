@@ -16,8 +16,10 @@ import '../../features/investment/presentation/pages/fund_project_detail_page.da
 import '../../features/investment/presentation/pages/investment_tab_page.dart';
 import '../../features/main_shell/presentation/pages/main_shell_page.dart';
 import '../../features/member_profile/presentation/pages/member_profile_intake_page.dart';
+import '../../features/member_profile/presentation/pages/my_page_section_list_page.dart';
 import '../../features/notifications/presentation/pages/notifications_page.dart';
 import '../../features/member_profile/presentation/pages/profile_center_tab_page.dart';
+import '../../features/member_profile/presentation/support/mypage_section_support.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 
 String? resolveAuthRedirect({
@@ -216,6 +218,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/notifications',
         builder: (BuildContext context, GoRouterState state) {
           return const NotificationsPage();
+        },
+      ),
+      GoRoute(
+        path: '/my/section-list',
+        builder: (BuildContext context, GoRouterState state) {
+          final sectionType = MyPageSectionType.fromQueryValue(
+            state.uri.queryParameters['type'],
+          );
+          return MyPageSectionListPage(
+            sectionType: sectionType ?? MyPageSectionType.pendingApplications,
+          );
         },
       ),
       GoRoute(
