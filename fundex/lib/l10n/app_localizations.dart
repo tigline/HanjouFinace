@@ -2313,6 +2313,696 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expired on {date}'**
   String myPageCoolingOffDeadlineExpired(Object date);
+
+  /// No description provided for @commonNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get commonNext;
+
+  /// No description provided for @commonSkipChevron.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip ›'**
+  String get commonSkipChevron;
+
+  /// No description provided for @commonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get commonOther;
+
+  /// No description provided for @memberProfileFlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Information'**
+  String get memberProfileFlowTitle;
+
+  /// No description provided for @memberProfileStep1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 1: Basic Info'**
+  String get memberProfileStep1Title;
+
+  /// No description provided for @memberProfileStep1Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name and contact information.'**
+  String get memberProfileStep1Description;
+
+  /// No description provided for @memberProfileNameKanjiLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get memberProfileNameKanjiLabel;
+
+  /// No description provided for @memberProfileNameKanjiHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Taro Tanaka'**
+  String get memberProfileNameKanjiHint;
+
+  /// No description provided for @memberProfileNameKanaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phonetic name'**
+  String get memberProfileNameKanaLabel;
+
+  /// No description provided for @memberProfileNameKanaHint.
+  ///
+  /// In en, this message translates to:
+  /// **'TANAKA TARO'**
+  String get memberProfileNameKanaHint;
+
+  /// No description provided for @memberProfileBirthdayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth'**
+  String get memberProfileBirthdayLabel;
+
+  /// No description provided for @memberProfileBirthdayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your date of birth'**
+  String get memberProfileBirthdayHint;
+
+  /// No description provided for @memberProfileUnderageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This service is available only to users aged 18 or older.'**
+  String get memberProfileUnderageTitle;
+
+  /// No description provided for @memberProfileUnderageBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Under the Real Estate Specified Joint Enterprise Act, minors cannot apply for investments.'**
+  String get memberProfileUnderageBody;
+
+  /// No description provided for @memberProfilePhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get memberProfilePhoneLabel;
+
+  /// No description provided for @memberProfilePhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'090-1234-5678'**
+  String get memberProfilePhoneHint;
+
+  /// No description provided for @memberProfileStep2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 2: Address Info'**
+  String get memberProfileStep2Title;
+
+  /// No description provided for @memberProfileStep2Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Required for identity verification.'**
+  String get memberProfileStep2Description;
+
+  /// No description provided for @memberProfilePostalCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Postal code'**
+  String get memberProfilePostalCodeLabel;
+
+  /// No description provided for @memberProfilePostalCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'100-0001'**
+  String get memberProfilePostalCodeHint;
+
+  /// No description provided for @memberProfileAddressSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search address'**
+  String get memberProfileAddressSearch;
+
+  /// No description provided for @memberProfileAddressSearchPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Address lookup will be connected in a later implementation.'**
+  String get memberProfileAddressSearchPending;
+
+  /// No description provided for @memberProfilePrefectureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefecture'**
+  String get memberProfilePrefectureLabel;
+
+  /// No description provided for @memberProfileCityAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City / Street address'**
+  String get memberProfileCityAddressLabel;
+
+  /// No description provided for @memberProfileCityAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'1-1-1 Marunouchi, Chiyoda-ku'**
+  String get memberProfileCityAddressHint;
+
+  /// No description provided for @memberProfileStep3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 3: Investor Suitability'**
+  String get memberProfileStep3Title;
+
+  /// No description provided for @memberProfileStep3Description.
+  ///
+  /// In en, this message translates to:
+  /// **'We confirm your investment experience under Article 25 of the Real Estate Specified Joint Enterprise Act.'**
+  String get memberProfileStep3Description;
+
+  /// No description provided for @memberProfileOccupationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupation'**
+  String get memberProfileOccupationLabel;
+
+  /// No description provided for @memberProfileAnnualIncomeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual income'**
+  String get memberProfileAnnualIncomeLabel;
+
+  /// No description provided for @memberProfileFinancialAssetsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial assets'**
+  String get memberProfileFinancialAssetsLabel;
+
+  /// No description provided for @memberProfileInvestmentExperienceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment experience (multiple selection allowed)'**
+  String get memberProfileInvestmentExperienceLabel;
+
+  /// No description provided for @memberProfileInvestmentPurposeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment purpose'**
+  String get memberProfileInvestmentPurposeLabel;
+
+  /// No description provided for @memberProfileFundSourceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Nature of investment funds'**
+  String get memberProfileFundSourceLabel;
+
+  /// No description provided for @memberProfileFundSourceWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please be aware'**
+  String get memberProfileFundSourceWarningTitle;
+
+  /// No description provided for @memberProfileFundSourceWarningStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'This product does not guarantee principal, and you may lose your full investment. Please invest only within surplus funds.'**
+  String get memberProfileFundSourceWarningStandard;
+
+  /// No description provided for @memberProfileFundSourceWarningHighRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'This product does not guarantee principal, and you may lose your full investment. Investing with living funds or borrowed money is not recommended.'**
+  String get memberProfileFundSourceWarningHighRisk;
+
+  /// No description provided for @memberProfileRiskToleranceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk tolerance'**
+  String get memberProfileRiskToleranceLabel;
+
+  /// No description provided for @memberProfileStep4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 4: Identity Verification (eKYC)'**
+  String get memberProfileStep4Title;
+
+  /// No description provided for @memberProfileStep4Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Please photograph your identity verification documents.'**
+  String get memberProfileStep4Description;
+
+  /// No description provided for @memberProfileDocumentTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select document'**
+  String get memberProfileDocumentTypeLabel;
+
+  /// No description provided for @memberProfilePhotoDocumentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Photograph the document (front and back)'**
+  String get memberProfilePhotoDocumentTitle;
+
+  /// No description provided for @memberProfilePhotoDocumentDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to open the camera'**
+  String get memberProfilePhotoDocumentDescription;
+
+  /// No description provided for @memberProfileSelfieTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a selfie photo'**
+  String get memberProfileSelfieTitle;
+
+  /// No description provided for @memberProfileSelfieDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Face the camera directly'**
+  String get memberProfileSelfieDescription;
+
+  /// No description provided for @memberProfileUploadDocumentPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Document capture will be connected in a later implementation.'**
+  String get memberProfileUploadDocumentPending;
+
+  /// No description provided for @memberProfileUploadSelfiePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Selfie capture will be connected in a later implementation.'**
+  String get memberProfileUploadSelfiePending;
+
+  /// No description provided for @memberProfileStep5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 5: Bank Account'**
+  String get memberProfileStep5Title;
+
+  /// No description provided for @memberProfileStep5Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Register the bank account for distribution transfers.'**
+  String get memberProfileStep5Description;
+
+  /// No description provided for @memberProfileBankNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial institution'**
+  String get memberProfileBankNameLabel;
+
+  /// No description provided for @memberProfileBankNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'MUFG Bank'**
+  String get memberProfileBankNameHint;
+
+  /// No description provided for @memberProfileBranchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch'**
+  String get memberProfileBranchLabel;
+
+  /// No description provided for @memberProfileBranchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Marunouchi Branch'**
+  String get memberProfileBranchHint;
+
+  /// No description provided for @memberProfileAccountTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account type'**
+  String get memberProfileAccountTypeLabel;
+
+  /// No description provided for @memberProfileAccountNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account number'**
+  String get memberProfileAccountNumberLabel;
+
+  /// No description provided for @memberProfileAccountNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'1234567'**
+  String get memberProfileAccountNumberHint;
+
+  /// No description provided for @memberProfileAccountHolderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account holder (katakana)'**
+  String get memberProfileAccountHolderLabel;
+
+  /// No description provided for @memberProfileAccountHolderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'TANAKA TARO'**
+  String get memberProfileAccountHolderHint;
+
+  /// No description provided for @memberProfileNextConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: Consent Confirmation'**
+  String get memberProfileNextConsent;
+
+  /// No description provided for @memberProfileStep6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 6: Consent'**
+  String get memberProfileStep6Title;
+
+  /// No description provided for @memberProfileStep6Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Please review the following items and agree to all of them.'**
+  String get memberProfileStep6Description;
+
+  /// No description provided for @memberProfileElectronicDeliveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Electronic delivery of documents'**
+  String get memberProfileElectronicDeliveryTitle;
+
+  /// No description provided for @memberProfileElectronicDeliveryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We will deliver the following documents required under the Real Estate Specified Joint Enterprise Act electronically in the app as PDF files instead of on paper.'**
+  String get memberProfileElectronicDeliveryBody;
+
+  /// No description provided for @memberProfileElectronicDeliveryItem1.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-contract disclosure document'**
+  String get memberProfileElectronicDeliveryItem1;
+
+  /// No description provided for @memberProfileElectronicDeliveryItem2.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract conclusion document'**
+  String get memberProfileElectronicDeliveryItem2;
+
+  /// No description provided for @memberProfileElectronicDeliveryItem3.
+  ///
+  /// In en, this message translates to:
+  /// **'Property management report'**
+  String get memberProfileElectronicDeliveryItem3;
+
+  /// No description provided for @memberProfileElectronicDeliveryItem4.
+  ///
+  /// In en, this message translates to:
+  /// **'Business and asset status documents'**
+  String get memberProfileElectronicDeliveryItem4;
+
+  /// No description provided for @memberProfileElectronicDeliveryFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'* Consent to electronic delivery can be withdrawn anytime from settings. After withdrawal, documents will be sent on paper. File format: PDF.'**
+  String get memberProfileElectronicDeliveryFootnote;
+
+  /// No description provided for @memberProfileElectronicDeliveryConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the electronic delivery method above.'**
+  String get memberProfileElectronicDeliveryConsent;
+
+  /// No description provided for @memberProfileAntiSocialTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Declaration of not being an anti-social force'**
+  String get memberProfileAntiSocialTitle;
+
+  /// No description provided for @memberProfileAntiSocialBody.
+  ///
+  /// In en, this message translates to:
+  /// **'I represent and warrant that I am not, now or in the future, part of any anti-social force such as organized crime groups, members, affiliates, or similar entities.'**
+  String get memberProfileAntiSocialBody;
+
+  /// No description provided for @memberProfileAntiSocialConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'I declare that I do not belong to any anti-social force.'**
+  String get memberProfileAntiSocialConsent;
+
+  /// No description provided for @memberProfilePrivacyConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the handling of personal information and the privacy policy.'**
+  String get memberProfilePrivacyConsent;
+
+  /// No description provided for @memberProfileAgreeAndComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree to all and complete registration'**
+  String get memberProfileAgreeAndComplete;
+
+  /// No description provided for @memberProfileCompletedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile information registration is complete.'**
+  String get memberProfileCompletedToast;
+
+  /// No description provided for @occupationEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Company employee'**
+  String get occupationEmployee;
+
+  /// No description provided for @occupationSelfEmployed.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-employed'**
+  String get occupationSelfEmployed;
+
+  /// No description provided for @occupationPublicServant.
+  ///
+  /// In en, this message translates to:
+  /// **'Public servant'**
+  String get occupationPublicServant;
+
+  /// No description provided for @occupationHomemaker.
+  ///
+  /// In en, this message translates to:
+  /// **'Homemaker'**
+  String get occupationHomemaker;
+
+  /// No description provided for @occupationStudent.
+  ///
+  /// In en, this message translates to:
+  /// **'Student'**
+  String get occupationStudent;
+
+  /// No description provided for @occupationPensioner.
+  ///
+  /// In en, this message translates to:
+  /// **'Pensioner'**
+  String get occupationPensioner;
+
+  /// No description provided for @incomeUnder3m.
+  ///
+  /// In en, this message translates to:
+  /// **'Under JPY 3M'**
+  String get incomeUnder3m;
+
+  /// No description provided for @income3to5m.
+  ///
+  /// In en, this message translates to:
+  /// **'JPY 3M to 5M'**
+  String get income3to5m;
+
+  /// No description provided for @income5to10m.
+  ///
+  /// In en, this message translates to:
+  /// **'JPY 5M to 10M'**
+  String get income5to10m;
+
+  /// No description provided for @incomeOver10m.
+  ///
+  /// In en, this message translates to:
+  /// **'Over JPY 10M'**
+  String get incomeOver10m;
+
+  /// No description provided for @assetsUnder1m.
+  ///
+  /// In en, this message translates to:
+  /// **'Under JPY 1M'**
+  String get assetsUnder1m;
+
+  /// No description provided for @assets1to5m.
+  ///
+  /// In en, this message translates to:
+  /// **'JPY 1M to 5M'**
+  String get assets1to5m;
+
+  /// No description provided for @assets5to10m.
+  ///
+  /// In en, this message translates to:
+  /// **'JPY 5M to 10M'**
+  String get assets5to10m;
+
+  /// No description provided for @assetsOver10m.
+  ///
+  /// In en, this message translates to:
+  /// **'Over JPY 10M'**
+  String get assetsOver10m;
+
+  /// No description provided for @purposeAssetGrowth.
+  ///
+  /// In en, this message translates to:
+  /// **'Asset growth'**
+  String get purposeAssetGrowth;
+
+  /// No description provided for @purposeDividendIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular income from distributions'**
+  String get purposeDividendIncome;
+
+  /// No description provided for @purposeIdleFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Managing surplus cash'**
+  String get purposeIdleFunds;
+
+  /// No description provided for @purposeDiversification.
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio diversification'**
+  String get purposeDiversification;
+
+  /// No description provided for @fundSourceSurplus.
+  ///
+  /// In en, this message translates to:
+  /// **'Surplus funds with no impact on daily life'**
+  String get fundSourceSurplus;
+
+  /// No description provided for @fundSourceLivingFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Part of living expenses'**
+  String get fundSourceLivingFunds;
+
+  /// No description provided for @fundSourceBorrowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrowed money'**
+  String get fundSourceBorrowed;
+
+  /// No description provided for @riskToleranceAcceptLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand and can tolerate principal loss.'**
+  String get riskToleranceAcceptLoss;
+
+  /// No description provided for @riskToleranceLowRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'I only want low-risk investments.'**
+  String get riskToleranceLowRisk;
+
+  /// No description provided for @riskToleranceHighRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'I can tolerate high-risk, high-return investments.'**
+  String get riskToleranceHighRisk;
+
+  /// No description provided for @documentTypeDriversLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver\'s license'**
+  String get documentTypeDriversLicense;
+
+  /// No description provided for @documentTypeMyNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'My Number card'**
+  String get documentTypeMyNumber;
+
+  /// No description provided for @documentTypePassport.
+  ///
+  /// In en, this message translates to:
+  /// **'Passport'**
+  String get documentTypePassport;
+
+  /// No description provided for @accountTypeOrdinary.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordinary'**
+  String get accountTypeOrdinary;
+
+  /// No description provided for @accountTypeChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking'**
+  String get accountTypeChecking;
+
+  /// No description provided for @prefectureTokyo.
+  ///
+  /// In en, this message translates to:
+  /// **'Tokyo'**
+  String get prefectureTokyo;
+
+  /// No description provided for @prefectureOsaka.
+  ///
+  /// In en, this message translates to:
+  /// **'Osaka'**
+  String get prefectureOsaka;
+
+  /// No description provided for @prefectureKanagawa.
+  ///
+  /// In en, this message translates to:
+  /// **'Kanagawa'**
+  String get prefectureKanagawa;
+
+  /// No description provided for @prefectureAichi.
+  ///
+  /// In en, this message translates to:
+  /// **'Aichi'**
+  String get prefectureAichi;
+
+  /// No description provided for @prefectureFukuoka.
+  ///
+  /// In en, this message translates to:
+  /// **'Fukuoka'**
+  String get prefectureFukuoka;
+
+  /// No description provided for @memberProfileExperienceStocks.
+  ///
+  /// In en, this message translates to:
+  /// **'Stocks / ETF'**
+  String get memberProfileExperienceStocks;
+
+  /// No description provided for @memberProfileExperienceMutualFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Mutual funds'**
+  String get memberProfileExperienceMutualFunds;
+
+  /// No description provided for @memberProfileExperienceRealEstate.
+  ///
+  /// In en, this message translates to:
+  /// **'Real estate investment'**
+  String get memberProfileExperienceRealEstate;
+
+  /// No description provided for @memberProfileExperienceRealEstateCrowdfunding.
+  ///
+  /// In en, this message translates to:
+  /// **'Real estate crowdfunding / FTK'**
+  String get memberProfileExperienceRealEstateCrowdfunding;
+
+  /// No description provided for @memberProfileExperienceBonds.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonds'**
+  String get memberProfileExperienceBonds;
+
+  /// No description provided for @memberProfileExperienceFxCrypto.
+  ///
+  /// In en, this message translates to:
+  /// **'FX / Crypto assets'**
+  String get memberProfileExperienceFxCrypto;
+
+  /// No description provided for @memberProfileExperienceNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No investment experience'**
+  String get memberProfileExperienceNone;
 }
 
 class _AppLocalizationsDelegate

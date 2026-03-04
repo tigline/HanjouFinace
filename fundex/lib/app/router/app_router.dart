@@ -15,6 +15,7 @@ import '../../features/home/presentation/pages/home_overview_tab_page.dart';
 import '../../features/investment/presentation/pages/fund_project_detail_page.dart';
 import '../../features/investment/presentation/pages/investment_tab_page.dart';
 import '../../features/main_shell/presentation/pages/main_shell_page.dart';
+import '../../features/member_profile/presentation/pages/member_profile_edit_flow_page.dart';
 import '../../features/member_profile/presentation/pages/member_profile_intake_page.dart';
 import '../../features/member_profile/presentation/pages/my_page_section_list_page.dart';
 import '../../features/notifications/presentation/pages/notifications_page.dart';
@@ -260,7 +261,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/member-profile/edit',
         builder: (BuildContext context, GoRouterState state) {
-          return const MemberProfileIntakePage.edit();
+          return const MemberProfileEditFlowPage();
         },
       ),
       GoRoute(

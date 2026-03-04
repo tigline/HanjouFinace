@@ -1134,4 +1134,355 @@ class AppLocalizationsZh extends AppLocalizations {
   String myPageCoolingOffDeadlineExpired(Object date) {
     return '$date 已截止';
   }
+
+  @override
+  String get commonNext => '下一步';
+
+  @override
+  String get commonSkipChevron => '跳过 ›';
+
+  @override
+  String get commonOther => '其他';
+
+  @override
+  String get memberProfileFlowTitle => '本人信息输入';
+
+  @override
+  String get memberProfileStep1Title => 'Step 1：基本信息';
+
+  @override
+  String get memberProfileStep1Description => '请输入姓名与联系方式';
+
+  @override
+  String get memberProfileNameKanjiLabel => '姓名';
+
+  @override
+  String get memberProfileNameKanjiHint => '田中 太郎';
+
+  @override
+  String get memberProfileNameKanaLabel => '片假名';
+
+  @override
+  String get memberProfileNameKanaHint => 'タナカ タロウ';
+
+  @override
+  String get memberProfileBirthdayLabel => '出生日期';
+
+  @override
+  String get memberProfileBirthdayHint => '请选择出生日期';
+
+  @override
+  String get memberProfileUnderageTitle => '本服务仅限 18 岁以上用户使用。';
+
+  @override
+  String get memberProfileUnderageBody => '根据不动产特定共同事业法，未成年人不能提交投资申请。';
+
+  @override
+  String get memberProfilePhoneLabel => '电话号码';
+
+  @override
+  String get memberProfilePhoneHint => '090-1234-5678';
+
+  @override
+  String get memberProfileStep2Title => 'Step 2：地址信息';
+
+  @override
+  String get memberProfileStep2Description => '用于身份确认';
+
+  @override
+  String get memberProfilePostalCodeLabel => '邮编';
+
+  @override
+  String get memberProfilePostalCodeHint => '100-0001';
+
+  @override
+  String get memberProfileAddressSearch => '地址检索';
+
+  @override
+  String get memberProfileAddressSearchPending => '地址检索会在后续实现中接入。';
+
+  @override
+  String get memberProfilePrefectureLabel => '都道府县';
+
+  @override
+  String get memberProfileCityAddressLabel => '市区町村・门牌';
+
+  @override
+  String get memberProfileCityAddressHint => '千代田区丸之内1-1-1';
+
+  @override
+  String get memberProfileStep3Title => 'Step 3：投资者适合性确认';
+
+  @override
+  String get memberProfileStep3Description =>
+      '根据不动产特定共同事业法第 25 条，需要确认你的投资经验等信息。';
+
+  @override
+  String get memberProfileOccupationLabel => '职业';
+
+  @override
+  String get memberProfileAnnualIncomeLabel => '年收入';
+
+  @override
+  String get memberProfileFinancialAssetsLabel => '金融资产';
+
+  @override
+  String get memberProfileInvestmentExperienceLabel => '投资经验（可多选）';
+
+  @override
+  String get memberProfileInvestmentPurposeLabel => '投资目的';
+
+  @override
+  String get memberProfileFundSourceLabel => '投资资金性质';
+
+  @override
+  String get memberProfileFundSourceWarningTitle => '请注意';
+
+  @override
+  String get memberProfileFundSourceWarningStandard =>
+      '本产品不保证本金，存在损失全部出资金额的可能。请在闲置资金范围内投资。';
+
+  @override
+  String get memberProfileFundSourceWarningHighRisk =>
+      '本产品不保证本金，存在损失全部出资金额的可能。不建议使用生活费或借款进行投资。';
+
+  @override
+  String get memberProfileRiskToleranceLabel => '风险承受度';
+
+  @override
+  String get memberProfileStep4Title => 'Step 4：身份确认（eKYC）';
+
+  @override
+  String get memberProfileStep4Description => '请拍摄身份确认文件';
+
+  @override
+  String get memberProfileDocumentTypeLabel => '选择证件';
+
+  @override
+  String get memberProfilePhotoDocumentTitle => '拍摄证件（正反面）';
+
+  @override
+  String get memberProfilePhotoDocumentDescription => '点击打开相机';
+
+  @override
+  String get memberProfileSelfieTitle => '拍摄自拍照';
+
+  @override
+  String get memberProfileSelfieDescription => '请正对镜头拍摄';
+
+  @override
+  String get memberProfileUploadDocumentPending => '证件拍摄功能会在后续实现中接入。';
+
+  @override
+  String get memberProfileUploadSelfiePending => '自拍拍摄功能会在后续实现中接入。';
+
+  @override
+  String get memberProfileStep5Title => 'Step 5：银行账户登记';
+
+  @override
+  String get memberProfileStep5Description => '请登记分配金收款账户';
+
+  @override
+  String get memberProfileBankNameLabel => '金融机构名称';
+
+  @override
+  String get memberProfileBankNameHint => '三菱UFJ银行';
+
+  @override
+  String get memberProfileBranchLabel => '支店名称';
+
+  @override
+  String get memberProfileBranchHint => '丸之内支店';
+
+  @override
+  String get memberProfileAccountTypeLabel => '账户类型';
+
+  @override
+  String get memberProfileAccountNumberLabel => '账号';
+
+  @override
+  String get memberProfileAccountNumberHint => '1234567';
+
+  @override
+  String get memberProfileAccountHolderLabel => '账户名义（片假名）';
+
+  @override
+  String get memberProfileAccountHolderHint => 'タナカ タロウ';
+
+  @override
+  String get memberProfileNextConsent => '下一步：确认同意事项';
+
+  @override
+  String get memberProfileStep6Title => 'Step 6：确认同意事项';
+
+  @override
+  String get memberProfileStep6Description => '请确认以下事项，并全部同意。';
+
+  @override
+  String get memberProfileElectronicDeliveryTitle => '关于书面的电子交付';
+
+  @override
+  String get memberProfileElectronicDeliveryBody =>
+      '根据不动产特定共同事业法，我们将以下书面以电子方式（App 内 PDF 文件）交付，而不是纸质方式。';
+
+  @override
+  String get memberProfileElectronicDeliveryItem1 => '签约前交付书面';
+
+  @override
+  String get memberProfileElectronicDeliveryItem2 => '签约时交付书面';
+
+  @override
+  String get memberProfileElectronicDeliveryItem3 => '财产管理相关报告书';
+
+  @override
+  String get memberProfileElectronicDeliveryItem4 => '业务及财产状况相关书类';
+
+  @override
+  String get memberProfileElectronicDeliveryFootnote =>
+      '※ 可随时在设置页面撤回电子交付同意。撤回后将改为纸质邮寄。文件格式：PDF。';
+
+  @override
+  String get memberProfileElectronicDeliveryConsent => '我同意以上电子交付方式';
+
+  @override
+  String get memberProfileAntiSocialTitle => '确认不属于反社会势力';
+
+  @override
+  String get memberProfileAntiSocialBody =>
+      '本人声明并承诺，现在及将来均不属于暴力团、暴力团成员、准成员、关联企业、总会屋及其他反社会势力。';
+
+  @override
+  String get memberProfileAntiSocialConsent => '我确认自己不属于反社会势力';
+
+  @override
+  String get memberProfilePrivacyConsent => '我同意个人信息处理及隐私政策';
+
+  @override
+  String get memberProfileAgreeAndComplete => '全部同意并完成登记';
+
+  @override
+  String get memberProfileCompletedToast => '本人信息登记已完成。';
+
+  @override
+  String get occupationEmployee => '公司职员';
+
+  @override
+  String get occupationSelfEmployed => '个体经营';
+
+  @override
+  String get occupationPublicServant => '公务员';
+
+  @override
+  String get occupationHomemaker => '主妇/主夫';
+
+  @override
+  String get occupationStudent => '学生';
+
+  @override
+  String get occupationPensioner => '领取养老金';
+
+  @override
+  String get incomeUnder3m => '300万日元以下';
+
+  @override
+  String get income3to5m => '300万〜500万日元';
+
+  @override
+  String get income5to10m => '500万〜1000万日元';
+
+  @override
+  String get incomeOver10m => '1000万日元以上';
+
+  @override
+  String get assetsUnder1m => '100万日元以下';
+
+  @override
+  String get assets1to5m => '100万〜500万日元';
+
+  @override
+  String get assets5to10m => '500万〜1000万日元';
+
+  @override
+  String get assetsOver10m => '1000万日元以上';
+
+  @override
+  String get purposeAssetGrowth => '长期资产增值';
+
+  @override
+  String get purposeDividendIncome => '通过分配金获取定期收入';
+
+  @override
+  String get purposeIdleFunds => '运用闲置资金';
+
+  @override
+  String get purposeDiversification => '分散投资组合';
+
+  @override
+  String get fundSourceSurplus => '闲置资金（不影响生活）';
+
+  @override
+  String get fundSourceLivingFunds => '部分生活资金';
+
+  @override
+  String get fundSourceBorrowed => '借入资金';
+
+  @override
+  String get riskToleranceAcceptLoss => '理解并能承受本金损失风险';
+
+  @override
+  String get riskToleranceLowRisk => '只希望低风险投资';
+
+  @override
+  String get riskToleranceHighRisk => '可接受高风险高回报投资';
+
+  @override
+  String get documentTypeDriversLicense => '驾驶证';
+
+  @override
+  String get documentTypeMyNumber => 'My Number 卡';
+
+  @override
+  String get documentTypePassport => '护照';
+
+  @override
+  String get accountTypeOrdinary => '普通';
+
+  @override
+  String get accountTypeChecking => '当座';
+
+  @override
+  String get prefectureTokyo => '东京都';
+
+  @override
+  String get prefectureOsaka => '大阪府';
+
+  @override
+  String get prefectureKanagawa => '神奈川县';
+
+  @override
+  String get prefectureAichi => '爱知县';
+
+  @override
+  String get prefectureFukuoka => '福冈县';
+
+  @override
+  String get memberProfileExperienceStocks => '股票・ETF';
+
+  @override
+  String get memberProfileExperienceMutualFunds => '投资信托';
+
+  @override
+  String get memberProfileExperienceRealEstate => '不动产投资';
+
+  @override
+  String get memberProfileExperienceRealEstateCrowdfunding => '不动产众筹 / FTK';
+
+  @override
+  String get memberProfileExperienceBonds => '债券';
+
+  @override
+  String get memberProfileExperienceFxCrypto => '外汇・加密资产';
+
+  @override
+  String get memberProfileExperienceNone => '无投资经验';
 }

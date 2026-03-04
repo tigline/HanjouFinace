@@ -8,6 +8,8 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
+import '../../../member_profile/domain/entities/member_profile_details.dart';
+import '../../../member_profile/presentation/providers/member_profile_providers.dart';
 import '../support/home_display_name_resolver.dart';
 
 const Set<int> _featuredProjectStatuses = <int>{0, 1};
@@ -23,6 +25,8 @@ class HomeOverviewTabPage extends ConsumerWidget {
     final isAuthenticated = authState.asData?.value ?? false;
     final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
     final asyncProjects = ref.watch(fundProjectListProvider);
+    final asyncMemberProfile = ref.watch(memberProfileDetailsProvider);
+    final memberProfile = asyncMemberProfile.asData?.value;
     final projects = asyncProjects.asData?.value ?? const <FundProject>[];
     final locale = Localizations.localeOf(context);
     final currencyFormatter = NumberFormat.currency(
@@ -32,26 +36,21 @@ class HomeOverviewTabPage extends ConsumerWidget {
     );
 
     final reminders = <FundReminderData>[
-      FundReminderData(
-        leading: const Icon(
-          Icons.warning_rounded,
-          size: 18,
-          color: Color(0xFFFBBF24),
+      if (!_isMemberProfileFlowComplete(asyncMemberProfile, memberProfile))
+        FundReminderData(
+          leading: const Icon(
+            Icons.warning_rounded,
+            size: 18,
+            color: Color(0xFFFBBF24),
+          ),
+          title: l10n.homeReminderProfileTitle,
+          message: l10n.homeReminderProfileBody,
+          tone: FundReminderTone.danger,
+          badgeLabel: l10n.homeReminderProfileBadge,
+          segmentCount: MemberProfileDetails.flowStepCount,
+          completedSegmentCount: memberProfile?.completedFlowStepCount ?? 0,
+          onTap: () => context.push('/member-profile/edit'),
         ),
-        title: l10n.homeReminderProfileTitle,
-        message: l10n.homeReminderProfileBody,
-        tone: FundReminderTone.danger,
-        badgeLabel: l10n.homeReminderProfileBadge,
-        segmentCount: 5,
-        completedSegmentCount: 2,
-        onTap: () {
-          final route = Uri(
-            path: '/member-profile/onboarding',
-            queryParameters: <String, String>{'next': '/home'},
-          ).toString();
-          context.push(route);
-        },
-      ),
       FundReminderData(
         leading: const Text('⏰', style: TextStyle(fontSize: 18)),
         title: l10n.homeReminderCoolingOffTitle,
@@ -210,6 +209,16 @@ class HomeOverviewTabPage extends ConsumerWidget {
       ],
     );
   }
+}
+
+bool _isMemberProfileFlowComplete(
+  AsyncValue<MemberProfileDetails?> asyncMemberProfile,
+  MemberProfileDetails? memberProfile,
+) {
+  if (asyncMemberProfile.isLoading) {
+    return true;
+  }
+  return memberProfile?.isEditFlowComplete ?? false;
 }
 
 FundFeaturedFundCardData _buildFeaturedFundCardData(

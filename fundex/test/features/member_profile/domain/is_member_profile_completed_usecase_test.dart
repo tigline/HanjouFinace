@@ -46,7 +46,7 @@ void main() {
       expect(await useCase.call(), isFalse);
     });
 
-    test('returns true for completed profile', () async {
+    test('returns false for legacy-only completed profile', () async {
       final repository = _FakeMemberProfileRepository(
         profile: const MemberProfileDetails(
           familyName: 'Hou',
@@ -60,7 +60,67 @@ void main() {
       );
       final useCase = IsMemberProfileCompletedUseCase(repository);
 
+      expect(await useCase.call(), isFalse);
+    });
+
+    test('returns true for completed 6-step edit profile', () async {
+      final repository = _FakeMemberProfileRepository(
+        profile: const MemberProfileDetails(
+          nameKanji: '田中 太郎',
+          katakana: 'タナカ タロウ',
+          birthday: '1994-02-10',
+          zipCode: '1000001',
+          prefectureCode: 'tokyo',
+          cityAddress: '千代田区丸の内1-1-1',
+          address: '東京都 千代田区丸の内1-1-1',
+          phoneIntlCode: '81',
+          phone: '09012345678',
+          email: 'taro@example.com',
+          occupationCode: 'employee',
+          annualIncomeCode: '5_10m',
+          financialAssetsCode: '5_10m',
+          investmentExperienceCodes: <String>['stocks'],
+          investmentPurposeCode: 'growth',
+          fundSourceCode: 'ok',
+          riskToleranceCode: 'accept_loss',
+          ekycDocumentType: 'drivers_license',
+          idDocumentPhotoPath: '/tmp/front.jpg',
+          selfiePhotoPath: '/tmp/selfie.jpg',
+          bankName: '三菱UFJ銀行',
+          branchBankName: '丸の内支店',
+          bankNumber: '1234567',
+          bankAccountType: 'ordinary',
+          bankAccountOwnerName: 'タナカ タロウ',
+          electronicDeliveryConsent: true,
+          antiSocialForcesConsent: true,
+          privacyPolicyConsent: true,
+        ),
+      );
+      final useCase = IsMemberProfileCompletedUseCase(repository);
+
       expect(await useCase.call(), isTrue);
+    });
+
+    test('tracks 6-step progress count from the new edit flow', () {
+      const profile = MemberProfileDetails(
+        nameKanji: '田中 太郎',
+        katakana: 'タナカ タロウ',
+        birthday: '1994-02-10',
+        zipCode: '1000001',
+        prefectureCode: 'tokyo',
+        cityAddress: '千代田区丸の内1-1-1',
+        phone: '09012345678',
+        occupationCode: 'employee',
+        annualIncomeCode: '5_10m',
+        financialAssetsCode: '5_10m',
+        investmentPurposeCode: 'growth',
+        fundSourceCode: 'ok',
+        riskToleranceCode: 'accept_loss',
+      );
+
+      expect(profile.completedFlowStepCount, 3);
+      expect(profile.currentFlowStepIndex, 3);
+      expect(profile.isEditFlowComplete, isFalse);
     });
   });
 }

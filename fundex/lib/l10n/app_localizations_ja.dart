@@ -1140,4 +1140,355 @@ class AppLocalizationsJa extends AppLocalizations {
   String myPageCoolingOffDeadlineExpired(Object date) {
     return '$dateで期限終了';
   }
+
+  @override
+  String get commonNext => '次へ';
+
+  @override
+  String get commonSkipChevron => 'スキップ ›';
+
+  @override
+  String get commonOther => 'その他';
+
+  @override
+  String get memberProfileFlowTitle => '本人情報の入力';
+
+  @override
+  String get memberProfileStep1Title => 'Step 1：基本情報';
+
+  @override
+  String get memberProfileStep1Description => '氏名・連絡先を入力してください';
+
+  @override
+  String get memberProfileNameKanjiLabel => '氏名（漢字）';
+
+  @override
+  String get memberProfileNameKanjiHint => '田中 太郎';
+
+  @override
+  String get memberProfileNameKanaLabel => 'フリガナ';
+
+  @override
+  String get memberProfileNameKanaHint => 'タナカ タロウ';
+
+  @override
+  String get memberProfileBirthdayLabel => '生年月日';
+
+  @override
+  String get memberProfileBirthdayHint => '生年月日を選択';
+
+  @override
+  String get memberProfileUnderageTitle => '本サービスは18歳以上の方のみご利用いただけます。';
+
+  @override
+  String get memberProfileUnderageBody => '不動産特定共同事業法に基づき、未成年者の投資申込はお受けできません。';
+
+  @override
+  String get memberProfilePhoneLabel => '電話番号';
+
+  @override
+  String get memberProfilePhoneHint => '090-1234-5678';
+
+  @override
+  String get memberProfileStep2Title => 'Step 2：住所情報';
+
+  @override
+  String get memberProfileStep2Description => '本人確認に必要です';
+
+  @override
+  String get memberProfilePostalCodeLabel => '郵便番号';
+
+  @override
+  String get memberProfilePostalCodeHint => '100-0001';
+
+  @override
+  String get memberProfileAddressSearch => '住所検索';
+
+  @override
+  String get memberProfileAddressSearchPending => '住所検索は次の実装で接続します。';
+
+  @override
+  String get memberProfilePrefectureLabel => '都道府県';
+
+  @override
+  String get memberProfileCityAddressLabel => '市区町村・番地';
+
+  @override
+  String get memberProfileCityAddressHint => '千代田区丸の内1-1-1';
+
+  @override
+  String get memberProfileStep3Title => 'Step 3：投資者適合性確認';
+
+  @override
+  String get memberProfileStep3Description =>
+      '不動産特定共同事業法第25条に基づき、お客様の投資経験等を確認いたします。';
+
+  @override
+  String get memberProfileOccupationLabel => 'ご職業';
+
+  @override
+  String get memberProfileAnnualIncomeLabel => '年収';
+
+  @override
+  String get memberProfileFinancialAssetsLabel => '金融資産';
+
+  @override
+  String get memberProfileInvestmentExperienceLabel => '投資経験（複数選択可）';
+
+  @override
+  String get memberProfileInvestmentPurposeLabel => '投資目的';
+
+  @override
+  String get memberProfileFundSourceLabel => '投資資金の性質';
+
+  @override
+  String get memberProfileFundSourceWarningTitle => 'ご注意ください';
+
+  @override
+  String get memberProfileFundSourceWarningStandard =>
+      '本商品は元本保証ではなく、出資金の全額を失う可能性があります。余裕資金の範囲内でのご投資をお願いいたします。';
+
+  @override
+  String get memberProfileFundSourceWarningHighRisk =>
+      '本商品は元本保証ではなく、出資金の全額を失う可能性があります。生活資金や借入金での投資は推奨しておりません。';
+
+  @override
+  String get memberProfileRiskToleranceLabel => 'リスク許容度';
+
+  @override
+  String get memberProfileStep4Title => 'Step 4：本人確認（eKYC）';
+
+  @override
+  String get memberProfileStep4Description => '本人確認書類を撮影してください';
+
+  @override
+  String get memberProfileDocumentTypeLabel => '書類を選択';
+
+  @override
+  String get memberProfilePhotoDocumentTitle => '書類を撮影（表面+裏面）';
+
+  @override
+  String get memberProfilePhotoDocumentDescription => 'タップしてカメラを起動';
+
+  @override
+  String get memberProfileSelfieTitle => '自撮り写真を撮影';
+
+  @override
+  String get memberProfileSelfieDescription => '正面を向いて撮影';
+
+  @override
+  String get memberProfileUploadDocumentPending => '書類撮影機能は次の実装で接続します。';
+
+  @override
+  String get memberProfileUploadSelfiePending => 'セルフィー撮影機能は次の実装で接続します。';
+
+  @override
+  String get memberProfileStep5Title => 'Step 5：銀行口座登録';
+
+  @override
+  String get memberProfileStep5Description => '分配金の振込先を登録してください';
+
+  @override
+  String get memberProfileBankNameLabel => '金融機関名';
+
+  @override
+  String get memberProfileBankNameHint => '三菱UFJ銀行';
+
+  @override
+  String get memberProfileBranchLabel => '支店名';
+
+  @override
+  String get memberProfileBranchHint => '丸の内支店';
+
+  @override
+  String get memberProfileAccountTypeLabel => '口座種類';
+
+  @override
+  String get memberProfileAccountNumberLabel => '口座番号';
+
+  @override
+  String get memberProfileAccountNumberHint => '1234567';
+
+  @override
+  String get memberProfileAccountHolderLabel => '口座名義（カタカナ）';
+
+  @override
+  String get memberProfileAccountHolderHint => 'タナカ タロウ';
+
+  @override
+  String get memberProfileNextConsent => '次へ：同意事項の確認';
+
+  @override
+  String get memberProfileStep6Title => 'Step 6：同意事項の確認';
+
+  @override
+  String get memberProfileStep6Description => '以下の事項をご確認いただき、すべてに同意してください。';
+
+  @override
+  String get memberProfileElectronicDeliveryTitle => '書面の電子交付について';
+
+  @override
+  String get memberProfileElectronicDeliveryBody =>
+      '当社は、不動産特定共同事業法に基づく以下の書面を、紙面ではなく電子的方法（PDFファイルによるアプリ内交付）により交付いたします。';
+
+  @override
+  String get memberProfileElectronicDeliveryItem1 => '契約締結前交付書面';
+
+  @override
+  String get memberProfileElectronicDeliveryItem2 => '契約締結時交付書面';
+
+  @override
+  String get memberProfileElectronicDeliveryItem3 => '財産の管理に関する報告書';
+
+  @override
+  String get memberProfileElectronicDeliveryItem4 => '業務及び財産の状況に関する書類';
+
+  @override
+  String get memberProfileElectronicDeliveryFootnote =>
+      '※ 電子交付の同意は、設定画面からいつでも撤回できます。撤回後は紙面で郵送いたします。※ 交付ファイル形式：PDF';
+
+  @override
+  String get memberProfileElectronicDeliveryConsent => '上記の電子交付方法に同意します';
+
+  @override
+  String get memberProfileAntiSocialTitle => '反社会的勢力でないことの確約';
+
+  @override
+  String get memberProfileAntiSocialBody =>
+      '私は、現在および将来にわたり、暴力団、暴力団員、暴力団準構成員、暴力団関係企業、総会屋、社会運動等標ぼうゴロ、特殊知能暴力集団等の反社会的勢力に該当しないことを表明・確約いたします。';
+
+  @override
+  String get memberProfileAntiSocialConsent => '反社会的勢力に該当しないことを確約します';
+
+  @override
+  String get memberProfilePrivacyConsent => '個人情報の取扱い・プライバシーポリシーに同意します';
+
+  @override
+  String get memberProfileAgreeAndComplete => 'すべてに同意して登録を完了する';
+
+  @override
+  String get memberProfileCompletedToast => '本人情報の登録が完了しました。';
+
+  @override
+  String get occupationEmployee => '会社員';
+
+  @override
+  String get occupationSelfEmployed => '自営業';
+
+  @override
+  String get occupationPublicServant => '公務員';
+
+  @override
+  String get occupationHomemaker => '主婦/主夫';
+
+  @override
+  String get occupationStudent => '学生';
+
+  @override
+  String get occupationPensioner => '年金受給者';
+
+  @override
+  String get incomeUnder3m => '300万円未満';
+
+  @override
+  String get income3to5m => '300〜500万円';
+
+  @override
+  String get income5to10m => '500〜1000万円';
+
+  @override
+  String get incomeOver10m => '1000万円以上';
+
+  @override
+  String get assetsUnder1m => '100万円未満';
+
+  @override
+  String get assets1to5m => '100〜500万円';
+
+  @override
+  String get assets5to10m => '500〜1000万円';
+
+  @override
+  String get assetsOver10m => '1000万円以上';
+
+  @override
+  String get purposeAssetGrowth => '資産形成（長期的な資産の増加）';
+
+  @override
+  String get purposeDividendIncome => '分配金による定期収入';
+
+  @override
+  String get purposeIdleFunds => '余裕資金の運用';
+
+  @override
+  String get purposeDiversification => 'ポートフォリオの分散';
+
+  @override
+  String get fundSourceSurplus => '余裕資金（生活に影響のない資金）';
+
+  @override
+  String get fundSourceLivingFunds => '生活資金の一部';
+
+  @override
+  String get fundSourceBorrowed => '借入金';
+
+  @override
+  String get riskToleranceAcceptLoss => '元本毀損リスクを理解し許容できる';
+
+  @override
+  String get riskToleranceLowRisk => '低リスクの投資のみ希望';
+
+  @override
+  String get riskToleranceHighRisk => '高リスク・高リターンも許容できる';
+
+  @override
+  String get documentTypeDriversLicense => '運転免許証';
+
+  @override
+  String get documentTypeMyNumber => 'マイナンバーカード';
+
+  @override
+  String get documentTypePassport => 'パスポート';
+
+  @override
+  String get accountTypeOrdinary => '普通';
+
+  @override
+  String get accountTypeChecking => '当座';
+
+  @override
+  String get prefectureTokyo => '東京都';
+
+  @override
+  String get prefectureOsaka => '大阪府';
+
+  @override
+  String get prefectureKanagawa => '神奈川県';
+
+  @override
+  String get prefectureAichi => '愛知県';
+
+  @override
+  String get prefectureFukuoka => '福岡県';
+
+  @override
+  String get memberProfileExperienceStocks => '株式・ETF';
+
+  @override
+  String get memberProfileExperienceMutualFunds => '投資信託';
+
+  @override
+  String get memberProfileExperienceRealEstate => '不動産投資';
+
+  @override
+  String get memberProfileExperienceRealEstateCrowdfunding => '不動産クラファン/FTK';
+
+  @override
+  String get memberProfileExperienceBonds => '債券';
+
+  @override
+  String get memberProfileExperienceFxCrypto => 'FX・暗号資産';
+
+  @override
+  String get memberProfileExperienceNone => '投資経験なし';
 }

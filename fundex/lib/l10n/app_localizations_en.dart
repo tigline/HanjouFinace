@@ -1211,4 +1211,381 @@ class AppLocalizationsEn extends AppLocalizations {
   String myPageCoolingOffDeadlineExpired(Object date) {
     return 'Expired on $date';
   }
+
+  @override
+  String get commonNext => 'Next';
+
+  @override
+  String get commonSkipChevron => 'Skip ›';
+
+  @override
+  String get commonOther => 'Other';
+
+  @override
+  String get memberProfileFlowTitle => 'Profile Information';
+
+  @override
+  String get memberProfileStep1Title => 'Step 1: Basic Info';
+
+  @override
+  String get memberProfileStep1Description =>
+      'Enter your name and contact information.';
+
+  @override
+  String get memberProfileNameKanjiLabel => 'Full name';
+
+  @override
+  String get memberProfileNameKanjiHint => 'Taro Tanaka';
+
+  @override
+  String get memberProfileNameKanaLabel => 'Phonetic name';
+
+  @override
+  String get memberProfileNameKanaHint => 'TANAKA TARO';
+
+  @override
+  String get memberProfileBirthdayLabel => 'Date of birth';
+
+  @override
+  String get memberProfileBirthdayHint => 'Select your date of birth';
+
+  @override
+  String get memberProfileUnderageTitle =>
+      'This service is available only to users aged 18 or older.';
+
+  @override
+  String get memberProfileUnderageBody =>
+      'Under the Real Estate Specified Joint Enterprise Act, minors cannot apply for investments.';
+
+  @override
+  String get memberProfilePhoneLabel => 'Phone number';
+
+  @override
+  String get memberProfilePhoneHint => '090-1234-5678';
+
+  @override
+  String get memberProfileStep2Title => 'Step 2: Address Info';
+
+  @override
+  String get memberProfileStep2Description =>
+      'Required for identity verification.';
+
+  @override
+  String get memberProfilePostalCodeLabel => 'Postal code';
+
+  @override
+  String get memberProfilePostalCodeHint => '100-0001';
+
+  @override
+  String get memberProfileAddressSearch => 'Search address';
+
+  @override
+  String get memberProfileAddressSearchPending =>
+      'Address lookup will be connected in a later implementation.';
+
+  @override
+  String get memberProfilePrefectureLabel => 'Prefecture';
+
+  @override
+  String get memberProfileCityAddressLabel => 'City / Street address';
+
+  @override
+  String get memberProfileCityAddressHint => '1-1-1 Marunouchi, Chiyoda-ku';
+
+  @override
+  String get memberProfileStep3Title => 'Step 3: Investor Suitability';
+
+  @override
+  String get memberProfileStep3Description =>
+      'We confirm your investment experience under Article 25 of the Real Estate Specified Joint Enterprise Act.';
+
+  @override
+  String get memberProfileOccupationLabel => 'Occupation';
+
+  @override
+  String get memberProfileAnnualIncomeLabel => 'Annual income';
+
+  @override
+  String get memberProfileFinancialAssetsLabel => 'Financial assets';
+
+  @override
+  String get memberProfileInvestmentExperienceLabel =>
+      'Investment experience (multiple selection allowed)';
+
+  @override
+  String get memberProfileInvestmentPurposeLabel => 'Investment purpose';
+
+  @override
+  String get memberProfileFundSourceLabel => 'Nature of investment funds';
+
+  @override
+  String get memberProfileFundSourceWarningTitle => 'Please be aware';
+
+  @override
+  String get memberProfileFundSourceWarningStandard =>
+      'This product does not guarantee principal, and you may lose your full investment. Please invest only within surplus funds.';
+
+  @override
+  String get memberProfileFundSourceWarningHighRisk =>
+      'This product does not guarantee principal, and you may lose your full investment. Investing with living funds or borrowed money is not recommended.';
+
+  @override
+  String get memberProfileRiskToleranceLabel => 'Risk tolerance';
+
+  @override
+  String get memberProfileStep4Title => 'Step 4: Identity Verification (eKYC)';
+
+  @override
+  String get memberProfileStep4Description =>
+      'Please photograph your identity verification documents.';
+
+  @override
+  String get memberProfileDocumentTypeLabel => 'Select document';
+
+  @override
+  String get memberProfilePhotoDocumentTitle =>
+      'Photograph the document (front and back)';
+
+  @override
+  String get memberProfilePhotoDocumentDescription => 'Tap to open the camera';
+
+  @override
+  String get memberProfileSelfieTitle => 'Take a selfie photo';
+
+  @override
+  String get memberProfileSelfieDescription => 'Face the camera directly';
+
+  @override
+  String get memberProfileUploadDocumentPending =>
+      'Document capture will be connected in a later implementation.';
+
+  @override
+  String get memberProfileUploadSelfiePending =>
+      'Selfie capture will be connected in a later implementation.';
+
+  @override
+  String get memberProfileStep5Title => 'Step 5: Bank Account';
+
+  @override
+  String get memberProfileStep5Description =>
+      'Register the bank account for distribution transfers.';
+
+  @override
+  String get memberProfileBankNameLabel => 'Financial institution';
+
+  @override
+  String get memberProfileBankNameHint => 'MUFG Bank';
+
+  @override
+  String get memberProfileBranchLabel => 'Branch';
+
+  @override
+  String get memberProfileBranchHint => 'Marunouchi Branch';
+
+  @override
+  String get memberProfileAccountTypeLabel => 'Account type';
+
+  @override
+  String get memberProfileAccountNumberLabel => 'Account number';
+
+  @override
+  String get memberProfileAccountNumberHint => '1234567';
+
+  @override
+  String get memberProfileAccountHolderLabel => 'Account holder (katakana)';
+
+  @override
+  String get memberProfileAccountHolderHint => 'TANAKA TARO';
+
+  @override
+  String get memberProfileNextConsent => 'Next: Consent Confirmation';
+
+  @override
+  String get memberProfileStep6Title => 'Step 6: Consent';
+
+  @override
+  String get memberProfileStep6Description =>
+      'Please review the following items and agree to all of them.';
+
+  @override
+  String get memberProfileElectronicDeliveryTitle =>
+      'Electronic delivery of documents';
+
+  @override
+  String get memberProfileElectronicDeliveryBody =>
+      'We will deliver the following documents required under the Real Estate Specified Joint Enterprise Act electronically in the app as PDF files instead of on paper.';
+
+  @override
+  String get memberProfileElectronicDeliveryItem1 =>
+      'Pre-contract disclosure document';
+
+  @override
+  String get memberProfileElectronicDeliveryItem2 =>
+      'Contract conclusion document';
+
+  @override
+  String get memberProfileElectronicDeliveryItem3 =>
+      'Property management report';
+
+  @override
+  String get memberProfileElectronicDeliveryItem4 =>
+      'Business and asset status documents';
+
+  @override
+  String get memberProfileElectronicDeliveryFootnote =>
+      '* Consent to electronic delivery can be withdrawn anytime from settings. After withdrawal, documents will be sent on paper. File format: PDF.';
+
+  @override
+  String get memberProfileElectronicDeliveryConsent =>
+      'I agree to the electronic delivery method above.';
+
+  @override
+  String get memberProfileAntiSocialTitle =>
+      'Declaration of not being an anti-social force';
+
+  @override
+  String get memberProfileAntiSocialBody =>
+      'I represent and warrant that I am not, now or in the future, part of any anti-social force such as organized crime groups, members, affiliates, or similar entities.';
+
+  @override
+  String get memberProfileAntiSocialConsent =>
+      'I declare that I do not belong to any anti-social force.';
+
+  @override
+  String get memberProfilePrivacyConsent =>
+      'I agree to the handling of personal information and the privacy policy.';
+
+  @override
+  String get memberProfileAgreeAndComplete =>
+      'Agree to all and complete registration';
+
+  @override
+  String get memberProfileCompletedToast =>
+      'Profile information registration is complete.';
+
+  @override
+  String get occupationEmployee => 'Company employee';
+
+  @override
+  String get occupationSelfEmployed => 'Self-employed';
+
+  @override
+  String get occupationPublicServant => 'Public servant';
+
+  @override
+  String get occupationHomemaker => 'Homemaker';
+
+  @override
+  String get occupationStudent => 'Student';
+
+  @override
+  String get occupationPensioner => 'Pensioner';
+
+  @override
+  String get incomeUnder3m => 'Under JPY 3M';
+
+  @override
+  String get income3to5m => 'JPY 3M to 5M';
+
+  @override
+  String get income5to10m => 'JPY 5M to 10M';
+
+  @override
+  String get incomeOver10m => 'Over JPY 10M';
+
+  @override
+  String get assetsUnder1m => 'Under JPY 1M';
+
+  @override
+  String get assets1to5m => 'JPY 1M to 5M';
+
+  @override
+  String get assets5to10m => 'JPY 5M to 10M';
+
+  @override
+  String get assetsOver10m => 'Over JPY 10M';
+
+  @override
+  String get purposeAssetGrowth => 'Asset growth';
+
+  @override
+  String get purposeDividendIncome => 'Regular income from distributions';
+
+  @override
+  String get purposeIdleFunds => 'Managing surplus cash';
+
+  @override
+  String get purposeDiversification => 'Portfolio diversification';
+
+  @override
+  String get fundSourceSurplus => 'Surplus funds with no impact on daily life';
+
+  @override
+  String get fundSourceLivingFunds => 'Part of living expenses';
+
+  @override
+  String get fundSourceBorrowed => 'Borrowed money';
+
+  @override
+  String get riskToleranceAcceptLoss =>
+      'I understand and can tolerate principal loss.';
+
+  @override
+  String get riskToleranceLowRisk => 'I only want low-risk investments.';
+
+  @override
+  String get riskToleranceHighRisk =>
+      'I can tolerate high-risk, high-return investments.';
+
+  @override
+  String get documentTypeDriversLicense => 'Driver\'s license';
+
+  @override
+  String get documentTypeMyNumber => 'My Number card';
+
+  @override
+  String get documentTypePassport => 'Passport';
+
+  @override
+  String get accountTypeOrdinary => 'Ordinary';
+
+  @override
+  String get accountTypeChecking => 'Checking';
+
+  @override
+  String get prefectureTokyo => 'Tokyo';
+
+  @override
+  String get prefectureOsaka => 'Osaka';
+
+  @override
+  String get prefectureKanagawa => 'Kanagawa';
+
+  @override
+  String get prefectureAichi => 'Aichi';
+
+  @override
+  String get prefectureFukuoka => 'Fukuoka';
+
+  @override
+  String get memberProfileExperienceStocks => 'Stocks / ETF';
+
+  @override
+  String get memberProfileExperienceMutualFunds => 'Mutual funds';
+
+  @override
+  String get memberProfileExperienceRealEstate => 'Real estate investment';
+
+  @override
+  String get memberProfileExperienceRealEstateCrowdfunding =>
+      'Real estate crowdfunding / FTK';
+
+  @override
+  String get memberProfileExperienceBonds => 'Bonds';
+
+  @override
+  String get memberProfileExperienceFxCrypto => 'FX / Crypto assets';
+
+  @override
+  String get memberProfileExperienceNone => 'No investment experience';
 }
