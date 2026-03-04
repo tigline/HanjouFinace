@@ -528,6 +528,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeHeroTotalDividendsLabel => '累計分配金';
 
   @override
+  String get homeGuestBrowsingTitle => 'ログインせずに閲覧中';
+
+  @override
+  String get homeGuestBrowsingBody => '投資するにはアカウントが必要です';
+
+  @override
   String get homeReminderProfileTitle => '本人情報を入力して投資を始めましょう';
 
   @override

@@ -523,6 +523,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeHeroTotalDividendsLabel => '累计分配金';
 
   @override
+  String get homeGuestBrowsingTitle => '当前未登录浏览';
+
+  @override
+  String get homeGuestBrowsingBody => '如需投资，请先注册或登录账号';
+
+  @override
   String get homeReminderProfileTitle => '完善个人资料后即可开始投资';
 
   @override

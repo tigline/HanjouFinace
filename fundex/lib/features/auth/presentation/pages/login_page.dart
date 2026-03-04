@@ -14,7 +14,9 @@ import '../state/auth_state.dart';
 enum _LoginChannel { mobile, email }
 
 class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, this.openRegisterOnEnter = false});
+
+  final bool openRegisterOnEnter;
 
   @override
   ConsumerState<LoginPage> createState() => _LoginPageState();
@@ -29,6 +31,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   String? _localValidationError;
   late final CodeSendCooldown _sendCodeCooldown;
   String _selectedIntlCode = defaultIntlCode;
+  bool _didOpenRegisterOnEnter = false;
 
   bool get _isEmailMode => _loginChannel == _LoginChannel.email;
 
@@ -161,6 +164,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         }
       },
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _didOpenRegisterOnEnter || !widget.openRegisterOnEnter) {
+        return;
+      }
+      _didOpenRegisterOnEnter = true;
+      context.push('/register');
+    });
   }
 
   @override
@@ -356,7 +366,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               ),
                             ),
                           ),
-                          child: Text(l10n.loginBrowseAsGuest, style: titleStyle),
+                          child: Text(
+                            l10n.loginBrowseAsGuest,
+                            style: titleStyle,
+                          ),
                         ),
                       ),
                     ],

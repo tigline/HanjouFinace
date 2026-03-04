@@ -4,10 +4,19 @@ import 'package:fundex/app/router/app_router.dart';
 
 void main() {
   group('resolveAuthRedirect', () {
-    test('redirects loading state to splash', () {
+    test('keeps loading state on public home route', () {
       final redirect = resolveAuthRedirect(
         authState: const AsyncLoading<bool>(),
         location: '/home',
+      );
+
+      expect(redirect, isNull);
+    });
+
+    test('redirects loading state to splash for protected route', () {
+      final redirect = resolveAuthRedirect(
+        authState: const AsyncLoading<bool>(),
+        location: '/profile',
       );
 
       expect(redirect, '/splash');

@@ -1,34 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/auth/presentation/providers/auth_providers.dart';
 import '../localization/app_localizations_ext.dart';
 
 const Duration _minimumSplashDuration = Duration(milliseconds: 2500);
 const Duration _progressFillDuration = Duration(milliseconds: 2000);
 const Duration _logoPulseDuration = Duration(milliseconds: 2000);
 
-String? resolveSplashNavigationTarget(AsyncValue<bool> authState) {
-  if (authState.isLoading) {
-    return null;
-  }
-
-  final isAuthenticated = authState.asData?.value ?? false;
-  return isAuthenticated ? '/home' : '/login';
+String resolveSplashNavigationTarget() {
+  return '/home';
 }
 
-class SplashPage extends ConsumerStatefulWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
   @override
-  ConsumerState<SplashPage> createState() => _SplashPageState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends ConsumerState<SplashPage>
-    with TickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   late final DateTime _enteredAt;
   late final AnimationController _logoPulseController;
   late final Animation<double> _logoScaleAnimation;
@@ -56,7 +48,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
     )..forward();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scheduleNavigation(ref.read(isAuthenticatedProvider));
+      _scheduleNavigation();
     });
   }
 
@@ -68,17 +60,12 @@ class _SplashPageState extends ConsumerState<SplashPage>
     super.dispose();
   }
 
-  void _scheduleNavigation(AsyncValue<bool> authState) {
+  void _scheduleNavigation() {
     if (!mounted || _hasNavigated) {
       return;
     }
 
-    final targetRoute = resolveSplashNavigationTarget(authState);
-    if (targetRoute == null) {
-      _deferredNavigationTimer?.cancel();
-      return;
-    }
-
+    final targetRoute = resolveSplashNavigationTarget();
     final elapsed = DateTime.now().difference(_enteredAt);
     final remaining = _minimumSplashDuration - elapsed;
 
@@ -103,11 +90,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<bool>>(isAuthenticatedProvider, (previous, next) {
-      _scheduleNavigation(next);
-    });
-
-    _scheduleNavigation(ref.watch(isAuthenticatedProvider));
+    _scheduleNavigation();
 
     final l10n = context.l10n;
     final theme = Theme.of(context);

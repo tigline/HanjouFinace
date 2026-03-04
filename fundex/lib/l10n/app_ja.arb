@@ -184,6 +184,8 @@
   "homeHeroMonthlyDelta": "+¥127,500（前月比 +3.4%）",
   "homeHeroActiveInvestmentLabel": "運用中",
   "homeHeroTotalDividendsLabel": "累計分配金",
+  "homeGuestBrowsingTitle": "ログインせずに閲覧中",
+  "homeGuestBrowsingBody": "投資するにはアカウントが必要です",
   "homeReminderProfileTitle": "本人情報を入力して投資を始めましょう",
   "homeReminderProfileBody": "投資するには本人確認が必要です。あと3ステップで完了。",
   "homeReminderCoolingOffTitle": "クーリングオフ期間中",

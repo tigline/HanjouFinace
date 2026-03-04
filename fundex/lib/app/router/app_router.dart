@@ -53,7 +53,7 @@ String? resolveAuthRedirect({
   }
 
   if (authState.isLoading) {
-    return '/splash';
+    return isPublicRoute ? null : '/splash';
   }
 
   if (authState.hasError) {
@@ -99,7 +99,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/login',
         builder: (BuildContext context, GoRouterState state) {
-          return const LoginPage();
+          final shouldOpenRegister =
+              state.uri.queryParameters['openRegister'] == '1';
+          return LoginPage(openRegisterOnEnter: shouldOpenRegister);
         },
       ),
       GoRoute(

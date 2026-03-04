@@ -567,6 +567,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeHeroTotalDividendsLabel => 'Total dividends';
 
   @override
+  String get homeGuestBrowsingTitle => 'Browsing without signing in';
+
+  @override
+  String get homeGuestBrowsingBody => 'An account is required to invest.';
+
+  @override
   String get homeReminderProfileTitle =>
       'Complete your profile to start investing';
 

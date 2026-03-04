@@ -1114,6 +1114,18 @@ abstract class AppLocalizations {
   /// **'Total dividends'**
   String get homeHeroTotalDividendsLabel;
 
+  /// No description provided for @homeGuestBrowsingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browsing without signing in'**
+  String get homeGuestBrowsingTitle;
+
+  /// No description provided for @homeGuestBrowsingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'An account is required to invest.'**
+  String get homeGuestBrowsingBody;
+
   /// No description provided for @homeReminderProfileTitle.
   ///
   /// In en, this message translates to:

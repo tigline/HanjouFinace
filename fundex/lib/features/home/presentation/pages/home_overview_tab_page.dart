@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
 
@@ -17,6 +18,8 @@ class HomeOverviewTabPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final authState = ref.watch(isAuthenticatedProvider);
+    final isAuthenticated = authState.asData?.value ?? false;
     final asyncProjects = ref.watch(fundProjectListProvider);
     final projects = asyncProjects.asData?.value ?? const <FundProject>[];
     final locale = Localizations.localeOf(context);
@@ -89,34 +92,48 @@ class HomeOverviewTabPage extends ConsumerWidget {
         .toList(growable: false);
     final loadError = asyncProjects.asError;
 
+    final topSection = switch ((authState.isLoading, isAuthenticated)) {
+      (true, _) => const SizedBox(height: UiTokens.spacing12),
+      (_, true) => FundHomeHeroSummary(
+        greeting: l10n.homeWelcomeUser('田中さん'),
+        totalAssetsLabel: l10n.homeHeroTotalAssetsAmountLabel,
+        totalAssetsValue: '¥3,850,000',
+        totalAssetsDelta: l10n.homeHeroMonthlyDelta,
+        activeInvestmentLabel: l10n.homeHeroActiveInvestmentLabel,
+        activeInvestmentValue: '¥3,200,000',
+        totalDividendsLabel: l10n.homeHeroTotalDividendsLabel,
+        totalDividendsValue: '¥285,000',
+        showNotificationDot: true,
+        onNotificationTap: () => context.push('/notifications'),
+      ),
+      _ => FundGuestBrowsingBar(
+        title: l10n.homeGuestBrowsingTitle,
+        message: l10n.homeGuestBrowsingBody,
+        loginLabel: l10n.loginSubmit,
+        registerLabel: l10n.loginCreateAccount,
+        onLoginTap: () => context.push('/login'),
+        onRegisterTap: () => context.push('/login?openRegister=1'),
+      ),
+    };
+
     return ListView(
       key: const Key('home_tab_content'),
       padding: EdgeInsets.zero,
       children: <Widget>[
-        FundHomeHeroSummary(
-          greeting: l10n.homeWelcomeUser('田中さん'),
-          totalAssetsLabel: l10n.homeHeroTotalAssetsAmountLabel,
-          totalAssetsValue: '¥3,850,000',
-          totalAssetsDelta: l10n.homeHeroMonthlyDelta,
-          activeInvestmentLabel: l10n.homeHeroActiveInvestmentLabel,
-          activeInvestmentValue: '¥3,200,000',
-          totalDividendsLabel: l10n.homeHeroTotalDividendsLabel,
-          totalDividendsValue: '¥285,000',
-          showNotificationDot: true,
-          onNotificationTap: () => context.push('/notifications'),
-        ),
+        topSection,
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 12, 0, 24),
           child: Column(
             spacing: UiTokens.spacing16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: UiTokens.spacing16,
+              if (isAuthenticated)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: UiTokens.spacing16,
+                  ),
+                  child: FundReminderFeed(items: reminders),
                 ),
-                child: FundReminderFeed(items: reminders),
-              ),
               if (asyncProjects.isLoading && projects.isEmpty)
                 const Center(
                   child: Padding(

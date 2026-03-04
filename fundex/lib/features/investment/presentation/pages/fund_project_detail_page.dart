@@ -104,195 +104,268 @@ class FundProjectDetailPage extends ConsumerWidget {
                 },
                 onFavoriteTap: () {},
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      project.projectName,
-                      style:
-                          (Theme.of(context).textTheme.headlineSmall ??
-                                  const TextStyle())
-                              .copyWith(
-                                color: AppColorTokens.fundexText,
-                                fontWeight: FontWeight.w900,
-                                height: 1.25,
+              Transform.translate(
+                offset: const Offset(0, -18),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(28),
+                    ),
+                  ),
+                  padding: const EdgeInsets.only(top: 18),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _DetailTitleBlock(project: project),
+                            const SizedBox(height: UiTokens.spacing12),
+                            _YieldHighlightCard(
+                              label: context
+                                  .l10n
+                                  .fundDetailEstimatedYieldAnnualLabel,
+                              value: _formatYieldPercent(
+                                _resolveYieldRatio(project),
                               ),
-                    ),
-                    const SizedBox(height: UiTokens.spacing12),
-                    _YieldHighlightCard(
-                      label: context.l10n.fundDetailEstimatedYieldAnnualLabel,
-                      value: _formatYieldPercent(_resolveYieldRatio(project)),
-                      disclaimer: context.l10n.fundDetailYieldDisclaimer,
-                    ),
-                  ],
-                ),
-              ),
-              if (infoItems.isNotEmpty) ...<Widget>[
-                const SizedBox(height: UiTokens.spacing16),
-                FundDetailSection(
-                  title: context.l10n.fundDetailKeyFactsTitle,
-                  child: FundDetailInfoGrid(items: infoItems),
-                ),
-              ],
-              if (structureData != null) ...<Widget>[
-                const SizedBox(height: UiTokens.spacing16),
-                FundDetailSection(
-                  title: context.l10n.fundDetailPreferredStructureTitle,
-                  child: _ProtectionStructureCard(data: structureData),
-                ),
-              ],
-              if (propertyItems.isNotEmpty) ...<Widget>[
-                const SizedBox(height: UiTokens.spacing16),
-                FundDetailSection(
-                  title: context.l10n.fundDetailPropertyInfoTitle,
-                  child: FundDetailInfoGrid(items: propertyItems),
-                ),
-              ],
-              if (staticContent != null) ...<Widget>[
-                const SizedBox(height: UiTokens.spacing16),
-                FundDetailSection(
-                  title: staticContent.riskSection.title,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      FundDetailContentCard(
-                        backgroundColor: AppColorTokens.fundexDangerLight,
-                        borderColor: const Color(0xFFFECACA),
-                        child: Text(
-                          staticContent.riskSection.warning,
-                          style:
-                              (Theme.of(context).textTheme.bodySmall ??
-                                      const TextStyle())
-                                  .copyWith(
-                                    color: AppColorTokens.fundexDanger,
-                                    fontWeight: FontWeight.w800,
-                                    height: 1.6,
-                                  ),
-                        ),
-                      ),
-                      const SizedBox(height: UiTokens.spacing8),
-                      FundDetailDisclosureList(
-                        items: staticContent.riskSection.items
-                            .map(
-                              (FundDetailRiskItem item) =>
-                                  FundDetailDisclosureItemData(
-                                    title: item.title,
-                                    body: item.body,
-                                  ),
-                            )
-                            .toList(growable: false),
-                      ),
-                      if (staticContent
-                          .riskSection
-                          .footnotes
-                          .isNotEmpty) ...<Widget>[
-                        const SizedBox(height: UiTokens.spacing8),
-                        Text(
-                          staticContent.riskSection.footnotes.join('\n'),
-                          style:
-                              (Theme.of(context).textTheme.labelSmall ??
-                                      const TextStyle())
-                                  .copyWith(
-                                    color: AppColorTokens.fundexTextTertiary,
-                                    height: 1.6,
-                                  ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ],
-              if (contractItems.isNotEmpty ||
-                  staticContent != null) ...<Widget>[
-                const SizedBox(height: UiTokens.spacing16),
-                FundDetailSection(
-                  title: context.l10n.fundDetailContractOverviewTitle,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      if (contractItems.isNotEmpty)
-                        FundDetailInfoGrid(items: contractItems),
-                      if (staticContent != null) ...<Widget>[
-                        if (contractItems.isNotEmpty)
-                          const SizedBox(height: UiTokens.spacing8),
-                        for (
-                          var index = 0;
-                          index < staticContent.legalSections.length;
-                          index++
-                        ) ...<Widget>[
-                          if (staticContent
-                              .legalSections[index]
-                              .rows
-                              .isNotEmpty)
-                            FundDetailKeyValueCard(
-                              title: staticContent.legalSections[index].title,
-                              rows: staticContent.legalSections[index].rows
-                                  .map(
-                                    (FundDetailLegalRow row) =>
-                                        FundDetailKeyValueRowData(
-                                          label: row.label,
-                                          value: row.value,
-                                        ),
-                                  )
-                                  .toList(growable: false),
-                            )
-                          else
-                            FundDetailTextCard(
-                              title: staticContent.legalSections[index].title,
-                              body:
-                                  staticContent.legalSections[index].body ?? '',
+                              disclaimer:
+                                  context.l10n.fundDetailYieldDisclaimer,
                             ),
-                          if (index < staticContent.legalSections.length - 1)
-                            const SizedBox(height: UiTokens.spacing8),
-                        ],
-                      ],
-                    ],
-                  ),
-                ),
-              ],
-              if (operatorItems.isNotEmpty ||
-                  operatorMetaText != null) ...<Widget>[
-                const SizedBox(height: UiTokens.spacing16),
-                FundDetailSection(
-                  title: context.l10n.fundDetailOperatorInfoTitle,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      if (operatorItems.isNotEmpty)
-                        FundDetailInfoGrid(items: operatorItems),
-                      if (operatorMetaText != null) ...<Widget>[
-                        if (operatorItems.isNotEmpty)
-                          const SizedBox(height: UiTokens.spacing8),
-                        Text(
-                          operatorMetaText,
-                          style:
-                              (Theme.of(context).textTheme.labelSmall ??
-                                      const TextStyle())
-                                  .copyWith(
-                                    color: AppColorTokens.fundexTextSecondary,
-                                    height: 1.6,
-                                  ),
+                          ],
+                        ),
+                      ),
+                      if (infoItems.isNotEmpty) ...<Widget>[
+                        const SizedBox(height: UiTokens.spacing16),
+                        FundDetailSection(
+                          title: context.l10n.fundDetailKeyFactsTitle,
+                          child: FundDetailInfoGrid(items: infoItems),
                         ),
                       ],
+                      if (structureData != null) ...<Widget>[
+                        const SizedBox(height: 18),
+                        FundDetailSection(
+                          title: context.l10n.fundDetailPreferredStructureTitle,
+                          child: _ProtectionStructureCard(data: structureData),
+                        ),
+                      ],
+                      if (propertyItems.isNotEmpty ||
+                          project.photos.isNotEmpty) ...<Widget>[
+                        const SizedBox(height: 18),
+                        FundDetailSection(
+                          title: context.l10n.fundDetailPropertyInfoTitle,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              FundDetailMediaPreview(
+                                imageUrl: project.photos.firstOrNull,
+                                overlayLabel: _resolveLocationText(project),
+                                placeholder: _PropertyPreviewPlaceholder(
+                                  label:
+                                      _resolveLocationText(project) ??
+                                      project.projectName,
+                                ),
+                              ),
+                              if (propertyItems.isNotEmpty) ...<Widget>[
+                                const SizedBox(height: 10),
+                                FundDetailInfoGrid(items: propertyItems),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ],
+                      if (staticContent != null) ...<Widget>[
+                        const SizedBox(height: 18),
+                        FundDetailSection(
+                          title: staticContent.riskSection.title,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              FundDetailContentCard(
+                                backgroundColor:
+                                    AppColorTokens.fundexDangerLight,
+                                borderColor: const Color(0xFFFECACA),
+                                child: Text(
+                                  staticContent.riskSection.warning,
+                                  style:
+                                      (Theme.of(context).textTheme.bodySmall ??
+                                              const TextStyle())
+                                          .copyWith(
+                                            color: AppColorTokens.fundexDanger,
+                                            fontWeight: FontWeight.w800,
+                                            height: 1.6,
+                                          ),
+                                ),
+                              ),
+                              const SizedBox(height: UiTokens.spacing8),
+                              FundDetailDisclosureList(
+                                items: staticContent.riskSection.items
+                                    .map(
+                                      (FundDetailRiskItem item) =>
+                                          FundDetailDisclosureItemData(
+                                            title: item.title,
+                                            body: item.body,
+                                          ),
+                                    )
+                                    .toList(growable: false),
+                              ),
+                              if (staticContent
+                                  .riskSection
+                                  .footnotes
+                                  .isNotEmpty) ...<Widget>[
+                                const SizedBox(height: UiTokens.spacing8),
+                                Text(
+                                  staticContent.riskSection.footnotes.join(
+                                    '\n',
+                                  ),
+                                  style:
+                                      (Theme.of(context).textTheme.labelSmall ??
+                                              const TextStyle())
+                                          .copyWith(
+                                            color: AppColorTokens
+                                                .fundexTextTertiary,
+                                            height: 1.6,
+                                          ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ],
+                      if (contractItems.isNotEmpty ||
+                          staticContent != null) ...<Widget>[
+                        const SizedBox(height: 18),
+                        FundDetailSection(
+                          title: context.l10n.fundDetailContractOverviewTitle,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              if (contractItems.isNotEmpty)
+                                FundDetailInfoGrid(items: contractItems),
+                              if (staticContent != null) ...<Widget>[
+                                if (contractItems.isNotEmpty)
+                                  const SizedBox(height: UiTokens.spacing8),
+                                for (
+                                  var index = 0;
+                                  index < staticContent.legalSections.length;
+                                  index++
+                                ) ...<Widget>[
+                                  if (staticContent
+                                      .legalSections[index]
+                                      .rows
+                                      .isNotEmpty)
+                                    FundDetailKeyValueCard(
+                                      title: staticContent
+                                          .legalSections[index]
+                                          .title,
+                                      rows: staticContent
+                                          .legalSections[index]
+                                          .rows
+                                          .map(
+                                            (FundDetailLegalRow row) =>
+                                                FundDetailKeyValueRowData(
+                                                  label: row.label,
+                                                  value: row.value,
+                                                ),
+                                          )
+                                          .toList(growable: false),
+                                    )
+                                  else
+                                    FundDetailTextCard(
+                                      title: staticContent
+                                          .legalSections[index]
+                                          .title,
+                                      body:
+                                          staticContent
+                                              .legalSections[index]
+                                              .body ??
+                                          '',
+                                    ),
+                                  if (index <
+                                      staticContent.legalSections.length - 1)
+                                    const SizedBox(height: UiTokens.spacing8),
+                                ],
+                              ],
+                            ],
+                          ),
+                        ),
+                      ],
+                      if (operatorItems.isNotEmpty ||
+                          operatorMetaText != null) ...<Widget>[
+                        const SizedBox(height: 18),
+                        FundDetailSection(
+                          title: context.l10n.fundDetailOperatorInfoTitle,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              if (operatorItems.isNotEmpty)
+                                FundDetailInfoGrid(items: operatorItems),
+                              if (operatorMetaText != null) ...<Widget>[
+                                if (operatorItems.isNotEmpty)
+                                  const SizedBox(height: UiTokens.spacing8),
+                                Text(
+                                  operatorMetaText,
+                                  style:
+                                      (Theme.of(context).textTheme.labelSmall ??
+                                              const TextStyle())
+                                          .copyWith(
+                                            color: AppColorTokens
+                                                .fundexTextSecondary,
+                                            height: 1.6,
+                                          ),
+                                ),
+                              ],
+                              const SizedBox(height: 6),
+                              TextButton.icon(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        context
+                                            .l10n
+                                            .fundDetailFinancialStatusToast,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  visualDensity: const VisualDensity(
+                                    horizontal: -2,
+                                    vertical: -2,
+                                  ),
+                                ),
+                                icon: const Icon(
+                                  Icons.show_chart_rounded,
+                                  size: 16,
+                                ),
+                                label: Text(
+                                  context.l10n.fundDetailFinancialStatusAction,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      if (documentItems.isNotEmpty) ...<Widget>[
+                        const SizedBox(height: 18),
+                        FundDetailSection(
+                          title: context.l10n.fundDetailDocumentsTitle,
+                          child: FundDetailDocumentList(items: documentItems),
+                        ),
+                      ],
+                      const SizedBox(height: 18),
+                      FundDetailSection(
+                        title: context.l10n.fundDetailCommentsTitle,
+                        child: const _CommentsPlaceholderCard(),
+                      ),
+                      const SizedBox(height: 86),
                     ],
                   ),
                 ),
-              ],
-              if (documentItems.isNotEmpty) ...<Widget>[
-                const SizedBox(height: UiTokens.spacing16),
-                FundDetailSection(
-                  title: context.l10n.fundDetailDocumentsTitle,
-                  child: FundDetailDocumentList(items: documentItems),
-                ),
-              ],
-              const SizedBox(height: UiTokens.spacing16),
-              FundDetailSection(
-                title: context.l10n.fundDetailCommentsTitle,
-                child: const _CommentsPlaceholderCard(),
               ),
-              const SizedBox(height: 104),
             ],
           ),
         );
@@ -331,31 +404,48 @@ class _YieldHighlightCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FundDetailContentCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Text(
-            label,
-            style:
-                (Theme.of(context).textTheme.labelMedium ?? const TextStyle())
-                    .copyWith(color: AppColorTokens.fundexTextSecondary),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  label,
+                  style:
+                      (Theme.of(context).textTheme.labelMedium ??
+                              const TextStyle())
+                          .copyWith(color: AppColorTokens.fundexTextSecondary),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style:
+                      (Theme.of(context).textTheme.displaySmall ??
+                              const TextStyle())
+                          .copyWith(
+                            color: AppColorTokens.fundexDanger,
+                            fontWeight: FontWeight.w900,
+                            height: 1,
+                          ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style:
-                (Theme.of(context).textTheme.displaySmall ?? const TextStyle())
-                    .copyWith(
-                      color: AppColorTokens.fundexDanger,
-                      fontWeight: FontWeight.w900,
-                      height: 1,
-                    ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            disclaimer,
-            style: (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
-                .copyWith(color: AppColorTokens.fundexTextTertiary),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              disclaimer,
+              textAlign: TextAlign.end,
+              style:
+                  (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
+                      .copyWith(
+                        color: AppColorTokens.fundexTextTertiary,
+                        height: 1.5,
+                      ),
+            ),
           ),
         ],
       ),
@@ -385,7 +475,9 @@ class _ProtectionStructureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FundDetailContentCard(
+      padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(999),
@@ -464,11 +556,172 @@ class _CommentsPlaceholderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FundDetailContentCard(
-      child: Text(
-        context.l10n.fundDetailCommentsPlaceholder,
-        style: (Theme.of(context).textTheme.bodySmall ?? const TextStyle())
-            .copyWith(color: AppColorTokens.fundexTextSecondary, height: 1.7),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: AppColorTokens.fundexVioletLight,
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: const Icon(
+              Icons.chat_bubble_outline_rounded,
+              size: 18,
+              color: AppColorTokens.fundexViolet,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  context.l10n.fundDetailCommentsPlaceholder,
+                  style:
+                      (Theme.of(context).textTheme.bodySmall ??
+                              const TextStyle())
+                          .copyWith(
+                            color: AppColorTokens.fundexTextSecondary,
+                            height: 1.7,
+                          ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+(String?, String) _splitProjectTitle(String title) {
+  final normalized = title.trim();
+  if (normalized.isEmpty) {
+    return (null, title);
+  }
+
+  final spaceIndex = normalized.indexOf(RegExp(r'[\s　]'));
+  if (spaceIndex <= 0 || spaceIndex >= normalized.length - 1) {
+    return (null, normalized);
+  }
+
+  final first = normalized.substring(0, spaceIndex).trim();
+  final second = normalized.substring(spaceIndex + 1).trim();
+  if (first.isEmpty || second.isEmpty) {
+    return (null, normalized);
+  }
+  return (first, second);
+}
+
+class _DetailTitleBlock extends StatelessWidget {
+  const _DetailTitleBlock({required this.project});
+
+  final FundProject project;
+
+  @override
+  Widget build(BuildContext context) {
+    final titleParts = _splitProjectTitle(project.projectName);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (titleParts.$1 != null)
+          Text(
+            titleParts.$1!,
+            style:
+                (Theme.of(context).textTheme.headlineSmall ?? const TextStyle())
+                    .copyWith(
+                      color: AppColorTokens.fundexText,
+                      fontWeight: FontWeight.w900,
+                      height: 1.05,
+                    ),
+          ),
+        if (titleParts.$1 != null) const SizedBox(height: 2),
+        Text(
+          titleParts.$2,
+          style:
+              (Theme.of(context).textTheme.headlineSmall ?? const TextStyle())
+                  .copyWith(
+                    color: AppColorTokens.fundexText,
+                    fontWeight: FontWeight.w900,
+                    height: 1.12,
+                  ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PropertyPreviewPlaceholder extends StatelessWidget {
+  const _PropertyPreviewPlaceholder({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[
+                AppColorTokens.fundexPrimaryDark.withValues(alpha: 0.96),
+                AppColorTokens.fundexPrimaryDarkDradient.withValues(alpha: 0.9),
+                AppColorTokens.fundexAccent.withValues(alpha: 0.78),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.18),
+                  ),
+                ),
+                child: Text(
+                  context.l10n.fundDetailPropertyPreviewBadge,
+                  style:
+                      (Theme.of(context).textTheme.labelSmall ??
+                              const TextStyle())
+                          .copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                ),
+              ),
+              const Spacer(),
+              Text(
+                label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style:
+                    (Theme.of(context).textTheme.titleMedium ??
+                            const TextStyle())
+                        .copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -1138,6 +1391,14 @@ double? _detailDouble(Map<String, Object?> data, List<String> keys) {
 }
 
 extension<T> on Iterable<T> {
+  T? get firstOrNull {
+    final iterator = this.iterator;
+    if (!iterator.moveNext()) {
+      return null;
+    }
+    return iterator.current;
+  }
+
   T? firstWhereOrNull(bool Function(T element) test) {
     for (final element in this) {
       if (test(element)) {

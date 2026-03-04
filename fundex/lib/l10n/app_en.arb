@@ -184,6 +184,8 @@
   "homeHeroMonthlyDelta": "+¥127,500 (vs last month +3.4%)",
   "homeHeroActiveInvestmentLabel": "Active investments",
   "homeHeroTotalDividendsLabel": "Total dividends",
+  "homeGuestBrowsingTitle": "Browsing without signing in",
+  "homeGuestBrowsingBody": "An account is required to invest.",
   "homeReminderProfileTitle": "Complete your profile to start investing",
   "homeReminderProfileBody": "Identity verification is required before investing. 3 steps remaining.",
   "homeReminderCoolingOffTitle": "Cooling-off period in progress",
