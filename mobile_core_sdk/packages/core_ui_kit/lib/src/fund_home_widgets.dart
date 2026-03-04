@@ -128,6 +128,133 @@ class FundHomeHeroSummary extends StatelessWidget {
   }
 }
 
+class FundGuestBrowsingBar extends StatelessWidget {
+  const FundGuestBrowsingBar({
+    super.key,
+    required this.title,
+    required this.message,
+    required this.loginLabel,
+    required this.registerLabel,
+    this.onLoginTap,
+    this.onRegisterTap,
+  });
+
+  final String title;
+  final String message;
+  final String loginLabel;
+  final String registerLabel;
+  final VoidCallback? onLoginTap;
+  final VoidCallback? onRegisterTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final ftkTheme = theme.extension<AppFTKTheme>()!;
+
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: <Color>[Color(0xFF1E293B), Color(0xFF334155)],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: (theme.textTheme.labelLarge ?? const TextStyle())
+                        .copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    message,
+                    style: (theme.textTheme.bodySmall ?? const TextStyle())
+                        .copyWith(
+                          color: Colors.white.withValues(alpha: 0.72),
+                          height: 1.35,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: UiTokens.spacing12),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                _FundGuestActionButton(
+                  label: loginLabel,
+                  onTap: onLoginTap,
+                  backgroundColor: Colors.white.withValues(alpha: 0.15),
+                  foregroundColor: Colors.white,
+                ),
+                const SizedBox(width: UiTokens.spacing8),
+                _FundGuestActionButton(
+                  label: registerLabel,
+                  onTap: onRegisterTap,
+                  backgroundColor: ftkTheme.primaryButtonColor,
+                  foregroundColor: Colors.white,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FundGuestActionButton extends StatelessWidget {
+  const _FundGuestActionButton({
+    required this.label,
+    required this.onTap,
+    required this.backgroundColor,
+    required this.foregroundColor,
+  });
+
+  final String label;
+  final VoidCallback? onTap;
+  final Color backgroundColor;
+  final Color foregroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            label,
+            style: (theme.textTheme.labelMedium ?? const TextStyle()).copyWith(
+              color: foregroundColor,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _FundHeroNotificationButton extends StatelessWidget {
   const _FundHeroNotificationButton({
     required this.showDot,
@@ -204,14 +331,30 @@ class _FundHeroMetricCard extends StatelessWidget {
             ? theme.textTheme.headlineSmall
             : theme.textTheme.titleLarge) ??
         const TextStyle();
+    final backgroundGradient = isPrimary
+        ? <Color>[
+            AppColorTokens.fundexPrimaryDarkDradient.withValues(alpha: 0.78),
+            AppColorTokens.fundexAccent.withValues(alpha: 0.30),
+          ]
+        : <Color>[
+            AppColorTokens.fundexPrimaryDarkAlt.withValues(alpha: 0.30),
+            Colors.white.withValues(alpha: 0.10),
+          ];
+    final borderColor = isPrimary
+        ? AppColorTokens.fundexAccent.withValues(alpha: 0.20)
+        : Colors.white.withValues(alpha: 0.08);
 
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: isPrimary ? 0.15 : 0.10),
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: backgroundGradient,
+        ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        border: Border.all(color: borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

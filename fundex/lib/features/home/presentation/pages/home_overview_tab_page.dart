@@ -8,6 +8,7 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
+import '../support/home_display_name_resolver.dart';
 
 const Set<int> _featuredProjectStatuses = <int>{0, 1};
 const int _operatingProjectStatus = 4;
@@ -20,6 +21,7 @@ class HomeOverviewTabPage extends ConsumerWidget {
     final l10n = context.l10n;
     final authState = ref.watch(isAuthenticatedProvider);
     final isAuthenticated = authState.asData?.value ?? false;
+    final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
     final asyncProjects = ref.watch(fundProjectListProvider);
     final projects = asyncProjects.asData?.value ?? const <FundProject>[];
     final locale = Localizations.localeOf(context);
@@ -95,7 +97,12 @@ class HomeOverviewTabPage extends ConsumerWidget {
     final topSection = switch ((authState.isLoading, isAuthenticated)) {
       (true, _) => const SizedBox(height: UiTokens.spacing12),
       (_, true) => FundHomeHeroSummary(
-        greeting: l10n.homeWelcomeUser('田中さん'),
+        greeting: l10n.homeWelcomeUser(
+          resolveHomeDisplayName(
+            locale: Localizations.localeOf(context),
+            user: currentUser,
+          ),
+        ),
         totalAssetsLabel: l10n.homeHeroTotalAssetsAmountLabel,
         totalAssetsValue: '¥3,850,000',
         totalAssetsDelta: l10n.homeHeroMonthlyDelta,
