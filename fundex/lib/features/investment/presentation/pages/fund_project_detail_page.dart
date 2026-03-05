@@ -227,18 +227,30 @@ class FundProjectDetailPage extends ConsumerWidget {
                         ),
                       ),
                     ],
-                    if (viewData.contractItems.isNotEmpty ||
+                    if (viewData.contractOverviewItems.isNotEmpty ||
+                        viewData.contractScheduleItems.isNotEmpty ||
                         staticContent != null) ...<Widget>[
                       const SizedBox(height: 18),
                       FundDetailSection(
                         title: context.l10n.fundDetailContractOverviewTitle,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: UiTokens.spacing8,
                           children: <Widget>[
-                            if (viewData.contractItems.isNotEmpty)
-                              FundDetailInfoGrid(items: viewData.contractItems),
+                            if (viewData.contractOverviewItems.isNotEmpty)
+                              FundDetailInfoTable(
+                                items: viewData.contractOverviewItems,
+                              ),
+                            if (viewData.contractOverviewItems.isNotEmpty &&
+                                viewData.contractScheduleItems.isNotEmpty)
+                              const SizedBox(height: 1),
+                            if (viewData.contractScheduleItems.isNotEmpty)
+                              FundDetailInfoTable(
+                                items: viewData.contractScheduleItems,
+                              ),
                             if (staticContent != null) ...<Widget>[
-                              if (viewData.contractItems.isNotEmpty)
+                              if (viewData.contractOverviewItems.isNotEmpty ||
+                                  viewData.contractScheduleItems.isNotEmpty)
                                 const SizedBox(height: UiTokens.spacing8),
                               for (
                                 var index = 0;
@@ -294,7 +306,9 @@ class FundProjectDetailPage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             if (viewData.operatorItems.isNotEmpty)
-                              FundDetailInfoGrid(items: viewData.operatorItems),
+                              FundDetailInfoTable(
+                                items: viewData.operatorItems,
+                              ),
                             if (viewData.operatorMetaText != null) ...<Widget>[
                               if (viewData.operatorItems.isNotEmpty)
                                 const SizedBox(height: UiTokens.spacing8),

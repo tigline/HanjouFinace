@@ -912,6 +912,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fundDetailBuiltYearLabel => '竣工';
 
   @override
+  String get fundDetailCoolingOffLabel => 'クーリングオフ';
+
+  @override
+  String get fundDetailCoolingOffDefault => '書面交付日翌日から8日間';
+
+  @override
   String get fundDetailMapClose => '閉じる';
 
   @override
@@ -976,6 +982,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fundDetailCompanyAddressLabel => '所在地';
+
+  @override
+  String get fundDetailOperatorCapitalLabel => '資本金';
+
+  @override
+  String get fundDetailOperatorEstablishedLabel => '設立';
+
+  @override
+  String get fundDetailOperatorBusinessStartLabel => '事業開始届出';
 
   @override
   String get fundDetailDocumentsTitle => '📄 関連書面';

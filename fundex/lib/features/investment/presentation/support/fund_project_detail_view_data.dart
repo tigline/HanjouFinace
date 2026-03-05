@@ -10,7 +10,8 @@ class FundProjectDetailViewData {
   const FundProjectDetailViewData({
     required this.infoItems,
     required this.propertyItems,
-    required this.contractItems,
+    required this.contractOverviewItems,
+    required this.contractScheduleItems,
     required this.operatorItems,
     required this.documentItems,
     required this.heroBadges,
@@ -26,7 +27,8 @@ class FundProjectDetailViewData {
 
   final List<FundDetailInfoItemData> infoItems;
   final List<FundDetailInfoItemData> propertyItems;
-  final List<FundDetailInfoItemData> contractItems;
+  final List<FundDetailInfoItemData> contractOverviewItems;
+  final List<FundDetailInfoItemData> contractScheduleItems;
   final List<FundDetailInfoItemData> operatorItems;
   final List<FundDetailDocumentItemData> documentItems;
   final List<FundDetailBadgeData> heroBadges;
@@ -59,6 +61,11 @@ class FundProjectDetailViewDataBuilder {
       project,
       propertyLocation,
     );
+    final contractTables = _buildContractTables(
+      context,
+      project,
+      currencyFormatter,
+    );
 
     return FundProjectDetailViewData(
       infoItems: _buildPrimaryInfoItems(context, project, currencyFormatter),
@@ -67,7 +74,8 @@ class FundProjectDetailViewDataBuilder {
         project,
         propertyLocation,
       ),
-      contractItems: _buildContractItems(context, project, currencyFormatter),
+      contractOverviewItems: contractTables.overviewItems,
+      contractScheduleItems: contractTables.scheduleItems,
       operatorItems: _buildOperatorItems(context, project),
       documentItems: _buildDocumentItems(context, project),
       heroBadges: _buildHeroBadges(context, project),
@@ -77,7 +85,7 @@ class FundProjectDetailViewDataBuilder {
       yieldDisplay: _formatYieldPercent(_resolveYieldRatio(project)),
       actionLabel: _resolveActionLabel(context, project),
       actionEnabled: _isActionEnabled(project),
-      operatorMetaText: _buildOperatorMetaText(project),
+      operatorMetaText: _buildOperatorMetaText(context, project),
       protectionStructure: _buildProtectionStructure(context, project),
     );
   }
@@ -186,12 +194,37 @@ List<FundDetailInfoItemData> _buildPropertyInfoItems(
   return items;
 }
 
-List<FundDetailInfoItemData> _buildContractItems(
+class _FundContractTables {
+  const _FundContractTables({
+    required this.overviewItems,
+    required this.scheduleItems,
+  });
+
+  final List<FundDetailInfoItemData> overviewItems;
+  final List<FundDetailInfoItemData> scheduleItems;
+}
+
+_FundContractTables _buildContractTables(
   BuildContext context,
   FundProject project,
   NumberFormat currencyFormatter,
 ) {
-  final items = <FundDetailInfoItemData>[
+  final targetPropertyType = _detailString(project.detailData, const <String>[
+    'targetPropertyType',
+    'propertyType',
+    'realEstateType',
+  ]);
+
+  final appraisalValue = _detailInt(project.detailData, const <String>[
+    'appraisalValue',
+    'propertyAppraisalValue',
+  ]);
+
+  final acquisitionPrice = _detailInt(project.detailData, const <String>[
+    'acquisitionPrice',
+    'plannedAcquisitionPrice',
+  ]);
+  final overviewItems = <FundDetailInfoItemData>[
     FundDetailInfoItemData(
       label: context.l10n.fundDetailContractTypeLabel,
       value:
@@ -201,173 +234,131 @@ List<FundDetailInfoItemData> _buildContractItems(
           ]) ??
           context.l10n.fundDetailContractTypeValue,
     ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailTargetPropertyTypeLabel,
+      value: targetPropertyType ?? context.l10n.fundDetailUnknownValue,
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailAppraisalValueLabel,
+      value: _formatCurrency(appraisalValue, currencyFormatter),
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailAcquisitionPriceLabel,
+      value: _formatCurrency(acquisitionPrice, currencyFormatter),
+    ),
   ];
-
-  final targetPropertyType = _detailString(project.detailData, const <String>[
-    'targetPropertyType',
-    'propertyType',
-    'realEstateType',
-  ]);
-  if (targetPropertyType != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailTargetPropertyTypeLabel,
-        value: targetPropertyType,
-      ),
-    );
-  }
-
-  final appraisalValue = _detailInt(project.detailData, const <String>[
-    'appraisalValue',
-    'propertyAppraisalValue',
-  ]);
-  if (appraisalValue != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailAppraisalValueLabel,
-        value: _formatCurrency(appraisalValue, currencyFormatter),
-      ),
-    );
-  }
-
-  final acquisitionPrice = _detailInt(project.detailData, const <String>[
-    'acquisitionPrice',
-    'plannedAcquisitionPrice',
-  ]);
-  if (acquisitionPrice != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailAcquisitionPriceLabel,
-        value: _formatCurrency(acquisitionPrice, currencyFormatter),
-      ),
-    );
-  }
 
   final offerPeriod = _resolveDateRangeText(
     context,
     project.offeringStartDatetime,
     project.offeringEndDatetime,
   );
-  if (offerPeriod != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailOfferPeriodLabel,
-        value: offerPeriod,
-      ),
-    );
-  }
-
   final operationStart = _resolveDateText(context, project.scheduledStartDate);
-  if (operationStart != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailOperationStartLabel,
-        value: operationStart,
-      ),
-    );
-  }
-
   final operationEnd = _resolveDateText(context, project.scheduledEndDate);
-  if (operationEnd != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailOperationEndLabel,
-        value: operationEnd,
-      ),
-    );
-  }
+  final coolingOffText =
+      _detailString(project.detailData, const <String>[
+        'coolingOff',
+        'coolingOffPeriod',
+        'coolingOffPolicy',
+      ]) ??
+      context.l10n.fundDetailCoolingOffDefault;
+  final scheduleItems = <FundDetailInfoItemData>[
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailOfferPeriodLabel,
+      value: offerPeriod ?? context.l10n.fundDetailUnknownValue,
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailOperationStartLabel,
+      value: operationStart ?? context.l10n.fundDetailUnknownValue,
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailOperationEndLabel,
+      value: operationEnd ?? context.l10n.fundDetailUnknownValue,
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailCoolingOffLabel,
+      value: coolingOffText,
+    ),
+  ];
 
-  return items;
+  return _FundContractTables(
+    overviewItems: overviewItems,
+    scheduleItems: scheduleItems,
+  );
 }
 
 List<FundDetailInfoItemData> _buildOperatorItems(
   BuildContext context,
   FundProject project,
 ) {
-  final items = <FundDetailInfoItemData>[];
-  final companyName = project.operatingCompany?.trim();
-  if (companyName != null && companyName.isNotEmpty) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailOperatorCompanyLabel,
-        value: companyName,
-      ),
-    );
-  }
+  final companyName = project.operatingCompany?.trim() ?? '';
+  final permitNumber =
+      _detailString(project.detailData, const <String>[
+        'permitNumber',
+        'licenseNumber',
+        'registrationNumber',
+      ]) ??
+      '';
+  final representative =
+      _detailString(project.detailData, const <String>[
+        'representative',
+        'representativeName',
+        'ceoName',
+      ]) ??
+      '';
+  final companyAddress =
+      _detailString(project.detailData, const <String>[
+        'companyAddress',
+        'operatorAddress',
+        'companyLocation',
+      ]) ??
+      '';
 
-  final permitNumber = _detailString(project.detailData, const <String>[
-    'permitNumber',
-    'licenseNumber',
-    'registrationNumber',
-  ]);
-  if (permitNumber != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailPermitNumberLabel,
-        value: permitNumber,
-      ),
-    );
-  }
-
-  final representative = _detailString(project.detailData, const <String>[
-    'representative',
-    'representativeName',
-    'ceoName',
-  ]);
-  if (representative != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailRepresentativeLabel,
-        value: representative,
-      ),
-    );
-  }
-
-  final companyAddress = _detailString(project.detailData, const <String>[
-    'companyAddress',
-    'operatorAddress',
-    'companyLocation',
-  ]);
-  if (companyAddress != null) {
-    items.add(
-      FundDetailInfoItemData(
-        label: context.l10n.fundDetailCompanyAddressLabel,
-        value: companyAddress,
-      ),
-    );
-  }
-
-  return items;
+  return <FundDetailInfoItemData>[
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailOperatorCompanyLabel,
+      value: companyName,
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailPermitNumberLabel,
+      value: permitNumber,
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailRepresentativeLabel,
+      value: representative,
+    ),
+    FundDetailInfoItemData(
+      label: context.l10n.fundDetailCompanyAddressLabel,
+      value: companyAddress,
+    ),
+  ];
 }
 
-String? _buildOperatorMetaText(FundProject project) {
-  final fragments = <String>[];
-  final capital = _detailString(project.detailData, const <String>[
-    'capital',
-    'capitalAmount',
-  ]);
-  if (capital != null) {
-    fragments.add(capital);
-  }
-  final established = _detailString(project.detailData, const <String>[
-    'establishedAt',
-    'establishedDate',
-  ]);
-  if (established != null) {
-    fragments.add(established);
-  }
-  final businessStart = _detailString(project.detailData, const <String>[
-    'businessStartDate',
-    'serviceStartDate',
-  ]);
-  if (businessStart != null) {
-    fragments.add(businessStart);
-  }
+String _buildOperatorMetaText(BuildContext context, FundProject project) {
+  final capital =
+      _detailString(project.detailData, const <String>[
+        'capital',
+        'capitalAmount',
+      ]) ??
+      '';
+  final established =
+      _detailString(project.detailData, const <String>[
+        'establishedAt',
+        'establishedDate',
+      ]) ??
+      '';
+  final businessStart =
+      _detailString(project.detailData, const <String>[
+        'businessStartDate',
+        'serviceStartDate',
+      ]) ??
+      '';
 
-  if (fragments.isEmpty) {
-    return null;
-  }
-  return fragments.join(' ・ ');
+  return <String>[
+    '${context.l10n.fundDetailOperatorCapitalLabel}：$capital',
+    '${context.l10n.fundDetailOperatorEstablishedLabel}：$established',
+    '${context.l10n.fundDetailOperatorBusinessStartLabel}：$businessStart',
+  ].join(' ・ ');
 }
 
 List<FundDetailDocumentItemData> _buildDocumentItems(

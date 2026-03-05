@@ -969,6 +969,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fundDetailBuiltYearLabel => 'Built';
 
   @override
+  String get fundDetailCoolingOffLabel => 'Cooling-off';
+
+  @override
+  String get fundDetailCoolingOffDefault =>
+      '8 days from the day after document delivery';
+
+  @override
   String get fundDetailMapClose => 'Close';
 
   @override
@@ -1034,6 +1041,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fundDetailCompanyAddressLabel => 'Address';
+
+  @override
+  String get fundDetailOperatorCapitalLabel => 'Capital';
+
+  @override
+  String get fundDetailOperatorEstablishedLabel => 'Established';
+
+  @override
+  String get fundDetailOperatorBusinessStartLabel => 'Business start filing';
 
   @override
   String get fundDetailDocumentsTitle => '📄 Related documents';

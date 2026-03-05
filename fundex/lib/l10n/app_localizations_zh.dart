@@ -907,6 +907,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fundDetailBuiltYearLabel => '竣工';
 
   @override
+  String get fundDetailCoolingOffLabel => '冷静期';
+
+  @override
+  String get fundDetailCoolingOffDefault => '自书面交付次日起8日内';
+
+  @override
   String get fundDetailMapClose => '关闭';
 
   @override
@@ -971,6 +977,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get fundDetailCompanyAddressLabel => '所在地';
+
+  @override
+  String get fundDetailOperatorCapitalLabel => '资本金';
+
+  @override
+  String get fundDetailOperatorEstablishedLabel => '设立';
+
+  @override
+  String get fundDetailOperatorBusinessStartLabel => '事业开始申报';
 
   @override
   String get fundDetailDocumentsTitle => '📄 相关书面';
@@ -2417,6 +2432,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get fundDetailBuiltYearLabel => '竣工';
 
   @override
+  String get fundDetailCoolingOffLabel => '冷靜期';
+
+  @override
+  String get fundDetailCoolingOffDefault => '自書面交付次日起8日內';
+
+  @override
   String get fundDetailMapClose => '關閉';
 
   @override
@@ -2481,6 +2502,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get fundDetailCompanyAddressLabel => '所在地';
+
+  @override
+  String get fundDetailOperatorCapitalLabel => '資本金';
+
+  @override
+  String get fundDetailOperatorEstablishedLabel => '設立';
+
+  @override
+  String get fundDetailOperatorBusinessStartLabel => '事業開始申報';
 
   @override
   String get fundDetailDocumentsTitle => '📄 相关书面';

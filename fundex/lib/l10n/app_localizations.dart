@@ -1865,6 +1865,18 @@ abstract class AppLocalizations {
   /// **'Built'**
   String get fundDetailBuiltYearLabel;
 
+  /// No description provided for @fundDetailCoolingOffLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooling-off'**
+  String get fundDetailCoolingOffLabel;
+
+  /// No description provided for @fundDetailCoolingOffDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'8 days from the day after document delivery'**
+  String get fundDetailCoolingOffDefault;
+
   /// No description provided for @fundDetailMapClose.
   ///
   /// In en, this message translates to:
@@ -1996,6 +2008,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Address'**
   String get fundDetailCompanyAddressLabel;
+
+  /// No description provided for @fundDetailOperatorCapitalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Capital'**
+  String get fundDetailOperatorCapitalLabel;
+
+  /// No description provided for @fundDetailOperatorEstablishedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Established'**
+  String get fundDetailOperatorEstablishedLabel;
+
+  /// No description provided for @fundDetailOperatorBusinessStartLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Business start filing'**
+  String get fundDetailOperatorBusinessStartLabel;
 
   /// No description provided for @fundDetailDocumentsTitle.
   ///
