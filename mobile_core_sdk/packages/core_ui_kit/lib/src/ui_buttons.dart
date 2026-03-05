@@ -15,6 +15,11 @@ class PrimaryCtaButton extends StatefulWidget {
     this.borderRadius,
     this.horizontalPadding = UiTokens.spacing16,
     this.loadingIndicatorSize = 18,
+    this.backgroundColor,
+    this.shadowColor,
+    this.textStyle,
+    this.disabledOpacity = 0.42,
+    this.threeSideShadow = false,
   }) : assert(label != null || child != null, 'label or child is required');
 
   final String? label;
@@ -26,6 +31,11 @@ class PrimaryCtaButton extends StatefulWidget {
   final BorderRadius? borderRadius;
   final double horizontalPadding;
   final double loadingIndicatorSize;
+  final Color? backgroundColor;
+  final Color? shadowColor;
+  final TextStyle? textStyle;
+  final double disabledOpacity;
+  final bool threeSideShadow;
 
   @override
   State<PrimaryCtaButton> createState() => _PrimaryCtaButtonState();
@@ -37,7 +47,11 @@ class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hotelTheme = theme.extension<AppFTKTheme>()!;
+    final appTheme = theme.extension<AppFTKTheme>()!;
+    final baseColor = widget.backgroundColor ?? appTheme.primaryButtonColor;
+    final baseShadowColor =
+        widget.shadowColor ?? appTheme.primaryButtonShadowColor;
+    final buttonTextStyle = widget.textStyle ?? appTheme.primaryButtonTextStyle;
     final radius =
         widget.borderRadius ?? BorderRadius.circular(UiTokens.radius20);
     final isEnabled = widget.onPressed != null && !widget.isLoading;
@@ -51,8 +65,7 @@ class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             ),
           )
-        : (widget.child ??
-              Text(widget.label!, style: hotelTheme.primaryButtonTextStyle));
+        : (widget.child ?? Text(widget.label!, style: buttonTextStyle));
 
     final content = SizedBox(
       height: widget.height,
@@ -62,18 +75,33 @@ class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
         isPressed: _isPressed,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: hotelTheme.primaryButtonColor.withValues(
-              alpha: (widget.onPressed != null) ? 1 : 0.42,
+            color: baseColor.withValues(
+              alpha: (widget.onPressed != null) ? 1 : widget.disabledOpacity,
             ),
             borderRadius: radius,
             boxShadow: (widget.onPressed != null)
-                ? <BoxShadow>[
-                    BoxShadow(
-                      color: hotelTheme.primaryButtonShadowColor,
-                      blurRadius: 21,
-                      offset: const Offset(1, 21),
-                    ),
-                  ]
+                ? (widget.threeSideShadow
+                      ? <BoxShadow>[
+                          BoxShadow(
+                            color: baseShadowColor.withValues(alpha: 0.22),
+                            blurRadius: 16,
+                            spreadRadius: -2,
+                            offset: const Offset(-8, 8),
+                          ),
+                          BoxShadow(
+                            color: baseShadowColor.withValues(alpha: 0.12),
+                            blurRadius: 6,
+                            spreadRadius: -1,
+                            offset: const Offset(8, 8),
+                          ),
+                        ]
+                      : <BoxShadow>[
+                          BoxShadow(
+                            color: baseShadowColor,
+                            blurRadius: 21,
+                            offset: const Offset(1, 21),
+                          ),
+                        ])
                 : const <BoxShadow>[],
           ),
           child: Material(

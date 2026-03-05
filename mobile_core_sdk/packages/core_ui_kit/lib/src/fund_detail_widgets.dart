@@ -1,6 +1,9 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 
 import 'app_color_tokens.dart';
+import 'ui_buttons.dart';
 import 'ui_tokens.dart';
 
 class FundDetailBadgeData {
@@ -799,52 +802,73 @@ class FundDetailStickyActionBar extends StatelessWidget {
     required this.label,
     this.onTap,
     this.enabled = true,
+    this.buttonColor,
+    this.buttonShadowColor,
   });
 
   final String label;
   final VoidCallback? onTap;
   final bool enabled;
+  final Color? buttonColor;
+  final Color? buttonShadowColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withValues(alpha: 0.5),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.white,
             blurRadius: 10,
-            offset: const Offset(0, -3),
+            offset: const Offset(0, -12),
           ),
         ],
       ),
-      child: SafeArea(
-        top: false,
-        child: SizedBox(
-          width: double.infinity,
-          child: FilledButton(
-            onPressed: enabled ? onTap : null,
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColorTokens.fundexAccent,
-              disabledBackgroundColor: AppColorTokens.fundexTextSecondary
-                  .withValues(alpha: 0.35),
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+      child: Stack(
+        children: <Widget>[
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 14,
+            child: IgnorePointer(
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          Colors.white.withValues(alpha: 0.42),
+                          Colors.white.withValues(alpha: 0),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-            child: Text(
-              label,
-              style:
-                  (Theme.of(context).textTheme.labelLarge ?? const TextStyle())
-                      .copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                      ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: SafeArea(
+              top: false,
+              child: PrimaryCtaButton(
+                label: label,
+                onPressed: enabled ? onTap : null,
+                height: 52,
+                borderRadius: BorderRadius.circular(14),
+                horizontalPadding: 0,
+                backgroundColor: buttonColor,
+                shadowColor: buttonShadowColor,
+                threeSideShadow: true,
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
