@@ -31,15 +31,12 @@ class MemberTemplateApp extends ConsumerWidget {
       }
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final messenger = _rootScaffoldMessengerKey.currentState;
         final messengerContext = _rootScaffoldMessengerKey.currentContext;
-        if (messenger != null && messengerContext != null) {
+        if (messengerContext != null) {
           final message = next.key.resolve(
             AppLocalizations.of(messengerContext),
           );
-          messenger
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text(message)));
+          AppNotice.show(messengerContext, message: message);
         }
         ref.read(appUiMessageProvider.notifier).clearIfMatches(next.id);
       });

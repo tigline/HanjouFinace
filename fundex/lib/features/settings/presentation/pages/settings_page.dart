@@ -78,15 +78,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       return;
     }
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(l10n.menuDeleteAccountComingSoon)));
+    AppNotice.show(context, message: l10n.menuDeleteAccountComingSoon);
   }
 
   void _showComingSoon(String label) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.menuFeatureComingSoon(label))),
-    );
+    AppNotice.show(context, message: context.l10n.menuFeatureComingSoon(label));
   }
 
   String _languageLabel(AppLanguage language) {

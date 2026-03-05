@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'app_color_tokens.dart';
+import 'app_notice.dart';
 import 'ui_tokens.dart';
 
 class FundPropertyCoordinate {
@@ -383,9 +384,7 @@ class _FundPropertyMapBottomSheetState
   }
 
   void _showSnackBar(String message) {
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    messenger?.hideCurrentSnackBar();
-    messenger?.showSnackBar(SnackBar(content: Text(message)));
+    AppNotice.show(context, message: message);
   }
 }
 

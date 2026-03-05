@@ -721,7 +721,7 @@ int _compareDateTimeDesc(DateTime? left, DateTime? right) {
 }
 
 void _showSnackBar(BuildContext context, {required String message}) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  AppNotice.show(context, message: message);
 }
 
 class _PendingStatusBadge extends StatelessWidget {

@@ -111,9 +111,7 @@ class _FundLotteryApplyFlowPageState
     if (!mounted) {
       return;
     }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    AppNotice.show(context, message: message);
   }
 
   bool get _isAmountValid => _amount > 0 && _amount % _unitAmount == 0;

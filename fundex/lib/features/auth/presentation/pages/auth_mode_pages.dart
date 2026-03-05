@@ -458,9 +458,7 @@ class _AuthMethodRegisterPageState
     if (!mounted) {
       return false;
     }
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(_invalidAccountMessage(context))));
+    AppNotice.show(context, message: _invalidAccountMessage(context));
     return false;
   }
 
@@ -524,17 +522,14 @@ class _AuthMethodRegisterPageState
         return;
       }
       _sendCodeCooldown.start();
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.registerSendCodeSuccess)));
+      AppNotice.show(context, message: l10n.registerSendCodeSuccess);
     } catch (error) {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(_resolveErrorMessage(error, l10n.registerSubmitFailed)),
-        ),
+      AppNotice.show(
+        context,
+        message: _resolveErrorMessage(error, l10n.registerSubmitFailed),
       );
     } finally {
       if (mounted) {

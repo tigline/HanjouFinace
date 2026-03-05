@@ -374,11 +374,7 @@ List<FundDetailDocumentItemData> _buildDocumentItems(
               : context.l10n.fundDetailDocumentReady,
           onTap: document.urls.isEmpty
               ? null
-              : () {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(document.urls.first)));
-                },
+              : () => AppNotice.show(context, message: document.urls.first),
         ),
       )
       .toList(growable: false);

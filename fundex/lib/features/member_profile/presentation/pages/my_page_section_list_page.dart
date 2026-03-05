@@ -481,9 +481,7 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
   }
 
   void _showSnackBar(BuildContext context, {required String message}) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    AppNotice.show(context, message: message);
   }
 }
 

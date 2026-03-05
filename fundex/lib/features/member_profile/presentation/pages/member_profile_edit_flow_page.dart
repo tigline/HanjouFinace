@@ -329,9 +329,7 @@ class _MemberProfileEditFlowPageState
   }
 
   Future<void> _showComingSoon(String message) async {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    AppNotice.show(context, message: message);
   }
 
   Future<void> _goNextStep() async {
@@ -377,9 +375,7 @@ class _MemberProfileEditFlowPageState
     }
     ref.invalidate(memberProfileDetailsProvider);
     ref.invalidate(isMemberProfileCompletedProvider);
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(l10n.memberProfileCompletedToast)));
+    AppNotice.show(context, message: l10n.memberProfileCompletedToast);
     context.pop();
   }
 

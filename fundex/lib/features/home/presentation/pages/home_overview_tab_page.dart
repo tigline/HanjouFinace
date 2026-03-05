@@ -57,11 +57,8 @@ class HomeOverviewTabPage extends ConsumerWidget {
         message: l10n.homeReminderCoolingOffBody,
         tone: FundReminderTone.warning,
         badgeLabel: l10n.homeReminderCoolingOffBadge,
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.homeReminderCoolingOffAction)),
-          );
-        },
+        onTap: () =>
+            AppNotice.show(context, message: l10n.homeReminderCoolingOffAction),
       ),
     ];
 

@@ -353,9 +353,7 @@ class _MemberProfileIntakePageState
       return;
     }
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(context.l10n.profileSavedSnackbar)));
+    AppNotice.show(context, message: context.l10n.profileSavedSnackbar);
   }
 
   Future<void> _skipForNow() async {

@@ -1,3 +1,4 @@
+import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,13 +18,10 @@ class HotelBookingTabPage extends ConsumerWidget {
     if (!allowed || !context.mounted) {
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          context.l10n.profileGuardPassMessage(
-            context.l10n.profileProtectedBookingAction,
-          ),
-        ),
+    AppNotice.show(
+      context,
+      message: context.l10n.profileGuardPassMessage(
+        context.l10n.profileProtectedBookingAction,
       ),
     );
   }

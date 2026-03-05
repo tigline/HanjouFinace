@@ -320,17 +320,11 @@ class FundProjectDetailPage extends ConsumerWidget {
                             ],
                             const SizedBox(height: 6),
                             TextButton.icon(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      context
-                                          .l10n
-                                          .fundDetailFinancialStatusToast,
-                                    ),
-                                  ),
-                                );
-                              },
+                              onPressed: () => AppNotice.show(
+                                context,
+                                message:
+                                    context.l10n.fundDetailFinancialStatusToast,
+                              ),
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 visualDensity: const VisualDensity(

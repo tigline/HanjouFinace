@@ -74,9 +74,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     if (!mounted) {
       return false;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.l10n.registerEmailAccountInvalid)),
-    );
+    AppNotice.show(context, message: context.l10n.registerEmailAccountInvalid);
     return false;
   }
 
@@ -140,17 +138,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         return;
       }
       _sendCodeCooldown.start();
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.registerSendCodeSuccess)));
+      AppNotice.show(context, message: l10n.registerSendCodeSuccess);
     } catch (error) {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(_resolveErrorMessage(error, l10n.registerSubmitFailed)),
-        ),
+      AppNotice.show(
+        context,
+        message: _resolveErrorMessage(error, l10n.registerSubmitFailed),
       );
     } finally {
       if (mounted) {

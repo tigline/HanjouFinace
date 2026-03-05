@@ -88,21 +88,19 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         return;
       }
       _sendCodeCooldown.start();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.forgotPasswordSendCodeSuccess)),
+      AppNotice.show(
+        context,
+        message: context.l10n.forgotPasswordSendCodeSuccess,
       );
     } catch (error) {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            _resolveErrorMessage(
-              error,
-              context.l10n.forgotPasswordRecoverFailed,
-            ),
-          ),
+      AppNotice.show(
+        context,
+        message: _resolveErrorMessage(
+          error,
+          context.l10n.forgotPasswordRecoverFailed,
         ),
       );
     } finally {
