@@ -627,19 +627,10 @@ class _FundProjectCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: <Widget>[
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(UiTokens.radius16),
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: palette.heroGradientColors,
-                          ),
-                        ),
+                      FundHeroMediaBackground(
+                        gradientColors: palette.heroGradientColors,
+                        imageUrls: project.photos,
                       ),
-                      const _CardHeroArtwork(),
                       Positioned.fill(
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -858,69 +849,6 @@ class _FundProjectCard extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CardHeroArtwork extends StatelessWidget {
-  const _CardHeroArtwork();
-
-  @override
-  Widget build(BuildContext context) {
-    return const IgnorePointer(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(18, 24, 18, 12),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              _CityBlock(height: 82, width: 26),
-              _CityBlock(height: 108, width: 34),
-              _CityBlock(height: 72, width: 24),
-              _CityBlock(height: 94, width: 28),
-              _CityBlock(height: 66, width: 22),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CityBlock extends StatelessWidget {
-  const _CityBlock({required this.height, required this.width});
-
-  final double height;
-  final double width;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(3),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: List<Widget>.generate(
-          5,
-          (int index) => Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Container(
-              width: width * 0.26,
-              height: 3,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(1),
-              ),
             ),
           ),
         ),

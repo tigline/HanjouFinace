@@ -246,6 +246,7 @@ FundFeaturedFundCardData _buildFeaturedFundCardData(
       if (methodTag != null) methodTag,
     ],
     artworkGradientColors: _featuredArtworkGradientColors(status),
+    imageUrls: project.photos,
     onTap: () => context.push('/funds/${project.id}'),
   );
 }

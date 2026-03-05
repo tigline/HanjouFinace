@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_color_tokens.dart';
 import 'app_theme_extensions.dart';
+import 'fund_detail_widgets.dart';
 import 'ui_tokens.dart';
 
 class FundHomeHeroSummary extends StatelessWidget {
@@ -787,6 +788,7 @@ class FundFeaturedFundCardData {
       Color(0xFF1E3A5F),
       Color(0xFF2563EB),
     ],
+    this.imageUrls = const <String>[],
     this.onTap,
   });
 
@@ -797,6 +799,7 @@ class FundFeaturedFundCardData {
   final String? progressLabel;
   final List<FundFeaturedFundTagData> tags;
   final List<Color> artworkGradientColors;
+  final List<String> imageUrls;
   final VoidCallback? onTap;
 }
 
@@ -921,16 +924,10 @@ class FundFeaturedFundCard extends StatelessWidget {
                     child: Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
-                        DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: data.artworkGradientColors,
-                            ),
-                          ),
+                        FundHeroMediaBackground(
+                          gradientColors: data.artworkGradientColors,
+                          imageUrls: data.imageUrls,
                         ),
-                        const _FundCityArtworkLayer(),
                         if (data.tags.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -1065,56 +1062,6 @@ class FundFeaturedFundCard extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _FundCityArtworkLayer extends StatelessWidget {
-  const _FundCityArtworkLayer();
-
-  @override
-  Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: SizedBox(
-            height: 80,
-            width: double.infinity,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const <Widget>[
-                _CityBlock(height: 60, width: 18),
-                _CityBlock(height: 72, width: 22),
-                _CityBlock(height: 54, width: 16),
-                _CityBlock(height: 66, width: 20),
-                _CityBlock(height: 48, width: 14),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CityBlock extends StatelessWidget {
-  const _CityBlock({required this.height, required this.width});
-
-  final double height;
-  final double width;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(2),
       ),
     );
   }

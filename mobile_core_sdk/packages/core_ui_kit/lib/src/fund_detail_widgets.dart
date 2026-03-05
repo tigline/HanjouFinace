@@ -51,6 +51,86 @@ class FundDetailDocumentItemData {
   final VoidCallback? onTap;
 }
 
+class FundHeroMediaBackground extends StatefulWidget {
+  const FundHeroMediaBackground({
+    super.key,
+    required this.gradientColors,
+    this.imageUrls = const <String>[],
+    this.pageController,
+    this.onPageChanged,
+  });
+
+  final List<Color> gradientColors;
+  final List<String> imageUrls;
+  final PageController? pageController;
+  final ValueChanged<int>? onPageChanged;
+
+  @override
+  State<FundHeroMediaBackground> createState() =>
+      _FundHeroMediaBackgroundState();
+}
+
+class _FundHeroMediaBackgroundState extends State<FundHeroMediaBackground> {
+  PageController? _internalController;
+
+  List<String> get _normalizedImageUrls => widget.imageUrls
+      .map((String url) => url.trim())
+      .where((String url) => url.isNotEmpty)
+      .toList(growable: false);
+
+  PageController get _effectiveController {
+    return widget.pageController ?? (_internalController ??= PageController());
+  }
+
+  @override
+  void dispose() {
+    _internalController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final images = _normalizedImageUrls;
+    if (images.isEmpty) {
+      return _FundDetailHeroFallbackBackground(
+        gradientColors: widget.gradientColors,
+      );
+    }
+
+    return PageView.builder(
+      controller: _effectiveController,
+      itemCount: images.length,
+      onPageChanged: widget.onPageChanged,
+      itemBuilder: (BuildContext context, int index) {
+        return Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            _FundDetailHeroFallbackBackground(
+              gradientColors: widget.gradientColors,
+            ),
+            Image.network(
+              images[index],
+              fit: BoxFit.cover,
+              loadingBuilder:
+                  (
+                    BuildContext context,
+                    Widget child,
+                    ImageChunkEvent? loadingProgress,
+                  ) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return const SizedBox.shrink();
+                  },
+              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 class FundDetailHeroHeader extends StatefulWidget {
   const FundDetailHeroHeader({
     super.key,
@@ -114,53 +194,6 @@ class _FundDetailHeroHeaderState extends State<FundDetailHeroHeader> {
     super.dispose();
   }
 
-  Widget _buildBackground(List<String> images) {
-    if (images.isEmpty) {
-      return _FundDetailHeroFallbackBackground(
-        gradientColors: widget.gradientColors,
-      );
-    }
-
-    return PageView.builder(
-      controller: _pageController,
-      itemCount: images.length,
-      onPageChanged: (int index) {
-        if (_currentIndex == index) {
-          return;
-        }
-        setState(() {
-          _currentIndex = index;
-        });
-      },
-      itemBuilder: (BuildContext context, int index) {
-        return Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            _FundDetailHeroFallbackBackground(
-              gradientColors: widget.gradientColors,
-            ),
-            Image.network(
-              images[index],
-              fit: BoxFit.cover,
-              loadingBuilder:
-                  (
-                    BuildContext context,
-                    Widget child,
-                    ImageChunkEvent? loadingProgress,
-                  ) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }
-                    return const SizedBox.shrink();
-                  },
-              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Widget _buildPageIndicator(BuildContext context, int imageCount) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -200,7 +233,19 @@ class _FundDetailHeroHeaderState extends State<FundDetailHeroHeader> {
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          _buildBackground(images),
+          FundHeroMediaBackground(
+            gradientColors: widget.gradientColors,
+            imageUrls: images,
+            pageController: _pageController,
+            onPageChanged: (int index) {
+              if (_currentIndex == index) {
+                return;
+              }
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+          ),
           DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
