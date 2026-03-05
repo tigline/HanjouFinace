@@ -10,6 +10,7 @@ class MemberProfileEkycStepPage extends StatelessWidget {
     required this.documentTypeItems,
     required this.documentUploaded,
     required this.selfieUploaded,
+    this.primaryButtonEnabled = true,
     this.onDocumentTypeChanged,
     this.onUploadDocument,
     this.onUploadSelfie,
@@ -20,6 +21,7 @@ class MemberProfileEkycStepPage extends StatelessWidget {
   final List<DropdownMenuItem<String>> documentTypeItems;
   final bool documentUploaded;
   final bool selfieUploaded;
+  final bool primaryButtonEnabled;
   final ValueChanged<String?>? onDocumentTypeChanged;
   final VoidCallback? onUploadDocument;
   final VoidCallback? onUploadSelfie;
@@ -33,6 +35,7 @@ class MemberProfileEkycStepPage extends StatelessWidget {
       description: l10n.memberProfileStep4Description,
       primaryButtonLabel: l10n.commonNext,
       onPrimaryPressed: onNext,
+      primaryButtonEnabled: primaryButtonEnabled,
       child: Column(
         children: <Widget>[
           MemberProfileSelectField<String>(

@@ -11,6 +11,7 @@ class MemberProfileBasicInfoStepPage extends StatelessWidget {
     required this.birthdayController,
     required this.phoneController,
     required this.showAgeWarning,
+    this.primaryButtonEnabled = true,
     this.onBirthdayTap,
     this.onNext,
     this.onSkip,
@@ -21,6 +22,7 @@ class MemberProfileBasicInfoStepPage extends StatelessWidget {
   final TextEditingController birthdayController;
   final TextEditingController phoneController;
   final bool showAgeWarning;
+  final bool primaryButtonEnabled;
   final VoidCallback? onBirthdayTap;
   final VoidCallback? onNext;
   final VoidCallback? onSkip;
@@ -33,7 +35,7 @@ class MemberProfileBasicInfoStepPage extends StatelessWidget {
       description: l10n.memberProfileStep1Description,
       primaryButtonLabel: l10n.commonNext,
       onPrimaryPressed: onNext,
-      showSkip: true,
+      primaryButtonEnabled: primaryButtonEnabled,
       skipLabel: l10n.commonSkipChevron,
       onSkip: onSkip,
       child: Column(

@@ -12,6 +12,7 @@ class MemberProfileBankAccountStepPage extends StatelessWidget {
     required this.accountTypeItems,
     required this.accountNumberController,
     required this.accountHolderController,
+    this.primaryButtonEnabled = true,
     this.onAccountTypeChanged,
     this.onNext,
   });
@@ -22,6 +23,7 @@ class MemberProfileBankAccountStepPage extends StatelessWidget {
   final List<DropdownMenuItem<String>> accountTypeItems;
   final TextEditingController accountNumberController;
   final TextEditingController accountHolderController;
+  final bool primaryButtonEnabled;
   final ValueChanged<String?>? onAccountTypeChanged;
   final VoidCallback? onNext;
 
@@ -33,6 +35,7 @@ class MemberProfileBankAccountStepPage extends StatelessWidget {
       description: l10n.memberProfileStep5Description,
       primaryButtonLabel: l10n.memberProfileNextConsent,
       onPrimaryPressed: onNext,
+      primaryButtonEnabled: primaryButtonEnabled,
       child: Column(
         children: <Widget>[
           MemberProfileTextField(

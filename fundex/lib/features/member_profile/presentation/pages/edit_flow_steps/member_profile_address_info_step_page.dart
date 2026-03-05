@@ -10,6 +10,7 @@ class MemberProfileAddressInfoStepPage extends StatelessWidget {
     required this.prefecture,
     required this.cityAddressController,
     required this.prefectureItems,
+    this.primaryButtonEnabled = true,
     this.onPrefectureChanged,
     this.onAddressSearch,
     this.onNext,
@@ -20,6 +21,7 @@ class MemberProfileAddressInfoStepPage extends StatelessWidget {
   final String? prefecture;
   final TextEditingController cityAddressController;
   final List<DropdownMenuItem<String>> prefectureItems;
+  final bool primaryButtonEnabled;
   final ValueChanged<String?>? onPrefectureChanged;
   final VoidCallback? onAddressSearch;
   final VoidCallback? onNext;
@@ -33,7 +35,7 @@ class MemberProfileAddressInfoStepPage extends StatelessWidget {
       description: l10n.memberProfileStep2Description,
       primaryButtonLabel: l10n.commonNext,
       onPrimaryPressed: onNext,
-      showSkip: true,
+      primaryButtonEnabled: primaryButtonEnabled,
       skipLabel: l10n.commonSkipChevron,
       onSkip: onSkip,
       child: Column(

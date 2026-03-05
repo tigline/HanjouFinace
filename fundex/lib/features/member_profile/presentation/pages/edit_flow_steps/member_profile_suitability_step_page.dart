@@ -23,6 +23,7 @@ class MemberProfileSuitabilityStepPage extends StatelessWidget {
     required this.selectedExperiences,
     required this.showFundSourceWarning,
     required this.fundSourceWarningBody,
+    this.primaryButtonEnabled = true,
     this.onOccupationChanged,
     this.onAnnualIncomeChanged,
     this.onFinancialAssetsChanged,
@@ -49,6 +50,7 @@ class MemberProfileSuitabilityStepPage extends StatelessWidget {
   final Set<String> selectedExperiences;
   final bool showFundSourceWarning;
   final String fundSourceWarningBody;
+  final bool primaryButtonEnabled;
   final ValueChanged<String?>? onOccupationChanged;
   final ValueChanged<String?>? onAnnualIncomeChanged;
   final ValueChanged<String?>? onFinancialAssetsChanged;
@@ -66,6 +68,7 @@ class MemberProfileSuitabilityStepPage extends StatelessWidget {
       description: l10n.memberProfileStep3Description,
       primaryButtonLabel: l10n.commonNext,
       onPrimaryPressed: onNext,
+      primaryButtonEnabled: primaryButtonEnabled,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

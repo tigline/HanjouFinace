@@ -76,11 +76,13 @@ class _MemberProfileEditFlowPageState
     _branchNameController = TextEditingController();
     _accountNumberController = TextEditingController();
     _accountHolderController = TextEditingController();
+    _registerTextFieldListeners();
     _loadInitialData();
   }
 
   @override
   void dispose() {
+    _unregisterTextFieldListeners();
     _nameKanjiController.dispose();
     _nameKanaController.dispose();
     _birthdayController.dispose();
@@ -92,6 +94,39 @@ class _MemberProfileEditFlowPageState
     _accountNumberController.dispose();
     _accountHolderController.dispose();
     super.dispose();
+  }
+
+  void _registerTextFieldListeners() {
+    for (final TextEditingController controller in _trackedTextControllers) {
+      controller.addListener(_onTrackedFieldChanged);
+    }
+  }
+
+  void _unregisterTextFieldListeners() {
+    for (final TextEditingController controller in _trackedTextControllers) {
+      controller.removeListener(_onTrackedFieldChanged);
+    }
+  }
+
+  List<TextEditingController> get _trackedTextControllers =>
+      <TextEditingController>[
+        _nameKanjiController,
+        _nameKanaController,
+        _birthdayController,
+        _phoneController,
+        _postalCodeController,
+        _cityAddressController,
+        _bankNameController,
+        _branchNameController,
+        _accountNumberController,
+        _accountHolderController,
+      ];
+
+  void _onTrackedFieldChanged() {
+    if (!mounted || _isLoading) {
+      return;
+    }
+    setState(() {});
   }
 
   Future<void> _loadInitialData() async {
@@ -300,6 +335,9 @@ class _MemberProfileEditFlowPageState
   }
 
   Future<void> _goNextStep() async {
+    if (!_canProceedFromCurrentStep) {
+      return;
+    }
     await _persistDraft();
     if (!mounted) {
       return;
@@ -357,6 +395,58 @@ class _MemberProfileEditFlowPageState
     }
     return age < 18;
   }
+
+  bool get _canProceedFromCurrentStep {
+    switch (_currentStep) {
+      case MemberProfileEditStep.basicInfo:
+        return _isBasicInfoStepReady;
+      case MemberProfileEditStep.addressInfo:
+        return _isAddressInfoStepReady;
+      case MemberProfileEditStep.suitability:
+        return _isSuitabilityStepReady;
+      case MemberProfileEditStep.ekyc:
+        return _isEkycStepReady;
+      case MemberProfileEditStep.bankAccount:
+        return _isBankAccountStepReady;
+      case MemberProfileEditStep.consent:
+        return _isConsentStepReady;
+    }
+  }
+
+  bool get _isBasicInfoStepReady =>
+      _isFilled(_nameKanjiController.text) &&
+      _isFilled(_nameKanaController.text) &&
+      _isFilled(_birthdayController.text) &&
+      _isFilled(_phoneController.text);
+
+  bool get _isAddressInfoStepReady =>
+      _isFilled(_postalCodeController.text) &&
+      _isFilled(_prefecture) &&
+      _isFilled(_cityAddressController.text);
+
+  bool get _isSuitabilityStepReady =>
+      _isFilled(_occupation) &&
+      _isFilled(_annualIncome) &&
+      _isFilled(_financialAssets) &&
+      _selectedExperiences.isNotEmpty &&
+      _isFilled(_investmentPurpose) &&
+      _isFilled(_fundSource) &&
+      _isFilled(_riskTolerance);
+
+  bool get _isEkycStepReady =>
+      _isFilled(_documentType) &&
+      _isFilled(_documentPhotoPath) &&
+      _isFilled(_selfiePhotoPath);
+
+  bool get _isBankAccountStepReady =>
+      _isFilled(_bankNameController.text) &&
+      _isFilled(_branchNameController.text) &&
+      _isFilled(_accountType) &&
+      _isFilled(_accountNumberController.text) &&
+      _isFilled(_accountHolderController.text);
+
+  bool get _isConsentStepReady =>
+      _electronicConsent && _antiSocialConsent && _privacyConsent;
 
   Future<void> _persistDraft({bool markCompleted = false}) async {
     final MemberProfileDetails profile = _buildDraft(
@@ -694,22 +784,26 @@ class _MemberProfileEditFlowPageState
     final l10n = context.l10n;
     switch (_currentStep) {
       case MemberProfileEditStep.basicInfo:
+        final bool isActionEnabled = _canProceedFromCurrentStep;
         return MemberProfileBasicInfoStepPage(
           nameKanjiController: _nameKanjiController,
           nameKanaController: _nameKanaController,
           birthdayController: _birthdayController,
           phoneController: _phoneController,
           showAgeWarning: _showAgeWarning,
+          primaryButtonEnabled: isActionEnabled,
           onBirthdayTap: _pickBirthday,
           onNext: _goNextStep,
-          onSkip: _goNextStep,
+          onSkip: isActionEnabled ? _goNextStep : null,
         );
       case MemberProfileEditStep.addressInfo:
+        final bool isActionEnabled = _canProceedFromCurrentStep;
         return MemberProfileAddressInfoStepPage(
           postalCodeController: _postalCodeController,
           prefecture: _prefecture,
           cityAddressController: _cityAddressController,
           prefectureItems: _prefectureItems(context),
+          primaryButtonEnabled: isActionEnabled,
           onPrefectureChanged: (String? value) {
             setState(() {
               _prefecture = value;
@@ -718,7 +812,7 @@ class _MemberProfileEditFlowPageState
           onAddressSearch: () =>
               _showComingSoon(l10n.memberProfileAddressSearchPending),
           onNext: _goNextStep,
-          onSkip: _goNextStep,
+          onSkip: isActionEnabled ? _goNextStep : null,
         );
       case MemberProfileEditStep.suitability:
         return MemberProfileSuitabilityStepPage(
@@ -738,6 +832,7 @@ class _MemberProfileEditFlowPageState
           selectedExperiences: _selectedExperiences,
           showFundSourceWarning: _showFundSourceWarning,
           fundSourceWarningBody: _fundSourceWarningBody,
+          primaryButtonEnabled: _canProceedFromCurrentStep,
           onOccupationChanged: (String? value) {
             setState(() {
               _occupation = value;
@@ -785,6 +880,7 @@ class _MemberProfileEditFlowPageState
           documentTypeItems: _simpleItems(_documentTypeOptions(context)),
           documentUploaded: (_documentPhotoPath?.trim().isNotEmpty ?? false),
           selfieUploaded: (_selfiePhotoPath?.trim().isNotEmpty ?? false),
+          primaryButtonEnabled: _canProceedFromCurrentStep,
           onDocumentTypeChanged: (String? value) {
             setState(() {
               _documentType = value;
@@ -802,6 +898,7 @@ class _MemberProfileEditFlowPageState
           accountTypeItems: _simpleItems(_accountTypeOptions(context)),
           accountNumberController: _accountNumberController,
           accountHolderController: _accountHolderController,
+          primaryButtonEnabled: _canProceedFromCurrentStep,
           onAccountTypeChanged: (String? value) {
             setState(() {
               _accountType = value;
@@ -834,6 +931,8 @@ class _MemberProfileEditFlowPageState
     }
   }
 }
+
+bool _isFilled(String? value) => (value?.trim().isNotEmpty ?? false);
 
 String _joinNonEmpty(List<String?> values) {
   return values
