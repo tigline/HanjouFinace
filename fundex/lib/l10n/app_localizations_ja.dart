@@ -912,6 +912,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fundDetailBuiltYearLabel => '竣工';
 
   @override
+  String get fundDetailMapClose => '閉じる';
+
+  @override
+  String get fundDetailMapDestination => '目的地';
+
+  @override
+  String get fundDetailMapCurrentLocation => '現在地';
+
+  @override
+  String get fundDetailMapDirections => '行き方';
+
+  @override
+  String get fundDetailMapOpenMapApp => 'マップアプリを開く';
+
+  @override
+  String get fundDetailMapCancel => 'キャンセル';
+
+  @override
+  String get fundDetailMapPermissionDenied => '位置情報の利用が許可されていません。';
+
+  @override
+  String get fundDetailMapUnavailable => '地図情報を取得できませんでした。';
+
+  @override
   String get fundDetailContractOverviewTitle => '📋 契約概要（法定記載事項）';
 
   @override

@@ -969,6 +969,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fundDetailBuiltYearLabel => 'Built';
 
   @override
+  String get fundDetailMapClose => 'Close';
+
+  @override
+  String get fundDetailMapDestination => 'Destination';
+
+  @override
+  String get fundDetailMapCurrentLocation => 'Current';
+
+  @override
+  String get fundDetailMapDirections => 'Route';
+
+  @override
+  String get fundDetailMapOpenMapApp => 'Open maps app';
+
+  @override
+  String get fundDetailMapCancel => 'Cancel';
+
+  @override
+  String get fundDetailMapPermissionDenied =>
+      'Location permission is not granted.';
+
+  @override
+  String get fundDetailMapUnavailable => 'Unable to load map data.';
+
+  @override
   String get fundDetailContractOverviewTitle => '📋 Contract Summary';
 
   @override

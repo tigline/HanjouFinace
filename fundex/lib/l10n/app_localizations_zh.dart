@@ -907,6 +907,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fundDetailBuiltYearLabel => '竣工';
 
   @override
+  String get fundDetailMapClose => '关闭';
+
+  @override
+  String get fundDetailMapDestination => '目的地';
+
+  @override
+  String get fundDetailMapCurrentLocation => '现在地';
+
+  @override
+  String get fundDetailMapDirections => '路线';
+
+  @override
+  String get fundDetailMapOpenMapApp => '打开地图应用';
+
+  @override
+  String get fundDetailMapCancel => '取消';
+
+  @override
+  String get fundDetailMapPermissionDenied => '未授予定位权限。';
+
+  @override
+  String get fundDetailMapUnavailable => '无法获取地图信息。';
+
+  @override
   String get fundDetailContractOverviewTitle => '📋 合同概要（法定记载事项）';
 
   @override
@@ -2391,6 +2415,30 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get fundDetailBuiltYearLabel => '竣工';
+
+  @override
+  String get fundDetailMapClose => '關閉';
+
+  @override
+  String get fundDetailMapDestination => '目的地';
+
+  @override
+  String get fundDetailMapCurrentLocation => '現在地';
+
+  @override
+  String get fundDetailMapDirections => '路線';
+
+  @override
+  String get fundDetailMapOpenMapApp => '開啟地圖 App';
+
+  @override
+  String get fundDetailMapCancel => '取消';
+
+  @override
+  String get fundDetailMapPermissionDenied => '未授予定位權限。';
+
+  @override
+  String get fundDetailMapUnavailable => '無法取得地圖資訊。';
 
   @override
   String get fundDetailContractOverviewTitle => '📋 合同概要（法定记载事项）';

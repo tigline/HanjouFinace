@@ -1865,6 +1865,54 @@ abstract class AppLocalizations {
   /// **'Built'**
   String get fundDetailBuiltYearLabel;
 
+  /// No description provided for @fundDetailMapClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get fundDetailMapClose;
+
+  /// No description provided for @fundDetailMapDestination.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination'**
+  String get fundDetailMapDestination;
+
+  /// No description provided for @fundDetailMapCurrentLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get fundDetailMapCurrentLocation;
+
+  /// No description provided for @fundDetailMapDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Route'**
+  String get fundDetailMapDirections;
+
+  /// No description provided for @fundDetailMapOpenMapApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open maps app'**
+  String get fundDetailMapOpenMapApp;
+
+  /// No description provided for @fundDetailMapCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get fundDetailMapCancel;
+
+  /// No description provided for @fundDetailMapPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is not granted.'**
+  String get fundDetailMapPermissionDenied;
+
+  /// No description provided for @fundDetailMapUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load map data.'**
+  String get fundDetailMapUnavailable;
+
   /// No description provided for @fundDetailContractOverviewTitle.
   ///
   /// In en, this message translates to:
