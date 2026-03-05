@@ -98,6 +98,7 @@ abstract class AppLocalizations {
     Locale('en'),
     Locale('ja'),
     Locale('zh'),
+    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   ];
 
   /// No description provided for @loginTitle.
@@ -199,7 +200,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerTitle.
   ///
   /// In en, this message translates to:
-  /// **'Create your account'**
+  /// **'Create Account'**
   String get registerTitle;
 
   /// No description provided for @registerSubtitle.
@@ -211,13 +212,13 @@ abstract class AppLocalizations {
   /// No description provided for @registerQuickTitle.
   ///
   /// In en, this message translates to:
-  /// **'Create your account first'**
+  /// **'Create your account'**
   String get registerQuickTitle;
 
   /// No description provided for @registerQuickSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Register with your email and verification code. You can complete investment profile details later.'**
+  /// **'Register with just your email and password. You can complete required details later.'**
   String get registerQuickSubtitle;
 
   /// No description provided for @registerModeTitle.
@@ -841,7 +842,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerSubmit.
   ///
   /// In en, this message translates to:
-  /// **'Create account'**
+  /// **'Create Account'**
   String get registerSubmit;
 
   /// No description provided for @registerBackToLogin.
@@ -1033,13 +1034,13 @@ abstract class AppLocalizations {
   /// No description provided for @mainTabInvestment.
   ///
   /// In en, this message translates to:
-  /// **'Invest'**
+  /// **'Funds'**
   String get mainTabInvestment;
 
   /// No description provided for @mainTabProfile.
   ///
   /// In en, this message translates to:
-  /// **'Profile'**
+  /// **'Account'**
   String get mainTabProfile;
 
   /// No description provided for @mainTabKizunark.
@@ -1129,13 +1130,13 @@ abstract class AppLocalizations {
   /// No description provided for @homeReminderProfileTitle.
   ///
   /// In en, this message translates to:
-  /// **'Profile information is required'**
+  /// **'Complete your profile to get started'**
   String get homeReminderProfileTitle;
 
   /// No description provided for @homeReminderProfileBody.
   ///
   /// In en, this message translates to:
-  /// **'Identity verification is required for investing and withdrawals. Please complete your profile information.'**
+  /// **'Identity verification required. 3 steps remaining.'**
   String get homeReminderProfileBody;
 
   /// No description provided for @homeReminderProfileBadge.
@@ -1177,7 +1178,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeViewAllAction.
   ///
   /// In en, this message translates to:
-  /// **'View all'**
+  /// **'View All'**
   String get homeViewAllAction;
 
   /// No description provided for @homeEstimatedYieldLabel.
@@ -1219,7 +1220,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeNextDividendLabel.
   ///
   /// In en, this message translates to:
-  /// **'Next dividend'**
+  /// **'Next Distribution'**
   String get homeNextDividendLabel;
 
   /// No description provided for @homeShowMoreAction.
@@ -1393,7 +1394,7 @@ abstract class AppLocalizations {
   /// No description provided for @fundListViewDetail.
   ///
   /// In en, this message translates to:
-  /// **'View details →'**
+  /// **'Details→'**
   String get fundListViewDetail;
 
   /// No description provided for @fundListLoadError.
@@ -1753,8 +1754,14 @@ abstract class AppLocalizations {
   /// No description provided for @languageChinese.
   ///
   /// In en, this message translates to:
-  /// **'Chinese'**
+  /// **'Simplified Chinese'**
   String get languageChinese;
+
+  /// No description provided for @languageTraditionalChinese.
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional Chinese'**
+  String get languageTraditionalChinese;
 
   /// No description provided for @languageEnglish.
   ///
@@ -1777,7 +1784,7 @@ abstract class AppLocalizations {
   /// No description provided for @fundDetailYieldDisclaimer.
   ///
   /// In en, this message translates to:
-  /// **'* Estimate only. Not guaranteed.'**
+  /// **'※ Estimated, not guaranteed'**
   String get fundDetailYieldDisclaimer;
 
   /// No description provided for @fundDetailKeyFactsTitle.
@@ -1813,7 +1820,7 @@ abstract class AppLocalizations {
   /// No description provided for @fundDetailPreferredStructureTitle.
   ///
   /// In en, this message translates to:
-  /// **'🛡️ Preferred/Subordinated Structure'**
+  /// **'🛡️ Senior/Junior Structure'**
   String get fundDetailPreferredStructureTitle;
 
   /// No description provided for @fundDetailSeniorInvestmentLabel.
@@ -1861,7 +1868,7 @@ abstract class AppLocalizations {
   /// No description provided for @fundDetailContractOverviewTitle.
   ///
   /// In en, this message translates to:
-  /// **'📋 Contract overview'**
+  /// **'📋 Contract Summary'**
   String get fundDetailContractOverviewTitle;
 
   /// No description provided for @fundDetailContractTypeLabel.
@@ -2107,25 +2114,25 @@ abstract class AppLocalizations {
   /// No description provided for @myPagePendingApplicationsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Applications / Lottery waiting'**
+  /// **'📩 Pending Applications'**
   String get myPagePendingApplicationsTitle;
 
   /// No description provided for @myPageCoolingOffTitle.
   ///
   /// In en, this message translates to:
-  /// **'Cooling-off period (contract formed)'**
+  /// **'⏰ Cooling-off Period'**
   String get myPageCoolingOffTitle;
 
   /// No description provided for @myPageOperatingFundsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Operating funds'**
+  /// **'📊 Active Funds'**
   String get myPageOperatingFundsTitle;
 
   /// No description provided for @myPageTransactionHistoryAction.
   ///
   /// In en, this message translates to:
-  /// **'View transaction history'**
+  /// **'📋 Transaction History'**
   String get myPageTransactionHistoryAction;
 
   /// No description provided for @myPageApplyAmountLabel.
@@ -2215,7 +2222,7 @@ abstract class AppLocalizations {
   /// No description provided for @myPageCancelRequestAction.
   ///
   /// In en, this message translates to:
-  /// **'Request cancellation'**
+  /// **'Cancel'**
   String get myPageCancelRequestAction;
 
   /// No description provided for @myPageCancelRequestComingSoon.
@@ -2527,7 +2534,7 @@ abstract class AppLocalizations {
   /// No description provided for @memberProfileFundSourceWarningHighRisk.
   ///
   /// In en, this message translates to:
-  /// **'This product does not guarantee principal, and you may lose your full investment. Investing with living funds or borrowed money is not recommended.'**
+  /// **'This product does not guarantee principal, and you may lose your full investment. Investing with living funds or borrowed money is not recommended. Please invest within your surplus funds.'**
   String get memberProfileFundSourceWarningHighRisk;
 
   /// No description provided for @memberProfileRiskToleranceLabel.
@@ -2557,7 +2564,7 @@ abstract class AppLocalizations {
   /// No description provided for @memberProfilePhotoDocumentTitle.
   ///
   /// In en, this message translates to:
-  /// **'Photograph the document (front and back)'**
+  /// **'Photo ID (Front & Back)'**
   String get memberProfilePhotoDocumentTitle;
 
   /// No description provided for @memberProfilePhotoDocumentDescription.
@@ -2713,7 +2720,7 @@ abstract class AppLocalizations {
   /// No description provided for @memberProfileElectronicDeliveryFootnote.
   ///
   /// In en, this message translates to:
-  /// **'* Consent to electronic delivery can be withdrawn anytime from settings. After withdrawal, documents will be sent on paper. File format: PDF.'**
+  /// **'※ You may withdraw your consent to electronic delivery at any time from Settings. After withdrawal, documents will be mailed in paper form.'**
   String get memberProfileElectronicDeliveryFootnote;
 
   /// No description provided for @memberProfileElectronicDeliveryConsent.
@@ -3023,6 +3030,18 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+script codes are specified.
+  switch (locale.languageCode) {
+    case 'zh':
+      {
+        switch (locale.scriptCode) {
+          case 'Hant':
+            return AppLocalizationsZhHant();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':

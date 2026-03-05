@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FUNDEX App MVP Demo v4 — Wireframe & Component Analysis</title>
+<style>
+:root{--bg:#F8FAFC;--card:#fff;--pri:#0A1628;--acc:#2563EB;--tx:#1E293B;--tx2:#64748B;--tx3:#94A3B8;--bdr:#E2E8F0;--grn:#10B981;--red:#EF4444;--org:#F59E0B;--vio:#7C3AED;--r:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter','Noto Sans JP',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+
+/* Header */
+.hero{background:linear-gradient(160deg,#0A1628 0%,#1E3A5F 50%,#2563EB 100%);color:#fff;padding:60px 40px 50px;text-align:center}
+.hero h1{font-size:32px;font-weight:900;margin-bottom:8px;letter-spacing:-.5px}
+.hero p{font-size:14px;color:rgba(255,255,255,.6);max-width:600px;margin:0 auto}
+.hero .ver{display:inline-block;background:rgba(255,255,255,.15);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;margin-bottom:16px}
+
+/* Layout */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section{padding:40px 0}
+.section h2{font-size:22px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.section h2 .num{background:var(--acc);color:#fff;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.section .sub{font-size:13px;color:var(--tx2);margin-bottom:24px}
+
+/* Overview Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--card);border-radius:var(--r);padding:20px;border:1px solid var(--bdr);text-align:center}
+.stat-card .sv{font-size:36px;font-weight:900;color:var(--acc);font-family:'DM Sans',monospace}
+.stat-card .sl{font-size:11px;color:var(--tx3);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+/* Route Table */
+.route-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr)}
+.route-table th{background:#F1F5F9;padding:12px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--bdr)}
+.route-table td{padding:10px 16px;font-size:13px;border-bottom:1px solid var(--bdr);vertical-align:top}
+.route-table tr:last-child td{border-bottom:none}
+.route-table tr:hover{background:#F8FAFC}
+.route-id{font-family:'DM Sans',monospace;font-weight:700;color:var(--acc);font-size:12px;background:#EFF6FF;padding:2px 8px;border-radius:4px;display:inline-block}
+.badge{font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;display:inline-block}
+.badge-main{background:#DCFCE7;color:#166534}
+.badge-sub{background:#FEF3C7;color:#92400E}
+.badge-flow{background:#EDE9FE;color:#5B21B6}
+.badge-auth{background:#FEE2E2;color:#991B1B}
+.badge-nav{background:#E0F2FE;color:#0369A1}
+
+/* Wireframes */
+.wf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.wf-card{background:var(--card);border-radius:var(--r);border:1px solid var(--bdr);overflow:hidden;transition:.2s}
+.wf-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
+.wf-card .wf-hdr{padding:10px 14px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between}
+.wf-card .wf-hdr h4{font-size:12px;font-weight:700}
+.wf-card .wf-hdr .wf-id{font-family:monospace;font-size:10px;color:var(--acc);background:#EFF6FF;padding:2px 6px;border-radius:3px}
+.wf-phone{width:100%;aspect-ratio:9/16;background:#F1F5F9;position:relative;overflow:hidden}
+.wf-phone .wf-status{height:28px;background:#1E293B;display:flex;align-items:center;justify-content:center;font-size:8px;color:rgba(255,255,255,.5);font-weight:600}
+.wf-phone .wf-nav{position:absolute;bottom:0;left:0;right:0;height:40px;background:#fff;border-top:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-around;font-size:7px;color:#94A3B8}
+.wf-phone .wf-nav.hidden{display:none}
+.wf-el{margin:4px 8px;border-radius:4px;overflow:hidden}
+.wf-el.hdr{background:#1E3A5F;height:40px;display:flex;align-items:center;padding:0 8px;gap:6px}
+.wf-el.hdr-guest{background:#334155;height:24px;display:flex;align-items:center;padding:0 8px}
+.wf-el.banner{background:#FEE2E2;height:28px;border:1px solid #FCA5A5;border-radius:4px;display:flex;align-items:center;padding:0 6px}
+.wf-el.card{background:#fff;border:1px solid #E2E8F0;height:60px;border-radius:6px}
+.wf-el.card-lg{background:#fff;border:1px solid #E2E8F0;height:80px;border-radius:6px}
+.wf-el.form{background:#fff;border:1px solid #E2E8F0;height:20px;border-radius:4px;margin:3px 8px}
+.wf-el.btn{background:var(--acc);height:22px;border-radius:6px;margin:3px 8px}
+.wf-el.list{background:#fff;border-bottom:1px solid #E2E8F0;height:32px}
+.wf-el.tab{background:#fff;height:22px;border-bottom:2px solid var(--acc);display:flex}
+.wf-el.scroll{background:linear-gradient(90deg,#E2E8F0 48%,transparent 48%,transparent 52%,#E2E8F0 52%);height:70px}
+.wf-el .lbl{font-size:6px;color:var(--tx3);padding:2px 4px;display:block;font-weight:600}
+.wf-el .lbl-w{font-size:6px;color:rgba(255,255,255,.6);padding:2px 4px;display:block;font-weight:600}
+.wf-el .box{width:6px;height:6px;background:rgba(255,255,255,.3);border-radius:2px}
+.wf-el .dot{width:4px;height:4px;background:var(--red);border-radius:50%}
+
+/* Component Inventory */
+.comp-section{margin-bottom:32px}
+.comp-section h3{font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--bdr);display:flex;align-items:center;gap:8px}
+.comp-section h3 .icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0}
+.comp-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr);margin-bottom:8px}
+.comp-table th{background:#F8FAFC;padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;border-bottom:1px solid var(--bdr)}
+.comp-table td{padding:8px 12px;font-size:12px;border-bottom:1px solid #F1F5F9;vertical-align:top}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-name{font-weight:700;color:var(--tx)}
+.comp-class{font-family:monospace;font-size:10px;color:var(--vio);background:#F5F3FF;padding:1px 6px;border-radius:3px}
+
+/* Flow Diagram */
+.flow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px}
+.flow-node{background:var(--card);border:2px solid var(--bdr);border-radius:var(--r);padding:10px 16px;font-size:12px;font-weight:600;text-align:center;min-width:100px}
+.flow-node.active{border-color:var(--acc);background:#EFF6FF}
+.flow-node.auth{border-color:var(--red);background:#FEF2F2}
+.flow-node.special{border-color:var(--vio);background:#F5F3FF}
+.flow-arrow{font-size:18px;color:var(--tx3)}
+
+/* Nav Structure */
+.nav-map{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.nav-item{background:var(--card);border:1.5px solid var(--bdr);border-radius:var(--r);padding:14px;text-align:center}
+.nav-item h5{font-size:13px;font-weight:700;margin-bottom:6px}
+.nav-item .nav-icon{font-size:20px;margin-bottom:4px}
+.nav-item .nav-children{font-size:10px;color:var(--tx3);line-height:1.6}
+
+/* Responsive */
+@media(max-width:768px){
+.stats{grid-template-columns:repeat(2,1fr)}
+.wf-grid{grid-template-columns:repeat(2,1fr)}
+.nav-map{grid-template-columns:repeat(2,1fr)}
+.route-table{font-size:11px}
+}
+
+/* i18n Tables */
+.i18n-section{margin-bottom:28px}
+.i18n-section h3{font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--bdr);display:flex;align-items:center;gap:8px}
+.i18n-section h3 .icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;flex-shrink:0;font-weight:800}
+.i18n-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr)}
+.i18n-table thead th{background:#F1F5F9;padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--tx2);border-bottom:2px solid var(--bdr)}
+.i18n-table td{padding:8px 14px;font-size:12.5px;border-bottom:1px solid #F1F5F9;vertical-align:top;line-height:1.5}
+.i18n-table tr:last-child td{border-bottom:none}
+.i18n-table tr:hover{background:#F8FAFC}
+.i18n-table .i18n-key{font-family:'DM Sans',monospace;font-size:10.5px;color:var(--acc);background:#EFF6FF;padding:2px 6px;border-radius:3px;font-weight:600;white-space:nowrap}
+.i18n-table td:nth-child(2){font-weight:600}
+.i18n-table td:nth-child(3){color:#0369A1}
+.i18n-table td:nth-child(4){color:#6D28D9}
+.i18n-copy{cursor:pointer;opacity:0;transition:.15s;font-size:10px;color:var(--tx3);margin-left:4px}
+.i18n-table tr:hover .i18n-copy{opacity:1}
+
+/* Print */
+@media print{
+.hero{padding:30px 20px}
+.wf-card:hover{transform:none;box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="ver">v4.0 — 2025.03.05</div>
+<h1>FUNDEX App MVP Demo v4</h1>
+<p>ページ/ルート解析 ・ 画面構造 ・ Wireframe ・ コンポーネント一覧</p>
+</div>
+
+<div class="container">
+
+<!-- ═══ SECTION 1: OVERVIEW ═══ -->
+<div class="section">
+<h2><span class="num">1</span>概要サマリー</h2>
+<p class="sub">Demo v4 の全体像。全16ページ、ゲストモード対応、FTK法コンプライアンス準拠。</p>
+
+<div class="stats">
+<div class="stat-card"><div class="sv">16</div><div class="sl">ページ / ルート</div></div>
+<div class="stat-card"><div class="sv">4</div><div class="sl">底部ナビタブ</div></div>
+<div class="stat-card"><div class="sv">6</div><div class="sl">投資フローStep</div></div>
+<div class="stat-card"><div class="sv">3</div><div class="sl">言語（JA/ZH/EN）</div></div>
+</div>
+</div>
+
+<!-- ═══ SECTION 2: USER FLOW ═══ -->
+<div class="section">
+<h2><span class="num">2</span>ユーザーフロー</h2>
+<p class="sub">ゲスト → 登録/ログイン → KYC → 投資の3段階プログレッシブ・エンゲージメント</p>
+
+<h4 style="font-size:13px;font-weight:700;margin-bottom:8px">メインフロー</h4>
+<div class="flow">
+<div class="flow-node">Splash</div><span class="flow-arrow">→</span>
+<div class="flow-node active">Home（Guest）</div><span class="flow-arrow">→</span>
+<div class="flow-node">ファンド閲覧</div><span class="flow-arrow">→</span>
+<div class="flow-node auth">マイページ → Login</div><span class="flow-arrow">→</span>
+<div class="flow-node auth">KYC（6 Steps）</div><span class="flow-arrow">→</span>
+<div class="flow-node special">出資フロー（6 Steps）</div>
+</div>
+
+<h4 style="font-size:13px;font-weight:700;margin-bottom:8px">ナビゲーション構造</h4>
+<div class="nav-map">
+<div class="nav-item"><div class="nav-icon">🏠</div><h5>ホーム</h5><div class="nav-children">Guest Bar<br>Asset Header<br>重要通知<br>注目ファンド<br>運用中ファンド</div></div>
+<div class="nav-item"><div class="nav-icon">📊</div><h5>ファンド</h5><div class="nav-children">フィルタータブ<br>ファンドカード一覧<br>→ ファンド詳細<br>→ 投資フロー</div></div>
+<div class="nav-item"><div class="nav-icon">♥</div><h5>KIZUNARK</h5><div class="nav-children">投稿コンポーズ<br>フィードカード<br>コメント/引用<br>ファンド参照リンク</div></div>
+<div class="nav-item"><div class="nav-icon">👤</div><h5>マイページ</h5><div class="nav-children">資産概要（4列）<br>入金/出金/貸付型<br>抽選待ち<br>クーリングオフ<br>運用中ファンド</div></div>
+</div>
+<p style="font-size:11px;color:var(--tx3)">※ ☰ ハンバーガーメニュー（左上）: アカウント / セキュリティ / 書類・税務 / 言語設定 / サポート / ログアウト / 退会</p>
+</div>
+
+<!-- ═══ SECTION 3: ROUTE TABLE ═══ -->
+<div class="section">
+<h2><span class="num">3</span>ページ / ルート一覧（全16画面）</h2>
+<p class="sub">各ページのID、種別、遷移元、ナビバー表示状態</p>
+
+<table class="route-table">
+<thead><tr><th>#</th><th>Route ID</th><th>画面名</th><th>種別</th><th>遷移元</th><th>BottomNav</th><th>Guest表示</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><span class="route-id">p-splash</span></td><td>スプラッシュ</td><td><span class="badge badge-auth">起動</span></td><td>アプリ起動 → p-home（Guest）</td><td>非表示</td><td>—</td></tr>
+<tr><td>2</td><td><span class="route-id">p-login</span></td><td>ログイン</td><td><span class="badge badge-auth">認証</span></td><td>Guest Bar / メニュー</td><td>非表示</td><td>✅</td></tr>
+<tr><td>3</td><td><span class="route-id">p-reg</span></td><td>新規会員登録</td><td><span class="badge badge-auth">認証</span></td><td>ログイン画面</td><td>非表示</td><td>✅</td></tr>
+<tr><td>4</td><td><span class="route-id">p-complete</span></td><td>本人情報入力（KYC 6Steps）</td><td><span class="badge badge-flow">フロー</span></td><td>重要通知 / メニュー</td><td>非表示</td><td>❌</td></tr>
+<tr><td>5</td><td><span class="route-id">p-home</span></td><td>ホーム</td><td><span class="badge badge-main">メイン</span></td><td>ナビ / Splash</td><td>表示</td><td>✅（制限）</td></tr>
+<tr><td>6</td><td><span class="route-id">p-list</span></td><td>ファンド一覧（2Tab）</td><td><span class="badge badge-main">メイン</span></td><td>ナビ / Home</td><td>表示</td><td>✅</td></tr>
+<tr><td>7</td><td><span class="route-id">p-detail</span></td><td>ファンド詳細</td><td><span class="badge badge-sub">サブ</span></td><td>ファンド一覧 / Home</td><td>非表示</td><td>✅</td></tr>
+<tr><td>8</td><td><span class="route-id">p-invest</span></td><td>投資申込フロー（6Steps）</td><td><span class="badge badge-flow">フロー</span></td><td>ファンド詳細</td><td>非表示</td><td>❌</td></tr>
+<tr><td>9</td><td><span class="route-id">p-dep</span></td><td>入金（専用口座）</td><td><span class="badge badge-sub">サブ</span></td><td>マイページ / メニュー</td><td>非表示</td><td>❌</td></tr>
+<tr><td>10</td><td><span class="route-id">p-wit</span></td><td>出金申請</td><td><span class="badge badge-sub">サブ</span></td><td>マイページ</td><td>非表示</td><td>❌</td></tr>
+<tr><td>11</td><td><span class="route-id">p-hist</span></td><td>取引履歴</td><td><span class="badge badge-sub">サブ</span></td><td>マイページ</td><td>非表示</td><td>❌</td></tr>
+<tr><td>12</td><td><span class="route-id">p-mypage</span></td><td>マイページ</td><td><span class="badge badge-main">メイン</span></td><td>ナビ</td><td>表示</td><td>✅（制限）</td></tr>
+<tr><td>13</td><td><span class="route-id">p-kz</span></td><td>KIZUNARK</td><td><span class="badge badge-main">メイン</span></td><td>ナビ</td><td>表示</td><td>✅</td></tr>
+<tr><td>14</td><td><span class="route-id">p-notif</span></td><td>お知らせ（2Tab）</td><td><span class="badge badge-sub">サブ</span></td><td>Home / MyPage</td><td>非表示</td><td>✅</td></tr>
+<tr><td>15</td><td><span class="route-id">p-list (Tab 1)</span></td><td>貸付型ファンド</td><td><span class="badge badge-main">メイン</span></td><td>ファンド一覧内タブ</td><td>表示</td><td>✅</td></tr>
+<tr><td>16</td><td><span class="route-id">p-menu</span></td><td>メニュー（☰）</td><td><span class="badge badge-nav">ナビ</span></td><td>☰ ボタン</td><td>非表示</td><td>✅</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ═══ SECTION 4: WIREFRAMES ═══ -->
+<div class="section">
+<h2><span class="num">4</span>Wireframe（全画面）</h2>
+<p class="sub">各ページの構造ブロック図。灰色＝コンテンツ領域、青＝アクション、赤＝警告/通知</p>
+
+<div class="wf-grid">
+
+<!-- Splash -->
+<div class="wf-card"><div class="wf-hdr"><h4>スプラッシュ</h4><span class="wf-id">p-splash</span></div>
+<div class="wf-phone" style="background:linear-gradient(160deg,#0A1628,#1E3A5F)">
+<div class="wf-status">18:23</div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px 0">
+<div style="width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:10px"></div>
+<div style="font-size:11px;color:#fff;font-weight:800">FUNDEX</div>
+<div style="font-size:6px;color:rgba(255,255,255,.4)">不動産クラウドファンディング</div>
+<div style="width:60%;height:3px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:12px"><div style="width:65%;height:100%;background:var(--acc);border-radius:2px"></div></div>
+</div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- Login -->
+<div class="wf-card"><div class="wf-hdr"><h4>ログイン</h4><span class="wf-id">p-login</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div style="background:linear-gradient(160deg,#0A1628,#1E3A5F);padding:16px;text-align:center">
+<div style="width:24px;height:24px;background:rgba(255,255,255,.15);border-radius:6px;margin:0 auto 4px"></div>
+<div style="font-size:8px;color:#fff;font-weight:700">FUNDEX</div>
+<div style="font-size:6px;color:rgba(255,255,255,.4)">ログイン</div>
+</div>
+<div class="wf-el form"><span class="lbl">メールアドレス</span></div>
+<div class="wf-el form"><span class="lbl">パスワード</span></div>
+<div style="text-align:right;padding:0 8px"><span style="font-size:5px;color:var(--acc)">パスワードをお忘れですか？</span></div>
+<div class="wf-el btn"><span class="lbl-w" style="text-align:center;color:#fff">ログイン</span></div>
+<div style="text-align:center;font-size:5px;color:var(--tx3);margin:4px 0">— または —</div>
+<div style="display:flex;gap:4px;padding:0 8px">
+<div style="flex:1;height:18px;background:#fff;border:1px solid #E2E8F0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:5px;font-weight:600">Google</div>
+<div style="flex:1;height:18px;background:#fff;border:1px solid #E2E8F0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:5px;font-weight:600">Apple</div>
+</div>
+<div style="text-align:center;font-size:5px;color:var(--tx3);margin:6px 0">新規登録</div>
+<div style="margin:0 8px;height:18px;border:1px solid #E2E8F0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:5px;color:var(--tx2)">ゲストモード</div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- Register -->
+<div class="wf-card"><div class="wf-hdr"><h4>新規登録</h4><span class="wf-id">p-reg</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← 新規会員登録</span></div>
+<div style="padding:6px 8px"><span style="font-size:7px;font-weight:700">アカウントを作成</span><br><span style="font-size:5px;color:var(--tx3)">メールアドレスとパスワードだけで登録</span></div>
+<div class="wf-el form"><span class="lbl">メールアドレス</span></div>
+<div class="wf-el form"><span class="lbl">パスワード</span></div>
+<div class="wf-el form"><span class="lbl">パスワード（確認）</span></div>
+<div style="padding:3px 8px;display:flex;align-items:center;gap:3px"><div style="width:8px;height:8px;border:1px solid #CBD5E1;border-radius:2px"></div><span style="font-size:5px;color:var(--tx2)">利用規約に同意</span></div>
+<div class="wf-el btn"><span class="lbl-w" style="text-align:center;color:#fff">アカウントを作成</span></div>
+<div style="display:flex;gap:4px;padding:3px 8px"><div style="flex:1;height:16px;background:#fff;border:1px solid #E2E8F0;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:5px">Google</div><div style="flex:1;height:16px;background:#fff;border:1px solid #E2E8F0;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:5px">Apple</div></div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- KYC -->
+<div class="wf-card"><div class="wf-hdr"><h4>KYC（6 Steps）</h4><span class="wf-id">p-complete</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← 本人情報の入力</span></div>
+<div style="display:flex;gap:2px;padding:6px 8px"><div style="flex:1;height:3px;background:var(--acc);border-radius:2px"></div><div style="flex:1;height:3px;background:var(--acc);border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div></div>
+<div style="padding:4px 8px"><span style="font-size:7px;font-weight:700">Step 1：基本情報</span></div>
+<div class="wf-el form"><span class="lbl">氏名（漢字）</span></div>
+<div class="wf-el form"><span class="lbl">フリガナ</span></div>
+<div class="wf-el form"><span class="lbl">生年月日</span></div>
+<div class="wf-el form"><span class="lbl">電話番号</span></div>
+<div class="wf-el btn"><span class="lbl-w" style="text-align:center;color:#fff">次へ</span></div>
+<div style="text-align:center;padding:2px"><span style="font-size:5px;color:var(--acc)">スキップ ›</span></div>
+<div style="padding:4px 8px;font-size:5px;color:var(--tx3);line-height:1.4">
+Step 1: 基本情報 | Step 2: 住所 | Step 3: 適合性確認<br>
+Step 4: eKYC | Step 5: 銀行口座 | Step 6: 同意事項</div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- Home (Guest) -->
+<div class="wf-card"><div class="wf-hdr"><h4>ホーム（Guest）</h4><span class="wf-id">p-home</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div style="background:var(--pri);padding:6px 8px;display:flex;align-items:center;gap:4px">
+<span style="font-size:8px;color:#fff;font-weight:700;flex:1">FUNDEX</span>
+<div style="width:14px;height:14px;background:rgba(255,255,255,.1);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:6px;color:#fff">🔔</div>
+<div style="width:14px;height:14px;background:rgba(255,255,255,.1);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff">☰</div>
+</div>
+<div class="wf-el hdr-guest"><span style="font-size:5px;color:#fff">ログインせずに閲覧中</span><span style="font-size:5px;color:#60A5FA;margin-left:auto">ログイン | 新規登録</span></div>
+<div style="padding:4px 8px"><span style="font-size:7px;font-weight:700">🔥 注目ファンド</span><span style="font-size:5px;color:var(--acc);float:right">一覧を見る</span></div>
+<div class="wf-el scroll"><span class="lbl">横スクロール ファンドカード ×3</span></div>
+<div style="padding:4px 8px"><span style="font-size:7px;font-weight:700">📊 運用中ファンド</span></div>
+<div class="wf-el card"><span class="lbl">渋谷区 オフィスビル #12 — 7.2%</span></div>
+<div class="wf-el card"><span class="lbl">名古屋市 物流施設 #09 — 5.8%</span></div>
+<div class="wf-nav"><span>🏠</span><span>📊</span><span>♥</span><span>👤</span></div>
+</div></div>
+
+<!-- Home (Logged In) -->
+<div class="wf-card"><div class="wf-hdr"><h4>ホーム（LoggedIn）</h4><span class="wf-id">p-home</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div style="background:var(--pri);padding:6px 8px;display:flex;align-items:center;gap:4px">
+<span style="font-size:6px;color:rgba(255,255,255,.9);flex:1">こんにちは、田中さん 👋</span>
+<div style="position:relative"><div style="width:14px;height:14px;background:rgba(255,255,255,.1);border-radius:4px;font-size:6px;color:#fff;display:flex;align-items:center;justify-content:center">🔔</div><div style="position:absolute;top:-1px;right:-1px;width:4px;height:4px;background:var(--red);border-radius:50%"></div></div>
+<div style="width:14px;height:14px;background:rgba(255,255,255,.1);border-radius:4px;font-size:6px;color:#fff;display:flex;align-items:center;justify-content:center">☰</div>
+</div>
+<div style="background:linear-gradient(160deg,#0A1628,#1E3A5F);padding:6px 8px 10px">
+<div style="display:flex;gap:4px">
+<div style="flex:2;background:rgba(255,255,255,.08);border-radius:4px;padding:3px 4px"><div style="font-size:4px;color:rgba(255,255,255,.4)">総資産額</div><div style="font-size:9px;color:#fff;font-weight:800">¥3,850,000</div></div>
+<div style="flex:1;background:rgba(255,255,255,.05);border-radius:4px;padding:3px 4px"><div style="font-size:4px;color:rgba(255,255,255,.4)">運用中</div><div style="font-size:7px;color:#fff;font-weight:700">¥3.2M</div></div>
+<div style="flex:1;background:rgba(255,255,255,.05);border-radius:4px;padding:3px 4px"><div style="font-size:4px;color:rgba(255,255,255,.4)">累計分配</div><div style="font-size:7px;color:#4ADE80;font-weight:700">¥285K</div></div>
+</div></div>
+<div class="wf-el banner"><div class="dot"></div><span style="font-size:5px;font-weight:700;color:#991B1B;flex:1;margin-left:4px">⚠️ 本人情報の入力が必要</span><span style="font-size:4px;background:var(--red);color:#fff;padding:1px 4px;border-radius:2px">要対応</span></div>
+<div style="margin:2px 8px;background:#FEF3C7;border:1px solid #FCD34D;border-radius:4px;height:22px;display:flex;align-items:center;padding:0 6px"><span style="font-size:5px;color:#92400E">🗓️クーリングオフ期間中</span><span style="font-size:4px;background:var(--org);color:#fff;padding:1px 4px;border-radius:2px;margin-left:auto">残り5日</span></div>
+<div style="padding:3px 8px"><span style="font-size:6px;font-weight:700">🔥 注目ファンド</span></div>
+<div class="wf-el scroll"><span class="lbl">横スクロール ファンドカード ×3</span></div>
+<div style="padding:2px 8px"><span style="font-size:6px;font-weight:700">📊 運用中</span></div>
+<div style="margin:2px 8px;height:20px;background:#fff;border:1px solid #E2E8F0;border-radius:3px"><span class="lbl">渋谷区 7.2%</span></div>
+<div class="wf-nav"><span>🏠</span><span>📊</span><span>♥</span><span>👤</span></div>
+</div></div>
+
+<!-- Browse Funds -->
+<div class="wf-card"><div class="wf-hdr"><h4>ファンド一覧（2Tab）</h4><span class="wf-id">p-list</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div style="padding:6px 8px 0"><span style="font-size:9px;font-weight:800">ファンド一覧</span></div>
+<div style="display:flex;border-bottom:1px solid #E2E8F0;margin:4px 8px 0">
+<div style="flex:1;text-align:center;padding:3px 0;font-size:5px;font-weight:700;color:var(--acc);border-bottom:2px solid var(--acc)">🏠 不動産ファンド</div>
+<div style="flex:1;text-align:center;padding:3px 0;font-size:5px;font-weight:600;color:var(--tx3)">📄 貸付型ファンド</div>
+</div>
+<div style="display:flex;gap:3px;padding:6px 8px 6px;flex-wrap:wrap">
+<span style="font-size:5px;padding:2px 5px;border-radius:8px;background:var(--acc);color:#fff;font-weight:600">すべて</span>
+<span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #E2E8F0;color:var(--tx3)">募集中</span>
+<span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #E2E8F0;color:var(--tx3)">募集前</span>
+<span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #E2E8F0;color:var(--tx3)">運用中</span>
+<span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #E2E8F0;color:var(--tx3)">償還済</span>
+<span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid var(--org);color:var(--org)">⭐</span>
+</div>
+<div class="wf-el card-lg"><span class="lbl">Fund Card: プレミアムレジデンス赤坂 8.5%</span></div>
+<div class="wf-el card-lg"><span class="lbl">Fund Card: 商業ビル心斎橋 6.2%</span></div>
+<div class="wf-el card-lg"><span class="lbl">Fund Card: 町家リノベ京都 10.0%</span></div>
+<div class="wf-nav"><span>🏠</span><span>📊</span><span>♥</span><span>👤</span></div>
+</div></div>
+
+<!-- Fund Detail -->
+<div class="wf-card"><div class="wf-hdr"><h4>ファンド詳細</h4><span class="wf-id">p-detail</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div style="height:80px;background:linear-gradient(135deg,#1E3A5F,#2563EB);position:relative">
+<div style="position:absolute;top:4px;left:4px;width:16px;height:16px;background:rgba(0,0,0,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff">←</div>
+<div style="position:absolute;top:4px;right:4px;width:16px;height:16px;background:rgba(0,0,0,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff">☆</div>
+<div style="position:absolute;bottom:4px;left:6px;display:flex;gap:2px"><span style="font-size:4px;padding:1px 4px;background:#10B981;color:#fff;border-radius:2px">募集中</span><span style="font-size:4px;padding:1px 4px;background:#EC4899;color:#fff;border-radius:2px">抽選</span></div>
+</div>
+<div style="padding:4px 8px"><span style="font-size:8px;font-weight:800">プレミアムレジデンス赤坂</span></div>
+<div style="display:flex;gap:4px;padding:0 8px;margin-bottom:4px">
+<div style="flex:1;background:#F8FAFC;border-radius:4px;padding:3px 4px;text-align:center"><div style="font-size:4px;color:var(--tx3)">利回り</div><div style="font-size:10px;font-weight:900;color:var(--red)">8.5%</div></div>
+<div style="flex:1;background:#F8FAFC;border-radius:4px;padding:3px 4px;text-align:center"><div style="font-size:4px;color:var(--tx3)">期間</div><div style="font-size:8px;font-weight:700">12ヶ月</div></div>
+<div style="flex:1;background:#F8FAFC;border-radius:4px;padding:3px 4px;text-align:center"><div style="font-size:4px;color:var(--tx3)">募集額</div><div style="font-size:8px;font-weight:700">2億円</div></div>
+</div>
+<div style="display:flex;gap:2px;padding:0 8px 4px"><span style="font-size:5px;padding:2px 5px;border:1px solid var(--bdr);border-radius:4px;border-bottom:2px solid var(--acc);font-weight:700">概要</span><span style="font-size:5px;padding:2px 5px;color:var(--tx3)">スキーム</span><span style="font-size:5px;padding:2px 5px;color:var(--tx3)">リスク</span></div>
+<div style="padding:0 8px;font-size:4px;color:var(--tx2);line-height:1.4">物件概要テーブル: 所在地、構造、築年、面積...</div>
+<div style="padding:0 8px;font-size:4px;color:var(--tx2)">元本非保証 警告バナー</div>
+<div class="wf-el btn"><span class="lbl-w" style="text-align:center;color:#fff">🎲 この案件に投資する</span></div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- Invest Flow -->
+<div class="wf-card"><div class="wf-hdr"><h4>投資フロー（6Steps）</h4><span class="wf-id">p-invest</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← 投資申込</span></div>
+<div style="display:flex;gap:2px;padding:4px 8px"><div style="flex:1;height:3px;background:var(--acc);border-radius:2px"></div><div style="flex:1;height:3px;background:var(--acc);border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div><div style="flex:1;height:3px;background:#E2E8F0;border-radius:2px"></div></div>
+<div style="padding:4px 8px;font-size:5px;color:var(--tx3);line-height:1.6">
+<strong style="color:var(--tx);font-size:7px">Step構成：</strong><br>
+1️⃣ 出資金額入力（スライダー＋手入力）<br>
+2️⃣ 重要事項確認（チェックリスト）<br>
+3️⃣ 申込確認（サマリー表示）<br>
+4️⃣ 抽選申込完了 → 結果待ち<br>
+5️⃣ 当選通知 → 入金案内<br>
+&nbsp;&nbsp;&nbsp;&nbsp;（クーリングオフ8日間含む）<br>
+6️⃣ 出資手続き完了</div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- Deposit -->
+<div class="wf-card"><div class="wf-hdr"><h4>入金</h4><span class="wf-id">p-dep</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← 入金</span></div>
+<div style="padding:4px 8px"><span style="font-size:7px;font-weight:700">🏦 お客様専用の入金口座</span></div>
+<div class="wf-el list"><span class="lbl">銀行名: GMOあおぞらネット銀行</span></div>
+<div class="wf-el list"><span class="lbl">支店: 法人営業部（101）</span></div>
+<div class="wf-el list"><span class="lbl">口座種別: 普通</span></div>
+<div class="wf-el list"><span class="lbl">口座番号: 8401258 [コピー]</span></div>
+<div class="wf-el list"><span class="lbl">口座名義: ファンデックス（カ</span></div>
+<div style="margin:4px 8px;background:#EFF6FF;border-radius:4px;padding:3px 4px"><span style="font-size:4px;color:var(--acc)">💡 自動入帳・最低¥10,000</span></div>
+<div style="padding:4px 8px"><span style="font-size:6px;font-weight:700">📋 待機資金残高</span></div>
+<div class="wf-el list"><span class="lbl">¥500,000 (自動反映)</span></div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- Withdrawal -->
+<div class="wf-card"><div class="wf-hdr"><h4>出金申請</h4><span class="wf-id">p-wit</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← 出金申請</span></div>
+<div style="margin:8px;background:#F8FAFC;border-radius:6px;padding:8px;text-align:center">
+<div style="font-size:5px;color:var(--tx3)">出金可能額</div>
+<div style="font-size:14px;font-weight:900;font-family:monospace">¥650,000</div>
+</div>
+<div class="wf-el form"><span class="lbl">出金金額</span></div>
+<div class="wf-el list"><span class="lbl">振込先: 三菱UFJ 丸の内支店</span></div>
+<div class="wf-el list"><span class="lbl">手数料: ¥145</span></div>
+<div class="wf-el btn"><span class="lbl-w" style="text-align:center;color:#fff">出金申請</span></div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- History -->
+<div class="wf-card"><div class="wf-hdr"><h4>取引履歴</h4><span class="wf-id">p-hist</span></div>
+<div class="wf-phone" style="background:#F1F5F9">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← 取引履歴</span></div>
+<div style="display:flex;gap:3px;padding:4px 8px"><span style="font-size:5px;padding:2px 5px;border-radius:8px;background:var(--acc);color:#fff">すべて</span><span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #CBD5E1;color:var(--tx3)">出資</span><span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #CBD5E1;color:var(--tx3)">分配</span><span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #CBD5E1;color:var(--tx3)">償還</span><span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #CBD5E1;color:var(--tx3)">入出金</span></div>
+<div style="margin:3px 8px;height:16px;border:1px solid #E2E8F0;border-radius:3px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:5px;color:var(--tx2)">📥 CSV ダウンロード</div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">出資: -¥500,000</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">分配金: ¥18,000</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">入金: ¥500,000</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">償還: ¥300,000</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">出金: -¥200,000</span></div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- MyPage -->
+<div class="wf-card"><div class="wf-hdr"><h4>マイページ</h4><span class="wf-id">p-mypage</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div style="background:linear-gradient(160deg,#0A1628,#1E3A5F);padding:6px 8px 10px">
+<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:8px;color:#fff;font-weight:800">マイページ</span><span style="font-size:7px;color:rgba(255,255,255,.4)">🔔</span></div>
+<div style="font-size:4px;color:rgba(255,255,255,.4)">総資産額</div>
+<div style="font-size:12px;color:#fff;font-weight:900">¥4,350,000</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:2px;padding:4px 8px">
+<div style="background:#F8FAFC;border-radius:3px;padding:2px;text-align:center"><div style="font-size:4px;color:var(--tx3)">運用中</div><div style="font-size:6px;font-weight:700">¥3.2M</div></div>
+<div style="background:#F8FAFC;border-radius:3px;padding:2px;text-align:center"><div style="font-size:4px;color:var(--tx3)">待機資金</div><div style="font-size:6px;font-weight:700">¥650K</div></div>
+<div style="background:#F8FAFC;border-radius:3px;padding:2px;text-align:center"><div style="font-size:4px;color:var(--tx3)">累計分配</div><div style="font-size:6px;font-weight:700;color:var(--grn)">¥285K</div></div>
+<div style="background:#F8FAFC;border-radius:3px;padding:2px;text-align:center"><div style="font-size:4px;color:var(--tx3)">貸付型</div><div style="font-size:6px;font-weight:700;color:var(--vio)">¥500K</div></div>
+</div>
+<div style="display:flex;gap:3px;padding:2px 8px">
+<div style="flex:1;height:14px;background:#DCFCE7;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:5px;color:#166534;font-weight:600">💰 入金</div>
+<div style="flex:1;height:14px;background:#FEE2E2;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:5px;color:#991B1B;font-weight:600">💸 出金</div>
+</div>
+<div style="padding:3px 8px"><span style="font-size:5px;font-weight:700">📩 抽選待ち / ⏰ クーリングオフ / 📊 運用中</span></div>
+<div class="wf-el card"><span class="lbl">抽選待ち: 赤坂レジデンス</span></div>
+<div class="wf-el card"><span class="lbl">クーリングオフ: 心斎橋ビル</span></div>
+<div class="wf-el card"><span class="lbl">運用中: オフィスビル #12</span></div>
+<div class="wf-nav"><span>🏠</span><span>📊</span><span>♥</span><span>👤</span></div>
+</div></div>
+
+<!-- KIZUNARK -->
+<div class="wf-card"><div class="wf-hdr"><h4>KIZUNARK</h4><span class="wf-id">p-kz</span></div>
+<div class="wf-phone">
+<div class="wf-status">18:23</div>
+<div style="background:linear-gradient(135deg,#1E3A5F,#0A1628);padding:6px 8px">
+<div style="font-size:10px;font-weight:900;color:#fff">KIZUNARK</div>
+<div style="font-size:5px;color:rgba(255,255,255,.4)">投資家コミュニティ</div>
+</div>
+<div style="display:flex;gap:4px;padding:4px 8px;align-items:flex-start">
+<div style="width:16px;height:16px;background:var(--vio);border-radius:50%;flex-shrink:0"></div>
+<div style="flex:1;background:#F8FAFC;border-radius:4px;height:24px;padding:2px 4px"><span style="font-size:4px;color:var(--tx3)">投稿コンポーズ</span></div>
+</div>
+<div style="margin:2px 8px;background:#fff;border:1px solid #E2E8F0;border-radius:4px;padding:3px 4px">
+<div style="display:flex;gap:3px;align-items:center;margin-bottom:2px"><div style="width:10px;height:10px;background:#EC4899;border-radius:50%"></div><span style="font-size:5px;font-weight:700">佐藤** <span style="color:var(--vio);font-size:4px">Gold</span></span></div>
+<div style="font-size:4px;color:var(--tx2);line-height:1.3">赤坂のレジデンス案件、立地が最高ですね。</div>
+<div style="font-size:4px;color:var(--acc);margin-top:2px">💬 3</div>
+</div>
+<div style="margin:2px 8px;background:#fff;border:1px solid #E2E8F0;border-radius:4px;padding:3px 4px">
+<div style="display:flex;gap:3px;align-items:center;margin-bottom:2px"><div style="width:10px;height:10px;background:#F59E0B;border-radius:50%"></div><span style="font-size:5px;font-weight:700">高橋**</span></div>
+<div style="font-size:4px;color:var(--tx2);line-height:1.3">先月の分配金が入金されました！</div>
+</div>
+<div class="wf-nav"><span>🏠</span><span>📊</span><span>♥</span><span>👤</span></div>
+</div></div>
+
+<!-- Notifications -->
+<div class="wf-card"><div class="wf-hdr"><h4>お知らせ（2Tab）</h4><span class="wf-id">p-notif</span></div>
+<div class="wf-phone" style="background:#fff">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← お知らせ</span></div>
+<div style="display:flex;border-bottom:1px solid #E2E8F0;padding:0 8px">
+<div style="flex:1;text-align:center;padding:4px 0;font-size:6px;font-weight:700;color:var(--red);border-bottom:2px solid var(--red)">重要</div>
+<div style="flex:1;text-align:center;padding:4px 0;font-size:6px;color:var(--tx3)">お知らせ</div>
+</div>
+<div style="text-align:right;padding:2px 8px"><span style="font-size:4px;color:var(--red)">全て既読</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">2025.03.05 【要対応】本人情報の入力</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">2025.03.02 【要確認】クーリングオフ</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">2025.02.28 【要同意】利用規約改定</span></div>
+<div class="wf-el list" style="background:#fff"><span class="lbl">2025.02.25 【当選】プレミアムレジデンス</span></div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- 貸付型 -->
+<div class="wf-card"><div class="wf-hdr"><h4>貸付型ファンド（Tab 1）</h4><span class="wf-id">p-list Tab 1</span></div>
+<div class="wf-phone" style="background:#fff">
+<div class="wf-status">18:23</div>
+<div class="wf-el hdr"><div class="box"></div><span class="lbl-w">← 貸付型ファンド</span></div>
+<div style="margin:4px 8px;background:#EDE9FE;border:1px solid #C4B5FD;border-radius:4px;padding:4px"><span style="font-size:5px;color:#5B21B6;font-weight:700">💡 待機資金を有効活用</span><br><span style="font-size:4px;color:#6D28D9">運営会社発行・旅行関連限定</span></div>
+<div style="display:flex;gap:3px;padding:2px 8px"><span style="font-size:5px;padding:2px 5px;border-radius:8px;background:var(--vio);color:#fff">すべて</span><span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #E2E8F0;color:var(--tx3)">谷町君旅行</span><span style="font-size:5px;padding:2px 5px;border-radius:8px;border:1px solid #E2E8F0;color:var(--tx3)">TJ Brother</span></div>
+<div style="margin:3px 8px;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden">
+<div style="background:linear-gradient(135deg,#7C3AED,#A78BFA);padding:4px;display:flex;justify-content:space-between"><span style="font-size:4px;color:rgba(255,255,255,.7)">谷町君旅行</span><span style="font-size:8px;color:#fff;font-weight:900">3.5%</span></div>
+<div style="padding:3px;font-size:4px;color:var(--tx3)">6ヶ月 | ¥50K〜 | 68%達成</div>
+</div>
+<div style="margin:3px 8px;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden">
+<div style="background:linear-gradient(135deg,#0369A1,#38BDF8);padding:4px;display:flex;justify-content:space-between"><span style="font-size:4px;color:rgba(255,255,255,.7)">TJ Brother</span><span style="font-size:8px;color:#fff;font-weight:900">4.2%</span></div>
+<div style="padding:3px;font-size:4px;color:var(--tx3)">12ヶ月 | ¥100K〜 | 42%達成</div>
+</div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+<!-- Menu -->
+<div class="wf-card"><div class="wf-hdr"><h4>メニュー</h4><span class="wf-id">p-menu</span></div>
+<div class="wf-phone" style="background:#fff">
+<div class="wf-status">18:23</div>
+<div style="background:linear-gradient(160deg,#0A1628,#1E3A5F);padding:8px;display:flex;align-items:center;gap:6px"><div style="width:14px;height:14px;background:rgba(255,255,255,.15);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff">←</div><span style="font-size:8px;color:#fff;font-weight:800">メニュー</span></div>
+<div style="padding:4px 8px"><span style="font-size:5px;font-weight:700;color:var(--tx3)">アカウント</span></div>
+<div class="wf-el list"><span class="lbl">👤 会員情報の編集</span></div>
+<div class="wf-el list"><span class="lbl">🏦 銀行口座設定</span></div>
+<div style="padding:4px 8px"><span style="font-size:5px;font-weight:700;color:var(--tx3)">セキュリティ</span></div>
+<div class="wf-el list"><span class="lbl">🔒 パスワード変更</span></div>
+<div class="wf-el list"><span class="lbl">🛡️ 二段階認証</span></div>
+<div style="padding:4px 8px"><span style="font-size:5px;font-weight:700;color:var(--tx3)">書類・税務</span></div>
+<div class="wf-el list"><span class="lbl">📄 年間取引報告書 / 契約書面 / マイナンバー</span></div>
+<div style="padding:4px 8px"><span style="font-size:5px;font-weight:700;color:var(--tx3)">設定 / サポート</span></div>
+<div class="wf-el list"><span class="lbl">🌐 言語（JA/ZH/EN） / FAQ / チャット</span></div>
+<div style="margin:4px 8px;height:14px;border:1px solid #E2E8F0;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:5px;color:var(--tx2)">ログアウト</div>
+<div style="text-align:center;font-size:4px;color:var(--red);margin:2px">アカウント削除（退会）</div>
+<div class="wf-nav hidden"></div>
+</div></div>
+
+</div>
+</div>
+
+<!-- ═══ SECTION 5: COMPONENT INVENTORY ═══ -->
+<div class="section">
+<h2><span class="num">5</span>コンポーネント一覧（Component Inventory）</h2>
+<p class="sub">各ページ別の UI 要素、CSS クラス、機能の一覧</p>
+
+<!-- Global Components -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--pri)">G</span>グローバルコンポーネント（全ページ共通）</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th><th>状態</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">ステータスバー</td><td><span class="comp-class">.sb</span></td><td>時計・WiFi・バッテリー表示</td><td>常時表示</td></tr>
+<tr><td class="comp-name">BottomNav</td><td><span class="comp-class">.bn</span> <span class="comp-class">.ni</span></td><td>4タブ：ホーム / ファンド / KIZUNARK / マイページ</td><td>hideNav 配列で制御</td></tr>
+<tr><td class="comp-name">Toast</td><td><span class="comp-class">#toast</span></td><td>操作完了のフィードバック通知</td><td>2.5秒で自動消去</td></tr>
+<tr><td class="comp-name">ハンバーガーボタン</td><td><span class="comp-class">.hm-btn</span></td><td>☰ アイコン → p-menu へ遷移</td><td>Home Header 内</td></tr>
+<tr><td class="comp-name">通知ベル</td><td><span class="comp-class">.nb</span> <span class="comp-class">.dot</span></td><td>🔔 + 未読ドット → p-notif へ</td><td>Home / MyPage</td></tr>
+<tr><td class="comp-name">戻るボタン</td><td><span class="comp-class">.bk</span></td><td>← SVG アイコン + go() 遷移</td><td>サブページ共通</td></tr>
+<tr><td class="comp-name">主要ボタン</td><td><span class="comp-class">.btn.btn-p</span></td><td>青グラデーション CTA</td><td>フォーム送信用</td></tr>
+<tr><td class="comp-name">アウトラインボタン</td><td><span class="comp-class">.btn.btn-o</span></td><td>枠線のみのセカンダリ</td><td>補助アクション</td></tr>
+<tr><td class="comp-name">お気に入りボタン</td><td><span class="comp-class">.fav-btn</span></td><td>☆ / ★ トグル（オレンジ）</td><td>.on で塗りつぶし</td></tr>
+<tr><td class="comp-name">タグ</td><td><span class="comp-class">.tag</span></td><td>募集中(.tag-g) / 募集前(.tag-o) / 抽選(.tag-pk) / 運用中(.tag-b)</td><td>色バリエーション4種</td></tr>
+<tr><td class="comp-name">i18n</td><td><span class="comp-class">data-t</span> <span class="comp-class">data-tp</span></td><td>132要素の JA/ZH/EN 切替（法律用語統一済）</td><td>setLang() で動的変更</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-splash -->
+<div class="comp-section">
+<h3><span class="icon" style="background:#334155">1</span>p-splash — スプラッシュ</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">背景</td><td><span class="comp-class">.splash-bg</span></td><td>グラデーション + パーティクルアニメーション</td></tr>
+<tr><td class="comp-name">ロゴ</td><td><span class="comp-class">.sp-logo</span></td><td>SVG アイコン + 「FUNDEX」テキスト</td></tr>
+<tr><td class="comp-name">プログレスバー</td><td><span class="comp-class">.sp-bar</span> <span class="comp-class">.sp-fill</span></td><td>2.5秒アニメーション → p-home（Guest Mode）</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-login -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--red)">2</span>p-login — ログイン</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">ロゴヘッダー</td><td><span class="comp-class">.login-top</span></td><td>グラデーション背景 + ロゴ + タイトル</td></tr>
+<tr><td class="comp-name">メールフォーム</td><td><span class="comp-class">.fg</span></td><td>label + input[type=email]</td></tr>
+<tr><td class="comp-name">パスワードフォーム</td><td><span class="comp-class">.fg</span></td><td>label + input[type=password]</td></tr>
+<tr><td class="comp-name">パスワード忘れリンク</td><td><span class="comp-class">.link-r</span></td><td>右寄せリンク</td></tr>
+<tr><td class="comp-name">ログインボタン</td><td><span class="comp-class">.btn.btn-p</span></td><td>loginUser() → go('p-home')</td></tr>
+<tr><td class="comp-name">SNS ログイン</td><td><span class="comp-class">.sns-row</span> <span class="comp-class">.sns-btn</span></td><td>Google / Apple ボタン × 2</td></tr>
+<tr><td class="comp-name">新規登録リンク</td><td><span class="comp-class">.register-link</span></td><td>go('p-reg') への誘導</td></tr>
+<tr><td class="comp-name">ゲストモードボタン</td><td>inline style</td><td>枠線ボタン → isGuest=true で閲覧モード</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-home -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--acc)">5</span>p-home — ホーム</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th><th>ゲスト時</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">トップナビバー</td><td><span class="comp-class">#topNavBar</span></td><td>FUNDEX（Guest）/ 時間帯別挨拶（LoggedIn） + 🔔 + ☰</td><td>✅ 常時表示</td></tr>
+<tr><td class="comp-name">ゲストバー</td><td><span class="comp-class">.guest-bar</span> <span class="comp-class">#guestBar</span></td><td>「ログインせずに閲覧中」+ ログイン/登録ボタン</td><td>✅ Guest時表示</td></tr>
+<tr><td class="comp-name">資産ヘッダー</td><td><span class="comp-class">.hm-hd</span> <span class="comp-class">#homeHdr</span></td><td>資産3列（総資産額/運用中/累計分配金）</td><td>❌ Guest時非表示</td></tr>
+<tr><td class="comp-name">重要通知バナー（赤）</td><td><span class="comp-class">.imp-notif</span> <span class="comp-class">#impNotif</span></td><td>脈衝ドット + 「要対応」バッジ + 進捗バー</td><td>❌ 非表示</td></tr>
+<tr><td class="comp-name">重要通知バナー（橙）</td><td><span class="comp-class">.imp-notif</span></td><td>クーリングオフ期間 + 「残りN日」バッジ</td><td>❌ 非表示</td></tr>
+<tr><td class="comp-name">注目ファンドセクション</td><td><span class="comp-class">.sect</span></td><td>セクションヘッダー +「一覧を見る」リンク</td><td>✅ 表示</td></tr>
+<tr><td class="comp-name">ファンド横スクロール</td><td><span class="comp-class">.fscr</span> <span class="comp-class">.fcd</span></td><td>水平スクロールカード ×3（画像 + タグ + 利回り + 進捗）</td><td>✅ 表示</td></tr>
+<tr><td class="comp-name">運用中ファンド</td><td><span class="comp-class">.afd</span></td><td>カード: ファンド名 + 利回り + 投資額 + 分配予定 + 進捗バー</td><td>✅ 表示</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-list -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--acc)">6</span>p-list — ファンド一覧（2Tab）</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">タブバー</td><td><span class="comp-class">#ftab0</span> <span class="comp-class">#ftab1</span></td><td>🏠 不動産ファンド（青）/ 📄 貸付型ファンド（紫）切替</td></tr>
+<tr><td class="comp-name">フィルタータブ</td><td><span class="comp-class">.fr</span> <span class="comp-class">.fc</span></td><td>Tab0: すべて / 募集中 / 募集前 / 運用中 / 償還済 / ⭐お気に入り</td></tr>
+<tr><td class="comp-name">ファンドカード</td><td><span class="comp-class">.fli</span></td><td>Tab0: Hero画像 + オーバーレイ + 利回り/期間/方式バブル + Vol番号</td></tr>
+<tr><td class="comp-name">ファンドボディ</td><td><span class="comp-class">.fli-body</span></td><td>Tab0: タグ行 + 応募金額バー + 利回り/期間スタッツ + 詳細リンク</td></tr>
+<tr><td class="comp-name">お気に入りボタン</td><td><span class="comp-class">.fav-btn</span></td><td>Tab0: ☆ トグル（event.stopPropagation）</td></tr>
+<tr><td class="comp-name">発行元フィルター</td><td><span class="comp-class">.lfc</span></td><td>Tab1: すべて / 谷町君旅行 / TJ Brother</td></tr>
+<tr><td class="comp-name">貸付型商品カード</td><td><span class="comp-class">.loan-card</span></td><td>Tab1: グラデーションヘッダー + 利回り + 3列スタッツ + 募集額バー</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-detail -->
+<div class="comp-section">
+<h3><span class="icon" style="background:#0369A1">7</span>p-detail — ファンド詳細</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">ヒーロー画像</td><td><span class="comp-class">.dh</span> <span class="comp-class">.pi</span></td><td>フルワイドSVG建物イラスト + 戻る + ⭐ + タグ</td></tr>
+<tr><td class="comp-name">ファンド名</td><td><span class="comp-class">.fname</span></td><td>物件名 + 所在地</td></tr>
+<tr><td class="comp-name">3列スタッツ</td><td><span class="comp-class">.srow</span></td><td>利回り / 運用期間 / 募集額</td></tr>
+<tr><td class="comp-name">タブメニュー</td><td><span class="comp-class">.dtabs</span></td><td>概要 / スキーム / リスク 切替</td></tr>
+<tr><td class="comp-name">物件概要テーブル</td><td><span class="comp-class">.pt</span></td><td>所在地 / 構造 / 築年 / 面積 / 稼働率</td></tr>
+<tr><td class="comp-name">元本非保証バナー</td><td><span class="comp-class">.ibox</span></td><td>赤背景の法的警告</td></tr>
+<tr><td class="comp-name">スキームダイアグラム</td><td><span class="comp-class">.scheme</span></td><td>優先/劣後構造の視覚表示</td></tr>
+<tr><td class="comp-name">リスク項目</td><td><span class="comp-class">.rl</span></td><td>6つのリスクカテゴリ</td></tr>
+<tr><td class="comp-name">投資ボタン</td><td><span class="comp-class">.btn.btn-v</span></td><td>go('p-invest') → 投資フロー開始</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-invest -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--vio)">8</span>p-invest — 投資フロー（6Steps）</h3>
+<table class="comp-table">
+<thead><tr><th>Step</th><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td>1</td><td class="comp-name">金額入力</td><td><span class="comp-class">#is1</span></td><td>スライダー + テキスト入力 + 残高チェック</td></tr>
+<tr><td>2</td><td class="comp-name">重要事項確認</td><td><span class="comp-class">#is2</span></td><td>4項目チェックリスト（全ON で次へ）</td></tr>
+<tr><td>3</td><td class="comp-name">申込確認</td><td><span class="comp-class">#is3</span></td><td>金額/案件名/方式のサマリー表示</td></tr>
+<tr><td>4</td><td class="comp-name">抽選結果待ち</td><td><span class="comp-class">#is4</span></td><td>申込完了 + 結果発表日 + 8日以内入金説明</td></tr>
+<tr><td>5</td><td class="comp-name">当選・入金案内</td><td><span class="comp-class">#is5</span></td><td>入金期限 + クーリングオフ8日説明 + 振込先</td></tr>
+<tr><td>6</td><td class="comp-name">出資手続き完了</td><td><span class="comp-class">#is6</span></td><td>✅ 完了メッセージ + 受付番号</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-dep -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--grn)">9</span>p-dep — 入金</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">入金口座カード</td><td><span class="comp-class">.bc-card</span> <span class="comp-class">#bcActive</span></td><td>専用振込口座情報（銀行名・支店・口座番号・名義）</td></tr>
+<tr><td class="comp-name">口座情報</td><td><span class="comp-class">.dw-info</span> <span class="comp-class">.dw-row</span></td><td>銀行名 / 支店 / 口座番号 / 名義（コピーボタン付）</td></tr>
+<tr><td class="comp-name">説明ボックス</td><td>inline style</td><td>自動入帳の説明 + 最低¥10,000 + 3ヶ月期限</td></tr>
+<tr><td class="comp-name">待機資金残高</td><td><span class="comp-class">.dw-card</span></td><td>日付 + 金額「(自動反映)」ラベル</td></tr>
+<tr><td class="comp-name">待機資金残高</td><td><span class="comp-class">.ibox</span></td><td>¥650,000 表示</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-mypage -->
+<div class="comp-section">
+<h3><span class="icon" style="background:#0F172A">12</span>p-mypage — マイページ</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">資産ヘッダー</td><td><span class="comp-class">.mh</span> <span class="comp-class">.mta</span></td><td>タイトル + 🔔 + 総資産¥4,350,000 + 内訳式</td></tr>
+<tr><td class="comp-name">4列資産グリッド</td><td><span class="comp-class">.mcs</span> <span class="comp-class">.ms</span></td><td>運用中 / 待機資金 / 累計分配 / 貸付型</td></tr>
+<tr><td class="comp-name">アクションボタン行</td><td><span class="comp-class">.dw-btns</span> <span class="comp-class">.dw-btn</span></td><td>💰入金（緑）/ 💸出金（赤）</td></tr>
+<tr><td class="comp-name">抽選待ちカード</td><td><span class="comp-class">.afd</span></td><td>紫左ボーダー + 申込金額 + 結果発表日</td></tr>
+<tr><td class="comp-name">クーリングオフカード</td><td><span class="comp-class">.afd</span></td><td>橙左ボーダー + 書面交付日 + 取消期限 + 解約申請ボタン</td></tr>
+<tr><td class="comp-name">運用中ファンド</td><td><span class="comp-class">.afd</span></td><td>ファンド名 + 利回り + 投資額 + 累計分配金</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-kz -->
+<div class="comp-section">
+<h3><span class="icon" style="background:#EC4899">13</span>p-kz — KIZUNARK</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">ヘッダー</td><td><span class="comp-class">.kz-hdr</span></td><td>グラデーション背景 + タイトル + 統計</td></tr>
+<tr><td class="comp-name">投稿コンポーズ</td><td><span class="comp-class">.kz-compose</span></td><td>アバター + テキストエリア + 投稿ボタン</td></tr>
+<tr><td class="comp-name">フィードカード</td><td><span class="comp-class">.kz-card</span></td><td>ヘッダー（アバター + 名前 + バッジ + 時刻）+ 本文 + アクション</td></tr>
+<tr><td class="comp-name">コメント/返信</td><td><span class="comp-class">.kz-replies</span> <span class="comp-class">.kz-reply</span></td><td>展開式コメント + 引用返信 + 返信入力欄</td></tr>
+<tr><td class="comp-name">ファンド参照リンク</td><td><span class="comp-class">.fund-ref</span></td><td>🏠 ファンド名 → p-detail への遷移</td></tr>
+<tr><td class="comp-name">投資家バッジ</td><td><span class="comp-class">.kz-card-badge</span></td><td>Gold投資家(紫) / 投資家(緑) / 新人(青)</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-notif -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--red)">14</span>p-notif — お知らせ</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">タブバー</td><td><span class="comp-class">.ntab</span></td><td>「重要」（赤アンダーライン）/「お知らせ」の2タブ切替</td></tr>
+<tr><td class="comp-name">全て既読リンク</td><td>inline style</td><td>赤テキストリンク → toast</td></tr>
+<tr><td class="comp-name">重要通知リスト</td><td><span class="comp-class">#nContent0</span></td><td>日付 + 【要対応/要確認/要同意/当選】+ 説明</td></tr>
+<tr><td class="comp-name">一般通知リスト</td><td><span class="comp-class">#nContent1</span></td><td>通知ON/OFFトグル + 分配金/レポート/ファンド/メンテ/キャンペーン</td></tr>
+<tr><td class="comp-name">switchNTab()</td><td>JS</td><td>タブ切替 → コンテンツ表示/非表示 + アンダーライン制御</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-loan -->
+<div class="comp-section">
+<h3><span class="icon" style="background:var(--vio)">15</span>p-list (Tab 1) — 貸付型ファンド</h3>
+<p style="font-size:11px;color:var(--tx3);margin:-4px 0 8px">※ 独立ページ廃止。ファンド一覧の2番目タブとして統合</p>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">説明バナー</td><td>inline style</td><td>紫グラデ背景「待機資金を有効活用」+ 旅行関連限定注記</td></tr>
+<tr><td class="comp-name">発行元フィルター</td><td>inline style</td><td>すべて / 谷町君旅行 / TJ Brother のピル型ボタン</td></tr>
+<tr><td class="comp-name">商品カード</td><td>inline style</td><td>グラデヘッダー（発行元 + 利回り）+ 3列スタッツ + 募集進捗バー</td></tr>
+<tr><td class="comp-name">注意事項</td><td>inline style</td><td>⚠️ 4項目（元本非保証 / 発行元限定 / 中途解約不可 / 利回り非確定）</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- p-menu -->
+<div class="comp-section">
+<h3><span class="icon" style="background:#475569">16</span>p-menu — メニュー</h3>
+<table class="comp-table">
+<thead><tr><th>コンポーネント</th><th>CSS / ID</th><th>説明</th></tr></thead>
+<tbody>
+<tr><td class="comp-name">メニューヘッダー</td><td><span class="comp-class">.md-hdr</span></td><td>グラデ背景 + ← 戻る + 「メニュー」タイトル</td></tr>
+<tr><td class="comp-name">セクショングループ</td><td><span class="comp-class">.sg</span></td><td>アカウント / セキュリティ / 書類・税務 / 設定 / サポート</td></tr>
+<tr><td class="comp-name">メニュー項目</td><td><span class="comp-class">.si2</span></td><td>アイコン + ラベル + 「›」矢印</td></tr>
+<tr><td class="comp-name">言語ピッカー</td><td><span class="comp-class">#langPicker</span></td><td>JA / ZH / EN 展開式セレクター（国旗なし）</td></tr>
+<tr><td class="comp-name">ログアウト</td><td>inline style</td><td>枠線ボタン → isGuest=true + go('p-home')</td></tr>
+<tr><td class="comp-name">退会</td><td>inline style</td><td>赤テキスト + confirm() 確認ダイアログ</td></tr>
+</tbody>
+</table>
+</div>
+
+</div><!-- /section -->
+
+
+</div><!-- /section -->
+
+<!-- ════════ SECTION 6: i18n TRANSLATION REFERENCE ════════ -->
+<div class="section" style="border-top:2px solid var(--bdr)">
+<h2><span class="num">6</span>i18n 翻訳リファレンス（全 172 項目）</h2>
+<p class="sub">全画面のテキスト要素を data-t キー順に整理。設計者・IT担当者はここからコピペ可能。<br>Wireframe上の画面は日本語のみ表示。翻訳テキストは下記テーブルを参照してください。</p>
+
+<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:var(--r);padding:16px 20px;margin-bottom:28px;display:flex;align-items:center;gap:12px">
+<span style="font-size:20px">💡</span>
+<div style="font-size:12px;color:#1E40AF;line-height:1.7">
+<strong>使い方：</strong>各テーブルのセルをクリックしてテキストをコピーできます。<br>
+<strong>data-t Key</strong> = HTMLの <code style="background:#DBEAFE;padding:1px 4px;border-radius:3px;font-size:11px">data-t="xxx"</code> 属性名。JSの <code style="background:#DBEAFE;padding:1px 4px;border-radius:3px;font-size:11px">T.xxx</code> でアクセス。
+</div>
+</div>
+
+<div class="i18n-section">
+<h3><span class="icon" style="background:#EF4444">認証</span>Login / Register <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-login / p-reg</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">login</span></td><td>ログイン</td><td>登入</td><td>Login</td></tr>
+<tr><td><span class="i18n-key">email</span></td><td>メールアドレス</td><td>電子郵件</td><td>Email</td></tr>
+<tr><td><span class="i18n-key">password</span></td><td>パスワード</td><td>密碼</td><td>Password</td></tr>
+<tr><td><span class="i18n-key">pw_placeholder</span></td><td>パスワードを入力</td><td>請輸入密碼</td><td>Enter password</td></tr>
+<tr><td><span class="i18n-key">forgot_pw</span></td><td>パスワードをお忘れですか？</td><td>忘記密碼？</td><td>Forgot password?</td></tr>
+<tr><td><span class="i18n-key">login_btn</span></td><td>ログイン</td><td>登入</td><td>Login</td></tr>
+<tr><td><span class="i18n-key">or</span></td><td>または</td><td>或</td><td>or</td></tr>
+<tr><td><span class="i18n-key">register_link</span></td><td>新規登録</td><td>免費註冊</td><td>Sign Up</td></tr>
+<tr><td><span class="i18n-key">no_account</span></td><td>アカウントをお持ちでない方は</td><td>還沒有帳號？</td><td>Don't have an account?</td></tr>
+<tr><td><span class="i18n-key">register_title</span></td><td>新規会員登録</td><td>新會員註冊</td><td>Create Account</td></tr>
+<tr><td><span class="i18n-key">create_account_title</span></td><td>アカウントを作成</td><td>建立帳號</td><td>Create your account</td></tr>
+<tr><td><span class="i18n-key">create_account_desc1</span></td><td>メールアドレスとパスワードだけで登録ができます。</td><td>只需電子郵件和密碼即可註冊。</td><td>Register with just your email and password.</td></tr>
+<tr><td><span class="i18n-key">create_account_desc2</span></td><td>投資に必要な情報は後からいつでも入力できます。</td><td>出資所需資訊可稍後隨時填寫。</td><td>You can complete required details later.</td></tr>
+<tr><td><span class="i18n-key">pw_confirm</span></td><td>パスワード（確認）</td><td>密碼（確認）</td><td>Confirm Password</td></tr>
+<tr><td><span class="i18n-key">pw_rule</span></td><td>8文字以上の英数字</td><td>8位以上英數字</td><td>8+ alphanumeric characters</td></tr>
+<tr><td><span class="i18n-key">pw_again</span></td><td>もう一度入力</td><td>再次輸入</td><td>Enter again</td></tr>
+<tr><td><span class="i18n-key">agree_terms</span></td><td>利用規約・プライバシーポリシーに同意します</td><td>同意使用條款及隱私權政策</td><td>I agree to the Terms &amp; Privacy Policy</td></tr>
+<tr><td><span class="i18n-key">create_account_btn</span></td><td>アカウントを作成</td><td>建立帳號</td><td>Create Account</td></tr>
+<tr><td><span class="i18n-key">google_reg</span></td><td>Google で登録</td><td>使用 Google 註冊</td><td>Sign up with Google</td></tr>
+<tr><td><span class="i18n-key">apple_reg</span></td><td>Apple で登録</td><td>使用 Apple 註冊</td><td>Sign up with Apple</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#7C3AED">KYC</span>Profile <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-complete</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">profile_input</span></td><td>本人情報の入力</td><td>個人資料填寫</td><td>Personal Information</td></tr>
+<tr><td><span class="i18n-key">step1_title</span></td><td>Step 1：基本情報</td><td>Step 1：基本資訊</td><td>Step 1: Basic Info</td></tr>
+<tr><td><span class="i18n-key">step1_desc</span></td><td>氏名・連絡先を入力してください</td><td>請輸入姓名及聯絡方式</td><td>Enter your name and contact info</td></tr>
+<tr><td><span class="i18n-key">name_kanji</span></td><td>氏名（漢字）</td><td>姓名（漢字）</td><td>Full Name (Kanji)</td></tr>
+<tr><td><span class="i18n-key">name_kana</span></td><td>フリガナ</td><td>姓名（片假名）</td><td>Name (Katakana)</td></tr>
+<tr><td><span class="i18n-key">dob</span></td><td>生年月日</td><td>出生日期</td><td>Date of Birth</td></tr>
+<tr><td><span class="i18n-key">phone</span></td><td>電話番号</td><td>電話號碼</td><td>Phone Number</td></tr>
+<tr><td><span class="i18n-key">next</span></td><td>次へ</td><td>下一步</td><td>Next</td></tr>
+<tr><td><span class="i18n-key">skip</span></td><td>スキップ ›</td><td>略過 ›</td><td>Skip ›</td></tr>
+<tr><td><span class="i18n-key">step2_title</span></td><td>Step 2：住所情報</td><td>Step 2：地址資訊</td><td>Step 2: Address</td></tr>
+<tr><td><span class="i18n-key">step2_desc</span></td><td>本人確認に必要です</td><td>身分驗證所需</td><td>Required for identity verification</td></tr>
+<tr><td><span class="i18n-key">postal</span></td><td>郵便番号</td><td>郵遞區號</td><td>Postal Code</td></tr>
+<tr><td><span class="i18n-key">addr_search</span></td><td>住所検索</td><td>搜尋地址</td><td>Search</td></tr>
+<tr><td><span class="i18n-key">prefecture</span></td><td>都道府県</td><td>都道府縣</td><td>Prefecture</td></tr>
+<tr><td><span class="i18n-key">city_addr</span></td><td>市区町村・番地</td><td>市區町村・地址</td><td>City &amp; Address</td></tr>
+<tr><td><span class="i18n-key">step3_title</span></td><td>Step 3：投資者適合性確認</td><td>Step 3：投資適性評估</td><td>Step 3: Suitability Assessment</td></tr>
+<tr><td><span class="i18n-key">occupation</span></td><td>ご職業</td><td>職業</td><td>Occupation</td></tr>
+<tr><td><span class="i18n-key">income</span></td><td>年収</td><td>年收入</td><td>Annual Income</td></tr>
+<tr><td><span class="i18n-key">fin_assets</span></td><td>金融資産</td><td>金融資產</td><td>Financial Assets</td></tr>
+<tr><td><span class="i18n-key">inv_exp</span></td><td>投資経験（複数選択可）</td><td>投資經驗（可複選）</td><td>Investment Experience (multiple)</td></tr>
+<tr><td><span class="i18n-key">inv_purpose</span></td><td>投資目的</td><td>投資目的</td><td>Investment Purpose</td></tr>
+<tr><td><span class="i18n-key">fund_source_label</span></td><td>投資資金の性質</td><td>資金來源</td><td>Source of Funds</td></tr>
+<tr><td><span class="i18n-key">risk_tolerance</span></td><td>リスク許容度</td><td>風險承受度</td><td>Risk Tolerance</td></tr>
+<tr><td><span class="i18n-key">step4_title</span></td><td>Step 4：本人確認（eKYC）</td><td>Step 4：身分驗證（eKYC）</td><td>Step 4: Identity Verification (eKYC)</td></tr>
+<tr><td><span class="i18n-key">step4_desc</span></td><td>本人確認書類を撮影してください</td><td>請拍攝身分證件</td><td>Take a photo of your ID</td></tr>
+<tr><td><span class="i18n-key">select_doc</span></td><td>書類を選択</td><td>選擇文件</td><td>Select Document</td></tr>
+<tr><td><span class="i18n-key">photo_doc</span></td><td>書類を撮影（表・裏）</td><td>拍攝文件（正・反面）</td><td>Photo ID (Front &amp; Back)</td></tr>
+<tr><td><span class="i18n-key">selfie</span></td><td>自撮り写真を撮影</td><td>拍攝自拍照</td><td>Take a Selfie</td></tr>
+<tr><td><span class="i18n-key">step5_title</span></td><td>Step 5：銀行口座登録</td><td>Step 5：銀行帳戶登記</td><td>Step 5: Bank Account</td></tr>
+<tr><td><span class="i18n-key">step5_desc</span></td><td>分配金の振込先を登録してください</td><td>請登記配息入帳帳戶</td><td>Add your bank account for payouts</td></tr>
+<tr><td><span class="i18n-key">bank_name</span></td><td>金融機関名</td><td>金融機構名稱</td><td>Bank Name</td></tr>
+<tr><td><span class="i18n-key">branch</span></td><td>支店名</td><td>分行名稱</td><td>Branch</td></tr>
+<tr><td><span class="i18n-key">acc_type</span></td><td>口座種類</td><td>帳戶類型</td><td>Account Type</td></tr>
+<tr><td><span class="i18n-key">acc_num</span></td><td>口座番号</td><td>帳號</td><td>Account Number</td></tr>
+<tr><td><span class="i18n-key">acc_holder</span></td><td>口座名義（カタカナ）</td><td>帳戶名義（片假名）</td><td>Account Holder (Katakana)</td></tr>
+<tr><td><span class="i18n-key">next_consent</span></td><td>次へ：同意事項の確認</td><td>下一步：確認同意事項</td><td>Next: Review & Agree</td></tr>
+<tr><td><span class="i18n-key">step6_title</span></td><td>Step 6：同意事項の確認</td><td>Step 6：同意事項確認</td><td>Step 6: Consent</td></tr>
+<tr><td><span class="i18n-key">agree_complete</span></td><td>すべてに同意して登録を完了する</td><td>全部同意並完成註冊</td><td>Agree All &amp; Complete</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#2563EB">Home</span>Home <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-home</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">welcome</span></td><td>おはよう / こんにちは / こんばんは、田中さん</td><td>早安 / 午安 / 晚安，田中先生</td><td>Good morning / afternoon / evening, Tanaka-san</td></tr>
+<tr><td><span class="i18n-key">total_assets</span></td><td>総資産額</td><td>總資產</td><td>Total Assets</td></tr>
+<tr><td><span class="i18n-key">active_inv</span></td><td>運用中</td><td>運用中</td><td>Active</td></tr>
+<tr><td><span class="i18n-key">total_div</span></td><td>累計分配金</td><td>累計配息</td><td>Total Distributions</td></tr>
+<tr><td><span class="i18n-key">complete_profile_h</span></td><td>本人情報を入力して出資を始めましょう</td><td>填寫個人資料以開始出資</td><td>Complete your profile to get started</td></tr>
+<tr><td><span class="i18n-key">complete_profile_p</span></td><td>ご投資・ご出金には本人確認が必要です。あと3ステップで完了します。</td><td>出資前需完成身份驗證，還差3步即可完成。</td><td>Identity verification required. 3 steps remaining.</td></tr>
+<tr><td><span class="i18n-key">cooloff_title</span></td><td>🗓️クーリングオフ期間中</td><td>冷靜期（契約解除期）</td><td>Cooling-off Period</td></tr>
+<tr><td><span class="i18n-key">cancel_proc</span></td><td>キャンセル手続き</td><td>取消手續</td><td>Cancel</td></tr>
+<tr><td><span class="i18n-key">featured</span></td><td>🔥 注目ファンド</td><td>🔥 精選基金</td><td>🔥 Featured Funds</td></tr>
+<tr><td><span class="i18n-key">view_all</span></td><td>一覧を見る</td><td>查看全部</td><td>View All</td></tr>
+<tr><td><span class="i18n-key">est_yield</span></td><td>想定利回り</td><td>預期收益率</td><td>Est. Yield</td></tr>
+<tr><td><span class="i18n-key">active_funds_h</span></td><td>📊 運用中ファンド</td><td>📊 運用中基金</td><td>📊 Active Funds</td></tr>
+<tr><td><span class="i18n-key">inv_amount</span></td><td>投資額</td><td>出資額</td><td>Invested</td></tr>
+<tr><td><span class="i18n-key">next_div</span></td><td>次回分配予定</td><td>下次配息日</td><td>Next Distribution</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#10B981">Tag</span>Tags <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">共通</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">tag_open</span></td><td>募集中</td><td>募集中</td><td>Open</td></tr>
+<tr><td><span class="i18n-key">tag_lottery</span></td><td>抽選</td><td>抽籤</td><td>Lottery</td></tr>
+<tr><td><span class="i18n-key">tag_soon</span></td><td>募集前</td><td>即將募集</td><td>Upcoming</td></tr>
+<tr><td><span class="i18n-key">tag_waiting</span></td><td>抽選待ち</td><td>等待抽籤結果</td><td>Pending</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#2563EB">List</span>Fund List <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-list</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">fund_list_h</span></td><td>ファンド一覧</td><td>基金列表</td><td>Browse Funds</td></tr>
+<tr><td><span class="i18n-key">filter_all</span></td><td>すべて</td><td>全部</td><td>All</td></tr>
+<tr><td><span class="i18n-key">filter_open</span></td><td>募集中</td><td>募集中</td><td>Open</td></tr>
+<tr><td><span class="i18n-key">filter_soon</span></td><td>募集前</td><td>即將募集</td><td>Upcoming</td></tr>
+<tr><td><span class="i18n-key">filter_active</span></td><td>運用中</td><td>運用中</td><td>Active</td></tr>
+<tr><td><span class="i18n-key">filter_done</span></td><td>償還済</td><td>已償還</td><td>Redeemed</td></tr>
+<tr><td><span class="i18n-key">yield_label</span></td><td>利回り</td><td>收益率</td><td>Yield</td></tr>
+<tr><td><span class="i18n-key">period_label</span></td><td>運用期間</td><td>運用期間</td><td>Period</td></tr>
+<tr><td><span class="i18n-key">method_label</span></td><td>募集方式</td><td>募資方式</td><td>Method</td></tr>
+<tr><td><span class="i18n-key">view_detail</span></td><td>詳細→</td><td>詳情→</td><td>Details→</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#0369A1">詳細</span>Fund Detail <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-detail</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">est_yield_annual</span></td><td>想定利回り（年率）</td><td>預期收益率（年率）</td><td>Est. Annual Yield</td></tr>
+<tr><td><span class="i18n-key">yield_disclaimer</span></td><td>※ 想定であり、保証するものではありません</td><td>※ 為預估值，不保證收益</td><td>※ Estimated, not guaranteed</td></tr>
+<tr><td><span class="i18n-key">op_period</span></td><td>運用期間</td><td>運用期間</td><td>Period</td></tr>
+<tr><td><span class="i18n-key">fund_total</span></td><td>募集金額</td><td>募集金額</td><td>Fund Size</td></tr>
+<tr><td><span class="i18n-key">min_invest</span></td><td>最低出資額</td><td>最低出資額</td><td>Min. Contribution</td></tr>
+<tr><td><span class="i18n-key">lottery_val</span></td><td>抽選</td><td>抽籤</td><td>Lottery</td></tr>
+<tr><td><span class="i18n-key">dividend</span></td><td>分配頻度</td><td>配息頻率</td><td>Distribution Schedule</td></tr>
+<tr><td><span class="i18n-key">lottery_date</span></td><td>抽選日</td><td>抽籤日</td><td>Lottery Date</td></tr>
+<tr><td><span class="i18n-key">pref_sub</span></td><td>🛡️ 優先劣後構造</td><td>🛡️ 優先劣後結構</td><td>🛡️ Senior/Junior Structure</td></tr>
+<tr><td><span class="i18n-key">inv_70</span></td><td>出資者（優先） 70%</td><td>出資者（優先） 70%</td><td>Investors (Senior) 70%</td></tr>
+<tr><td><span class="i18n-key">op_30</span></td><td>事業者（劣後） 30%</td><td>事業者（劣後） 30%</td><td>Operator (Junior) 30%</td></tr>
+<tr><td><span class="i18n-key">senior</span></td><td>優先出資</td><td>優先出資</td><td>Senior</td></tr>
+<tr><td><span class="i18n-key">junior</span></td><td>劣後出資</td><td>劣後出資</td><td>Junior</td></tr>
+<tr><td><span class="i18n-key">prop_info</span></td><td>📍 物件情報</td><td>📍 物件資訊</td><td>📍 Property Info</td></tr>
+<tr><td><span class="i18n-key">location</span></td><td>所在地</td><td>所在地</td><td>Location</td></tr>
+<tr><td><span class="i18n-key">prop_type</span></td><td>種別</td><td>類型</td><td>Type</td></tr>
+<tr><td><span class="i18n-key">structure</span></td><td>構造</td><td>構造</td><td>Structure</td></tr>
+<tr><td><span class="i18n-key">built</span></td><td>竣工</td><td>竣工</td><td>Built</td></tr>
+<tr><td><span class="i18n-key">apply_lottery</span></td><td>抽選に申し込む</td><td>申請抽籤</td><td>Apply for Lottery</td></tr>
+<tr><td><span class="i18n-key">contract_overview</span></td><td>📋 契約概要（法定記載事項）</td><td>📋 合約概要（法定揭露事項）</td><td>📋 Contract Summary</td></tr>
+<tr><td><span class="i18n-key">contract_type</span></td><td>契約形態</td><td>契約形態</td><td>Contract Type</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#7C3AED">出資</span>Invest Flow <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-invest</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">lottery_apply</span></td><td>抽選申込</td><td>抽籤申請</td><td>Lottery Application</td></tr>
+<tr><td><span class="i18n-key">step1_invest</span></td><td>① 出資金額を入力</td><td>① 輸入出資金額</td><td>① Enter Contribution</td></tr>
+<tr><td><span class="i18n-key">balance_label</span></td><td>💰 待機資金残高</td><td>💰 待機資金餘額</td><td>💰 Available Balance</td></tr>
+<tr><td><span class="i18n-key">deposit_btn</span></td><td>入金する</td><td>入金</td><td>Deposit</td></tr>
+<tr><td><span class="i18n-key">next_docs</span></td><td>次へ：書面確認</td><td>下一步：確認文件</td><td>Next: Document Review</td></tr>
+<tr><td><span class="i18n-key">step2_invest</span></td><td>② 契約書面の確認</td><td>② 確認契約文件</td><td>② Review Documents</td></tr>
+<tr><td><span class="i18n-key">step3_invest</span></td><td>③ 申込内容の確認</td><td>③ 確認申請內容</td><td>③ Confirm Application</td></tr>
+<tr><td><span class="i18n-key">fund_name_l</span></td><td>ファンド名</td><td>基金名稱</td><td>Fund Name</td></tr>
+<tr><td><span class="i18n-key">inv_amount_l</span></td><td>出資金額</td><td>出資金額</td><td>Contribution</td></tr>
+<tr><td><span class="i18n-key">est_yield_l</span></td><td>想定利回り</td><td>預期收益率</td><td>Est. Yield</td></tr>
+<tr><td><span class="i18n-key">apply_lottery_btn</span></td><td>🎲 抽選に申し込む</td><td>🎲 申請抽選</td><td>🎲 Apply for Lottery</td></tr>
+<tr><td><span class="i18n-key">lottery_done</span></td><td>抽選申込が完了しました！</td><td>抽籤申請已完成！</td><td>Lottery Application Submitted!</td></tr>
+<tr><td><span class="i18n-key">back_home</span></td><td>ホームに戻る</td><td>返回首頁</td><td>Back to Home</td></tr>
+<tr><td><span class="i18n-key">congrats</span></td><td>当選のお知らせ</td><td>中籤通知</td><td>Application Successful!</td></tr>
+<tr><td><span class="i18n-key">deposit_done</span></td><td>入金完了を報告</td><td>確認已匯款</td><td>Confirm Transfer</td></tr>
+<tr><td><span class="i18n-key">later_deposit</span></td><td>あとで入金する</td><td>稍後入金</td><td>Deposit Later</td></tr>
+<tr><td><span class="i18n-key">invest_complete</span></td><td>出資手続きが完了しました</td><td>出資手續已完成！</td><td>Successfully Completed!</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#0F172A">My</span>MyPage <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-mypage</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">mypage_h</span></td><td>マイページ</td><td>個人中心</td><td>My Account</td></tr>
+<tr><td><span class="i18n-key">total_assets2</span></td><td>総資産額</td><td>總資產</td><td>Total Assets</td></tr>
+<tr><td><span class="i18n-key">mp_active</span></td><td>運用中</td><td>運用中</td><td>Active</td></tr>
+<tr><td><span class="i18n-key">mp_standby</span></td><td>待機資金</td><td>可用資金</td><td>Available</td></tr>
+<tr><td><span class="i18n-key">mp_total_div</span></td><td>累計分配</td><td>累計分配</td><td>Distributions</td></tr>
+<tr><td><span class="i18n-key">mp_deposit</span></td><td>💰 入金</td><td>💰 入金</td><td>💰 Deposit</td></tr>
+<tr><td><span class="i18n-key">mp_withdraw</span></td><td>💸 出金</td><td>💸 出金</td><td>💸 Withdraw</td></tr>
+<tr><td><span class="i18n-key">mp_pending</span></td><td>📩 申込中・抽選待ち</td><td>📩 申請中・抽選等待中</td><td>📩 Pending Applications</td></tr>
+<tr><td><span class="i18n-key">app_amount</span></td><td>申込金額</td><td>申請金額</td><td>Amount Applied</td></tr>
+<tr><td><span class="i18n-key">result_date</span></td><td>結果発表</td><td>結果公布</td><td>Result Date</td></tr>
+<tr><td><span class="i18n-key">mp_cooloff</span></td><td>🗓️クーリングオフ期間中（契約成立）</td><td>⏰ 冷靜期中（合約已成立）</td><td>⏰ Cooling-off Period</td></tr>
+<tr><td><span class="i18n-key">doc_date</span></td><td>書面交付日</td><td>文件送達日</td><td>Date Received</td></tr>
+<tr><td><span class="i18n-key">cancel_deadline</span></td><td>取消期限</td><td>取消期限</td><td>Cancel By</td></tr>
+<tr><td><span class="i18n-key">cancel_btn</span></td><td>解約申請</td><td>終止合約</td><td>Cancel</td></tr>
+<tr><td><span class="i18n-key">mp_active_funds</span></td><td>📊 運用中ファンド</td><td>📊 運用中基金</td><td>📊 Active Funds</td></tr>
+<tr><td><span class="i18n-key">total_div_label</span></td><td>累計分配金</td><td>累計配息</td><td>Total Dist.</td></tr>
+<tr><td><span class="i18n-key">tx_history</span></td><td>📋 取引履歴を見る</td><td>📋 查看交易紀錄</td><td>📋 Transaction History</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#EC4899">KZ</span>KIZUNARK <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-kz</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">kz_subtitle</span></td><td>投資家コミュニティ</td><td>投資者社群</td><td>Investor Community</td></tr>
+<tr><td><span class="i18n-key">kz_notice</span></td><td>🔒 投資家のみ投稿・コメントできます</td><td>🔒 僅限投資者發文及留言</td><td>🔒 Only verified investors can post &amp; comment</td></tr>
+<tr><td><span class="i18n-key">kz_input</span></td><td>投資の話題を共有しよう...</td><td>分享投資話題...</td><td>Share investment topics...</td></tr>
+<tr><td><span class="i18n-key">post_btn</span></td><td>投稿</td><td>發佈</td><td>Post</td></tr>
+<tr><td><span class="i18n-key">comments_3</span></td><td>3</td><td>3</td><td>3</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#EF4444">通知</span>Notifications <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-notif</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">notif_h</span></td><td>お知らせ</td><td>通知</td><td>Notifications</td></tr>
+<tr><td><span class="i18n-key">notif_lottery</span></td><td>🎉 抽選結果通知</td><td>🎉 抽選結果通知</td><td>🎉 Lottery Result</td></tr>
+<tr><td><span class="i18n-key">notif_div</span></td><td>分配金入金</td><td>配息已入帳</td><td>Distribution Received</td></tr>
+<tr><td><span class="i18n-key">notif_report</span></td><td>運用レポート公開</td><td>運用報告公開</td><td>Report Published</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#475569">Menu</span>Menu <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-menu</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">menu_h</span></td><td>メニュー</td><td>選單</td><td>Menu</td></tr>
+<tr><td><span class="i18n-key">account</span></td><td>アカウント</td><td>帳戶</td><td>Account</td></tr>
+<tr><td><span class="i18n-key">edit_profile</span></td><td>会員情報の編集</td><td>編輯會員資訊</td><td>Edit Profile</td></tr>
+<tr><td><span class="i18n-key">bank_setting</span></td><td>銀行口座設定</td><td>銀行帳戶設定</td><td>Bank Account</td></tr>
+<tr><td><span class="i18n-key">security</span></td><td>セキュリティ</td><td>安全性</td><td>Security</td></tr>
+<tr><td><span class="i18n-key">change_pw</span></td><td>パスワード変更</td><td>變更密碼</td><td>Change Password</td></tr>
+<tr><td><span class="i18n-key">two_factor</span></td><td>二段階認証</td><td>雙重驗證</td><td>Two-Factor Authentication</td></tr>
+<tr><td><span class="i18n-key">docs_tax</span></td><td>書類・税務</td><td>文件・稅務</td><td>Documents &amp; Tax</td></tr>
+<tr><td><span class="i18n-key">annual_report</span></td><td>年間取引報告書</td><td>年度交易報告</td><td>Annual Report</td></tr>
+<tr><td><span class="i18n-key">contract_list</span></td><td>契約書面一覧</td><td>契約書面一覽</td><td>Contract Documents</td></tr>
+<tr><td><span class="i18n-key">my_number</span></td><td>マイナンバー管理</td><td>My Number 管理</td><td>My Number</td></tr>
+<tr><td><span class="i18n-key">set_lang</span></td><td>設定</td><td>設定</td><td>Settings</td></tr>
+<tr><td><span class="i18n-key">lang_label</span></td><td>言語</td><td>語言</td><td>Language</td></tr>
+<tr><td><span class="i18n-key">support</span></td><td>サポート</td><td>客服支援</td><td>Support</td></tr>
+<tr><td><span class="i18n-key">faq</span></td><td>FAQ・ヘルプ</td><td>常見問題</td><td>FAQ &amp; Help</td></tr>
+<tr><td><span class="i18n-key">chat_support</span></td><td>チャットサポート</td><td>線上客服</td><td>Chat Support</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#1E293B">Nav</span>Bottom Nav <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">共通</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">nav_home</span></td><td>ホーム</td><td>首頁</td><td>Home</td></tr>
+<tr><td><span class="i18n-key">nav_fund</span></td><td>ファンド</td><td>基金</td><td>Funds</td></tr>
+<tr><td><span class="i18n-key">nav_mypage</span></td><td>マイページ</td><td>我的</td><td>Account</td></tr>
+<tr><td><span class="i18n-key">nav_menu</span></td><td>メニュー</td><td>選單</td><td>Menu</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#10B981">入出</span>Deposit / Withdraw <span style="font-size:11px;font-weight:400;color:var(--tx3);margin-left:8px">p-dep / p-wit</span></h3>
+<table class="i18n-table">
+<thead><tr><th style="width:150px">data-t Key</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">deposit_h</span></td><td>入金</td><td>入金</td><td>Deposit</td></tr>
+<tr><td><span class="i18n-key">withdraw_h</span></td><td>出金</td><td>出金</td><td>Withdraw</td></tr>
+</tbody></table>
+</div>
+
+
+
+
+<div style="border-top:2px solid var(--bdr);margin-top:40px;padding-top:40px">
+<h2 style="font-size:20px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px"><span class="num" style="background:var(--red)">＋</span>静的テキスト翻訳（全 28 項目）</h2>
+<p class="sub">data-t 属性がないハードコード文。法的文言・リスク説明・注意書き等。設計者・IT担当者はここからコピペしてください。</p>
+</div>
+
+<div class="i18n-section">
+<h3><span class="icon" style="background:#7C3AED">KYC</span>KYC・登録画面</h3>
+<table class="i18n-table">
+<thead><tr><th style="width:80px">画面</th><th style="width:120px">要素</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">p-reg</span></td><td style="font-weight:600;font-size:11px">年齢制限告知</td><td style="font-size:11.5px;line-height:1.6">本サービスは18歳以上の方のみご利用いただけます。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">本服務僅限18歲以上人士使用。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">This service is available only to those aged 18 and above.</td></tr>
+<tr><td><span class="i18n-key">p-reg</span></td><td style="font-weight:600;font-size:11px">未成年制限</td><td style="font-size:11.5px;line-height:1.6">不動産特定共同事業法に基づき、未成年者の投資申込はお受けできません。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">根據不動產特定共同事業法，本平台不接受未成年人的投資申請。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Under the Real Estate Specified Joint Enterprise Act, investment applications from minors cannot be accepted.</td></tr>
+<tr><td><span class="i18n-key">p-complete</span></td><td style="font-weight:600;font-size:11px">Step 3 法的根拠</td><td style="font-size:11.5px;line-height:1.6">不動産特定共同事業法第25条に基づき、お客様の投資経験等を確認いたします。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">根據不動產特定共同事業法第25條，我們將確認您的投資經驗等資訊。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">In accordance with Article 25 of the Real Estate Specified Joint Enterprise Act, we will verify your investment experience.</td></tr>
+<tr><td><span class="i18n-key">p-complete</span></td><td style="font-weight:600;font-size:11px">リスク警告</td><td style="font-size:11.5px;line-height:1.6">本商品は元本保証ではなく、出資金の全額を失う可能性があります。生活資金や借入金での投資は推奨しておりません。余裕資金の範囲内でのご投資をお願いいたします。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">本商品不保證本金，有可能損失全部出資金。不建議使用生活費或借款進行投資，請在閒置資金範圍內進行投資。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">This product does not guarantee principal. You may lose your entire investment. Investing with living expenses or borrowed funds is not recommended. Please invest within your surplus funds.</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#0369A1">同意</span>電子交付・同意事項</h3>
+<table class="i18n-table">
+<thead><tr><th style="width:80px">画面</th><th style="width:120px">要素</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">p-complete</span></td><td style="font-weight:600;font-size:11px">電子交付説明</td><td style="font-size:11.5px;line-height:1.6">当社は、不動産特定共同事業法に基づく以下の書面を、紙面ではなく電子的方法（PDFファイルによるアプリ内交付）により交付いたします。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">本公司將依不動產特定共同事業法，以電子方式（透過App內PDF檔案）而非紙本方式交付以下書面。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">We will deliver the following documents electronically (via PDF within the app) rather than in paper form, in accordance with the Real Estate Specified Joint Enterprise Act.</td></tr>
+<tr><td><span class="i18n-key">p-complete</span></td><td style="font-weight:600;font-size:11px">電子交付撤回</td><td style="font-size:11.5px;line-height:1.6">※ 電子交付の同意は、設定画面からいつでも撤回できます。撤回後は紙面にて書面を郵送いたします。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">※ 您可隨時從設定畫面撤回電子交付同意。撤回後將以郵寄紙本方式交付。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">※ You may withdraw your consent to electronic delivery at any time from Settings. After withdrawal, documents will be mailed in paper form.</td></tr>
+<tr><td><span class="i18n-key">p-complete</span></td><td style="font-weight:600;font-size:11px">反社確約</td><td style="font-size:11.5px;line-height:1.6">私は、現在および将来にわたり、暴力団、暴力団員、暴力団準構成員、暴力団関係企業、総会屋、社会運動等標ぼうゴロ、特殊知能暴力集団等の反社会的勢力に該当しないことを表明・確約いたします。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">本人在此聲明並保證，目前及未來均不屬於暴力團、暴力團成員、暴力團準成員、暴力團相關企業、總會屋、社會運動標榜流氓、特殊知能暴力集團等反社會勢力。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">I hereby declare and warrant that I am not, and will not in the future be, affiliated with any anti-social forces including organized crime groups, their members, associates, related enterprises, or similar organizations.</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#EF4444">Risk</span>リスク説明（ファンド詳細）</h3>
+<table class="i18n-table">
+<thead><tr><th style="width:80px">画面</th><th style="width:120px">要素</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">元本毀損リスク</td><td style="font-size:11.5px;line-height:1.6">不動産市場の変動、対象不動産の評価額の下落等により、元本が毀損する可能性があります。出資金の全額を失う可能性があります。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">因不動產市場波動、標的不動產評估價值下降等原因，本金可能受損。有可能損失全部出資金。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Due to fluctuations in the real estate market or decline in the appraised value of the subject property, your principal may be impaired. You may lose your entire investment.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">流動性リスク</td><td style="font-size:11.5px;line-height:1.6">運用期間中の途中解約は原則できません。資金が長期間拘束される可能性があります。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">原則上運用期間內不可中途解約，資金可能長期受限。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">In principle, early withdrawal during the investment period is not permitted. Your funds may be locked up for an extended period.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">空室・天災リスク</td><td style="font-size:11.5px;line-height:1.6">テナント退去による賃料収入の低下、地震・火災等の天災により対象不動産の価値が毀損する可能性があります。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">因租戶退出導致租金收入下降，或因地震、火災等天災導致標的不動產價值受損。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Rental income may decrease due to tenant vacancies, and the value of the property may be impaired by natural disasters such as earthquakes or fires.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">事業者リスク</td><td style="font-size:11.5px;line-height:1.6">事業者の経営状況悪化・倒産等により、出資金の返還や分配金の支払いが困難になる可能性があります。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">因營運商經營狀況惡化或破產等原因，可能難以退還出資金或支付分配金。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">If the operator&#x27;s financial condition deteriorates or it becomes insolvent, repayment of contributions or payment of distributions may become difficult.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">金利変動リスク</td><td style="font-size:11.5px;line-height:1.6">金利の上昇により、不動産価格が下落し、本商品の収益に悪影響を及ぼす可能性があります。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">因利率上升可能導致不動產價格下跌，對本商品收益產生不利影響。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Rising interest rates may cause real estate prices to decline, adversely affecting the returns of this product.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">法規制変更リスク</td><td style="font-size:11.5px;line-height:1.6">不動産関連法規や税制の変更により、本事業の収益性が低下する可能性があります。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">因不動產相關法規或稅制變更，本事業的收益性可能降低。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Changes in real estate-related regulations or tax systems may reduce the profitability of this project.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">リスク注記</td><td style="font-size:11.5px;line-height:1.6">※ 上記は主なリスクであり、すべてのリスクを網羅しているわけではありません。詳細は契約締結前交付書面をご確認ください。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">※ 以上為主要風險，並未涵蓋所有風險。詳情請確認契約締結前交付書面。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">※ The above are the principal risks and do not cover all risks. Please refer to the pre-contract disclosure documents for details.</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#0F172A">契約</span>契約・税務</h3>
+<table class="i18n-table">
+<thead><tr><th style="width:80px">画面</th><th style="width:120px">要素</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">分配方法</td><td style="font-size:11.5px;line-height:1.6">対象不動産から生じる賃料収入等から、必要経費（管理費・修繕積立金・固定資産税・事業者報酬等）を控除した利益を、出資比率に応じて半年毎（9月・3月末日基準）に分配します。分配金は源泉徴収（20.42%）後の金額をお支払いいたします。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">從標的不動產產生的租金收入等中，扣除必要費用（管理費、修繕積立金、固定資產稅、營運商報酬等）後的利益，按出資比例每半年（9月及3月底基準）分配。分配金將在扣除源泉徵收（20.42%）後支付。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Profits from rental income of the subject property, after deducting necessary expenses (management fees, repair reserves, property tax, operator fees, etc.), will be distributed semi-annually (as of September and March end) in proportion to investment ratios. Distributions will be paid after withholding tax (20.42%).</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">税務説明</td><td style="font-size:11.5px;line-height:1.6">分配金は「雑所得」として総合課税の対象です。支払時に20.42%（所得税20%+復興特別所得税0.42%）を源泉徴収いたします。確定申告が必要な場合があります。詳細は税務署または税理士にご相談ください。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">分配金屬於「雜所得」，為綜合課稅對象。支付時將扣除20.42%（所得稅20%+復興特別所得稅0.42%）源泉徵收。可能需要申報確定申告，詳情請諮詢稅務署或稅理士。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Distributions are classified as miscellaneous income subject to comprehensive taxation. A withholding tax of 20.42% (income tax 20% + special reconstruction tax 0.42%) will be deducted at payment. Tax filing may be required. Please consult a tax office or tax advisor for details.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">クーリングオフ</td><td style="font-size:11.5px;line-height:1.6">契約締結時交付書面を受領した日の翌日から起算して8日間は、書面により無条件で契約を解除できます（クーリングオフ）。当該期間経過後は、やむを得ない事由がある場合を除き、原則として中途解約はできません。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">自收到契約締結時交付書面的次日起8天內，可透過書面行使冷靜期（無條件解除）。該期間過後，除不可抗力事由外，原則上不可中途解約。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">For 8 days from the day after receiving the contract documents, you may exercise the cooling-off right (unconditional cancellation) in writing. After this period, early termination is not permitted in principle, except for unavoidable circumstances.</td></tr>
+<tr><td><span class="i18n-key">p-detail</span></td><td style="font-weight:600;font-size:11px">所有権構造</td><td style="font-size:11.5px;line-height:1.6">所有権：FUNDEX株式会社（事業者）が取得・保有。抵当権の設定はありません。出資者は匿名組合員として利益分配請求権を有しますが、不動産の所有権は取得しません。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">所有權：由FUNDEX株式會社（營運商）取得及持有。未設定抵押權。出資者作為匿名組合成員享有利益分配請求權，但不取得不動產所有權。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Ownership: Acquired and held by FUNDEX Inc. (operator). No mortgage is established. Investors, as silent partnership members, have the right to claim profit distribution but do not acquire ownership of the real estate.</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#7C3AED">Flow</span>投資フロー</h3>
+<table class="i18n-table">
+<thead><tr><th style="width:80px">画面</th><th style="width:120px">要素</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">p-invest</span></td><td style="font-weight:600;font-size:11px">書面確認指示</td><td style="font-size:11.5px;line-height:1.6">投資判断に必要な書面です。すべてご確認のうえ、チェックしてください。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">這些是投資判斷所需的書面，請全部確認後勾選。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">These documents are required for your investment decision. Please review all and check each box.</td></tr>
+<tr><td><span class="i18n-key">p-invest</span></td><td style="font-weight:600;font-size:11px">残高不足警告</td><td style="font-size:11.5px;line-height:1.6">申込金額に対して残高が不足しています。先にご入金のうえ、お申込みください。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">餘額不足以支付申請金額，請先入金後再申請。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Your balance is insufficient for the applied amount. Please make a deposit before applying.</td></tr>
+<tr><td><span class="i18n-key">p-invest</span></td><td style="font-weight:600;font-size:11px">抽選説明</td><td style="font-size:11.5px;line-height:1.6">当選した場合、8日以内にご入金ください（クーリングオフ期間を含む）。落選の場合は手続き不要です。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">若中選，需在8個營業日內入金（含冷靜期）。落選則無需任何手續。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">If selected, you must deposit within 8 business days (including the cooling-off period). No action is required if not selected.</td></tr>
+<tr><td><span class="i18n-key">p-invest</span></td><td style="font-weight:600;font-size:11px">投資注意事項</td><td style="font-size:11.5px;line-height:1.6">本投資は元本保証ではありません。抽選に当選した場合、指定期限内にご入金が必要です。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">本投資不保證本金。若抽選中選，需在指定期限內入金。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">This investment does not guarantee principal. If selected in the lottery, deposit must be made by the specified deadline.</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#10B981">入出</span>入金・出金</h3>
+<table class="i18n-table">
+<thead><tr><th style="width:80px">画面</th><th style="width:120px">要素</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">p-dep</span></td><td style="font-weight:600;font-size:11px">口座説明</td><td style="font-size:11.5px;line-height:1.6">この口座はお客様専用の入金口座です。入金は自動的にアカウントに反映されます（最低入金額：¥10,000）。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">此帳戶為您專用。入金將自動反映至您的帳戶（最低入金額：¥10,000）。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">This is your dedicated account. Deposits are automatically credited to your account (minimum deposit: ¥10,000).</td></tr>
+<tr><td><span class="i18n-key">p-dep</span></td><td style="font-weight:600;font-size:11px">口座期限</td><td style="font-size:11.5px;line-height:1.6">3ヶ月間未使用の場合、入金口座が変更される場合があります。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">若3個月未使用，帳戶將被關閉。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">If unused for 3 months, the account will be closed.</td></tr>
+</tbody></table>
+</div>
+<div class="i18n-section">
+<h3><span class="icon" style="background:#F59E0B">貸付</span>貸付型ファンド</h3>
+<table class="i18n-table">
+<thead><tr><th style="width:80px">画面</th><th style="width:120px">要素</th><th>🇯🇵 日本語</th><th>🇹🇼 繁體中文</th><th>🇺🇸 English</th></tr></thead>
+<tbody>
+<tr><td><span class="i18n-key">p-loan</span></td><td style="font-weight:600;font-size:11px">概要説明</td><td style="font-size:11.5px;line-height:1.6">抽選待ちや投資先がない期間の待機資金を、当社グループ運営会社が発行する貸付型ファンドで運用できます。</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">在等待抽選或無投資標的期間的待機資金，可透過本集團營運公司發行的貸付型基金進行運用。</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Idle funds during lottery waiting periods or when no projects are available can be invested in lending-type funds issued by our group operating companies.</td></tr>
+<tr><td><span class="i18n-key">p-loan</span></td><td style="font-weight:600;font-size:11px">発行元限定</td><td style="font-size:11.5px;line-height:1.6">発行元は当社グループの旅行・宿泊関連運営会社に限定されます</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">發行方僅限於本集團旗下旅行及住宿相關營運公司</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Issuers are limited to travel and hospitality operating companies within our group</td></tr>
+<tr><td><span class="i18n-key">p-loan</span></td><td style="font-weight:600;font-size:11px">元本非保証</td><td style="font-size:11.5px;line-height:1.6">貸付型ファンドは元本保証ではありません</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">貸付型基金不保證本金</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Lending-type funds do not guarantee principal</td></tr>
+<tr><td><span class="i18n-key">p-loan</span></td><td style="font-weight:600;font-size:11px">中途解約不可</td><td style="font-size:11.5px;line-height:1.6">中途解約はできません。運用期間満了まで資金の引出しは不可です</td><td style="font-size:11.5px;line-height:1.6;color:#0369A1">不可中途解約。資金在運用期間結束前無法提取</td><td style="font-size:11.5px;line-height:1.6;color:#6D28D9">Early withdrawal is not permitted. Funds cannot be withdrawn until the end of the investment period</td></tr>
+</tbody></table>
+</div>
+
+</div><!-- /container -->
+
+<div style="background:var(--pri);color:rgba(255,255,255,.4);text-align:center;padding:30px;font-size:11px;margin-top:40px">
+FUNDEX App MVP Demo v4 — Wireframe & Component Analysis<br>
+Generated 2025.03.05 (i18n audit済) ・ 16 Pages ・ 4 Nav Tabs ・ 6-Step Invest Flow ・ 3 Languages ・ 171 i18n Keys + 28 Static Texts
+</div>
+
+<script>
+// Click-to-copy for i18n table cells
+document.querySelectorAll('.i18n-table td').forEach(function(td){
+  if(td.querySelector('.i18n-key')) return;
+  td.style.cursor='pointer';
+  td.title='クリックでコピー';
+  td.addEventListener('click',function(){
+    var t=this.textContent.trim();
+    if(!t||t==='—') return;
+    navigator.clipboard.writeText(t).then(function(){
+      var orig=td.style.background;
+      td.style.background='#DCFCE7';
+      td.style.transition='.3s';
+      setTimeout(function(){td.style.background=orig},600);
+    });
+  });
+});
+</script>
+
+</body>
+</html>

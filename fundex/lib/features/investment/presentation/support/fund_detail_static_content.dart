@@ -24,10 +24,16 @@ class FundDetailStaticContent {
   final FundDetailRiskSection riskSection;
   final List<FundDetailLegalSection> legalSections;
 
-  static Future<FundDetailStaticContent> load(String languageCode) async {
-    final normalized = switch (languageCode) {
-      'ja' => 'ja',
-      'zh' => 'zh',
+  static Future<FundDetailStaticContent> load(String localeTag) async {
+    final normalizedTag = localeTag.replaceAll('_', '-').toLowerCase();
+    final normalized = switch (normalizedTag) {
+      String tag when tag.startsWith('ja') => 'ja',
+      String tag
+          when tag.startsWith('zh-hant') ||
+              tag.startsWith('zh-tw') ||
+              tag.startsWith('zh-hk') =>
+        'zh_Hant',
+      String tag when tag.startsWith('zh') => 'zh',
       _ => 'en',
     };
 

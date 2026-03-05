@@ -24,6 +24,10 @@ void main() {
       expect(controller.state, AppLanguage.zh);
       expect(await storage.read('app_locale'), 'zh');
 
+      await controller.setLanguage(AppLanguage.zhHant);
+      expect(controller.state, AppLanguage.zhHant);
+      expect(await storage.read('app_locale'), 'zh_Hant');
+
       await controller.setLanguage(AppLanguage.system);
       expect(controller.state, AppLanguage.system);
       expect(await storage.read('app_locale'), isNull);

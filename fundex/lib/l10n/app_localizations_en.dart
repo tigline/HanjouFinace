@@ -63,18 +63,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please enter a valid phone number for phone sign in.';
 
   @override
-  String get registerTitle => 'Create your account';
+  String get registerTitle => 'Create Account';
 
   @override
   String get registerSubtitle =>
       'Set up secure access for investment, stays, and member privileges.';
 
   @override
-  String get registerQuickTitle => 'Create your account first';
+  String get registerQuickTitle => 'Create your account';
 
   @override
   String get registerQuickSubtitle =>
-      'Register with your email and verification code. You can complete investment profile details later.';
+      'Register with just your email and password. You can complete required details later.';
 
   @override
   String get registerModeTitle => 'Registration method';
@@ -416,7 +416,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'This screen demonstrates reusable policy presentation in a shared bottom sheet. Connect your legal policy content service here.';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Create Account';
 
   @override
   String get registerBackToLogin => 'Already have an account? Sign in';
@@ -522,10 +522,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mainTabDiscussion => 'Board';
 
   @override
-  String get mainTabInvestment => 'Invest';
+  String get mainTabInvestment => 'Funds';
 
   @override
-  String get mainTabProfile => 'Profile';
+  String get mainTabProfile => 'Account';
 
   @override
   String get mainTabKizunark => 'KIZUNARK';
@@ -573,11 +573,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeGuestBrowsingBody => 'An account is required to invest.';
 
   @override
-  String get homeReminderProfileTitle => 'Profile information is required';
+  String get homeReminderProfileTitle => 'Complete your profile to get started';
 
   @override
   String get homeReminderProfileBody =>
-      'Identity verification is required for investing and withdrawals. Please complete your profile information.';
+      'Identity verification required. 3 steps remaining.';
 
   @override
   String get homeReminderProfileBadge => 'Action needed';
@@ -599,7 +599,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeFeaturedFundsTitle => '🔥 Featured Funds';
 
   @override
-  String get homeViewAllAction => 'View all';
+  String get homeViewAllAction => 'View All';
 
   @override
   String get homeEstimatedYieldLabel => 'Est. yield';
@@ -620,7 +620,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeInvestedAmountLabel => 'Investment amount';
 
   @override
-  String get homeNextDividendLabel => 'Next dividend';
+  String get homeNextDividendLabel => 'Next Distribution';
 
   @override
   String get homeShowMoreAction => 'Show more';
@@ -714,7 +714,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get fundListViewDetail => 'View details →';
+  String get fundListViewDetail => 'Details→';
 
   @override
   String get fundListLoadError => 'Failed to load funds. Please try again.';
@@ -911,7 +911,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageFollowSystem => 'Follow system';
 
   @override
-  String get languageChinese => 'Chinese';
+  String get languageChinese => 'Simplified Chinese';
+
+  @override
+  String get languageTraditionalChinese => 'Traditional Chinese';
 
   @override
   String get languageEnglish => 'English';
@@ -924,7 +927,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Estimated yield (annualized)';
 
   @override
-  String get fundDetailYieldDisclaimer => '* Estimate only. Not guaranteed.';
+  String get fundDetailYieldDisclaimer => '※ Estimated, not guaranteed';
 
   @override
   String get fundDetailKeyFactsTitle => '📌 Key facts';
@@ -942,8 +945,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fundDetailLotteryDateLabel => 'Lottery date';
 
   @override
-  String get fundDetailPreferredStructureTitle =>
-      '🛡️ Preferred/Subordinated Structure';
+  String get fundDetailPreferredStructureTitle => '🛡️ Senior/Junior Structure';
 
   @override
   String get fundDetailSeniorInvestmentLabel => 'Preferred';
@@ -967,7 +969,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fundDetailBuiltYearLabel => 'Built';
 
   @override
-  String get fundDetailContractOverviewTitle => '📋 Contract overview';
+  String get fundDetailContractOverviewTitle => '📋 Contract Summary';
 
   @override
   String get fundDetailContractTypeLabel => 'Contract type';
@@ -1095,16 +1097,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myPageWithdrawAction => 'Withdraw';
 
   @override
-  String get myPagePendingApplicationsTitle => 'Applications / Lottery waiting';
+  String get myPagePendingApplicationsTitle => '📩 Pending Applications';
 
   @override
-  String get myPageCoolingOffTitle => 'Cooling-off period (contract formed)';
+  String get myPageCoolingOffTitle => '⏰ Cooling-off Period';
 
   @override
-  String get myPageOperatingFundsTitle => 'Operating funds';
+  String get myPageOperatingFundsTitle => '📊 Active Funds';
 
   @override
-  String get myPageTransactionHistoryAction => 'View transaction history';
+  String get myPageTransactionHistoryAction => '📋 Transaction History';
 
   @override
   String get myPageApplyAmountLabel => 'Application amount';
@@ -1151,7 +1153,7 @@ class AppLocalizationsEn extends AppLocalizations {
       '* Cooling-off cancellation is available for 8 days from the day after receiving the contract document.';
 
   @override
-  String get myPageCancelRequestAction => 'Request cancellation';
+  String get myPageCancelRequestAction => 'Cancel';
 
   @override
   String get myPageCancelRequestComingSoon =>
@@ -1327,7 +1329,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get memberProfileFundSourceWarningHighRisk =>
-      'This product does not guarantee principal, and you may lose your full investment. Investing with living funds or borrowed money is not recommended.';
+      'This product does not guarantee principal, and you may lose your full investment. Investing with living funds or borrowed money is not recommended. Please invest within your surplus funds.';
 
   @override
   String get memberProfileRiskToleranceLabel => 'Risk tolerance';
@@ -1343,8 +1345,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get memberProfileDocumentTypeLabel => 'Select document';
 
   @override
-  String get memberProfilePhotoDocumentTitle =>
-      'Photograph the document (front and back)';
+  String get memberProfilePhotoDocumentTitle => 'Photo ID (Front & Back)';
 
   @override
   String get memberProfilePhotoDocumentDescription => 'Tap to open the camera';
@@ -1433,7 +1434,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get memberProfileElectronicDeliveryFootnote =>
-      '* Consent to electronic delivery can be withdrawn anytime from settings. After withdrawal, documents will be sent on paper. File format: PDF.';
+      '※ You may withdraw your consent to electronic delivery at any time from Settings. After withdrawal, documents will be mailed in paper form.';
 
   @override
   String get memberProfileElectronicDeliveryConsent =>

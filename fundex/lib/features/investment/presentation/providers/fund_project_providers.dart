@@ -48,7 +48,7 @@ final fundProjectDetailProvider = FutureProvider.family<FundProject, String>((
 final fundDetailStaticContentProvider =
     FutureProvider.family<FundDetailStaticContent, String>((
       ref,
-      String languageCode,
+      String localeTag,
     ) async {
-      return FundDetailStaticContent.load(languageCode);
+      return FundDetailStaticContent.load(localeTag);
     });

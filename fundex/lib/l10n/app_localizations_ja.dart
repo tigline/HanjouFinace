@@ -57,17 +57,17 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loginMobileAccountInvalid => '電話ログインには有効な電話番号を入力してください。';
 
   @override
-  String get registerTitle => 'アカウント作成';
+  String get registerTitle => '新規会員登録';
 
   @override
   String get registerSubtitle => '投資・予約・会員特典に使う安全なアカウントを設定します。';
 
   @override
-  String get registerQuickTitle => 'まずはアカウントを作成';
+  String get registerQuickTitle => 'アカウントを作成';
 
   @override
   String get registerQuickSubtitle =>
-      'メールアドレスと認証コードで登録できます。投資に必要な情報は登録後に入力できます。';
+      'メールアドレスとパスワードだけで登録ができます。投資に必要な情報は後からいつでも入力できます。';
 
   @override
   String get registerModeTitle => '登録方法';
@@ -388,7 +388,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'この画面は共通のボトムシートUIを利用したサンプルです。正式な法務コンテンツ連携に置き換えてください。';
 
   @override
-  String get registerSubmit => 'アカウント作成';
+  String get registerSubmit => 'アカウントを作成';
 
   @override
   String get registerBackToLogin => '既にアカウントをお持ちですか？ ログインへ';
@@ -484,7 +484,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mainTabDiscussion => '掲示板';
 
   @override
-  String get mainTabInvestment => '投資';
+  String get mainTabInvestment => 'ファンド';
 
   @override
   String get mainTabProfile => 'マイページ';
@@ -534,10 +534,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeGuestBrowsingBody => '投資するにはアカウントが必要です';
 
   @override
-  String get homeReminderProfileTitle => '本人情報の入力が必要です';
+  String get homeReminderProfileTitle => '本人情報を入力して出資を始めましょう';
 
   @override
-  String get homeReminderProfileBody => 'ご投資・ご出金には本人確認が必要です。本人情報を入力してください。';
+  String get homeReminderProfileBody => 'ご投資・ご出金には本人確認が必要です。あと3ステップで完了します。';
 
   @override
   String get homeReminderProfileBadge => '要対応';
@@ -559,7 +559,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeFeaturedFundsTitle => '🔥 注目ファンド';
 
   @override
-  String get homeViewAllAction => 'すべて見る';
+  String get homeViewAllAction => '一覧を見る';
 
   @override
   String get homeEstimatedYieldLabel => '想定利回り';
@@ -580,7 +580,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeInvestedAmountLabel => '投資額';
 
   @override
-  String get homeNextDividendLabel => '次回配当';
+  String get homeNextDividendLabel => '次回分配予定';
 
   @override
   String get homeShowMoreAction => 'もっと見る';
@@ -671,7 +671,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get fundListViewDetail => '詳細を確認 →';
+  String get fundListViewDetail => '詳細→';
 
   @override
   String get fundListLoadError => 'ファンド一覧の取得に失敗しました。再度お試しください。';
@@ -855,7 +855,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get languageFollowSystem => 'システムに従う';
 
   @override
-  String get languageChinese => '中国語';
+  String get languageChinese => '簡体中文';
+
+  @override
+  String get languageTraditionalChinese => '繁體中文';
 
   @override
   String get languageEnglish => '英語';
@@ -1032,16 +1035,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get myPageWithdrawAction => '出金';
 
   @override
-  String get myPagePendingApplicationsTitle => '申込中・抽選待ち';
+  String get myPagePendingApplicationsTitle => '📩 申込中・抽選待ち';
 
   @override
-  String get myPageCoolingOffTitle => 'クーリングオフ期間中（契約成立）';
+  String get myPageCoolingOffTitle => '🗓️クーリングオフ期間中（契約成立）';
 
   @override
-  String get myPageOperatingFundsTitle => '運用中ファンド';
+  String get myPageOperatingFundsTitle => '📊 運用中ファンド';
 
   @override
-  String get myPageTransactionHistoryAction => '取引履歴を見る';
+  String get myPageTransactionHistoryAction => '📋 取引履歴を見る';
 
   @override
   String get myPageApplyAmountLabel => '申込金額';
@@ -1087,7 +1090,7 @@ class AppLocalizationsJa extends AppLocalizations {
       '※ 契約締結時交付書面を受領した日の翌日から8日間はクーリングオフ（無条件解除）が可能です。';
 
   @override
-  String get myPageCancelRequestAction => 'キャンセル申請';
+  String get myPageCancelRequestAction => '解約申請';
 
   @override
   String get myPageCancelRequestComingSoon => 'キャンセル申請機能は次の実装で接続します。';
@@ -1250,7 +1253,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get memberProfileFundSourceWarningHighRisk =>
-      '本商品は元本保証ではなく、出資金の全額を失う可能性があります。生活資金や借入金での投資は推奨しておりません。';
+      '本商品は元本保証ではなく、出資金の全額を失う可能性があります。生活資金や借入金での投資は推奨しておりません。余裕資金の範囲内でのご投資をお願いいたします。';
 
   @override
   String get memberProfileRiskToleranceLabel => 'リスク許容度';
@@ -1265,7 +1268,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memberProfileDocumentTypeLabel => '書類を選択';
 
   @override
-  String get memberProfilePhotoDocumentTitle => '書類を撮影（表面+裏面）';
+  String get memberProfilePhotoDocumentTitle => '書類を撮影（表・裏）';
 
   @override
   String get memberProfilePhotoDocumentDescription => 'タップしてカメラを起動';
@@ -1345,7 +1348,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get memberProfileElectronicDeliveryFootnote =>
-      '※ 電子交付の同意は、設定画面からいつでも撤回できます。撤回後は紙面で郵送いたします。※ 交付ファイル形式：PDF';
+      '※ 電子交付の同意は、設定画面からいつでも撤回できます。撤回後は紙面にて書面を郵送いたします。';
 
   @override
   String get memberProfileElectronicDeliveryConsent => '上記の電子交付方法に同意します';

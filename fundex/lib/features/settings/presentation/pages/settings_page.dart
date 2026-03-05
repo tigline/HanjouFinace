@@ -94,6 +94,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     return switch (language) {
       AppLanguage.system => l10n.languageFollowSystem,
       AppLanguage.zh => l10n.languageChinese,
+      AppLanguage.zhHant => l10n.languageTraditionalChinese,
       AppLanguage.en => l10n.languageEnglish,
       AppLanguage.ja => l10n.languageJapanese,
     };

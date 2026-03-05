@@ -9,26 +9,49 @@ const _localeStorageKey = 'app_locale';
 enum AppLanguage {
   system(null),
   zh('zh'),
+  zhHant('zh', 'Hant'),
   en('en'),
   ja('ja');
 
-  const AppLanguage(this.languageCode);
+  const AppLanguage(this.languageCode, [this.scriptCode]);
 
   final String? languageCode;
+  final String? scriptCode;
+
+  String? get storageCode {
+    final code = languageCode;
+    if (code == null) {
+      return null;
+    }
+    final script = scriptCode;
+    if (script == null || script.isEmpty) {
+      return code;
+    }
+    return '${code}_$script';
+  }
 
   Locale? toLocale() {
     final code = languageCode;
     if (code == null) {
       return null;
     }
-    return Locale(code);
+    return Locale.fromSubtags(languageCode: code, scriptCode: scriptCode);
   }
 
   static AppLanguage fromLanguageCode(String? code) {
+    if (code == null || code.isEmpty) {
+      return AppLanguage.system;
+    }
     for (final candidate in values) {
-      if (candidate.languageCode == code) {
+      if (candidate.storageCode == code) {
         return candidate;
       }
+    }
+    if (code == 'zh-Hant' || code == 'zh_TW' || code == 'zh-HK') {
+      return AppLanguage.zhHant;
+    }
+    if (code == 'zh-Hans' || code == 'zh_CN') {
+      return AppLanguage.zh;
     }
     return AppLanguage.system;
   }
@@ -58,12 +81,12 @@ class AppLocaleController extends StateNotifier<AppLanguage> {
       return;
     }
     state = language;
-    final languageCode = language.languageCode;
-    if (languageCode == null) {
+    final storageCode = language.storageCode;
+    if (storageCode == null) {
       await _storage.remove(_localeStorageKey);
       return;
     }
-    await _storage.write(_localeStorageKey, languageCode);
+    await _storage.write(_localeStorageKey, storageCode);
   }
 }
 

@@ -501,7 +501,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="divider"><span data-t="or">または</span></div>
 <div class="sns-row"><button class="sns-btn" onclick="loginUser();go('p-mypage');setNav(3)">Google</button><button class="sns-btn" onclick="loginUser();go('p-mypage');setNav(3)">Apple</button></div>
 <div class="register-link"><span data-t="no_account">アカウントをお持ちでない方は</span> <a href="#" onclick="go('p-reg');return false" data-t="register_link">新規登録</a></div>
-<div style="margin-top:16px;text-align:center"><button onclick="isGuest=true;updateGuestUI();go('p-home');setNav(0)" style="background:none;border:1.5px solid var(--bdr);border-radius:var(--r);padding:10px 0;width:100%;font-size:13px;font-weight:600;color:var(--tx2);cursor:pointer">ログインせずに閲覧する（ゲストモード）</button></div>
+<div style="margin-top:16px;text-align:center"><button onclick="isGuest=true;updateGuestUI();go('p-home');setNav(0)" style="background:none;border:1.5px solid var(--bdr);border-radius:var(--r);padding:10px 0;width:100%;font-size:13px;font-weight:600;color:var(--tx2);cursor:pointer">ゲストとして閲覧</button></div>
 </div>
 </div>
 
@@ -509,7 +509,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="s" id="p-reg">
 <div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-login')"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3 data-t="register_title">新規会員登録</h3></div></div>
 <div class="reg-body">
-<h4 data-t="create_account_title">まずはアカウントを作成</h4><p class="sub"><span data-t="create_account_desc1">メールアドレスとパスワードだけで登録できます。</span><br><span data-t="create_account_desc2">投資に必要な情報は後からいつでも入力できます。</span></p>
+<h4 data-t="create_account_title">アカウントを作成</h4><p class="sub"><span data-t="create_account_desc1">メールアドレスとパスワードだけで登録ができます。</span><br><span data-t="create_account_desc2">投資に必要な情報は後からいつでも入力できます。</span></p>
 <div class="fg"><label>メールアドレス</label><input type="email" placeholder="example@mail.com"></div>
 <div class="fg"><label>パスワード</label><input type="password" placeholder="8文字以上の英数字" data-tp="pw_rule"></div>
 <div class="fg"><label data-t="pw_confirm">パスワード（確認）</label><input type="password" placeholder="もう一度入力" data-tp="pw_again"></div>
@@ -564,7 +564,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div id="cp4" class="reg-body" style="display:none">
 <h4 data-t="step4_title">Step 4：本人確認（eKYC）</h4><p class="sub" data-t="step4_desc">本人確認書類を撮影してください</p>
 <div class="fg"><label data-t="select_doc">書類を選択</label><select><option>運転免許証</option><option>マイナンバーカード</option><option>パスポート</option></select></div>
-<div class="ekyc-box" onclick="toast('カメラ起動（デモ）')"><svg viewBox="0 0 24 24"><path d="M12 12m-3.2 0a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0-6.4 0M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg><h5 data-t="photo_doc">書類を撮影（表面+裏面）</h5><p>タップしてカメラを起動</p></div>
+<div class="ekyc-box" onclick="toast('カメラ起動（デモ）')"><svg viewBox="0 0 24 24"><path d="M12 12m-3.2 0a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0-6.4 0M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9z"/></svg><h5 data-t="photo_doc">書類を撮影（表・裏）</h5><p>タップして撮影</p></div>
 <div class="ekyc-box" onclick="toast('カメラ起動（デモ）')"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><h5 data-t="selfie">自撮り写真を撮影</h5><p>正面を向いて撮影</p></div>
 <button class="btn btn-p" onclick="cpStep(5)">次へ</button>
 </div>
@@ -620,7 +620,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 
 <!-- ③ USER ASSET HEADER (hidden for guests) -->
 <div class="hm-hd" id="homeHdr">
-<div class="as"><div class="ac m"><label data-t="total_assets">総資産額</label><div class="v">¥3,850,000</div><div class="su">+¥127,500（前月比 +3.4%）</div></div><div class="ac"><label data-t="active_inv">運用中</label><div class="v" style="font-size:16px">¥3,200,000</div></div><div class="ac"><label data-t="total_div">累計分配金</label><div class="v" style="font-size:16px">¥285,000</div></div></div></div>
+<div class="as"><div class="ac m"><label data-t="total_assets">総資産額</label><div class="v">¥3,850,000</div><div class="su">¥127,500（前月比 +3.4%）</div></div><div class="ac"><label data-t="active_inv">運用中</label><div class="v" style="font-size:16px">¥3,200,000</div></div><div class="ac"><label data-t="total_div">累計分配金</label><div class="v" style="font-size:16px">¥285,000</div></div></div></div>
 
 <!-- ④ IMPORTANT NOTIFICATIONS (red banner, action required) -->
 <div class="imp-notif" id="impNotif" onclick="go('p-complete')">
@@ -629,11 +629,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="in-prog"><div class="in-step done"></div><div class="in-step done"></div><div class="in-step"></div><div class="in-step"></div><div class="in-step"></div></div>
 </div>
 <div class="imp-notif" style="border-color:#FCD34D;background:linear-gradient(135deg,#FEF3C7,#FFFBEB)" onclick="toast('クーリングオフ詳細へ')">
-<div class="in-hdr"><div class="dot-r" style="background:var(--org)"></div><h5 style="color:#92400E" data-t="cooloff_title">⏰ クーリングオフ期間中</h5><span class="badge-r" style="background:var(--org)">残り5日</span></div>
+<div class="in-hdr"><div class="dot-r" style="background:var(--org)"></div><h5 style="color:#92400E" data-t="cooloff_title">🗓️クーリングオフ期間中</h5><span class="badge-r" style="background:var(--org)">残り5日</span></div>
 <p style="color:#92400E">「商業ビル心斎橋」契約書面交付日 3/2 → 取消期限 3/10（8日間）</p>
 </div>
 
-<div class="sect"><h3 data-t="featured">🔥 注目ファンド</h3><a href="#" onclick="go('p-list');setNav(1);return false" data-t="view_all">すべて見る</a></div>
+<div class="sect"><h3 data-t="featured">🔥 注目ファンド</h3><a href="#" onclick="go('p-list');setNav(1);return false" data-t="view_all">一覧を見る</a></div>
 <div class="fscr">
 <div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="113" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="155" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/><circle cx="110" cy="18" r="12" fill="rgba(255,255,255,.08)"/></svg></div><div class="brow"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk" data-t="tag_lottery">抽選</span></div></div><div class="inf"><h4>東京都港区 プレミアムレジデンス赤坂</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">8.5<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">12ヶ月 ・ 2億円</p></div></div><div class="pb"><div class="f" style="width:72%"></div></div></div></div>
 <div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-os"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="30" y="25" width="60" height="95" rx="3" fill="rgba(255,255,255,.18)"/><rect x="36" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="80" width="48" height="16" rx="2" fill="rgba(255,255,255,.25)"/><rect x="110" y="35" width="50" height="85" rx="3" fill="rgba(255,255,255,.15)"/><rect x="116" y="42" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="42" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="116" y="56" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="56" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="116" y="70" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="70" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="175" y="50" width="30" height="70" rx="2" fill="rgba(255,255,255,.1)"/></svg></div><div class="brow"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk" data-t="tag_lottery">抽選</span></div></div><div class="inf"><h4>大阪市中央区 商業ビル心斎橋</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">6.2<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">18ヶ月 ・ 1.5億円</p></div></div><div class="pb"><div class="f" style="width:45%"></div></div></div></div>
@@ -671,7 +671,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="fli-tgs"><span class="tag tag-g" style="font-size:9px;padding:2px 6px" data-t="tag_open">募集中</span><span class="tag tag-pk" style="font-size:9px;padding:2px 6px" data-t="tag_lottery">抽選</span></div>
 <div class="fli-amt">応募金額 144,000,000円（72%）</div>
 <div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">8.5%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div></div>
-<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">東京都港区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">東京都港区</span><span class="fli-link" data-t="view_detail">詳細→</span></div>
 </div>
 </div>
 
@@ -686,7 +686,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="fli-tgs"><span class="tag tag-g" style="font-size:9px;padding:2px 6px" data-t="tag_open">募集中</span><span class="tag tag-pk" style="font-size:9px;padding:2px 6px" data-t="tag_lottery">抽選</span></div>
 <div class="fli-amt">応募金額 67,500,000円（45%）</div>
 <div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">6.2%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">18ヶ月</div></div></div>
-<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">大阪市中央区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">大阪市中央区</span><span class="fli-link" data-t="view_detail">詳細→</span></div>
 </div>
 </div>
 
@@ -701,7 +701,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="fli-tgs"><span class="tag tag-o" style="font-size:9px;padding:2px 6px" data-t="tag_soon">募集前</span></div>
 <div class="fli-amt" style="background:linear-gradient(90deg,var(--org),#FBBF24)">募集開始 2025年4月1日〜</div>
 <div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">10.0%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">24ヶ月</div></div></div>
-<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">京都市東山区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">京都市東山区</span><span class="fli-link" data-t="view_detail">詳細→</span></div>
 </div>
 </div>
 
@@ -716,7 +716,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="fli-tgs"><span class="tag tag-b" style="font-size:9px;padding:2px 6px">運用中</span></div>
 <div class="fli-amt" style="background:linear-gradient(90deg,var(--grn),#34D399)">応募金額 100,000,000円（100%）</div>
 <div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">5.5%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div></div>
-<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">福岡市博多区</span><span class="fli-link" data-t="view_detail">詳細を確認 →</span></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">福岡市博多区</span><span class="fli-link" data-t="view_detail">詳細→</span></div>
 </div>
 </div>
 
@@ -865,7 +865,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div style="background:#fff;border:1.5px solid var(--kz1);border-radius:var(--r);padding:14px;margin-bottom:8px">
 <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#EC4899,#F472B6);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff">佐</div><div><span style="font-size:11px;font-weight:700">佐藤**</span> <span style="font-size:9px;color:var(--tx3)">2時間前</span></div></div>
 <p style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">赤坂のレジデンス案件、立地が最高ですね。利回り8.5%は魅力的。劣後出資30%は安心感あり。</p>
-<div style="display:flex;gap:8px;align-items:center"><span style="font-size:10px;color:var(--tx3)">💬 3件のコメント</span></div>
+<div style="display:flex;gap:8px;align-items:center"><span style="font-size:10px;color:var(--tx3)">💬 3</span></div>
 </div>
 <button class="btn btn-o" style="padding:10px;font-size:12px;border-color:var(--kz1);color:var(--kz1)" onclick="go('p-kz');setNav(2)">💜 KIZUNARKでもっと見る</button>
 </div>
@@ -891,7 +891,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 
 <!-- Step2: Docs -->
 <div id="is2" class="inv-c" style="display:none">
-<h4 data-t="step2_invest">② 契約書面の確認</h4><p style="font-size:11px;color:var(--tx3);margin-bottom:14px">投資判断に必要な書面です。すべて確認のうえチェックしてください。</p>
+<h4 data-t="step2_invest">② 契約書面の確認</h4><p style="font-size:11px;color:var(--tx3);margin-bottom:14px">投資判断に必要な書面です。すべてご確認のうえ、チェックしてください。</p>
 <div class="dci" onclick="tgCk2(this)"><div class="di"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></div><div class="dt2"><p>契約締結前交付書面</p><small>PDF 12ページ ｜ 重要事項・リスク説明を含む</small></div><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div></div>
 <div class="dci" onclick="tgCk2(this)"><div class="di"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg></div><div class="dt2"><p>匿名組合契約約款</p><small>PDF 8ページ ｜ 契約条件・分配方法の詳細</small></div><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div></div>
 <div style="background:var(--bg);border-radius:var(--rs);padding:10px 12px;margin-bottom:14px;display:flex;gap:8px"><span>💡</span><div style="font-size:10px;color:var(--tx3);line-height:1.6">書面の電子交付に関する同意は、会員登録時に取得済みです。<br>設定画面からいつでも撤回・変更できます。</div></div>
@@ -915,7 +915,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <p>「プレミアムレジデンス赤坂」の抽選に申し込みました。<br>抽選結果は下記の日程で発表予定です。<br>結果はアプリの通知でお知らせいたします。</p>
 <div class="lottery-pending"><h5>🗓️ 抽選結果発表日</h5><p>2025年3月20日</p></div>
 <div class="cc" style="text-align:left"><div class="cr"><label>申込番号</label><span class="v" style="font-family:'DM Sans'">FDX-2025-03-00847</span></div><div class="cr"><label>申込金額</label><span class="v" id="pAmt">¥500,000</span></div><div class="cr"><label data-t="method_label">募集方式</label><span class="v" style="color:var(--vio)" data-t="tag_lottery">抽選</span></div></div>
-<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:16px;display:flex;gap:8px;text-align:left"><span>💡</span><div style="font-size:11px;color:var(--tx2);line-height:1.6">当選した場合、8営業日以内にご入金が必要です（クーリングオフ期間を含む）。落選の場合は手続き不要です。<br>※ 募集人数未達の場合も先着順に審査し、抽選を実施します。</div></div>
+<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:16px;display:flex;gap:8px;text-align:left"><span>💡</span><div style="font-size:11px;color:var(--tx2);line-height:1.6">当選した場合、8日以内にご入金ください（クーリングオフ期間を含みます）。落選の場合はお手続き不要です。<br>※ 募集人数未達の場合も先着順に審査し、抽選を実施します。</div></div>
 <button class="btn btn-p" onclick="go('p-home');setNav(0);riStep()" data-t="back_home">ホームに戻る</button>
 <div style="margin-top:10px"><button class="btn btn-o" style="font-size:13px" onclick="iStep(5)">（デモ）抽選結果を確認する →</button></div>
 </div>
@@ -925,10 +925,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div id="is5" class="inv-c" style="display:none">
 <div class="lottery-box">
 <div class="lottery-icon win">🎉</div>
-<h3 data-t="congrats">当選おめでとうございます！</h3>
+<h3 data-t="congrats">当選のお知らせ</h3>
 <p>「プレミアムレジデンス赤坂」の抽選に当選しました。<br>下記の入金期限までに指定口座へお振込みください。</p>
 <div class="deadline"><h5>⏰ 入金期限（クーリングオフ8日間含む）</h5><p>2025年3月28日 23:59</p></div>
-<div style="background:var(--org-l);border-radius:var(--rs);padding:12px;margin-bottom:16px;text-align:left;display:flex;gap:8px"><span>📋</span><div style="font-size:11px;color:#92400E;line-height:1.6"><strong>クーリングオフについて</strong><br>契約書面交付日の翌日から8日間は無条件解除が可能です。入金後もクーリングオフ期間中はキャンセルできます。</div></div>
+<div style="background:var(--org-l);border-radius:var(--rs);padding:12px;margin-bottom:16px;text-align:left;display:flex;gap:8px"><span>📋</span><div style="font-size:11px;color:#92400E;line-height:1.6"><strong>クーリングオフについて</strong><br>契約書面交付日の翌日から8日間は無条件解除が可能です。入金後もクーリングオフ期間中は解約可能です。</div></div>
 <div class="deposit-info">
 <div class="dr"><label>入金金額</label><span class="v" id="dAmt">¥500,000</span></div>
 <div class="dr"><label>振込先</label><span class="v">GMOあおぞらネット銀行</span></div>
@@ -936,7 +936,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="dr"><label>口座番号</label><span class="v">普通 1234567 <button class="copy-btn" onclick="toast('コピーしました')">コピー</button></span></div>
 <div class="dr"><label>名義</label><span class="v">ファンデックス（カ</span></div>
 </div>
-<button class="btn btn-g" onclick="iStep(6)" data-t="deposit_done">入金完了を報告する</button>
+<button class="btn btn-g" onclick="iStep(6)" data-t="deposit_done">入金完了を報告</button>
 <div style="margin-top:10px"><button class="btn btn-o" onclick="go('p-home');setNav(0);riStep()" data-t="later_deposit">あとで入金する</button></div>
 </div>
 </div>
@@ -945,8 +945,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div id="is6" class="inv-c" style="display:none">
 <div class="suc">
 <div class="si"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
-<h3>出資手続きが完了しました！</h3>
-<p>入金確認ができました。運用開始までお待ちください。<br>分配スケジュールは通知でお知らせいたします。</p>
+<h3>出資手続きが完了しました</h3>
+<p>入金を確認しました。運用開始までお待ちください。<br>分配スケジュールは通知でお知らせします。</p>
 <div class="sid">受付番号：<strong>FDX-2025-03-00847</strong></div>
 <button class="btn btn-p" onclick="go('p-home');setNav(0);riStep()">ホームに戻る</button>
 </div>
@@ -959,7 +959,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 
 <!-- Designated Bank Account -->
 <div class="bc-card" id="bcActive">
-<h4>🏦 あなた専用の入金口座</h4>
+<h4>🏦 お客様専用の入金口座</h4>
 <div class="dw-info">
 <div class="dw-row"><label>銀行名</label><span class="v">GMOあおぞらネット銀行</span></div>
 <div class="dw-row"><label>支店</label><span class="v">法人営業部（101）</span></div>
@@ -967,10 +967,10 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="dw-row"><label>口座番号</label><span class="v">8401258 <button class="copy-btn" onclick="toast('口座番号をコピーしました')">コピー</button></span></div>
 <div class="dw-row"><label>口座名義</label><span class="v">ファンデックス（カ</span></div>
 </div>
-<div style="background:var(--acc-g);border-radius:var(--rs);padding:10px 12px;display:flex;gap:8px"><span>💡</span><div style="font-size:10px;color:var(--acc);line-height:1.6">この口座はあなた専用です。入金は自動的にアカウントに反映されます（最低入金額：¥10,000）。<br>3ヶ月間未使用の場合、口座は閉鎖されます。</div></div>
+<div style="background:var(--acc-g);border-radius:var(--rs);padding:10px 12px;display:flex;gap:8px"><span>💡</span><div style="font-size:10px;color:var(--acc);line-height:1.6">この口座はお客様専用の入金口座です。入金は自動的に口座に反映されます。（最低入金額：¥10,000）<br>3ヶ月間利用がない場合、入金口座が変更される場合があります。</div></div>
 </div>
 
-<div class="dw-card"><h4>📋 入金履歴</h4><div class="dw-info"><div class="dw-row"><label>2025/02/20</label><span class="v" style="color:var(--grn)">+¥500,000 (自動反映)</span></div><div class="dw-row"><label>2025/01/15</label><span class="v" style="color:var(--grn)">+¥300,000 (自動反映)</span></div></div></div>
+<div class="dw-card"><h4>📋 待機資金残高</h4><div class="dw-info"><div class="dw-row"><label>2025/02/20</label><span class="v" style="color:var(--grn)">¥500,000 (自動反映)</span></div><div class="dw-row"><label>2025/01/15</label><span class="v" style="color:var(--grn)">¥300,000 (自動反映)</span></div></div></div>
 <div style="padding:0 20px"><div class="ibox"><h5>待機資金残高</h5><p style="font-size:18px;font-weight:900;color:var(--tx);font-family:'DM Sans'">¥650,000</p></div></div>
 </div>
 
@@ -981,7 +981,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div style="background:var(--bg);border-radius:var(--r);padding:14px;margin-bottom:16px;text-align:center"><label style="font-size:11px;color:var(--tx3);display:block;margin-bottom:4px">出金可能額</label><div style="font-size:28px;font-weight:900;font-family:'DM Sans'">¥650,000</div></div>
 <div class="fg"><label>出金金額</label><input placeholder="¥100,000" style="font-size:18px;font-weight:700;text-align:center"></div>
 <div class="dw-info" style="margin-bottom:16px"><div class="dw-row"><label>振込先</label><span class="v">三菱UFJ 丸の内支店</span></div><div class="dw-row"><label>手数料</label><span class="v" style="color:var(--red)">¥145</span></div></div>
-<button class="btn btn-p" onclick="toast('出金申請完了');setTimeout(()=>{go('p-mypage');setNav(3)},1200)">出金を申請する</button>
+<button class="btn btn-p" onclick="toast('出金申請完了');setTimeout(()=>{go('p-mypage');setNav(3)},1200)">出金申請</button>
 </div>
 </div>
 
@@ -991,9 +991,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div style="padding:12px 20px"><button class="btn btn-o" style="padding:10px;font-size:12px" onclick="toast('CSV ダウンロード（デモ）')">📥 CSV ダウンロード（確定申告用）</button></div>
 <div class="hl">
 <div class="hi"><div class="hic hic-b" style="border-radius:12px"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div><div class="hb2"><h5>出資：プレミアムレジデンス赤坂</h5><p>抽選当選・入金</p></div><div class="ha"><div class="v minus">-¥500,000</div><div class="d">2025/03/01</div></div></div>
-<div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>分配金：オフィスビル #12</h5><p>源泉徴収 ¥3,674</p></div><div class="ha"><div class="v plus">+¥18,000</div><div class="d">2025/02/15</div></div></div>
-<div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>入金</h5><p>GMOあおぞら経由</p></div><div class="ha"><div class="v plus">+¥500,000</div><div class="d">2025/02/20</div></div></div>
-<div class="hi"><div class="hic hic-o" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="hb2"><h5>償還：横浜マンション #05</h5><p>元本返還</p></div><div class="ha"><div class="v plus">+¥300,000</div><div class="d">2025/02/01</div></div></div>
+<div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>分配金：オフィスビル #12</h5><p>源泉徴収 ¥3,674</p></div><div class="ha"><div class="v plus">¥18,000</div><div class="d">2025/02/15</div></div></div>
+<div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>入金</h5><p>GMOあおぞら経由</p></div><div class="ha"><div class="v plus">¥500,000</div><div class="d">2025/02/20</div></div></div>
+<div class="hi"><div class="hic hic-o" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="hb2"><h5>償還：横浜マンション #05</h5><p>元本返還</p></div><div class="ha"><div class="v plus">¥300,000</div><div class="d">2025/02/01</div></div></div>
 <div class="hi"><div class="hic hic-r" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg></div><div class="hb2"><h5>出金</h5><p>三菱UFJ銀行へ振込</p></div><div class="ha"><div class="v minus">-¥200,000</div><div class="d">2025/01/20</div></div></div>
 </div>
 </div>
@@ -1009,8 +1009,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="afd" style="border-left:3px solid var(--vio)"><div class="at"><h5>東京都港区 プレミアムレジデンス赤坂</h5><span class="tag" style="background:var(--vio-l);color:var(--vio);font-size:10px;padding:3px 8px" data-t="tag_waiting">抽選待ち</span></div><div class="rw"><span data-t="app_amount">申込金額</span><span class="v">¥500,000</span></div><div class="rw"><span data-t="result_date">結果発表</span><span class="v">2025/03/20</span></div></div>
 
 <!-- クーリングオフ（契約成立）セクション -->
-<div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_cooloff">⏰ クーリングオフ期間中（契約成立）</h4></div>
-<div class="afd" style="border-left:3px solid var(--org)"><div class="at"><h5>大阪市中央区 商業ビル心斎橋</h5><div class="ar">6.2%</div></div><div class="rw"><span data-t="inv_amount">投資額</span><span class="v">¥300,000</span></div><div class="rw"><span data-t="doc_date">書面交付日</span><span class="v">2025/03/02</span></div><div class="rw"><span data-t="cancel_deadline">取消期限</span><span class="v" style="color:var(--red);font-weight:800">3/10まで（残り5日）</span></div><div style="font-size:10px;color:var(--tx3);margin-top:4px;line-height:1.5;padding:0 4px">※ 契約締結時交付書面を受領した日の翌日から8日間はクーリングオフ（無条件解除）が可能です。</div><div style="margin-top:8px;text-align:right"><button style="padding:6px 16px;border-radius:8px;border:1.5px solid var(--red);background:#fff;font-size:11px;font-weight:700;color:var(--red);cursor:pointer" onclick="toast('キャンセル申請画面へ（デモ）')" data-t="cancel_btn">キャンセル申請</button></div></div>
+<div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_cooloff">🗓️クーリングオフ期間中（契約成立）</h4></div>
+<div class="afd" style="border-left:3px solid var(--org)"><div class="at"><h5>大阪市中央区 商業ビル心斎橋</h5><div class="ar">6.2%</div></div><div class="rw"><span data-t="inv_amount">投資額</span><span class="v">¥300,000</span></div><div class="rw"><span data-t="doc_date">書面交付日</span><span class="v">2025/03/02</span></div><div class="rw"><span data-t="cancel_deadline">取消期限</span><span class="v" style="color:var(--red);font-weight:800">3/10まで（残り5日）</span></div><div style="font-size:10px;color:var(--tx3);margin-top:4px;line-height:1.5;padding:0 4px">契約締結時交付書面を受領した日の翌日から8日間は、無条件で契約を解除できます（クーリングオフ）。</div><div style="margin-top:8px;text-align:right"><button style="padding:6px 16px;border-radius:8px;border:1.5px solid var(--red);background:#fff;font-size:11px;font-weight:700;color:var(--red);cursor:pointer" onclick="toast('解約申請画面へ（デモ）')" data-t="cancel_btn">解約申請</button></div></div>
 
 <!-- 運用中ファンド -->
 <div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_active_funds">📊 運用中ファンド</h4></div>
@@ -1034,7 +1034,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="kz-card">
 <div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#EC4899,#F472B6)">佐</div><div><div class="kz-card-name">佐藤** <span class="kz-card-badge" style="background:var(--vio-l);color:var(--vio)">Gold投資家</span></div><div style="font-size:10px;color:var(--tx3)">sat***@</div></div><span class="kz-card-time">2時間前</span></div>
 <div class="kz-card-body">赤坂のレジデンス案件、立地が最高ですね。港区の賃貸需要を考えると稼働率は安定しそう。利回り8.5%は魅力的です。<br><span class="fund-ref" onclick="event.stopPropagation();go('p-detail')">🏠 プレミアムレジデンス赤坂 →</span></div>
-<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r1')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span data-t="comments_3">3件のコメント</span></button></div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r1')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span data-t="comments_3">3</span></button></div>
 <div class="kz-replies" id="r1" style="display:none">
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,var(--acc),#60A5FA)">山</div><div class="kz-reply-body"><div class="rn">yam*** <span>1時間前</span></div><div class="rt2">同感です！RC造15階建で2019年竣工なので築浅。管理状態も良さそう。</div></div></div>
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,var(--grn),#34D399)">鈴</div><div class="kz-reply-body"><div class="rn">suz*** <span>45分前</span></div><div class="rt2">劣後出資30%は安心感ありますね。私も申し込む予定です！</div></div></div>
@@ -1048,7 +1048,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="kz-card">
 <div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">高</div><div><div class="kz-card-name">高橋** <span class="kz-card-badge" style="background:var(--grn-l);color:var(--grn)">投資家</span></div><div style="font-size:10px;color:var(--tx3)">tak***@</div></div><span class="kz-card-time">5時間前</span></div>
 <div class="kz-card-body">先月の分配金が入金されました！オフィスビル案件、予定通りの利回りで安定運用中 📈 不動産クラファン始めて半年ですが、銀行預金とは比べものにならないリターンです。</div>
-<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r2')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>5件のコメント</span></button></div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r2')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>5</span></button></div>
 <div class="kz-replies" id="r2" style="display:none">
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#6366F1,#818CF8)">渡</div><div class="kz-reply-body"><div class="rn">wat*** <span>4時間前</span></div><div class="rt2">おめでとうございます！分配金が安定して入ると嬉しいですよね。</div></div></div>
 <div class="kz-reply-input"><input placeholder="コメントを入力..." id="ri2"><button onclick="addReply('r2','ri2')">送信</button></div>
@@ -1059,7 +1059,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="kz-card">
 <div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#6366F1,#818CF8)">渡</div><div><div class="kz-card-name">渡辺** <span class="kz-card-badge" style="background:var(--vio-l);color:var(--vio)">Gold投資家</span></div><div style="font-size:10px;color:var(--tx3)">wat***@</div></div><span class="kz-card-time">昨日</span></div>
 <div class="kz-card-body">京都の町家ホテル案件が気になります。インバウンド需要回復中、東山区の立地は最高。利回り10%は高めですが、観光需要リスクもありますね。皆さんどう思いますか？<br><span class="fund-ref" onclick="event.stopPropagation();go('p-detail')">🏠 町家リノベーションホテル →</span></div>
-<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r3')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>2件のコメント</span></button></div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r3')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>2</span></button></div>
 <div class="kz-replies" id="r3" style="display:none">
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#EC4899,#F472B6)">佐</div><div class="kz-reply-body"><div class="rn">sat*** <span>20時間前</span></div><div class="kz-quote"><div class="qname">渡辺** の投稿を引用：</div>観光需要リスクもありますね。</div><div class="rt2">インバウンドはコロナ前を超えてるのでポジティブに見てます。ただ24ヶ月は長いですね。</div></div></div>
 <div class="kz-reply-input"><input placeholder="コメントを入力..." id="ri3"><button onclick="addReply('r3','ri3')">送信</button></div>
@@ -1070,7 +1070,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="kz-card" style="margin-bottom:80px">
 <div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#10B981,#34D399)">中</div><div><div class="kz-card-name">中村** <span class="kz-card-badge" style="background:#DBEAFE;color:var(--acc)">新人投資家</span></div><div style="font-size:10px;color:var(--tx3)">nak***@</div></div><span class="kz-card-time">2日前</span></div>
 <div class="kz-card-body">不動産クラファン初心者です🔰 優先劣後構造の仕組みを理解して安心しました。まずは10万円から！先輩方、アドバイスお願いします 🙏</div>
-<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r4')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>12件のコメント</span></button></div>
+<div class="kz-actions"><button class="kz-act" onclick="toggleReply('r4')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>12</span></button></div>
 <div class="kz-replies" id="r4" style="display:none">
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#6366F1,#818CF8)">渡</div><div class="kz-reply-body"><div class="rn">wat*** <span>2日前</span></div><div class="rt2">ようこそ！最初は劣後出資比率が高い案件を選ぶのがおすすめです。30%以上あると安心感が違います。</div></div></div>
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#EC4899,#F472B6)">佐</div><div class="kz-reply-body"><div class="rn">sat*** <span>2日前</span></div><div class="rt2">複数案件に分散投資するのも大事ですよ。1案件に集中するよりリスク分散できます！</div></div></div>
@@ -1302,8 +1302,8 @@ or:{zh:'或',en:'or'},
 no_account:{zh:'還沒有帳號？',en:"Don't have an account?"},
 register_link:{zh:'免費註冊',en:'Sign Up'},
 register_title:{zh:'新會員註冊',en:'Create Account'},
-create_account_title:{zh:'首先建立帳號',en:'Create your account'},
-create_account_desc1:{zh:'只需電子郵件和密碼即可註冊。',en:'Register with just your email and password.'},
+create_account_title:{zh:'建立帳號',en:'Create your account'},
+create_account_desc1:{zh:'只需電子郵件和密碼即可完成註冊。',en:'Only an email and password needed.'},
 create_account_desc2:{zh:'出資所需資訊可稍後隨時填寫。',en:'You can complete required details later.'},
 pw_confirm:{zh:'密碼（確認）',en:'Confirm Password'},
 pw_rule:{zh:'8位以上英數字',en:'8+ alphanumeric characters'},
@@ -1313,7 +1313,7 @@ create_account_btn:{zh:'建立帳號',en:'Create Account'},
 google_reg:{zh:'使用 Google 註冊',en:'Sign up with Google'},
 apple_reg:{zh:'使用 Apple 註冊',en:'Sign up with Apple'},
 // ── Profile ──
-profile_input:{zh:'本人資訊填寫',en:'Personal Information'},
+profile_input:{zh:'個人資料填寫',en:'Personal Information'},
 step1_title:{zh:'Step 1：基本資訊',en:'Step 1: Basic Info'},
 step1_desc:{zh:'請輸入姓名及聯絡方式',en:'Enter your name and contact info'},
 name_kanji:{zh:'姓名（漢字）',en:'Full Name (Kanji)'},
@@ -1323,91 +1323,91 @@ phone:{zh:'電話號碼',en:'Phone Number'},
 next:{zh:'下一步',en:'Next'},
 skip:{zh:'略過 ›',en:'Skip ›'},
 step2_title:{zh:'Step 2：地址資訊',en:'Step 2: Address'},
-step2_desc:{zh:'本人確認所需',en:'Required for identity verification'},
+step2_desc:{zh:'身分驗證所需',en:'Required for identity verification'},
 postal:{zh:'郵遞區號',en:'Postal Code'},
 addr_search:{zh:'搜尋地址',en:'Search'},
 prefecture:{zh:'都道府縣',en:'Prefecture'},
 city_addr:{zh:'市區町村・地址',en:'City & Address'},
-step3_title:{zh:'Step 3：投資適合度評估',en:'Step 3: Suitability Assessment'},
+step3_title:{zh:'Step 3：投資適性評估',en:'Step 3: Suitability Assessment'},
 occupation:{zh:'職業',en:'Occupation'},
 income:{zh:'年收入',en:'Annual Income'},
 fin_assets:{zh:'金融資產',en:'Financial Assets'},
 inv_exp:{zh:'投資經驗（可複選）',en:'Investment Experience (multiple)'},
 inv_purpose:{zh:'投資目的',en:'Investment Purpose'},
-fund_source_label:{zh:'出資資金來源',en:'Source of Funds'},
+fund_source_label:{zh:'資金來源',en:'Source of Funds'},
 risk_tolerance:{zh:'風險承受度',en:'Risk Tolerance'},
-step4_title:{zh:'Step 4：本人確認（eKYC）',en:'Step 4: Identity Verification (eKYC)'},
-step4_desc:{zh:'請拍攝本人確認文件',en:'Please photograph your identity document'},
+step4_title:{zh:'Step 4：身分驗證（eKYC）',en:'Step 4: Identity Verification (eKYC)'},
+step4_desc:{zh:'請拍攝身分證件',en:'Take a photo of your ID'},
 select_doc:{zh:'選擇文件',en:'Select Document'},
-photo_doc:{zh:'拍攝文件（正面+反面）',en:'Photo ID (Front & Back)'},
+photo_doc:{zh:'拍攝文件（正・反面）',en:'Photo ID (Front & Back)'},
 selfie:{zh:'拍攝自拍照',en:'Take a Selfie'},
 step5_title:{zh:'Step 5：銀行帳戶登記',en:'Step 5: Bank Account'},
-step5_desc:{zh:'請登記分配金匯款帳戶',en:'Register your bank account for distributions'},
+step5_desc:{zh:'請登記配息入帳帳戶',en:'Add your bank account for distributions'},
 bank_name:{zh:'金融機構名稱',en:'Bank Name'},
 branch:{zh:'分行名稱',en:'Branch'},
 acc_type:{zh:'帳戶類型',en:'Account Type'},
 acc_num:{zh:'帳號',en:'Account Number'},
 acc_holder:{zh:'帳戶名義（片假名）',en:'Account Holder (Katakana)'},
-next_consent:{zh:'下一步：確認同意事項',en:'Next: Consent Confirmation'},
+next_consent:{zh:'下一步：確認同意事項',en:'Next: Review & Agree'},
 step6_title:{zh:'Step 6：同意事項確認',en:'Step 6: Consent'},
-agree_complete:{zh:'全部同意並完成註冊',en:'Agree All & Complete'},
+agree_complete:{zh:'全部同意並完成註冊',en:'Agree & Complete Registration'},
 // ── Home ──
 welcome:{zh:'歡迎，田中先生 👋',en:'Welcome, Tanaka-san 👋'},
 total_assets:{zh:'總資產',en:'Total Assets'},
 active_inv:{zh:'運用中',en:'Active'},
-total_div:{zh:'累計分配金',en:'Total Distributions'},
-complete_profile_h:{zh:'填寫個人資料以開始出資',en:'Complete your profile to start'},
+total_div:{zh:'累計配息',en:'Total Distributions'},
+complete_profile_h:{zh:'填寫個人資料以開始出資',en:'Complete your profile to get started'},
 complete_profile_p:{zh:'出資前需完成身份驗證，還差3步即可完成。',en:'Identity verification required. 3 steps remaining.'},
-cooloff_title:{zh:'冷靜期（解約猶予期間）',en:'Cooling-off Period'},
+cooloff_title:{zh:'🗓️冷靜期（契約解除期）',en:'🗓️Cooling-off Period'},
 cancel_proc:{zh:'取消手續',en:'Cancel'},
 featured:{zh:'🔥 精選基金',en:'🔥 Featured Funds'},
 view_all:{zh:'查看全部',en:'View All'},
 est_yield:{zh:'預期收益率',en:'Est. Yield'},
 active_funds_h:{zh:'📊 運用中基金',en:'📊 Active Funds'},
-inv_amount:{zh:'出資額',en:'Amt. Invested'},
-next_div:{zh:'下次分配預定',en:'Next Dist.'},
+inv_amount:{zh:'出資額',en:'Invested'},
+next_div:{zh:'下次配息日',en:'Next Distribution'},
 // ── Tags ──
 tag_open:{zh:'募集中',en:'Open'},
-tag_lottery:{zh:'抽選',en:'Lottery'},
-tag_soon:{zh:'募集前',en:'Upcoming'},
-tag_waiting:{zh:'等待抽選結果',en:'Pending'},
+tag_lottery:{zh:'抽籤',en:'Lottery'},
+tag_soon:{zh:'即將募集',en:'Upcoming'},
+tag_waiting:{zh:'等待抽籤結果',en:'Pending'},
 // ── Fund List ──
-fund_list_h:{zh:'基金列表',en:'Fund List'},
+fund_list_h:{zh:'基金列表',en:'Browse Funds'},
 filter_all:{zh:'全部',en:'All'},
 filter_open:{zh:'募集中',en:'Open'},
-filter_soon:{zh:'募集前',en:'Upcoming'},
+filter_soon:{zh:'即將募集',en:'Upcoming'},
 filter_active:{zh:'運用中',en:'Active'},
 filter_done:{zh:'已償還',en:'Redeemed'},
 yield_label:{zh:'收益率',en:'Yield'},
 period_label:{zh:'運用期間',en:'Period'},
-method_label:{zh:'募集方式',en:'Method'},
-view_detail:{zh:'查看詳情 →',en:'View Details →'},
+method_label:{zh:'募資方式',en:'Method'},
+view_detail:{zh:'詳情→',en:'Details→'},
 // ── Fund Detail ──
 est_yield_annual:{zh:'預期收益率（年率）',en:'Est. Annual Yield'},
-yield_disclaimer:{zh:'※ 為預估值，不保證收益',en:'※ Estimated, not guaranteed'},
+yield_disclaimer:{zh:'※ 為預估值，不保證收益',en:'* Estimated, not guaranteed'},
 op_period:{zh:'運用期間',en:'Period'},
 fund_total:{zh:'募集金額',en:'Fund Size'},
 min_invest:{zh:'最低出資額',en:'Min. Contribution'},
-lottery_val:{zh:'抽選',en:'Lottery'},
-dividend:{zh:'分配頻度',en:'Dist. Freq.'},
-lottery_date:{zh:'抽選日',en:'Lottery Date'},
-pref_sub:{zh:'🛡️ 優先劣後結構',en:'🛡️ Senior/Subordinate Structure'},
+lottery_val:{zh:'抽籤',en:'Lottery'},
+dividend:{zh:'配息頻率',en:'Distribution Schedule'},
+lottery_date:{zh:'抽籤日',en:'Lottery Date'},
+pref_sub:{zh:'🛡️ 優先劣後結構',en:'🛡️ Senior/Junior Structure'},
 inv_70:{zh:'出資者（優先） 70%',en:'Investors (Senior) 70%'},
-op_30:{zh:'事業者（劣後） 30%',en:'Operator (Sub.) 30%'},
+op_30:{zh:'事業者（劣後） 30%',en:'Operator (Junior) 30%'},
 senior:{zh:'優先出資',en:'Senior'},
-junior:{zh:'劣後出資',en:'Subordinate'},
+junior:{zh:'劣後出資',en:'Junior'},
 prop_info:{zh:'📍 物件資訊',en:'📍 Property Info'},
 location:{zh:'所在地',en:'Location'},
 prop_type:{zh:'類型',en:'Type'},
 structure:{zh:'構造',en:'Structure'},
 built:{zh:'竣工',en:'Built'},
-apply_lottery:{zh:'申請抽選',en:'Apply for Lottery'},
-contract_overview:{zh:'📋 契約概要（法定記載事項）',en:'📋 Contract Overview (Statutory)'},
+apply_lottery:{zh:'申請抽籤',en:'Apply for Lottery'},
+contract_overview:{zh:'📋 合約概要（法定揭露事項）',en:'📋 Contract Summary'},
 contract_type:{zh:'契約形態',en:'Contract Type'},
 // ── Invest Flow ──
-lottery_apply:{zh:'抽選申請',en:'Lottery Application'},
+lottery_apply:{zh:'抽籤申請',en:'Lottery Application'},
 step1_invest:{zh:'① 輸入出資金額',en:'① Enter Contribution'},
-balance_label:{zh:'💰 待機資金餘額',en:'💰 Available Balance'},
+balance_label:{zh:'💰 可用資金餘額',en:'💰 Available Balance'},
 deposit_btn:{zh:'入金',en:'Deposit'},
 next_docs:{zh:'下一步：確認文件',en:'Next: Document Review'},
 step2_invest:{zh:'② 確認契約文件',en:'② Review Documents'},
@@ -1415,41 +1415,41 @@ step3_invest:{zh:'③ 確認申請內容',en:'③ Confirm Application'},
 fund_name_l:{zh:'基金名稱',en:'Fund Name'},
 inv_amount_l:{zh:'出資金額',en:'Contribution'},
 est_yield_l:{zh:'預期收益率',en:'Est. Yield'},
-apply_lottery_btn:{zh:'🎲 申請抽選',en:'🎲 Apply for Lottery'},
-lottery_done:{zh:'抽選申請已完成！',en:'Application Submitted!'},
+apply_lottery_btn:{zh:'🎲 申請抽籤',en:'🎲 Apply for Lottery'},
+lottery_done:{zh:'抽籤申請已完成！',en:'Lottery Application Submitted!'},
 back_home:{zh:'返回首頁',en:'Back to Home'},
-congrats:{zh:'恭喜中選！',en:'Congratulations!'},
-deposit_done:{zh:'確認入金完成',en:'Confirm Deposit'},
+congrats:{zh:'中籤通知',en:'Application Successful!'},
+deposit_done:{zh:'確認已匯款',en:'Confirm Transfer'},
 later_deposit:{zh:'稍後入金',en:'Deposit Later'},
-invest_complete:{zh:'出資手續已完成！',en:'Process Complete!'},
+invest_complete:{zh:'出資手續已完成！',en:'Successfully Completed!'},
 // ── MyPage ──
-mypage_h:{zh:'我的頁面',en:'My Page'},
+mypage_h:{zh:'個人中心',en:'My Account'},
 total_assets2:{zh:'總資產',en:'Total Assets'},
 mp_active:{zh:'運用中',en:'Active'},
-mp_standby:{zh:'待機資金',en:'Available'},
-mp_total_div:{zh:'累計分配',en:'Distributions'},
+mp_standby:{zh:'可用資金',en:'Available'},
+mp_total_div:{zh:'累計配息',en:'Distributions'},
 mp_deposit:{zh:'💰 入金',en:'💰 Deposit'},
 mp_withdraw:{zh:'💸 出金',en:'💸 Withdraw'},
-mp_pending:{zh:'📩 申請中・抽選等待中',en:'📩 Pending / Lottery'},
-app_amount:{zh:'申請金額',en:'Applied Amt.'},
-result_date:{zh:'結果公佈',en:'Result Date'},
-mp_cooloff:{zh:'⏰ 冷靜期中（合約已成立）',en:'⏰ Cooling-off Period (Contracted)'},
-doc_date:{zh:'書面交付日',en:'Doc. Delivered'},
+mp_pending:{zh:'📩 申請中・抽籤等待中',en:'📩 Pending Applications'},
+app_amount:{zh:'申請金額',en:'Amount Applied'},
+result_date:{zh:'結果公布',en:'Result Date'},
+mp_cooloff:{zh:'⏰ 冷靜期中（合約已成立）',en:'⏰ Cooling-off Period'},
+doc_date:{zh:'文件送達日',en:'Date Received'},
 cancel_deadline:{zh:'取消期限',en:'Cancel By'},
-cancel_btn:{zh:'取消申請',en:'Cancel'},
+cancel_btn:{zh:'終止合約',en:'Cancel Contract'},
 mp_active_funds:{zh:'📊 運用中基金',en:'📊 Active Funds'},
-total_div_label:{zh:'累計分配金',en:'Total Dist.'},
+total_div_label:{zh:'累計配息',en:'Total Dist.'},
 tx_history:{zh:'📋 查看交易紀錄',en:'📋 Transaction History'},
 // ── KIZUNARK ──
 kz_subtitle:{zh:'投資者社群',en:'Investor Community'},
-kz_notice:{zh:'🔒 僅限投資者發文及留言',en:'🔒 Only verified investors can post & comment'},
+kz_notice:{zh:'🔒 僅限投資者發文及留言',en:'🔒 Only verified investors can post'},
 kz_input:{zh:'分享投資話題...',en:'Share investment topics...'},
 post_btn:{zh:'發佈',en:'Post'},
-comments_3:{zh:'3則留言',en:'3 comments'},
+comments_3:{zh:'3',en:'3'},
 // ── Notifications ──
 notif_h:{zh:'通知',en:'Notifications'},
-notif_lottery:{zh:'🎉 抽選結果通知',en:'🎉 Lottery Result'},
-notif_div:{zh:'分配金入帳',en:'Distribution Received'},
+notif_lottery:{zh:'🎉 抽籤結果通知',en:'🎉 Lottery Result'},
+notif_div:{zh:'配息已入帳',en:'Distribution Received'},
 notif_report:{zh:'運用報告公開',en:'Report Published'},
 // ── Menu ──
 menu_h:{zh:'選單',en:'Menu'},
@@ -1458,7 +1458,7 @@ edit_profile:{zh:'編輯會員資訊',en:'Edit Profile'},
 bank_setting:{zh:'銀行帳戶設定',en:'Bank Account'},
 security:{zh:'安全性',en:'Security'},
 change_pw:{zh:'變更密碼',en:'Change Password'},
-two_factor:{zh:'兩步驟驗證',en:'Two-Factor Auth'},
+two_factor:{zh:'雙重驗證',en:'Two-Factor Authentication'},
 docs_tax:{zh:'文件・稅務',en:'Documents & Tax'},
 annual_report:{zh:'年度交易報告',en:'Annual Report'},
 contract_list:{zh:'契約書面一覽',en:'Contract Documents'},
@@ -1471,7 +1471,7 @@ chat_support:{zh:'線上客服',en:'Chat Support'},
 // ── Bottom Nav ──
 nav_home:{zh:'首頁',en:'Home'},
 nav_fund:{zh:'基金',en:'Funds'},
-nav_mypage:{zh:'我的',en:'My Page'},
+nav_mypage:{zh:'我的',en:'Account'},
 nav_menu:{zh:'選單',en:'Menu'},
 // ── Deposit / Withdraw ──
 deposit_h:{zh:'入金',en:'Deposit'},

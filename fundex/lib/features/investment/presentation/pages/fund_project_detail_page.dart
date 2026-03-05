@@ -51,7 +51,7 @@ class FundProjectDetailPage extends ConsumerWidget {
       data: (FundProject project) {
         final locale = Localizations.localeOf(context);
         final staticContentAsync = ref.watch(
-          fundDetailStaticContentProvider(locale.languageCode),
+          fundDetailStaticContentProvider(locale.toLanguageTag()),
         );
         final staticContent = staticContentAsync.asData?.value;
         final currencyFormatter = NumberFormat.currency(
