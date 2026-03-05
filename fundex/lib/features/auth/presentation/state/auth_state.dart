@@ -30,6 +30,7 @@ class AuthState {
     bool? isLoggingIn,
     AuthErrorKey? errorKey,
     bool clearError = false,
+    bool clearSession = false,
     AuthSession? session,
   }) {
     return AuthState(
@@ -38,7 +39,7 @@ class AuthState {
       isSendingCode: isSendingCode ?? this.isSendingCode,
       isLoggingIn: isLoggingIn ?? this.isLoggingIn,
       errorKey: clearError ? null : (errorKey ?? this.errorKey),
-      session: session ?? this.session,
+      session: clearSession ? null : (session ?? this.session),
     );
   }
 }

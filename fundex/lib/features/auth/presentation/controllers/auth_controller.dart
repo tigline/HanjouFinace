@@ -37,7 +37,11 @@ class AuthController extends StateNotifier<AuthState> {
 
   Future<bool> login({String? intlCode}) async {
     if (!state.canLogin) return false;
-    state = state.copyWith(isLoggingIn: true, clearError: true);
+    state = state.copyWith(
+      isLoggingIn: true,
+      clearError: true,
+      clearSession: true,
+    );
 
     try {
       final session = await _login.call(

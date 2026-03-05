@@ -63,5 +63,24 @@ void main() {
 
       expect(await source.readCurrentUser(), isNull);
     });
+
+    test('saves and restores last signed out account', () async {
+      final store = _InMemoryLargeDataStore();
+      final source = AuthLocalDataSourceImpl(store);
+
+      await source.saveLastSignedOutAccount('user@example.com');
+
+      expect(await source.readLastSignedOutAccount(), 'user@example.com');
+    });
+
+    test('clearLastSignedOutAccount removes cached account', () async {
+      final store = _InMemoryLargeDataStore();
+      final source = AuthLocalDataSourceImpl(store);
+      await source.saveLastSignedOutAccount('user@example.com');
+
+      await source.clearLastSignedOutAccount();
+
+      expect(await source.readLastSignedOutAccount(), isNull);
+    });
   });
 }

@@ -54,6 +54,7 @@ class _FakeTokenRefresher implements TokenRefresher {
 
 class _InMemoryAuthLocalDataSource implements AuthLocalDataSource {
   AuthUserDto? _user;
+  String? _lastSignedOutAccount;
 
   @override
   Future<void> clearCurrentUser() async {
@@ -66,6 +67,19 @@ class _InMemoryAuthLocalDataSource implements AuthLocalDataSource {
   @override
   Future<void> saveCurrentUser(AuthUserDto user) async {
     _user = user;
+  }
+
+  @override
+  Future<void> clearLastSignedOutAccount() async {
+    _lastSignedOutAccount = null;
+  }
+
+  @override
+  Future<String?> readLastSignedOutAccount() async => _lastSignedOutAccount;
+
+  @override
+  Future<void> saveLastSignedOutAccount(String account) async {
+    _lastSignedOutAccount = account;
   }
 }
 

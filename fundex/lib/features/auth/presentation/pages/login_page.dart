@@ -164,6 +164,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         }
       },
     );
+    _prefillLastSignedOutAccount();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _didOpenRegisterOnEnter || !widget.openRegisterOnEnter) {
         return;
@@ -171,6 +172,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       _didOpenRegisterOnEnter = true;
       context.push('/register');
     });
+  }
+
+  Future<void> _prefillLastSignedOutAccount() async {
+    final account = await ref
+        .read(authLocalDataSourceProvider)
+        .readLastSignedOutAccount();
+    if (!mounted || account == null || account.trim().isEmpty) {
+      return;
+    }
+    final normalized = account.trim();
+    final nextChannel = _looksLikeEmail(normalized)
+        ? _LoginChannel.email
+        : _LoginChannel.mobile;
+    setState(() {
+      _loginChannel = nextChannel;
+      _accountController.text = normalized;
+      _localValidationError = null;
+    });
+    ref.read(authControllerProvider.notifier).onAccountChanged(normalized);
   }
 
   @override
@@ -198,7 +218,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final canSendCode = state.canSendCode && !_sendCodeCooldown.isActive;
 
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
-      if (previous?.session == null && next.session != null && mounted) {
+      final didLogin =
+          next.session != null && previous?.session != next.session;
+      if (didLogin && mounted) {
         ref.read(authSessionProvider.notifier).markAuthenticated();
         context.go('/home');
       }

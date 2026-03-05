@@ -209,7 +209,9 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
         : const Key('login_mobile_page');
 
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
-      if (previous?.session == null && next.session != null && mounted) {
+      final didLogin =
+          next.session != null && previous?.session != next.session;
+      if (didLogin && mounted) {
         ref.read(authSessionProvider.notifier).markAuthenticated();
         context.go('/home');
       }

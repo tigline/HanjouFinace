@@ -33,6 +33,7 @@ final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
 });
 
 final currentAuthUserProvider = FutureProvider<AuthUser?>((ref) async {
+  ref.watch(authSessionProvider);
   final cachedUser = await ref
       .watch(authLocalDataSourceProvider)
       .readCurrentUser();

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/storage/app_storage_providers.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/member_profile_local_data_source.dart';
 import '../../data/repositories/member_profile_repository_impl.dart';
 import '../../domain/entities/member_profile_details.dart';
@@ -15,6 +16,7 @@ final memberProfileLocalDataSourceProvider =
     Provider<MemberProfileLocalDataSource>((ref) {
       return MemberProfileLocalDataSourceImpl(
         ref.watch(largeDataStoreProvider),
+        ref.watch(authLocalDataSourceProvider),
       );
     });
 
@@ -57,10 +59,24 @@ final markMemberProfileSkippedUseCaseProvider =
 final memberProfileDetailsProvider = FutureProvider<MemberProfileDetails?>((
   ref,
 ) async {
+  ref.watch(authSessionProvider);
+  final user = await ref
+      .watch(currentAuthUserProvider.future)
+      .catchError((Object _) => null);
+  if (user == null) {
+    return null;
+  }
   return ref.watch(loadMemberProfileDetailsUseCaseProvider).call();
 });
 
 final isMemberProfileCompletedProvider = FutureProvider<bool>((ref) async {
+  ref.watch(authSessionProvider);
+  final user = await ref
+      .watch(currentAuthUserProvider.future)
+      .catchError((Object _) => null);
+  if (user == null) {
+    return false;
+  }
   return ref.watch(isMemberProfileCompletedUseCaseProvider).call();
 });
 

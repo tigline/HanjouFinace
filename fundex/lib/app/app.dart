@@ -10,6 +10,8 @@ import 'localization/app_locale_providers.dart';
 import 'observability/app_observability_providers.dart';
 import 'observability/app_ui_message_localizer.dart';
 import 'router/app_router.dart';
+import '../features/auth/presentation/providers/auth_providers.dart';
+import '../features/member_profile/presentation/providers/member_profile_providers.dart';
 
 final GlobalKey<ScaffoldMessengerState> _rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -41,6 +43,23 @@ class MemberTemplateApp extends ConsumerWidget {
         }
         ref.read(appUiMessageProvider.notifier).clearIfMatches(next.id);
       });
+    });
+
+    ref.listen<AsyncValue<bool>>(isAuthenticatedProvider, (previous, next) {
+      final bool wasAuthenticated = previous?.asData?.value ?? false;
+      final bool isAuthenticated = next.asData?.value ?? false;
+      final bool authStatusChanged = wasAuthenticated != isAuthenticated;
+      if (!authStatusChanged) {
+        return;
+      }
+      ref.invalidate(currentAuthUserProvider);
+      if (!isAuthenticated) {
+        ref.invalidate(memberProfileDetailsProvider);
+        ref.invalidate(isMemberProfileCompletedProvider);
+        return;
+      }
+      ref.invalidate(memberProfileDetailsProvider);
+      ref.invalidate(isMemberProfileCompletedProvider);
     });
 
     return MaterialApp.router(

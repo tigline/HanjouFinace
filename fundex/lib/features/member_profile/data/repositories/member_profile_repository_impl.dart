@@ -9,18 +9,30 @@ class MemberProfileRepositoryImpl implements MemberProfileRepository {
   final MemberProfileLocalDataSource _local;
 
   @override
-  Future<void> clearLocalProfile() {
-    return _local.clearProfile();
+  Future<void> clearLocalProfile() async {
+    try {
+      await _local.clearProfile();
+    } catch (_) {
+      // Keep member profile features available even when local cache fails.
+    }
   }
 
   @override
   Future<MemberProfileDetails?> readLocalProfile() async {
-    final dto = await _local.readProfile();
-    return dto?.toEntity();
+    try {
+      final dto = await _local.readProfile();
+      return dto?.toEntity();
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
-  Future<void> saveLocalProfile(MemberProfileDetails profile) {
-    return _local.saveProfile(MemberProfileDetailsDto.fromEntity(profile));
+  Future<void> saveLocalProfile(MemberProfileDetails profile) async {
+    try {
+      await _local.saveProfile(MemberProfileDetailsDto.fromEntity(profile));
+    } catch (_) {
+      // Keep member profile features available even when local cache fails.
+    }
   }
 }

@@ -8,12 +8,16 @@ abstract class AuthLocalDataSource {
   Future<void> saveCurrentUser(AuthUserDto user);
   Future<AuthUserDto?> readCurrentUser();
   Future<void> clearCurrentUser();
+  Future<void> saveLastSignedOutAccount(String account);
+  Future<String?> readLastSignedOutAccount();
+  Future<void> clearLastSignedOutAccount();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl(this._largeDataStore);
 
   static const String _currentUserKey = 'auth.current_user';
+  static const String _lastSignedOutAccountKey = 'auth.last_signed_out_account';
 
   final LargeDataStore _largeDataStore;
 
@@ -70,6 +74,48 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       );
     } catch (_) {
       // Token login should not fail when local profile cache write fails.
+    }
+  }
+
+  @override
+  Future<void> saveLastSignedOutAccount(String account) async {
+    final normalized = account.trim();
+    if (normalized.isEmpty) {
+      return;
+    }
+    try {
+      await _largeDataStore.put<String>(_lastSignedOutAccountKey, normalized);
+    } catch (_) {
+      // Keep logout flow available even when local cache write fails.
+    }
+  }
+
+  @override
+  Future<String?> readLastSignedOutAccount() async {
+    try {
+      final rawValue = await _largeDataStore.get<dynamic>(
+        _lastSignedOutAccountKey,
+      );
+      if (rawValue is String) {
+        final normalized = rawValue.trim();
+        return normalized.isEmpty ? null : normalized;
+      }
+      if (rawValue == null) {
+        return null;
+      }
+      final normalized = rawValue.toString().trim();
+      return normalized.isEmpty ? null : normalized;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> clearLastSignedOutAccount() async {
+    try {
+      await _largeDataStore.delete(_lastSignedOutAccountKey);
+    } catch (_) {
+      // Keep auth flows available even when local cache cleanup fails.
     }
   }
 }

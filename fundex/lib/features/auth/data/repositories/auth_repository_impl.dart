@@ -3,6 +3,7 @@ import 'package:core_network/core_network.dart';
 import '../../domain/entities/auth_session.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_local_data_source.dart';
+import '../models/auth_user_dto.dart';
 import '../datasources/auth_remote_data_source.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -31,12 +32,44 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   Future<void> _clearPersistedAuth() async {
+    try {
+      final user = await _local.readCurrentUser();
+      final lastAccount = _resolveLastAuthAccount(user);
+      if (lastAccount != null) {
+        await _local.saveLastSignedOutAccount(lastAccount);
+      }
+    } catch (_) {
+      // Best effort only.
+    }
     await _tokenStore.clear();
     try {
       await _local.clearCurrentUser();
     } catch (_) {
       // User cache should not block auth recovery/logout.
     }
+  }
+
+  String? _resolveLastAuthAccount(AuthUserDto? user) {
+    if (user == null) {
+      return null;
+    }
+    final email = user.email?.trim() ?? '';
+    if (email.isNotEmpty) {
+      return email;
+    }
+    final mobile = user.mobile?.trim() ?? '';
+    if (mobile.isNotEmpty) {
+      return mobile;
+    }
+    final phone = user.phone?.trim() ?? '';
+    if (phone.isNotEmpty) {
+      return phone;
+    }
+    final username = user.username.trim();
+    if (username.isNotEmpty) {
+      return username;
+    }
+    return null;
   }
 
   @override

@@ -1,5 +1,7 @@
 import 'package:core_storage/core_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fundex/features/auth/data/datasources/auth_local_data_source.dart';
+import 'package:fundex/features/auth/data/models/auth_user_dto.dart';
 import 'package:fundex/features/member_profile/data/datasources/member_profile_local_data_source.dart';
 import 'package:fundex/features/member_profile/data/models/member_profile_details_dto.dart';
 
@@ -31,11 +33,47 @@ class _InMemoryLargeDataStore implements LargeDataStore {
   }
 }
 
+class _FakeAuthLocalDataSource implements AuthLocalDataSource {
+  _FakeAuthLocalDataSource({this.currentUser});
+
+  AuthUserDto? currentUser;
+  String? lastSignedOutAccount;
+
+  @override
+  Future<void> clearCurrentUser() async {
+    currentUser = null;
+  }
+
+  @override
+  Future<AuthUserDto?> readCurrentUser() async => currentUser;
+
+  @override
+  Future<void> saveCurrentUser(AuthUserDto user) async {
+    currentUser = user;
+  }
+
+  @override
+  Future<void> clearLastSignedOutAccount() async {
+    lastSignedOutAccount = null;
+  }
+
+  @override
+  Future<String?> readLastSignedOutAccount() async => lastSignedOutAccount;
+
+  @override
+  Future<void> saveLastSignedOutAccount(String account) async {
+    lastSignedOutAccount = account;
+  }
+}
+
 void main() {
   group('MemberProfileLocalDataSourceImpl', () {
     test('saves and restores profile details from local store', () async {
       final store = _InMemoryLargeDataStore();
-      final source = MemberProfileLocalDataSourceImpl(store);
+      final authLocal = _FakeAuthLocalDataSource(
+        currentUser: const AuthUserDto(username: 'u100', userId: 100),
+      );
+      final source = MemberProfileLocalDataSourceImpl(store, authLocal);
 
       await source.saveProfile(
         MemberProfileDetailsDto(
@@ -105,7 +143,10 @@ void main() {
 
     test('clearProfile removes cached details', () async {
       final store = _InMemoryLargeDataStore();
-      final source = MemberProfileLocalDataSourceImpl(store);
+      final authLocal = _FakeAuthLocalDataSource(
+        currentUser: const AuthUserDto(username: 'u100', userId: 100),
+      );
+      final source = MemberProfileLocalDataSourceImpl(store, authLocal);
       await source.saveProfile(
         const MemberProfileDetailsDto(familyName: 'Hou'),
       );
@@ -113,6 +154,31 @@ void main() {
       await source.clearProfile();
 
       expect(await source.readProfile(), isNull);
+    });
+
+    test('isolates cached profile by user id', () async {
+      final store = _InMemoryLargeDataStore();
+      final authLocal = _FakeAuthLocalDataSource(
+        currentUser: const AuthUserDto(username: 'u100', userId: 100),
+      );
+      final source = MemberProfileLocalDataSourceImpl(store, authLocal);
+
+      await source.saveProfile(
+        const MemberProfileDetailsDto(familyName: 'User100'),
+      );
+
+      authLocal.currentUser = const AuthUserDto(username: 'u200', userId: 200);
+      expect(await source.readProfile(), isNull);
+
+      await source.saveProfile(
+        const MemberProfileDetailsDto(familyName: 'User200'),
+      );
+      final user200Profile = await source.readProfile();
+      expect(user200Profile?.familyName, 'User200');
+
+      authLocal.currentUser = const AuthUserDto(username: 'u100', userId: 100);
+      final user100Profile = await source.readProfile();
+      expect(user100Profile?.familyName, 'User100');
     });
   });
 }

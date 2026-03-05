@@ -125,6 +125,7 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
 
 class _FakeAuthLocalDataSource implements AuthLocalDataSource {
   AuthUserDto? savedUser;
+  String? lastSignedOutAccount;
   int clearCount = 0;
 
   @override
@@ -139,6 +140,19 @@ class _FakeAuthLocalDataSource implements AuthLocalDataSource {
   @override
   Future<void> saveCurrentUser(AuthUserDto user) async {
     savedUser = user;
+  }
+
+  @override
+  Future<void> clearLastSignedOutAccount() async {
+    lastSignedOutAccount = null;
+  }
+
+  @override
+  Future<String?> readLastSignedOutAccount() async => lastSignedOutAccount;
+
+  @override
+  Future<void> saveLastSignedOutAccount(String account) async {
+    lastSignedOutAccount = account;
   }
 }
 
@@ -309,6 +323,7 @@ void main() {
       expect(await tokenStore.readAccessToken(), isNull);
       expect(await tokenStore.readRefreshToken(), isNull);
       expect(local.savedUser, isNull);
+      expect(local.lastSignedOutAccount, 'cached');
     });
 
     test(
@@ -329,6 +344,7 @@ void main() {
         expect(await tokenStore.readAccessToken(), isNull);
         expect(await tokenStore.readRefreshToken(), isNull);
         expect(local.savedUser, isNull);
+        expect(local.lastSignedOutAccount, 'cached');
       },
     );
 
