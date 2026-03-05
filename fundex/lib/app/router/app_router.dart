@@ -13,6 +13,7 @@ import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/discussion_board/presentation/pages/discussion_board_tab_page.dart';
 import '../../features/home/presentation/pages/home_overview_tab_page.dart';
 import '../../features/investment/presentation/pages/fund_project_detail_page.dart';
+import '../../features/investment/presentation/pages/fund_lottery_apply_flow_page.dart';
 import '../../features/investment/presentation/pages/investment_tab_page.dart';
 import '../../features/main_shell/presentation/pages/main_shell_page.dart';
 import '../../features/member_profile/presentation/pages/member_profile_edit_flow_page.dart';
@@ -230,6 +231,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return MyPageSectionListPage(
             sectionType: sectionType ?? MyPageSectionType.pendingApplications,
           );
+        },
+      ),
+      GoRoute(
+        path: '/funds/:id/lottery-apply',
+        builder: (BuildContext context, GoRouterState state) {
+          final id = state.pathParameters['id'] ?? '';
+          return FundLotteryApplyFlowPage(projectId: id);
         },
       ),
       GoRoute(

@@ -1,0 +1,552 @@
+import 'package:core_ui_kit/core_ui_kit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../app/localization/app_localizations_ext.dart';
+import '../../domain/entities/fund_project.dart';
+import '../providers/fund_project_providers.dart';
+import '../support/fund_lottery_apply_models.dart';
+import '../support/fund_lottery_apply_step.dart';
+import '../widgets/fund_lottery_apply/fund_lottery_apply_amount_step.dart';
+import '../widgets/fund_lottery_apply/fund_lottery_apply_completed_step.dart';
+import '../widgets/fund_lottery_apply/fund_lottery_apply_confirm_step.dart';
+import '../widgets/fund_lottery_apply/fund_lottery_apply_documents_step.dart';
+import '../widgets/fund_lottery_apply/fund_lottery_apply_selected_step.dart';
+import '../widgets/fund_lottery_apply/fund_lottery_apply_submitted_step.dart';
+
+class FundLotteryApplyFlowPage extends ConsumerStatefulWidget {
+  const FundLotteryApplyFlowPage({super.key, required this.projectId});
+
+  final String projectId;
+
+  @override
+  ConsumerState<FundLotteryApplyFlowPage> createState() =>
+      _FundLotteryApplyFlowPageState();
+}
+
+class _FundLotteryApplyFlowPageState
+    extends ConsumerState<FundLotteryApplyFlowPage> {
+  static const int _unitAmount = 100000;
+  static const int _mockStandbyBalance = 650000;
+  static const List<int> _quickAmounts = <int>[100000, 300000, 500000, 1000000];
+
+  late final TextEditingController _amountController;
+
+  FundLotteryApplyStep _currentStep = FundLotteryApplyStep.amountInput;
+  int _amount = 500000;
+  final Set<int> _checkedDocuments = <int>{};
+  bool _agreedToApply = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController = TextEditingController(text: '500000');
+    _amountController.addListener(_handleAmountChanged);
+  }
+
+  @override
+  void dispose() {
+    _amountController
+      ..removeListener(_handleAmountChanged)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _handleAmountChanged() {
+    final digits = _amountController.text.replaceAll(RegExp(r'[^0-9]'), '');
+    final parsed = int.tryParse(digits) ?? 0;
+    if (_amount == parsed || !mounted) {
+      return;
+    }
+    setState(() {
+      _amount = parsed;
+    });
+  }
+
+  void _selectQuickAmount(int amount) {
+    _amountController.value = TextEditingValue(
+      text: amount.toString(),
+      selection: TextSelection.collapsed(offset: amount.toString().length),
+    );
+  }
+
+  void _goToStep(FundLotteryApplyStep step) {
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _currentStep = step;
+    });
+  }
+
+  void _goNextStep() {
+    final next = _currentStep.next;
+    if (next == null) {
+      return;
+    }
+    _goToStep(next);
+  }
+
+  void _goPreviousOrPop() {
+    final previous = _currentStep.previous;
+    if (previous == null) {
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go('/funds/${widget.projectId}');
+      }
+      return;
+    }
+    _goToStep(previous);
+  }
+
+  void _goHome() {
+    context.go('/home');
+  }
+
+  void _showToast(String message) {
+    if (!mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  bool get _isAmountValid => _amount > 0 && _amount % _unitAmount == 0;
+
+  bool get _isBalanceEnough => _amount <= _mockStandbyBalance;
+
+  bool get _canProceedStep1 => _isAmountValid && _isBalanceEnough;
+
+  bool _canProceedStep2(int requiredCount) =>
+      _checkedDocuments.length == requiredCount;
+
+  String _buildApplicationNumber() {
+    final rolling = widget.projectId.codeUnits.fold<int>(0, (
+      int accumulator,
+      int unit,
+    ) {
+      return (accumulator * 31 + unit) % 100000;
+    });
+    final monthText = DateFormat('yyyy-MM').format(DateTime.now());
+    return 'FDX-$monthText-${rolling.toString().padLeft(5, '0')}';
+  }
+
+  NumberFormat _currencyFormatter(BuildContext context) {
+    return NumberFormat.currency(
+      locale: Localizations.localeOf(context).toLanguageTag(),
+      symbol: '¥',
+      decimalDigits: 0,
+    );
+  }
+
+  String _formatCurrency(BuildContext context, int value) {
+    return _currencyFormatter(context).format(value);
+  }
+
+  String _resolveLotteryDate(BuildContext context, FundProject project) {
+    final parsed =
+        _parseDate(project.distributionDate) ??
+        _parseDate(project.offeringEndDatetime) ??
+        _parseDate(project.scheduledStartDate);
+    if (parsed == null) {
+      return context.l10n.myPageResultAnnouncementTbd;
+    }
+    final locale = Localizations.localeOf(context);
+    if (locale.languageCode == 'ja' || locale.languageCode == 'zh') {
+      return DateFormat('yyyy年M月d日', locale.toLanguageTag()).format(parsed);
+    }
+    return DateFormat('MMM d, yyyy', locale.toLanguageTag()).format(parsed);
+  }
+
+  String _formatDateTime(BuildContext context, DateTime dateTime) {
+    final locale = Localizations.localeOf(context);
+    if (locale.languageCode == 'ja' || locale.languageCode == 'zh') {
+      return DateFormat(
+        'yyyy年M月d日 HH:mm',
+        locale.toLanguageTag(),
+      ).format(dateTime);
+    }
+    return DateFormat(
+      'MMM d, yyyy HH:mm',
+      locale.toLanguageTag(),
+    ).format(dateTime);
+  }
+
+  DateTime? _parseDate(String? raw) {
+    if (raw == null || raw.trim().isEmpty) {
+      return null;
+    }
+    final normalized = raw.trim();
+    final direct = DateTime.tryParse(normalized);
+    if (direct != null) {
+      return direct.toLocal();
+    }
+    final sanitized = normalized.replaceAll('/', '-');
+    return DateTime.tryParse(sanitized)?.toLocal();
+  }
+
+  double _resolveYield(FundProject project) {
+    if ((project.expectedDistributionRatioMax ?? 0) > 0) {
+      return project.expectedDistributionRatioMax!;
+    }
+    if ((project.expectedDistributionRatioMin ?? 0) > 0) {
+      return project.expectedDistributionRatioMin!;
+    }
+    return 8.5;
+  }
+
+  String _formatYieldPercent(double value) {
+    final hasFraction = value % 1 != 0;
+    return hasFraction
+        ? '${value.toStringAsFixed(1)}%'
+        : '${value.toStringAsFixed(0)}%';
+  }
+
+  List<FundLotteryDocumentItem> _buildRequiredDocuments(BuildContext context) {
+    final l10n = context.l10n;
+    return <FundLotteryDocumentItem>[
+      FundLotteryDocumentItem(
+        title: l10n.lotteryApplyDocumentPreContractTitle,
+        subtitle: l10n.lotteryApplyDocumentPreContractSubtitle,
+      ),
+      FundLotteryDocumentItem(
+        title: l10n.lotteryApplyDocumentAgreementTitle,
+        subtitle: l10n.lotteryApplyDocumentAgreementSubtitle,
+      ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final detailAsync = ref.watch(fundProjectDetailProvider(widget.projectId));
+
+    return detailAsync.when(
+      loading: () => _FlowLoadingScaffold(title: l10n.lotteryApplyFlowTitle),
+      error: (Object _, StackTrace __) => _FlowErrorScaffold(
+        title: l10n.lotteryApplyFlowTitle,
+        body: l10n.fundListLoadError,
+        retryLabel: l10n.fundListRetry,
+        onRetry: () =>
+            ref.invalidate(fundProjectDetailProvider(widget.projectId)),
+      ),
+      data: (FundProject project) {
+        final applicationNumber = _buildApplicationNumber();
+        final projectName = project.projectName.trim().isEmpty
+            ? l10n.fundDetailUnknownValue
+            : project.projectName.trim();
+        final yieldValue = _formatYieldPercent(_resolveYield(project));
+        final lotteryDate = _resolveLotteryDate(context, project);
+        final estimatedDistribution = (_amount * _resolveYield(project) / 100)
+            .round();
+        final formatter = _currencyFormatter(context);
+        final amountText = formatter.format(_amount);
+        final deadline = DateTime.now().add(const Duration(days: 8));
+        final deadlineAt = DateTime(
+          deadline.year,
+          deadline.month,
+          deadline.day,
+          23,
+          59,
+        );
+        final requiredDocuments = _buildRequiredDocuments(context);
+
+        return PopScope<void>(
+          canPop: _currentStep.isFirst,
+          onPopInvokedWithResult: (bool didPop, void _) {
+            if (!didPop && !_currentStep.isFirst) {
+              _goPreviousOrPop();
+            }
+          },
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppNavigationBar(
+              title: l10n.lotteryApplyFlowTitle,
+              backgroundColor: Colors.white,
+              foregroundColor: AppColorTokens.fundexText,
+              leading: SizedBox.square(
+                dimension: 32,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: _goPreviousOrPop,
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                      size: 20,
+                      color: AppColorTokens.fundexText,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            body: Column(
+              children: <Widget>[
+                AppStepProgressBar(
+                  stepCount: FundLotteryApplyStep.values.length,
+                  currentStep: _currentStep.index,
+                  pendingColor: const Color(0xFFE2E8F0),
+                ),
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 220),
+                    switchInCurve: Curves.easeOutCubic,
+                    switchOutCurve: Curves.easeInCubic,
+                    child: KeyedSubtree(
+                      key: ValueKey<FundLotteryApplyStep>(_currentStep),
+                      child: switch (_currentStep) {
+                        FundLotteryApplyStep.amountInput =>
+                          FundLotteryApplyAmountStep(
+                            title: l10n.lotteryApplyStep1Title,
+                            balanceLabel: l10n.lotteryApplyStep1BalanceLabel,
+                            balanceValue: _formatCurrency(
+                              context,
+                              _mockStandbyBalance,
+                            ),
+                            depositActionLabel:
+                                l10n.lotteryApplyStep1DepositAction,
+                            investmentAmountLabel:
+                                l10n.lotteryApplyStep1AmountLabel,
+                            amountController: _amountController,
+                            quickAmounts: _quickAmounts,
+                            selectedAmount: _amount,
+                            onQuickAmountTap: _selectQuickAmount,
+                            onDepositTap: () =>
+                                _showToast(l10n.myPageDepositComingSoon),
+                            showBalanceWarning:
+                                _amount > 0 && !_isBalanceEnough,
+                            balanceWarningTitle:
+                                l10n.lotteryApplyStep1BalanceWarningTitle,
+                            balanceWarningBody:
+                                l10n.lotteryApplyStep1BalanceWarningBody,
+                            balanceWarningActionLabel:
+                                l10n.lotteryApplyStep1BalanceWarningAction,
+                            onBalanceWarningActionTap: () =>
+                                _showToast(l10n.myPageDepositComingSoon),
+                            estimatedDistributionLabel: l10n
+                                .lotteryApplyStep1EstimatedDistributionLabel,
+                            estimatedDistributionValue:
+                                '${formatter.format(estimatedDistribution)} ${l10n.lotteryApplyStep1EstimatedDistributionSuffix}',
+                            nextButtonLabel: l10n.lotteryApplyStep1NextAction,
+                            onNext: _canProceedStep1 ? _goNextStep : null,
+                          ),
+                        FundLotteryApplyStep.contractDocuments =>
+                          FundLotteryApplyDocumentsStep(
+                            title: l10n.lotteryApplyStep2Title,
+                            description: l10n.lotteryApplyStep2Description,
+                            documents: requiredDocuments,
+                            checkedIndexes: _checkedDocuments,
+                            onToggleDocument: (int index) {
+                              setState(() {
+                                if (_checkedDocuments.contains(index)) {
+                                  _checkedDocuments.remove(index);
+                                } else {
+                                  _checkedDocuments.add(index);
+                                }
+                              });
+                            },
+                            infoBody: l10n.lotteryApplyStep2InfoBody,
+                            nextButtonLabel: l10n.lotteryApplyStep2NextAction,
+                            onNext: _canProceedStep2(requiredDocuments.length)
+                                ? _goNextStep
+                                : null,
+                          ),
+                        FundLotteryApplyStep.confirmApplication =>
+                          FundLotteryApplyConfirmStep(
+                            title: l10n.lotteryApplyStep3Title,
+                            rows: <FundLotterySummaryRow>[
+                              FundLotterySummaryRow(
+                                label: l10n.lotteryApplyFundNameLabel,
+                                value: projectName,
+                              ),
+                              FundLotterySummaryRow(
+                                label: l10n.lotteryApplyInvestmentAmountLabel,
+                                value: amountText,
+                              ),
+                              FundLotterySummaryRow(
+                                label: l10n.fundDetailEstimatedYieldAnnualLabel,
+                                value:
+                                    '${l10n.lotteryApplyAnnualYieldPrefix} $yieldValue',
+                              ),
+                              FundLotterySummaryRow(
+                                label: l10n.fundListMethodLabel,
+                                value: l10n.homeTagLottery,
+                              ),
+                              FundLotterySummaryRow(
+                                label: l10n.fundDetailLotteryDateLabel,
+                                value: lotteryDate,
+                              ),
+                            ],
+                            noticeTitle: l10n.lotteryApplyNoticeTitle,
+                            noticeBody: l10n.lotteryApplyNoticeBody,
+                            agreementLabel: l10n.lotteryApplyAgreementLabel,
+                            agreed: _agreedToApply,
+                            onAgreementChanged: (bool value) {
+                              setState(() {
+                                _agreedToApply = value;
+                              });
+                            },
+                            applyButtonLabel: l10n.lotteryApplySubmitAction,
+                            onApply: _agreedToApply ? _goNextStep : null,
+                          ),
+                        FundLotteryApplyStep.submitted =>
+                          FundLotteryApplySubmittedStep(
+                            headline: l10n.lotteryApplyStep4Headline,
+                            body: l10n.lotteryApplyStep4Body(projectName),
+                            announcementLabel:
+                                l10n.lotteryApplyResultAnnouncementDateLabel,
+                            announcementValue: lotteryDate,
+                            rows: <FundLotterySummaryRow>[
+                              FundLotterySummaryRow(
+                                label: l10n.lotteryApplyApplicationNumberLabel,
+                                value: applicationNumber,
+                              ),
+                              FundLotterySummaryRow(
+                                label: l10n.lotteryApplyInvestmentAmountLabel,
+                                value: amountText,
+                              ),
+                              FundLotterySummaryRow(
+                                label: l10n.fundListMethodLabel,
+                                value: l10n.homeTagLottery,
+                              ),
+                            ],
+                            hintBody: l10n.lotteryApplyStep4HintBody,
+                            backHomeLabel: l10n.lotteryApplyBackHomeAction,
+                            onBackHome: _goHome,
+                            demoResultLabel:
+                                l10n.lotteryApplyDemoCheckResultAction,
+                            onDemoCheckResult: _goNextStep,
+                          ),
+                        FundLotteryApplyStep.selected =>
+                          FundLotteryApplySelectedStep(
+                            headline: l10n.lotteryApplyStep5Headline,
+                            body: l10n.lotteryApplyStep5Body(projectName),
+                            deadlineLabel: l10n.lotteryApplyDeadlineLabel,
+                            deadlineValue: _formatDateTime(context, deadlineAt),
+                            coolingOffTitle: l10n.lotteryApplyCoolingOffTitle,
+                            coolingOffBody: l10n.lotteryApplyCoolingOffBody,
+                            depositRows: <FundLotteryDepositRow>[
+                              FundLotteryDepositRow(
+                                label: l10n.lotteryApplyDepositAmountLabel,
+                                value: amountText,
+                              ),
+                              FundLotteryDepositRow(
+                                label: l10n.lotteryApplyBankNameLabel,
+                                value: l10n.lotteryApplyMockBankName,
+                              ),
+                              FundLotteryDepositRow(
+                                label: l10n.lotteryApplyBankBranchLabel,
+                                value: l10n.lotteryApplyMockBankBranch,
+                              ),
+                              FundLotteryDepositRow(
+                                label: l10n.lotteryApplyBankAccountLabel,
+                                value: l10n.lotteryApplyMockBankAccount,
+                                copyable: true,
+                              ),
+                              FundLotteryDepositRow(
+                                label: l10n.lotteryApplyBankHolderLabel,
+                                value: l10n.lotteryApplyMockBankHolder,
+                              ),
+                            ],
+                            reportDepositButtonLabel:
+                                l10n.lotteryApplyReportDepositAction,
+                            onReportDeposit: _goNextStep,
+                            laterButtonLabel:
+                                l10n.lotteryApplyLaterDepositAction,
+                            onLaterDeposit: _goHome,
+                            copyButtonLabel: l10n.lotteryApplyCopyAction,
+                            onCopyValue: (String value) {
+                              Clipboard.setData(ClipboardData(text: value));
+                              _showToast(l10n.lotteryApplyCopyDoneToast);
+                            },
+                          ),
+                        FundLotteryApplyStep.depositCompleted =>
+                          FundLotteryApplyCompletedStep(
+                            headline: l10n.lotteryApplyStep6Headline,
+                            body: l10n.lotteryApplyStep6Body,
+                            receiptLabel: l10n.lotteryApplyReceiptLabel,
+                            receiptValue: applicationNumber,
+                            backHomeLabel: l10n.lotteryApplyBackHomeAction,
+                            onBackHome: _goHome,
+                          ),
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _FlowLoadingScaffold extends StatelessWidget {
+  const _FlowLoadingScaffold({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppNavigationBar(
+        title: title,
+        backgroundColor: Colors.white,
+        foregroundColor: AppColorTokens.fundexText,
+      ),
+      body: const Center(child: CircularProgressIndicator.adaptive()),
+    );
+  }
+}
+
+class _FlowErrorScaffold extends StatelessWidget {
+  const _FlowErrorScaffold({
+    required this.title,
+    required this.body,
+    required this.retryLabel,
+    required this.onRetry,
+  });
+
+  final String title;
+  final String body;
+  final String retryLabel;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppNavigationBar(
+        title: title,
+        backgroundColor: Colors.white,
+        foregroundColor: AppColorTokens.fundexText,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                body,
+                textAlign: TextAlign.center,
+                style: (theme.textTheme.bodyMedium ?? const TextStyle())
+                    .copyWith(color: AppColorTokens.fundexTextSecondary),
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton(onPressed: onRetry, child: Text(retryLabel)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

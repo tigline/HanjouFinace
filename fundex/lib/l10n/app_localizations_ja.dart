@@ -1029,6 +1029,183 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fundDetailApplyComingSoonToast => '申込フローは次の実装で接続します。';
 
   @override
+  String get lotteryApplyFlowTitle => '抽選申込';
+
+  @override
+  String get lotteryApplyStep1Title => '① 出資金額を入力';
+
+  @override
+  String get lotteryApplyStep1BalanceLabel => '💰 待機資金残高';
+
+  @override
+  String get lotteryApplyStep1DepositAction => '入金する';
+
+  @override
+  String get lotteryApplyStep1AmountLabel => '出資金額（1口 = 10万円）';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningTitle => '待機資金が不足しています';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningBody =>
+      '申込金額に対して残高が不足しています。先にご入金のうえ、お申込みください。';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningAction => '💰 入金ページへ';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionLabel => '想定分配金（税引前）';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionSuffix => '/年';
+
+  @override
+  String get lotteryApplyStep1NextAction => '次へ：書面確認';
+
+  @override
+  String get lotteryApplyStep2Title => '② 契約書面の確認';
+
+  @override
+  String get lotteryApplyStep2Description =>
+      '投資判断に必要な書面です。すべてご確認のうえ、チェックしてください。';
+
+  @override
+  String get lotteryApplyDocumentPreContractTitle => '契約締結前交付書面';
+
+  @override
+  String get lotteryApplyDocumentPreContractSubtitle =>
+      'PDF 12ページ ｜ 重要事項・リスク説明を含む';
+
+  @override
+  String get lotteryApplyDocumentAgreementTitle => '匿名組合契約約款';
+
+  @override
+  String get lotteryApplyDocumentAgreementSubtitle => 'PDF 8ページ ｜ 契約条件・分配方法の詳細';
+
+  @override
+  String get lotteryApplyStep2InfoBody =>
+      '書面の電子交付に関する同意は、会員登録時に取得済みです。設定画面からいつでも撤回・変更できます。';
+
+  @override
+  String get lotteryApplyStep2NextAction => 'すべて確認してから次へ';
+
+  @override
+  String get lotteryApplyStep3Title => '③ 申込内容の確認';
+
+  @override
+  String get lotteryApplyFundNameLabel => 'ファンド名';
+
+  @override
+  String get lotteryApplyInvestmentAmountLabel => '出資金額';
+
+  @override
+  String get lotteryApplyAnnualYieldPrefix => '年率';
+
+  @override
+  String get lotteryApplyNoticeTitle => 'ご注意';
+
+  @override
+  String get lotteryApplyNoticeBody =>
+      '本投資は元本保証ではありません。抽選に当選した場合、指定期限内にご入金が必要です。';
+
+  @override
+  String get lotteryApplyAgreementLabel => '上記内容を確認し、抽選申込に同意します';
+
+  @override
+  String get lotteryApplySubmitAction => '🎲 抽選に申し込む';
+
+  @override
+  String get lotteryApplyStep4Headline => '抽選申込が完了しました！';
+
+  @override
+  String lotteryApplyStep4Body(Object projectName) {
+    return '「$projectName」の抽選に申し込みました。抽選結果は下記の日程で発表予定です。結果はアプリの通知でお知らせいたします。';
+  }
+
+  @override
+  String get lotteryApplyResultAnnouncementDateLabel => '🗓️ 抽選結果発表日';
+
+  @override
+  String get lotteryApplyApplicationNumberLabel => '申込番号';
+
+  @override
+  String get lotteryApplyStep4HintBody =>
+      '当選した場合、8日以内にご入金ください（クーリングオフ期間を含みます）。落選の場合はお手続き不要です。※ 募集人数未達の場合も先着順に審査し、抽選を実施します。';
+
+  @override
+  String get lotteryApplyBackHomeAction => 'ホームに戻る';
+
+  @override
+  String get lotteryApplyDemoCheckResultAction => '（デモ）抽選結果を確認する →';
+
+  @override
+  String get lotteryApplyStep5Headline => '当選のお知らせ';
+
+  @override
+  String lotteryApplyStep5Body(Object projectName) {
+    return '「$projectName」の抽選に当選しました。下記の入金期限までに指定口座へお振込みください。';
+  }
+
+  @override
+  String get lotteryApplyDeadlineLabel => '⏰ 入金期限（クーリングオフ8日間含む）';
+
+  @override
+  String get lotteryApplyCoolingOffTitle => 'クーリングオフについて';
+
+  @override
+  String get lotteryApplyCoolingOffBody =>
+      '契約書面交付日の翌日から8日間は無条件解除が可能です。入金後もクーリングオフ期間中は解約可能です。';
+
+  @override
+  String get lotteryApplyDepositAmountLabel => '入金金額';
+
+  @override
+  String get lotteryApplyBankNameLabel => '振込先';
+
+  @override
+  String get lotteryApplyBankBranchLabel => '支店';
+
+  @override
+  String get lotteryApplyBankAccountLabel => '口座番号';
+
+  @override
+  String get lotteryApplyBankHolderLabel => '名義';
+
+  @override
+  String get lotteryApplyMockBankName => 'GMOあおぞらネット銀行';
+
+  @override
+  String get lotteryApplyMockBankBranch => '法人第一支店（101）';
+
+  @override
+  String get lotteryApplyMockBankAccount => '普通 1234567';
+
+  @override
+  String get lotteryApplyMockBankHolder => 'ファンデックス（カ';
+
+  @override
+  String get lotteryApplyReportDepositAction => '入金完了を報告';
+
+  @override
+  String get lotteryApplyLaterDepositAction => 'あとで入金する';
+
+  @override
+  String get lotteryApplyCopyAction => 'コピー';
+
+  @override
+  String get lotteryApplyCopyDoneToast => 'コピーしました';
+
+  @override
+  String get lotteryApplyStep6Headline => '出資手続きが完了しました';
+
+  @override
+  String get lotteryApplyStep6Body =>
+      '入金を確認しました。運用開始までお待ちください。分配スケジュールは通知でお知らせします。';
+
+  @override
+  String get lotteryApplyReceiptLabel => '受付番号：';
+
+  @override
   String get fundDetailUnknownValue => '--';
 
   @override

@@ -1092,6 +1092,193 @@ class AppLocalizationsEn extends AppLocalizations {
       'The application flow will be connected in the next implementation.';
 
   @override
+  String get lotteryApplyFlowTitle => 'Lottery Application';
+
+  @override
+  String get lotteryApplyStep1Title => '1. Enter investment amount';
+
+  @override
+  String get lotteryApplyStep1BalanceLabel => '💰 Standby cash balance';
+
+  @override
+  String get lotteryApplyStep1DepositAction => 'Deposit';
+
+  @override
+  String get lotteryApplyStep1AmountLabel =>
+      'Investment amount (1 unit = ¥100,000)';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningTitle =>
+      'Insufficient standby cash';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningBody =>
+      'Your balance is lower than the selected amount. Please deposit first, then continue the application.';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningAction => '💰 Go to deposit';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionLabel =>
+      'Estimated distribution (before tax)';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionSuffix => '/year';
+
+  @override
+  String get lotteryApplyStep1NextAction => 'Next: Documents';
+
+  @override
+  String get lotteryApplyStep2Title => '2. Review contract documents';
+
+  @override
+  String get lotteryApplyStep2Description =>
+      'These documents are required for your investment decision. Please review and check all items.';
+
+  @override
+  String get lotteryApplyDocumentPreContractTitle =>
+      'Pre-contract disclosure document';
+
+  @override
+  String get lotteryApplyDocumentPreContractSubtitle =>
+      'PDF 12 pages | Includes key terms and risk notes';
+
+  @override
+  String get lotteryApplyDocumentAgreementTitle => 'Silent partnership terms';
+
+  @override
+  String get lotteryApplyDocumentAgreementSubtitle =>
+      'PDF 8 pages | Contract terms and distribution details';
+
+  @override
+  String get lotteryApplyStep2InfoBody =>
+      'Consent for electronic document delivery was collected during account registration. You can revoke or update it anytime in settings.';
+
+  @override
+  String get lotteryApplyStep2NextAction =>
+      'Continue after confirming all documents';
+
+  @override
+  String get lotteryApplyStep3Title => '3. Confirm application details';
+
+  @override
+  String get lotteryApplyFundNameLabel => 'Fund';
+
+  @override
+  String get lotteryApplyInvestmentAmountLabel => 'Investment amount';
+
+  @override
+  String get lotteryApplyAnnualYieldPrefix => 'Annual';
+
+  @override
+  String get lotteryApplyNoticeTitle => 'Notice';
+
+  @override
+  String get lotteryApplyNoticeBody =>
+      'This investment does not guarantee principal. If selected in the lottery, payment is required within the specified deadline.';
+
+  @override
+  String get lotteryApplyAgreementLabel =>
+      'I have reviewed the above details and agree to proceed with the lottery application.';
+
+  @override
+  String get lotteryApplySubmitAction => '🎲 Submit lottery application';
+
+  @override
+  String get lotteryApplyStep4Headline => 'Lottery application submitted!';
+
+  @override
+  String lotteryApplyStep4Body(Object projectName) {
+    return 'Your lottery application for \"$projectName\" has been completed. The result will be announced on the date below, and you\'ll receive a notification in the app.';
+  }
+
+  @override
+  String get lotteryApplyResultAnnouncementDateLabel =>
+      '🗓️ Result announcement date';
+
+  @override
+  String get lotteryApplyApplicationNumberLabel => 'Application number';
+
+  @override
+  String get lotteryApplyStep4HintBody =>
+      'If selected, please complete payment within 8 days (including cooling-off period). If not selected, no action is needed. If minimum demand is not met, a review and lottery process still applies.';
+
+  @override
+  String get lotteryApplyBackHomeAction => 'Back to Home';
+
+  @override
+  String get lotteryApplyDemoCheckResultAction =>
+      '(Demo) View lottery result →';
+
+  @override
+  String get lotteryApplyStep5Headline => 'Selection notice';
+
+  @override
+  String lotteryApplyStep5Body(Object projectName) {
+    return 'Congratulations! You were selected in the \"$projectName\" lottery. Please transfer funds to the designated account by the deadline below.';
+  }
+
+  @override
+  String get lotteryApplyDeadlineLabel =>
+      '⏰ Payment deadline (includes 8-day cooling-off)';
+
+  @override
+  String get lotteryApplyCoolingOffTitle => 'About cooling-off';
+
+  @override
+  String get lotteryApplyCoolingOffBody =>
+      'You can cancel unconditionally within 8 days from the day after contract document delivery. Cancellation is also available during cooling-off even after payment.';
+
+  @override
+  String get lotteryApplyDepositAmountLabel => 'Payment amount';
+
+  @override
+  String get lotteryApplyBankNameLabel => 'Bank';
+
+  @override
+  String get lotteryApplyBankBranchLabel => 'Branch';
+
+  @override
+  String get lotteryApplyBankAccountLabel => 'Account';
+
+  @override
+  String get lotteryApplyBankHolderLabel => 'Account holder';
+
+  @override
+  String get lotteryApplyMockBankName => 'GMO Aozora Net Bank';
+
+  @override
+  String get lotteryApplyMockBankBranch => 'Corporate First Branch (101)';
+
+  @override
+  String get lotteryApplyMockBankAccount => 'Ordinary 1234567';
+
+  @override
+  String get lotteryApplyMockBankHolder => 'FUNDEX Co., Ltd.';
+
+  @override
+  String get lotteryApplyReportDepositAction => 'Report payment completed';
+
+  @override
+  String get lotteryApplyLaterDepositAction => 'Pay later';
+
+  @override
+  String get lotteryApplyCopyAction => 'Copy';
+
+  @override
+  String get lotteryApplyCopyDoneToast => 'Copied';
+
+  @override
+  String get lotteryApplyStep6Headline => 'Investment process completed';
+
+  @override
+  String get lotteryApplyStep6Body =>
+      'We have confirmed your payment. Please wait for operation start. Distribution schedules will be sent via notifications.';
+
+  @override
+  String get lotteryApplyReceiptLabel => 'Receipt No:';
+
+  @override
   String get fundDetailUnknownValue => '--';
 
   @override

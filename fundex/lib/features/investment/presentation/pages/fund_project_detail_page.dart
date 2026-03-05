@@ -68,13 +68,7 @@ class FundProjectDetailPage extends ConsumerWidget {
           actionBar: FundDetailStickyActionBar(
             label: viewData.actionLabel,
             enabled: viewData.actionEnabled,
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(context.l10n.fundDetailApplyComingSoonToast),
-                ),
-              );
-            },
+            onTap: () => context.push('/funds/$projectId/lottery-apply'),
           ),
           body: ListView(
             padding: EdgeInsets.zero,

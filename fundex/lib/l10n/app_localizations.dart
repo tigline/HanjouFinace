@@ -2099,6 +2099,336 @@ abstract class AppLocalizations {
   /// **'The application flow will be connected in the next implementation.'**
   String get fundDetailApplyComingSoonToast;
 
+  /// No description provided for @lotteryApplyFlowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lottery Application'**
+  String get lotteryApplyFlowTitle;
+
+  /// No description provided for @lotteryApplyStep1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Enter investment amount'**
+  String get lotteryApplyStep1Title;
+
+  /// No description provided for @lotteryApplyStep1BalanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'💰 Standby cash balance'**
+  String get lotteryApplyStep1BalanceLabel;
+
+  /// No description provided for @lotteryApplyStep1DepositAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit'**
+  String get lotteryApplyStep1DepositAction;
+
+  /// No description provided for @lotteryApplyStep1AmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment amount (1 unit = ¥100,000)'**
+  String get lotteryApplyStep1AmountLabel;
+
+  /// No description provided for @lotteryApplyStep1BalanceWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient standby cash'**
+  String get lotteryApplyStep1BalanceWarningTitle;
+
+  /// No description provided for @lotteryApplyStep1BalanceWarningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your balance is lower than the selected amount. Please deposit first, then continue the application.'**
+  String get lotteryApplyStep1BalanceWarningBody;
+
+  /// No description provided for @lotteryApplyStep1BalanceWarningAction.
+  ///
+  /// In en, this message translates to:
+  /// **'💰 Go to deposit'**
+  String get lotteryApplyStep1BalanceWarningAction;
+
+  /// No description provided for @lotteryApplyStep1EstimatedDistributionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated distribution (before tax)'**
+  String get lotteryApplyStep1EstimatedDistributionLabel;
+
+  /// No description provided for @lotteryApplyStep1EstimatedDistributionSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'/year'**
+  String get lotteryApplyStep1EstimatedDistributionSuffix;
+
+  /// No description provided for @lotteryApplyStep1NextAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: Documents'**
+  String get lotteryApplyStep1NextAction;
+
+  /// No description provided for @lotteryApplyStep2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Review contract documents'**
+  String get lotteryApplyStep2Title;
+
+  /// No description provided for @lotteryApplyStep2Description.
+  ///
+  /// In en, this message translates to:
+  /// **'These documents are required for your investment decision. Please review and check all items.'**
+  String get lotteryApplyStep2Description;
+
+  /// No description provided for @lotteryApplyDocumentPreContractTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-contract disclosure document'**
+  String get lotteryApplyDocumentPreContractTitle;
+
+  /// No description provided for @lotteryApplyDocumentPreContractSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF 12 pages | Includes key terms and risk notes'**
+  String get lotteryApplyDocumentPreContractSubtitle;
+
+  /// No description provided for @lotteryApplyDocumentAgreementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent partnership terms'**
+  String get lotteryApplyDocumentAgreementTitle;
+
+  /// No description provided for @lotteryApplyDocumentAgreementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF 8 pages | Contract terms and distribution details'**
+  String get lotteryApplyDocumentAgreementSubtitle;
+
+  /// No description provided for @lotteryApplyStep2InfoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent for electronic document delivery was collected during account registration. You can revoke or update it anytime in settings.'**
+  String get lotteryApplyStep2InfoBody;
+
+  /// No description provided for @lotteryApplyStep2NextAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue after confirming all documents'**
+  String get lotteryApplyStep2NextAction;
+
+  /// No description provided for @lotteryApplyStep3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Confirm application details'**
+  String get lotteryApplyStep3Title;
+
+  /// No description provided for @lotteryApplyFundNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund'**
+  String get lotteryApplyFundNameLabel;
+
+  /// No description provided for @lotteryApplyInvestmentAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment amount'**
+  String get lotteryApplyInvestmentAmountLabel;
+
+  /// No description provided for @lotteryApplyAnnualYieldPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual'**
+  String get lotteryApplyAnnualYieldPrefix;
+
+  /// No description provided for @lotteryApplyNoticeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notice'**
+  String get lotteryApplyNoticeTitle;
+
+  /// No description provided for @lotteryApplyNoticeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This investment does not guarantee principal. If selected in the lottery, payment is required within the specified deadline.'**
+  String get lotteryApplyNoticeBody;
+
+  /// No description provided for @lotteryApplyAgreementLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I have reviewed the above details and agree to proceed with the lottery application.'**
+  String get lotteryApplyAgreementLabel;
+
+  /// No description provided for @lotteryApplySubmitAction.
+  ///
+  /// In en, this message translates to:
+  /// **'🎲 Submit lottery application'**
+  String get lotteryApplySubmitAction;
+
+  /// No description provided for @lotteryApplyStep4Headline.
+  ///
+  /// In en, this message translates to:
+  /// **'Lottery application submitted!'**
+  String get lotteryApplyStep4Headline;
+
+  /// No description provided for @lotteryApplyStep4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Your lottery application for \"{projectName}\" has been completed. The result will be announced on the date below, and you\'ll receive a notification in the app.'**
+  String lotteryApplyStep4Body(Object projectName);
+
+  /// No description provided for @lotteryApplyResultAnnouncementDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'🗓️ Result announcement date'**
+  String get lotteryApplyResultAnnouncementDateLabel;
+
+  /// No description provided for @lotteryApplyApplicationNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Application number'**
+  String get lotteryApplyApplicationNumberLabel;
+
+  /// No description provided for @lotteryApplyStep4HintBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If selected, please complete payment within 8 days (including cooling-off period). If not selected, no action is needed. If minimum demand is not met, a review and lottery process still applies.'**
+  String get lotteryApplyStep4HintBody;
+
+  /// No description provided for @lotteryApplyBackHomeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Home'**
+  String get lotteryApplyBackHomeAction;
+
+  /// No description provided for @lotteryApplyDemoCheckResultAction.
+  ///
+  /// In en, this message translates to:
+  /// **'(Demo) View lottery result →'**
+  String get lotteryApplyDemoCheckResultAction;
+
+  /// No description provided for @lotteryApplyStep5Headline.
+  ///
+  /// In en, this message translates to:
+  /// **'Selection notice'**
+  String get lotteryApplyStep5Headline;
+
+  /// No description provided for @lotteryApplyStep5Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations! You were selected in the \"{projectName}\" lottery. Please transfer funds to the designated account by the deadline below.'**
+  String lotteryApplyStep5Body(Object projectName);
+
+  /// No description provided for @lotteryApplyDeadlineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'⏰ Payment deadline (includes 8-day cooling-off)'**
+  String get lotteryApplyDeadlineLabel;
+
+  /// No description provided for @lotteryApplyCoolingOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About cooling-off'**
+  String get lotteryApplyCoolingOffTitle;
+
+  /// No description provided for @lotteryApplyCoolingOffBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can cancel unconditionally within 8 days from the day after contract document delivery. Cancellation is also available during cooling-off even after payment.'**
+  String get lotteryApplyCoolingOffBody;
+
+  /// No description provided for @lotteryApplyDepositAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment amount'**
+  String get lotteryApplyDepositAmountLabel;
+
+  /// No description provided for @lotteryApplyBankNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get lotteryApplyBankNameLabel;
+
+  /// No description provided for @lotteryApplyBankBranchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch'**
+  String get lotteryApplyBankBranchLabel;
+
+  /// No description provided for @lotteryApplyBankAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get lotteryApplyBankAccountLabel;
+
+  /// No description provided for @lotteryApplyBankHolderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Account holder'**
+  String get lotteryApplyBankHolderLabel;
+
+  /// No description provided for @lotteryApplyMockBankName.
+  ///
+  /// In en, this message translates to:
+  /// **'GMO Aozora Net Bank'**
+  String get lotteryApplyMockBankName;
+
+  /// No description provided for @lotteryApplyMockBankBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Corporate First Branch (101)'**
+  String get lotteryApplyMockBankBranch;
+
+  /// No description provided for @lotteryApplyMockBankAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordinary 1234567'**
+  String get lotteryApplyMockBankAccount;
+
+  /// No description provided for @lotteryApplyMockBankHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'FUNDEX Co., Ltd.'**
+  String get lotteryApplyMockBankHolder;
+
+  /// No description provided for @lotteryApplyReportDepositAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Report payment completed'**
+  String get lotteryApplyReportDepositAction;
+
+  /// No description provided for @lotteryApplyLaterDepositAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay later'**
+  String get lotteryApplyLaterDepositAction;
+
+  /// No description provided for @lotteryApplyCopyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get lotteryApplyCopyAction;
+
+  /// No description provided for @lotteryApplyCopyDoneToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get lotteryApplyCopyDoneToast;
+
+  /// No description provided for @lotteryApplyStep6Headline.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment process completed'**
+  String get lotteryApplyStep6Headline;
+
+  /// No description provided for @lotteryApplyStep6Body.
+  ///
+  /// In en, this message translates to:
+  /// **'We have confirmed your payment. Please wait for operation start. Distribution schedules will be sent via notifications.'**
+  String get lotteryApplyStep6Body;
+
+  /// No description provided for @lotteryApplyReceiptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt No:'**
+  String get lotteryApplyReceiptLabel;
+
   /// No description provided for @fundDetailUnknownValue.
   ///
   /// In en, this message translates to:

@@ -1024,6 +1024,178 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fundDetailApplyComingSoonToast => '申购流程会在下一步实现中接入。';
 
   @override
+  String get lotteryApplyFlowTitle => '抽签申请';
+
+  @override
+  String get lotteryApplyStep1Title => '1. 输入出资金额';
+
+  @override
+  String get lotteryApplyStep1BalanceLabel => '💰 待机资金余额';
+
+  @override
+  String get lotteryApplyStep1DepositAction => '去入金';
+
+  @override
+  String get lotteryApplyStep1AmountLabel => '出资金额（1口 = 10万日元）';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningTitle => '待机资金不足';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningBody =>
+      '当前余额不足以覆盖申请金额，请先完成入金后再继续申请。';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningAction => '💰 前往入金页';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionLabel => '预计分配金（税前）';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionSuffix => '/年';
+
+  @override
+  String get lotteryApplyStep1NextAction => '下一步：确认书面';
+
+  @override
+  String get lotteryApplyStep2Title => '2. 确认合同书面';
+
+  @override
+  String get lotteryApplyStep2Description => '以下书面是投资判断所需内容，请全部确认后勾选。';
+
+  @override
+  String get lotteryApplyDocumentPreContractTitle => '合同缔结前交付书面';
+
+  @override
+  String get lotteryApplyDocumentPreContractSubtitle => 'PDF 12页｜包含重要事项与风险说明';
+
+  @override
+  String get lotteryApplyDocumentAgreementTitle => '匿名组合合同条款';
+
+  @override
+  String get lotteryApplyDocumentAgreementSubtitle => 'PDF 8页｜合同条件与分配方式详情';
+
+  @override
+  String get lotteryApplyStep2InfoBody => '电子交付同意已在注册时取得，可随时在设置页撤回或变更。';
+
+  @override
+  String get lotteryApplyStep2NextAction => '确认全部后继续';
+
+  @override
+  String get lotteryApplyStep3Title => '3. 确认申请内容';
+
+  @override
+  String get lotteryApplyFundNameLabel => '基金名称';
+
+  @override
+  String get lotteryApplyInvestmentAmountLabel => '出资金额';
+
+  @override
+  String get lotteryApplyAnnualYieldPrefix => '年化';
+
+  @override
+  String get lotteryApplyNoticeTitle => '注意事项';
+
+  @override
+  String get lotteryApplyNoticeBody => '本投资不保证本金。若抽签中签，需在指定期限内完成入金。';
+
+  @override
+  String get lotteryApplyAgreementLabel => '我已确认以上内容，并同意进行抽签申请。';
+
+  @override
+  String get lotteryApplySubmitAction => '🎲 申请抽签';
+
+  @override
+  String get lotteryApplyStep4Headline => '抽签申请已完成！';
+
+  @override
+  String lotteryApplyStep4Body(Object projectName) {
+    return '你已成功申请「$projectName」抽签。结果将于下方日期公布，并通过 App 通知告知。';
+  }
+
+  @override
+  String get lotteryApplyResultAnnouncementDateLabel => '🗓️ 结果公布日';
+
+  @override
+  String get lotteryApplyApplicationNumberLabel => '申请编号';
+
+  @override
+  String get lotteryApplyStep4HintBody =>
+      '若中签，请在8日内完成入金（含冷静期）。未中签则无需操作。若募集未达人数也会进行审查与抽签。';
+
+  @override
+  String get lotteryApplyBackHomeAction => '返回首页';
+
+  @override
+  String get lotteryApplyDemoCheckResultAction => '（演示）查看抽签结果 →';
+
+  @override
+  String get lotteryApplyStep5Headline => '中签通知';
+
+  @override
+  String lotteryApplyStep5Body(Object projectName) {
+    return '恭喜，你已中签「$projectName」。请在下方期限前转账至指定账户。';
+  }
+
+  @override
+  String get lotteryApplyDeadlineLabel => '⏰ 入金期限（含8天冷静期）';
+
+  @override
+  String get lotteryApplyCoolingOffTitle => '关于冷静期';
+
+  @override
+  String get lotteryApplyCoolingOffBody =>
+      '自合同书面交付次日起8日内可无条件解除。即使已入金，在冷静期内也可解约。';
+
+  @override
+  String get lotteryApplyDepositAmountLabel => '入金金额';
+
+  @override
+  String get lotteryApplyBankNameLabel => '收款银行';
+
+  @override
+  String get lotteryApplyBankBranchLabel => '支店';
+
+  @override
+  String get lotteryApplyBankAccountLabel => '账号';
+
+  @override
+  String get lotteryApplyBankHolderLabel => '账户名义';
+
+  @override
+  String get lotteryApplyMockBankName => 'GMO青空网络银行';
+
+  @override
+  String get lotteryApplyMockBankBranch => '法人第一支店（101）';
+
+  @override
+  String get lotteryApplyMockBankAccount => '普通 1234567';
+
+  @override
+  String get lotteryApplyMockBankHolder => 'FUNDEX株式会社';
+
+  @override
+  String get lotteryApplyReportDepositAction => '报告已完成入金';
+
+  @override
+  String get lotteryApplyLaterDepositAction => '稍后入金';
+
+  @override
+  String get lotteryApplyCopyAction => '复制';
+
+  @override
+  String get lotteryApplyCopyDoneToast => '已复制';
+
+  @override
+  String get lotteryApplyStep6Headline => '出资手续已完成';
+
+  @override
+  String get lotteryApplyStep6Body => '我们已确认你的入金。请等待运用开始，分配计划会通过通知告知。';
+
+  @override
+  String get lotteryApplyReceiptLabel => '受理编号：';
+
+  @override
   String get fundDetailUnknownValue => '--';
 
   @override
@@ -2547,6 +2719,178 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get fundDetailApplyComingSoonToast => '申购流程会在下一步实现中接入。';
+
+  @override
+  String get lotteryApplyFlowTitle => '抽籤申請';
+
+  @override
+  String get lotteryApplyStep1Title => '1. 輸入出資金額';
+
+  @override
+  String get lotteryApplyStep1BalanceLabel => '💰 待機資金餘額';
+
+  @override
+  String get lotteryApplyStep1DepositAction => '去入金';
+
+  @override
+  String get lotteryApplyStep1AmountLabel => '出資金額（1口 = 10萬日圓）';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningTitle => '待機資金不足';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningBody =>
+      '目前餘額不足以覆蓋申請金額，請先完成入金後再繼續申請。';
+
+  @override
+  String get lotteryApplyStep1BalanceWarningAction => '💰 前往入金頁';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionLabel => '預估分配金（稅前）';
+
+  @override
+  String get lotteryApplyStep1EstimatedDistributionSuffix => '/年';
+
+  @override
+  String get lotteryApplyStep1NextAction => '下一步：確認書面';
+
+  @override
+  String get lotteryApplyStep2Title => '2. 確認合約書面';
+
+  @override
+  String get lotteryApplyStep2Description => '以下書面為投資判斷所需內容，請全部確認後再勾選。';
+
+  @override
+  String get lotteryApplyDocumentPreContractTitle => '締約前交付書面';
+
+  @override
+  String get lotteryApplyDocumentPreContractSubtitle => 'PDF 12頁｜包含重要事項與風險說明';
+
+  @override
+  String get lotteryApplyDocumentAgreementTitle => '匿名組合契約條款';
+
+  @override
+  String get lotteryApplyDocumentAgreementSubtitle => 'PDF 8頁｜契約條件與分配方式詳情';
+
+  @override
+  String get lotteryApplyStep2InfoBody => '電子交付同意已於註冊時取得，可隨時於設定頁撤回或變更。';
+
+  @override
+  String get lotteryApplyStep2NextAction => '確認全部後繼續';
+
+  @override
+  String get lotteryApplyStep3Title => '3. 確認申請內容';
+
+  @override
+  String get lotteryApplyFundNameLabel => '基金名稱';
+
+  @override
+  String get lotteryApplyInvestmentAmountLabel => '出資金額';
+
+  @override
+  String get lotteryApplyAnnualYieldPrefix => '年化';
+
+  @override
+  String get lotteryApplyNoticeTitle => '注意事項';
+
+  @override
+  String get lotteryApplyNoticeBody => '本投資不保證本金。若抽籤中選，需於指定期限內完成入金。';
+
+  @override
+  String get lotteryApplyAgreementLabel => '我已確認以上內容，並同意進行抽籤申請。';
+
+  @override
+  String get lotteryApplySubmitAction => '🎲 申請抽籤';
+
+  @override
+  String get lotteryApplyStep4Headline => '抽籤申請已完成！';
+
+  @override
+  String lotteryApplyStep4Body(Object projectName) {
+    return '你已成功申請「$projectName」抽籤。結果將於下方日期公布，並透過 App 通知告知。';
+  }
+
+  @override
+  String get lotteryApplyResultAnnouncementDateLabel => '🗓️ 結果公布日';
+
+  @override
+  String get lotteryApplyApplicationNumberLabel => '申請編號';
+
+  @override
+  String get lotteryApplyStep4HintBody =>
+      '若中選，請於8日內完成入金（含冷靜期）。未中選則無需操作。若募集未達人數也會進行審查與抽籤。';
+
+  @override
+  String get lotteryApplyBackHomeAction => '返回首頁';
+
+  @override
+  String get lotteryApplyDemoCheckResultAction => '（示範）查看抽籤結果 →';
+
+  @override
+  String get lotteryApplyStep5Headline => '中選通知';
+
+  @override
+  String lotteryApplyStep5Body(Object projectName) {
+    return '恭喜，你已中選「$projectName」。請於下方期限前匯款至指定帳戶。';
+  }
+
+  @override
+  String get lotteryApplyDeadlineLabel => '⏰ 入金期限（含8天冷靜期）';
+
+  @override
+  String get lotteryApplyCoolingOffTitle => '關於冷靜期';
+
+  @override
+  String get lotteryApplyCoolingOffBody =>
+      '自契約書面交付次日起8日內可無條件解除。即使已入金，在冷靜期內仍可解約。';
+
+  @override
+  String get lotteryApplyDepositAmountLabel => '入金金額';
+
+  @override
+  String get lotteryApplyBankNameLabel => '收款銀行';
+
+  @override
+  String get lotteryApplyBankBranchLabel => '分行';
+
+  @override
+  String get lotteryApplyBankAccountLabel => '帳號';
+
+  @override
+  String get lotteryApplyBankHolderLabel => '帳戶名義';
+
+  @override
+  String get lotteryApplyMockBankName => 'GMO青空網路銀行';
+
+  @override
+  String get lotteryApplyMockBankBranch => '法人第一支店（101）';
+
+  @override
+  String get lotteryApplyMockBankAccount => '普通 1234567';
+
+  @override
+  String get lotteryApplyMockBankHolder => 'FUNDEX株式會社';
+
+  @override
+  String get lotteryApplyReportDepositAction => '回報已完成入金';
+
+  @override
+  String get lotteryApplyLaterDepositAction => '稍後入金';
+
+  @override
+  String get lotteryApplyCopyAction => '複製';
+
+  @override
+  String get lotteryApplyCopyDoneToast => '已複製';
+
+  @override
+  String get lotteryApplyStep6Headline => '出資流程已完成';
+
+  @override
+  String get lotteryApplyStep6Body => '我們已確認你的入金。請等待運用開始，分配排程將透過通知告知。';
+
+  @override
+  String get lotteryApplyReceiptLabel => '受理編號：';
 
   @override
   String get fundDetailUnknownValue => '--';
