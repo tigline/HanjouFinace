@@ -128,7 +128,7 @@ class ProfileCenterTabPage extends ConsumerWidget {
                     formatter: currencyFormatter,
                     fundProjectsById: fundProjectsById,
                   ),
-                  const SizedBox(height: UiTokens.spacing8),
+                  const SizedBox(height: UiTokens.spacing32),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
@@ -136,29 +136,29 @@ class ProfileCenterTabPage extends ConsumerWidget {
                         context,
                         message: l10n.myPageHistoryComingSoon,
                       ),
-                      icon: const Icon(Icons.receipt_long_outlined),
+                      //icon: const Icon(Icons.receipt_long_outlined),
                       label: Text(l10n.myPageTransactionHistoryAction),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),
                   ),
-                  const SizedBox(height: UiTokens.spacing12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: () => _logout(context, ref),
-                      icon: const Icon(Icons.logout_rounded),
-                      label: Text(l10n.homeLogout),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColorTokens.fundexDanger,
-                        side: const BorderSide(
-                          color: AppColorTokens.fundexDanger,
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: UiTokens.spacing32),
+                  // SizedBox(
+                  //   width: double.infinity,
+                  //   child: OutlinedButton.icon(
+                  //     onPressed: () => _logout(context, ref),
+                  //     icon: const Icon(Icons.logout_rounded),
+                  //     label: Text(l10n.homeLogout),
+                  //     style: OutlinedButton.styleFrom(
+                  //       foregroundColor: AppColorTokens.fundexDanger,
+                  //       side: const BorderSide(
+                  //         color: AppColorTokens.fundexDanger,
+                  //       ),
+                  //       padding: const EdgeInsets.symmetric(vertical: 12),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
