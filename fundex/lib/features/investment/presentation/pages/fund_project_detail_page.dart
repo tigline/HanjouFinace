@@ -8,11 +8,11 @@ import '../../domain/entities/fund_project.dart';
 import '../providers/fund_project_providers.dart';
 import '../support/fund_detail_static_content.dart';
 import '../support/fund_project_detail_view_data.dart';
-import '../widgets/fund_project_detail/fund_project_detail_comments_placeholder_card.dart';
-import '../widgets/fund_project_detail/fund_project_detail_protection_structure_card.dart';
-import '../widgets/fund_project_detail/fund_project_detail_scaffold.dart';
-import '../widgets/fund_project_detail/fund_project_detail_title_block.dart';
-import '../widgets/fund_project_detail/fund_project_detail_yield_highlight_card.dart';
+import '../widgets/fund_project_detail_comments_placeholder_card.dart';
+import '../widgets/fund_project_detail_protection_structure_card.dart';
+import '../widgets/fund_project_detail_scaffold.dart';
+import '../widgets/fund_project_detail_title_block.dart';
+import '../widgets/fund_project_detail_yield_highlight_card.dart';
 
 class FundProjectDetailPage extends ConsumerWidget {
   const FundProjectDetailPage({super.key, required this.projectId});

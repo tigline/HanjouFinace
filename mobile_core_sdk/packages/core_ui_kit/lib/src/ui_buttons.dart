@@ -10,7 +10,7 @@ class PrimaryCtaButton extends StatefulWidget {
     this.child,
     this.onPressed,
     this.isLoading = false,
-    this.height = 63,
+    this.height = 52,
     this.fullWidth = true,
     this.borderRadius,
     this.horizontalPadding = UiTokens.spacing16,
@@ -53,7 +53,7 @@ class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
         widget.shadowColor ?? appTheme.primaryButtonShadowColor;
     final buttonTextStyle = widget.textStyle ?? appTheme.primaryButtonTextStyle;
     final radius =
-        widget.borderRadius ?? BorderRadius.circular(UiTokens.radius20);
+        widget.borderRadius ?? BorderRadius.circular(UiTokens.radius14);
     final isEnabled = widget.onPressed != null && !widget.isLoading;
 
     final buttonChild = widget.isLoading
@@ -99,7 +99,7 @@ class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
                           BoxShadow(
                             color: baseShadowColor,
                             blurRadius: 21,
-                            offset: const Offset(1, 21),
+                            offset: const Offset(1, 15),
                           ),
                         ])
                 : const <BoxShadow>[],

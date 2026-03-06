@@ -10,12 +10,12 @@ import '../../domain/entities/fund_project.dart';
 import '../providers/fund_project_providers.dart';
 import '../support/fund_lottery_apply_models.dart';
 import '../support/fund_lottery_apply_step.dart';
-import '../widgets/fund_lottery_apply/fund_lottery_apply_amount_step.dart';
-import '../widgets/fund_lottery_apply/fund_lottery_apply_completed_step.dart';
-import '../widgets/fund_lottery_apply/fund_lottery_apply_confirm_step.dart';
-import '../widgets/fund_lottery_apply/fund_lottery_apply_documents_step.dart';
-import '../widgets/fund_lottery_apply/fund_lottery_apply_selected_step.dart';
-import '../widgets/fund_lottery_apply/fund_lottery_apply_submitted_step.dart';
+import 'fund_lottery_apply/fund_lottery_apply_amount_step.dart';
+import 'fund_lottery_apply/fund_lottery_apply_completed_step.dart';
+import 'fund_lottery_apply/fund_lottery_apply_confirm_step.dart';
+import 'fund_lottery_apply/fund_lottery_apply_documents_step.dart';
+import 'fund_lottery_apply/fund_lottery_apply_selected_step.dart';
+import 'fund_lottery_apply/fund_lottery_apply_submitted_step.dart';
 
 class FundLotteryApplyFlowPage extends ConsumerStatefulWidget {
   const FundLotteryApplyFlowPage({super.key, required this.projectId});

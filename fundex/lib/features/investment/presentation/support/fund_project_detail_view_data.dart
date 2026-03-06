@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/fund_project.dart';
-import '../widgets/fund_project_detail/fund_project_detail_protection_structure_card.dart';
+import '../widgets/fund_project_detail_protection_structure_card.dart';
 
 class FundProjectDetailViewData {
   const FundProjectDetailViewData({
