@@ -18,3 +18,4 @@ export 'src/fund_home_widgets.dart';
 export 'src/fund_mypage_widgets.dart';
 export 'src/form_fields.dart';
 export 'src/fund_property_map_widgets.dart';
+export 'src/currency_input_formatter.dart';

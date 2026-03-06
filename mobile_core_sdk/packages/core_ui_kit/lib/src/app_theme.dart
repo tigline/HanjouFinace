@@ -115,7 +115,7 @@ class AppThemeFactory {
           .copyWith(
             color: Colors.white,
             fontSize: 16,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w900,
             height: 22 / 16,
           ),
       categorySelectedBackgroundColor: AppColorTokens.travelPrimaryBlueAlt,

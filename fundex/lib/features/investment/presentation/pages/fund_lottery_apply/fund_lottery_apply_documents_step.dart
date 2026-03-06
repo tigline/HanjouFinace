@@ -29,13 +29,13 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
       children: <Widget>[
         Text(
           title,
           style: (theme.textTheme.titleMedium ?? const TextStyle()).copyWith(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
             color: AppColorTokens.fundexText,
           ),
         ),
@@ -43,6 +43,7 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
         Text(
           description,
           style: (theme.textTheme.bodySmall ?? const TextStyle()).copyWith(
+            fontSize: 11,
             color: AppColorTokens.fundexTextSecondary,
             height: 1.6,
           ),
@@ -66,8 +67,7 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
         DecoratedBox(
           decoration: BoxDecoration(
             color: AppColorTokens.fundexBackground,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColorTokens.fundexBorder),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -81,6 +81,7 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
                     infoBody,
                     style: (theme.textTheme.bodySmall ?? const TextStyle())
                         .copyWith(
+                          fontSize: 10,
                           color: AppColorTokens.fundexTextSecondary,
                           height: 1.6,
                         ),
@@ -95,6 +96,16 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
           label: nextButtonLabel,
           onPressed: onNext,
           horizontalPadding: 0,
+          backgroundColor: onNext == null
+              ? const Color(0xFFCBD5E1)
+              : AppColorTokens.fundexAccent,
+          disabledOpacity: 1,
+          textStyle: (theme.textTheme.titleMedium ?? const TextStyle())
+              .copyWith(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+              ),
         ),
       ],
     );
@@ -119,56 +130,49 @@ class _DocumentTile extends StatelessWidget {
     final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(12),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColorTokens.fundexBorder),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          color: AppColorTokens.fundexBackground,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
           child: Row(
             children: <Widget>[
-              DecoratedBox(
+              Container(
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
-                  color: AppColorTokens.fundexBackground,
+                  color: AppColorTokens.fundexDangerLight,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Icon(
-                    Icons.description_outlined,
-                    size: 18,
-                    color: AppColorTokens.fundexTextSecondary,
-                  ),
+                child: const Icon(
+                  Icons.description_outlined,
+                  size: 18,
+                  color: AppColorTokens.fundexDanger,
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       title,
-                      style: (theme.textTheme.bodyMedium ?? const TextStyle())
+                      style: (theme.textTheme.bodySmall ?? const TextStyle())
                           .copyWith(
+                            fontSize: 12,
                             color: AppColorTokens.fundexText,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 2),
                     Text(
                       subtitle,
                       style: (theme.textTheme.labelSmall ?? const TextStyle())
                           .copyWith(
+                            fontSize: 10,
                             color: AppColorTokens.fundexTextSecondary,
                             height: 1.5,
                           ),
@@ -176,25 +180,25 @@ class _DocumentTile extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 180),
-                width: 22,
-                height: 22,
+                width: 20,
+                height: 20,
                 decoration: BoxDecoration(
                   color: checked ? AppColorTokens.fundexAccent : Colors.white,
-                  borderRadius: BorderRadius.circular(999),
+                  borderRadius: BorderRadius.circular(6),
                   border: Border.all(
                     color: checked
                         ? AppColorTokens.fundexAccent
                         : AppColorTokens.fundexBorder,
-                    width: 1.5,
+                    width: 2,
                   ),
                 ),
                 child: checked
                     ? const Icon(
                         Icons.check_rounded,
-                        size: 15,
+                        size: 12,
                         color: Colors.white,
                       )
                     : null,

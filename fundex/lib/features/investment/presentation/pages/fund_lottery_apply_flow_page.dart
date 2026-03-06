@@ -328,8 +328,11 @@ class _FundLotteryApplyFlowPageState
                                 _showToast(l10n.myPageDepositComingSoon),
                             estimatedDistributionLabel: l10n
                                 .lotteryApplyStep1EstimatedDistributionLabel,
-                            estimatedDistributionValue:
-                                '${formatter.format(estimatedDistribution)} ${l10n.lotteryApplyStep1EstimatedDistributionSuffix}',
+                            estimatedDistributionAmount: formatter.format(
+                              estimatedDistribution,
+                            ),
+                            estimatedDistributionSuffix: l10n
+                                .lotteryApplyStep1EstimatedDistributionSuffix,
                             nextButtonLabel: l10n.lotteryApplyStep1NextAction,
                             onNext: _canProceedStep1 ? _goNextStep : null,
                           ),
@@ -389,6 +392,7 @@ class _FundLotteryApplyFlowPageState
                                 _agreedToApply = value;
                               });
                             },
+                            highlightValue: l10n.homeTagLottery,
                             applyButtonLabel: l10n.lotteryApplySubmitAction,
                             onApply: _agreedToApply ? _goNextStep : null,
                           ),

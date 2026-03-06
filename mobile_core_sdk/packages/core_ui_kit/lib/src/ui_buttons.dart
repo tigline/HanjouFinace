@@ -10,7 +10,7 @@ class PrimaryCtaButton extends StatefulWidget {
     this.child,
     this.onPressed,
     this.isLoading = false,
-    this.height = 52,
+    this.height = 56,
     this.fullWidth = true,
     this.borderRadius,
     this.horizontalPadding = UiTokens.spacing16,
@@ -99,7 +99,7 @@ class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
                           BoxShadow(
                             color: baseShadowColor,
                             blurRadius: 21,
-                            offset: const Offset(1, 15),
+                            offset: const Offset(1, 20),
                           ),
                         ])
                 : const <BoxShadow>[],
