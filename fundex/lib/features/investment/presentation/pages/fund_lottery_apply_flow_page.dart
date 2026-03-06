@@ -43,7 +43,7 @@ class _FundLotteryApplyFlowPageState
   @override
   void initState() {
     super.initState();
-    _amountController = TextEditingController(text: '500000');
+    _amountController = TextEditingController(text: CurrencyInputFormatter.formatCurrency(_amount.toString()));
     _amountController.addListener(_handleAmountChanged);
   }
 
@@ -68,7 +68,7 @@ class _FundLotteryApplyFlowPageState
 
   void _selectQuickAmount(int amount) {
     _amountController.value = TextEditingValue(
-      text: amount.toString(),
+      text: CurrencyInputFormatter.formatCurrency(amount.toString()),
       selection: TextSelection.collapsed(offset: amount.toString().length),
     );
   }
