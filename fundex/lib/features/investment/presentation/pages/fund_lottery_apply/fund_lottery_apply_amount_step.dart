@@ -86,7 +86,7 @@ class FundLotteryApplyAmountStep extends StatelessWidget {
                   style: (theme.textTheme.bodySmall ?? const TextStyle())
                       .copyWith(
                         fontSize: 12,
-                        color: AppColorTokens.fundexTextTertiary,
+                        color: AppColorTokens.fundexTextSecondary,
                         fontWeight: FontWeight.w500,
                       ),
                 ),
@@ -258,7 +258,7 @@ class _BalanceCard extends StatelessWidget {
                     style: (theme.textTheme.bodySmall ?? const TextStyle())
                         .copyWith(
                           fontSize: 11,
-                          color: AppColorTokens.fundexTextTertiary,
+                          color: AppColorTokens.fundexTextSecondary,
                           fontWeight: FontWeight.w500,
                         ),
                   ),
