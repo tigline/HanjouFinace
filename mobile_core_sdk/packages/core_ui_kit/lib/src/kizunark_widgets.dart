@@ -176,7 +176,8 @@ class KizunarkComposerCard extends StatelessWidget {
         Expanded(
           child: Opacity(
             opacity: enabled ? 1 : 0.72,
-            child: DecoratedBox(
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(3, 3, 3, 3),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(14),
@@ -211,6 +212,8 @@ class KizunarkComposerCard extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                       border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
                       contentPadding: const EdgeInsets.fromLTRB(14, 10, 14, 8),
                     ),
                   ),
