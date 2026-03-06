@@ -59,22 +59,22 @@ class MainShellPage extends StatelessWidget {
           onDestinationSelected: _onDestinationSelected,
           destinations: <NavigationDestination>[
             NavigationDestination(
-              icon: const Icon(Icons.home_outlined),
+              icon: const Icon(Icons.home_rounded),
               selectedIcon: const Icon(Icons.home_rounded),
               label: l10n.mainTabHome,
             ),
             NavigationDestination(
-              icon: const Icon(Icons.show_chart_outlined),
+              icon: const Icon(Icons.show_chart_rounded),
               selectedIcon: const Icon(Icons.show_chart_rounded),
               label: l10n.mainTabInvestment,
             ),
             NavigationDestination(
-              icon: const Icon(Icons.forum_outlined),
-              selectedIcon: const Icon(Icons.forum_rounded),
+              icon: const Icon(Icons.favorite),
+              selectedIcon: const Icon(Icons.favorite),
               label: l10n.mainTabKizunark,
             ),
             NavigationDestination(
-              icon: const Icon(Icons.person_outline_rounded),
+              icon: const Icon(Icons.person_rounded),
               selectedIcon: const Icon(Icons.person_rounded),
               label: l10n.mainTabProfile,
             ),

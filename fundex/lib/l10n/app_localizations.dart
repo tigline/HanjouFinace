@@ -1499,6 +1499,90 @@ abstract class AppLocalizations {
   /// **'Reply'**
   String get discussionTabReplyAction;
 
+  /// No description provided for @kizunarkSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Investor community'**
+  String get kizunarkSubtitle;
+
+  /// No description provided for @kizunarkInvestorOnlyNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'🔒 Only investors can post and comment.'**
+  String get kizunarkInvestorOnlyNotice;
+
+  /// No description provided for @kizunarkComposePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your investment thoughts...'**
+  String get kizunarkComposePlaceholder;
+
+  /// No description provided for @kizunarkPostAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get kizunarkPostAction;
+
+  /// No description provided for @kizunarkReplyPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment...'**
+  String get kizunarkReplyPlaceholder;
+
+  /// No description provided for @kizunarkReplySendAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get kizunarkReplySendAction;
+
+  /// No description provided for @kizunarkJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get kizunarkJustNow;
+
+  /// No description provided for @kizunarkFallbackDisplayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Investor**'**
+  String get kizunarkFallbackDisplayName;
+
+  /// No description provided for @kizunarkFallbackHandle.
+  ///
+  /// In en, this message translates to:
+  /// **'usr***@'**
+  String get kizunarkFallbackHandle;
+
+  /// No description provided for @kizunarkInvestorBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Investor'**
+  String get kizunarkInvestorBadge;
+
+  /// No description provided for @kizunarkPostSuccessNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Post submitted.'**
+  String get kizunarkPostSuccessNotice;
+
+  /// No description provided for @kizunarkReplySuccessNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment sent.'**
+  String get kizunarkReplySuccessNotice;
+
+  /// No description provided for @kizunarkLoginRequiredToPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to post and comment.'**
+  String get kizunarkLoginRequiredToPost;
+
+  /// No description provided for @kizunarkEmptyState.
+  ///
+  /// In en, this message translates to:
+  /// **'No posts yet. Start the first discussion.'**
+  String get kizunarkEmptyState;
+
   /// No description provided for @investmentTabHeadline.
   ///
   /// In en, this message translates to:

@@ -727,6 +727,48 @@ class AppLocalizationsJa extends AppLocalizations {
   String get discussionTabReplyAction => '返信';
 
   @override
+  String get kizunarkSubtitle => '投資家コミュニティ';
+
+  @override
+  String get kizunarkInvestorOnlyNotice => '🔒 投資家のみ投稿・コメントできます';
+
+  @override
+  String get kizunarkComposePlaceholder => '投資の話題を共有しよう...';
+
+  @override
+  String get kizunarkPostAction => '投稿';
+
+  @override
+  String get kizunarkReplyPlaceholder => 'コメントを入力...';
+
+  @override
+  String get kizunarkReplySendAction => '送信';
+
+  @override
+  String get kizunarkJustNow => 'たった今';
+
+  @override
+  String get kizunarkFallbackDisplayName => '投資家**';
+
+  @override
+  String get kizunarkFallbackHandle => 'user***@';
+
+  @override
+  String get kizunarkInvestorBadge => '投資家';
+
+  @override
+  String get kizunarkPostSuccessNotice => '投稿しました！';
+
+  @override
+  String get kizunarkReplySuccessNotice => 'コメントを投稿しました！';
+
+  @override
+  String get kizunarkLoginRequiredToPost => '投稿・コメントにはログインが必要です';
+
+  @override
+  String get kizunarkEmptyState => 'まだ投稿がありません。最初の話題を投稿しましょう。';
+
+  @override
   String get investmentTabHeadline => '投資関連モジュール（枠組み）';
 
   @override

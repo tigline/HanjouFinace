@@ -772,6 +772,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discussionTabReplyAction => 'Reply';
 
   @override
+  String get kizunarkSubtitle => 'Investor community';
+
+  @override
+  String get kizunarkInvestorOnlyNotice =>
+      '🔒 Only investors can post and comment.';
+
+  @override
+  String get kizunarkComposePlaceholder => 'Share your investment thoughts...';
+
+  @override
+  String get kizunarkPostAction => 'Post';
+
+  @override
+  String get kizunarkReplyPlaceholder => 'Write a comment...';
+
+  @override
+  String get kizunarkReplySendAction => 'Send';
+
+  @override
+  String get kizunarkJustNow => 'Just now';
+
+  @override
+  String get kizunarkFallbackDisplayName => 'Investor**';
+
+  @override
+  String get kizunarkFallbackHandle => 'usr***@';
+
+  @override
+  String get kizunarkInvestorBadge => 'Investor';
+
+  @override
+  String get kizunarkPostSuccessNotice => 'Post submitted.';
+
+  @override
+  String get kizunarkReplySuccessNotice => 'Comment sent.';
+
+  @override
+  String get kizunarkLoginRequiredToPost =>
+      'Please sign in to post and comment.';
+
+  @override
+  String get kizunarkEmptyState => 'No posts yet. Start the first discussion.';
+
+  @override
   String get investmentTabHeadline => 'Investment Module (Framework)';
 
   @override

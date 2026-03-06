@@ -722,6 +722,48 @@ class AppLocalizationsZh extends AppLocalizations {
   String get discussionTabReplyAction => '回复';
 
   @override
+  String get kizunarkSubtitle => '投资者社区';
+
+  @override
+  String get kizunarkInvestorOnlyNotice => '🔒 仅投资者可发帖和评论';
+
+  @override
+  String get kizunarkComposePlaceholder => '分享你的投资观点...';
+
+  @override
+  String get kizunarkPostAction => '发布';
+
+  @override
+  String get kizunarkReplyPlaceholder => '输入评论...';
+
+  @override
+  String get kizunarkReplySendAction => '发送';
+
+  @override
+  String get kizunarkJustNow => '刚刚';
+
+  @override
+  String get kizunarkFallbackDisplayName => '投资者**';
+
+  @override
+  String get kizunarkFallbackHandle => 'user***@';
+
+  @override
+  String get kizunarkInvestorBadge => '投资者';
+
+  @override
+  String get kizunarkPostSuccessNotice => '发布成功！';
+
+  @override
+  String get kizunarkReplySuccessNotice => '评论已发送！';
+
+  @override
+  String get kizunarkLoginRequiredToPost => '发帖和评论需要先登录';
+
+  @override
+  String get kizunarkEmptyState => '还没有帖子，来发起第一条讨论吧。';
+
+  @override
   String get investmentTabHeadline => '投资相关模块（框架）';
 
   @override
@@ -2417,6 +2459,48 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get discussionTabReplyAction => '回复';
+
+  @override
+  String get kizunarkSubtitle => '投資者社群';
+
+  @override
+  String get kizunarkInvestorOnlyNotice => '🔒 僅投資者可發文與留言';
+
+  @override
+  String get kizunarkComposePlaceholder => '分享你的投資觀點...';
+
+  @override
+  String get kizunarkPostAction => '發佈';
+
+  @override
+  String get kizunarkReplyPlaceholder => '輸入留言...';
+
+  @override
+  String get kizunarkReplySendAction => '送出';
+
+  @override
+  String get kizunarkJustNow => '剛剛';
+
+  @override
+  String get kizunarkFallbackDisplayName => '投資者**';
+
+  @override
+  String get kizunarkFallbackHandle => 'user***@';
+
+  @override
+  String get kizunarkInvestorBadge => '投資者';
+
+  @override
+  String get kizunarkPostSuccessNotice => '發佈成功！';
+
+  @override
+  String get kizunarkReplySuccessNotice => '留言已送出！';
+
+  @override
+  String get kizunarkLoginRequiredToPost => '發文與留言需要先登入';
+
+  @override
+  String get kizunarkEmptyState => '還沒有貼文，來發起第一則討論吧。';
 
   @override
   String get investmentTabHeadline => '投资相关模块（框架）';
