@@ -33,17 +33,17 @@ class FundLotteryApplyConfirmStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+      padding: const EdgeInsets.fromLTRB(20, 28, 20, 32),
       children: <Widget>[
         Text(
           title,
           style: (theme.textTheme.titleMedium ?? const TextStyle()).copyWith(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
             color: AppColorTokens.fundexText,
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 18),
         DecoratedBox(
           decoration: BoxDecoration(
             color: AppColorTokens.fundexBackground,
@@ -60,9 +60,10 @@ class FundLotteryApplyConfirmStep extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Expanded(
                             child: Text(
@@ -71,14 +72,13 @@ class FundLotteryApplyConfirmStep extends StatelessWidget {
                                   (theme.textTheme.bodySmall ??
                                           const TextStyle())
                                       .copyWith(
-                                        fontSize: 12,
+                                        fontSize: 13,
                                         color:
                                             AppColorTokens.fundexTextSecondary,
                                         fontWeight: FontWeight.w500,
                                       ),
                             ),
                           ),
-                          const SizedBox(width: 8),
                           Flexible(
                             child: Text(
                               row.value,
@@ -87,11 +87,11 @@ class FundLotteryApplyConfirmStep extends StatelessWidget {
                                   (theme.textTheme.bodyMedium ??
                                           const TextStyle())
                                       .copyWith(
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         color: isHighlighted
                                             ? AppColorTokens.fundexViolet
                                             : AppColorTokens.fundexText,
-                                        fontWeight: FontWeight.w700,
+                                        fontWeight: FontWeight.w800,
                                       ),
                             ),
                           ),
@@ -113,11 +113,11 @@ class FundLotteryApplyConfirmStep extends StatelessWidget {
         const SizedBox(height: 14),
         DecoratedBox(
           decoration: BoxDecoration(
-            color: const Color(0xFFFFEDD5),
+            color: const Color.fromARGB(255, 250, 240, 189),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+            padding: const EdgeInsets.fromLTRB(12, 14, 12, 14),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -128,7 +128,7 @@ class FundLotteryApplyConfirmStep extends StatelessWidget {
                     text: TextSpan(
                       style: (theme.textTheme.bodySmall ?? const TextStyle())
                           .copyWith(
-                            fontSize: 11,
+                            fontSize: 12,
                             color: const Color(0xFF92400E),
                             height: 1.6,
                           ),
@@ -164,9 +164,9 @@ class FundLotteryApplyConfirmStep extends StatelessWidget {
                       agreementLabel,
                       style: (theme.textTheme.bodySmall ?? const TextStyle())
                           .copyWith(
-                            fontSize: 11,
+                            fontSize: 12,
                             color: AppColorTokens.fundexText,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w800,
                             height: 1.5,
                           ),
                     ),

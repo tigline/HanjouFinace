@@ -52,7 +52,7 @@ class FundLotteryApplyAmountStep extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
+      padding: const EdgeInsets.fromLTRB(20, 28, 20, 32),
       children: <Widget>[
         Text(
           title,
