@@ -1,7 +1,7 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../app/localization/app_localizations_ext.dart';
+import '../../../../app/localization/app_localizations_ext.dart';
 
 class FundProjectDetailCommentsPlaceholderCard extends StatelessWidget {
   const FundProjectDetailCommentsPlaceholderCard({super.key});

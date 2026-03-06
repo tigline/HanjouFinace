@@ -1,7 +1,7 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/fund_project.dart';
+import '../../domain/entities/fund_project.dart';
 
 class FundProjectDetailTitleBlock extends StatelessWidget {
   const FundProjectDetailTitleBlock({super.key, required this.project});
