@@ -15,12 +15,15 @@ import '../features/member_profile/presentation/providers/member_profile_provide
 
 final GlobalKey<ScaffoldMessengerState> _rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
+final GlobalKey<OverlayState> _appNoticeOverlayKey = GlobalKey<OverlayState>();
 
 class MemberTemplateApp extends ConsumerWidget {
   const MemberTemplateApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    AppNotice.bindHostOverlayKey(_appNoticeOverlayKey);
+
     final router = ref.watch(appRouterProvider);
     final environment = ref.watch(appEnvironmentProvider);
     final locale = ref.watch(appLocaleProvider);
@@ -92,6 +95,14 @@ class MemberTemplateApp extends ConsumerWidget {
                     child: ColoredBox(color: statusBarColor),
                   ),
                 ),
+              Overlay(
+                key: _appNoticeOverlayKey,
+                initialEntries: <OverlayEntry>[
+                  OverlayEntry(
+                    builder: (BuildContext context) => const SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ],
           ),
         );

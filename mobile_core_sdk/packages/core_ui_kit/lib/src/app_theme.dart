@@ -278,6 +278,7 @@ class AppThemeFactory {
     final statusBarOverlayStyle = statusBarOverlayStyleFor(brightness);
 
     return ThemeData(
+      primaryColorDark: AppColorTokens.fundexPrimaryDark,
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
@@ -383,7 +384,7 @@ class AppThemeFactory {
         ),
       ),
       snackBarTheme: SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
+        behavior: SnackBarBehavior.fixed,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(UiTokens.radius16),
         ),
