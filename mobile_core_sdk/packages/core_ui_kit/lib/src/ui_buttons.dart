@@ -99,7 +99,7 @@ class _PrimaryCtaButtonState extends State<PrimaryCtaButton> {
                           BoxShadow(
                             color: baseShadowColor,
                             blurRadius: 21,
-                            offset: const Offset(1, 16),
+                            offset: const Offset(1, 10),
                           ),
                         ])
                 : const <BoxShadow>[],
