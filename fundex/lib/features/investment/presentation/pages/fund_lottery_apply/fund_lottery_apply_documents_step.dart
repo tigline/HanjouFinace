@@ -34,16 +34,16 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
         Text(
           title,
           style: (theme.textTheme.titleMedium ?? const TextStyle()).copyWith(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
             color: AppColorTokens.fundexText,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 18),
         Text(
           description,
           style: (theme.textTheme.bodySmall ?? const TextStyle()).copyWith(
-            fontSize: 11,
+            fontSize: 12,
             color: AppColorTokens.fundexTextSecondary,
             height: 1.6,
           ),
@@ -70,7 +70,7 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -81,7 +81,7 @@ class FundLotteryApplyDocumentsStep extends StatelessWidget {
                     infoBody,
                     style: (theme.textTheme.bodySmall ?? const TextStyle())
                         .copyWith(
-                          fontSize: 10,
+                          fontSize: 11,
                           color: AppColorTokens.fundexTextSecondary,
                           height: 1.6,
                         ),
@@ -137,7 +137,7 @@ class _DocumentTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
           child: Row(
             children: <Widget>[
               Container(
@@ -162,17 +162,17 @@ class _DocumentTile extends StatelessWidget {
                       title,
                       style: (theme.textTheme.bodySmall ?? const TextStyle())
                           .copyWith(
-                            fontSize: 12,
+                            fontSize: 13,
                             color: AppColorTokens.fundexText,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 4),
                     Text(
                       subtitle,
                       style: (theme.textTheme.labelSmall ?? const TextStyle())
                           .copyWith(
-                            fontSize: 10,
+                            fontSize: 11,
                             color: AppColorTokens.fundexTextSecondary,
                             height: 1.5,
                           ),
