@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'app_color_tokens.dart';
 import 'fund_home_widgets.dart';
-import 'app_theme_extensions.dart';
 import 'ui_tokens.dart';
 
 class FundMyPageMetricData {
@@ -229,12 +228,8 @@ class FundMyPageProjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final ftkTheme = theme.extension<AppFTKTheme>();
-    final cardRadius = BorderRadius.circular(UiTokens.radius16);
-    final borderColor =
-        ftkTheme?.cardBorderColor.withValues(alpha: 0.92) ??
-        theme.dividerColor.withValues(alpha: 0.9);
-    final shadowColor = ftkTheme?.cardTileShadowColor ?? Colors.black12;
+    const cardRadius = BorderRadius.all(Radius.circular(UiTokens.radius16));
+    final borderColor = AppColorTokens.fundexBorder;
 
     return Padding(
       padding: shadowPadding,
@@ -243,9 +238,14 @@ class FundMyPageProjectCard extends StatelessWidget {
           borderRadius: cardRadius,
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: shadowColor.withValues(alpha: 0.08),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 3,
+              offset: const Offset(0, 1),
+            ),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -261,6 +261,8 @@ class FundMyPageProjectCard extends StatelessWidget {
             onTap: onTap,
             child: Stack(
               children: <Widget>[
+
+
                 if (accentColor != null)
                   Positioned(
                     left: 0,
@@ -268,12 +270,18 @@ class FundMyPageProjectCard extends StatelessWidget {
                     bottom: 0,
                     child: ColoredBox(
                       color: accentColor!,
-                      child: const SizedBox(width: 3),
+                      child: const SizedBox(width: 5),
                     ),
                   ),
-                Padding(
+
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: cardRadius,
+                  ),
+                  margin: const EdgeInsets.only(left: 5),
                   padding: EdgeInsets.fromLTRB(
-                    accentColor == null ? 12 : 15,
+                    12,
                     12,
                     12,
                     12,
@@ -290,10 +298,12 @@ class FundMyPageProjectCard extends StatelessWidget {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style:
-                                  (theme.textTheme.titleSmall ??
+                                  (theme.textTheme.bodyMedium ??
                                           const TextStyle())
                                       .copyWith(
-                                        fontWeight: FontWeight.w700,
+                                        color: AppColorTokens.fundexText,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w800,
                                         height: 1.4,
                                       ),
                             ),
@@ -316,11 +326,13 @@ class FundMyPageProjectCard extends StatelessWidget {
                               child: Text(
                                 rows[index].label,
                                 style:
-                                    (theme.textTheme.bodySmall ??
+                                    (theme.textTheme.labelMedium ??
                                             const TextStyle())
                                         .copyWith(
                                           color: AppColorTokens
                                               .fundexTextSecondary,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
                                         ),
                               ),
                             ),
@@ -334,7 +346,8 @@ class FundMyPageProjectCard extends StatelessWidget {
                                         color:
                                             rows[index].valueColor ??
                                             AppColorTokens.fundexText,
-                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w800,
                                       ),
                             ),
                           ],
@@ -342,19 +355,20 @@ class FundMyPageProjectCard extends StatelessWidget {
                         if (index < rows.length - 1) const SizedBox(height: 4),
                       ],
                       if (footnote != null) ...<Widget>[
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 4),
                         Text(
                           footnote!,
                           style:
                               (theme.textTheme.labelSmall ?? const TextStyle())
                                   .copyWith(
                                     color: AppColorTokens.fundexTextTertiary,
+                                    fontSize: 11,
                                     height: 1.5,
                                   ),
                         ),
                       ],
                       if (footer != null) ...<Widget>[
-                        const SizedBox(height: UiTokens.spacing8),
+                        const SizedBox(height: 8),
                         Align(alignment: Alignment.centerRight, child: footer),
                       ],
                     ],

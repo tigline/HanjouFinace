@@ -201,19 +201,9 @@ Widget _buildPendingApplicationsSection(
                         context,
                         message: l10n.myPageCancelRequestComingSoon,
                       ),
-                      style: OutlinedButton.styleFrom(
+                      style: _myPageOutlineButtonStyle(
+                        borderColor: AppColorTokens.fundexDanger,
                         foregroundColor: AppColorTokens.fundexDanger,
-                        side: const BorderSide(
-                          color: AppColorTokens.fundexDanger,
-                        ),
-                        visualDensity: const VisualDensity(
-                          horizontal: -1,
-                          vertical: -2,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
                       ),
                       child: Text(l10n.myPageCancelRequestAction),
                     )
@@ -224,7 +214,7 @@ Widget _buildPendingApplicationsSection(
           .toList(growable: false);
 
       return FundSectionList(
-        title: '📩 ${l10n.myPagePendingApplicationsTitle}',
+        title: l10n.myPagePendingApplicationsTitle,
         initialVisibleCount: cards.isEmpty ? 1 : 3,
         actionLabel: l10n.homeViewAllAction,
         onActionTap: () => context.push(
@@ -236,12 +226,12 @@ Widget _buildPendingApplicationsSection(
       );
     },
     loading: () => FundSectionList(
-      title: '📩 ${l10n.myPagePendingApplicationsTitle}',
+      title: l10n.myPagePendingApplicationsTitle,
       initialVisibleCount: 1,
       children: const <Widget>[_SectionLoadingCard()],
     ),
     error: (_, __) => FundSectionList(
-      title: '📩 ${l10n.myPagePendingApplicationsTitle}',
+      title: l10n.myPagePendingApplicationsTitle,
       initialVisibleCount: 1,
       children: <Widget>[
         _SectionStateCard(
@@ -289,10 +279,11 @@ Widget _buildCoolingOffSection(
                   fallbackRatio: record.investorType?.earningsRadio,
                 ),
                 style:
-                    (Theme.of(context).textTheme.titleLarge ??
+                    (Theme.of(context).textTheme.titleMedium ??
                             const TextStyle())
                         .copyWith(
                           color: AppColorTokens.fundexDanger,
+                          fontSize: 18,
                           fontWeight: FontWeight.w900,
                         ),
               ),
@@ -319,17 +310,9 @@ Widget _buildCoolingOffSection(
                   context,
                   message: l10n.myPageCancelRequestComingSoon,
                 ),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color(0xFFD97706),
-                  side: const BorderSide(color: AppColorTokens.fundexWarning),
-                  visualDensity: const VisualDensity(
-                    horizontal: -1,
-                    vertical: -2,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
+                style: _myPageOutlineButtonStyle(
+                  borderColor: AppColorTokens.fundexDanger,
+                  foregroundColor: AppColorTokens.fundexDanger,
                 ),
                 child: Text(l10n.myPageCancelRequestAction),
               ),
@@ -339,7 +322,7 @@ Widget _buildCoolingOffSection(
           .toList(growable: false);
 
       return FundSectionList(
-        title: '⏰ ${l10n.myPageCoolingOffTitle}',
+        title: l10n.myPageCoolingOffTitle,
         initialVisibleCount: cards.isEmpty ? 1 : 3,
         actionLabel: l10n.homeViewAllAction,
         onActionTap: () => context.push(
@@ -353,12 +336,12 @@ Widget _buildCoolingOffSection(
       );
     },
     loading: () => FundSectionList(
-      title: '⏰ ${l10n.myPageCoolingOffTitle}',
+      title: l10n.myPageCoolingOffTitle,
       initialVisibleCount: 1,
       children: const <Widget>[_SectionLoadingCard()],
     ),
     error: (_, __) => FundSectionList(
-      title: '⏰ ${l10n.myPageCoolingOffTitle}',
+      title: l10n.myPageCoolingOffTitle,
       initialVisibleCount: 1,
       children: <Widget>[
         _SectionStateCard(
@@ -411,7 +394,7 @@ Widget _buildActiveFundsSection(
           .toList(growable: false);
 
       return FundSectionList(
-        title: '📊 ${l10n.myPageOperatingFundsTitle}',
+        title: l10n.myPageOperatingFundsTitle,
         initialVisibleCount: cards.isEmpty ? 1 : 3,
         actionLabel: l10n.homeViewAllAction,
         children: cards.isEmpty
@@ -425,12 +408,12 @@ Widget _buildActiveFundsSection(
       );
     },
     loading: () => FundSectionList(
-      title: '📊 ${l10n.myPageOperatingFundsTitle}',
+      title: l10n.myPageOperatingFundsTitle,
       initialVisibleCount: 1,
       children: const <Widget>[_SectionLoadingCard()],
     ),
     error: (_, __) => FundSectionList(
-      title: '📊 ${l10n.myPageOperatingFundsTitle}',
+      title: l10n.myPageOperatingFundsTitle,
       initialVisibleCount: 1,
       children: <Widget>[
         _SectionStateCard(
@@ -451,14 +434,6 @@ Future<void> _refreshPage(WidgetRef ref) async {
     ref.refresh(myPageOrderInquiryListProvider.future).then((_) {}),
     ref.refresh(myPageInvestmentListProvider.future).then((_) {}),
   ]);
-}
-
-Future<void> _logout(BuildContext context, WidgetRef ref) async {
-  await ref.read(logoutUseCaseProvider).call();
-  await ref.read(authSessionProvider.notifier).markUnauthenticated();
-  if (context.mounted) {
-    context.go('/login');
-  }
 }
 
 VoidCallback? _buildProjectTapHandler(BuildContext context, String? projectId) {
@@ -724,6 +699,22 @@ void _showSnackBar(BuildContext context, {required String message}) {
   AppNotice.show(context, message: message);
 }
 
+ButtonStyle _myPageOutlineButtonStyle({
+  required Color borderColor,
+  required Color foregroundColor,
+}) {
+  return OutlinedButton.styleFrom(
+    foregroundColor: foregroundColor,
+    side: BorderSide(color: borderColor, width: 1.5),
+    visualDensity: const VisualDensity(horizontal: -2, vertical: -3),
+    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    minimumSize: const Size(0, 0),
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+  );
+}
+
 class _PendingStatusBadge extends StatelessWidget {
   const _PendingStatusBadge({required this.label});
 
@@ -732,15 +723,16 @@ class _PendingStatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
         color: AppColorTokens.fundexVioletLight,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         label,
         style: (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
             .copyWith(
+              fontSize: 10,
               color: AppColorTokens.fundexViolet,
               fontWeight: FontWeight.w700,
             ),

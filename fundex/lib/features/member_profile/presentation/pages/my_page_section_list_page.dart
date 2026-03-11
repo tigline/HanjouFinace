@@ -279,17 +279,9 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
                 context,
                 message: l10n.myPageCancelRequestComingSoon,
               ),
-              style: OutlinedButton.styleFrom(
+              style: _myPageOutlineButtonStyle(
+                borderColor: AppColorTokens.fundexDanger,
                 foregroundColor: AppColorTokens.fundexDanger,
-                side: const BorderSide(color: AppColorTokens.fundexDanger),
-                visualDensity: const VisualDensity(
-                  horizontal: -1,
-                  vertical: -2,
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
               ),
               child: Text(l10n.myPageCancelRequestAction),
             )
@@ -318,9 +310,10 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
           project,
           fallbackRatio: record.investorType?.earningsRadio,
         ),
-        style: (Theme.of(context).textTheme.titleLarge ?? const TextStyle())
+        style: (Theme.of(context).textTheme.titleMedium ?? const TextStyle())
             .copyWith(
               color: AppColorTokens.fundexDanger,
+              fontSize: 16,
               fontWeight: FontWeight.w900,
             ),
       ),
@@ -349,11 +342,9 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
       footer: OutlinedButton(
         onPressed: () =>
             _showSnackBar(context, message: l10n.myPageCancelRequestComingSoon),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: const Color(0xFFD97706),
-          side: const BorderSide(color: AppColorTokens.fundexWarning),
-          visualDensity: const VisualDensity(horizontal: -1, vertical: -2),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        style: _myPageOutlineButtonStyle(
+          borderColor: AppColorTokens.fundexDanger,
+          foregroundColor: AppColorTokens.fundexDanger,
         ),
         child: Text(l10n.myPageCancelRequestAction),
       ),
@@ -483,6 +474,22 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
   void _showSnackBar(BuildContext context, {required String message}) {
     AppNotice.show(context, message: message);
   }
+
+  ButtonStyle _myPageOutlineButtonStyle({
+    required Color borderColor,
+    required Color foregroundColor,
+  }) {
+    return OutlinedButton.styleFrom(
+      foregroundColor: foregroundColor,
+      side: BorderSide(color: borderColor, width: 1.5),
+      visualDensity: const VisualDensity(horizontal: -2, vertical: -3),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      minimumSize: const Size(0, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+    );
+  }
 }
 
 class _StatusBadge extends StatelessWidget {
@@ -499,15 +506,19 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         label,
         style: (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
-            .copyWith(color: foregroundColor, fontWeight: FontWeight.w700),
+            .copyWith(
+              color: foregroundColor,
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+            ),
       ),
     );
   }
