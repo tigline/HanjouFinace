@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FUNDEX - FTK App MVP Demo v4</title>
+<title>StellaVia - FTK App MVP Demo v4</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -100,7 +100,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 .pi-kt .sk{background:linear-gradient(160deg,#14532d,#166534 50%,#22c55e)}
 .pi-fk .sk{background:linear-gradient(160deg,#3b0764,#7c3aed 50%,#a78bfa)}
 .pi-mp .sk{background:linear-gradient(135deg,#e0f2fe,#bae6fd);display:flex;align-items:center;justify-content:center}
-.pi-mp .sk::after{content:'📍 東京都港区赤坂';font-size:14px;font-weight:700;color:var(--acc);background:#fff;padding:8px 16px;border-radius:8px;box-shadow:var(--sh)}
+.pi-mp .sk::after{content:'📍 長野県白馬村';font-size:14px;font-weight:700;color:var(--acc);background:#fff;padding:8px 16px;border-radius:8px;box-shadow:var(--sh)}
 .fade{animation:fi .4s ease both}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
@@ -487,12 +487,12 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="toast" id="toast"></div>
 
 <!-- ═══ SPLASH ═══ -->
-<div class="s a" id="p-splash"><div class="splash-bg"><div class="sp-logo"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg></div><h1 style="color:#fff;font-size:28px;font-weight:800">FUNDEX</h1><p style="color:rgba(255,255,255,.5);font-size:13px;margin-top:8px">不動産クラウドファンディング</p><div class="sp-bar"><div class="sp-fill"></div></div></div></div>
+<div class="s a" id="p-splash"><div class="splash-bg"><div class="sp-logo"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><h1 style="color:#fff;font-size:28px;font-weight:800">StellaVia</h1><p style="color:rgba(255,255,255,.7);font-size:12px;margin-top:8px;letter-spacing:0.5px">投資は未来の「道」となり、明日を照らす。</p><p style="color:rgba(255,255,255,.4);font-size:11px;margin-top:4px">不動産クラウドファンディング</p><div class="sp-bar"><div class="sp-fill"></div></div></div></div>
 
 <!-- ═══ LOGIN ═══ -->
 <div class="s" id="p-login">
 <div style="position:absolute;top:16px;right:20px;z-index:10"><button onclick="go('p-home');setNav(0)" style="width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="18" height="18" fill="#fff"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
-<div class="login-top"><div class="login-logo"><svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg></div><h2>FUNDEX</h2><p data-t="login">ログイン</p></div>
+<div class="login-top"><div class="login-logo"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><h2>StellaVia</h2><p style="font-size:10px;color:var(--tx3);margin:-4px 0 8px;letter-spacing:0.3px">投資は未来の「道」となり、明日を照らす。</p><p data-t="login">ログイン</p></div>
 <div class="login-form">
 <div class="fg"><label data-t="email">メールアドレス</label><input type="email" placeholder="example@mail.com"></div>
 <div class="fg"><label data-t="password">パスワード</label><input type="password" placeholder="パスワードを入力" data-tp="pw_placeholder"></div>
@@ -605,9 +605,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 
 <!-- ═══ HOME ═══ -->
 <div class="s" id="p-home">
-<!-- ① UNIFIED TOP NAV BAR (always visible, always top) — ☰ FUNDEX/greeting 🔔 -->
+<!-- ① UNIFIED TOP NAV BAR (always visible, always top) — ☰ StellaVia/greeting 🔔 -->
 <div id="topNavBar" style="background:#1E293B;padding:12px 20px;display:flex;align-items:center;gap:12px">
-<h2 id="topNavTitle" style="flex:1;font-size:16px;font-weight:700;color:#fff">FUNDEX</h2>
+<h2 id="topNavTitle" style="flex:1;font-size:16px;font-weight:700;color:#fff">StellaVia</h2>
 <button onclick="go('p-notif')" style="width:36px;height:36px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0;position:relative"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg><div style="width:8px;height:8px;background:#EF4444;border-radius:50%;position:absolute;top:5px;right:5px;border:2px solid #1E293B"></div></button>
 <button onclick="openMenu()" style="width:36px;height:36px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
 </div>
@@ -635,7 +635,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 
 <div class="sect"><h3 data-t="featured">🔥 注目ファンド</h3><a href="#" onclick="go('p-list');setNav(1);return false" data-t="view_all">一覧を見る</a></div>
 <div class="fscr">
-<div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="113" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="155" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/><circle cx="110" cy="18" r="12" fill="rgba(255,255,255,.08)"/></svg></div><div class="brow"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk" data-t="tag_lottery">抽選</span></div></div><div class="inf"><h4>東京都港区 プレミアムレジデンス赤坂</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">8.5<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">12ヶ月 ・ 2億円</p></div></div><div class="pb"><div class="f" style="width:72%"></div></div></div></div>
+<div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="113" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="155" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/><circle cx="110" cy="18" r="12" fill="rgba(255,255,255,.08)"/></svg></div><div class="brow"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk" data-t="tag_lottery">抽選</span></div></div><div class="inf"><h4>長野白馬 繁星優選Fund第11号</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">1.5～14.6<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">12ヶ月 ・ 12.5億円</p></div></div><div class="pb"><div class="f" style="width:100%"></div></div></div></div>
 <div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-os"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="30" y="25" width="60" height="95" rx="3" fill="rgba(255,255,255,.18)"/><rect x="36" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="32" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="48" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="54" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="72" y="64" width="12" height="10" rx="1" fill="rgba(255,255,255,.3)"/><rect x="36" y="80" width="48" height="16" rx="2" fill="rgba(255,255,255,.25)"/><rect x="110" y="35" width="50" height="85" rx="3" fill="rgba(255,255,255,.15)"/><rect x="116" y="42" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="42" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="116" y="56" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="56" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="116" y="70" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="132" y="70" width="10" height="8" rx="1" fill="rgba(255,255,255,.25)"/><rect x="175" y="50" width="30" height="70" rx="2" fill="rgba(255,255,255,.1)"/></svg></div><div class="brow"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk" data-t="tag_lottery">抽選</span></div></div><div class="inf"><h4>大阪市中央区 商業ビル心斎橋</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">6.2<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">18ヶ月 ・ 1.5億円</p></div></div><div class="pb"><div class="f" style="width:45%"></div></div></div></div>
 <div class="fcd" onclick="go('p-detail')"><div class="im"><div class="pi pi-kt"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><polygon points="60,35 30,55 90,55" fill="rgba(255,255,255,.2)"/><rect x="35" y="55" width="50" height="45" rx="1" fill="rgba(255,255,255,.15)"/><polygon points="60,25 35,40 85,40" fill="rgba(255,255,255,.15)"/><rect x="50" y="70" width="16" height="30" rx="1" fill="rgba(255,255,255,.25)"/><rect x="40" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.2)"/><rect x="70" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.2)"/><polygon points="150,30 115,55 185,55" fill="rgba(255,255,255,.18)"/><rect x="120" y="55" width="60" height="45" rx="1" fill="rgba(255,255,255,.12)"/><polygon points="150,20 120,38 180,38" fill="rgba(255,255,255,.12)"/><rect x="140" y="68" width="14" height="32" rx="1" fill="rgba(255,255,255,.22)"/><rect x="125" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.18)"/><rect x="160" y="60" width="10" height="10" rx="1" fill="rgba(255,255,255,.18)"/><circle cx="200" cy="30" r="15" fill="rgba(255,255,255,.06)"/><line x1="95" y1="100" x2="115" y2="100" stroke="rgba(255,255,255,.15)" stroke-width="2"/></svg></div><div class="brow"><span class="tag tag-o" data-t="tag_soon">募集前</span></div></div><div class="inf"><h4>京都市東山区 町家リノベホテル</h4><div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="fy"><label data-t="est_yield">想定利回り</label><div class="rt">10.0<span>%</span></div></div><div style="text-align:right"><p style="font-size:10px;color:var(--tx2)">24ヶ月 ・ 3億円</p></div></div></div></div>
 </div>
@@ -663,15 +663,15 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <!-- Fund 1: Tokyo -->
 <div class="fli" data-status="open" data-fav="1" onclick="go('p-detail')">
 <div class="fli-hero"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/></svg></div>
-<div class="fli-overlay"><div class="fli-fn">プレミアムレジデンス赤坂</div><div class="fli-bubs"><div class="fli-bub"><label data-t="yield_label">利回り</label><div class="v">8.5%</div></div><div class="fli-bub"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div><div class="fli-bub"><label data-t="method_label">募集方式</label><div class="v" data-t="lottery_val">抽選</div></div></div></div>
+<div class="fli-overlay"><div class="fli-fn">繁星優選Fund第11号</div><div class="fli-bubs"><div class="fli-bub"><label data-t="yield_label">利回り</label><div class="v">1.5～14.6%</div></div><div class="fli-bub"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div><div class="fli-bub"><label data-t="method_label">募集方式</label><div class="v" data-t="lottery_val">抽選</div></div></div></div>
 <div class="fli-fav"><button class="fav-btn on" onclick="event.stopPropagation();tgFav(this)"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button></div>
 <div class="fli-vol">Vol. 23</div>
 </div>
 <div class="fli-body">
 <div class="fli-tgs"><span class="tag tag-g" style="font-size:9px;padding:2px 6px" data-t="tag_open">募集中</span><span class="tag tag-pk" style="font-size:9px;padding:2px 6px" data-t="tag_lottery">抽選</span></div>
-<div class="fli-amt">応募金額 144,000,000円（72%）</div>
-<div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">8.5%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div></div>
-<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">東京都港区</span><span class="fli-link" data-t="view_detail">詳細→</span></div>
+<div class="fli-amt">申込金額 1,355,000,000円（108.4%）</div>
+<div class="fli-stats"><div class="fli-stat"><label data-t="yield_label">利回り</label><div class="v red">1.5～14.6%</div></div><div class="fli-stat"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div></div>
+<div class="fli-foot"><span style="font-size:10px;color:var(--tx3)">長野県白馬村</span><span class="fli-link" data-t="view_detail">詳細→</span></div>
 </div>
 </div>
 
@@ -808,63 +808,176 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 </div>
 <div class="s" id="p-detail">
 <div class="dh"><div class="pi pi-tk"><div class="sk"></div><svg width="220" height="120" viewBox="0 0 220 120"><rect x="20" y="30" width="28" height="90" rx="2" fill="rgba(255,255,255,.15)"/><rect x="24" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="35" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="48" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="61" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="24" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="34" y="74" width="6" height="8" rx="1" fill="rgba(255,255,255,.3)"/><rect x="60" y="10" width="35" height="110" rx="2" fill="rgba(255,255,255,.2)"/><rect x="65" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="16" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="28" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="40" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="52" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="64" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="65" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="78" y="76" width="8" height="6" rx="1" fill="rgba(255,255,255,.35)"/><rect x="108" y="40" width="30" height="80" rx="2" fill="rgba(255,255,255,.12)"/><rect x="113" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="46" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="58" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="113" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="125" y="70" width="6" height="6" rx="1" fill="rgba(255,255,255,.25)"/><rect x="150" y="20" width="28" height="100" rx="2" fill="rgba(255,255,255,.17)"/><rect x="155" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="26" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="38" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="50" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="155" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="165" y="62" width="5" height="6" rx="1" fill="rgba(255,255,255,.3)"/><rect x="190" y="55" width="22" height="65" rx="2" fill="rgba(255,255,255,.1)"/><circle cx="110" cy="18" r="12" fill="rgba(255,255,255,.08)"/></svg></div><div class="ov"></div><button class="bbk" onclick="go('p-home');setNav(0)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><button class="fav-btn on" onclick="tgFav(this)" style="position:absolute;top:12px;right:12px;z-index:2;background:rgba(0,0,0,.4);backdrop-filter:blur(8px)"><svg viewBox="0 0 24 24" style="fill:#fff"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button><div class="hb"><span class="tag tag-g" data-t="tag_open">募集中</span><span class="tag tag-pk">抽選募集</span></div></div>
-<div class="db"><div class="dt"><h2>東京都港区<br>プレミアムレジデンス赤坂</h2></div>
-<div class="yh"><label data-t="est_yield_annual">想定利回り（年率）</label><div class="br">8.5<span>%</span></div><div class="nt" data-t="yield_disclaimer">※ 想定であり、保証するものではありません</div></div>
-<div class="ig"><div class="c"><label data-t="period_label">運用期間</label><div class="v">12ヶ月</div></div><div class="c"><label data-t="fund_total">募集金額</label><div class="v">2億円</div></div><div class="c"><label data-t="min_invest">最低出資額</label><div class="v">10万円（1口）</div></div><div class="c"><label data-t="method_label">募集方式</label><div class="v">抽選</div></div><div class="c"><label data-t="dividend">分配頻度</label><div class="v">半年毎</div></div><div class="c"><label data-t="lottery_date">抽選日</label><div class="v">3月20日</div></div></div>
-<div class="stb"><h4 data-t="pref_sub">🛡️ 優先劣後構造</h4><div class="stbar"><div class="inv" style="width:70%" data-t="inv_70">出資者（優先） 70%</div><div class="op" style="width:30%" data-t="op_30">事業者（劣後） 30%</div></div><div style="display:flex;justify-content:space-between"><span style="font-size:10px;color:var(--tx2)" data-t="senior">優先出資</span><span style="font-size:10px;color:var(--tx2)" data-t="junior">劣後出資</span></div></div>
-<div class="ds"><h4 data-t="prop_info">📍 物件情報</h4><div class="mp"><div class="pi pi-mp"><div class="sk"></div></div></div><div class="ig" style="margin-top:10px"><div class="c"><label data-t="location">所在地</label><div class="v">東京都港区赤坂</div></div><div class="c"><label data-t="prop_type">種別</label><div class="v">マンション</div></div><div class="c"><label data-t="structure">構造</label><div class="v">RC造 15階建</div></div><div class="c"><label data-t="built">竣工</label><div class="v">2019年</div></div></div></div>
+<div class="db"><div class="dt"><h2>繁星優選Fund第11号<br>Mr.T Resort・長野白馬PJ</h2></div>
+<div class="yh"><label>予定分配率（税引前）</label><div class="br" style="font-size:28px">1.5<span style="font-size:16px">%</span> <span style="font-size:16px;font-weight:400">～</span> 14.6<span style="font-size:16px">%</span></div><div class="nt">※ 予定であり、保証するものではありません</div></div>
+<div class="ig"><div class="c"><label>運用期間</label><div class="v">12ヶ月</div></div><div class="c"><label>募集種別</label><div class="v">匿名組合型</div></div><div class="c"><label>予定開始日</label><div class="v">2025/09/01</div></div><div class="c"><label>予定終了日</label><div class="v">2026/08/31</div></div><div class="c"><label>出資総額</label><div class="v">12億5,000万円</div></div><div class="c"><label>投資単位</label><div class="v">100万円／1口</div></div><div class="c"><label>上限口数</label><div class="v">1,250口</div></div><div class="c"><label>募集方式</label><div class="v">抽選式</div></div><div class="c"><label>残り日数</label><div class="v">0日</div></div><div class="c"><label>配当日</label><div class="v">各計算期間の属する月の2ヶ月後応当月の最終営業日まで</div></div></div>
+<div style="margin:0 20px 12px;background:linear-gradient(90deg,var(--acc),#818CF8);border-radius:var(--rs);padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+<span style="font-size:11px;color:#fff;font-weight:600">📊 募集達成率</span>
+<span style="font-size:16px;color:#fff;font-weight:900">108.4%</span>
+</div>
+
+<!-- Detail Tabs: 物件概要 | 想定収支スキーム -->
+<div style="display:flex;margin:0 20px;border-bottom:2px solid var(--bdr)">
+<div class="dtab a" id="dtab0" onclick="switchDTab(0)" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:700;color:var(--acc);position:relative;cursor:pointer">📍 物件概要<span style="position:absolute;bottom:-2px;left:10%;right:10%;height:3px;background:var(--acc);border-radius:2px"></span></div>
+<div class="dtab" id="dtab1" onclick="switchDTab(1)" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;color:var(--tx3);position:relative;cursor:pointer">📊 想定収支スキーム</div>
+</div>
+
+<!-- Tab 0: 物件概要（3物件） -->
+<div id="dTabContent0" style="padding:12px 20px">
+<p style="font-size:10px;color:var(--tx3);margin-bottom:12px">本ファンドは3棟の物件で構成されています。</p>
+
+<!-- 物件1: Amber Mizuhou I-A -->
+<details class="ri" style="margin-bottom:8px;border:1.5px solid #E2E8F0;border-radius:var(--r);overflow:hidden" open>
+<summary style="padding:12px 14px;background:linear-gradient(90deg,#0EA5E9,#3B82F6);color:#fff;font-size:12px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">
+<span>物件① Mr.T 白馬 Amber Mizuhou I-A</span><span style="font-size:10px;opacity:.7">▼</span></summary>
+<div style="padding:12px 14px;font-size:11px">
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3);min-width:70px">物件名称</span><span style="color:var(--tx);font-weight:600;text-align:right">Mr.T 白馬 Amber Mizuhou I-A（未登記）</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3);min-width:70px">所在地</span><span style="color:var(--tx);font-weight:600;text-align:right">白馬村北城字向原2934-15、2934-28</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">交通</span><span style="color:var(--tx);font-weight:600">JR白馬駅から車約6分</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 土地</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">地目</span><span style="color:var(--tx);font-weight:600">宅地</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3)">面積</span><span style="color:var(--tx);font-weight:600">416.64㎡（暫定）</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">権利</span><span style="color:var(--tx);font-weight:600">所有権</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 建物</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">構造</span><span style="color:var(--tx);font-weight:600;text-align:right">木造ガルバリウム鋼板葺 2階建</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3)">床面積</span><span style="color:var(--tx);font-weight:600;text-align:right">1F: 138.72㎡ / 2F: 157.48㎡（暫定）</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">築年月</span><span style="color:var(--tx);font-weight:600">建設中</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 法令</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">用途地域</span><span style="color:var(--tx);font-weight:600">指定なし</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3)">建ぺい率</span><span style="color:var(--tx);font-weight:600">60%</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">容積率</span><span style="color:var(--tx);font-weight:600">200%</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 運営委託契約の概要</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">受託者</span><span style="color:var(--tx);font-weight:600">株式会社JADE GROUP</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3)">契約形態</span><span style="color:var(--tx);font-weight:600">業務運営委託</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">契約期間</span><span style="color:var(--tx);font-weight:600;text-align:right">2026年1月1日から期間未定</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--tx3)">運営収益年額</span><span style="color:var(--tx);font-weight:600">22,000,000円</span></div>
+</div></details>
+
+<!-- 物件2: Amber Mizuhou I-B -->
+<details class="ri" style="margin-bottom:8px;border:1.5px solid #E2E8F0;border-radius:var(--r);overflow:hidden">
+<summary style="padding:12px 14px;background:linear-gradient(90deg,#0EA5E9,#3B82F6);color:#fff;font-size:12px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">
+<span>物件② Mr.T 白馬 Amber Mizuhou I-B</span><span style="font-size:10px;opacity:.7">▼</span></summary>
+<div style="padding:12px 14px;font-size:11px">
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3);min-width:70px">物件名称</span><span style="color:var(--tx);font-weight:600;text-align:right">Mr.T 白馬 Amber Mizuhou I-B（未登記）</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3);min-width:70px">所在地</span><span style="color:var(--tx);font-weight:600;text-align:right">白馬村北城字向原2934-15、2934-28</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">交通</span><span style="color:var(--tx);font-weight:600">JR白馬駅から車約6分</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 土地</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">面積</span><span style="color:var(--tx);font-weight:600">511.77㎡（暫定）</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">権利</span><span style="color:var(--tx);font-weight:600">所有権</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 建物</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">構造</span><span style="color:var(--tx);font-weight:600;text-align:right">木造ガルバリウム鋼板葺 2階建</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3)">床面積</span><span style="color:var(--tx);font-weight:600;text-align:right">1F: 137.54㎡ / 2F: 159.24㎡（暫定）</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--tx3)">築年月</span><span style="color:var(--tx);font-weight:600">建設中</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 法令・運営委託</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">建ぺい率 / 容積率</span><span style="color:var(--tx);font-weight:600">60% / 200%</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--tx3)">運営収益年額</span><span style="color:var(--tx);font-weight:600">22,000,000円</span></div>
+</div></details>
+
+<!-- 物件3: Amber Mizuhou I-C -->
+<details class="ri" style="margin-bottom:8px;border:1.5px solid #E2E8F0;border-radius:var(--r);overflow:hidden">
+<summary style="padding:12px 14px;background:linear-gradient(90deg,#0EA5E9,#3B82F6);color:#fff;font-size:12px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">
+<span>物件③ Mr.T 白馬 Amber Mizuhou I-C</span><span style="font-size:10px;opacity:.7">▼</span></summary>
+<div style="padding:12px 14px;font-size:11px">
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3);min-width:70px">物件名称</span><span style="color:var(--tx);font-weight:600;text-align:right">Mr.T 白馬 Amber Mizuhou I-C（未登記）</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3);min-width:70px">所在地</span><span style="color:var(--tx);font-weight:600;text-align:right">白馬村北城字向原2934-15、2934-28</span></div>
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">交通</span><span style="color:var(--tx);font-weight:600">JR白馬駅から車約6分</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 土地</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">面積</span><span style="color:var(--tx);font-weight:600">508.78㎡（暫定）</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">権利</span><span style="color:var(--tx);font-weight:600">所有権</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 建物</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">構造</span><span style="color:var(--tx);font-weight:600;text-align:right">木造ガルバリウム鋼板葺 2階建</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx3)">床面積</span><span style="color:var(--tx);font-weight:600;text-align:right">1F: 137.54㎡ / 2F: 159.24㎡（暫定）</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--tx3)">築年月</span><span style="color:var(--tx);font-weight:600">建設中</span></div>
+<div style="padding:6px 0 2px"><span style="font-size:10px;font-weight:700;color:var(--acc)">■ 法令・運営委託</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx3)">建ぺい率 / 容積率</span><span style="color:var(--tx);font-weight:600">60% / 200%</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--tx3)">運営収益年額</span><span style="color:var(--tx);font-weight:600">22,000,000円</span></div>
+</div></details>
+
+<p style="font-size:10px;color:var(--tx3);line-height:1.5">※ 3物件共通：委託者 株式会社繁星優選 / 受託者 株式会社JADE GROUP / 契約形態 業務運営委託 / 契約期間 2026年1月1日から期間未定</p>
+</div>
+
+<!-- Tab 1: 想定収支スキーム -->
+<div id="dTabContent1" style="display:none;padding:12px 20px">
+<p style="font-size:10px;color:var(--tx3);margin-bottom:10px">※ 市場の想定数値となります。</p>
+
+<!-- 出資金の内訳 -->
+<div style="background:#fff;border:1.5px solid #E2E8F0;border-radius:var(--r);overflow:hidden;margin-bottom:12px">
+<div style="background:var(--acc);padding:8px 14px"><span style="font-size:11px;font-weight:700;color:#fff">出資金の内訳</span></div>
+<div style="padding:0 14px">
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1F5F9;font-size:12px"><span style="color:var(--tx2)">物件価格</span><span style="font-weight:700;color:var(--tx);font-family:'DM Sans',sans-serif">1,266,000,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;font-size:12px"><span style="color:var(--tx2)">出資総額</span><span style="font-weight:700;color:var(--tx);font-family:'DM Sans',sans-serif">1,250,000,000円</span></div>
+</div></div>
+
+<!-- 想定収支 — 収入 -->
+<div style="background:#fff;border:1.5px solid #E2E8F0;border-radius:var(--r);overflow:hidden;margin-bottom:12px">
+<div style="background:linear-gradient(90deg,#3B82F6,#6366F1);padding:8px 14px"><span style="font-size:11px;font-weight:700;color:#fff">📈 収入</span></div>
+<div style="padding:0 14px">
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1F5F9;font-size:12px"><span style="color:var(--tx2)">売却収益</span><span style="font-weight:700;color:var(--tx);font-family:'DM Sans',sans-serif">1,513,000,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1F5F9;font-size:12px"><span style="color:var(--tx2)">運営収益</span><span style="font-weight:700;color:var(--tx);font-family:'DM Sans',sans-serif">0円</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;background:#EFF6FF;margin:0 -14px;padding-left:14px;padding-right:14px;font-size:12px"><span style="font-weight:800;color:#2563EB">収入合計 ①</span><span style="font-weight:800;color:#2563EB;font-family:'DM Sans',sans-serif;font-size:13px">1,513,000,000円</span></div>
+</div></div>
+
+<!-- 想定収支 — 支出 -->
+<div style="background:#fff;border:1.5px solid #E2E8F0;border-radius:var(--r);overflow:hidden;margin-bottom:12px">
+<div style="background:linear-gradient(90deg,#EF4444,#F97316);padding:8px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;font-weight:700;color:#fff">📉 支出</span></div>
+<div style="padding:0 14px;font-size:11px">
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx2)">土地原価+諸費用</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">168,270,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx2)">設計費用と建築費用</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">826,050,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx2)">建物原価</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">994,320,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx2)">維持管理費（予定建築CM費用）</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">50,860,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx2)">公租公課</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">−</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx2)">仲介手数料</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">49,930,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx2)">AMフィー（1年目）</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">6,600,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx2)">AMフィー（2年目）</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">6,600,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx2)">公募募集手数料など</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">13,200,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx2)">マーケティング費用</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">49,930,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx2)">税理士報酬</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">165,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx2)">委託管理費</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">45,000,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;background:#FAFBFC;margin:0 -14px;padding-left:14px;padding-right:14px"><span style="color:var(--tx2)">ファンド管理人FEE</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">15,500,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9"><span style="color:var(--tx2)">諸経費</span><span style="font-weight:600;color:var(--tx);font-family:'DM Sans',sans-serif">33,895,000円</span></div>
+<div style="display:flex;justify-content:space-between;padding:10px 0;background:#FEF2F2;margin:0 -14px;padding-left:14px;padding-right:14px;font-size:12px"><span style="font-weight:800;color:#DC2626">支出合計 ②</span><span style="font-weight:800;color:#DC2626;font-family:'DM Sans',sans-serif;font-size:13px">1,266,000,000円</span></div>
+</div></div>
+
+<!-- 分配原資 -->
+<div style="background:linear-gradient(135deg,#1E293B,#334155);border-radius:var(--r);padding:16px;display:flex;justify-content:space-between;align-items:center">
+<div><div style="font-size:10px;color:#94A3B8;margin-bottom:2px">収入① − 支出②</div><div style="font-size:13px;font-weight:800;color:#fff">分配原資</div></div>
+<div style="font-size:20px;font-weight:900;color:#FBBF24;font-family:'DM Sans',sans-serif">247,000,000<span style="font-size:12px;font-weight:600">円</span></div>
+</div>
+</div><!-- end dTabContent1 -->
+
 <div class="ds"><h4>⚠️ リスク説明</h4>
 <div style="background:var(--red-l);border:1.5px solid #FECACA;border-radius:var(--rs);padding:12px;margin-bottom:10px">
 <p style="font-size:12px;font-weight:700;color:var(--red);line-height:1.6">本商品は元本保証ではありません。出資金の全額を失う可能性があります。投資判断はご自身の責任でお願いいたします。</p>
 </div>
-<div class="ra"><details class="ri"><summary>元本毀損リスク</summary><div class="rb">不動産市場の変動、対象不動産の評価額の下落等により、元本が毀損する可能性があります。出資金の全額を失う可能性があります。</div></details><details class="ri"><summary>流動性リスク</summary><div class="rb">運用期間中の途中解約は原則できません。資金が長期間拘束される可能性があります。</div></details><details class="ri"><summary>空室・天災リスク</summary><div class="rb">テナント退去による賃料収入の低下、地震・火災等の天災により対象不動産の価値が毀損する可能性があります。</div></details><details class="ri"><summary>事業者の信用リスク</summary><div class="rb">事業者の経営状況悪化・倒産等により、出資金の返還や分配金の支払いが困難になる可能性があります。</div></details><details class="ri"><summary>金利変動リスク</summary><div class="rb">金利の上昇により、不動産価格が下落し、本商品の収益に悪影響を及ぼす可能性があります。</div></details><details class="ri"><summary>法規制変更リスク</summary><div class="rb">不動産関連法規や税制の変更により、本事業の収益性が低下する可能性があります。</div></details></div>
+<div class="ra"><details class="ri"><summary>元本毀損リスク</summary><div class="rb">元本保証なし。出資金の全額を失う可能性があります。</div></details><details class="ri"><summary>不動産市場リスク</summary><div class="rb">不動産価格の下落により、元本が毀損する可能性があります。</div></details><details class="ri"><summary>空室リスク</summary><div class="rb">テナント退去による収益低下リスクがあります。</div></details><details class="ri"><summary>天災リスク</summary><div class="rb">地震・火災・水害等による物件毀損リスクがあります。</div></details><details class="ri"><summary>事業者の信用リスク</summary><div class="rb">事業者の経営悪化・破産リスク。分別管理は信託法34条によります。</div></details><details class="ri"><summary>法規制変更リスク</summary><div class="rb">法令・税制・規制変更によるリスクがあります。</div></details></div>
 <p style="font-size:10px;color:var(--tx3);margin-top:8px;line-height:1.5">※ 上記は主なリスクであり、すべてのリスクを網羅しているわけではありません。詳細は契約締結前交付書面をご確認ください。<br>※ 過去の実績は将来の運用成果を保証するものではありません。</p>
 </div>
 
 <!-- Fix 3: 契約概要（法定記載事項） -->
 <div class="ds"><h4 data-t="contract_overview">📋 契約概要（法定記載事項）</h4>
-<div class="ig"><div class="c"><label data-t="contract_type">契約形態</label><div class="v">匿名組合型</div></div><div class="c"><label>対象不動産の種類</label><div class="v">区分所有マンション</div></div><div class="c"><label>不動産鑑定評価額</label><div class="v">2億8,000万円</div></div><div class="c"><label>取得予定価格</label><div class="v">2億6,000万円</div></div></div>
-<div class="ig" style="margin-top:1px"><div class="c"><label>募集期間</label><div class="v">2025/3/1〜3/18</div></div><div class="c"><label>運用開始予定日</label><div class="v">2025/4/1</div></div><div class="c"><label>運用終了予定日</label><div class="v">2026/3/31</div></div><div class="c"><label>クーリングオフ</label><div class="v">書面交付日翌日から8日間</div></div></div>
-
-<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-top:10px;margin-bottom:10px">
-<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">収益・利益の分配方法</h5>
-<p style="font-size:11px;color:var(--tx2);line-height:1.7">対象不動産から生じる賃料収入等から、必要経費（管理費・修繕積立金・固定資産税・事業者報酬等）を控除した利益を、出資比率に応じて半年毎（9月・3月末日基準）に分配します。分配金は源泉徴収（20.42%）後の金額をお支払いいたします。</p>
+<div class="ig"><div class="c"><label>募集期間</label><div class="v">2025/5/29〜8/31</div></div><div class="c"><label>契約期間</label><div class="v">2025/9/1〜2026/8/31</div></div><div class="c"><label>取得価格</label><div class="v">12億6,600万円</div></div></div>
+<p style="font-size:10px;color:var(--tx3);margin-top:8px;line-height:1.5">※ 実際にお客様にお支払いする分配金は、源泉徴収税（所得税＋復興特別所得税）を控除した金額となります。</p>
 </div>
 
-<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:10px">
-<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">費用・手数料</h5>
-<div style="font-size:11px;color:var(--tx2);line-height:1.8">
-<div style="display:flex;justify-content:space-between;padding:2px 0"><span>出資手数料</span><span style="font-weight:700;color:var(--tx)">無料</span></div>
-<div style="display:flex;justify-content:space-between;padding:2px 0"><span>運用管理報酬</span><span style="font-weight:700;color:var(--tx)">賃料収入の2.0%</span></div>
-<div style="display:flex;justify-content:space-between;padding:2px 0"><span>売却時報酬</span><span style="font-weight:700;color:var(--tx)">売却益の30%</span></div>
-<div style="display:flex;justify-content:space-between;padding:2px 0"><span>出金手数料</span><span style="font-weight:700;color:var(--tx)">¥145/回</span></div>
+<div class="ds"><h4>🏢 事業者情報</h4><div class="ig"><div class="c"><label>商号</label><div class="v">株式会社繁星優選</div></div><div class="c"><label>許可番号</label><div class="v">大阪府知事 第22号</div></div><div class="c"><label>代表者</label><div class="v">代表取締役 劉 孝緯</div></div><div class="c"><label>業務管理者</label><div class="v">瀬戸口 愛（公認 不動産コンサルティングマスター）</div></div><div class="c"><label>所在地</label><div class="v">〒530-0063 大阪市北区天満二丁目-1-12</div></div><div class="c"><label>許可種別</label><div class="v">第1号事業・第2号事業・電子取引業務</div></div></div>
+<p style="font-size:10px;color:var(--tx3);margin-top:6px;line-height:1.5">主な事業：不動産特定共同事業、Eコマース等<br>設立：2012年12月11日 ・ TEL：06-6940-4777</p>
 </div>
+<!-- FAQ -->
+<div class="ds"><h4>❓ よくあるご質問</h4>
+<div class="ra">
+<details class="ri"><summary>Q1. 出資金はいつ振り込めばいいですか？</summary><div class="rb">当選確定後にご入金ください。振込手数料はお客様のご負担となります。</div></details>
+<details class="ri"><summary>Q2. 出資金以外に費用はかかりますか？</summary><div class="rb">出資金のご入金時の振込手数料のみお客様のご負担となります。</div></details>
+<details class="ri"><summary>Q3. 投資申込を解約したいのですが可能ですか？</summary><div class="rb">クーリングオフ期間内（書面交付日翌日から8日間）は無条件で契約を解除できます。詳細は「クーリングオフ（契約解除）について」をご参照ください。</div></details>
+<details class="ri"><summary>Q4. 抽選方式の場合、当選結果はいつ確認できますか？</summary><div class="rb">募集終了日の翌日正午12:00までにメールにて通知いたします。</div></details>
+<details class="ri"><summary>Q5. 当選者からキャンセルが出た場合、再抽選はありますか？</summary><div class="rb">成立日までにキャンセルがあった場合、再抽選を実施する場合があります。</div></details>
+<details class="ri"><summary>Q6. 抽選方式の場合、留意事項はありますか？</summary><div class="rb">複数口のお申込みは一部のみ当選となる場合があります。また、落選する場合もございますのでご了承ください。</div></details>
 </div>
-
-<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:10px">
-<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">税務上の取扱い</h5>
-<p style="font-size:11px;color:var(--tx2);line-height:1.7">分配金は「雑所得」として総合課税の対象です。支払時に20.42%（所得税20%+復興特別所得税0.42%）を源泉徴収いたします。確定申告が必要な場合があります。詳細は税務署または税理士にご相談ください。</p>
-</div>
-
-<div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:10px">
-<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">契約の解除について</h5>
-<p style="font-size:11px;color:var(--tx2);line-height:1.7">契約締結時交付書面を受領した日の翌日から起算して8日間は、書面によりクーリングオフ（無条件解除）が可能です。当該期間経過後は、やむを得ない事由がある場合を除き、原則として中途解約はできません。</p>
-</div>
-
-<div style="background:var(--bg);border-radius:var(--rs);padding:12px">
-<h5 style="font-size:11px;font-weight:700;color:var(--tx);margin-bottom:6px">対象不動産の権利関係</h5>
-<p style="font-size:11px;color:var(--tx2);line-height:1.7">所有権：FUNDEX株式会社（事業者）が取得・保有。抵当権の設定はありません。出資者は匿名組合員として利益分配請求権を有しますが、不動産の所有権は取得しません。</p>
-</div>
-</div>
-
-<div class="ds"><h4>🏢 事業者情報</h4><div class="ig"><div class="c"><label>運営会社</label><div class="v">FUNDEX株式会社</div></div><div class="c"><label>許可番号</label><div class="v">東京都知事 第XXX号</div></div><div class="c"><label>代表者</label><div class="v">代表取締役 山田 一郎</div></div><div class="c"><label>所在地</label><div class="v">東京都千代田区丸の内1-1-1</div></div></div>
-<p style="font-size:10px;color:var(--tx3);margin-top:6px;line-height:1.5">資本金：1億円 ・ 設立：2020年4月 ・ 事業開始届出：2020年6月<br><a href="#" onclick="toast('財務諸表ページへ（デモ）');return false" style="color:var(--acc);font-weight:600;text-decoration:none">📊 事業者の財務状況を確認する →</a></p>
 </div>
 <!-- KIZUNARK discussion link -->
 <div class="ds"><h4>💬 投資家の声（KIZUNARK）</h4>
 <div style="background:#fff;border:1.5px solid var(--kz1);border-radius:var(--r);padding:14px;margin-bottom:8px">
 <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#EC4899,#F472B6);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff">佐</div><div><span style="font-size:11px;font-weight:700">佐藤**</span> <span style="font-size:9px;color:var(--tx3)">2時間前</span></div></div>
-<p style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">赤坂のレジデンス案件、立地が最高ですね。利回り8.5%は魅力的。劣後出資30%は安心感あり。</p>
+<p style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:8px">白馬PJの案件、リゾート需要が堅調ですね。予定分配率1.5%～14.6%のレンジは幅があるが、売却益次第で大きいリターン。</p>
 <div style="display:flex;gap:8px;align-items:center"><span style="font-size:10px;color:var(--tx3)">💬 3</span></div>
 </div>
 <button class="btn btn-o" style="padding:10px;font-size:12px;border-color:var(--kz1);color:var(--kz1)" onclick="go('p-kz');setNav(2)">💜 KIZUNARKでもっと見る</button>
@@ -882,8 +995,8 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div id="is1" class="inv-c">
 <h4 data-t="step1_invest">① 出資金額を入力</h4>
 <div style="background:var(--bg);border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center"><div><span style="font-size:10px;color:var(--tx3)" data-t="balance_label">💰 待機資金残高</span><div style="font-size:18px;font-weight:900;font-family:'DM Sans'" id="balDisp">¥650,000</div></div><button style="font-size:11px;font-weight:700;color:var(--acc);background:var(--acc-g);border:none;border-radius:8px;padding:6px 12px;cursor:pointer" onclick="go('p-dep')" data-t="deposit_btn">入金する</button></div>
-<div class="aiw"><label>出資金額（1口 = 10万円）</label><div style="display:flex;align-items:center;justify-content:center;gap:4px"><span style="font-size:22px;font-weight:700;color:var(--tx3)">¥</span><input class="ai" value="500,000" id="iAmt"></div></div>
-<div class="acs"><div class="ach" onclick="sAmt(100000,this)">10万</div><div class="ach" onclick="sAmt(300000,this)">30万</div><div class="ach sl" onclick="sAmt(500000,this)">50万</div><div class="ach" onclick="sAmt(1000000,this)">100万</div></div>
+<div class="aiw"><label>出資金額（1口 = 100万円）</label><div style="display:flex;align-items:center;justify-content:center;gap:4px"><span style="font-size:22px;font-weight:700;color:var(--tx3)">¥</span><input class="ai" value="3,000,000" id="iAmt"></div></div>
+<div class="acs"><div class="ach" onclick="sAmt(1000000,this)">100万</div><div class="ach" onclick="sAmt(2000000,this)">200万</div><div class="ach sl" onclick="sAmt(3000000,this)">300万</div><div class="ach" onclick="sAmt(5000000,this)">500万</div></div>
 <div id="balWarn" style="display:none;background:var(--red-l);border-radius:var(--rs);padding:12px;margin-bottom:12px;display:none"><div style="display:flex;align-items:flex-start;gap:8px"><span>⚠️</span><div style="font-size:11px;color:var(--red);line-height:1.6;flex:1"><strong>待機資金が不足しています</strong><br>申込金額に対して残高が不足しています。先にご入金のうえ、お申込みください。</div></div><button style="margin-top:8px;width:100%;padding:10px;border-radius:10px;border:1.5px solid var(--red);background:#fff;font-size:12px;font-weight:700;color:var(--red);cursor:pointer" onclick="go('p-dep')">💰 入金ページへ</button></div>
 <div class="smr"><label>想定分配金（税引前）</label><div class="v" id="simR">¥42,500 <span>/年</span></div></div>
 <button class="btn btn-p" id="invNextBtn" onclick="iStep(2)" data-t="next_docs">次へ：書面確認</button>
@@ -901,7 +1014,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <!-- Step3: Confirm + Apply -->
 <div id="is3" class="inv-c" style="display:none">
 <h4 data-t="step3_invest">③ 申込内容の確認</h4>
-<div class="cc"><div class="cr"><label data-t="fund_name_l">ファンド名</label><span class="v">プレミアムレジデンス赤坂</span></div><div class="cr"><label data-t="inv_amount_l">出資金額</label><span class="v" id="cAmt">¥500,000</span></div><div class="cr"><label data-t="est_yield">想定利回り</label><span class="v">年率 8.5%</span></div><div class="cr"><label data-t="method_label">募集方式</label><span class="v" style="color:var(--vio)" data-t="tag_lottery">抽選</span></div><div class="cr"><label>抽選日</label><span class="v">2025年3月20日</span></div></div>
+<div class="cc"><div class="cr"><label data-t="fund_name_l">ファンド名</label><span class="v">Fund第11号 白馬PJ</span></div><div class="cr"><label data-t="inv_amount_l">出資金額</label><span class="v" id="cAmt">¥3,000,000</span></div><div class="cr"><label data-t="est_yield">予定分配率</label><span class="v">1.5%～14.6%</span></div><div class="cr"><label data-t="method_label">募集方式</label><span class="v" style="color:var(--vio)" data-t="tag_lottery">抽選</span></div></div>
 <div style="background:var(--org-l);border-radius:var(--rs);padding:12px;margin-bottom:14px;display:flex;gap:8px"><span>⚠️</span><div style="font-size:11px;color:#92400E;line-height:1.6"><strong>ご注意</strong><br>本投資は元本保証ではありません。抽選に当選した場合、指定期限内にご入金が必要です。</div></div>
 <div class="dci" style="margin-bottom:16px" onclick="tgCk2(this)"><div class="dt2"><p style="font-size:11px">上記内容を確認し、抽選申込に同意します</p></div><div class="ck"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div></div>
 <button class="btn btn-v" onclick="iStep(4)" data-t="apply_lottery_btn">🎲 抽選に申し込む</button>
@@ -912,9 +1025,9 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="lottery-box">
 <div class="lottery-icon pending">📩</div>
 <h3 data-t="lottery_done">抽選申込が完了しました！</h3>
-<p>「プレミアムレジデンス赤坂」の抽選に申し込みました。<br>抽選結果は下記の日程で発表予定です。<br>結果はアプリの通知でお知らせいたします。</p>
-<div class="lottery-pending"><h5>🗓️ 抽選結果発表日</h5><p>2025年3月20日</p></div>
-<div class="cc" style="text-align:left"><div class="cr"><label>申込番号</label><span class="v" style="font-family:'DM Sans'">FDX-2025-03-00847</span></div><div class="cr"><label>申込金額</label><span class="v" id="pAmt">¥500,000</span></div><div class="cr"><label data-t="method_label">募集方式</label><span class="v" style="color:var(--vio)" data-t="tag_lottery">抽選</span></div></div>
+<p>「繁星優選Fund第11号」の抽選に申し込みました。<br>抽選結果は下記の日程で発表予定です。<br>結果はアプリの通知でお知らせいたします。</p>
+<div class="lottery-pending"><h5>🗓️ 抽選結果発表日</h5><p>募集終了日の翌日正午までにメール通知</p></div>
+<div class="cc" style="text-align:left"><div class="cr"><label>申込番号</label><span class="v" style="font-family:'DM Sans'">FDX-2025-03-00847</span></div><div class="cr"><label>申込金額</label><span class="v" id="pAmt">¥3,000,000</span></div><div class="cr"><label data-t="method_label">募集方式</label><span class="v" style="color:var(--vio)" data-t="tag_lottery">抽選</span></div></div>
 <div style="background:var(--bg);border-radius:var(--rs);padding:12px;margin-bottom:16px;display:flex;gap:8px;text-align:left"><span>💡</span><div style="font-size:11px;color:var(--tx2);line-height:1.6">当選した場合、8日以内にご入金ください（クーリングオフ期間を含みます）。落選の場合はお手続き不要です。<br>※ 募集人数未達の場合も先着順に審査し、抽選を実施します。</div></div>
 <button class="btn btn-p" onclick="go('p-home');setNav(0);riStep()" data-t="back_home">ホームに戻る</button>
 <div style="margin-top:10px"><button class="btn btn-o" style="font-size:13px" onclick="iStep(5)">（デモ）抽選結果を確認する →</button></div>
@@ -926,11 +1039,11 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="lottery-box">
 <div class="lottery-icon win">🎉</div>
 <h3 data-t="congrats">当選のお知らせ</h3>
-<p>「プレミアムレジデンス赤坂」の抽選に当選しました。<br>下記の入金期限までに指定口座へお振込みください。</p>
+<p>「繁星優選Fund第11号」の抽選に当選しました。<br>下記の入金期限までに指定口座へお振込みください。</p>
 <div class="deadline"><h5>⏰ 入金期限（クーリングオフ8日間含む）</h5><p>2025年3月28日 23:59</p></div>
 <div style="background:var(--org-l);border-radius:var(--rs);padding:12px;margin-bottom:16px;text-align:left;display:flex;gap:8px"><span>📋</span><div style="font-size:11px;color:#92400E;line-height:1.6"><strong>クーリングオフについて</strong><br>契約書面交付日の翌日から8日間は無条件解除が可能です。入金後もクーリングオフ期間中は解約可能です。</div></div>
 <div class="deposit-info">
-<div class="dr"><label>入金金額</label><span class="v" id="dAmt">¥500,000</span></div>
+<div class="dr"><label>入金金額</label><span class="v" id="dAmt">¥3,000,000</span></div>
 <div class="dr"><label>振込先</label><span class="v">GMOあおぞらネット銀行</span></div>
 <div class="dr"><label>支店</label><span class="v">法人第一支店（101）</span></div>
 <div class="dr"><label>口座番号</label><span class="v">普通 1234567 <button class="copy-btn" onclick="toast('コピーしました')">コピー</button></span></div>
@@ -990,7 +1103,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="hdr"><div class="hdr-row"><button class="bk" onclick="go('p-mypage');setNav(3)"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button><h3>取引履歴</h3></div><div class="fr"><div class="fc a">すべて</div><div class="fc">出資</div><div class="fc">分配</div><div class="fc">償還</div><div class="fc">入出金</div></div></div>
 <div style="padding:12px 20px"><button class="btn btn-o" style="padding:10px;font-size:12px" onclick="toast('CSV ダウンロード（デモ）')">📥 CSV ダウンロード（確定申告用）</button></div>
 <div class="hl">
-<div class="hi"><div class="hic hic-b" style="border-radius:12px"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div><div class="hb2"><h5>出資：プレミアムレジデンス赤坂</h5><p>抽選当選・入金</p></div><div class="ha"><div class="v minus">-¥500,000</div><div class="d">2025/03/01</div></div></div>
+<div class="hi"><div class="hic hic-b" style="border-radius:12px"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div><div class="hb2"><h5>出資：繁星優選Fund第11号 白馬PJ</h5><p>抽選当選・入金</p></div><div class="ha"><div class="v minus">-¥3,000,000</div><div class="d">2025/03/01</div></div></div>
 <div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>分配金：オフィスビル #12</h5><p>源泉徴収 ¥3,674</p></div><div class="ha"><div class="v plus">¥18,000</div><div class="d">2025/02/15</div></div></div>
 <div class="hi"><div class="hic hic-g" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div><div class="hb2"><h5>入金</h5><p>GMOあおぞら経由</p></div><div class="ha"><div class="v plus">¥500,000</div><div class="d">2025/02/20</div></div></div>
 <div class="hi"><div class="hic hic-o" style="border-radius:50%"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="hb2"><h5>償還：横浜マンション #05</h5><p>元本返還</p></div><div class="ha"><div class="v plus">¥300,000</div><div class="d">2025/02/01</div></div></div>
@@ -1006,7 +1119,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 
 <!-- 抽選待ちセクション -->
 <div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_pending">📩 申込中・抽選待ち</h4></div>
-<div class="afd" style="border-left:3px solid var(--vio)"><div class="at"><h5>東京都港区 プレミアムレジデンス赤坂</h5><span class="tag" style="background:var(--vio-l);color:var(--vio);font-size:10px;padding:3px 8px" data-t="tag_waiting">抽選待ち</span></div><div class="rw"><span data-t="app_amount">申込金額</span><span class="v">¥500,000</span></div><div class="rw"><span data-t="result_date">結果発表</span><span class="v">2025/03/20</span></div></div>
+<div class="afd" style="border-left:3px solid var(--vio)"><div class="at"><h5>繁星優選Fund第11号 白馬PJ</h5><span class="tag" style="background:var(--vio-l);color:var(--vio);font-size:10px;padding:3px 8px" data-t="tag_waiting">抽選待ち</span></div><div class="rw"><span data-t="app_amount">申込金額</span><span class="v">¥3,000,000</span></div><div class="rw"><span data-t="result_date">結果発表</span><span class="v">2025/03/20</span></div></div>
 
 <!-- クーリングオフ（契約成立）セクション -->
 <div style="padding:0 20px 6px"><h4 style="font-size:13px;font-weight:700;margin:10px 0 8px" data-t="mp_cooloff">🗓️クーリングオフ期間中（契約成立）</h4></div>
@@ -1033,13 +1146,13 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <!-- Card 1: with quote -->
 <div class="kz-card">
 <div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#EC4899,#F472B6)">佐</div><div><div class="kz-card-name">佐藤** <span class="kz-card-badge" style="background:var(--vio-l);color:var(--vio)">Gold投資家</span></div><div style="font-size:10px;color:var(--tx3)">sat***@</div></div><span class="kz-card-time">2時間前</span></div>
-<div class="kz-card-body">赤坂のレジデンス案件、立地が最高ですね。港区の賃貸需要を考えると稼働率は安定しそう。利回り8.5%は魅力的です。<br><span class="fund-ref" onclick="event.stopPropagation();go('p-detail')">🏠 プレミアムレジデンス赤坂 →</span></div>
+<div class="kz-card-body">白馬PJの案件、リゾート需要が堅調ですね。長野白馬エリアはインバウンド需要もあり期待大。予定分配率1.5%～14.6%のレンジが面白い。<br><span class="fund-ref" onclick="event.stopPropagation();go('p-detail')">🏠 繁星優選Fund第11号 →</span></div>
 <div class="kz-actions"><button class="kz-act" onclick="toggleReply('r1')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span data-t="comments_3">3</span></button></div>
 <div class="kz-replies" id="r1" style="display:none">
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,var(--acc),#60A5FA)">山</div><div class="kz-reply-body"><div class="rn">yam*** <span>1時間前</span></div><div class="rt2">同感です！RC造15階建で2019年竣工なので築浅。管理状態も良さそう。</div></div></div>
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,var(--grn),#34D399)">鈴</div><div class="kz-reply-body"><div class="rn">suz*** <span>45分前</span></div><div class="rt2">劣後出資30%は安心感ありますね。私も申し込む予定です！</div></div></div>
 <!-- Quote reply -->
-<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">高</div><div class="kz-reply-body"><div class="rn">tak*** <span>30分前</span></div><div class="kz-quote"><div class="qname">佐藤** の投稿を引用：</div>利回り8.5%は魅力的です。</div><div class="rt2">確かに！ただ抽選倍率も高そうですね。人気案件は競争率が厳しい…</div></div></div>
+<div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">高</div><div class="kz-reply-body"><div class="rn">tak*** <span>30分前</span></div><div class="kz-quote"><div class="qname">佐藤** の投稿を引用：</div>予定分配率のレンジが面白い。</div><div class="rt2">確かに！ただ抽選倍率も高そうですね。人気案件は競争率が厳しい…</div></div></div>
 <div class="kz-reply-input"><input placeholder="コメントを入力..." id="ri1"><button onclick="addReply('r1','ri1')">送信</button></div>
 </div>
 </div>
@@ -1069,7 +1182,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <!-- Card 4 -->
 <div class="kz-card" style="margin-bottom:80px">
 <div class="kz-card-hd"><div class="kz-card-av" style="background:linear-gradient(135deg,#10B981,#34D399)">中</div><div><div class="kz-card-name">中村** <span class="kz-card-badge" style="background:#DBEAFE;color:var(--acc)">新人投資家</span></div><div style="font-size:10px;color:var(--tx3)">nak***@</div></div><span class="kz-card-time">2日前</span></div>
-<div class="kz-card-body">不動産クラファン初心者です🔰 優先劣後構造の仕組みを理解して安心しました。まずは10万円から！先輩方、アドバイスお願いします 🙏</div>
+<div class="kz-card-body">不動産クラファン初心者です🔰 繁星優選のFund11号、白馬のPJが気になります。まずは100万円から！先輩方、アドバイスお願いします 🙏</div>
 <div class="kz-actions"><button class="kz-act" onclick="toggleReply('r4')"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg><span>12</span></button></div>
 <div class="kz-replies" id="r4" style="display:none">
 <div class="kz-reply"><div class="kz-reply-av" style="background:linear-gradient(135deg,#6366F1,#818CF8)">渡</div><div class="kz-reply-body"><div class="rn">wat*** <span>2日前</span></div><div class="rt2">ようこそ！最初は劣後出資比率が高い案件を選ぶのがおすすめです。30%以上あると安心感が違います。</div></div></div>
@@ -1104,7 +1217,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div style="flex:1"><div style="font-size:10px;color:var(--tx3);margin-bottom:4px">2025.02.28</div><h5 style="font-size:13px;font-weight:700;color:var(--tx);line-height:1.5">【要同意】利用規約改定のお知らせ</h5><p style="font-size:11px;color:var(--tx2);margin-top:2px">ご確認いただくまで一部機能が制限されます。</p></div><span style="font-size:16px;color:var(--tx3)">›</span>
 </div>
 <div class="nit" onclick="go('p-invest');iStep(5)" style="border-bottom:1px solid var(--bdr);border-radius:0">
-<div style="flex:1"><div style="font-size:10px;color:var(--tx3);margin-bottom:4px">2025.02.25</div><h5 style="font-size:13px;font-weight:700;color:var(--tx);line-height:1.5">【当選】プレミアムレジデンス赤坂 抽選結果</h5><p style="font-size:11px;color:var(--tx2);margin-top:2px">入金期限：2025/03/28 23:59</p></div><span style="font-size:16px;color:var(--tx3)">›</span>
+<div style="flex:1"><div style="font-size:10px;color:var(--tx3);margin-bottom:4px">2025.02.25</div><h5 style="font-size:13px;font-weight:700;color:var(--tx);line-height:1.5">【当選】繁星優選Fund第11号 抽選結果</h5><p style="font-size:11px;color:var(--tx2);margin-top:2px">入金期限：2025/03/28 23:59</p></div><span style="font-size:16px;color:var(--tx3)">›</span>
 </div>
 </div>
 </div>
@@ -1167,7 +1280,7 @@ body{font-family:'Noto Sans JP','DM Sans',sans-serif;background:#12121f;display:
 <div class="si2"><div class="sic sib"><svg viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg></div><span class="st" data-t="faq">FAQ・ヘルプ</span><span class="aw">›</span></div>
 <div class="si2"><div class="sic sig"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div><span class="st" data-t="chat_support">チャットサポート</span><span class="aw">›</span></div>
 </div>
-<div style="text-align:center;padding:10px 0 20px"><p style="font-size:10px;color:var(--tx3)">FUNDEX v1.0.0 ・ 不動産特定共同事業 第XXX号</p></div>
+<div style="text-align:center;padding:10px 0 20px"><p style="font-size:10px;color:var(--tx3)">StellaVia v1.0.0 ・ 不動産特定共同事業 大阪府知事 第22号</p></div>
 <!-- ログアウト・退会 -->
 <div style="padding:0 16px 40px;display:flex;flex-direction:column;gap:10px">
 <button onclick="isGuest=true;updateGuestUI();go('p-home');setNav(0);toast('ログアウトしました')" style="width:100%;padding:12px;border:1.5px solid var(--bdr);border-radius:var(--r);background:#fff;font-size:13px;font-weight:600;color:var(--tx2);cursor:pointer">ログアウト</button>
@@ -1262,7 +1375,7 @@ if(isGuest){
 gb.style.display='flex';
 hh.style.display='none';
 if(imp)imp.style.display='none';
-if(tn){tn.textContent='FUNDEX';tn.style.fontSize='16px';tn.style.color='#fff'};
+if(tn){tn.textContent='StellaVia';tn.style.fontSize='16px';tn.style.color='#fff'};
 }else{
 gb.style.display='none';
 hh.style.display='block';
@@ -1479,6 +1592,14 @@ withdraw_h:{zh:'出金',en:'Withdraw'},
 };
 
 // ═══ NOTIFICATION TABS ═══
+function switchDTab(idx){
+for(var i=0;i<2;i++){
+var tab=document.getElementById('dtab'+i);
+var content=document.getElementById('dTabContent'+i);
+if(i===idx){tab.style.color='var(--acc)';tab.style.fontWeight='700';if(!tab.querySelector('span'))tab.insertAdjacentHTML('beforeend','<span style="position:absolute;bottom:-2px;left:10%;right:10%;height:3px;background:var(--acc);border-radius:2px"></span>');else tab.querySelector('span').style.display='';content.style.display=''}
+else{tab.style.color='var(--tx3)';tab.style.fontWeight='600';if(tab.querySelector('span'))tab.querySelector('span').style.display='none';content.style.display='none'}
+}}
+
 function switchNTab(idx){
 for(var i=0;i<2;i++){
 var tab=document.getElementById('ntab'+i);
