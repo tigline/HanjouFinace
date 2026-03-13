@@ -761,6 +761,36 @@ class AppLocalizationsZh extends AppLocalizations {
   String get kizunarkReplySuccessNotice => '评论已发送！';
 
   @override
+  String get kizunarkDeleteAction => '删除';
+
+  @override
+  String get kizunarkDeleteConfirmTitle => '确认删除这条评论？';
+
+  @override
+  String get kizunarkDeleteConfirmBody => '删除后无法恢复。';
+
+  @override
+  String get kizunarkDeleteCancelAction => '取消';
+
+  @override
+  String get kizunarkDeleteConfirmAction => '删除';
+
+  @override
+  String get kizunarkDeleteSuccessNotice => '评论已删除。';
+
+  @override
+  String get kizunarkDeleteFailedNotice => '删除评论失败，请稍后重试。';
+
+  @override
+  String get kizunarkCopyAction => '复制';
+
+  @override
+  String get kizunarkCopySuccessNotice => '消息已复制。';
+
+  @override
+  String get kizunarkMenuCancelAction => '取消';
+
+  @override
   String get kizunarkLoginRequiredToPost => '发帖和评论需要先登录';
 
   @override
@@ -2513,6 +2543,36 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get kizunarkReplySuccessNotice => '留言已送出！';
+
+  @override
+  String get kizunarkDeleteAction => '刪除';
+
+  @override
+  String get kizunarkDeleteConfirmTitle => '確認刪除這則留言？';
+
+  @override
+  String get kizunarkDeleteConfirmBody => '刪除後無法復原。';
+
+  @override
+  String get kizunarkDeleteCancelAction => '取消';
+
+  @override
+  String get kizunarkDeleteConfirmAction => '刪除';
+
+  @override
+  String get kizunarkDeleteSuccessNotice => '留言已刪除。';
+
+  @override
+  String get kizunarkDeleteFailedNotice => '刪除留言失敗，請稍後再試。';
+
+  @override
+  String get kizunarkCopyAction => '複製';
+
+  @override
+  String get kizunarkCopySuccessNotice => '訊息已複製。';
+
+  @override
+  String get kizunarkMenuCancelAction => '取消';
 
   @override
   String get kizunarkLoginRequiredToPost => '發文與留言需要先登入';

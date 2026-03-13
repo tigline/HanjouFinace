@@ -293,6 +293,8 @@ class KizunarkPostCard extends StatelessWidget {
     required this.onToggleRepliesTap,
     required this.showReplies,
     this.replySection,
+    this.trailingAction,
+    this.onLongPress,
   });
 
   final Widget avatar;
@@ -308,81 +310,104 @@ class KizunarkPostCard extends StatelessWidget {
   final VoidCallback onToggleRepliesTap;
   final bool showReplies;
   final Widget? replySection;
+  final Widget? trailingAction;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColorTokens.fundexBorder),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                avatar,
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onLongPress: onLongPress,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColorTokens.fundexBorder),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  avatar,
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Wrap(
+                          spacing: 8,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              displayName,
+                              style:
+                                  (Theme.of(context).textTheme.titleMedium ??
+                                          const TextStyle())
+                                      .copyWith(
+                                        color: AppColorTokens.fundexText,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                            ),
+                            if ((badgeLabel?.isNotEmpty ?? false))
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      badgeBackgroundColor ??
+                                      AppColorTokens.kizunarkPrimaryLight,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  badgeLabel!,
+                                  style:
+                                      (Theme.of(context).textTheme.labelSmall ??
+                                              const TextStyle())
+                                          .copyWith(
+                                            color:
+                                                badgeForegroundColor ??
+                                                AppColorTokens.kizunarkPrimary,
+                                            fontSize: 9,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        Text(
+                          accountText,
+                          style:
+                              (Theme.of(context).textTheme.labelSmall ??
+                                      const TextStyle())
+                                  .copyWith(
+                                    color: AppColorTokens.fundexTextTertiary,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Wrap(
-                        spacing: 8,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            displayName,
-                            style:
-                                (Theme.of(context).textTheme.titleMedium ??
-                                        const TextStyle())
-                                    .copyWith(
-                                      color: AppColorTokens.fundexText,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                          ),
-                          if ((badgeLabel?.isNotEmpty ?? false))
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color:
-                                    badgeBackgroundColor ??
-                                    AppColorTokens.kizunarkPrimaryLight,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                badgeLabel!,
-                                style:
-                                    (Theme.of(context).textTheme.labelSmall ??
-                                            const TextStyle())
-                                        .copyWith(
-                                          color:
-                                              badgeForegroundColor ??
-                                              AppColorTokens.kizunarkPrimary,
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                              ),
-                            ),
-                        ],
-                      ),
                       Text(
-                        accountText,
+                        timeLabel,
                         style:
                             (Theme.of(context).textTheme.labelSmall ??
                                     const TextStyle())
@@ -392,69 +417,63 @@ class KizunarkPostCard extends StatelessWidget {
                                   fontWeight: FontWeight.w500,
                                 ),
                       ),
+                      if (trailingAction != null) ...<Widget>[
+                        const SizedBox(width: 2),
+                        trailingAction!,
+                      ],
                     ],
                   ),
-                ),
-                Text(
-                  timeLabel,
-                  style:
-                      (Theme.of(context).textTheme.labelSmall ??
-                              const TextStyle())
-                          .copyWith(
-                            color: AppColorTokens.fundexTextTertiary,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              body,
-              style:
-                  (Theme.of(context).textTheme.bodyMedium ?? const TextStyle())
-                      .copyWith(
-                        color: AppColorTokens.fundexText,
-                        fontSize: 13,
-                        height: 1.7,
-                      ),
-            ),
-            if (fundReferenceChip != null) ...<Widget>[
-              const SizedBox(height: 10),
-              fundReferenceChip!,
-            ],
-            const SizedBox(height: 10),
-            const Divider(height: 1, color: AppColorTokens.fundexBorder),
-            const SizedBox(height: 6),
-            TextButton.icon(
-              onPressed: onToggleRepliesTap,
-              style: TextButton.styleFrom(
-                foregroundColor: AppColorTokens.fundexTextTertiary,
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(40, 28),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                alignment: Alignment.centerLeft,
+                ],
               ),
-              icon: const Icon(Icons.chat_bubble_outline_rounded, size: 16),
-              label: Text(
-                '$commentCount',
+              const SizedBox(height: 10),
+              Text(
+                body,
                 style:
-                    (Theme.of(context).textTheme.titleSmall ??
+                    (Theme.of(context).textTheme.bodyMedium ??
                             const TextStyle())
                         .copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: AppColorTokens.fundexTextTertiary,
+                          color: AppColorTokens.fundexText,
+                          fontSize: 13,
+                          height: 1.7,
                         ),
               ),
-            ),
-            if (showReplies && replySection != null) ...<Widget>[
-              const SizedBox(height: 8),
-              const Divider(height: 1, color: AppColorTokens.fundexBorder),
+              if (fundReferenceChip != null) ...<Widget>[
+                const SizedBox(height: 10),
+                fundReferenceChip!,
+              ],
               const SizedBox(height: 10),
-              replySection!,
+              const Divider(height: 1, color: AppColorTokens.fundexBorder),
+              const SizedBox(height: 6),
+              TextButton.icon(
+                onPressed: onToggleRepliesTap,
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColorTokens.fundexTextTertiary,
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(40, 28),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerLeft,
+                ),
+                icon: const Icon(Icons.chat_bubble_outline_rounded, size: 16),
+                label: Text(
+                  '$commentCount',
+                  style:
+                      (Theme.of(context).textTheme.titleSmall ??
+                              const TextStyle())
+                          .copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: AppColorTokens.fundexTextTertiary,
+                          ),
+                ),
+              ),
+              if (showReplies && replySection != null) ...<Widget>[
+                const SizedBox(height: 8),
+                const Divider(height: 1, color: AppColorTokens.fundexBorder),
+                const SizedBox(height: 10),
+                replySection!,
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -470,6 +489,8 @@ class KizunarkReplyTile extends StatelessWidget {
     required this.body,
     this.quoteTitle,
     this.quoteBody,
+    this.trailingAction,
+    this.onLongPress,
   });
 
   final Widget avatar;
@@ -478,67 +499,36 @@ class KizunarkReplyTile extends StatelessWidget {
   final String body;
   final String? quoteTitle;
   final String? quoteBody;
+  final Widget? trailingAction;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColorTokens.fundexBackground,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            avatar,
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  RichText(
-                    text: TextSpan(
-                      style:
-                          (Theme.of(context).textTheme.labelSmall ??
-                                  const TextStyle())
-                              .copyWith(
-                                color: AppColorTokens.fundexText,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                              ),
-                      children: <InlineSpan>[
-                        TextSpan(text: displayName),
-                        TextSpan(
-                          text: '   $timeLabel',
-                          style: const TextStyle(
-                            color: AppColorTokens.fundexTextTertiary,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 10,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  if ((quoteBody?.isNotEmpty ?? false)) ...<Widget>[
-                    const SizedBox(height: 6),
-                    DecoratedBox(
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFF8FAFC),
-                        border: Border(
-                          left: BorderSide(
-                            color: AppColorTokens.kizunarkPrimary,
-                            width: 3,
-                          ),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              quoteTitle ?? '',
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onLongPress: onLongPress,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: AppColorTokens.fundexBackground,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              avatar,
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
                               style:
                                   (Theme.of(context).textTheme.labelSmall ??
                                           const TextStyle())
@@ -547,41 +537,89 @@ class KizunarkReplyTile extends StatelessWidget {
                                         fontSize: 11,
                                         fontWeight: FontWeight.w700,
                                       ),
+                              children: <InlineSpan>[
+                                TextSpan(text: displayName),
+                                TextSpan(
+                                  text: '   $timeLabel',
+                                  style: const TextStyle(
+                                    color: AppColorTokens.fundexTextTertiary,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              quoteBody!,
-                              style:
-                                  (Theme.of(context).textTheme.bodySmall ??
-                                          const TextStyle())
-                                      .copyWith(
-                                        color:
-                                            AppColorTokens.fundexTextSecondary,
-                                        fontSize: 12,
-                                        height: 1.6,
-                                      ),
+                          ),
+                        ),
+                        if (trailingAction != null) ...<Widget>[
+                          const SizedBox(width: 4),
+                          trailingAction!,
+                        ],
+                      ],
+                    ),
+                    if ((quoteBody?.isNotEmpty ?? false)) ...<Widget>[
+                      const SizedBox(height: 6),
+                      DecoratedBox(
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFF8FAFC),
+                          border: Border(
+                            left: BorderSide(
+                              color: AppColorTokens.kizunarkPrimary,
+                              width: 3,
                             ),
-                          ],
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                quoteTitle ?? '',
+                                style:
+                                    (Theme.of(context).textTheme.labelSmall ??
+                                            const TextStyle())
+                                        .copyWith(
+                                          color: AppColorTokens.fundexText,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                quoteBody!,
+                                style:
+                                    (Theme.of(context).textTheme.bodySmall ??
+                                            const TextStyle())
+                                        .copyWith(
+                                          color: AppColorTokens
+                                              .fundexTextSecondary,
+                                          fontSize: 12,
+                                          height: 1.6,
+                                        ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                    ],
+                    const SizedBox(height: 6),
+                    Text(
+                      body,
+                      style:
+                          (Theme.of(context).textTheme.bodySmall ??
+                                  const TextStyle())
+                              .copyWith(
+                                color: AppColorTokens.fundexTextSecondary,
+                                fontSize: 12,
+                                height: 1.6,
+                              ),
                     ),
                   ],
-                  const SizedBox(height: 6),
-                  Text(
-                    body,
-                    style:
-                        (Theme.of(context).textTheme.bodySmall ??
-                                const TextStyle())
-                            .copyWith(
-                              color: AppColorTokens.fundexTextSecondary,
-                              fontSize: 12,
-                              height: 1.6,
-                            ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

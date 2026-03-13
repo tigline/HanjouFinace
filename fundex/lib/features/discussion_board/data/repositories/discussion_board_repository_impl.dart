@@ -1,31 +1,48 @@
-import '../../../auth/data/datasources/auth_local_data_source.dart';
-import '../../../auth/data/models/auth_user_dto.dart';
+import 'package:intl/intl.dart';
+
 import '../datasources/discussion_board_local_data_source.dart';
+import '../datasources/discussion_board_remote_data_source.dart';
+import '../models/discussion_comment_dto.dart';
 import '../../domain/entities/discussion_board_models.dart';
 import '../../domain/repositories/discussion_board_repository.dart';
 import '../../presentation/support/discussion_board_mock_seed.dart';
 
 class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
   DiscussionBoardRepositoryImpl({
+    required DiscussionBoardRemoteDataSource remote,
     required DiscussionBoardLocalDataSource local,
-    required AuthLocalDataSource authLocal,
-  }) : _local = local,
-       _authLocal = authLocal;
+    this.projectId,
+  }) : _remote = remote,
+       _local = local;
 
+  final DiscussionBoardRemoteDataSource _remote;
   final DiscussionBoardLocalDataSource _local;
-  final AuthLocalDataSource _authLocal;
+  final int? projectId;
 
   @override
-  Future<List<DiscussionThread>> loadThreads() async {
-    final cached = await _local.readThreads();
-    if (cached.isNotEmpty) {
-      return cached;
+  Future<List<DiscussionThread>> loadThreads({
+    int page = 1,
+    int limit = 50,
+  }) async {
+    if (page > 1) {
+      return _loadRemoteThreads(page: page, limit: limit);
     }
 
-    final seeded = buildDiscussionBoardMockSeed();
-    await _local.saveThreads(seeded);
-    final persisted = await _local.readThreads();
-    return persisted.isNotEmpty ? persisted : seeded;
+    try {
+      final remoteThreads = await _loadRemoteThreads(page: page, limit: limit);
+      await _local.saveThreads(remoteThreads);
+      return remoteThreads;
+    } catch (_) {
+      final cached = await _local.readThreads();
+      if (cached.isNotEmpty) {
+        return cached;
+      }
+
+      final seeded = buildDiscussionBoardMockSeed();
+      await _local.saveThreads(seeded);
+      final persisted = await _local.readThreads();
+      return persisted.isNotEmpty ? persisted : seeded;
+    }
   }
 
   @override
@@ -40,30 +57,8 @@ class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
     if (trimmed.isEmpty) {
       return loadThreads();
     }
-
-    final current = await loadThreads();
-    final author = await _resolveCurrentAuthor(
-      fallbackName: fallbackName,
-      fallbackHandle: fallbackHandle,
-      fallbackBadgeLabel: fallbackBadgeLabel,
-    );
-    final nowIso = DateTime.now().toUtc().toIso8601String();
-    final updated = <DiscussionThread>[
-      DiscussionThread(
-        id: 'thread_${DateTime.now().microsecondsSinceEpoch}',
-        author: author,
-        timeLabel: nowLabel,
-        body: trimmed,
-        createdAtIso: nowIso,
-        commentCount: 0,
-        replies: const <DiscussionReply>[],
-      ),
-      ...current,
-    ];
-
-    await _local.saveThreads(updated);
-    final persisted = await _local.readThreads();
-    return persisted.isNotEmpty ? persisted : updated;
+    await _remote.sendComment(content: trimmed, projectId: projectId);
+    return _refreshFirstPageAfterMutation();
   }
 
   @override
@@ -79,113 +74,373 @@ class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
     if (trimmed.isEmpty) {
       return loadThreads();
     }
-
-    final current = await loadThreads();
-    final author = await _resolveCurrentAuthor(
-      fallbackName: fallbackName,
-      fallbackHandle: fallbackHandle,
-      fallbackBadgeLabel: fallbackBadgeLabel,
+    final remoteParentId = int.tryParse(threadId);
+    if (remoteParentId == null) {
+      throw StateError('Invalid thread id.');
+    }
+    await _remote.sendComment(
+      content: trimmed,
+      parentId: remoteParentId,
+      projectId: projectId,
     );
-    final nowIso = DateTime.now().toUtc().toIso8601String();
-
-    final updated = current
-        .map((DiscussionThread thread) {
-          if (thread.id != threadId) {
-            return thread;
-          }
-          final reply = DiscussionReply(
-            id: 'reply_${DateTime.now().microsecondsSinceEpoch}',
-            author: author.copyWith(
-              displayName: _shortenToHandle(author.displayName),
-              accountHandle: '',
-              badge: const DiscussionAuthorBadge(
-                label: '',
-                backgroundColorValue: 0x00000000,
-                foregroundColorValue: 0x00000000,
-              ),
-            ),
-            timeLabel: nowLabel,
-            body: trimmed,
-            createdAtIso: nowIso,
-          );
-          return thread.copyWith(
-            commentCount: thread.commentCount + 1,
-            replies: <DiscussionReply>[...thread.replies, reply],
-          );
-        })
-        .toList(growable: false);
-
-    await _local.saveThreads(updated);
-    final persisted = await _local.readThreads();
-    return persisted.isNotEmpty ? persisted : updated;
+    return _refreshFirstPageAfterMutation();
   }
 
-  Future<DiscussionAuthor> _resolveCurrentAuthor({
-    required String fallbackName,
-    required String fallbackHandle,
-    required String fallbackBadgeLabel,
+  @override
+  Future<List<DiscussionThread>> deleteComment({
+    required String commentId,
   }) async {
-    final AuthUserDto? user = await _authLocal.readCurrentUser();
-    final username = (user?.username ?? '').trim();
-    final account = (user?.email ?? user?.accountId ?? '').trim();
-    final userId = user?.userId?.toString() ?? user?.id ?? username;
+    final normalized = commentId.trim();
+    if (normalized.isEmpty) {
+      return loadThreads();
+    }
 
-    final displayName = _maskUserName(username, fallbackName);
-    final handle = account.isEmpty ? fallbackHandle : _maskAccount(account);
+    final remoteCommentId = int.tryParse(normalized);
+    if (remoteCommentId == null) {
+      throw StateError('Invalid comment id.');
+    }
+
+    await _remote.deleteComment(commentId: remoteCommentId);
+    return _refreshFirstPageAfterMutation();
+  }
+
+  Future<List<DiscussionThread>> _loadRemoteThreads({
+    required int page,
+    required int limit,
+  }) async {
+    final rows = await _remote.fetchCommentPage(
+      startPage: page,
+      limit: limit,
+      projectId: projectId,
+    );
+    return _mapRemoteRowsToThreads(rows);
+  }
+
+  Future<List<DiscussionThread>> _refreshFirstPageAfterMutation() async {
+    try {
+      final refreshed = await _loadRemoteThreads(page: 1, limit: 50);
+      await _local.saveThreads(refreshed);
+      return refreshed;
+    } catch (_) {
+      final cached = await _local.readThreads();
+      return cached;
+    }
+  }
+
+  List<DiscussionThread> _mapRemoteRowsToThreads(
+    List<DiscussionCommentDto> rows,
+  ) {
+    if (rows.isEmpty) {
+      return const <DiscussionThread>[];
+    }
+
+    final byId = <int, DiscussionCommentDto>{
+      for (final row in rows)
+        if (row.id != null) row.id!: row,
+    };
+
+    final roots = rows.where((row) => row.quote == null).toList(growable: false)
+      ..sort(_sortCommentByCreatedAtDesc);
+    final rootIds = roots
+        .map((DiscussionCommentDto row) => row.id)
+        .whereType<int>()
+        .toSet();
+
+    final repliesByRoot = <int, List<DiscussionCommentDto>>{};
+    final syntheticRoots = <int, DiscussionQuoteDto>{};
+    final orphanRows = <DiscussionCommentDto>[];
+
+    for (final row in rows) {
+      if (row.quote == null) {
+        continue;
+      }
+      final rootId = _resolveRootId(row, byId);
+      if (rootId == null || !rootIds.contains(rootId)) {
+        final quote = row.quote;
+        final syntheticRootId = quote?.id;
+        if (quote == null || syntheticRootId == null) {
+          orphanRows.add(row);
+          continue;
+        }
+        syntheticRoots.putIfAbsent(syntheticRootId, () => quote);
+        repliesByRoot
+            .putIfAbsent(syntheticRootId, () => <DiscussionCommentDto>[])
+            .add(row);
+        continue;
+      }
+      repliesByRoot
+          .putIfAbsent(rootId, () => <DiscussionCommentDto>[])
+          .add(row);
+    }
+
+    for (final replies in repliesByRoot.values) {
+      replies.sort(_sortCommentByCreatedAtAsc);
+    }
+
+    final threads = roots
+        .map((DiscussionCommentDto root) {
+          final replies =
+              repliesByRoot[root.id] ?? const <DiscussionCommentDto>[];
+          final mappedReplies = replies
+              .map(_mapReplyFromComment)
+              .toList(growable: false);
+          return DiscussionThread(
+            id: (root.id ?? '').toString(),
+            author: _mapAuthor(root),
+            timeLabel: _formatTimeLabel(root.createTime),
+            body: root.content,
+            createdAtIso: _normalizeCreatedAt(root.createTime),
+            commentCount: mappedReplies.length,
+            replies: mappedReplies,
+            fundReferenceLabel: _buildFundReferenceLabel(root),
+            fundReferenceId: root.projectId?.toString(),
+          );
+        })
+        .toList(growable: true);
+
+    if (syntheticRoots.isNotEmpty) {
+      final syntheticThreads =
+          syntheticRoots.entries
+              .where((entry) => !rootIds.contains(entry.key))
+              .map((entry) {
+                final quote = entry.value;
+                final replies =
+                    repliesByRoot[entry.key] ?? const <DiscussionCommentDto>[];
+                final mappedReplies = replies
+                    .map(_mapReplyFromComment)
+                    .toList(growable: false);
+                return DiscussionThread(
+                  id: entry.key.toString(),
+                  author: _mapQuoteAuthor(quote, entry.key),
+                  timeLabel: _formatTimeLabel(quote.createTime),
+                  body: quote.content,
+                  createdAtIso: _normalizeCreatedAt(quote.createTime),
+                  commentCount: mappedReplies.length,
+                  replies: mappedReplies,
+                );
+              })
+              .toList(growable: false)
+            ..sort(_sortThreadByCreatedAtDesc);
+      threads.addAll(syntheticThreads);
+    }
+
+    if (orphanRows.isNotEmpty) {
+      orphanRows.sort(_sortCommentByCreatedAtDesc);
+      threads.addAll(
+        orphanRows.map((DiscussionCommentDto row) {
+          return DiscussionThread(
+            id: (row.id ?? 'orphan_${row.createTime}').toString(),
+            author: _mapAuthor(row),
+            timeLabel: _formatTimeLabel(row.createTime),
+            body: row.content,
+            createdAtIso: _normalizeCreatedAt(row.createTime),
+            commentCount: 0,
+            replies: const <DiscussionReply>[],
+            fundReferenceLabel: _buildFundReferenceLabel(row),
+            fundReferenceId: row.projectId?.toString(),
+          );
+        }),
+      );
+    }
+
+    return threads;
+  }
+
+  int _sortThreadByCreatedAtDesc(
+    DiscussionThread left,
+    DiscussionThread right,
+  ) {
+    final leftAt = _parseCreatedAt(left.createdAtIso);
+    final rightAt = _parseCreatedAt(right.createdAtIso);
+    if (leftAt == null && rightAt == null) {
+      return right.id.compareTo(left.id);
+    }
+    if (leftAt == null) {
+      return 1;
+    }
+    if (rightAt == null) {
+      return -1;
+    }
+    return rightAt.compareTo(leftAt);
+  }
+
+  DiscussionReply _mapReplyFromComment(DiscussionCommentDto row) {
+    final quote = row.quote;
+    return DiscussionReply(
+      id: (row.id ?? '').toString(),
+      author: _mapAuthor(row),
+      timeLabel: _formatTimeLabel(row.createTime),
+      body: row.content,
+      createdAtIso: _normalizeCreatedAt(row.createTime),
+      quote: quote == null
+          ? null
+          : DiscussionQuote(sourceText: quote.username, body: quote.content),
+    );
+  }
+
+  DiscussionAuthor _mapAuthor(DiscussionCommentDto row) {
+    final username = row.username.trim();
+    final displayName = _maskUserName(username, 'User**');
     final avatarText = _firstVisibleCharacter(displayName);
-
+    final colorValues = _avatarGradientForUser(row.userId ?? row.id);
     return DiscussionAuthor(
-      id: userId.trim().isEmpty ? 'current_user' : userId,
+      id: (row.userId ?? row.id ?? '').toString(),
       displayName: displayName,
-      accountHandle: handle,
+      accountHandle: _buildMaskedHandle(row.userId),
       avatarText: avatarText,
-      avatarGradientColorValues: const <int>[0xFF6366F1, 0xFF8B5CF6],
-      badge: DiscussionAuthorBadge(
-        label: fallbackBadgeLabel,
-        backgroundColorValue: 0xFFDBEAFE,
-        foregroundColorValue: 0xFF2563EB,
+      avatarGradientColorValues: colorValues,
+      badge: const DiscussionAuthorBadge(
+        label: '',
+        backgroundColorValue: 0x00000000,
+        foregroundColorValue: 0x00000000,
       ),
     );
   }
 
-  String _maskUserName(String username, String fallbackName) {
-    if (username.trim().isEmpty) {
-      return fallbackName;
-    }
-    final first = _firstVisibleCharacter(username);
-    return '$first**';
+  DiscussionAuthor _mapQuoteAuthor(DiscussionQuoteDto quote, int seed) {
+    final displayName = _maskUserName(quote.username, 'User**');
+    final avatarText = _firstVisibleCharacter(displayName);
+    return DiscussionAuthor(
+      id: 'quote_$seed',
+      displayName: displayName,
+      accountHandle: '',
+      avatarText: avatarText,
+      avatarGradientColorValues: _avatarGradientForUser(seed),
+      badge: const DiscussionAuthorBadge(
+        label: '',
+        backgroundColorValue: 0x00000000,
+        foregroundColorValue: 0x00000000,
+      ),
+    );
   }
 
-  String _maskAccount(String account) {
-    final value = account.trim();
-    if (value.isEmpty) {
-      return '';
+  String? _buildFundReferenceLabel(DiscussionCommentDto row) {
+    final name = row.projectName.trim();
+    if (name.isEmpty) {
+      return null;
     }
-    if (!value.contains('@')) {
-      return value.length <= 3 ? '$value***' : '${value.substring(0, 3)}***';
+    return '🏠 $name →';
+  }
+
+  String _formatTimeLabel(String rawTime) {
+    final parsed = DateTime.tryParse(rawTime);
+    if (parsed == null) {
+      return rawTime;
     }
-    final parts = value.split('@');
-    if (parts.isEmpty) {
-      return value;
+    final local = parsed.toLocal();
+    return DateFormat('yyyy/MM/dd HH:mm').format(local);
+  }
+
+  String _normalizeCreatedAt(String rawTime) {
+    final parsed = DateTime.tryParse(rawTime);
+    if (parsed == null) {
+      return rawTime;
     }
-    final head = parts.first;
-    final visible = head.length <= 3 ? head : head.substring(0, 3);
+    return parsed.toUtc().toIso8601String();
+  }
+
+  int _sortCommentByCreatedAtDesc(
+    DiscussionCommentDto left,
+    DiscussionCommentDto right,
+  ) {
+    final leftAt = _parseCreatedAt(left.createTime);
+    final rightAt = _parseCreatedAt(right.createTime);
+    if (leftAt == null && rightAt == null) {
+      return (right.id ?? 0).compareTo(left.id ?? 0);
+    }
+    if (leftAt == null) {
+      return 1;
+    }
+    if (rightAt == null) {
+      return -1;
+    }
+    return rightAt.compareTo(leftAt);
+  }
+
+  int _sortCommentByCreatedAtAsc(
+    DiscussionCommentDto left,
+    DiscussionCommentDto right,
+  ) {
+    final leftAt = _parseCreatedAt(left.createTime);
+    final rightAt = _parseCreatedAt(right.createTime);
+    if (leftAt == null && rightAt == null) {
+      return (left.id ?? 0).compareTo(right.id ?? 0);
+    }
+    if (leftAt == null) {
+      return -1;
+    }
+    if (rightAt == null) {
+      return 1;
+    }
+    return leftAt.compareTo(rightAt);
+  }
+
+  DateTime? _parseCreatedAt(String rawTime) {
+    return DateTime.tryParse(rawTime)?.toUtc();
+  }
+
+  int? _resolveRootId(
+    DiscussionCommentDto row,
+    Map<int, DiscussionCommentDto> byId,
+  ) {
+    var parentId = row.quote?.id;
+    final visited = <int>{};
+    while (parentId != null) {
+      if (!visited.add(parentId)) {
+        return null;
+      }
+      final parent = byId[parentId];
+      if (parent == null) {
+        return null;
+      }
+      if (parent.quote == null) {
+        return parent.id;
+      }
+      parentId = parent.quote?.id;
+    }
+    return null;
+  }
+
+  List<int> _avatarGradientForUser(int? userSeed) {
+    const palette = <List<int>>[
+      <int>[0xFF6366F1, 0xFF8B5CF6],
+      <int>[0xFFEC4899, 0xFFF472B6],
+      <int>[0xFF10B981, 0xFF34D399],
+      <int>[0xFFF59E0B, 0xFFFBBF24],
+      <int>[0xFF2563EB, 0xFF60A5FA],
+      <int>[0xFF14B8A6, 0xFF2DD4BF],
+    ];
+    if (userSeed == null) {
+      return palette.first;
+    }
+    return palette[userSeed.abs() % palette.length];
+  }
+
+  String _buildMaskedHandle(int? userId) {
+    if (userId == null) {
+      return 'usr***@';
+    }
+    final raw = userId.toString();
+    final visible = raw.length <= 3 ? raw : raw.substring(0, 3);
     return '$visible***@';
   }
 
-  String _shortenToHandle(String displayName) {
-    final value = displayName.trim();
-    if (value.isEmpty) {
-      return 'usr***';
+  String _maskUserName(String username, String fallbackName) {
+    final normalized = username.trim();
+    if (normalized.isEmpty) {
+      return fallbackName;
     }
-    final first = _firstVisibleCharacter(value);
-    return '$first***';
+    if (normalized.contains('*')) {
+      return normalized;
+    }
+    final first = _firstVisibleCharacter(normalized);
+    return '$first**';
   }
 
   String _firstVisibleCharacter(String value) {
     final trimmed = value.trim();
     if (trimmed.isEmpty) {
-      return '投';
+      return 'U';
     }
     return String.fromCharCode(trimmed.runes.first);
   }

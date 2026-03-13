@@ -6,7 +6,7 @@ class LoadDiscussionThreadsUseCase {
 
   final DiscussionBoardRepository _repository;
 
-  Future<List<DiscussionThread>> call() {
-    return _repository.loadThreads();
+  Future<List<DiscussionThread>> call({int page = 1, int limit = 50}) {
+    return _repository.loadThreads(page: page, limit: limit);
   }
 }

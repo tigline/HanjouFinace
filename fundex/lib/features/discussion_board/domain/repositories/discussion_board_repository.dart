@@ -1,7 +1,7 @@
 import '../entities/discussion_board_models.dart';
 
 abstract class DiscussionBoardRepository {
-  Future<List<DiscussionThread>> loadThreads();
+  Future<List<DiscussionThread>> loadThreads({int page = 1, int limit = 50});
 
   Future<List<DiscussionThread>> submitPost({
     required String content,
@@ -19,4 +19,6 @@ abstract class DiscussionBoardRepository {
     required String fallbackHandle,
     required String fallbackBadgeLabel,
   });
+
+  Future<List<DiscussionThread>> deleteComment({required String commentId});
 }

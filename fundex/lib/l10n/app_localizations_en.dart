@@ -812,6 +812,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kizunarkReplySuccessNotice => 'Comment sent.';
 
   @override
+  String get kizunarkDeleteAction => 'Delete';
+
+  @override
+  String get kizunarkDeleteConfirmTitle => 'Delete this comment?';
+
+  @override
+  String get kizunarkDeleteConfirmBody => 'This action cannot be undone.';
+
+  @override
+  String get kizunarkDeleteCancelAction => 'Cancel';
+
+  @override
+  String get kizunarkDeleteConfirmAction => 'Delete';
+
+  @override
+  String get kizunarkDeleteSuccessNotice => 'Comment deleted.';
+
+  @override
+  String get kizunarkDeleteFailedNotice => 'Failed to delete comment.';
+
+  @override
+  String get kizunarkCopyAction => 'Copy';
+
+  @override
+  String get kizunarkCopySuccessNotice => 'Message copied.';
+
+  @override
+  String get kizunarkMenuCancelAction => 'Cancel';
+
+  @override
   String get kizunarkLoginRequiredToPost =>
       'Please sign in to post and comment.';
 

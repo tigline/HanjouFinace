@@ -1577,6 +1577,66 @@ abstract class AppLocalizations {
   /// **'Comment sent.'**
   String get kizunarkReplySuccessNotice;
 
+  /// No description provided for @kizunarkDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get kizunarkDeleteAction;
+
+  /// No description provided for @kizunarkDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this comment?'**
+  String get kizunarkDeleteConfirmTitle;
+
+  /// No description provided for @kizunarkDeleteConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get kizunarkDeleteConfirmBody;
+
+  /// No description provided for @kizunarkDeleteCancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get kizunarkDeleteCancelAction;
+
+  /// No description provided for @kizunarkDeleteConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get kizunarkDeleteConfirmAction;
+
+  /// No description provided for @kizunarkDeleteSuccessNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment deleted.'**
+  String get kizunarkDeleteSuccessNotice;
+
+  /// No description provided for @kizunarkDeleteFailedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete comment.'**
+  String get kizunarkDeleteFailedNotice;
+
+  /// No description provided for @kizunarkCopyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get kizunarkCopyAction;
+
+  /// No description provided for @kizunarkCopySuccessNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Message copied.'**
+  String get kizunarkCopySuccessNotice;
+
+  /// No description provided for @kizunarkMenuCancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get kizunarkMenuCancelAction;
+
   /// No description provided for @kizunarkLoginRequiredToPost.
   ///
   /// In en, this message translates to:

@@ -766,6 +766,36 @@ class AppLocalizationsJa extends AppLocalizations {
   String get kizunarkReplySuccessNotice => 'コメントを投稿しました！';
 
   @override
+  String get kizunarkDeleteAction => '削除';
+
+  @override
+  String get kizunarkDeleteConfirmTitle => 'このコメントを削除しますか？';
+
+  @override
+  String get kizunarkDeleteConfirmBody => '削除したコメントは元に戻せません。';
+
+  @override
+  String get kizunarkDeleteCancelAction => 'キャンセル';
+
+  @override
+  String get kizunarkDeleteConfirmAction => '削除する';
+
+  @override
+  String get kizunarkDeleteSuccessNotice => 'コメントを削除しました。';
+
+  @override
+  String get kizunarkDeleteFailedNotice => 'コメントの削除に失敗しました。';
+
+  @override
+  String get kizunarkCopyAction => 'コピー';
+
+  @override
+  String get kizunarkCopySuccessNotice => 'メッセージをコピーしました。';
+
+  @override
+  String get kizunarkMenuCancelAction => 'キャンセル';
+
+  @override
   String get kizunarkLoginRequiredToPost => '投稿・コメントにはログインが必要です';
 
   @override

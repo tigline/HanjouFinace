@@ -6,9 +6,9 @@ final secureKeyValueStorageProvider = Provider<KeyValueStorage>((ref) {
 });
 
 final sharedPrefsStorageProvider = Provider<KeyValueStorage>((ref) {
-  return SharedPrefsKeyValueStorage(namespace: 'fundex');
+  return SharedPrefsKeyValueStorage(namespace: 'StellaVia');
 });
 
 final largeDataStoreProvider = Provider<LargeDataStore>((ref) {
-  return HiveLargeDataStore(boxName: 'fundex_large_data');
+  return HiveLargeDataStore(boxName: 'StellaVia_large_data');
 });

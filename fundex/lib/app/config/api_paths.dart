@@ -53,5 +53,19 @@ class FundingMemberApiPath {
   static const String myInvestmentList = '/crowdfunding/user/invest/list';
 }
 
+/// Funding comment-board APIs used by `feature_discussion_board`.
+class FundingCommentApiPath {
+  const FundingCommentApiPath._();
+
+  /// Source: crowdfunding Swagger (`comment-rest`).
+  static const String commentPage = '/crowdfunding/comment/page';
+
+  /// Source: crowdfunding Swagger (`comment-rest`).
+  static const String commentSend = '/crowdfunding/comment/send';
+
+  /// Source: crowdfunding Swagger (`comment-rest`).
+  static const String commentDelete = '/crowdfunding/comment/delete';
+}
+
 const String fundingOauthClientAuthorization = 'Basic d2ViQXBwOndlYkFwcA==';
 const String defaultIntlCode = '81';

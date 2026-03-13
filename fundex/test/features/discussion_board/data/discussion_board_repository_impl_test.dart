@@ -1,0 +1,260 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fundex/features/discussion_board/data/datasources/discussion_board_local_data_source.dart';
+import 'package:fundex/features/discussion_board/data/datasources/discussion_board_remote_data_source.dart';
+import 'package:fundex/features/discussion_board/data/models/discussion_comment_dto.dart';
+import 'package:fundex/features/discussion_board/data/repositories/discussion_board_repository_impl.dart';
+import 'package:fundex/features/discussion_board/domain/entities/discussion_board_models.dart';
+
+class _FakeDiscussionBoardRemoteDataSource
+    implements DiscussionBoardRemoteDataSource {
+  List<DiscussionCommentDto> fetchResult = const <DiscussionCommentDto>[];
+  Object? fetchError;
+  Object? sendError;
+  Object? deleteError;
+  int fetchCallCount = 0;
+  int sendCallCount = 0;
+  int deleteCallCount = 0;
+  int? lastDeletedCommentId;
+
+  @override
+  Future<void> deleteComment({required int commentId}) async {
+    if (deleteError != null) {
+      throw deleteError!;
+    }
+    deleteCallCount += 1;
+    lastDeletedCommentId = commentId;
+  }
+
+  @override
+  Future<List<DiscussionCommentDto>> fetchCommentPage({
+    int startPage = 1,
+    int limit = 50,
+    int? projectId,
+  }) async {
+    if (fetchError != null) {
+      throw fetchError!;
+    }
+    fetchCallCount += 1;
+    return fetchResult;
+  }
+
+  @override
+  Future<void> sendComment({
+    required String content,
+    int? parentId,
+    int? projectId,
+  }) async {
+    if (sendError != null) {
+      throw sendError!;
+    }
+    sendCallCount += 1;
+  }
+}
+
+class _FakeDiscussionBoardLocalDataSource
+    implements DiscussionBoardLocalDataSource {
+  List<DiscussionThread> storage = const <DiscussionThread>[];
+
+  @override
+  Future<void> clearThreads() async {
+    storage = const <DiscussionThread>[];
+  }
+
+  @override
+  Future<List<DiscussionThread>> readThreads() async {
+    return storage;
+  }
+
+  @override
+  Future<void> saveThreads(List<DiscussionThread> threads) async {
+    storage = threads;
+  }
+}
+
+void main() {
+  group('DiscussionBoardRepositoryImpl', () {
+    test('loadThreads maps remote flat rows into thread and replies', () async {
+      final remote = _FakeDiscussionBoardRemoteDataSource()
+        ..fetchResult = <DiscussionCommentDto>[
+          const DiscussionCommentDto(
+            id: 101,
+            userId: 1001,
+            username: '佐藤',
+            content: '主贴内容',
+            createTime: '2026-03-12T08:00:00Z',
+            projectId: 123,
+            projectName: 'プレミアムレジデンス赤坂',
+          ),
+          const DiscussionCommentDto(
+            id: 102,
+            userId: 1002,
+            username: '高橋',
+            content: '回复内容',
+            createTime: '2026-03-12T08:30:00Z',
+            projectId: 123,
+            projectName: 'プレミアムレジデンス赤坂',
+            quote: DiscussionQuoteDto(
+              id: 101,
+              username: '佐藤',
+              content: '主贴内容',
+              createTime: '2026-03-12T08:00:00Z',
+            ),
+          ),
+        ];
+      final local = _FakeDiscussionBoardLocalDataSource();
+      final repository = DiscussionBoardRepositoryImpl(
+        remote: remote,
+        local: local,
+      );
+
+      final threads = await repository.loadThreads();
+
+      expect(threads, hasLength(1));
+      expect(threads.first.id, '101');
+      expect(threads.first.commentCount, 1);
+      expect(threads.first.replies, hasLength(1));
+      expect(threads.first.replies.first.id, '102');
+      expect(threads.first.fundReferenceLabel, '🏠 プレミアムレジデンス赤坂 →');
+      expect(local.storage, hasLength(1));
+    });
+
+    test('submitPost does not write local cache when send API fails', () async {
+      final remote = _FakeDiscussionBoardRemoteDataSource()
+        ..sendError = StateError('send failed');
+      const cachedThread = DiscussionThread(
+        id: '101',
+        author: DiscussionAuthor(
+          id: 'u1',
+          displayName: '投資家**',
+          accountHandle: 'usr***@',
+          avatarText: '投',
+          avatarGradientColorValues: <int>[0xFF6366F1, 0xFF8B5CF6],
+          badge: DiscussionAuthorBadge(
+            label: '',
+            backgroundColorValue: 0,
+            foregroundColorValue: 0,
+          ),
+        ),
+        timeLabel: '2026/03/12 10:00',
+        body: 'cached',
+        createdAtIso: '2026-03-12T01:00:00Z',
+        commentCount: 0,
+        replies: <DiscussionReply>[],
+      );
+      final local = _FakeDiscussionBoardLocalDataSource()
+        ..storage = <DiscussionThread>[cachedThread];
+      final repository = DiscussionBoardRepositoryImpl(
+        remote: remote,
+        local: local,
+      );
+
+      await expectLater(
+        repository.submitPost(
+          content: 'new post',
+          nowLabel: 'just now',
+          fallbackName: 'fallback',
+          fallbackHandle: 'usr***@',
+          fallbackBadgeLabel: 'badge',
+        ),
+        throwsA(isA<StateError>()),
+      );
+
+      expect(local.storage, hasLength(1));
+      expect(local.storage.first.id, '101');
+      expect(local.storage.first.body, 'cached');
+    });
+
+    test(
+      'submitReply does not write local cache when send API fails',
+      () async {
+        final remote = _FakeDiscussionBoardRemoteDataSource()
+          ..sendError = StateError('send failed');
+        const cachedThread = DiscussionThread(
+          id: '101',
+          author: DiscussionAuthor(
+            id: 'u1',
+            displayName: '投資家**',
+            accountHandle: 'usr***@',
+            avatarText: '投',
+            avatarGradientColorValues: <int>[0xFF6366F1, 0xFF8B5CF6],
+            badge: DiscussionAuthorBadge(
+              label: '',
+              backgroundColorValue: 0,
+              foregroundColorValue: 0,
+            ),
+          ),
+          timeLabel: '2026/03/12 10:00',
+          body: 'cached',
+          createdAtIso: '2026-03-12T01:00:00Z',
+          commentCount: 0,
+          replies: <DiscussionReply>[],
+        );
+        final local = _FakeDiscussionBoardLocalDataSource()
+          ..storage = <DiscussionThread>[cachedThread];
+        final repository = DiscussionBoardRepositoryImpl(
+          remote: remote,
+          local: local,
+        );
+
+        await expectLater(
+          repository.submitReply(
+            threadId: '101',
+            content: 'new reply',
+            nowLabel: 'just now',
+            fallbackName: 'fallback',
+            fallbackHandle: 'usr***@',
+            fallbackBadgeLabel: 'badge',
+          ),
+          throwsA(isA<StateError>()),
+        );
+
+        expect(local.storage, hasLength(1));
+        expect(local.storage.first.id, '101');
+        expect(local.storage.first.replies, isEmpty);
+      },
+    );
+
+    test(
+      'deleteComment does not write local cache when delete API fails',
+      () async {
+        final remote = _FakeDiscussionBoardRemoteDataSource()
+          ..deleteError = StateError('delete failed');
+        const cachedThread = DiscussionThread(
+          id: '101',
+          author: DiscussionAuthor(
+            id: 'u1',
+            displayName: '投資家**',
+            accountHandle: 'usr***@',
+            avatarText: '投',
+            avatarGradientColorValues: <int>[0xFF6366F1, 0xFF8B5CF6],
+            badge: DiscussionAuthorBadge(
+              label: '',
+              backgroundColorValue: 0,
+              foregroundColorValue: 0,
+            ),
+          ),
+          timeLabel: '2026/03/12 10:00',
+          body: 'cached',
+          createdAtIso: '2026-03-12T01:00:00Z',
+          commentCount: 0,
+          replies: <DiscussionReply>[],
+        );
+        final local = _FakeDiscussionBoardLocalDataSource()
+          ..storage = <DiscussionThread>[cachedThread];
+        final repository = DiscussionBoardRepositoryImpl(
+          remote: remote,
+          local: local,
+        );
+
+        await expectLater(
+          repository.deleteComment(commentId: '101'),
+          throwsA(isA<StateError>()),
+        );
+
+        expect(local.storage, hasLength(1));
+        expect(local.storage.first.id, '101');
+        expect(local.storage.first.body, 'cached');
+      },
+    );
+  });
+}
