@@ -10,6 +10,7 @@ import 'localization/app_locale_providers.dart';
 import 'observability/app_observability_providers.dart';
 import 'observability/app_ui_message_localizer.dart';
 import 'router/app_router.dart';
+import 'theme/app_theme_mode_providers.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/member_profile/presentation/providers/member_profile_providers.dart';
 
@@ -27,6 +28,7 @@ class MemberTemplateApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final environment = ref.watch(appEnvironmentProvider);
     final locale = ref.watch(appLocaleProvider);
+    final themeMode = ref.watch(appThemeModeProvider);
 
     ref.listen<AppUiMessage?>(appUiMessageProvider, (previous, next) {
       if (next == null) {
@@ -112,7 +114,7 @@ class MemberTemplateApp extends ConsumerWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: AppThemeFactory.light(),
       darkTheme: AppThemeFactory.dark(),
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
     );
   }
 }

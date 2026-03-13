@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_locale_providers.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../../app/theme/app_theme_mode_providers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
@@ -15,8 +16,21 @@ class SettingsPage extends ConsumerStatefulWidget {
 }
 
 class _SettingsPageState extends ConsumerState<SettingsPage> {
+  bool _showThemeOptions = false;
   bool _showLanguageOptions = false;
   bool _isLoggingOut = false;
+
+  Future<void> _switchThemePreference(AppThemePreference preference) async {
+    await ref
+        .read(appThemePreferenceProvider.notifier)
+        .setPreference(preference);
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _showThemeOptions = false;
+    });
+  }
 
   Future<void> _switchLanguage(AppLanguage language) async {
     await ref.read(appLanguageProvider.notifier).setLanguage(language);
@@ -96,9 +110,19 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     };
   }
 
+  String _themeLabel(AppThemePreference preference) {
+    final l10n = context.l10n;
+    return switch (preference) {
+      AppThemePreference.system => l10n.menuThemeSystem,
+      AppThemePreference.light => l10n.menuThemeLight,
+      AppThemePreference.dark => l10n.menuThemeDark,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final currentThemePreference = ref.watch(appThemePreferenceProvider);
     final currentLanguage = ref.watch(appLanguageProvider);
 
     return Scaffold(
@@ -192,6 +216,52 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             title: l10n.menuSectionPreferences,
             children: <Widget>[
               AppMenuItem(
+                icon: Icons.dark_mode_rounded,
+                label: l10n.menuItemTheme,
+                iconBackgroundColor: const Color(0xFFEDE9FE),
+                iconForegroundColor: AppColorTokens.fundexViolet,
+                trailing: Text(
+                  _themeLabel(currentThemePreference),
+                  style:
+                      (Theme.of(context).textTheme.bodySmall ??
+                              const TextStyle())
+                          .copyWith(
+                            color: AppColorTokens.fundexTextSecondary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                ),
+                onTap: () {
+                  setState(() {
+                    _showThemeOptions = !_showThemeOptions;
+                    _showLanguageOptions = false;
+                  });
+                },
+              ),
+              if (_showThemeOptions)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 0, 4, 6),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(UiTokens.radius16),
+                      border: Border.all(color: AppColorTokens.fundexBorder),
+                    ),
+                    child: Column(
+                      children: AppThemePreference.values
+                          .map(
+                            (preference) => _SettingsOptionTile(
+                              label: _themeLabel(preference),
+                              selected: currentThemePreference == preference,
+                              isLast:
+                                  preference == AppThemePreference.values.last,
+                              onTap: () => _switchThemePreference(preference),
+                            ),
+                          )
+                          .toList(growable: false),
+                    ),
+                  ),
+                ),
+              AppMenuItem(
                 icon: Icons.language_rounded,
                 label: l10n.menuItemLanguage,
                 iconBackgroundColor: const Color(0xFFE0F2FE),
@@ -208,6 +278,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ),
                 onTap: () {
                   setState(() {
+                    _showThemeOptions = false;
                     _showLanguageOptions = !_showLanguageOptions;
                   });
                 },
@@ -224,7 +295,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     child: Column(
                       children: AppLanguage.values
                           .map(
-                            (language) => _LanguageOptionTile(
+                            (language) => _SettingsOptionTile(
                               label: _languageLabel(language),
                               selected: currentLanguage == language,
                               isLast: language == AppLanguage.values.last,
@@ -298,8 +369,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 }
 
-class _LanguageOptionTile extends StatelessWidget {
-  const _LanguageOptionTile({
+class _SettingsOptionTile extends StatelessWidget {
+  const _SettingsOptionTile({
     required this.label,
     required this.selected,
     required this.onTap,

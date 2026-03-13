@@ -26,7 +26,7 @@ String _resolveJapaneseDisplayName(AuthUser? user) {
         user?.mobile,
         user?.phone,
       ]) ??
-      'FUNDEX';
+      'StellaVia';
 
   return '$baseNameさん';
 }
@@ -40,7 +40,7 @@ String _resolveChineseDisplayName(AuthUser? user) {
         user?.mobile,
         user?.phone,
       ]) ??
-      'FUNDEX';
+      'StellaVia';
 
   return switch (_resolveGender(user?.sex)) {
     _Gender.female => '$baseName女士',
@@ -60,7 +60,7 @@ String _resolveEnglishDisplayName(AuthUser? user) {
         user?.mobile,
         user?.phone,
       ]) ??
-      'FUNDEX';
+      'StellaVia';
 
   return switch (_resolveGender(user?.sex)) {
     _Gender.female => 'Ms. $baseName',
@@ -77,7 +77,7 @@ String _resolveGenericDisplayName(AuthUser? user) {
         user?.mobile,
         user?.phone,
       ]) ??
-      'FUNDEX';
+      'StellaVia';
 }
 
 String? _firstNonBlank(List<String?> candidates) {

@@ -79,7 +79,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authModeMobile => '電話';
 
   @override
-  String get splashBrandName => 'FUNDEX';
+  String get splashBrandName => 'StellaVia';
+
+  @override
+  String get splashBrandSlogan => '投資は未来の「道」となり、明日を照らす。';
 
   @override
   String get splashTagline => '不動産クラウドファンディング';
@@ -811,6 +814,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get menuSectionSupport => 'サポート';
 
   @override
+  String get menuItemTheme => 'テーマ';
+
+  @override
   String get menuItemEditProfile => '会員情報の編集';
 
   @override
@@ -835,13 +841,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get menuItemLanguage => '言語';
 
   @override
+  String get menuThemeSystem => 'システム設定に従う';
+
+  @override
+  String get menuThemeLight => 'ライト';
+
+  @override
+  String get menuThemeDark => 'ダーク';
+
+  @override
   String get menuItemFaqHelp => 'FAQ・ヘルプ';
 
   @override
   String get menuItemChatSupport => 'チャットサポート';
 
   @override
-  String get menuVersionFootnote => 'FUNDEX v1.0.0 ・ 不動産特定共同事業 第XXX号';
+  String get menuVersionFootnote => 'StellaVia v1.0.0 ・ 不動産特定共同事業 第XXX号';
 
   @override
   String get menuDeleteAccountAction => 'アカウントを削除（退会）';

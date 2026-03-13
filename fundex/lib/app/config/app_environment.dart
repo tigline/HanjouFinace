@@ -71,7 +71,7 @@ class EnvironmentFactory {
       case AppFlavor.dev:
         return const AppEnvironment(
           flavor: AppFlavor.dev,
-          appName: 'FUNDEX Dev',
+          appName: 'StellaVia Dev',
           memberApiBaseUrl: 'https://sit-new.gutingjun.com/api',
           hotelApiBaseUrl: 'https://hotel-sit.gutingjun.com/api',
           oaApiBaseUrl: 'https://testoa.gutingjun.com/api',
@@ -80,7 +80,7 @@ class EnvironmentFactory {
       case AppFlavor.staging:
         return const AppEnvironment(
           flavor: AppFlavor.staging,
-          appName: 'FUNDEX Staging',
+          appName: 'StellaVia Staging',
           memberApiBaseUrl: 'https://sit-new.gutingjun.com/api',
           hotelApiBaseUrl: 'https://hotel-sit.gutingjun.com/api',
           oaApiBaseUrl: 'https://testoa.gutingjun.com/api',
@@ -89,7 +89,7 @@ class EnvironmentFactory {
       case AppFlavor.prod:
         return const AppEnvironment(
           flavor: AppFlavor.prod,
-          appName: 'FUNDEX',
+          appName: 'StellaVia',
           memberApiBaseUrl: 'https://new.gutingjun.com/api',
           hotelApiBaseUrl: 'https://hotel.gutingjun.com/api',
           oaApiBaseUrl: 'https://oa.gutingjun.com/api',

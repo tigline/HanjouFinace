@@ -242,8 +242,14 @@ abstract class AppLocalizations {
   /// No description provided for @splashBrandName.
   ///
   /// In en, this message translates to:
-  /// **'FUNDEX'**
+  /// **'StellaVia'**
   String get splashBrandName;
+
+  /// No description provided for @splashBrandSlogan.
+  ///
+  /// In en, this message translates to:
+  /// **'Investments become the road to tomorrow.'**
+  String get splashBrandSlogan;
 
   /// No description provided for @splashTagline.
   ///
@@ -1508,7 +1514,7 @@ abstract class AppLocalizations {
   /// No description provided for @kizunarkInvestorOnlyNotice.
   ///
   /// In en, this message translates to:
-  /// **'🔒 Only investors can post and comment.'**
+  /// **'🔒 Only verified investors can post & comment'**
   String get kizunarkInvestorOnlyNotice;
 
   /// No description provided for @kizunarkComposePlaceholder.
@@ -1667,6 +1673,12 @@ abstract class AppLocalizations {
   /// **'Support'**
   String get menuSectionSupport;
 
+  /// No description provided for @menuItemTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get menuItemTheme;
+
   /// No description provided for @menuItemEditProfile.
   ///
   /// In en, this message translates to:
@@ -1715,6 +1727,24 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get menuItemLanguage;
 
+  /// No description provided for @menuThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system'**
+  String get menuThemeSystem;
+
+  /// No description provided for @menuThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get menuThemeLight;
+
+  /// No description provided for @menuThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get menuThemeDark;
+
   /// No description provided for @menuItemFaqHelp.
   ///
   /// In en, this message translates to:
@@ -1730,7 +1760,7 @@ abstract class AppLocalizations {
   /// No description provided for @menuVersionFootnote.
   ///
   /// In en, this message translates to:
-  /// **'FUNDEX v1.0.0 · Real Estate Specified Joint Enterprise License No. XXX'**
+  /// **'StellaVia v1.0.0 · Real Estate Specified Joint Enterprise License No. XXX'**
   String get menuVersionFootnote;
 
   /// No description provided for @menuDeleteAccountAction.

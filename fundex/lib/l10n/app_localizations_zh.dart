@@ -78,7 +78,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authModeMobile => '手机';
 
   @override
-  String get splashBrandName => 'FUNDEX';
+  String get splashBrandName => 'StellaVia';
+
+  @override
+  String get splashBrandSlogan => '投资将成为通往未来的道路，照亮明天。';
 
   @override
   String get splashTagline => '不动产众筹投资';
@@ -725,7 +728,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get kizunarkSubtitle => '投资者社区';
 
   @override
-  String get kizunarkInvestorOnlyNotice => '🔒 仅投资者可发帖和评论';
+  String get kizunarkInvestorOnlyNotice => '🔒 仅限投资者发文及留言';
 
   @override
   String get kizunarkComposePlaceholder => '分享你的投资观点...';
@@ -806,6 +809,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get menuSectionSupport => '支持';
 
   @override
+  String get menuItemTheme => '主题';
+
+  @override
   String get menuItemEditProfile => '编辑会员资料';
 
   @override
@@ -830,13 +836,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get menuItemLanguage => '语言';
 
   @override
+  String get menuThemeSystem => '跟随系统';
+
+  @override
+  String get menuThemeLight => '浅色';
+
+  @override
+  String get menuThemeDark => '深色';
+
+  @override
   String get menuItemFaqHelp => 'FAQ・帮助';
 
   @override
   String get menuItemChatSupport => '聊天支持';
 
   @override
-  String get menuVersionFootnote => 'FUNDEX v1.0.0 ・ 不动产特定共同事业 第XXX号';
+  String get menuVersionFootnote => 'StellaVia v1.0.0 ・ 不动产特定共同事业 第XXX号';
 
   @override
   String get menuDeleteAccountAction => '删除账户（退会）';
@@ -1817,10 +1832,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get authModeMobile => '手機';
 
   @override
-  String get splashBrandName => 'FUNDEX';
+  String get splashBrandName => 'StellaVia';
 
   @override
-  String get splashTagline => '不动产众筹投资';
+  String get splashBrandSlogan => '投資將成為通往未來的道路，照亮明天。';
+
+  @override
+  String get splashTagline => '不動產眾籌投資';
 
   @override
   String get authEntryHeadline => '投资与订房会员服务一站登录';
@@ -2464,7 +2482,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get kizunarkSubtitle => '投資者社群';
 
   @override
-  String get kizunarkInvestorOnlyNotice => '🔒 僅投資者可發文與留言';
+  String get kizunarkInvestorOnlyNotice => '🔒 僅限投資者發文及留言';
 
   @override
   String get kizunarkComposePlaceholder => '分享你的投資觀點...';
@@ -2545,6 +2563,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get menuSectionSupport => '客服支援';
 
   @override
+  String get menuItemTheme => '主題';
+
+  @override
   String get menuItemEditProfile => '編輯會員資訊';
 
   @override
@@ -2569,13 +2590,22 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get menuItemLanguage => '語言';
 
   @override
+  String get menuThemeSystem => '跟隨系統';
+
+  @override
+  String get menuThemeLight => '淺色';
+
+  @override
+  String get menuThemeDark => '深色';
+
+  @override
   String get menuItemFaqHelp => '常見問題';
 
   @override
   String get menuItemChatSupport => '線上客服';
 
   @override
-  String get menuVersionFootnote => 'FUNDEX v1.0.0 ・ 不动产特定共同事业 第XXX号';
+  String get menuVersionFootnote => 'StellaVia v1.0.0 ・ 不動產特定共同事業 第XXX號';
 
   @override
   String get menuDeleteAccountAction => '删除账户（退会）';

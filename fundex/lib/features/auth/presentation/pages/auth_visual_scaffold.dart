@@ -1,6 +1,8 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../app/localization/app_localizations_ext.dart';
+
 class AuthVisualScaffold extends StatelessWidget {
   const AuthVisualScaffold({
     super.key,
@@ -84,7 +86,10 @@ class AuthVisualScaffold extends StatelessWidget {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Text('FUNDEX', style: authTheme.brandLabelStyle),
+                            Text(
+                              context.l10n.splashBrandName,
+                              style: authTheme.brandLabelStyle,
+                            ),
                             const Spacer(),
                             PillChip(
                               backgroundColor: hotelTheme.primaryButtonColor

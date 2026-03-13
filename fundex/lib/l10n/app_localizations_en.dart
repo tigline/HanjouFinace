@@ -86,7 +86,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authModeMobile => 'Phone';
 
   @override
-  String get splashBrandName => 'FUNDEX';
+  String get splashBrandName => 'StellaVia';
+
+  @override
+  String get splashBrandSlogan => 'Investments become the road to tomorrow.';
 
   @override
   String get splashTagline => 'Real estate crowdfunding';
@@ -776,7 +779,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kizunarkInvestorOnlyNotice =>
-      '🔒 Only investors can post and comment.';
+      '🔒 Only verified investors can post & comment';
 
   @override
   String get kizunarkComposePlaceholder => 'Share your investment thoughts...';
@@ -861,6 +864,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menuSectionSupport => 'Support';
 
   @override
+  String get menuItemTheme => 'Theme';
+
+  @override
   String get menuItemEditProfile => 'Edit member profile';
 
   @override
@@ -885,6 +891,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menuItemLanguage => 'Language';
 
   @override
+  String get menuThemeSystem => 'Follow system';
+
+  @override
+  String get menuThemeLight => 'Light';
+
+  @override
+  String get menuThemeDark => 'Dark';
+
+  @override
   String get menuItemFaqHelp => 'FAQ / Help';
 
   @override
@@ -892,7 +907,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get menuVersionFootnote =>
-      'FUNDEX v1.0.0 · Real Estate Specified Joint Enterprise License No. XXX';
+      'StellaVia v1.0.0 · Real Estate Specified Joint Enterprise License No. XXX';
 
   @override
   String get menuDeleteAccountAction => 'Delete account';

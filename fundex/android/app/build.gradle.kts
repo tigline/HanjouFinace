@@ -36,17 +36,17 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            resValue("string", "app_name", "FUNDEX Dev")
+            resValue("string", "app_name", "StellaVia Dev")
         }
         create("staging") {
             dimension = "environment"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-            resValue("string", "app_name", "FUNDEX Staging")
+            resValue("string", "app_name", "StellaVia Staging")
         }
         create("prod") {
             dimension = "environment"
-            resValue("string", "app_name", "FUNDEX")
+            resValue("string", "app_name", "StellaVia")
         }
     }
 

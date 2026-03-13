@@ -136,7 +136,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                       ],
                     ),
                     child: const Icon(
-                      Icons.home_rounded,
+                      Icons.star_rounded,
                       size: 44,
                       color: Colors.white,
                     ),
@@ -153,12 +153,24 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                 ),
                 const SizedBox(height: 8),
                 Text(
+                  l10n.splashBrandSlogan,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.5,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
                   l10n.splashTagline,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.5),
-                    fontSize: 13,
+                    color: Colors.white.withValues(alpha: 0.4),
+                    fontSize: 11,
                     fontWeight: FontWeight.w500,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 48),
                 SizedBox(
