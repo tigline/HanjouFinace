@@ -1153,11 +1153,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fundDetailPropertyPreviewBadge => 'Property preview';
 
   @override
-  String get fundDetailCommentsTitle => '💬 Investor voices';
+  String get fundDetailCommentsTitle => '💬 Investor voices (KIZUNARK)';
 
   @override
   String get fundDetailCommentsPlaceholder =>
       'Comments are intentionally left empty for now. UI integration will be added later.';
+
+  @override
+  String get fundDetailCommentsPreviewAvatar => 'S';
+
+  @override
+  String get fundDetailCommentsPreviewUser => 'Sato**';
+
+  @override
+  String get fundDetailCommentsPreviewTime => '2h ago';
+
+  @override
+  String get fundDetailCommentsPreviewBody =>
+      'The Hakuba project looks solid with steady resort demand. The planned return range of 1.5%–14.6% is wide, but upside could be meaningful depending on the sale.';
+
+  @override
+  String get fundDetailCommentsPreviewReplyCount => '3';
+
+  @override
+  String get fundDetailCommentsMoreAction => '💜 View more in KIZUNARK';
 
   @override
   String get fundDetailFinancialStatusAction =>
@@ -1384,6 +1403,205 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fundDetailAnnualDistribution => 'Annually';
+
+  @override
+  String get fundDetailPlannedDistributionRateLabel =>
+      'Planned distribution rate (before tax)';
+
+  @override
+  String get fundDetailAchievementRateLabel => '📊 Funding achievement rate';
+
+  @override
+  String get fundDetailTabPropertyOverview => '📍 Property overview';
+
+  @override
+  String get fundDetailTabIncomeScheme => '📊 Income scheme';
+
+  @override
+  String fundDetailPropertyCountHint(int count) {
+    return 'This fund consists of $count properties.';
+  }
+
+  @override
+  String fundDetailPropertyItemPrefix(int index) {
+    return 'Property $index';
+  }
+
+  @override
+  String get fundDetailPropertyNameLabel => 'Property name';
+
+  @override
+  String get fundDetailTransportationLabel => 'Transportation';
+
+  @override
+  String get fundDetailLandSectionTitle => 'Land';
+
+  @override
+  String get fundDetailLandCategoryLabel => 'Land category';
+
+  @override
+  String get fundDetailAreaLabel => 'Area';
+
+  @override
+  String get fundDetailRightsLabel => 'Rights';
+
+  @override
+  String get fundDetailBuildingSectionTitle => 'Building';
+
+  @override
+  String get fundDetailFloorAreaLabel => 'Floor area';
+
+  @override
+  String get fundDetailBuiltYearMonthLabel => 'Built year/month';
+
+  @override
+  String get fundDetailRegulationSectionTitle => 'Regulation';
+
+  @override
+  String get fundDetailLandUseZoneLabel => 'Land-use zone';
+
+  @override
+  String get fundDetailBuildingCoverageRatioLabel => 'Building coverage ratio';
+
+  @override
+  String get fundDetailFloorAreaRatioLabel => 'Floor area ratio';
+
+  @override
+  String get fundDetailOperationContractSectionTitle =>
+      'Operation contract summary';
+
+  @override
+  String get fundDetailOperationTypeLabel => 'Operation type';
+
+  @override
+  String get fundDetailLandlordLabel => 'Landlord / principal';
+
+  @override
+  String get fundDetailTenantLabel => 'Tenant / contractor';
+
+  @override
+  String get fundDetailContractPeriodLabel => 'Contract period';
+
+  @override
+  String get fundDetailMonthlyRentLabel => 'Annual operating income';
+
+  @override
+  String get fundDetailContractAmendmentMethodLabel =>
+      'Contract renewal method';
+
+  @override
+  String get fundDetailOtherImportantMattersLabel => 'Other important matters';
+
+  @override
+  String get fundDetailOperationTypeLeaseValue => 'Lease contract';
+
+  @override
+  String get fundDetailOperationTypeHotelValue =>
+      'Hotel / vacation rental operation';
+
+  @override
+  String get fundDetailSchemeMarketEstimateNote =>
+      '※ Figures are market-based estimates.';
+
+  @override
+  String get fundDetailSchemeBreakdownTitle => 'Investment breakdown';
+
+  @override
+  String get fundDetailSchemeIncomeTitle => '📈 Income';
+
+  @override
+  String get fundDetailSchemeExpenseTitle => '📉 Expenses';
+
+  @override
+  String get fundDetailSchemePropertyPriceLabel => 'Property price';
+
+  @override
+  String get fundDetailSchemeTotalInvestmentLabel => 'Total investment';
+
+  @override
+  String get fundDetailSchemeEstimatedAmountLabel => 'Estimated sale proceeds';
+
+  @override
+  String get fundDetailSchemeRentalIncomeLabel => 'Operating income';
+
+  @override
+  String get fundDetailSchemeIncomeTotalLabel => 'Income total ①';
+
+  @override
+  String get fundDetailSchemeLandMiscLabel => 'Land cost + miscellaneous';
+
+  @override
+  String get fundDetailSchemeDesignCostLabel => 'Design + construction cost';
+
+  @override
+  String get fundDetailSchemeBuildingCostLabel => 'Building cost';
+
+  @override
+  String get fundDetailSchemeMaintenanceFeeLabel => 'Maintenance fee';
+
+  @override
+  String get fundDetailSchemePublicUtilitiesTaxesLabel =>
+      'Public charges and taxes';
+
+  @override
+  String get fundDetailSchemeFireInsurancePremiumLabel =>
+      'Fire insurance premium';
+
+  @override
+  String get fundDetailSchemeBrokerageFeeLabel => 'Brokerage fee';
+
+  @override
+  String get fundDetailSchemeAmFeeLabel => 'AM fee';
+
+  @override
+  String get fundDetailSchemeAmFeeYear1Label => 'AM fee (Year 1)';
+
+  @override
+  String get fundDetailSchemeAmFeeYear2Label => 'AM fee (Year 2)';
+
+  @override
+  String get fundDetailSchemeAmCommissionLabel => 'AM commission';
+
+  @override
+  String get fundDetailSchemePublicOfferingFeeLabel =>
+      'Public offering fees, etc.';
+
+  @override
+  String get fundDetailSchemeMarketingCostsLabel => 'Marketing costs';
+
+  @override
+  String get fundDetailSchemeAccountantFeeLabel => 'Accountant fee';
+
+  @override
+  String get fundDetailSchemeConsignmentFeeLabel =>
+      'Consignment management fee';
+
+  @override
+  String get fundDetailSchemeNormalConsignmentFeeLabel =>
+      'Exclusive consignment fee';
+
+  @override
+  String get fundDetailSchemeFundAdministratorFeeLabel =>
+      'Fund administrator fee';
+
+  @override
+  String get fundDetailSchemeMiscExpensesLabel => 'Miscellaneous expenses';
+
+  @override
+  String get fundDetailSchemeSellExpensesLabel => 'Sale expenses';
+
+  @override
+  String get fundDetailSchemeOtherLabel => 'Other';
+
+  @override
+  String get fundDetailSchemeExpenseTotalLabel => 'Expense total ②';
+
+  @override
+  String get fundDetailSchemeDistributedCapitalFormula =>
+      'Income ① − Expense ②';
+
+  @override
+  String get fundDetailSchemeDistributedCapitalTitle => 'Distributable capital';
 
   @override
   String get myPageTitle => 'My Page';

@@ -5,6 +5,7 @@ import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/discussion_board_local_data_source.dart';
 import '../../data/datasources/discussion_board_remote_data_source.dart';
 import '../../data/repositories/discussion_board_repository_impl.dart';
+import '../../domain/entities/discussion_board_models.dart';
 import '../../domain/repositories/discussion_board_repository.dart';
 import '../../domain/usecases/delete_discussion_comment_usecase.dart';
 import '../../domain/usecases/load_discussion_threads_usecase.dart';
@@ -13,17 +14,6 @@ import '../../domain/usecases/submit_discussion_reply_usecase.dart';
 import '../controllers/discussion_board_controller.dart';
 import '../state/discussion_board_state.dart';
 
-final discussionBoardLocalDataSourceProvider =
-    Provider<DiscussionBoardLocalDataSource>((ref) {
-      return DiscussionBoardLocalDataSourceImpl(
-        ref.watch(largeDataStoreProvider),
-        ref.watch(authLocalDataSourceProvider),
-      );
-    });
-
-/// Optional project-scoped feed id. Keep `null` for global feed.
-final discussionBoardProjectIdProvider = Provider<int?>((ref) => null);
-
 final discussionBoardRemoteDataSourceProvider =
     Provider<DiscussionBoardRemoteDataSource>((ref) {
       return DiscussionBoardRemoteDataSourceImpl(
@@ -31,52 +21,44 @@ final discussionBoardRemoteDataSourceProvider =
       );
     });
 
-final discussionBoardRepositoryProvider = Provider<DiscussionBoardRepository>((
-  ref,
-) {
-  return DiscussionBoardRepositoryImpl(
-    remote: ref.watch(discussionBoardRemoteDataSourceProvider),
-    local: ref.watch(discussionBoardLocalDataSourceProvider),
-    projectId: ref.watch(discussionBoardProjectIdProvider),
-  );
-});
-
-final loadDiscussionThreadsUseCaseProvider =
-    Provider<LoadDiscussionThreadsUseCase>((ref) {
-      return LoadDiscussionThreadsUseCase(
-        ref.watch(discussionBoardRepositoryProvider),
+final discussionBoardLocalDataSourceProvider = Provider.family
+    .autoDispose<DiscussionBoardLocalDataSource, int?>((ref, projectId) {
+      return DiscussionBoardLocalDataSourceImpl(
+        ref.watch(largeDataStoreProvider),
+        ref.watch(authLocalDataSourceProvider),
+        projectId: projectId,
       );
     });
 
-final submitDiscussionPostUseCaseProvider =
-    Provider<SubmitDiscussionPostUseCase>((ref) {
-      return SubmitDiscussionPostUseCase(
-        ref.watch(discussionBoardRepositoryProvider),
+final discussionBoardRepositoryProvider = Provider.family
+    .autoDispose<DiscussionBoardRepository, int?>((ref, projectId) {
+      return DiscussionBoardRepositoryImpl(
+        remote: ref.watch(discussionBoardRemoteDataSourceProvider),
+        local: ref.watch(discussionBoardLocalDataSourceProvider(projectId)),
+        projectId: projectId,
       );
     });
 
-final submitDiscussionReplyUseCaseProvider =
-    Provider<SubmitDiscussionReplyUseCase>((ref) {
-      return SubmitDiscussionReplyUseCase(
-        ref.watch(discussionBoardRepositoryProvider),
+final discussionBoardPreviewThreadsProvider = FutureProvider.autoDispose
+    .family<List<DiscussionThread>, int?>((ref, projectId) async {
+      final repository = ref.watch(
+        discussionBoardRepositoryProvider(projectId),
       );
+      return repository.loadThreads(page: 1, limit: 50);
     });
 
-final deleteDiscussionCommentUseCaseProvider =
-    Provider<DeleteDiscussionCommentUseCase>((ref) {
-      return DeleteDiscussionCommentUseCase(
-        ref.watch(discussionBoardRepositoryProvider),
-      );
-    });
-
-final discussionBoardControllerProvider =
-    StateNotifierProvider<DiscussionBoardController, DiscussionBoardState>((
+final discussionBoardControllerProvider = StateNotifierProvider.autoDispose
+    .family<DiscussionBoardController, DiscussionBoardState, int?>((
       ref,
+      projectId,
     ) {
+      final repository = ref.watch(
+        discussionBoardRepositoryProvider(projectId),
+      );
       return DiscussionBoardController(
-        ref.watch(loadDiscussionThreadsUseCaseProvider),
-        ref.watch(submitDiscussionPostUseCaseProvider),
-        ref.watch(submitDiscussionReplyUseCaseProvider),
-        ref.watch(deleteDiscussionCommentUseCaseProvider),
+        LoadDiscussionThreadsUseCase(repository),
+        SubmitDiscussionPostUseCase(repository),
+        SubmitDiscussionReplyUseCase(repository),
+        DeleteDiscussionCommentUseCase(repository),
       );
     });

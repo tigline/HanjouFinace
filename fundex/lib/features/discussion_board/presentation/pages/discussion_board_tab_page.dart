@@ -53,7 +53,9 @@ class _DiscussionBoardTabPageState
     if (position.pixels < position.maxScrollExtent - 140) {
       return;
     }
-    ref.read(discussionBoardControllerProvider.notifier).loadMoreThreads();
+    ref
+        .read(discussionBoardControllerProvider(null).notifier)
+        .loadMoreThreads();
   }
 
   TextEditingController _replyControllerFor(String threadId) {
@@ -95,7 +97,9 @@ class _DiscussionBoardTabPageState
 
   Future<void> _submitPost({required bool isAuthenticated}) async {
     final l10n = context.l10n;
-    final controller = ref.read(discussionBoardControllerProvider.notifier);
+    final controller = ref.read(
+      discussionBoardControllerProvider(null).notifier,
+    );
     if (!isAuthenticated) {
       AppNotice.show(context, message: l10n.kizunarkLoginRequiredToPost);
       return;
@@ -116,7 +120,9 @@ class _DiscussionBoardTabPageState
     required bool isAuthenticated,
   }) async {
     final l10n = context.l10n;
-    final controller = ref.read(discussionBoardControllerProvider.notifier);
+    final controller = ref.read(
+      discussionBoardControllerProvider(null).notifier,
+    );
     if (!isAuthenticated) {
       AppNotice.show(context, message: l10n.kizunarkLoginRequiredToPost);
       return;
@@ -136,7 +142,7 @@ class _DiscussionBoardTabPageState
   Future<void> _deleteComment(String commentId) async {
     final l10n = context.l10n;
     final success = await ref
-        .read(discussionBoardControllerProvider.notifier)
+        .read(discussionBoardControllerProvider(null).notifier)
         .deleteComment(commentId);
     if (!mounted) {
       return;
@@ -210,7 +216,7 @@ class _DiscussionBoardTabPageState
       if (previousValue == nextValue) {
         return;
       }
-      ref.read(discussionBoardControllerProvider.notifier).loadThreads();
+      ref.read(discussionBoardControllerProvider(null).notifier).loadThreads();
     });
 
     ref.listen<AsyncValue<AuthUser?>>(currentAuthUserProvider, (
@@ -222,12 +228,14 @@ class _DiscussionBoardTabPageState
       if (previousId == nextId) {
         return;
       }
-      ref.read(discussionBoardControllerProvider.notifier).loadThreads();
+      ref.read(discussionBoardControllerProvider(null).notifier).loadThreads();
     });
 
     final l10n = context.l10n;
-    final state = ref.watch(discussionBoardControllerProvider);
-    final controller = ref.read(discussionBoardControllerProvider.notifier);
+    final state = ref.watch(discussionBoardControllerProvider(null));
+    final controller = ref.read(
+      discussionBoardControllerProvider(null).notifier,
+    );
     final isAuthenticated =
         ref.watch(isAuthenticatedProvider).asData?.value ?? false;
     final currentUser = ref.watch(currentAuthUserProvider).asData?.value;

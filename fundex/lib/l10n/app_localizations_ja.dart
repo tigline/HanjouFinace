@@ -1092,10 +1092,29 @@ class AppLocalizationsJa extends AppLocalizations {
   String get fundDetailPropertyPreviewBadge => '物件プレビュー';
 
   @override
-  String get fundDetailCommentsTitle => '💬 投資家の声';
+  String get fundDetailCommentsTitle => '💬 投資家の声（KIZUNARK）';
 
   @override
   String get fundDetailCommentsPlaceholder => 'コメント機能は今回未実装です。UIのみ後続で接続します。';
+
+  @override
+  String get fundDetailCommentsPreviewAvatar => '佐';
+
+  @override
+  String get fundDetailCommentsPreviewUser => '佐藤**';
+
+  @override
+  String get fundDetailCommentsPreviewTime => '2時間前';
+
+  @override
+  String get fundDetailCommentsPreviewBody =>
+      '白馬PJの案件、リゾート需要が堅調ですね。予定分配率1.5%～14.6%のレンジは幅があるが、売却益次第で大きいリターン。';
+
+  @override
+  String get fundDetailCommentsPreviewReplyCount => '3';
+
+  @override
+  String get fundDetailCommentsMoreAction => '💜 KIZUNARKでもっと見る';
 
   @override
   String get fundDetailFinancialStatusAction => '📊 事業者の財務状況を確認する →';
@@ -1309,6 +1328,193 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fundDetailAnnualDistribution => '年1回';
+
+  @override
+  String get fundDetailPlannedDistributionRateLabel => '予定分配率（税引前）';
+
+  @override
+  String get fundDetailAchievementRateLabel => '📊 募集達成率';
+
+  @override
+  String get fundDetailTabPropertyOverview => '📍 物件概要';
+
+  @override
+  String get fundDetailTabIncomeScheme => '📊 想定収支スキーム';
+
+  @override
+  String fundDetailPropertyCountHint(int count) {
+    return '本ファンドは$count棟の物件で構成されています。';
+  }
+
+  @override
+  String fundDetailPropertyItemPrefix(int index) {
+    return '物件$index';
+  }
+
+  @override
+  String get fundDetailPropertyNameLabel => '物件名称';
+
+  @override
+  String get fundDetailTransportationLabel => '交通';
+
+  @override
+  String get fundDetailLandSectionTitle => '土地';
+
+  @override
+  String get fundDetailLandCategoryLabel => '地目';
+
+  @override
+  String get fundDetailAreaLabel => '面積';
+
+  @override
+  String get fundDetailRightsLabel => '権利';
+
+  @override
+  String get fundDetailBuildingSectionTitle => '建物';
+
+  @override
+  String get fundDetailFloorAreaLabel => '床面積';
+
+  @override
+  String get fundDetailBuiltYearMonthLabel => '築年月';
+
+  @override
+  String get fundDetailRegulationSectionTitle => '法令';
+
+  @override
+  String get fundDetailLandUseZoneLabel => '用途地域';
+
+  @override
+  String get fundDetailBuildingCoverageRatioLabel => '建ぺい率';
+
+  @override
+  String get fundDetailFloorAreaRatioLabel => '容積率';
+
+  @override
+  String get fundDetailOperationContractSectionTitle => '運営委託契約の概要';
+
+  @override
+  String get fundDetailOperationTypeLabel => '運営種類';
+
+  @override
+  String get fundDetailLandlordLabel => '貸主/委託者';
+
+  @override
+  String get fundDetailTenantLabel => '借主/受託者';
+
+  @override
+  String get fundDetailContractPeriodLabel => '契約期間';
+
+  @override
+  String get fundDetailMonthlyRentLabel => '運営収益年額';
+
+  @override
+  String get fundDetailContractAmendmentMethodLabel => '契約更改の方法';
+
+  @override
+  String get fundDetailOtherImportantMattersLabel => 'その他重要な事項';
+
+  @override
+  String get fundDetailOperationTypeLeaseValue => '賃貸借契約';
+
+  @override
+  String get fundDetailOperationTypeHotelValue => 'ホテル・民泊運営';
+
+  @override
+  String get fundDetailSchemeMarketEstimateNote => '※ 市場の想定数値となります。';
+
+  @override
+  String get fundDetailSchemeBreakdownTitle => '出資金の内訳';
+
+  @override
+  String get fundDetailSchemeIncomeTitle => '📈 収入';
+
+  @override
+  String get fundDetailSchemeExpenseTitle => '📉 支出';
+
+  @override
+  String get fundDetailSchemePropertyPriceLabel => '物件価格';
+
+  @override
+  String get fundDetailSchemeTotalInvestmentLabel => '出資総額';
+
+  @override
+  String get fundDetailSchemeEstimatedAmountLabel => '売却収益';
+
+  @override
+  String get fundDetailSchemeRentalIncomeLabel => '運営収益';
+
+  @override
+  String get fundDetailSchemeIncomeTotalLabel => '収入合計 ①';
+
+  @override
+  String get fundDetailSchemeLandMiscLabel => '土地原価+諸費用';
+
+  @override
+  String get fundDetailSchemeDesignCostLabel => '設計費用と建築費用';
+
+  @override
+  String get fundDetailSchemeBuildingCostLabel => '建物原価';
+
+  @override
+  String get fundDetailSchemeMaintenanceFeeLabel => '維持管理費';
+
+  @override
+  String get fundDetailSchemePublicUtilitiesTaxesLabel => '公租公課';
+
+  @override
+  String get fundDetailSchemeFireInsurancePremiumLabel => '火災保険料';
+
+  @override
+  String get fundDetailSchemeBrokerageFeeLabel => '仲介手数料';
+
+  @override
+  String get fundDetailSchemeAmFeeLabel => 'AMフィー';
+
+  @override
+  String get fundDetailSchemeAmFeeYear1Label => 'AMフィー（1年目）';
+
+  @override
+  String get fundDetailSchemeAmFeeYear2Label => 'AMフィー（2年目）';
+
+  @override
+  String get fundDetailSchemeAmCommissionLabel => 'AM手数料';
+
+  @override
+  String get fundDetailSchemePublicOfferingFeeLabel => '公募募集手数料など';
+
+  @override
+  String get fundDetailSchemeMarketingCostsLabel => 'マーケティング費用';
+
+  @override
+  String get fundDetailSchemeAccountantFeeLabel => '税理士報酬';
+
+  @override
+  String get fundDetailSchemeConsignmentFeeLabel => '委託管理費';
+
+  @override
+  String get fundDetailSchemeNormalConsignmentFeeLabel => '専属委託管理費';
+
+  @override
+  String get fundDetailSchemeFundAdministratorFeeLabel => 'ファンド管理人FEE';
+
+  @override
+  String get fundDetailSchemeMiscExpensesLabel => '諸経費';
+
+  @override
+  String get fundDetailSchemeSellExpensesLabel => '売却費用';
+
+  @override
+  String get fundDetailSchemeOtherLabel => 'その他';
+
+  @override
+  String get fundDetailSchemeExpenseTotalLabel => '支出合計 ②';
+
+  @override
+  String get fundDetailSchemeDistributedCapitalFormula => '収入① − 支出②';
+
+  @override
+  String get fundDetailSchemeDistributedCapitalTitle => '分配原資';
 
   @override
   String get myPageTitle => 'マイページ';

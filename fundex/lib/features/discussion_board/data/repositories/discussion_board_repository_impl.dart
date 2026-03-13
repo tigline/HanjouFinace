@@ -38,6 +38,10 @@ class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
         return cached;
       }
 
+      if (projectId != null) {
+        return const <DiscussionThread>[];
+      }
+
       final seeded = buildDiscussionBoardMockSeed();
       await _local.saveThreads(seeded);
       final persisted = await _local.readThreads();
@@ -57,8 +61,31 @@ class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
     if (trimmed.isEmpty) {
       return loadThreads();
     }
+    final postedAtUtc = DateTime.now().toUtc();
     await _remote.sendComment(content: trimmed, projectId: projectId);
-    return _refreshFirstPageAfterMutation();
+    final refreshed = await _refreshFirstPageAfterMutation();
+    if (_containsRecentlyPostedThread(
+      refreshed,
+      trimmed,
+      postedAtUtc: postedAtUtc,
+    )) {
+      return refreshed;
+    }
+
+    final optimistic = _buildOptimisticThread(
+      content: trimmed,
+      nowLabel: nowLabel,
+      fallbackName: fallbackName,
+      fallbackHandle: fallbackHandle,
+      fallbackBadgeLabel: fallbackBadgeLabel,
+      postedAtUtc: postedAtUtc,
+    );
+    final merged = _prependOptimisticThread(
+      base: refreshed,
+      optimistic: optimistic,
+    );
+    await _local.saveThreads(merged);
+    return merged;
   }
 
   @override
@@ -443,5 +470,82 @@ class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
       return 'U';
     }
     return String.fromCharCode(trimmed.runes.first);
+  }
+
+  bool _containsRecentlyPostedThread(
+    List<DiscussionThread> threads,
+    String body, {
+    required DateTime postedAtUtc,
+  }) {
+    final normalized = body.trim();
+    if (normalized.isEmpty) {
+      return false;
+    }
+    return threads.any((DiscussionThread thread) {
+      if (thread.body.trim() != normalized) {
+        return false;
+      }
+      final createdAt = _parseCreatedAt(thread.createdAtIso);
+      if (createdAt == null) {
+        return true;
+      }
+      final diff = createdAt.difference(postedAtUtc).abs();
+      return diff <= const Duration(minutes: 3);
+    });
+  }
+
+  List<DiscussionThread> _prependOptimisticThread({
+    required List<DiscussionThread> base,
+    required DiscussionThread optimistic,
+  }) {
+    if (_containsRecentlyPostedThread(
+      base,
+      optimistic.body,
+      postedAtUtc:
+          _parseCreatedAt(optimistic.createdAtIso) ?? DateTime.now().toUtc(),
+    )) {
+      return base;
+    }
+    final merged = <DiscussionThread>[optimistic, ...base];
+    merged.sort(_sortThreadByCreatedAtDesc);
+    return merged;
+  }
+
+  DiscussionThread _buildOptimisticThread({
+    required String content,
+    required String nowLabel,
+    required String fallbackName,
+    required String fallbackHandle,
+    required String fallbackBadgeLabel,
+    required DateTime postedAtUtc,
+  }) {
+    final authorName = fallbackName.trim().isEmpty
+        ? 'User**'
+        : fallbackName.trim();
+    return DiscussionThread(
+      id: 'local_${postedAtUtc.microsecondsSinceEpoch}',
+      author: DiscussionAuthor(
+        id: 'local_author',
+        displayName: authorName,
+        accountHandle: fallbackHandle,
+        avatarText: _firstVisibleCharacter(authorName),
+        avatarGradientColorValues: const <int>[0xFF6366F1, 0xFF8B5CF6],
+        badge: DiscussionAuthorBadge(
+          label: fallbackBadgeLabel,
+          backgroundColorValue: fallbackBadgeLabel.trim().isEmpty
+              ? 0x00000000
+              : 0xFFEDE9FE,
+          foregroundColorValue: fallbackBadgeLabel.trim().isEmpty
+              ? 0x00000000
+              : 0xFF7C3AED,
+        ),
+      ),
+      timeLabel: nowLabel,
+      body: content,
+      createdAtIso: postedAtUtc.toIso8601String(),
+      commentCount: 0,
+      replies: const <DiscussionReply>[],
+      fundReferenceId: projectId?.toString(),
+    );
   }
 }

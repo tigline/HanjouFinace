@@ -14,6 +14,12 @@ class _FakeDiscussionBoardRemoteDataSource
   int fetchCallCount = 0;
   int sendCallCount = 0;
   int deleteCallCount = 0;
+  int? lastFetchStartPage;
+  int? lastFetchLimit;
+  int? lastFetchProjectId;
+  int? lastSendParentId;
+  int? lastSendProjectId;
+  String? lastSendContent;
   int? lastDeletedCommentId;
 
   @override
@@ -31,10 +37,13 @@ class _FakeDiscussionBoardRemoteDataSource
     int limit = 50,
     int? projectId,
   }) async {
+    fetchCallCount += 1;
+    lastFetchStartPage = startPage;
+    lastFetchLimit = limit;
+    lastFetchProjectId = projectId;
     if (fetchError != null) {
       throw fetchError!;
     }
-    fetchCallCount += 1;
     return fetchResult;
   }
 
@@ -48,6 +57,9 @@ class _FakeDiscussionBoardRemoteDataSource
       throw sendError!;
     }
     sendCallCount += 1;
+    lastSendContent = content;
+    lastSendParentId = parentId;
+    lastSendProjectId = projectId;
   }
 }
 
@@ -211,6 +223,80 @@ void main() {
         expect(local.storage, hasLength(1));
         expect(local.storage.first.id, '101');
         expect(local.storage.first.replies, isEmpty);
+      },
+    );
+
+    test(
+      'project-scoped load should pass projectId and skip mock seed',
+      () async {
+        final remote = _FakeDiscussionBoardRemoteDataSource()
+          ..fetchError = StateError('network failed');
+        final local = _FakeDiscussionBoardLocalDataSource();
+        final repository = DiscussionBoardRepositoryImpl(
+          remote: remote,
+          local: local,
+          projectId: 456,
+        );
+
+        final threads = await repository.loadThreads();
+
+        expect(remote.fetchCallCount, 1);
+        expect(remote.lastFetchProjectId, 456);
+        expect(threads, isEmpty);
+        expect(local.storage, isEmpty);
+      },
+    );
+
+    test('project-scoped submit should pass projectId to send API', () async {
+      final remote = _FakeDiscussionBoardRemoteDataSource()
+        ..fetchResult = const <DiscussionCommentDto>[];
+      final local = _FakeDiscussionBoardLocalDataSource();
+      final repository = DiscussionBoardRepositoryImpl(
+        remote: remote,
+        local: local,
+        projectId: 789,
+      );
+
+      await repository.submitPost(
+        content: ' scoped post ',
+        nowLabel: 'just now',
+        fallbackName: 'fallback',
+        fallbackHandle: 'usr***@',
+        fallbackBadgeLabel: 'badge',
+      );
+
+      expect(remote.sendCallCount, 1);
+      expect(remote.lastSendProjectId, 789);
+      expect(remote.lastSendParentId, isNull);
+      expect(remote.lastSendContent, 'scoped post');
+    });
+
+    test(
+      'submitPost should create optimistic thread when refresh does not return new row',
+      () async {
+        final remote = _FakeDiscussionBoardRemoteDataSource()
+          ..fetchResult = const <DiscussionCommentDto>[];
+        final local = _FakeDiscussionBoardLocalDataSource();
+        final repository = DiscussionBoardRepositoryImpl(
+          remote: remote,
+          local: local,
+          projectId: 123,
+        );
+
+        final threads = await repository.submitPost(
+          content: 'new optimistic post',
+          nowLabel: 'just now',
+          fallbackName: 'fallback user',
+          fallbackHandle: 'usr***@',
+          fallbackBadgeLabel: 'badge',
+        );
+
+        expect(remote.sendCallCount, 1);
+        expect(remote.fetchCallCount, greaterThanOrEqualTo(1));
+        expect(threads, isNotEmpty);
+        expect(threads.first.body, 'new optimistic post');
+        expect(local.storage, isNotEmpty);
+        expect(local.storage.first.body, 'new optimistic post');
       },
     );
 

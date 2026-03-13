@@ -1,0 +1,817 @@
+import 'package:core_ui_kit/core_ui_kit.dart';
+import 'package:flutter/material.dart';
+
+import '../../../../app/localization/app_localizations_ext.dart';
+import '../support/fund_project_detail_structured_data.dart';
+
+class FundProjectDetailTabsSection extends StatelessWidget {
+  const FundProjectDetailTabsSection({
+    super.key,
+    required this.selectedIndex,
+    required this.onTabChanged,
+    required this.structuredData,
+    this.emptyPlaceholder,
+  });
+
+  final int selectedIndex;
+  final ValueChanged<int> onTabChanged;
+  final FundProjectDetailStructuredData structuredData;
+  final Widget? emptyPlaceholder;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: <Widget>[
+              _DetailTabItem(
+                label: context.l10n.fundDetailTabPropertyOverview,
+                selected: selectedIndex == 0,
+                onTap: () => onTabChanged(0),
+              ),
+              _DetailTabItem(
+                label: context.l10n.fundDetailTabIncomeScheme,
+                selected: selectedIndex == 1,
+                onTap: () => onTabChanged(1),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        if (selectedIndex == 0)
+          _FundPropertyOverviewTab(
+            structuredData: structuredData,
+            emptyPlaceholder: emptyPlaceholder,
+          )
+        else
+          _FundIncomeSchemeTab(structuredData: structuredData),
+      ],
+    );
+  }
+}
+
+class _DetailTabItem extends StatelessWidget {
+  const _DetailTabItem({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style:
+                    (Theme.of(context).textTheme.titleSmall ??
+                            const TextStyle())
+                        .copyWith(
+                          color: selected
+                              ? AppColorTokens.fundexAccent
+                              : AppColorTokens.fundexTextTertiary,
+                          fontWeight: selected
+                              ? FontWeight.w800
+                              : FontWeight.w600,
+                        ),
+              ),
+            ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
+              height: 3,
+              margin: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: selected
+                    ? AppColorTokens.fundexAccent
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FundPropertyOverviewTab extends StatelessWidget {
+  const _FundPropertyOverviewTab({
+    required this.structuredData,
+    required this.emptyPlaceholder,
+  });
+
+  final FundProjectDetailStructuredData structuredData;
+  final Widget? emptyPlaceholder;
+
+  @override
+  Widget build(BuildContext context) {
+    if (structuredData.houseList.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child:
+            emptyPlaceholder ??
+            FundDetailContentCard(
+              child: Text(
+                context.l10n.fundDetailUnknownValue,
+                style:
+                    (Theme.of(context).textTheme.bodyMedium ??
+                            const TextStyle())
+                        .copyWith(color: AppColorTokens.fundexTextSecondary),
+              ),
+            ),
+      );
+    }
+
+    final houseCount = structuredData.resolvedHouseCount;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            context.l10n.fundDetailPropertyCountHint(houseCount),
+            style: (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
+                .copyWith(
+                  color: AppColorTokens.fundexTextTertiary,
+                  height: 1.5,
+                ),
+          ),
+          const SizedBox(height: 10),
+          for (var index = 0; index < structuredData.houseList.length; index++)
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: index == structuredData.houseList.length - 1 ? 0 : 8,
+              ),
+              child: _FundPropertyHouseCard(
+                houseData: structuredData.houseList[index],
+                index: index,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FundPropertyHouseCard extends StatefulWidget {
+  const _FundPropertyHouseCard({required this.houseData, required this.index});
+
+  final FundProjectHouseStructuredData houseData;
+  final int index;
+
+  @override
+  State<_FundPropertyHouseCard> createState() => _FundPropertyHouseCardState();
+}
+
+class _FundPropertyHouseCardState extends State<_FundPropertyHouseCard> {
+  late bool _expanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _expanded = widget.index == 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final headerTitle = widget.houseData.propertyName.isNotEmpty
+        ? widget.houseData.propertyName
+        : context.l10n.fundDetailUnknownValue;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Material(
+        color: Colors.white,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            dividerColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+          ),
+          child: ExpansionTile(
+            initiallyExpanded: _expanded,
+            backgroundColor: Colors.white,
+            collapsedBackgroundColor: Colors.white,
+            tilePadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 2,
+            ),
+            childrenPadding: EdgeInsets.zero,
+            onExpansionChanged: (bool expanded) {
+              setState(() {
+                _expanded = expanded;
+              });
+            },
+            title: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: <Color>[Color(0xFF0EA5E9), Color(0xFF3B82F6)],
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                '${context.l10n.fundDetailPropertyItemPrefix(widget.index + 1)} $headerTitle',
+                style:
+                    (Theme.of(context).textTheme.labelLarge ??
+                            const TextStyle())
+                        .copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+              ),
+            ),
+            trailing: Icon(
+              _expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              color: AppColorTokens.fundexTextSecondary,
+            ),
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+                child: Column(
+                  children: <Widget>[
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailPropertyNameLabel,
+                      value: widget.houseData.propertyName,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailLocationLabel,
+                      value: widget.houseData.location,
+                      alternateBackground: true,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailTransportationLabel,
+                      value: widget.houseData.transportation,
+                    ),
+                    _FundPropertySectionLabel(
+                      title: context.l10n.fundDetailLandSectionTitle,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailLandCategoryLabel,
+                      value: widget.houseData.landCategory,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailAreaLabel,
+                      value: widget.houseData.area,
+                      alternateBackground: true,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailRightsLabel,
+                      value: widget.houseData.rights,
+                    ),
+                    _FundPropertySectionLabel(
+                      title: context.l10n.fundDetailBuildingSectionTitle,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailStructureLabel,
+                      value: widget.houseData.structure,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailFloorAreaLabel,
+                      value: widget.houseData.floorArea,
+                      alternateBackground: true,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailBuiltYearMonthLabel,
+                      value: widget.houseData.builtYearAndMonth,
+                    ),
+                    _FundPropertySectionLabel(
+                      title: context.l10n.fundDetailRegulationSectionTitle,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailLandUseZoneLabel,
+                      value: widget.houseData.landUseZone,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailBuildingCoverageRatioLabel,
+                      value: widget.houseData.buildingCoverageRatio,
+                      alternateBackground: true,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailFloorAreaRatioLabel,
+                      value: widget.houseData.floorAreaRatio,
+                    ),
+                    _FundPropertySectionLabel(
+                      title:
+                          context.l10n.fundDetailOperationContractSectionTitle,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailOperationTypeLabel,
+                      value: _resolveOperationTypeLabel(
+                        context,
+                        widget.houseData.operationType,
+                      ),
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailLandlordLabel,
+                      value: widget.houseData.landlord,
+                      alternateBackground: true,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailTenantLabel,
+                      value: widget.houseData.tenant,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailContractTypeLabel,
+                      value: widget.houseData.contractType,
+                      alternateBackground: true,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailContractPeriodLabel,
+                      value: widget.houseData.contractPeriod,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailMonthlyRentLabel,
+                      value: widget.houseData.monthlyRent,
+                      alternateBackground: true,
+                    ),
+                    _FundPropertyInfoRow(
+                      label:
+                          context.l10n.fundDetailContractAmendmentMethodLabel,
+                      value: widget.houseData.methodOfContractAmendment,
+                    ),
+                    _FundPropertyInfoRow(
+                      label: context.l10n.fundDetailOtherImportantMattersLabel,
+                      value: widget.houseData.otherImportantMatters,
+                      hasDivider: false,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _resolveOperationTypeLabel(BuildContext context, int? operationType) {
+    switch (operationType) {
+      case 1:
+        return context.l10n.fundDetailOperationTypeLeaseValue;
+      case 2:
+        return context.l10n.fundDetailOperationTypeHotelValue;
+      default:
+        return context.l10n.fundDetailUnknownValue;
+    }
+  }
+}
+
+class _FundPropertySectionLabel extends StatelessWidget {
+  const _FundPropertySectionLabel({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 7, bottom: 3),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          '■ $title',
+          style: (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
+              .copyWith(
+                color: AppColorTokens.fundexAccent,
+                fontWeight: FontWeight.w800,
+              ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FundPropertyInfoRow extends StatelessWidget {
+  const _FundPropertyInfoRow({
+    required this.label,
+    required this.value,
+    this.alternateBackground = false,
+    this.hasDivider = true,
+  });
+
+  final String label;
+  final String value;
+  final bool alternateBackground;
+  final bool hasDivider;
+
+  @override
+  Widget build(BuildContext context) {
+    final row = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            width: 88,
+            child: Text(
+              label,
+              style:
+                  (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
+                      .copyWith(
+                        color: AppColorTokens.fundexTextSecondary,
+                        fontWeight: FontWeight.w600,
+                      ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              _valueOrDash(value, context),
+              textAlign: TextAlign.right,
+              style:
+                  (Theme.of(context).textTheme.bodySmall ?? const TextStyle())
+                      .copyWith(
+                        color: AppColorTokens.fundexText,
+                        fontWeight: FontWeight.w700,
+                        height: 1.45,
+                      ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        color: alternateBackground ? const Color(0xFFFAFBFC) : null,
+        border: hasDivider
+            ? const Border(
+                bottom: BorderSide(color: Color(0xFFF1F5F9), width: 1),
+              )
+            : null,
+      ),
+      child: row,
+    );
+  }
+}
+
+class _FundIncomeSchemeTab extends StatelessWidget {
+  const _FundIncomeSchemeTab({required this.structuredData});
+
+  final FundProjectDetailStructuredData structuredData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            context.l10n.fundDetailSchemeMarketEstimateNote,
+            style: (Theme.of(context).textTheme.labelSmall ?? const TextStyle())
+                .copyWith(
+                  color: AppColorTokens.fundexTextTertiary,
+                  height: 1.5,
+                ),
+          ),
+          const SizedBox(height: 10),
+          _FundSchemeCard(
+            title: context.l10n.fundDetailSchemeBreakdownTitle,
+            headerBackgroundColor: AppColorTokens.fundexAccent,
+            rows: <_FundSchemeRowData>[
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemePropertyPriceLabel,
+                value: structuredData.propertyPrice,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeTotalInvestmentLabel,
+                value: structuredData.totalInvestment,
+                highlight: true,
+                divider: false,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          _FundSchemeCard(
+            title: context.l10n.fundDetailSchemeIncomeTitle,
+            headerGradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: <Color>[Color(0xFF3B82F6), Color(0xFF6366F1)],
+            ),
+            rows: <_FundSchemeRowData>[
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeEstimatedAmountLabel,
+                value: structuredData.estimatedAmount,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeRentalIncomeLabel,
+                value: structuredData.rentalIncome,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeIncomeTotalLabel,
+                value: structuredData.totalIncome,
+                highlight: true,
+                divider: false,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          _FundSchemeCard(
+            title: context.l10n.fundDetailSchemeExpenseTitle,
+            headerGradient: const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: <Color>[Color(0xFFEF4444), Color(0xFFF97316)],
+            ),
+            rows: <_FundSchemeRowData>[
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeLandMiscLabel,
+                value: structuredData.landMiscellaneousCost,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeDesignCostLabel,
+                value: structuredData.designCost,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeBuildingCostLabel,
+                value: structuredData.buildingCost,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeMaintenanceFeeLabel,
+                value: structuredData.maintenanceManagementFee,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemePublicUtilitiesTaxesLabel,
+                value: structuredData.publicUtilitiesTaxes,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeFireInsurancePremiumLabel,
+                value: structuredData.fireInsurancePremium,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeBrokerageFeeLabel,
+                value: structuredData.brokerageFee,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeAmFeeLabel,
+                value: structuredData.amFee,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeAmFeeYear1Label,
+                value: structuredData.amFeeYear1,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeAmFeeYear2Label,
+                value: structuredData.amFeeYear2,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeAmCommissionLabel,
+                value: structuredData.amCommissionFee,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemePublicOfferingFeeLabel,
+                value: structuredData.publicOfferingFee,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeMarketingCostsLabel,
+                value: structuredData.marketingCosts,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeAccountantFeeLabel,
+                value: structuredData.accountantFee,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeConsignmentFeeLabel,
+                value: structuredData.consignmentFee,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeNormalConsignmentFeeLabel,
+                value: structuredData.normalConsignmentFee,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeFundAdministratorFeeLabel,
+                value: structuredData.fundAdministratorFee,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeMiscExpensesLabel,
+                value: structuredData.miscellaneousExpenses,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeSellExpensesLabel,
+                value: structuredData.sellExpenses,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeOtherLabel,
+                value: structuredData.otherExpenses,
+                alternateBackground: true,
+              ),
+              _FundSchemeRowData(
+                label: context.l10n.fundDetailSchemeExpenseTotalLabel,
+                value: structuredData.totalExpense,
+                highlight: true,
+                divider: false,
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[Color(0xFF1E293B), Color(0xFF334155)],
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        context.l10n.fundDetailSchemeDistributedCapitalFormula,
+                        style:
+                            (Theme.of(context).textTheme.labelSmall ??
+                                    const TextStyle())
+                                .copyWith(color: const Color(0xFF94A3B8)),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        context.l10n.fundDetailSchemeDistributedCapitalTitle,
+                        style:
+                            (Theme.of(context).textTheme.titleSmall ??
+                                    const TextStyle())
+                                .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  _valueOrDash(structuredData.distributedCapital, context),
+                  style:
+                      (Theme.of(context).textTheme.headlineSmall ??
+                              const TextStyle())
+                          .copyWith(
+                            color: const Color(0xFFFBBF24),
+                            fontWeight: FontWeight.w900,
+                          ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FundSchemeCard extends StatelessWidget {
+  const _FundSchemeCard({
+    required this.title,
+    required this.rows,
+    this.headerGradient,
+    this.headerBackgroundColor,
+  });
+
+  final String title;
+  final List<_FundSchemeRowData> rows;
+  final LinearGradient? headerGradient;
+  final Color? headerBackgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xFFE2E8F0), width: 1.5),
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: headerGradient == null
+                    ? (headerBackgroundColor ?? AppColorTokens.fundexAccent)
+                    : null,
+                gradient: headerGradient,
+              ),
+              child: Text(
+                title,
+                style:
+                    (Theme.of(context).textTheme.labelLarge ??
+                            const TextStyle())
+                        .copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                        ),
+              ),
+            ),
+            for (final row in rows) _FundSchemeRow(item: row),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FundSchemeRowData {
+  const _FundSchemeRowData({
+    required this.label,
+    required this.value,
+    this.alternateBackground = false,
+    this.highlight = false,
+    this.divider = true,
+  });
+
+  final String label;
+  final String value;
+  final bool alternateBackground;
+  final bool highlight;
+  final bool divider;
+}
+
+class _FundSchemeRow extends StatelessWidget {
+  const _FundSchemeRow({required this.item});
+
+  final _FundSchemeRowData item;
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundColor = item.highlight
+        ? const Color(0xFFEFF6FF)
+        : (item.alternateBackground ? const Color(0xFFFAFBFC) : Colors.white);
+    final labelColor = item.highlight
+        ? const Color(0xFF2563EB)
+        : AppColorTokens.fundexTextSecondary;
+    final valueColor = item.highlight
+        ? const Color(0xFF2563EB)
+        : AppColorTokens.fundexText;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        border: item.divider
+            ? const Border(bottom: BorderSide(color: Color(0xFFF1F5F9)))
+            : null,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              item.label,
+              style:
+                  (Theme.of(context).textTheme.bodySmall ?? const TextStyle())
+                      .copyWith(
+                        color: labelColor,
+                        fontWeight: item.highlight ? FontWeight.w800 : null,
+                      ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Text(
+            _valueOrDash(item.value, context),
+            style: (Theme.of(context).textTheme.bodySmall ?? const TextStyle())
+                .copyWith(color: valueColor, fontWeight: FontWeight.w700),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+String _valueOrDash(String value, BuildContext context) {
+  final trimmed = value.trim();
+  if (trimmed.isEmpty) {
+    return context.l10n.fundDetailUnknownValue;
+  }
+  return trimmed;
+}

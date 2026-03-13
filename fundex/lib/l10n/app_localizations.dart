@@ -2228,7 +2228,7 @@ abstract class AppLocalizations {
   /// No description provided for @fundDetailCommentsTitle.
   ///
   /// In en, this message translates to:
-  /// **'💬 Investor voices'**
+  /// **'💬 Investor voices (KIZUNARK)'**
   String get fundDetailCommentsTitle;
 
   /// No description provided for @fundDetailCommentsPlaceholder.
@@ -2236,6 +2236,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comments are intentionally left empty for now. UI integration will be added later.'**
   String get fundDetailCommentsPlaceholder;
+
+  /// No description provided for @fundDetailCommentsPreviewAvatar.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get fundDetailCommentsPreviewAvatar;
+
+  /// No description provided for @fundDetailCommentsPreviewUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Sato**'**
+  String get fundDetailCommentsPreviewUser;
+
+  /// No description provided for @fundDetailCommentsPreviewTime.
+  ///
+  /// In en, this message translates to:
+  /// **'2h ago'**
+  String get fundDetailCommentsPreviewTime;
+
+  /// No description provided for @fundDetailCommentsPreviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The Hakuba project looks solid with steady resort demand. The planned return range of 1.5%–14.6% is wide, but upside could be meaningful depending on the sale.'**
+  String get fundDetailCommentsPreviewBody;
+
+  /// No description provided for @fundDetailCommentsPreviewReplyCount.
+  ///
+  /// In en, this message translates to:
+  /// **'3'**
+  String get fundDetailCommentsPreviewReplyCount;
+
+  /// No description provided for @fundDetailCommentsMoreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'💜 View more in KIZUNARK'**
+  String get fundDetailCommentsMoreAction;
 
   /// No description provided for @fundDetailFinancialStatusAction.
   ///
@@ -2638,6 +2674,372 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Annually'**
   String get fundDetailAnnualDistribution;
+
+  /// No description provided for @fundDetailPlannedDistributionRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned distribution rate (before tax)'**
+  String get fundDetailPlannedDistributionRateLabel;
+
+  /// No description provided for @fundDetailAchievementRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'📊 Funding achievement rate'**
+  String get fundDetailAchievementRateLabel;
+
+  /// No description provided for @fundDetailTabPropertyOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'📍 Property overview'**
+  String get fundDetailTabPropertyOverview;
+
+  /// No description provided for @fundDetailTabIncomeScheme.
+  ///
+  /// In en, this message translates to:
+  /// **'📊 Income scheme'**
+  String get fundDetailTabIncomeScheme;
+
+  /// No description provided for @fundDetailPropertyCountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'This fund consists of {count} properties.'**
+  String fundDetailPropertyCountHint(int count);
+
+  /// No description provided for @fundDetailPropertyItemPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Property {index}'**
+  String fundDetailPropertyItemPrefix(int index);
+
+  /// No description provided for @fundDetailPropertyNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Property name'**
+  String get fundDetailPropertyNameLabel;
+
+  /// No description provided for @fundDetailTransportationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Transportation'**
+  String get fundDetailTransportationLabel;
+
+  /// No description provided for @fundDetailLandSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Land'**
+  String get fundDetailLandSectionTitle;
+
+  /// No description provided for @fundDetailLandCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Land category'**
+  String get fundDetailLandCategoryLabel;
+
+  /// No description provided for @fundDetailAreaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get fundDetailAreaLabel;
+
+  /// No description provided for @fundDetailRightsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rights'**
+  String get fundDetailRightsLabel;
+
+  /// No description provided for @fundDetailBuildingSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Building'**
+  String get fundDetailBuildingSectionTitle;
+
+  /// No description provided for @fundDetailFloorAreaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor area'**
+  String get fundDetailFloorAreaLabel;
+
+  /// No description provided for @fundDetailBuiltYearMonthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Built year/month'**
+  String get fundDetailBuiltYearMonthLabel;
+
+  /// No description provided for @fundDetailRegulationSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Regulation'**
+  String get fundDetailRegulationSectionTitle;
+
+  /// No description provided for @fundDetailLandUseZoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Land-use zone'**
+  String get fundDetailLandUseZoneLabel;
+
+  /// No description provided for @fundDetailBuildingCoverageRatioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Building coverage ratio'**
+  String get fundDetailBuildingCoverageRatioLabel;
+
+  /// No description provided for @fundDetailFloorAreaRatioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor area ratio'**
+  String get fundDetailFloorAreaRatioLabel;
+
+  /// No description provided for @fundDetailOperationContractSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation contract summary'**
+  String get fundDetailOperationContractSectionTitle;
+
+  /// No description provided for @fundDetailOperationTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation type'**
+  String get fundDetailOperationTypeLabel;
+
+  /// No description provided for @fundDetailLandlordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Landlord / principal'**
+  String get fundDetailLandlordLabel;
+
+  /// No description provided for @fundDetailTenantLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant / contractor'**
+  String get fundDetailTenantLabel;
+
+  /// No description provided for @fundDetailContractPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract period'**
+  String get fundDetailContractPeriodLabel;
+
+  /// No description provided for @fundDetailMonthlyRentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual operating income'**
+  String get fundDetailMonthlyRentLabel;
+
+  /// No description provided for @fundDetailContractAmendmentMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract renewal method'**
+  String get fundDetailContractAmendmentMethodLabel;
+
+  /// No description provided for @fundDetailOtherImportantMattersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Other important matters'**
+  String get fundDetailOtherImportantMattersLabel;
+
+  /// No description provided for @fundDetailOperationTypeLeaseValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease contract'**
+  String get fundDetailOperationTypeLeaseValue;
+
+  /// No description provided for @fundDetailOperationTypeHotelValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel / vacation rental operation'**
+  String get fundDetailOperationTypeHotelValue;
+
+  /// No description provided for @fundDetailSchemeMarketEstimateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'※ Figures are market-based estimates.'**
+  String get fundDetailSchemeMarketEstimateNote;
+
+  /// No description provided for @fundDetailSchemeBreakdownTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment breakdown'**
+  String get fundDetailSchemeBreakdownTitle;
+
+  /// No description provided for @fundDetailSchemeIncomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📈 Income'**
+  String get fundDetailSchemeIncomeTitle;
+
+  /// No description provided for @fundDetailSchemeExpenseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'📉 Expenses'**
+  String get fundDetailSchemeExpenseTitle;
+
+  /// No description provided for @fundDetailSchemePropertyPriceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Property price'**
+  String get fundDetailSchemePropertyPriceLabel;
+
+  /// No description provided for @fundDetailSchemeTotalInvestmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total investment'**
+  String get fundDetailSchemeTotalInvestmentLabel;
+
+  /// No description provided for @fundDetailSchemeEstimatedAmountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated sale proceeds'**
+  String get fundDetailSchemeEstimatedAmountLabel;
+
+  /// No description provided for @fundDetailSchemeRentalIncomeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating income'**
+  String get fundDetailSchemeRentalIncomeLabel;
+
+  /// No description provided for @fundDetailSchemeIncomeTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Income total ①'**
+  String get fundDetailSchemeIncomeTotalLabel;
+
+  /// No description provided for @fundDetailSchemeLandMiscLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Land cost + miscellaneous'**
+  String get fundDetailSchemeLandMiscLabel;
+
+  /// No description provided for @fundDetailSchemeDesignCostLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Design + construction cost'**
+  String get fundDetailSchemeDesignCostLabel;
+
+  /// No description provided for @fundDetailSchemeBuildingCostLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Building cost'**
+  String get fundDetailSchemeBuildingCostLabel;
+
+  /// No description provided for @fundDetailSchemeMaintenanceFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance fee'**
+  String get fundDetailSchemeMaintenanceFeeLabel;
+
+  /// No description provided for @fundDetailSchemePublicUtilitiesTaxesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Public charges and taxes'**
+  String get fundDetailSchemePublicUtilitiesTaxesLabel;
+
+  /// No description provided for @fundDetailSchemeFireInsurancePremiumLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fire insurance premium'**
+  String get fundDetailSchemeFireInsurancePremiumLabel;
+
+  /// No description provided for @fundDetailSchemeBrokerageFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Brokerage fee'**
+  String get fundDetailSchemeBrokerageFeeLabel;
+
+  /// No description provided for @fundDetailSchemeAmFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AM fee'**
+  String get fundDetailSchemeAmFeeLabel;
+
+  /// No description provided for @fundDetailSchemeAmFeeYear1Label.
+  ///
+  /// In en, this message translates to:
+  /// **'AM fee (Year 1)'**
+  String get fundDetailSchemeAmFeeYear1Label;
+
+  /// No description provided for @fundDetailSchemeAmFeeYear2Label.
+  ///
+  /// In en, this message translates to:
+  /// **'AM fee (Year 2)'**
+  String get fundDetailSchemeAmFeeYear2Label;
+
+  /// No description provided for @fundDetailSchemeAmCommissionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AM commission'**
+  String get fundDetailSchemeAmCommissionLabel;
+
+  /// No description provided for @fundDetailSchemePublicOfferingFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Public offering fees, etc.'**
+  String get fundDetailSchemePublicOfferingFeeLabel;
+
+  /// No description provided for @fundDetailSchemeMarketingCostsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing costs'**
+  String get fundDetailSchemeMarketingCostsLabel;
+
+  /// No description provided for @fundDetailSchemeAccountantFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Accountant fee'**
+  String get fundDetailSchemeAccountantFeeLabel;
+
+  /// No description provided for @fundDetailSchemeConsignmentFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Consignment management fee'**
+  String get fundDetailSchemeConsignmentFeeLabel;
+
+  /// No description provided for @fundDetailSchemeNormalConsignmentFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclusive consignment fee'**
+  String get fundDetailSchemeNormalConsignmentFeeLabel;
+
+  /// No description provided for @fundDetailSchemeFundAdministratorFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund administrator fee'**
+  String get fundDetailSchemeFundAdministratorFeeLabel;
+
+  /// No description provided for @fundDetailSchemeMiscExpensesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Miscellaneous expenses'**
+  String get fundDetailSchemeMiscExpensesLabel;
+
+  /// No description provided for @fundDetailSchemeSellExpensesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale expenses'**
+  String get fundDetailSchemeSellExpensesLabel;
+
+  /// No description provided for @fundDetailSchemeOtherLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get fundDetailSchemeOtherLabel;
+
+  /// No description provided for @fundDetailSchemeExpenseTotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense total ②'**
+  String get fundDetailSchemeExpenseTotalLabel;
+
+  /// No description provided for @fundDetailSchemeDistributedCapitalFormula.
+  ///
+  /// In en, this message translates to:
+  /// **'Income ① − Expense ②'**
+  String get fundDetailSchemeDistributedCapitalFormula;
+
+  /// No description provided for @fundDetailSchemeDistributedCapitalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Distributable capital'**
+  String get fundDetailSchemeDistributedCapitalTitle;
 
   /// No description provided for @myPageTitle.
   ///

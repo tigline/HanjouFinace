@@ -14,17 +14,30 @@ abstract class DiscussionBoardLocalDataSource {
 
 class DiscussionBoardLocalDataSourceImpl
     implements DiscussionBoardLocalDataSource {
-  DiscussionBoardLocalDataSourceImpl(this._largeDataStore, this._authLocal);
+  DiscussionBoardLocalDataSourceImpl(
+    this._largeDataStore,
+    this._authLocal, {
+    this.projectId,
+  });
 
   static const String _threadsKeyPrefix = 'discussion_board.threads';
 
   final LargeDataStore _largeDataStore;
   final AuthLocalDataSource _authLocal;
+  final int? projectId;
 
   Future<String> _resolveStorageKey() async {
     final AuthUserDto? user = await _authLocal.readCurrentUser();
     final userScopedKey = _resolveUserStorageKey(user);
-    return '$_threadsKeyPrefix.$userScopedKey';
+    final feedScopedKey = _resolveFeedStorageKey(projectId);
+    return '$_threadsKeyPrefix.$userScopedKey.$feedScopedKey';
+  }
+
+  String _resolveFeedStorageKey(int? projectId) {
+    if (projectId == null) {
+      return 'global';
+    }
+    return 'project_$projectId';
   }
 
   String _resolveUserStorageKey(AuthUserDto? user) {
