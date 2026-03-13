@@ -177,3 +177,19 @@ class MyPageInvestmentRecord {
   final int? checkTimes;
   final MyPageInvestorType? investorType;
 }
+
+class MyPageAccountStatistic {
+  const MyPageAccountStatistic({
+    this.userId,
+    this.total,
+    this.crowdfundingTotal,
+    this.financialTotal,
+    this.firstLevelAccountTotal,
+  });
+
+  final int? userId;
+  final num? total;
+  final num? crowdfundingTotal;
+  final num? financialTotal;
+  final num? firstLevelAccountTotal;
+}

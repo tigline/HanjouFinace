@@ -1,5 +1,41 @@
 import '../../domain/entities/mypage_models.dart';
 
+class MyPageAccountStatisticDto {
+  const MyPageAccountStatisticDto({
+    this.userId,
+    this.total,
+    this.crowdfundingTotal,
+    this.financialTotal,
+    this.firstLevelAccountTotal,
+  });
+
+  factory MyPageAccountStatisticDto.fromJson(Map<String, dynamic> json) {
+    return MyPageAccountStatisticDto(
+      userId: _intOrNull(json['userId']),
+      total: _numOrNull(json['total']),
+      crowdfundingTotal: _numOrNull(json['crowdfundingTotal']),
+      financialTotal: _numOrNull(json['financialTotal']),
+      firstLevelAccountTotal: _numOrNull(json['firstLevelAccountTotal']),
+    );
+  }
+
+  final int? userId;
+  final num? total;
+  final num? crowdfundingTotal;
+  final num? financialTotal;
+  final num? firstLevelAccountTotal;
+
+  MyPageAccountStatistic toEntity() {
+    return MyPageAccountStatistic(
+      userId: userId,
+      total: total,
+      crowdfundingTotal: crowdfundingTotal,
+      financialTotal: financialTotal,
+      firstLevelAccountTotal: firstLevelAccountTotal,
+    );
+  }
+}
+
 class MyPageInvestorTypeDto {
   const MyPageInvestorTypeDto({
     this.id,

@@ -1,6 +1,8 @@
 import '../entities/mypage_models.dart';
 
 abstract class MyPageRepository {
+  Future<MyPageAccountStatistic> fetchAccountStatistic();
+
   Future<List<MyPageApplyRecord>> fetchApplyList({
     int startPage = 1,
     int limit = 20,

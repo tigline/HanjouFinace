@@ -4,6 +4,8 @@ import '../../../../app/config/api_paths.dart';
 import '../models/mypage_dtos.dart';
 
 abstract class MyPageRemoteDataSource {
+  Future<MyPageAccountStatisticDto> fetchAccountStatistic();
+
   Future<List<MyPageApplyRecordDto>> fetchApplyList({
     int startPage = 1,
     int limit = 20,
@@ -25,6 +27,20 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
   MyPageRemoteDataSourceImpl(this._client);
 
   final CoreHttpClient _client;
+
+  @override
+  Future<MyPageAccountStatisticDto> fetchAccountStatistic() async {
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      FundingMemberApiPath.accountStatistic,
+      options: authRequired(true),
+    );
+
+    final data = _extractDataRow(
+      _toJsonMap(response.data),
+      fallbackMessage: 'Failed to load account statistic.',
+    );
+    return MyPageAccountStatisticDto.fromJson(data);
+  }
 
   @override
   Future<List<MyPageApplyRecordDto>> fetchApplyList({
@@ -152,5 +168,23 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
           .toList(growable: false);
     }
     return const <Map<String, dynamic>>[];
+  }
+
+  Map<String, dynamic> _extractDataRow(
+    Map<String, dynamic> payload, {
+    required String fallbackMessage,
+  }) {
+    if (payload.isEmpty) {
+      return const <String, dynamic>{};
+    }
+
+    if (_looksLikeLegacyEnvelope(payload)) {
+      if (!_isLegacySuccessResponse(payload)) {
+        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
+      }
+      return _toJsonMap(payload['data']);
+    }
+
+    return payload;
   }
 }

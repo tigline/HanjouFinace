@@ -56,6 +56,27 @@ CoreHttpClient _buildClient(
 
 void main() {
   group('MyPageRemoteDataSourceImpl', () {
+    test('fetchAccountStatistic gets envelope and parses data', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, 'GET');
+        expect(options.path, FundingMemberApiPath.accountStatistic);
+        expect(options.extra['auth_required'], true);
+
+        return _jsonOk(
+          '{"msg":"success","code":200,"data":{"userId":125530,"total":"98767523","crowdfundingTotal":"89703200","financialTotal":"9054667","firstLevelAccountTotal":"9656"}}',
+        );
+      });
+      final source = MyPageRemoteDataSourceImpl(client);
+
+      final row = await source.fetchAccountStatistic();
+
+      expect(row.userId, 125530);
+      expect(row.total, 98767523);
+      expect(row.crowdfundingTotal, 89703200);
+      expect(row.financialTotal, 9054667);
+      expect(row.firstLevelAccountTotal, 9656);
+    });
+
     test('fetchApplyList posts payload and parses rows envelope', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');

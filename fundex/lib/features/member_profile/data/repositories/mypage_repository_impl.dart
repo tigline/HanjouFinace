@@ -9,6 +9,12 @@ class MyPageRepositoryImpl implements MyPageRepository {
   final MyPageRemoteDataSource _remote;
 
   @override
+  Future<MyPageAccountStatistic> fetchAccountStatistic() async {
+    final dto = await _remote.fetchAccountStatistic();
+    return dto.toEntity();
+  }
+
+  @override
   Future<List<MyPageApplyRecord>> fetchApplyList({
     int startPage = 1,
     int limit = 20,

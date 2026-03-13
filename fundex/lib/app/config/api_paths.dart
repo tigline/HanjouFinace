@@ -40,6 +40,9 @@ class FundingFundApiPath {
 class FundingMemberApiPath {
   const FundingMemberApiPath._();
 
+  /// Source: backend sample request provided for account assets.
+  static const String accountStatistic = '/member/login/account-statistic';
+
   /// Source: README_API.md section 7.
   static const String applyList = '/crowdfunding/user/apply/list';
 

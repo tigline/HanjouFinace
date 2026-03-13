@@ -10,6 +10,7 @@ import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
 import '../../../member_profile/domain/entities/member_profile_details.dart';
 import '../../../member_profile/presentation/providers/member_profile_providers.dart';
+import '../../../member_profile/presentation/providers/mypage_providers.dart';
 import '../support/home_display_name_resolver.dart';
 
 const Set<int> _featuredProjectStatuses = <int>{0, 1};
@@ -26,6 +27,10 @@ class HomeOverviewTabPage extends ConsumerWidget {
     final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
     final asyncProjects = ref.watch(fundProjectListProvider);
     final asyncMemberProfile = ref.watch(memberProfileDetailsProvider);
+    final accountStatistic = ref
+        .watch(myPageAccountStatisticProvider)
+        .asData
+        ?.value;
     final memberProfile = asyncMemberProfile.asData?.value;
     final projects = asyncProjects.asData?.value ?? const <FundProject>[];
     final locale = Localizations.localeOf(context);
@@ -108,12 +113,19 @@ class HomeOverviewTabPage extends ConsumerWidget {
           ),
         ),
         totalAssetsLabel: l10n.homeHeroTotalAssetsAmountLabel,
-        totalAssetsValue: '¥3,850,000',
+        totalAssetsValue: _formatCurrencyValue(
+          accountStatistic?.total,
+          currencyFormatter,
+        ),
         totalAssetsDelta: l10n.homeHeroMonthlyDelta,
         activeInvestmentLabel: l10n.homeHeroActiveInvestmentLabel,
-        activeInvestmentValue: '¥3,200,000',
-        totalDividendsLabel: l10n.homeHeroTotalDividendsLabel,
-        totalDividendsValue: '¥285,000',
+        activeInvestmentValue: _formatCompactCurrencyValue(
+          accountStatistic?.crowdfundingTotal,
+        ),
+        totalDividendsLabel: l10n.homeHeroCashLabel,
+        totalDividendsValue: _formatCompactCurrencyValue(
+          accountStatistic?.firstLevelAccountTotal,
+        ),
         showNotificationDot: true,
         onNotificationTap: () => context.push('/notifications'),
       ),
@@ -467,6 +479,36 @@ String _formatCurrency(int? amount, NumberFormat formatter) {
     return '-';
   }
   return formatter.format(amount);
+}
+
+String _formatCurrencyValue(num? amount, NumberFormat formatter) {
+  if (amount == null) {
+    return '-';
+  }
+  return formatter.format(amount);
+}
+
+String _formatCompactCurrencyValue(num? amount) {
+  if (amount == null) {
+    return '-';
+  }
+
+  final value = amount.toDouble();
+  final abs = value.abs();
+  if (abs >= 1000000) {
+    return '¥${_formatCompactNumber(value / 1000000)}M';
+  }
+  if (abs >= 10000) {
+    return '¥${_formatCompactNumber(value / 1000)}K';
+  }
+  return '¥${value.toStringAsFixed(0)}';
+}
+
+String _formatCompactNumber(double value) {
+  if (value % 1 == 0) {
+    return value.toStringAsFixed(0);
+  }
+  return value.toStringAsFixed(1);
 }
 
 DateTime? _parseDateTime(String? raw) {

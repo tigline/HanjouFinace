@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
-import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
 import '../../domain/entities/mypage_models.dart';
@@ -25,9 +24,12 @@ class ProfileCenterTabPage extends ConsumerWidget {
       symbol: '¥',
       decimalDigits: 0,
     );
+    final accountStatisticAsync = ref.watch(myPageAccountStatisticProvider);
+    final accountStatistic = accountStatisticAsync.asData?.value;
     final applyAsync = ref.watch(myPageApplyListProvider);
     final orderInquiryAsync = ref.watch(myPageOrderInquiryListProvider);
     final investmentAsync = ref.watch(myPageInvestmentListProvider);
+    final investmentRecords = investmentAsync.asData?.value;
     final fundProjects =
         ref.watch(fundProjectListProvider).asData?.value ??
         const <FundProject>[];
@@ -45,7 +47,10 @@ class ProfileCenterTabPage extends ConsumerWidget {
           children: <Widget>[
             FundMyPageAssetOverview(
               totalAssetsLabel: l10n.myPageTotalAssetsLabel,
-              totalAssetsValue: '¥4,350,000',
+              totalAssetsValue: _formatCurrency(
+                accountStatistic?.total,
+                currencyFormatter,
+              ),
               totalAssetsCaption: l10n.myPageTotalAssetsCaption,
               leading: _HeroHeaderActionButton(
                 icon: Icons.notifications_none_rounded,
@@ -59,20 +64,30 @@ class ProfileCenterTabPage extends ConsumerWidget {
               metrics: <FundMyPageMetricData>[
                 FundMyPageMetricData(
                   label: l10n.myPageMetricOperating,
-                  value: '¥3.2M',
+                  value: _formatCompactCurrency(
+                    accountStatistic?.crowdfundingTotal,
+                  ),
                 ),
                 FundMyPageMetricData(
                   label: l10n.myPageMetricStandby,
-                  value: '¥650K',
+                  value: _formatCompactCurrency(
+                    accountStatistic?.firstLevelAccountTotal,
+                  ),
                 ),
                 FundMyPageMetricData(
                   label: l10n.myPageMetricAccumulatedDistribution,
-                  value: '¥285K',
+                  value: investmentRecords == null
+                      ? '--'
+                      : _formatCompactCurrency(
+                          _sumInvestmentEarnings(investmentRecords),
+                        ),
                   valueColor: AppColorTokens.fundexSuccess,
                 ),
                 FundMyPageMetricData(
                   label: l10n.myPageMetricLoanType,
-                  value: '¥500K',
+                  value: _formatCompactCurrency(
+                    accountStatistic?.financialTotal,
+                  ),
                   valueColor: AppColorTokens.fundexViolet,
                 ),
               ],
@@ -430,6 +445,7 @@ Future<void> _refreshPage(WidgetRef ref) async {
   ref.invalidate(fundProjectListProvider);
   await Future.wait<void>(<Future<void>>[
     ref.refresh(fundProjectListProvider.future).then((_) {}),
+    ref.refresh(myPageAccountStatisticProvider.future).then((_) {}),
     ref.refresh(myPageApplyListProvider.future).then((_) {}),
     ref.refresh(myPageOrderInquiryListProvider.future).then((_) {}),
     ref.refresh(myPageInvestmentListProvider.future).then((_) {}),
@@ -638,11 +654,42 @@ String _formatYieldPercent(double? ratio) {
   return '${percentage.toStringAsFixed(hasFraction ? 1 : 0)}%';
 }
 
+num _sumInvestmentEarnings(List<MyPageInvestmentRecord> records) {
+  num total = 0;
+  for (final record in records) {
+    total += record.earnings ?? 0;
+  }
+  return total;
+}
+
 String _formatCurrency(num? amount, NumberFormat formatter) {
   if (amount == null) {
     return '--';
   }
   return formatter.format(amount);
+}
+
+String _formatCompactCurrency(num? amount) {
+  if (amount == null) {
+    return '--';
+  }
+
+  final value = amount.toDouble();
+  final abs = value.abs();
+  if (abs >= 1000000) {
+    return '¥${_formatCompactNumber(value / 1000000)}M';
+  }
+  if (abs >= 10000) {
+    return '¥${_formatCompactNumber(value / 1000)}K';
+  }
+  return '¥${value.toStringAsFixed(0)}';
+}
+
+String _formatCompactNumber(double value) {
+  if (value % 1 == 0) {
+    return value.toStringAsFixed(0);
+  }
+  return value.toStringAsFixed(1);
 }
 
 String? _formatDateOrNull(String? raw) {

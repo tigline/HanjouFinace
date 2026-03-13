@@ -5,6 +5,7 @@ import '../../data/datasources/mypage_remote_data_source.dart';
 import '../../data/repositories/mypage_repository_impl.dart';
 import '../../domain/entities/mypage_models.dart';
 import '../../domain/repositories/mypage_repository.dart';
+import '../../domain/usecases/fetch_mypage_account_statistic_usecase.dart';
 import '../../domain/usecases/fetch_mypage_apply_list_usecase.dart';
 import '../../domain/usecases/fetch_mypage_investment_list_usecase.dart';
 import '../../domain/usecases/fetch_mypage_order_inquiry_list_usecase.dart';
@@ -14,12 +15,21 @@ final myPageRemoteDataSourceProvider = Provider<MyPageRemoteDataSource>((ref) {
 });
 
 final myPageRepositoryProvider = Provider<MyPageRepository>((ref) {
-  return MyPageRepositoryImpl(remote: ref.watch(myPageRemoteDataSourceProvider));
+  return MyPageRepositoryImpl(
+    remote: ref.watch(myPageRemoteDataSourceProvider),
+  );
 });
 
 final fetchMyPageApplyListUseCaseProvider =
     Provider<FetchMyPageApplyListUseCase>((ref) {
       return FetchMyPageApplyListUseCase(ref.watch(myPageRepositoryProvider));
+    });
+
+final fetchMyPageAccountStatisticUseCaseProvider =
+    Provider<FetchMyPageAccountStatisticUseCase>((ref) {
+      return FetchMyPageAccountStatisticUseCase(
+        ref.watch(myPageRepositoryProvider),
+      );
     });
 
 final fetchMyPageOrderInquiryListUseCaseProvider =
@@ -40,6 +50,18 @@ final myPageApplyListProvider = FutureProvider<List<MyPageApplyRecord>>((
   ref,
 ) async {
   return ref.watch(fetchMyPageApplyListUseCaseProvider).call();
+});
+
+final myPageAccountStatisticProvider = FutureProvider<MyPageAccountStatistic?>((
+  ref,
+) async {
+  final isAuthenticated = ref.watch(isAuthenticatedProvider).asData?.value;
+  if (isAuthenticated != true) {
+    return null;
+  }
+
+  await ref.watch(currentAuthUserProvider.future);
+  return ref.watch(fetchMyPageAccountStatisticUseCaseProvider).call();
 });
 
 final myPageOrderInquiryListProvider =
