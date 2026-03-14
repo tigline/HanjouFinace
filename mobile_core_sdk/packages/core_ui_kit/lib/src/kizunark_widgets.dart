@@ -149,7 +149,7 @@ class KizunarkAvatarBadge extends StatelessWidget {
 class KizunarkComposerCard extends StatelessWidget {
   const KizunarkComposerCard({
     super.key,
-    required this.leading,
+    this.leading,
     required this.controller,
     required this.placeholder,
     required this.postLabel,
@@ -158,7 +158,7 @@ class KizunarkComposerCard extends StatelessWidget {
     this.onChanged,
   });
 
-  final Widget leading;
+  final Widget? leading;
   final TextEditingController controller;
   final String placeholder;
   final String postLabel;
@@ -171,8 +171,10 @@ class KizunarkComposerCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        leading,
-        const SizedBox(width: 10),
+        if (leading != null) ...<Widget>[
+          leading!,
+          const SizedBox(width: 10),
+        ],
         Expanded(
           child: Opacity(
             opacity: enabled ? 1 : 0.72,

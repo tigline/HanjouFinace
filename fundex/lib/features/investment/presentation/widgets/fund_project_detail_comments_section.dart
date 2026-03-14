@@ -111,19 +111,25 @@ class _FundProjectDetailCommentsSectionState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+      
+        DiscussionBoardThreadList(
+          l10n: l10n,
+          state: state,
+          controller: controller,
+        ),
         if (isAuthenticated)
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: KizunarkComposerCard(
-              leading: KizunarkAvatarBadge(
-                text: resolveAvatarText(currentUser),
-                gradientColors: const <Color>[
-                  AppColorTokens.kizunarkPrimary,
-                  AppColorTokens.kizunarkSecondary,
-                ],
-                size: 32,
-                fontSize: 13,
-              ),
+              // leading: KizunarkAvatarBadge(
+              //   text: resolveAvatarText(currentUser),
+              //   gradientColors: const <Color>[
+              //     AppColorTokens.kizunarkPrimary,
+              //     AppColorTokens.kizunarkSecondary,
+              //   ],
+              //   size: 32,
+              //   fontSize: 13,
+              // ),
               controller: _composerController,
               placeholder: l10n.kizunarkComposePlaceholder,
               postLabel: l10n.kizunarkPostAction,
@@ -137,11 +143,6 @@ class _FundProjectDetailCommentsSectionState
               ),
             ),
           ),
-        DiscussionBoardThreadList(
-          l10n: l10n,
-          state: state,
-          controller: controller,
-        ),
         if (widget.onViewMoreTap != null) ...<Widget>[
           const SizedBox(height: 8),
           OutlinedButton(
