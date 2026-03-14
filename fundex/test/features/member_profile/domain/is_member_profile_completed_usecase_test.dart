@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fundex/features/member_profile/domain/entities/member_profile_details.dart';
+import 'package:fundex/features/member_profile/domain/entities/member_profile_region.dart';
 import 'package:fundex/features/member_profile/domain/repositories/member_profile_repository.dart';
 import 'package:fundex/features/member_profile/domain/usecases/is_member_profile_completed_usecase.dart';
 
@@ -19,6 +20,26 @@ class _FakeMemberProfileRepository implements MemberProfileRepository {
   @override
   Future<void> saveLocalProfile(MemberProfileDetails profile) async {
     this.profile = profile;
+  }
+
+  @override
+  Future<List<MemberProfileRegion>> fetchRegionsByZip({
+    required String zip,
+  }) async {
+    return const <MemberProfileRegion>[];
+  }
+
+  @override
+  Future<void> submitProfile(MemberProfileDetails profile) async {
+    this.profile = profile;
+  }
+
+  @override
+  Future<String> uploadProfilePhoto({
+    required String filePath,
+    required bool isSelfie,
+  }) async {
+    return filePath;
   }
 }
 

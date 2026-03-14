@@ -25,12 +25,16 @@ dependencies:
     path: ../mobile_core_sdk/packages/core_network
   core_foundation:
     path: ../mobile_core_sdk/packages/core_foundation
+  core_identity_auth:
+    path: ../mobile_core_sdk/packages/core_identity_auth
   core_storage:
     path: ../mobile_core_sdk/packages/core_storage
   core_tool_kit:
     path: ../mobile_core_sdk/packages/core_tool_kit
   core_ui_kit:
     path: ../mobile_core_sdk/packages/core_ui_kit
+  flutter_bdface_collect:
+    path: plugins/flutter_bdface_collect
 
 dev_dependencies:
   flutter_test:

@@ -2,11 +2,16 @@
 ///
 /// Source of truth:
 /// - Swagger UI: https://sit-admin.gutingjun.com/api/swagger-ui.html#/
-/// - OpenAPI docs: https://sit-admin.gutingjun.com/api/crowdfunding/v2/api-docs
+/// - OpenAPI docs (crowdfunding): https://sit-admin.gutingjun.com/api/crowdfunding/v2/api-docs
+/// - OpenAPI docs (member): https://sit-admin.gutingjun.com/api/member/v2/api-docs
 ///
-/// For funding APIs, prioritize Swagger definitions. Do not add new endpoints
-/// from the legacy GetX project `http_conf.dart` unless Swagger is missing the
-/// endpoint and the fallback is documented in `README_API.md`.
+/// Selection rule:
+/// - `/crowdfunding/**` paths should follow crowdfunding OpenAPI.
+/// - `/member/**` paths should follow member OpenAPI.
+///
+/// Do not add new endpoints from the legacy GetX project `http_conf.dart`
+/// unless Swagger is missing the endpoint and the fallback is documented in
+/// `README_API.md`.
 class FundingAuthApiPath {
   const FundingAuthApiPath._();
 
@@ -40,7 +45,7 @@ class FundingFundApiPath {
 class FundingMemberApiPath {
   const FundingMemberApiPath._();
 
-  /// Source: backend sample request provided for account assets.
+  /// Source: member Swagger (`/member/login/account-statistic`).
   static const String accountStatistic = '/member/login/account-statistic';
 
   /// Source: README_API.md section 7.
@@ -61,7 +66,7 @@ class FundingMemberApiPath {
   /// Source: funding Swagger (`user-rest`) `regionByZipUsingGET`.
   static const String regionByZip = '/crowdfunding/user/region/zip';
 
-  /// Source: backend requirement for selfie upload.
+  /// Source: member Swagger (`/member/real/person/upload`).
   static const String uploadRealPersonPhoto = '/member/real/person/upload';
 }
 
@@ -77,6 +82,31 @@ class FundingCommentApiPath {
 
   /// Source: crowdfunding Swagger (`comment-rest`).
   static const String commentDelete = '/crowdfunding/comment/delete';
+}
+
+/// Funding real-person authentication APIs used by `feature_identity_auth`.
+///
+/// Source: member Swagger (`RealPersonRest`).
+class FundingRealPersonApiPath {
+  const FundingRealPersonApiPath._();
+
+  /// `GET /real/person/token`
+  static const String token = '/member/real/person/token';
+
+  /// `GET /real/person/result`
+  static const String result = '/member/real/person/result';
+
+  /// `GET /real/person/image`
+  static const String image = '/member/real/person/image';
+
+  /// `POST /real/person/upload`
+  static const String upload = '/member/real/person/upload';
+
+  /// `POST /real/person/upload/userId`
+  static const String uploadUserId = '/member/real/person/upload/userId';
+
+  /// `POST /real/person/identify`
+  static const String identify = '/member/real/person/identify';
 }
 
 const String fundingOauthClientAuthorization = 'Basic d2ViQXBwOndlYkFwcA==';

@@ -1,0 +1,16 @@
+name: core_identity_auth
+description: Reusable company identity-auth SDK with flow orchestration and RealPerson API client.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  core_foundation:
+    path: ../core_foundation
+  core_network:
+    path: ../core_network
+
+dev_dependencies:
+  test: ^1.25.8

@@ -1,0 +1,61 @@
+group 'com.fluttercandies.flutter_bdface_collect'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.1'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+        flatDir { dirs project(":flutter_bdface_collect").file("libs") }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.fluttercandies.flutter_bdface_collect'
+    }
+    compileSdkVersion 31
+
+    defaultConfig {
+        minSdkVersion 22
+    }
+
+    sourceSets {
+        main.jniLibs.srcDir 'libs'
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    packagingOptions {
+        merge 'res/values/values.xml'
+        merge 'AndroidManifest.xml'
+        merge 'R.txt'
+        merge 'classes.jar'
+    }
+    buildTypes {
+        release {
+            consumerProguardFiles "proguard-rules.pro"
+        }
+    }
+}
+
+
+dependencies {
+    implementation(name: "faceplatform-release-4.1.5", ext: "aar")
+}

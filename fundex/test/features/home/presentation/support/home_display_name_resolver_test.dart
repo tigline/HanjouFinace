@@ -7,7 +7,7 @@ import 'package:fundex/features/home/presentation/support/home_display_name_reso
 void main() {
   group('resolveHomeDisplayName', () {
     test('uses lastName with さん in Japanese locale', () {
-      final user = AuthUser(
+      const user = AuthUser(
         username: 'aaron@example.com',
         lastName: '田中',
         sex: 1,
@@ -22,7 +22,7 @@ void main() {
     });
 
     test('uses male honorific in Chinese locale', () {
-      final user = AuthUser(
+      const user = AuthUser(
         username: 'aaron@example.com',
         lastName: '田中',
         sex: 1,
@@ -37,7 +37,7 @@ void main() {
     });
 
     test('uses female honorific in Chinese locale', () {
-      final user = AuthUser(username: 'amy@example.com', lastName: '王', sex: 2);
+      const user = AuthUser(username: 'amy@example.com', lastName: '王', sex: 2);
 
       final result = resolveHomeDisplayName(
         locale: const Locale('zh'),
@@ -48,7 +48,7 @@ void main() {
     });
 
     test('uses english last name with english honorific', () {
-      final user = AuthUser(
+      const user = AuthUser(
         username: 'aaron@example.com',
         lastName: '田中',
         lastNameEn: 'Tanaka',
@@ -64,7 +64,7 @@ void main() {
     });
 
     test('falls back to plain name when sex is unknown in Chinese locale', () {
-      final user = AuthUser(username: 'aaron@example.com', lastName: '田中');
+      const user = AuthUser(username: 'aaron@example.com', lastName: '田中');
 
       final result = resolveHomeDisplayName(
         locale: const Locale('zh'),

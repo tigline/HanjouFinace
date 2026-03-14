@@ -10,6 +10,7 @@ Independent Git repository for reusable Flutter core plugins.
 - `core_tool_kit`: app logging toolkit (file logger + export)
 - `core_ui_kit`: design token + common widgets
 - `core_testkit`: testing helpers shared by app repos
+- `core_identity_auth`: identity verification flow + RealPerson API SDK
 
 ## Commands (FVM)
 

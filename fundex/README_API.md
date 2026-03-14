@@ -4,12 +4,18 @@
 
 ## 来源与范围（重要）
 
-- 基金/会员相关（含登录、注册、用户资料）接口来源以 funding Swagger 为准：
+- 基金/会员相关（含登录、注册、用户资料）接口来源以 funding Swagger 为准（双分支）：
   - Swagger UI: `https://sit-admin.gutingjun.com/api/swagger-ui.html#/`
-  - OpenAPI JSON: `https://sit-admin.gutingjun.com/api/crowdfunding/v2/api-docs`
+  - OpenAPI JSON（crowdfunding）: `https://sit-admin.gutingjun.com/api/crowdfunding/v2/api-docs`
+  - OpenAPI JSON（member）: `https://sit-admin.gutingjun.com/api/member/v2/api-docs`
+- 选型规则：
+  - `/crowdfunding/**` 接口优先以 `crowdfunding` 分支定义为准。
+  - `/member/**` 接口优先以 `member` 分支定义为准。
+  - 若接口仅在某一个分支有定义，则以该分支实现，并在代码注释中标记来源。
 - 用户相关主要查看：
   - `user-rest`
   - `off-rest`
+  - member 分支对应用户接口定义
 - 除酒店业务外，后续 API 实现不再以老工程 `http_conf.dart` 作为来源。
 - 本文件的作用是补充“真实请求/响应样例报文”，用于 DTO/错误处理/兼容性测试；若与 Swagger 冲突，以 Swagger 为准，并在此文件更新样例。
 
@@ -78,6 +84,38 @@
         "taxpayerManageStatus": 1
     }
 }
+
+- 10.RealPersonRest（实人认证，来源：member Swagger）
+
+  - OpenAPI JSON: `https://sit-admin.gutingjun.com/api/member/v2/api-docs`
+  - Tag: `RealPersonRest`
+
+  1. `GET /member/real/person/token`
+    - Query: `bizId` (required)
+    - Response: `R<string>` (`data` 为 token)
+
+  2. `GET /member/real/person/result`
+    - Query: `bizId` (required)
+    - Response: `R<object>`
+
+  3. `GET /member/real/person/image`
+    - Query: `userId` (required)
+    - Response: `R<object>`
+
+  4. `POST /member/real/person/upload`
+    - Body: `multipart/form-data` (`file` required)
+    - Response: `R<object>`
+
+  5. `POST /member/real/person/upload/userId`
+    - Body: `multipart/form-data` (`file` required)
+    - Response: `R<object>`
+
+  6. `POST /member/real/person/identify`
+    - Body(JSON):
+      - `photo`: base64 字符串（required）
+      - `groupId`: string（optional）
+    - Response: `R<object>`
+    - 参考旧工程校验逻辑：`code == 200` 且 `data.userId` 非空视为识别成功。
 
 - 3.注册
   - 待补：请按 funding Swagger（`user-rest` / `off-rest`）实际接口定义与真实报文补充。
@@ -1278,5 +1316,3 @@ Response
         ]
     }
 }
-
-

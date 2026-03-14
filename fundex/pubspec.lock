@@ -176,6 +176,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0"
+  core_identity_auth:
+    dependency: "direct main"
+    description:
+      path: "../mobile_core_sdk/packages/core_identity_auth"
+      relative: true
+    source: path
+    version: "0.1.0"
   core_network:
     dependency: "direct main"
     description:
@@ -353,6 +360,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bdface_collect:
+    dependency: "direct main"
+    description:
+      path: "plugins/flutter_bdface_collect"
+      relative: true
+    source: path
+    version: "1.1.9"
   flutter_driver:
     dependency: transitive
     description: flutter
