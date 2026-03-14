@@ -351,4 +351,16 @@ class DiscussionBoardController extends StateNotifier<DiscussionBoardState> {
   DateTime? _parseTimestamp(String text) {
     return DateTime.tryParse(text)?.toUtc();
   }
+
+  void handleUserChange(String previousUserId, String newUserId) {
+    if (previousUserId != newUserId) {
+      loadThreads();
+    }
+  }
+
+  void handleAuthChange(bool previousAuth, bool newAuth) {
+    if (previousAuth != newAuth) {
+      loadThreads();
+    }
+  }
 }

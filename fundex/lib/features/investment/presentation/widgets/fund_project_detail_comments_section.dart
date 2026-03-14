@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
-import '../../../../l10n/app_localizations.dart';
 import '../../../auth/domain/entities/auth_user.dart';
+import '../../../auth/domain/utils/auth_utils.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../discussion_board/presentation/controllers/discussion_board_controller.dart';
 import '../../../discussion_board/presentation/providers/discussion_board_providers.dart';
-import '../../../discussion_board/presentation/state/discussion_board_state.dart';
+import '../../../discussion_board/presentation/widgets/discussion_board_thread_list.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class FundProjectDetailCommentsSection extends ConsumerStatefulWidget {
   const FundProjectDetailCommentsSection({
@@ -41,85 +42,34 @@ class _FundProjectDetailCommentsSectionState
     super.dispose();
   }
 
-  String _resolveAvatarText(AuthUser? user) {
-    final candidates = <String>[
-      user?.lastName ?? '',
-      user?.username ?? '',
-      user?.firstName ?? '',
-      user?.id ?? '',
-    ];
-    for (final candidate in candidates) {
-      final text = candidate.trim();
-      if (text.isNotEmpty) {
-        return String.fromCharCode(text.runes.first);
-      }
-    }
-    return '田';
-  }
-
-  String _resolveCurrentUserId(AuthUser? user) {
-    final candidates = <String>[
-      user?.userId?.toString() ?? '',
-      user?.memberId?.toString() ?? '',
-      user?.id ?? '',
-      user?.accountId ?? '',
-      user?.username ?? '',
-    ];
-    for (final candidate in candidates) {
-      final text = candidate.trim();
-      if (text.isNotEmpty) {
-        return text;
-      }
-    }
-    return '';
-  }
-
-  Future<void> _submitPost({required bool isAuthenticated}) async {
-    final l10n = context.l10n;
-    final controller = ref.read(
-      discussionBoardControllerProvider(widget.projectId).notifier,
-    );
+  Future<void> _submitPost(
+    BuildContext context,
+    AppLocalizations l10n,
+    DiscussionBoardController controller,
+    bool isAuthenticated,
+  ) async {
     if (!isAuthenticated) {
       return;
     }
+
+    final localContext = context;
+    if (!mounted) return;
+
     final submitted = await controller.submitPost(
       nowLabel: l10n.kizunarkJustNow,
       fallbackName: l10n.kizunarkFallbackDisplayName,
       fallbackHandle: l10n.kizunarkFallbackHandle,
       fallbackBadgeLabel: l10n.kizunarkInvestorBadge,
     );
-    if (submitted && mounted) {
-      AppNotice.show(context, message: l10n.kizunarkPostSuccessNotice);
+
+    if (submitted) {
+      // ignore: use_build_context_synchronously
+      AppNotice.show(localContext, message: l10n.kizunarkPostSuccessNotice);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<bool>>(isAuthenticatedProvider, (previous, next) {
-      final previousValue = previous?.asData?.value;
-      final nextValue = next.asData?.value;
-      if (previousValue == nextValue) {
-        return;
-      }
-      ref
-          .read(discussionBoardControllerProvider(widget.projectId).notifier)
-          .loadThreads();
-    });
-
-    ref.listen<AsyncValue<AuthUser?>>(currentAuthUserProvider, (
-      previous,
-      next,
-    ) {
-      final previousId = _resolveCurrentUserId(previous?.asData?.value);
-      final nextId = _resolveCurrentUserId(next.asData?.value);
-      if (previousId == nextId) {
-        return;
-      }
-      ref
-          .read(discussionBoardControllerProvider(widget.projectId).notifier)
-          .loadThreads();
-    });
-
     final l10n = context.l10n;
     final state = ref.watch(
       discussionBoardControllerProvider(widget.projectId),
@@ -131,11 +81,31 @@ class _FundProjectDetailCommentsSectionState
         ref.watch(isAuthenticatedProvider).asData?.value ?? false;
     final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
 
+    ref.listen<AsyncValue<bool>>(isAuthenticatedProvider, (previous, next) {
+      final previousValue = previous?.asData?.value;
+      final nextValue = next.asData?.value;
+      if (previousValue == nextValue) {
+        return;
+      }
+      controller.handleAuthChange(previousValue ?? false, nextValue ?? false);
+    });
+
+    ref.listen<AsyncValue<AuthUser?>>(currentAuthUserProvider, (
+      previous,
+      next,
+    ) {
+      final previousId = resolveCurrentUserId(previous?.asData?.value);
+      final nextId = resolveCurrentUserId(next.asData?.value);
+      if (previousId == nextId) {
+        return;
+      }
+      controller.handleUserChange(previousId, nextId);
+    });
+
     if (_composerController.text != state.composerText) {
-      _composerController.value = TextEditingValue(
-        text: state.composerText,
-        selection: TextSelection.collapsed(offset: state.composerText.length),
-      );
+      _composerController.text = state.composerText;
+      _composerController.selection =
+          TextSelection.collapsed(offset: state.composerText.length);
     }
 
     return Column(
@@ -146,7 +116,7 @@ class _FundProjectDetailCommentsSectionState
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: KizunarkComposerCard(
               leading: KizunarkAvatarBadge(
-                text: _resolveAvatarText(currentUser),
+                text: resolveAvatarText(currentUser),
                 gradientColors: const <Color>[
                   AppColorTokens.kizunarkPrimary,
                   AppColorTokens.kizunarkSecondary,
@@ -159,10 +129,15 @@ class _FundProjectDetailCommentsSectionState
               postLabel: l10n.kizunarkPostAction,
               enabled: !state.isPosting,
               onChanged: controller.updateComposerText,
-              onPostTap: () => _submitPost(isAuthenticated: isAuthenticated),
+              onPostTap: () => _submitPost(
+                context,
+                l10n,
+                controller,
+                isAuthenticated,
+              ),
             ),
           ),
-        _FundProjectDetailThreadList(
+        DiscussionBoardThreadList(
           l10n: l10n,
           state: state,
           controller: controller,
@@ -183,103 +158,6 @@ class _FundProjectDetailCommentsSectionState
           ),
         ],
       ],
-    );
-  }
-}
-
-class _FundProjectDetailThreadList extends StatelessWidget {
-  const _FundProjectDetailThreadList({
-    required this.l10n,
-    required this.state,
-    required this.controller,
-  });
-
-  final AppLocalizations l10n;
-  final DiscussionBoardState state;
-  final DiscussionBoardController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    if (state.isLoading && state.threads.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 24),
-        child: Center(child: CircularProgressIndicator.adaptive()),
-      );
-    }
-
-    if (state.threads.isEmpty) {
-      return FundDetailContentCard(
-        child: Text(
-          l10n.kizunarkEmptyState,
-          textAlign: TextAlign.center,
-          style: (Theme.of(context).textTheme.bodyMedium ?? const TextStyle())
-              .copyWith(color: AppColorTokens.fundexTextSecondary, height: 1.6),
-        ),
-      );
-    }
-
-    return Column(
-      children: state.threads
-          .map<Widget>((thread) {
-            final expanded = state.expandedThreadIds.contains(thread.id);
-
-            final replies = thread.replies
-                .map<Widget>(
-                  (reply) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: KizunarkReplyTile(
-                      avatar: KizunarkAvatarBadge(
-                        text: reply.author.avatarText,
-                        gradientColors: reply.author.avatarGradientColorValues
-                            .map(Color.new)
-                            .toList(growable: false),
-                        size: 24,
-                        fontSize: 10,
-                      ),
-                      displayName: reply.author.displayName,
-                      timeLabel: reply.timeLabel,
-                      body: reply.body,
-                      quoteTitle: reply.quote?.sourceText,
-                      quoteBody: reply.quote?.body,
-                    ),
-                  ),
-                )
-                .toList(growable: false);
-
-            final replySection = replies.isEmpty
-                ? null
-                : Column(children: replies);
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: KizunarkPostCard(
-                avatar: KizunarkAvatarBadge(
-                  text: thread.author.avatarText,
-                  gradientColors: thread.author.avatarGradientColorValues
-                      .map(Color.new)
-                      .toList(growable: false),
-                  size: 32,
-                  fontSize: 12,
-                ),
-                displayName: thread.author.displayName,
-                accountText: thread.author.accountHandle,
-                badgeLabel: thread.author.badge.label,
-                badgeBackgroundColor: Color(
-                  thread.author.badge.backgroundColorValue,
-                ),
-                badgeForegroundColor: Color(
-                  thread.author.badge.foregroundColorValue,
-                ),
-                timeLabel: thread.timeLabel,
-                body: thread.body,
-                commentCount: thread.commentCount,
-                onToggleRepliesTap: () => controller.toggleReplies(thread.id),
-                showReplies: expanded,
-                replySection: replySection,
-              ),
-            );
-          })
-          .toList(growable: false),
     );
   }
 }
