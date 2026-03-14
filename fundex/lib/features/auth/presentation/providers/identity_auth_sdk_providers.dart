@@ -23,7 +23,7 @@ final realPersonEndpointsProvider = Provider<RealPersonEndpoints>((ref) {
 
 final realPersonApiGatewayProvider = Provider<RealPersonGateway>((ref) {
   return RealPersonApiClient(
-    client: ref.watch(oaCoreHttpClientProvider),
+    client: ref.watch(memberCoreHttpClientProvider),
     endpoints: ref.watch(realPersonEndpointsProvider),
   );
 });

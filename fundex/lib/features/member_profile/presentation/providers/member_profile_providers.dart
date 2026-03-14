@@ -39,6 +39,8 @@ final memberProfileRemoteDataSourceProvider =
     Provider<MemberProfileRemoteDataSource>((ref) {
       return MemberProfileRemoteDataSourceImpl(
         ref.watch(oaCoreHttpClientProvider),
+        memberClient: ref.watch(memberCoreHttpClientProvider),
+        clusterRouter: ref.watch(apiClusterRouterProvider),
       );
     });
 

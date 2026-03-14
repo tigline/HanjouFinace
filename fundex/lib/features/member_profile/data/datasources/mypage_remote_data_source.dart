@@ -3,6 +3,7 @@ import 'package:core_network/core_network.dart';
 
 import '../../../../app/config/api_paths.dart';
 import '../../../../app/network/app_api_response_profiles.dart';
+import '../../../../app/network/api_cluster_router.dart';
 import '../models/mypage_dtos.dart';
 
 abstract class MyPageRemoteDataSource {
@@ -26,20 +27,30 @@ abstract class MyPageRemoteDataSource {
 }
 
 class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
-  MyPageRemoteDataSourceImpl(this._client, {LegacyEnvelopeCodec? envelopeCodec})
-    : _envelopeCodec =
-          envelopeCodec ??
-          const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa);
+  MyPageRemoteDataSourceImpl(
+    CoreHttpClient oaClient, {
+    CoreHttpClient? memberClient,
+    ApiClusterRouter? clusterRouter,
+    LegacyEnvelopeCodec? envelopeCodec,
+  }) : _envelopeCodec =
+           envelopeCodec ??
+           const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa),
+       _clusterRouter =
+           clusterRouter ??
+           ApiClusterRouter.fromClients(
+             oaClient: oaClient,
+             memberClient: memberClient,
+           );
 
-  final CoreHttpClient _client;
+  final ApiClusterRouter _clusterRouter;
   final LegacyEnvelopeCodec _envelopeCodec;
 
   @override
   Future<MyPageAccountStatisticDto> fetchAccountStatistic() async {
-    final response = await _client.dio.get<Map<String, dynamic>>(
-      FundingMemberApiPath.accountStatistic,
-      options: authRequired(true),
-    );
+    const path = FundingMemberApiPath.accountStatistic;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .get<Map<String, dynamic>>(path, options: authRequired(true));
 
     final data = _envelopeCodec.extractDataMap(
       _envelopeCodec.toJsonMap(response.data),
@@ -53,11 +64,14 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
     int startPage = 1,
     int limit = 20,
   }) async {
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingMemberApiPath.applyList,
-      data: <String, dynamic>{'startPage': startPage, 'limit': limit},
-      options: authRequired(true),
-    );
+    const path = FundingMemberApiPath.applyList;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .post<Map<String, dynamic>>(
+          path,
+          data: <String, dynamic>{'startPage': startPage, 'limit': limit},
+          options: authRequired(true),
+        );
 
     final rows = _envelopeCodec.extractPagedRows(
       _envelopeCodec.toJsonMap(response.data),
@@ -75,15 +89,18 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
     int startPage = 1,
     int limit = 20,
   }) async {
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingMemberApiPath.orderInquiryPage,
-      data: <String, dynamic>{
-        'startPage': startPage,
-        'limit': limit,
-        'userId': userId,
-      },
-      options: authRequired(true),
-    );
+    const path = FundingMemberApiPath.orderInquiryPage;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .post<Map<String, dynamic>>(
+          path,
+          data: <String, dynamic>{
+            'startPage': startPage,
+            'limit': limit,
+            'userId': userId,
+          },
+          options: authRequired(true),
+        );
 
     final rows = _envelopeCodec.extractPagedRows(
       _envelopeCodec.toJsonMap(response.data),
@@ -100,11 +117,14 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
     int startPage = 1,
     int limit = 20,
   }) async {
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingMemberApiPath.myInvestmentList,
-      data: <String, dynamic>{'startPage': startPage, 'limit': limit},
-      options: authRequired(true),
-    );
+    const path = FundingMemberApiPath.myInvestmentList;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .post<Map<String, dynamic>>(
+          path,
+          data: <String, dynamic>{'startPage': startPage, 'limit': limit},
+          options: authRequired(true),
+        );
 
     final rows = _envelopeCodec.extractPagedRows(
       _envelopeCodec.toJsonMap(response.data),

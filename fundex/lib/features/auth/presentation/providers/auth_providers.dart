@@ -144,7 +144,11 @@ final isAuthenticatedProvider = Provider<AsyncValue<bool>>((ref) {
 });
 
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
-  return AuthRemoteDataSourceImpl(ref.watch(oaCoreHttpClientProvider));
+  return AuthRemoteDataSourceImpl(
+    ref.watch(oaCoreHttpClientProvider),
+    memberClient: ref.watch(memberCoreHttpClientProvider),
+    clusterRouter: ref.watch(apiClusterRouterProvider),
+  );
 });
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

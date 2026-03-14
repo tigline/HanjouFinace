@@ -5,6 +5,7 @@ import 'package:core_network/core_network.dart';
 
 import '../../../../app/config/api_paths.dart';
 import '../../../../app/network/app_api_response_profiles.dart';
+import '../../../../app/network/api_cluster_router.dart';
 import '../../domain/constants/member_profile_upload_markers.dart';
 import '../models/member_profile_region_dto.dart';
 
@@ -22,26 +23,37 @@ abstract class MemberProfileRemoteDataSource {
 class MemberProfileRemoteDataSourceImpl
     implements MemberProfileRemoteDataSource {
   MemberProfileRemoteDataSourceImpl(
-    this._client, {
+    CoreHttpClient oaClient, {
+    CoreHttpClient? memberClient,
+    ApiClusterRouter? clusterRouter,
     LegacyEnvelopeCodec? envelopeCodec,
   }) : _envelopeCodec =
            envelopeCodec ??
            const LegacyEnvelopeCodec(
              profile: AppApiResponseProfiles.memberMixed,
+           ),
+       _clusterRouter =
+           clusterRouter ??
+           ApiClusterRouter.fromClients(
+             oaClient: oaClient,
+             memberClient: memberClient,
            );
 
-  final CoreHttpClient _client;
+  final ApiClusterRouter _clusterRouter;
   final LegacyEnvelopeCodec _envelopeCodec;
 
   @override
   Future<List<MemberProfileRegionDto>> fetchRegionsByZip({
     required String zip,
   }) async {
-    final response = await _client.dio.get<Map<String, dynamic>>(
-      FundingMemberApiPath.regionByZip,
-      queryParameters: <String, dynamic>{'zip': zip},
-      options: authRequired(true),
-    );
+    const path = FundingMemberApiPath.regionByZip;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .get<Map<String, dynamic>>(
+          path,
+          queryParameters: <String, dynamic>{'zip': zip},
+          options: authRequired(true),
+        );
 
     final rows = _extractRegionRows(
       _envelopeCodec.toJsonMap(response.data),
@@ -71,15 +83,17 @@ class MemberProfileRemoteDataSourceImpl
     final uploadPath = isSelfie
         ? FundingMemberApiPath.uploadRealPersonPhoto
         : FundingMemberApiPath.uploadPhoto;
-    final response = await _client.dio.post<dynamic>(
-      uploadPath,
-      data: FormData.fromMap(<String, dynamic>{
-        'file': await MultipartFile.fromFile(normalizedPath),
-      }),
-      options: authRequired(
-        true,
-      ).copyWith(contentType: Headers.multipartFormDataContentType),
-    );
+    final response = await _clusterRouter
+        .dioForPath(uploadPath)
+        .post<dynamic>(
+          uploadPath,
+          data: FormData.fromMap(<String, dynamic>{
+            'file': await MultipartFile.fromFile(normalizedPath),
+          }),
+          options: authRequired(
+            true,
+          ).copyWith(contentType: Headers.multipartFormDataContentType),
+        );
 
     _debugUploadResponse(path: uploadPath, data: response.data);
 
@@ -102,11 +116,14 @@ class MemberProfileRemoteDataSourceImpl
 
   @override
   Future<void> saveMemberInfo({required Map<String, dynamic> payload}) async {
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingMemberApiPath.saveMemberInfo,
-      data: payload,
-      options: authRequired(true),
-    );
+    const path = FundingMemberApiPath.saveMemberInfo;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .post<Map<String, dynamic>>(
+          path,
+          data: payload,
+          options: authRequired(true),
+        );
 
     _envelopeCodec.assertSuccessIfEnvelope(
       _envelopeCodec.toJsonMap(response.data),

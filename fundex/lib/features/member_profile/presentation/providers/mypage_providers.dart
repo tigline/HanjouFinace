@@ -12,7 +12,11 @@ import '../../domain/usecases/fetch_mypage_investment_list_usecase.dart';
 import '../../domain/usecases/fetch_mypage_order_inquiry_list_usecase.dart';
 
 final myPageRemoteDataSourceProvider = Provider<MyPageRemoteDataSource>((ref) {
-  return MyPageRemoteDataSourceImpl(ref.watch(oaCoreHttpClientProvider));
+  return MyPageRemoteDataSourceImpl(
+    ref.watch(oaCoreHttpClientProvider),
+    memberClient: ref.watch(memberCoreHttpClientProvider),
+    clusterRouter: ref.watch(apiClusterRouterProvider),
+  );
 });
 
 final myPageRepositoryProvider = Provider<MyPageRepository>((ref) {

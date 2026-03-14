@@ -7,6 +7,7 @@ import '../config/api_paths.dart';
 import '../config/environment_provider.dart';
 import '../observability/app_observability_providers.dart';
 import '../storage/app_storage_providers.dart';
+import 'api_cluster_router.dart';
 import 'app_observability_interceptor.dart';
 
 enum AppApiCluster { oa, member, hotel }
@@ -108,4 +109,12 @@ final memberCoreHttpClientProvider = Provider<CoreHttpClient>((ref) {
 
 final hotelCoreHttpClientProvider = Provider<CoreHttpClient>((ref) {
   return ref.watch(coreHttpClientByClusterProvider(AppApiCluster.hotel));
+});
+
+final apiClusterRouterProvider = Provider<ApiClusterRouter>((ref) {
+  return ApiClusterRouter.fromClients(
+    oaClient: ref.watch(oaCoreHttpClientProvider),
+    memberClient: ref.watch(memberCoreHttpClientProvider),
+    hotelClient: ref.watch(hotelCoreHttpClientProvider),
+  );
 });

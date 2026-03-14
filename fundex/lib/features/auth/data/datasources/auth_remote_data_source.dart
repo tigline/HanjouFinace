@@ -4,6 +4,7 @@ import 'package:encrypt/encrypt.dart' as crypto;
 
 import '../../../../app/config/api_paths.dart';
 import '../../../../app/network/app_api_response_profiles.dart';
+import '../../../../app/network/api_cluster_router.dart';
 import '../models/auth_login_result_dto.dart';
 import '../models/auth_session_dto.dart';
 import '../models/auth_user_dto.dart';
@@ -31,12 +32,22 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  AuthRemoteDataSourceImpl(this._client, {LegacyEnvelopeCodec? envelopeCodec})
-    : _envelopeCodec =
-          envelopeCodec ??
-          const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa);
+  AuthRemoteDataSourceImpl(
+    CoreHttpClient oaClient, {
+    CoreHttpClient? memberClient,
+    ApiClusterRouter? clusterRouter,
+    LegacyEnvelopeCodec? envelopeCodec,
+  }) : _envelopeCodec =
+           envelopeCodec ??
+           const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa),
+       _clusterRouter =
+           clusterRouter ??
+           ApiClusterRouter.fromClients(
+             oaClient: oaClient,
+             memberClient: memberClient,
+           );
 
-  final CoreHttpClient _client;
+  final ApiClusterRouter _clusterRouter;
   final LegacyEnvelopeCodec _envelopeCodec;
 
   bool _isEmailAccount(String account) => account.contains('@');
@@ -114,11 +125,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     final normalizedAccount = account.trim();
     if (_isEmailAccount(normalizedAccount)) {
-      final response = await _client.dio.get<Map<String, dynamic>>(
-        FundingAuthApiPath.emailLoginCode,
-        queryParameters: <String, dynamic>{'email': normalizedAccount},
-        options: authRequired(false),
-      );
+      const path = FundingAuthApiPath.emailLoginCode;
+      final response = await _clusterRouter
+          .dioForPath(path)
+          .get<Map<String, dynamic>>(
+            path,
+            queryParameters: <String, dynamic>{'email': normalizedAccount},
+            options: authRequired(false),
+          );
       _assertLegacyBoolSuccessIfPresent(
         _envelopeCodec.toJsonMap(response.data),
         fallbackMessage: 'Failed to send login code.',
@@ -126,17 +140,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return;
     }
 
-    final response = await _client.dio.get<Map<String, dynamic>>(
-      FundingAuthApiPath.smsCode,
-      queryParameters: <String, dynamic>{
-        'mobile': normalizedAccount,
-        'biz': _normalizedIntlCode(intlCode),
-        'secret': _buildSmsSecret(normalizedAccount),
-      },
-      options: authRequired(
-        false,
-      ).copyWith(contentType: Headers.formUrlEncodedContentType),
-    );
+    const path = FundingAuthApiPath.smsCode;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .get<Map<String, dynamic>>(
+          path,
+          queryParameters: <String, dynamic>{
+            'mobile': normalizedAccount,
+            'biz': _normalizedIntlCode(intlCode),
+            'secret': _buildSmsSecret(normalizedAccount),
+          },
+          options: authRequired(
+            false,
+          ).copyWith(contentType: Headers.formUrlEncodedContentType),
+        );
     _assertLegacyBoolSuccessIfPresent(
       _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to send login code.',
@@ -154,11 +171,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         : intlCode.trim();
 
     if (_isEmailAccount(normalizedAccount)) {
-      final response = await _client.dio.get<Map<String, dynamic>>(
-        FundingAuthApiPath.createRegisterEmailCode,
-        queryParameters: <String, dynamic>{'email': normalizedAccount},
-        options: authRequired(false),
-      );
+      const path = FundingAuthApiPath.createRegisterEmailCode;
+      final response = await _clusterRouter
+          .dioForPath(path)
+          .get<Map<String, dynamic>>(
+            path,
+            queryParameters: <String, dynamic>{'email': normalizedAccount},
+            options: authRequired(false),
+          );
       _assertLegacyBoolSuccessIfPresent(
         _envelopeCodec.toJsonMap(response.data),
         fallbackMessage: 'Failed to send registration code.',
@@ -166,17 +186,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return;
     }
 
-    final response = await _client.dio.get<Map<String, dynamic>>(
-      FundingAuthApiPath.createRegisterMobileCode,
-      queryParameters: <String, dynamic>{
-        'mobile': normalizedAccount,
-        'biz': normalizedIntlCode,
-        'secret': _buildSmsSecret(normalizedAccount),
-      },
-      options: authRequired(
-        false,
-      ).copyWith(contentType: Headers.formUrlEncodedContentType),
-    );
+    const path = FundingAuthApiPath.createRegisterMobileCode;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .get<Map<String, dynamic>>(
+          path,
+          queryParameters: <String, dynamic>{
+            'mobile': normalizedAccount,
+            'biz': normalizedIntlCode,
+            'secret': _buildSmsSecret(normalizedAccount),
+          },
+          options: authRequired(
+            false,
+          ).copyWith(contentType: Headers.formUrlEncodedContentType),
+        );
     _assertLegacyBoolSuccessIfPresent(
       _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to send registration code.',
@@ -193,23 +216,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final isEmail = _isEmailAccount(normalizedAccount);
     final normalizedIntlCode = _normalizedIntlCode(intlCode);
 
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingAuthApiPath.oauthToken,
-      data: <String, dynamic>{
-        'username': normalizedAccount,
-        'password': code.trim(),
-        'grant_type': 'password',
-        'auth_type': isEmail ? 'email' : 'mobile',
-        'scope': 'app',
-        if (!isEmail) 'code': normalizedIntlCode,
-      },
-      options: authRequired(false).copyWith(
-        headers: <String, dynamic>{
-          'Authorization': fundingOauthClientAuthorization,
-        },
-        contentType: Headers.formUrlEncodedContentType,
-      ),
-    );
+    const path = FundingAuthApiPath.oauthToken;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .post<Map<String, dynamic>>(
+          path,
+          data: <String, dynamic>{
+            'username': normalizedAccount,
+            'password': code.trim(),
+            'grant_type': 'password',
+            'auth_type': isEmail ? 'email' : 'mobile',
+            'scope': 'app',
+            if (!isEmail) 'code': normalizedIntlCode,
+          },
+          options: authRequired(false).copyWith(
+            headers: <String, dynamic>{
+              'Authorization': fundingOauthClientAuthorization,
+            },
+            contentType: Headers.formUrlEncodedContentType,
+          ),
+        );
 
     final payload = _extractTokenPayload(
       _envelopeCodec.toJsonMap(response.data),
@@ -222,10 +248,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<AuthUserDto?> fetchCurrentUser() async {
-    final response = await _client.dio.get<Map<String, dynamic>>(
-      FundingAuthApiPath.crowdfundingUserIndex,
-      options: authRequired(true),
-    );
+    const path = FundingAuthApiPath.crowdfundingUserIndex;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .get<Map<String, dynamic>>(path, options: authRequired(true));
 
     final payload = _extractEnvelopeDataPayload(
       _envelopeCodec.toJsonMap(response.data),
@@ -270,13 +296,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       payload['email'] = normalizedContact;
     }
 
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingAuthApiPath.registerApply,
-      data: payload,
-      options: authRequired(
-        false,
-      ).copyWith(contentType: Headers.jsonContentType),
-    );
+    const path = FundingAuthApiPath.registerApply;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .post<Map<String, dynamic>>(
+          path,
+          data: payload,
+          options: authRequired(
+            false,
+          ).copyWith(contentType: Headers.jsonContentType),
+        );
     final responsePayload = _envelopeCodec.toJsonMap(response.data);
     _assertLegacyBoolSuccessIfPresent(
       responsePayload,
@@ -291,19 +320,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return null;
     }
 
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingAuthApiPath.oauthToken,
-      data: <String, dynamic>{
-        'grant_type': 'refresh_token',
-        'refresh_token': normalizedRefreshToken,
-      },
-      options: authRequired(false).copyWith(
-        headers: <String, dynamic>{
-          'Authorization': fundingOauthClientAuthorization,
-        },
-        contentType: Headers.formUrlEncodedContentType,
-      ),
-    );
+    const path = FundingAuthApiPath.oauthToken;
+    final response = await _clusterRouter
+        .dioForPath(path)
+        .post<Map<String, dynamic>>(
+          path,
+          data: <String, dynamic>{
+            'grant_type': 'refresh_token',
+            'refresh_token': normalizedRefreshToken,
+          },
+          options: authRequired(false).copyWith(
+            headers: <String, dynamic>{
+              'Authorization': fundingOauthClientAuthorization,
+            },
+            contentType: Headers.formUrlEncodedContentType,
+          ),
+        );
 
     final rawPayload = _envelopeCodec.toJsonMap(response.data);
     if (rawPayload.isEmpty) {
@@ -332,15 +364,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return;
     }
 
-    await _client.dio.delete<void>(
-      FundingAuthApiPath.oauthToken,
-      data: <String, dynamic>{'accessToken': normalizedAccessToken},
-      options: authRequired(false).copyWith(
-        headers: <String, dynamic>{
-          'Authorization': fundingOauthClientAuthorization,
-        },
-        contentType: Headers.jsonContentType,
-      ),
-    );
+    const path = FundingAuthApiPath.oauthToken;
+    await _clusterRouter
+        .dioForPath(path)
+        .delete<void>(
+          path,
+          data: <String, dynamic>{'accessToken': normalizedAccessToken},
+          options: authRequired(false).copyWith(
+            headers: <String, dynamic>{
+              'Authorization': fundingOauthClientAuthorization,
+            },
+            contentType: Headers.jsonContentType,
+          ),
+        );
   }
 }
