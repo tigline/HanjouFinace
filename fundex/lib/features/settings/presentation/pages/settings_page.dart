@@ -182,7 +182,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 label: l10n.menuItemTwoFactor,
                 iconBackgroundColor: AppColorTokens.fundexVioletLight,
                 iconForegroundColor: const Color(0xFF7C3AED),
-                onTap: () => _showComingSoon(l10n.menuItemTwoFactor),
+                onTap: () => context.push('/auth/real-person'),
               ),
             ],
           ),

@@ -2021,4 +2021,38 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get memberProfileExperienceNone => '投資経験なし';
+
+  @override
+  String get identityAuthPageTitle => '本人確認';
+
+  @override
+  String get identityAuthPageDescription =>
+      'セキュリティが必要な操作のために、顔認証で本人確認を完了してください。';
+
+  @override
+  String get identityAuthStartAction => '認証を開始';
+
+  @override
+  String get identityAuthAlreadyVerified => '本人確認はすでに完了しています。';
+
+  @override
+  String get identityAuthVerifySuccess => '本人確認が完了しました。';
+
+  @override
+  String get identityAuthVerifyFailed => '本人確認に失敗しました。再度お試しください。';
+
+  @override
+  String get identityAuthCollectFailed => '顔の撮影に失敗しました。再度お試しください。';
+
+  @override
+  String get identityAuthLivenessNotConfigured => '顔認証機能の設定が未完了です。';
+
+  @override
+  String get identityAuthBiometricNotConfigured => '生体認証機能の設定が未完了です。';
+
+  @override
+  String get identityAuthSensitiveBlocked => 'この重要な操作を続行できません。';
+
+  @override
+  String get identityAuthBaiduLicenseMissing => 'Baidu顔認証ライセンスが設定されていません。';
 }

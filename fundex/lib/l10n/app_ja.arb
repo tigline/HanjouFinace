@@ -727,5 +727,16 @@
   "memberProfileExperienceRealEstateCrowdfunding": "不動産クラファン/FTK",
   "memberProfileExperienceBonds": "債券",
   "memberProfileExperienceFxCrypto": "FX・暗号資産",
-  "memberProfileExperienceNone": "投資経験なし"
+  "memberProfileExperienceNone": "投資経験なし",
+  "identityAuthPageTitle": "本人確認",
+  "identityAuthPageDescription": "セキュリティが必要な操作のために、顔認証で本人確認を完了してください。",
+  "identityAuthStartAction": "認証を開始",
+  "identityAuthAlreadyVerified": "本人確認はすでに完了しています。",
+  "identityAuthVerifySuccess": "本人確認が完了しました。",
+  "identityAuthVerifyFailed": "本人確認に失敗しました。再度お試しください。",
+  "identityAuthCollectFailed": "顔の撮影に失敗しました。再度お試しください。",
+  "identityAuthLivenessNotConfigured": "顔認証機能の設定が未完了です。",
+  "identityAuthBiometricNotConfigured": "生体認証機能の設定が未完了です。",
+  "identityAuthSensitiveBlocked": "この重要な操作を続行できません。",
+  "identityAuthBaiduLicenseMissing": "Baidu顔認証ライセンスが設定されていません。"
 }

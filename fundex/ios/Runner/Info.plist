@@ -30,6 +30,8 @@
 	<string>用于从相册选择证件照片，完成交易与订房前的资料录入。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>用于在基金详情页显示当前位置与路线导航。</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>用于敏感操作的生物识别验证，保护您的账户安全。</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

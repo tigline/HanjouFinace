@@ -727,5 +727,16 @@
   "memberProfileExperienceRealEstateCrowdfunding": "Real estate crowdfunding / FTK",
   "memberProfileExperienceBonds": "Bonds",
   "memberProfileExperienceFxCrypto": "FX / Crypto assets",
-  "memberProfileExperienceNone": "No investment experience"
+  "memberProfileExperienceNone": "No investment experience",
+  "identityAuthPageTitle": "Identity Verification",
+  "identityAuthPageDescription": "Use facial verification to complete real-person authentication for security-sensitive actions.",
+  "identityAuthStartAction": "Start verification",
+  "identityAuthAlreadyVerified": "Identity verification is already completed.",
+  "identityAuthVerifySuccess": "Identity verification succeeded.",
+  "identityAuthVerifyFailed": "Identity verification failed. Please try again.",
+  "identityAuthCollectFailed": "Face capture failed. Please try again.",
+  "identityAuthLivenessNotConfigured": "Liveness collector is not configured.",
+  "identityAuthBiometricNotConfigured": "Biometric authentication is not configured.",
+  "identityAuthSensitiveBlocked": "Unable to continue this sensitive action.",
+  "identityAuthBaiduLicenseMissing": "Baidu face SDK license is missing."
 }

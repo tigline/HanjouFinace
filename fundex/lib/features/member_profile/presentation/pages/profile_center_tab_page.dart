@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../auth/presentation/support/identity_auth_guard.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
 import '../../domain/entities/mypage_models.dart';
@@ -108,10 +109,7 @@ class ProfileCenterTabPage extends ConsumerWidget {
                   backgroundColor: AppColorTokens.fundexBackground,
                   borderColor: AppColorTokens.fundexBorder,
                   foregroundColor: AppColorTokens.fundexTextSecondary,
-                  onTap: () => _showSnackBar(
-                    context,
-                    message: l10n.myPageWithdrawComingSoon,
-                  ),
+                  onTap: () => _handleWithdrawTap(context, ref),
                 ),
               ],
             ),
@@ -450,6 +448,14 @@ Future<void> _refreshPage(WidgetRef ref) async {
     ref.refresh(myPageOrderInquiryListProvider.future).then((_) {}),
     ref.refresh(myPageInvestmentListProvider.future).then((_) {}),
   ]);
+}
+
+Future<void> _handleWithdrawTap(BuildContext context, WidgetRef ref) async {
+  final allowed = await ensureSensitiveActionAuthorized(context, ref);
+  if (!context.mounted || !allowed) {
+    return;
+  }
+  _showSnackBar(context, message: context.l10n.myPageWithdrawComingSoon);
 }
 
 VoidCallback? _buildProjectTapHandler(BuildContext context, String? projectId) {

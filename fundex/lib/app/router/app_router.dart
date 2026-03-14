@@ -9,6 +9,7 @@ import '../../features/auth/presentation/pages/auth_entry_page.dart';
 import '../../features/auth/presentation/pages/auth_mode_pages.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/auth/presentation/pages/real_person_auth_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/discussion_board/presentation/pages/discussion_board_tab_page.dart';
 import '../../features/home/presentation/pages/home_overview_tab_page.dart';
@@ -156,6 +157,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/forgot-password',
         builder: (BuildContext context, GoRouterState state) {
           return const ForgotPasswordPage();
+        },
+      ),
+      GoRoute(
+        path: '/auth/real-person',
+        builder: (BuildContext context, GoRouterState state) {
+          return const RealPersonAuthPage();
         },
       ),
       StatefulShellRoute.indexedStack(

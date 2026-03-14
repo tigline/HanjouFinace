@@ -2144,4 +2144,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get memberProfileExperienceNone => 'No investment experience';
+
+  @override
+  String get identityAuthPageTitle => 'Identity Verification';
+
+  @override
+  String get identityAuthPageDescription =>
+      'Use facial verification to complete real-person authentication for security-sensitive actions.';
+
+  @override
+  String get identityAuthStartAction => 'Start verification';
+
+  @override
+  String get identityAuthAlreadyVerified =>
+      'Identity verification is already completed.';
+
+  @override
+  String get identityAuthVerifySuccess => 'Identity verification succeeded.';
+
+  @override
+  String get identityAuthVerifyFailed =>
+      'Identity verification failed. Please try again.';
+
+  @override
+  String get identityAuthCollectFailed =>
+      'Face capture failed. Please try again.';
+
+  @override
+  String get identityAuthLivenessNotConfigured =>
+      'Liveness collector is not configured.';
+
+  @override
+  String get identityAuthBiometricNotConfigured =>
+      'Biometric authentication is not configured.';
+
+  @override
+  String get identityAuthSensitiveBlocked =>
+      'Unable to continue this sensitive action.';
+
+  @override
+  String get identityAuthBaiduLicenseMissing =>
+      'Baidu face SDK license is missing.';
 }

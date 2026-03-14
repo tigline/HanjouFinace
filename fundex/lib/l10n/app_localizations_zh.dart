@@ -2010,6 +2010,39 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get memberProfileExperienceNone => '无投资经验';
+
+  @override
+  String get identityAuthPageTitle => '实人认证';
+
+  @override
+  String get identityAuthPageDescription => '请通过人脸核验完成实人认证，用于保护高敏感操作的安全。';
+
+  @override
+  String get identityAuthStartAction => '开始认证';
+
+  @override
+  String get identityAuthAlreadyVerified => '实人认证已完成。';
+
+  @override
+  String get identityAuthVerifySuccess => '实人认证成功。';
+
+  @override
+  String get identityAuthVerifyFailed => '实人认证失败，请稍后重试。';
+
+  @override
+  String get identityAuthCollectFailed => '人脸采集失败，请重试。';
+
+  @override
+  String get identityAuthLivenessNotConfigured => '人脸采集能力未配置。';
+
+  @override
+  String get identityAuthBiometricNotConfigured => '系统生物识别能力未配置。';
+
+  @override
+  String get identityAuthSensitiveBlocked => '当前无法继续该敏感操作。';
+
+  @override
+  String get identityAuthBaiduLicenseMissing => '未配置百度人脸SDK许可证。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -4018,4 +4051,37 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get memberProfileExperienceNone => '无投资经验';
+
+  @override
+  String get identityAuthPageTitle => '真人認證';
+
+  @override
+  String get identityAuthPageDescription => '請透過人臉核驗完成真人認證，用於保護高敏感操作安全。';
+
+  @override
+  String get identityAuthStartAction => '開始認證';
+
+  @override
+  String get identityAuthAlreadyVerified => '真人認證已完成。';
+
+  @override
+  String get identityAuthVerifySuccess => '真人認證成功。';
+
+  @override
+  String get identityAuthVerifyFailed => '真人認證失敗，請稍後再試。';
+
+  @override
+  String get identityAuthCollectFailed => '人臉採集失敗，請重試。';
+
+  @override
+  String get identityAuthLivenessNotConfigured => '人臉採集能力尚未配置。';
+
+  @override
+  String get identityAuthBiometricNotConfigured => '系統生物識別能力尚未配置。';
+
+  @override
+  String get identityAuthSensitiveBlocked => '目前無法繼續此敏感操作。';
+
+  @override
+  String get identityAuthBaiduLicenseMissing => '尚未配置百度人臉SDK授權。';
 }

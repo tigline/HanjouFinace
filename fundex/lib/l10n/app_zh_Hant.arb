@@ -727,5 +727,16 @@
   "memberProfileExperienceRealEstateCrowdfunding": "不动产众筹 / FTK",
   "memberProfileExperienceBonds": "债券",
   "memberProfileExperienceFxCrypto": "外汇・加密资产",
-  "memberProfileExperienceNone": "无投资经验"
+  "memberProfileExperienceNone": "无投资经验",
+  "identityAuthPageTitle": "真人認證",
+  "identityAuthPageDescription": "請透過人臉核驗完成真人認證，用於保護高敏感操作安全。",
+  "identityAuthStartAction": "開始認證",
+  "identityAuthAlreadyVerified": "真人認證已完成。",
+  "identityAuthVerifySuccess": "真人認證成功。",
+  "identityAuthVerifyFailed": "真人認證失敗，請稍後再試。",
+  "identityAuthCollectFailed": "人臉採集失敗，請重試。",
+  "identityAuthLivenessNotConfigured": "人臉採集能力尚未配置。",
+  "identityAuthBiometricNotConfigured": "系統生物識別能力尚未配置。",
+  "identityAuthSensitiveBlocked": "目前無法繼續此敏感操作。",
+  "identityAuthBaiduLicenseMissing": "尚未配置百度人臉SDK授權。"
 }

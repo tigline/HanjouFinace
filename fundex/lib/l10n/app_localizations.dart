@@ -4030,6 +4030,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No investment experience'**
   String get memberProfileExperienceNone;
+
+  /// No description provided for @identityAuthPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity Verification'**
+  String get identityAuthPageTitle;
+
+  /// No description provided for @identityAuthPageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Use facial verification to complete real-person authentication for security-sensitive actions.'**
+  String get identityAuthPageDescription;
+
+  /// No description provided for @identityAuthStartAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Start verification'**
+  String get identityAuthStartAction;
+
+  /// No description provided for @identityAuthAlreadyVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity verification is already completed.'**
+  String get identityAuthAlreadyVerified;
+
+  /// No description provided for @identityAuthVerifySuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity verification succeeded.'**
+  String get identityAuthVerifySuccess;
+
+  /// No description provided for @identityAuthVerifyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity verification failed. Please try again.'**
+  String get identityAuthVerifyFailed;
+
+  /// No description provided for @identityAuthCollectFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Face capture failed. Please try again.'**
+  String get identityAuthCollectFailed;
+
+  /// No description provided for @identityAuthLivenessNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Liveness collector is not configured.'**
+  String get identityAuthLivenessNotConfigured;
+
+  /// No description provided for @identityAuthBiometricNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication is not configured.'**
+  String get identityAuthBiometricNotConfigured;
+
+  /// No description provided for @identityAuthSensitiveBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to continue this sensitive action.'**
+  String get identityAuthSensitiveBlocked;
+
+  /// No description provided for @identityAuthBaiduLicenseMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Baidu face SDK license is missing.'**
+  String get identityAuthBaiduLicenseMissing;
 }
 
 class _AppLocalizationsDelegate
