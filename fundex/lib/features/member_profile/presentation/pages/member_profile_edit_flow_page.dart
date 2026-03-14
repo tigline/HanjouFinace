@@ -9,6 +9,7 @@ import '../../../auth/domain/entities/auth_user.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../domain/constants/member_profile_upload_markers.dart';
 import '../../domain/entities/member_profile_details.dart';
+import '../../domain/entities/member_profile_region.dart';
 import '../pages/edit_flow_steps/member_profile_address_info_step_page.dart';
 import '../pages/edit_flow_steps/member_profile_bank_account_step_page.dart';
 import '../pages/edit_flow_steps/member_profile_basic_info_step_page.dart';
@@ -19,6 +20,7 @@ import '../providers/member_profile_providers.dart';
 import '../support/member_profile_edit_step.dart';
 import '../support/member_profile_option_item.dart';
 import '../support/profile_document_image_picker.dart';
+import '../support/member_profile_zip_candidate_picker.dart';
 
 class MemberProfileEditFlowPage extends ConsumerStatefulWidget {
   const MemberProfileEditFlowPage({super.key});
@@ -65,6 +67,7 @@ class _MemberProfileEditFlowPageState
   bool _isLoading = true;
   bool _isSubmitting = false;
   bool _isUploadingPhoto = false;
+  bool _isAddressSearching = false;
 
   @override
   void initState() {
@@ -371,8 +374,85 @@ class _MemberProfileEditFlowPageState
     }
   }
 
-  Future<void> _showComingSoon(String message) async {
-    AppNotice.show(context, message: message);
+  Future<void> _searchAddressByPostalCode() async {
+    if (_isAddressSearching || _isSubmitting || _isUploadingPhoto) {
+      return;
+    }
+
+    final l10n = context.l10n;
+    final zip = _normalizePostalCode(_postalCodeController.text);
+    if (zip.length != 7) {
+      AppNotice.show(context, message: l10n.memberProfileAddressSearchZipError);
+      return;
+    }
+
+    setState(() {
+      _isAddressSearching = true;
+    });
+
+    try {
+      final List<MemberProfileRegion> rows = await ref
+          .read(fetchMemberProfileRegionsByZipUseCaseProvider)
+          .call(zip: zip);
+      if (!mounted) {
+        return;
+      }
+
+      if (rows.isEmpty) {
+        AppNotice.show(context, message: l10n.memberProfileAddressSearchEmpty);
+        return;
+      }
+
+      final MemberProfileRegion? selected = rows.length == 1
+          ? rows.first
+          : await MemberProfileZipCandidatePicker.show(
+              context,
+              candidates: rows,
+              title: l10n.memberProfileAddressSearchSelectTitle,
+              cancelLabel: l10n.commonClose,
+            );
+
+      if (!mounted || selected == null) {
+        return;
+      }
+
+      _applyResolvedAddress(selected.displayName);
+      await _persistDraft();
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      AppNotice.show(
+        context,
+        message: _resolveSubmitErrorMessage(error, l10n.uiErrorRequestFailed),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isAddressSearching = false;
+        });
+      }
+    }
+  }
+
+  void _applyResolvedAddress(String rawAddress) {
+    final normalizedAddress = rawAddress.trim();
+    if (normalizedAddress.isEmpty) {
+      return;
+    }
+
+    final resolvedPrefecture = _resolvePrefecture(normalizedAddress);
+    final normalizedCityAddress = _cityAddressWithoutPrefecture(
+      normalizedAddress,
+      resolvedPrefecture,
+    );
+
+    setState(() {
+      if (resolvedPrefecture != null) {
+        _prefecture = resolvedPrefecture;
+      }
+      _cityAddressController.text = normalizedCityAddress;
+    });
   }
 
   Future<void> _goNextStep() async {
@@ -864,7 +944,6 @@ class _MemberProfileEditFlowPageState
   }
 
   Widget _buildStep(BuildContext context) {
-    final l10n = context.l10n;
     switch (_currentStep) {
       case MemberProfileEditStep.basicInfo:
         final bool isActionEnabled = _canProceedFromCurrentStep;
@@ -892,8 +971,9 @@ class _MemberProfileEditFlowPageState
               _prefecture = value;
             });
           },
-          onAddressSearch: () =>
-              _showComingSoon(l10n.memberProfileAddressSearchPending),
+          onAddressSearch: _isAddressSearching
+              ? null
+              : _searchAddressByPostalCode,
           onNext: _goNextStep,
           onSkip: isActionEnabled ? _goNextStep : null,
         );
@@ -1183,4 +1263,31 @@ String _composeAddress({
     _ => '',
   };
   return _joinNonEmpty(<String?>[prefecture, cityAddress]);
+}
+
+String _normalizePostalCode(String value) {
+  return value.replaceAll(RegExp(r'[^0-9]'), '');
+}
+
+String _cityAddressWithoutPrefecture(String address, String? prefectureCode) {
+  final normalizedAddress = address.trim();
+  if (normalizedAddress.isEmpty) {
+    return '';
+  }
+
+  final prefecture = switch (prefectureCode) {
+    'tokyo' => '東京都',
+    'osaka' => '大阪府',
+    'kanagawa' => '神奈川県',
+    'aichi' => '愛知県',
+    'fukuoka' => '福岡県',
+    _ => '',
+  };
+  if (prefecture.isNotEmpty && normalizedAddress.startsWith(prefecture)) {
+    final cityOnly = normalizedAddress.substring(prefecture.length).trim();
+    if (cityOnly.isNotEmpty) {
+      return cityOnly;
+    }
+  }
+  return normalizedAddress;
 }

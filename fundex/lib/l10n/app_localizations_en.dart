@@ -1821,6 +1821,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Address lookup will be connected in a later implementation.';
 
   @override
+  String get memberProfileAddressSearchZipError =>
+      'Please enter a 7-digit postal code.';
+
+  @override
+  String get memberProfileAddressSearchEmpty =>
+      'No address was found for this postal code.';
+
+  @override
+  String get memberProfileAddressSearchSelectTitle => 'Select an address';
+
+  @override
   String get memberProfilePrefectureLabel => 'Prefecture';
 
   @override

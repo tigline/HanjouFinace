@@ -3437,6 +3437,24 @@ abstract class AppLocalizations {
   /// **'Address lookup will be connected in a later implementation.'**
   String get memberProfileAddressSearchPending;
 
+  /// No description provided for @memberProfileAddressSearchZipError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a 7-digit postal code.'**
+  String get memberProfileAddressSearchZipError;
+
+  /// No description provided for @memberProfileAddressSearchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No address was found for this postal code.'**
+  String get memberProfileAddressSearchEmpty;
+
+  /// No description provided for @memberProfileAddressSearchSelectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an address'**
+  String get memberProfileAddressSearchSelectTitle;
+
   /// No description provided for @memberProfilePrefectureLabel.
   ///
   /// In en, this message translates to:

@@ -1720,6 +1720,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memberProfileAddressSearchPending => '住所検索は次の実装で接続します。';
 
   @override
+  String get memberProfileAddressSearchZipError => '郵便番号は7桁で入力してください。';
+
+  @override
+  String get memberProfileAddressSearchEmpty => '該当する住所が見つかりませんでした。';
+
+  @override
+  String get memberProfileAddressSearchSelectTitle => '候補から住所を選択';
+
+  @override
   String get memberProfilePrefectureLabel => '都道府県';
 
   @override

@@ -1,5 +1,6 @@
 import '../../../auth/data/datasources/auth_local_data_source.dart';
 import '../../domain/entities/member_profile_details.dart';
+import '../../domain/entities/member_profile_region.dart';
 import '../../domain/repositories/member_profile_repository.dart';
 import '../datasources/member_profile_local_data_source.dart';
 import '../datasources/member_profile_remote_data_source.dart';
@@ -45,6 +46,13 @@ class MemberProfileRepositoryImpl implements MemberProfileRepository {
     } catch (_) {
       // Keep member profile features available even when local cache fails.
     }
+  }
+
+  @override
+  Future<List<MemberProfileRegion>> fetchRegionsByZip({required String zip}) {
+    return _remote
+        .fetchRegionsByZip(zip: zip)
+        .then((rows) => rows.map((row) => row.toEntity()).toList());
   }
 
   @override

@@ -4,8 +4,11 @@ import 'package:core_network/core_network.dart';
 
 import '../../../../app/config/api_paths.dart';
 import '../../domain/constants/member_profile_upload_markers.dart';
+import '../models/member_profile_region_dto.dart';
 
 abstract class MemberProfileRemoteDataSource {
+  Future<List<MemberProfileRegionDto>> fetchRegionsByZip({required String zip});
+
   Future<String> uploadPhoto({
     required String filePath,
     required bool isSelfie,
@@ -19,6 +22,26 @@ class MemberProfileRemoteDataSourceImpl
   MemberProfileRemoteDataSourceImpl(this._client);
 
   final CoreHttpClient _client;
+
+  @override
+  Future<List<MemberProfileRegionDto>> fetchRegionsByZip({
+    required String zip,
+  }) async {
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      FundingMemberApiPath.regionByZip,
+      queryParameters: <String, dynamic>{'zip': zip},
+      options: authRequired(true),
+    );
+
+    final rows = _extractDataRows(
+      _toJsonMap(response.data),
+      fallbackMessage: 'Failed to lookup address by postal code.',
+    );
+
+    return rows
+        .map((row) => MemberProfileRegionDto.fromJson(row))
+        .toList(growable: false);
+  }
 
   @override
   Future<String> uploadPhoto({
@@ -166,6 +189,39 @@ class MemberProfileRemoteDataSourceImpl
       throw StateError(fallbackMessage);
     }
     return text;
+  }
+
+  List<Map<String, dynamic>> _extractDataRows(
+    Map<String, dynamic> payload, {
+    required String fallbackMessage,
+  }) {
+    if (payload.isEmpty) {
+      return const <Map<String, dynamic>>[];
+    }
+
+    if (_looksLikeLegacyEnvelope(payload)) {
+      if (!_isLegacySuccessResponse(payload)) {
+        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
+      }
+      final data = payload['data'];
+      if (data is List) {
+        return data
+            .map<Map<String, dynamic>>((item) => _toJsonMap(item))
+            .where((item) => item.isNotEmpty)
+            .toList(growable: false);
+      }
+      return const <Map<String, dynamic>>[];
+    }
+
+    if (payload['rows'] is List) {
+      final rows = payload['rows'] as List<dynamic>;
+      return rows
+          .map<Map<String, dynamic>>((item) => _toJsonMap(item))
+          .where((item) => item.isNotEmpty)
+          .toList(growable: false);
+    }
+
+    return const <Map<String, dynamic>>[];
   }
 
   void _assertSelfieUploadSucceeded({

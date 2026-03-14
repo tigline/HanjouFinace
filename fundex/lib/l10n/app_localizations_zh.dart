@@ -1709,6 +1709,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get memberProfileAddressSearchPending => '地址检索会在后续实现中接入。';
 
   @override
+  String get memberProfileAddressSearchZipError => '请输入7位邮编。';
+
+  @override
+  String get memberProfileAddressSearchEmpty => '未找到对应地址。';
+
+  @override
+  String get memberProfileAddressSearchSelectTitle => '请选择地址';
+
+  @override
   String get memberProfilePrefectureLabel => '都道府县';
 
   @override
@@ -3706,6 +3715,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get memberProfileAddressSearchPending => '地址检索会在后续实现中接入。';
+
+  @override
+  String get memberProfileAddressSearchZipError => '請輸入7位郵遞區號。';
+
+  @override
+  String get memberProfileAddressSearchEmpty => '未找到對應地址。';
+
+  @override
+  String get memberProfileAddressSearchSelectTitle => '請選擇地址';
 
   @override
   String get memberProfilePrefectureLabel => '都道府縣';

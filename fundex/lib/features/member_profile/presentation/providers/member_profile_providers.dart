@@ -7,6 +7,7 @@ import '../../data/datasources/member_profile_remote_data_source.dart';
 import '../../data/repositories/member_profile_repository_impl.dart';
 import '../../domain/entities/member_profile_details.dart';
 import '../../domain/repositories/member_profile_repository.dart';
+import '../../domain/usecases/fetch_member_profile_regions_by_zip_usecase.dart';
 import '../../domain/usecases/is_member_profile_completed_usecase.dart';
 import '../../domain/usecases/load_member_profile_details_usecase.dart';
 import '../../domain/usecases/mark_member_profile_skipped_usecase.dart';
@@ -65,6 +66,13 @@ final submitMemberProfileUseCaseProvider = Provider<SubmitMemberProfileUseCase>(
 final uploadMemberProfilePhotoUseCaseProvider =
     Provider<UploadMemberProfilePhotoUseCase>((ref) {
       return UploadMemberProfilePhotoUseCase(
+        ref.watch(memberProfileRepositoryProvider),
+      );
+    });
+
+final fetchMemberProfileRegionsByZipUseCaseProvider =
+    Provider<FetchMemberProfileRegionsByZipUseCase>((ref) {
+      return FetchMemberProfileRegionsByZipUseCase(
         ref.watch(memberProfileRepositoryProvider),
       );
     });

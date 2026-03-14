@@ -58,6 +58,9 @@ class FundingMemberApiPath {
   /// Source: funding Swagger (`user-rest`).
   static const String uploadPhoto = '/crowdfunding/user/upload/photo';
 
+  /// Source: funding Swagger (`user-rest`) `regionByZipUsingGET`.
+  static const String regionByZip = '/crowdfunding/user/region/zip';
+
   /// Source: backend requirement for selfie upload.
   static const String uploadRealPersonPhoto = '/member/real/person/upload';
 }
