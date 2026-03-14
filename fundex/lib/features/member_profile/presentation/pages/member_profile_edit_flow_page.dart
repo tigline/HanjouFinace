@@ -201,8 +201,10 @@ class _MemberProfileEditFlowPageState
         _documentType =
             _emptyToNull(savedProfile?.ekycDocumentType) ?? 'drivers_license';
         _accountType =
-            _emptyToNull(savedProfile?.bankAccountType) ??
-            _emptyToNull(_readBankString(authBank, 'bankAccountType')) ??
+            _normalizeAccountType(
+              _emptyToNull(savedProfile?.bankAccountType) ??
+                  _emptyToNull(_readBankString(authBank, 'bankAccountType')),
+            ) ??
             'ordinary';
         _phoneIntlCode = _firstNonEmpty(<String>[
           savedProfile?.phoneIntlCode ?? '',
@@ -887,17 +889,25 @@ class _MemberProfileEditFlowPageState
           onNext: _goNextStep,
         );
       case MemberProfileEditStep.bankAccount:
+        final accountTypeItems = _simpleItems(_accountTypeOptions(context));
+        final accountTypeValues = accountTypeItems
+            .map((DropdownMenuItem<String> item) => item.value)
+            .whereType<String>()
+            .toSet();
+        final safeAccountType = accountTypeValues.contains(_accountType)
+            ? _accountType
+            : null;
         return MemberProfileBankAccountStepPage(
           bankNameController: _bankNameController,
           branchNameController: _branchNameController,
-          accountType: _accountType,
-          accountTypeItems: _simpleItems(_accountTypeOptions(context)),
+          accountType: safeAccountType,
+          accountTypeItems: accountTypeItems,
           accountNumberController: _accountNumberController,
           accountHolderController: _accountHolderController,
           primaryButtonEnabled: _canProceedFromCurrentStep,
           onAccountTypeChanged: (String? value) {
             setState(() {
-              _accountType = value;
+              _accountType = _normalizeAccountType(value);
             });
           },
           onNext: _goNextStep,
@@ -994,6 +1004,28 @@ String _readBankString(Map<String, dynamic>? bank, String key) {
   }
   final String text = value.toString().trim();
   return text;
+}
+
+String? _normalizeAccountType(String? raw) {
+  final String normalized = raw?.trim().toLowerCase() ?? '';
+  if (normalized.isEmpty) {
+    return null;
+  }
+  switch (normalized) {
+    case '1':
+    case 'ordinary':
+    case '普通':
+    case '普通預金':
+      return 'ordinary';
+    case '2':
+    case 'checking':
+    case 'current':
+    case '当座':
+    case '当座預金':
+      return 'checking';
+    default:
+      return normalized;
+  }
 }
 
 (String, String) _splitJapaneseName(String fullName) {
