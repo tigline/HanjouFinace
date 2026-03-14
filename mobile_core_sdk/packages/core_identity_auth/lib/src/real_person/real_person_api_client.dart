@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 
 import 'real_person_endpoints.dart';
@@ -10,11 +11,16 @@ class RealPersonApiClient implements RealPersonGateway {
   RealPersonApiClient({
     required CoreHttpClient client,
     RealPersonEndpoints endpoints = const RealPersonEndpoints(),
+    LegacyEnvelopeCodec envelopeCodec = const LegacyEnvelopeCodec(
+      profile: LegacyEnvelopeProfile(successCodes: <String>{'0', '200'}),
+    ),
   }) : _client = client,
-       _endpoints = endpoints;
+       _endpoints = endpoints,
+       _envelopeCodec = envelopeCodec;
 
   final CoreHttpClient _client;
   final RealPersonEndpoints _endpoints;
+  final LegacyEnvelopeCodec _envelopeCodec;
 
   @override
   Future<String> fetchToken({required String bizId}) async {
@@ -24,7 +30,7 @@ class RealPersonApiClient implements RealPersonGateway {
       options: authRequired(true),
     );
     return _extractDataAsString(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to fetch real-person token.',
     );
   }
@@ -37,7 +43,7 @@ class RealPersonApiClient implements RealPersonGateway {
       options: authRequired(true),
     );
     return _extractDataAsMap(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to fetch real-person result.',
     );
   }
@@ -50,7 +56,7 @@ class RealPersonApiClient implements RealPersonGateway {
       options: authRequired(true),
     );
     return _extractDataAsMap(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to fetch verify image.',
     );
   }
@@ -84,7 +90,7 @@ class RealPersonApiClient implements RealPersonGateway {
       data: request.toJson(),
       options: authRequired(true),
     );
-    final envelope = _toJsonMap(response.data);
+    final envelope = _envelopeCodec.toJsonMap(response.data);
     final data = _extractDataAsMap(
       envelope,
       fallbackMessage: 'Failed to identify real person.',
@@ -121,37 +127,9 @@ class RealPersonApiClient implements RealPersonGateway {
     );
 
     return _extractDataAsMap(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: fallbackMessage,
     );
-  }
-
-  Map<String, dynamic> _toJsonMap(dynamic data) {
-    if (data is Map<String, dynamic>) {
-      return data;
-    }
-    if (data is Map) {
-      return Map<String, dynamic>.from(data);
-    }
-    return <String, dynamic>{};
-  }
-
-  bool _looksLikeEnvelope(Map<String, dynamic> payload) {
-    return payload.containsKey('code') ||
-        payload.containsKey('msg') ||
-        payload.containsKey('data');
-  }
-
-  bool _isSuccessCode(dynamic code) {
-    return code == 200 || code == '200' || code == 0 || code == '0';
-  }
-
-  Never _throwFailure(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    final message = payload['msg'] ?? payload['message'] ?? fallbackMessage;
-    throw StateError(message.toString());
   }
 
   dynamic _extractData(
@@ -162,11 +140,12 @@ class RealPersonApiClient implements RealPersonGateway {
       return null;
     }
 
-    if (_looksLikeEnvelope(payload)) {
-      if (!_isSuccessCode(payload['code'])) {
-        _throwFailure(payload, fallbackMessage: fallbackMessage);
-      }
-      return payload['data'];
+    if (_envelopeCodec.looksLikeEnvelope(payload)) {
+      _envelopeCodec.assertSuccessIfEnvelope(
+        payload,
+        fallbackMessage: fallbackMessage,
+      );
+      return payload[_envelopeCodec.profile.dataKey];
     }
 
     return payload;

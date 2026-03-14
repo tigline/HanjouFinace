@@ -1,7 +1,9 @@
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 import 'package:encrypt/encrypt.dart' as crypto;
 
 import '../../../../app/config/api_paths.dart';
+import '../../../../app/network/app_api_response_profiles.dart';
 import '../models/auth_login_result_dto.dart';
 import '../models/auth_session_dto.dart';
 import '../models/auth_user_dto.dart';
@@ -29,9 +31,13 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  AuthRemoteDataSourceImpl(this._client);
+  AuthRemoteDataSourceImpl(this._client, {LegacyEnvelopeCodec? envelopeCodec})
+    : _envelopeCodec =
+          envelopeCodec ??
+          const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa);
 
   final CoreHttpClient _client;
+  final LegacyEnvelopeCodec _envelopeCodec;
 
   bool _isEmailAccount(String account) => account.contains('@');
 
@@ -47,22 +53,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     return aes.encrypt(mobile, iv: iv).base64;
   }
 
-  Map<String, dynamic> _toJsonMap(dynamic data) {
-    if (data is Map<String, dynamic>) {
-      return data;
-    }
-    if (data is Map) {
-      return Map<String, dynamic>.from(data);
-    }
-    return <String, dynamic>{};
-  }
-
-  bool _looksLikeLegacyEnvelope(Map<String, dynamic> payload) {
-    return payload.containsKey('code') ||
-        payload.containsKey('msg') ||
-        payload.containsKey('data');
-  }
-
   bool _hasOauthTokenFields(Map<String, dynamic> payload) {
     return payload.containsKey('access_token') ||
         payload.containsKey('refresh_token') ||
@@ -70,49 +60,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         payload.containsKey('refreshToken');
   }
 
-  bool _isLegacySuccessResponse(Map<String, dynamic> payload) {
-    final code = payload['code'];
-    final data = payload['data'];
-    final codeOk = code == 200 || code == '200';
-
-    if (!codeOk) {
-      return false;
-    }
-
-    if (data == null) {
-      return true;
-    }
-    if (data is bool) {
-      return data;
-    }
-    if (data is num) {
-      return data != 0;
-    }
-    if (data is String) {
-      final normalized = data.toLowerCase();
-      return normalized == 'true' || normalized == '1' || normalized == 'ok';
-    }
-    return true;
-  }
-
-  Never _throwLegacyFailure(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    final message = payload['msg'] ?? payload['message'] ?? fallbackMessage;
-    throw StateError(message.toString());
-  }
-
   void _assertLegacyBoolSuccessIfPresent(
     Map<String, dynamic> payload, {
     required String fallbackMessage,
   }) {
-    if (payload.isEmpty || !_looksLikeLegacyEnvelope(payload)) {
-      return;
-    }
-    if (!_isLegacySuccessResponse(payload)) {
-      _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-    }
+    _envelopeCodec.assertSuccessIfEnvelope(
+      payload,
+      fallbackMessage: fallbackMessage,
+      requireTruthyData: true,
+    );
   }
 
   Map<String, dynamic> _extractTokenPayload(
@@ -127,11 +83,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return payload;
     }
 
-    if (_looksLikeLegacyEnvelope(payload)) {
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-      return _toJsonMap(payload['data']);
+    if (_envelopeCodec.looksLikeEnvelope(payload)) {
+      return _envelopeCodec.extractDataMap(
+        payload,
+        fallbackMessage: fallbackMessage,
+      );
     }
 
     return payload;
@@ -145,14 +101,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return payload;
     }
 
-    if (_looksLikeLegacyEnvelope(payload)) {
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-      return _toJsonMap(payload['data']);
-    }
-
-    return payload;
+    return _envelopeCodec.extractDataMap(
+      payload,
+      fallbackMessage: fallbackMessage,
+    );
   }
 
   @override
@@ -168,7 +120,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         options: authRequired(false),
       );
       _assertLegacyBoolSuccessIfPresent(
-        _toJsonMap(response.data),
+        _envelopeCodec.toJsonMap(response.data),
         fallbackMessage: 'Failed to send login code.',
       );
       return;
@@ -186,7 +138,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ).copyWith(contentType: Headers.formUrlEncodedContentType),
     );
     _assertLegacyBoolSuccessIfPresent(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to send login code.',
     );
   }
@@ -208,7 +160,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         options: authRequired(false),
       );
       _assertLegacyBoolSuccessIfPresent(
-        _toJsonMap(response.data),
+        _envelopeCodec.toJsonMap(response.data),
         fallbackMessage: 'Failed to send registration code.',
       );
       return;
@@ -226,7 +178,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ).copyWith(contentType: Headers.formUrlEncodedContentType),
     );
     _assertLegacyBoolSuccessIfPresent(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to send registration code.',
     );
   }
@@ -260,7 +212,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final payload = _extractTokenPayload(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Login failed.',
     );
     final session = AuthSessionDto.fromJson(payload);
@@ -276,7 +228,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final payload = _extractEnvelopeDataPayload(
-      _toJsonMap(response.data),
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load current user profile.',
     );
     if (payload.isEmpty) {
@@ -325,7 +277,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         false,
       ).copyWith(contentType: Headers.jsonContentType),
     );
-    final responsePayload = _toJsonMap(response.data);
+    final responsePayload = _envelopeCodec.toJsonMap(response.data);
     _assertLegacyBoolSuccessIfPresent(
       responsePayload,
       fallbackMessage: 'Registration failed.',
@@ -353,7 +305,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ),
     );
 
-    final rawPayload = _toJsonMap(response.data);
+    final rawPayload = _envelopeCodec.toJsonMap(response.data);
     if (rawPayload.isEmpty) {
       return null;
     }

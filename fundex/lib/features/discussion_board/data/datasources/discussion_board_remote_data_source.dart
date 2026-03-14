@@ -1,6 +1,8 @@
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 
 import '../../../../app/config/api_paths.dart';
+import '../../../../app/network/app_api_response_profiles.dart';
 import '../models/discussion_comment_dto.dart';
 
 abstract class DiscussionBoardRemoteDataSource {
@@ -21,9 +23,15 @@ abstract class DiscussionBoardRemoteDataSource {
 
 class DiscussionBoardRemoteDataSourceImpl
     implements DiscussionBoardRemoteDataSource {
-  DiscussionBoardRemoteDataSourceImpl(this._client);
+  DiscussionBoardRemoteDataSourceImpl(
+    this._client, {
+    LegacyEnvelopeCodec? envelopeCodec,
+  }) : _envelopeCodec =
+           envelopeCodec ??
+           const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa);
 
   final CoreHttpClient _client;
+  final LegacyEnvelopeCodec _envelopeCodec;
 
   @override
   Future<List<DiscussionCommentDto>> fetchCommentPage({
@@ -42,9 +50,10 @@ class DiscussionBoardRemoteDataSourceImpl
       options: authRequired(true),
     );
 
-    final rows = _extractPagedRows(
-      _toJsonMap(response.data),
+    final rows = _envelopeCodec.extractPagedRows(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load comments.',
+      pageProfile: AppApiResponseProfiles.standardPage,
     );
     return rows
         .map((Map<String, dynamic> row) => DiscussionCommentDto.fromJson(row))
@@ -71,9 +80,10 @@ class DiscussionBoardRemoteDataSourceImpl
       options: authRequired(true),
     );
 
-    _assertLegacyBoolSuccessIfPresent(
-      _toJsonMap(response.data),
+    _envelopeCodec.assertSuccessIfEnvelope(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to send comment.',
+      requireTruthyData: true,
     );
   }
 
@@ -85,102 +95,10 @@ class DiscussionBoardRemoteDataSourceImpl
       options: authRequired(true),
     );
 
-    _assertLegacyBoolSuccessIfPresent(
-      _toJsonMap(response.data),
+    _envelopeCodec.assertSuccessIfEnvelope(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to delete comment.',
+      requireTruthyData: true,
     );
-  }
-
-  Map<String, dynamic> _toJsonMap(dynamic data) {
-    if (data is Map<String, dynamic>) {
-      return data;
-    }
-    if (data is Map) {
-      return Map<String, dynamic>.from(data);
-    }
-    return <String, dynamic>{};
-  }
-
-  bool _looksLikeLegacyEnvelope(Map<String, dynamic> payload) {
-    return payload.containsKey('code') ||
-        payload.containsKey('msg') ||
-        payload.containsKey('data');
-  }
-
-  bool _isLegacySuccessResponse(Map<String, dynamic> payload) {
-    final code = payload['code'];
-    final data = payload['data'];
-    final codeOk = code == 200 || code == '200';
-    if (!codeOk) {
-      return false;
-    }
-    if (data == null) {
-      return true;
-    }
-    if (data is bool) {
-      return data;
-    }
-    if (data is num) {
-      return data != 0;
-    }
-    if (data is String) {
-      final normalized = data.toLowerCase();
-      return normalized == 'true' || normalized == '1' || normalized == 'ok';
-    }
-    return true;
-  }
-
-  Never _throwLegacyFailure(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    final message = payload['msg'] ?? payload['message'] ?? fallbackMessage;
-    throw StateError(message.toString());
-  }
-
-  void _assertLegacyBoolSuccessIfPresent(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty || !_looksLikeLegacyEnvelope(payload)) {
-      return;
-    }
-    if (!_isLegacySuccessResponse(payload)) {
-      _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-    }
-  }
-
-  List<Map<String, dynamic>> _extractPagedRows(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty) {
-      return const <Map<String, dynamic>>[];
-    }
-
-    if (_looksLikeLegacyEnvelope(payload)) {
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-
-      final pageData = _toJsonMap(payload['data']);
-      final rows = pageData['rows'];
-      if (rows is List) {
-        return rows
-            .map<Map<String, dynamic>>((item) => _toJsonMap(item))
-            .where((item) => item.isNotEmpty)
-            .toList(growable: false);
-      }
-      return const <Map<String, dynamic>>[];
-    }
-
-    final rows = payload['rows'];
-    if (rows is List) {
-      return rows
-          .map<Map<String, dynamic>>((item) => _toJsonMap(item))
-          .where((item) => item.isNotEmpty)
-          .toList(growable: false);
-    }
-    return const <Map<String, dynamic>>[];
   }
 }

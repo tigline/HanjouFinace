@@ -11,6 +11,8 @@ dependencies:
     path: ../core_foundation
   core_network:
     path: ../core_network
+  company_api_runtime:
+    path: ../company_api_runtime
 
 dev_dependencies:
   test: ^1.25.8

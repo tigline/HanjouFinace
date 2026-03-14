@@ -1,6 +1,8 @@
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 
 import '../../../../app/config/api_paths.dart';
+import '../../../../app/network/app_api_response_profiles.dart';
 import '../models/mypage_dtos.dart';
 
 abstract class MyPageRemoteDataSource {
@@ -24,9 +26,13 @@ abstract class MyPageRemoteDataSource {
 }
 
 class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
-  MyPageRemoteDataSourceImpl(this._client);
+  MyPageRemoteDataSourceImpl(this._client, {LegacyEnvelopeCodec? envelopeCodec})
+    : _envelopeCodec =
+          envelopeCodec ??
+          const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa);
 
   final CoreHttpClient _client;
+  final LegacyEnvelopeCodec _envelopeCodec;
 
   @override
   Future<MyPageAccountStatisticDto> fetchAccountStatistic() async {
@@ -35,8 +41,8 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
       options: authRequired(true),
     );
 
-    final data = _extractDataRow(
-      _toJsonMap(response.data),
+    final data = _envelopeCodec.extractDataMap(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load account statistic.',
     );
     return MyPageAccountStatisticDto.fromJson(data);
@@ -53,9 +59,10 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
       options: authRequired(true),
     );
 
-    final rows = _extractPagedRows(
-      _toJsonMap(response.data),
+    final rows = _envelopeCodec.extractPagedRows(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load member apply list.',
+      pageProfile: AppApiResponseProfiles.standardPage,
     );
     return rows
         .map((row) => MyPageApplyRecordDto.fromJson(row))
@@ -78,9 +85,10 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
       options: authRequired(true),
     );
 
-    final rows = _extractPagedRows(
-      _toJsonMap(response.data),
+    final rows = _envelopeCodec.extractPagedRows(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load order inquiry list.',
+      pageProfile: AppApiResponseProfiles.standardPage,
     );
     return rows
         .map((row) => MyPageOrderInquiryRecordDto.fromJson(row))
@@ -98,93 +106,13 @@ class MyPageRemoteDataSourceImpl implements MyPageRemoteDataSource {
       options: authRequired(true),
     );
 
-    final rows = _extractPagedRows(
-      _toJsonMap(response.data),
+    final rows = _envelopeCodec.extractPagedRows(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load my investment list.',
+      pageProfile: AppApiResponseProfiles.standardPage,
     );
     return rows
         .map((row) => MyPageInvestmentRecordDto.fromJson(row))
         .toList(growable: false);
-  }
-
-  Map<String, dynamic> _toJsonMap(dynamic data) {
-    if (data is Map<String, dynamic>) {
-      return data;
-    }
-    if (data is Map) {
-      return Map<String, dynamic>.from(data);
-    }
-    return <String, dynamic>{};
-  }
-
-  bool _looksLikeLegacyEnvelope(Map<String, dynamic> payload) {
-    return payload.containsKey('code') ||
-        payload.containsKey('msg') ||
-        payload.containsKey('data');
-  }
-
-  bool _isLegacySuccessResponse(Map<String, dynamic> payload) {
-    final code = payload['code'];
-    return code == 200 || code == '200';
-  }
-
-  Never _throwLegacyFailure(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    final message = payload['msg'] ?? payload['message'] ?? fallbackMessage;
-    throw StateError(message.toString());
-  }
-
-  List<Map<String, dynamic>> _extractPagedRows(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty) {
-      return const <Map<String, dynamic>>[];
-    }
-
-    if (_looksLikeLegacyEnvelope(payload)) {
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-
-      final pageData = _toJsonMap(payload['data']);
-      final rows = pageData['rows'];
-      if (rows is List) {
-        return rows
-            .map<Map<String, dynamic>>((item) => _toJsonMap(item))
-            .where((item) => item.isNotEmpty)
-            .toList(growable: false);
-      }
-      return const <Map<String, dynamic>>[];
-    }
-
-    final rows = payload['rows'];
-    if (rows is List) {
-      return rows
-          .map<Map<String, dynamic>>((item) => _toJsonMap(item))
-          .where((item) => item.isNotEmpty)
-          .toList(growable: false);
-    }
-    return const <Map<String, dynamic>>[];
-  }
-
-  Map<String, dynamic> _extractDataRow(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty) {
-      return const <String, dynamic>{};
-    }
-
-    if (_looksLikeLegacyEnvelope(payload)) {
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-      return _toJsonMap(payload['data']);
-    }
-
-    return payload;
   }
 }

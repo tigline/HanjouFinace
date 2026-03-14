@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 
 import '../../../../app/config/api_paths.dart';
+import '../../../../app/network/app_api_response_profiles.dart';
 import '../../domain/constants/member_profile_upload_markers.dart';
 import '../models/member_profile_region_dto.dart';
 
@@ -19,9 +21,17 @@ abstract class MemberProfileRemoteDataSource {
 
 class MemberProfileRemoteDataSourceImpl
     implements MemberProfileRemoteDataSource {
-  MemberProfileRemoteDataSourceImpl(this._client);
+  MemberProfileRemoteDataSourceImpl(
+    this._client, {
+    LegacyEnvelopeCodec? envelopeCodec,
+  }) : _envelopeCodec =
+           envelopeCodec ??
+           const LegacyEnvelopeCodec(
+             profile: AppApiResponseProfiles.memberMixed,
+           );
 
   final CoreHttpClient _client;
+  final LegacyEnvelopeCodec _envelopeCodec;
 
   @override
   Future<List<MemberProfileRegionDto>> fetchRegionsByZip({
@@ -33,8 +43,8 @@ class MemberProfileRemoteDataSourceImpl
       options: authRequired(true),
     );
 
-    final rows = _extractDataRows(
-      _toJsonMap(response.data),
+    final rows = _extractRegionRows(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to lookup address by postal code.',
     );
 
@@ -73,7 +83,7 @@ class MemberProfileRemoteDataSourceImpl
 
     _debugUploadResponse(path: uploadPath, data: response.data);
 
-    final payload = _toJsonMap(response.data);
+    final payload = _envelopeCodec.toJsonMap(response.data);
     if (isSelfie) {
       _assertSelfieUploadSucceeded(
         responseData: response.data,
@@ -83,9 +93,10 @@ class MemberProfileRemoteDataSourceImpl
       return selfieUploadCompletedMarker;
     }
 
-    return _extractStringData(
+    return _envelopeCodec.extractDataString(
       payload,
       fallbackMessage: 'Failed to upload profile photo.',
+      fallbackKeys: const <String>['url'],
     );
   }
 
@@ -97,131 +108,25 @@ class MemberProfileRemoteDataSourceImpl
       options: authRequired(true),
     );
 
-    _assertLegacySuccess(
-      _toJsonMap(response.data),
+    _envelopeCodec.assertSuccessIfEnvelope(
+      _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to save member profile.',
+      requireTruthyData: true,
     );
   }
 
-  Map<String, dynamic> _toJsonMap(dynamic data) {
-    if (data is Map<String, dynamic>) {
-      return data;
-    }
-    if (data is Map) {
-      return Map<String, dynamic>.from(data);
-    }
-    return <String, dynamic>{};
-  }
-
-  bool _looksLikeLegacyEnvelope(Map<String, dynamic> payload) {
-    return payload.containsKey('code') ||
-        payload.containsKey('msg') ||
-        payload.containsKey('data');
-  }
-
-  bool _isLegacySuccessResponse(Map<String, dynamic> payload) {
-    final code = payload['code'];
-    final codeOk = _isSuccessCode(code);
-    if (!codeOk) {
-      return false;
-    }
-
-    final data = payload['data'];
-    if (data == null) {
-      return true;
-    }
-    if (data is bool) {
-      return data;
-    }
-    if (data is num) {
-      return data != 0;
-    }
-    if (data is String) {
-      final normalized = data.trim().toLowerCase();
-      return normalized != 'false' && normalized != '0';
-    }
-    return true;
-  }
-
-  Never _throwLegacyFailure(
+  List<Map<String, dynamic>> _extractRegionRows(
     Map<String, dynamic> payload, {
     required String fallbackMessage,
   }) {
-    final message = payload['msg'] ?? payload['message'] ?? fallbackMessage;
-    throw StateError(message.toString());
-  }
-
-  void _assertLegacySuccess(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty || !_looksLikeLegacyEnvelope(payload)) {
-      return;
+    final dataRows = _envelopeCodec.extractDataList(
+      payload,
+      fallbackMessage: fallbackMessage,
+    );
+    if (dataRows.isNotEmpty) {
+      return dataRows;
     }
-    if (!_isLegacySuccessResponse(payload)) {
-      _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-    }
-  }
-
-  String _extractStringData(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty) {
-      throw StateError(fallbackMessage);
-    }
-
-    if (_looksLikeLegacyEnvelope(payload)) {
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-      final dynamic data = payload['data'];
-      final text = data?.toString().trim() ?? '';
-      if (text.isEmpty) {
-        throw StateError(fallbackMessage);
-      }
-      return text;
-    }
-
-    final dynamic direct = payload['data'] ?? payload['url'];
-    final text = direct?.toString().trim() ?? '';
-    if (text.isEmpty) {
-      throw StateError(fallbackMessage);
-    }
-    return text;
-  }
-
-  List<Map<String, dynamic>> _extractDataRows(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty) {
-      return const <Map<String, dynamic>>[];
-    }
-
-    if (_looksLikeLegacyEnvelope(payload)) {
-      if (!_isLegacySuccessResponse(payload)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-      final data = payload['data'];
-      if (data is List) {
-        return data
-            .map<Map<String, dynamic>>((item) => _toJsonMap(item))
-            .where((item) => item.isNotEmpty)
-            .toList(growable: false);
-      }
-      return const <Map<String, dynamic>>[];
-    }
-
-    if (payload['rows'] is List) {
-      final rows = payload['rows'] as List<dynamic>;
-      return rows
-          .map<Map<String, dynamic>>((item) => _toJsonMap(item))
-          .where((item) => item.isNotEmpty)
-          .toList(growable: false);
-    }
-
-    return const <Map<String, dynamic>>[];
+    return _envelopeCodec.toJsonMapList(payload['rows']);
   }
 
   void _assertSelfieUploadSucceeded({
@@ -230,64 +135,29 @@ class MemberProfileRemoteDataSourceImpl
     required String fallbackMessage,
   }) {
     if (payload.isEmpty) {
-      final text = responseData?.toString().trim() ?? '';
-      if (_looksLikeFailureString(text)) {
+      if (!_envelopeCodec.isTruthyData(responseData?.toString())) {
         throw StateError(fallbackMessage);
       }
       return;
     }
 
-    if (_looksLikeLegacyEnvelope(payload)) {
-      final code = payload['code'];
-      if (code != null && !_isSuccessCode(code)) {
-        _throwLegacyFailure(payload, fallbackMessage: fallbackMessage);
-      }
-      final data = payload['data'];
-      if (!_isTruthyData(data)) {
-        throw StateError(fallbackMessage);
-      }
+    if (_envelopeCodec.looksLikeEnvelope(payload)) {
+      _envelopeCodec.assertSuccessIfEnvelope(
+        payload,
+        fallbackMessage: fallbackMessage,
+        requireTruthyData: true,
+      );
       return;
     }
 
-    if (payload.containsKey('success') && !_isTruthyData(payload['success'])) {
+    if (payload.containsKey('success') &&
+        !_envelopeCodec.isTruthyData(payload['success'])) {
       throw StateError(fallbackMessage);
     }
-    if (payload.containsKey('ok') && !_isTruthyData(payload['ok'])) {
+    if (payload.containsKey('ok') &&
+        !_envelopeCodec.isTruthyData(payload['ok'])) {
       throw StateError(fallbackMessage);
     }
-  }
-
-  bool _isTruthyData(dynamic data) {
-    if (data == null) {
-      return true;
-    }
-    if (data is bool) {
-      return data;
-    }
-    if (data is num) {
-      return data != 0;
-    }
-    if (data is String) {
-      final normalized = data.trim().toLowerCase();
-      if (normalized.isEmpty) {
-        return true;
-      }
-      return !_looksLikeFailureString(normalized);
-    }
-    return true;
-  }
-
-  bool _looksLikeFailureString(String value) {
-    final normalized = value.trim().toLowerCase();
-    return normalized == 'false' ||
-        normalized == '0' ||
-        normalized == 'error' ||
-        normalized == 'failed' ||
-        normalized == 'fail';
-  }
-
-  bool _isSuccessCode(dynamic code) {
-    return code == 200 || code == '200' || code == 0 || code == '0';
   }
 
   void _debugUploadResponse({required String path, required dynamic data}) {

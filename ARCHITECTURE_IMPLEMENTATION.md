@@ -97,6 +97,18 @@ template_v2/
 - 数据源按集群声明：每个 remote datasource 必须显式选择集群 client（例如 `oaCoreHttpClientProvider`），禁止隐式共享单一 client。
 - 后续建议：新增 `ApiEnvelopeParser`（统一处理 `code/msg/data` 兼容 `0/200`）与 `ApiDomainTag`（fund/member/comment/identity）以降低多后端差异成本。
 
+## 10. Envelope 与分页统一策略（阶段二）
+
+- 统一解析器：`LegacyEnvelopeCodec`（`company_api_runtime`）
+- App 侧策略常量：`fundex/lib/app/network/app_api_response_profiles.dart`
+- 集群成功码策略：
+  - OA（crowdfunding/auth）：`code == 200`
+  - Member：`code == 0 或 200`
+  - Hotel：`code == 0`
+- 分页结构策略：
+  - 标准结构：`data.rows`
+  - 兼容直出：`rows`（无 envelope 时）
+
 
 
 ## 阶段一任务：

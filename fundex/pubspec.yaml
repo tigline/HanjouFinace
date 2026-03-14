@@ -28,6 +28,8 @@ dependencies:
     path: ../mobile_core_sdk/packages/core_foundation
   core_identity_auth:
     path: ../mobile_core_sdk/packages/core_identity_auth
+  company_api_runtime:
+    path: ../mobile_core_sdk/packages/company_api_runtime
   core_storage:
     path: ../mobile_core_sdk/packages/core_storage
   core_tool_kit:
