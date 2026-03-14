@@ -79,7 +79,6 @@ class _FundProjectDetailCommentsSectionState
     );
     final isAuthenticated =
         ref.watch(isAuthenticatedProvider).asData?.value ?? false;
-    final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
 
     ref.listen<AsyncValue<bool>>(isAuthenticatedProvider, (previous, next) {
       final previousValue = previous?.asData?.value;
@@ -117,19 +116,11 @@ class _FundProjectDetailCommentsSectionState
           state: state,
           controller: controller,
         ),
+        const SizedBox(height: 16),
         if (isAuthenticated)
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: KizunarkComposerCard(
-              // leading: KizunarkAvatarBadge(
-              //   text: resolveAvatarText(currentUser),
-              //   gradientColors: const <Color>[
-              //     AppColorTokens.kizunarkPrimary,
-              //     AppColorTokens.kizunarkSecondary,
-              //   ],
-              //   size: 32,
-              //   fontSize: 13,
-              // ),
               controller: _composerController,
               placeholder: l10n.kizunarkComposePlaceholder,
               postLabel: l10n.kizunarkPostAction,
