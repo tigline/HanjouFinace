@@ -51,6 +51,15 @@ class FundingMemberApiPath {
 
   /// Source: README_API.md section 9.
   static const String myInvestmentList = '/crowdfunding/user/invest/list';
+
+  /// Source: funding Swagger (`user-rest`).
+  static const String saveMemberInfo = '/crowdfunding/user/save-member-info';
+
+  /// Source: funding Swagger (`user-rest`).
+  static const String uploadPhoto = '/crowdfunding/user/upload/photo';
+
+  /// Source: backend requirement for selfie upload.
+  static const String uploadRealPersonPhoto = '/member/real/person/upload';
 }
 
 /// Funding comment-board APIs used by `feature_discussion_board`.

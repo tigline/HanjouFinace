@@ -1882,6 +1882,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memberProfileCompletedToast => '本人情報の登録が完了しました。';
 
   @override
+  String get memberProfilePhotoUploadSuccess => '画像をアップロードしました。';
+
+  @override
   String get occupationEmployee => '会社員';
 
   @override
@@ -1960,7 +1963,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get documentTypeMyNumber => 'マイナンバーカード';
 
   @override
+  String get documentTypeResidenceCard => '在留カード';
+
+  @override
   String get documentTypePassport => 'パスポート';
+
+  @override
+  String get documentTypeOther => 'その他（個人証明書）';
 
   @override
   String get accountTypeOrdinary => '普通';

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/storage/app_storage_providers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/member_profile_local_data_source.dart';
+import '../../data/datasources/member_profile_remote_data_source.dart';
 import '../../data/repositories/member_profile_repository_impl.dart';
 import '../../domain/entities/member_profile_details.dart';
 import '../../domain/repositories/member_profile_repository.dart';
@@ -10,6 +11,8 @@ import '../../domain/usecases/is_member_profile_completed_usecase.dart';
 import '../../domain/usecases/load_member_profile_details_usecase.dart';
 import '../../domain/usecases/mark_member_profile_skipped_usecase.dart';
 import '../../domain/usecases/save_member_profile_details_usecase.dart';
+import '../../domain/usecases/submit_member_profile_usecase.dart';
+import '../../domain/usecases/upload_member_profile_photo_usecase.dart';
 import '../support/profile_document_image_picker.dart';
 
 final memberProfileLocalDataSourceProvider =
@@ -24,9 +27,18 @@ final memberProfileRepositoryProvider = Provider<MemberProfileRepository>((
   ref,
 ) {
   return MemberProfileRepositoryImpl(
-    ref.watch(memberProfileLocalDataSourceProvider),
+    local: ref.watch(memberProfileLocalDataSourceProvider),
+    remote: ref.watch(memberProfileRemoteDataSourceProvider),
+    authLocal: ref.watch(authLocalDataSourceProvider),
   );
 });
+
+final memberProfileRemoteDataSourceProvider =
+    Provider<MemberProfileRemoteDataSource>((ref) {
+      return MemberProfileRemoteDataSourceImpl(
+        ref.watch(coreHttpClientProvider),
+      );
+    });
 
 final loadMemberProfileDetailsUseCaseProvider =
     Provider<LoadMemberProfileDetailsUseCase>((ref) {
@@ -38,6 +50,21 @@ final loadMemberProfileDetailsUseCaseProvider =
 final saveMemberProfileDetailsUseCaseProvider =
     Provider<SaveMemberProfileDetailsUseCase>((ref) {
       return SaveMemberProfileDetailsUseCase(
+        ref.watch(memberProfileRepositoryProvider),
+      );
+    });
+
+final submitMemberProfileUseCaseProvider = Provider<SubmitMemberProfileUseCase>(
+  (ref) {
+    return SubmitMemberProfileUseCase(
+      ref.watch(memberProfileRepositoryProvider),
+    );
+  },
+);
+
+final uploadMemberProfilePhotoUseCaseProvider =
+    Provider<UploadMemberProfilePhotoUseCase>((ref) {
+      return UploadMemberProfilePhotoUseCase(
         ref.watch(memberProfileRepositoryProvider),
       );
     });

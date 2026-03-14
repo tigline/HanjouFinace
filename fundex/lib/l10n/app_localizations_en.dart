@@ -2000,6 +2000,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Profile information registration is complete.';
 
   @override
+  String get memberProfilePhotoUploadSuccess => 'Photo uploaded successfully.';
+
+  @override
   String get occupationEmployee => 'Company employee';
 
   @override
@@ -2080,7 +2083,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentTypeMyNumber => 'My Number card';
 
   @override
+  String get documentTypeResidenceCard => 'Residence card';
+
+  @override
   String get documentTypePassport => 'Passport';
+
+  @override
+  String get documentTypeOther => 'Other personal ID';
 
   @override
   String get accountTypeOrdinary => 'Ordinary';

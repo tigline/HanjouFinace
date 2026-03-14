@@ -3749,6 +3749,12 @@ abstract class AppLocalizations {
   /// **'Profile information registration is complete.'**
   String get memberProfileCompletedToast;
 
+  /// No description provided for @memberProfilePhotoUploadSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo uploaded successfully.'**
+  String get memberProfilePhotoUploadSuccess;
+
   /// No description provided for @occupationEmployee.
   ///
   /// In en, this message translates to:
@@ -3905,11 +3911,23 @@ abstract class AppLocalizations {
   /// **'My Number card'**
   String get documentTypeMyNumber;
 
+  /// No description provided for @documentTypeResidenceCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Residence card'**
+  String get documentTypeResidenceCard;
+
   /// No description provided for @documentTypePassport.
   ///
   /// In en, this message translates to:
   /// **'Passport'**
   String get documentTypePassport;
+
+  /// No description provided for @documentTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other personal ID'**
+  String get documentTypeOther;
 
   /// No description provided for @accountTypeOrdinary.
   ///

@@ -1871,6 +1871,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get memberProfileCompletedToast => '本人信息登记已完成。';
 
   @override
+  String get memberProfilePhotoUploadSuccess => '上传成功。';
+
+  @override
   String get occupationEmployee => '公司职员';
 
   @override
@@ -1949,7 +1952,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get documentTypeMyNumber => 'My Number 卡';
 
   @override
+  String get documentTypeResidenceCard => '在留卡';
+
+  @override
   String get documentTypePassport => '护照';
+
+  @override
+  String get documentTypeOther => '其他个人证件';
 
   @override
   String get accountTypeOrdinary => '普通';
@@ -3861,6 +3870,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get memberProfileCompletedToast => '本人信息登记已完成。';
 
   @override
+  String get memberProfilePhotoUploadSuccess => '上傳成功。';
+
+  @override
   String get occupationEmployee => '公司职员';
 
   @override
@@ -3933,13 +3945,19 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get riskToleranceHighRisk => '可接受高风险高回报投资';
 
   @override
-  String get documentTypeDriversLicense => '驾驶证';
+  String get documentTypeDriversLicense => '駕駛證';
 
   @override
   String get documentTypeMyNumber => 'My Number 卡';
 
   @override
-  String get documentTypePassport => '护照';
+  String get documentTypeResidenceCard => '在留卡';
+
+  @override
+  String get documentTypePassport => '護照';
+
+  @override
+  String get documentTypeOther => '其他個人證件';
 
   @override
   String get accountTypeOrdinary => '普通';

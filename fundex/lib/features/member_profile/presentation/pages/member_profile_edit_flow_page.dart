@@ -7,6 +7,7 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/domain/entities/auth_user.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../domain/constants/member_profile_upload_markers.dart';
 import '../../domain/entities/member_profile_details.dart';
 import '../pages/edit_flow_steps/member_profile_address_info_step_page.dart';
 import '../pages/edit_flow_steps/member_profile_bank_account_step_page.dart';
@@ -62,6 +63,8 @@ class _MemberProfileEditFlowPageState
   bool _antiSocialConsent = false;
   bool _privacyConsent = false;
   bool _isLoading = true;
+  bool _isSubmitting = false;
+  bool _isUploadingPhoto = false;
 
   @override
   void initState() {
@@ -280,6 +283,9 @@ class _MemberProfileEditFlowPageState
   }
 
   Future<void> _pickAndSaveImage({required bool isDocument}) async {
+    if (_isUploadingPhoto || _isSubmitting) {
+      return;
+    }
     final ProfileDocumentImageSource? source =
         await showModalBottomSheet<ProfileDocumentImageSource>(
           context: context,
@@ -321,13 +327,48 @@ class _MemberProfileEditFlowPageState
       return;
     }
     setState(() {
-      if (isDocument) {
-        _documentPhotoPath = path.trim();
-      } else {
-        _selfiePhotoPath = path.trim();
-      }
+      _isUploadingPhoto = true;
     });
-    await _persistDraft();
+    try {
+      final uploadedUrl = await ref
+          .read(uploadMemberProfilePhotoUseCaseProvider)
+          .call(filePath: path.trim(), isSelfie: !isDocument);
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        if (isDocument) {
+          _documentPhotoPath = uploadedUrl.trim();
+        } else {
+          _selfiePhotoPath = uploadedUrl.trim();
+        }
+      });
+      await _persistDraft();
+      if (!mounted) {
+        return;
+      }
+      AppNotice.show(
+        context,
+        message: context.l10n.memberProfilePhotoUploadSuccess,
+      );
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      AppNotice.show(
+        context,
+        message: _resolveSubmitErrorMessage(
+          error,
+          context.l10n.uiErrorRequestFailed,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isUploadingPhoto = false;
+        });
+      }
+    }
   }
 
   Future<void> _showComingSoon(String message) async {
@@ -335,6 +376,9 @@ class _MemberProfileEditFlowPageState
   }
 
   Future<void> _goNextStep() async {
+    if (_isSubmitting || _isUploadingPhoto) {
+      return;
+    }
     if (!_canProceedFromCurrentStep) {
       return;
     }
@@ -353,6 +397,9 @@ class _MemberProfileEditFlowPageState
   }
 
   Future<void> _goPreviousStep() async {
+    if (_isSubmitting || _isUploadingPhoto) {
+      return;
+    }
     await _persistDraft();
     if (!mounted) {
       return;
@@ -369,14 +416,42 @@ class _MemberProfileEditFlowPageState
   }
 
   Future<void> _completeFlow() async {
+    if (_isSubmitting || _isUploadingPhoto) {
+      return;
+    }
     final l10n = context.l10n;
-    _completedAt = DateTime.now().toUtc();
-    await _persistDraft(markCompleted: true);
+    setState(() {
+      _isSubmitting = true;
+    });
+
+    try {
+      final profileToSubmit = _buildDraft(
+        completedAtOverride: null,
+        editingStep: _currentStep.index,
+      );
+      await ref.read(submitMemberProfileUseCaseProvider).call(profileToSubmit);
+      _completedAt = DateTime.now().toUtc();
+      await _persistDraft(markCompleted: true);
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+      AppNotice.show(
+        context,
+        message: _resolveSubmitErrorMessage(error, l10n.uiErrorRequestFailed),
+      );
+      return;
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
+
     if (!mounted) {
       return;
     }
-    ref.invalidate(memberProfileDetailsProvider);
-    ref.invalidate(isMemberProfileCompletedProvider);
     AppNotice.show(context, message: l10n.memberProfileCompletedToast);
     context.pop();
   }
@@ -433,8 +508,8 @@ class _MemberProfileEditFlowPageState
 
   bool get _isEkycStepReady =>
       _isFilled(_documentType) &&
-      _isFilled(_documentPhotoPath) &&
-      _isFilled(_selfiePhotoPath);
+      _isRemoteImageUrl(_documentPhotoPath) &&
+      _isSelfieUploaded(_selfiePhotoPath);
 
   bool get _isBankAccountStepReady =>
       _isFilled(_bankNameController.text) &&
@@ -698,9 +773,14 @@ class _MemberProfileEditFlowPageState
         label: l10n.documentTypeMyNumber,
       ),
       MemberProfileOptionItem(
+        value: 'residence_card',
+        label: l10n.documentTypeResidenceCard,
+      ),
+      MemberProfileOptionItem(
         value: 'passport',
         label: l10n.documentTypePassport,
       ),
+      MemberProfileOptionItem(value: 'other', label: l10n.documentTypeOther),
     ];
   }
 
@@ -726,7 +806,10 @@ class _MemberProfileEditFlowPageState
     return PopScope<void>(
       canPop: _currentStep.isFirst,
       onPopInvokedWithResult: (bool didPop, void _) {
-        if (!didPop && !_currentStep.isFirst) {
+        if (!didPop &&
+            !_currentStep.isFirst &&
+            !_isSubmitting &&
+            !_isUploadingPhoto) {
           _goPreviousStep();
         }
       },
@@ -742,7 +825,9 @@ class _MemberProfileEditFlowPageState
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(8),
-                onTap: _goPreviousStep,
+                onTap: (_isSubmitting || _isUploadingPhoto)
+                    ? null
+                    : _goPreviousStep,
                 child: Icon(
                   Icons.arrow_back_rounded,
                   size: 20,
@@ -876,16 +961,23 @@ class _MemberProfileEditFlowPageState
         return MemberProfileEkycStepPage(
           documentType: _documentType,
           documentTypeItems: _simpleItems(_documentTypeOptions(context)),
-          documentUploaded: (_documentPhotoPath?.trim().isNotEmpty ?? false),
-          selfieUploaded: (_selfiePhotoPath?.trim().isNotEmpty ?? false),
-          primaryButtonEnabled: _canProceedFromCurrentStep,
+          documentUploaded: _isRemoteImageUrl(_documentPhotoPath),
+          selfieUploaded: _isSelfieUploaded(_selfiePhotoPath),
+          primaryButtonEnabled:
+              _canProceedFromCurrentStep &&
+              !_isUploadingPhoto &&
+              !_isSubmitting,
           onDocumentTypeChanged: (String? value) {
             setState(() {
               _documentType = value;
             });
           },
-          onUploadDocument: () => _pickAndSaveImage(isDocument: true),
-          onUploadSelfie: () => _pickAndSaveImage(isDocument: false),
+          onUploadDocument: (_isSubmitting || _isUploadingPhoto)
+              ? null
+              : () => _pickAndSaveImage(isDocument: true),
+          onUploadSelfie: (_isSubmitting || _isUploadingPhoto)
+              ? null
+              : () => _pickAndSaveImage(isDocument: false),
           onNext: _goNextStep,
         );
       case MemberProfileEditStep.bankAccount:
@@ -932,13 +1024,48 @@ class _MemberProfileEditFlowPageState
               _privacyConsent = value;
             });
           },
-          onComplete: _completeFlow,
+          onComplete: _isSubmitting ? null : _completeFlow,
         );
     }
   }
 }
 
+String _resolveSubmitErrorMessage(Object error, String fallbackMessage) {
+  const internalFallbackMessages = <String>{
+    'Please upload an ID document photo.',
+    'Failed to upload profile photo.',
+    'Failed to save member profile.',
+  };
+  if (error is StateError) {
+    final dynamic raw = error.message;
+    final String text = raw?.toString().trim() ?? '';
+    if (text.isNotEmpty && !internalFallbackMessages.contains(text)) {
+      return text;
+    }
+  }
+  return fallbackMessage;
+}
+
 bool _isFilled(String? value) => (value?.trim().isNotEmpty ?? false);
+
+bool _isRemoteImageUrl(String? value) {
+  final normalized = value?.trim() ?? '';
+  if (normalized.isEmpty) {
+    return false;
+  }
+  return normalized.startsWith('http://') || normalized.startsWith('https://');
+}
+
+bool _isSelfieUploaded(String? value) {
+  final normalized = value?.trim() ?? '';
+  if (normalized.isEmpty) {
+    return false;
+  }
+  if (normalized == selfieUploadCompletedMarker) {
+    return true;
+  }
+  return _isRemoteImageUrl(normalized);
+}
 
 String _joinNonEmpty(List<String?> values) {
   return values
