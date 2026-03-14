@@ -57,6 +57,12 @@ template_v2/
 - 字体、颜色、间距、圆角统一沉淀在 `mobile_core_sdk/packages/core_ui_kit`。
 - 通用控件（弹框、底部弹框等）统一由 `core_ui_kit` 提供，不在业务侧重复实现。
 - 业务页面优先复用 SDK 组件，再做业务差异化皮肤。
+- View（page/widget）默认只负责布局、样式与事件绑定，不承载可复用业务逻辑。
+- 若 View 中出现“未来可能复用”或“会随 UI 变更而复用”的逻辑，必须抽离到可共享位置：
+  - 状态流转与数据加载：`presentation/controllers`
+  - 展示态转换、文案映射、格式化：`presentation/support`
+  - 跨 feature 通用逻辑（如用户字段解析）：`domain/utils` 或公共 util
+- 当 UI 改版时，优先只替换 View 层，`controller/support/utils` 应保持可复用和稳定，避免重复实现。
 
 ## 7. API 来源与实现规范（Funding / Hotel 分离）
 
