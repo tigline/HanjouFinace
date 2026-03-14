@@ -1,9 +1,12 @@
 import 'package:core_identity_auth/core_identity_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/localization/app_locale_providers.dart';
+import '../../../../app/network/app_network_providers.dart';
 import '../../../../app/storage/app_storage_providers.dart';
 import '../../data/adapters/auth_identity_auth_state_store.dart';
 import '../../data/adapters/baidu_face_liveness_collector.dart';
+import '../../data/adapters/system_device_biometric_authenticator.dart';
 import 'auth_providers.dart';
 
 final identityAuthFlowPolicyProvider = Provider<IdentityAuthFlowPolicy>((ref) {
@@ -20,7 +23,7 @@ final realPersonEndpointsProvider = Provider<RealPersonEndpoints>((ref) {
 
 final realPersonApiGatewayProvider = Provider<RealPersonGateway>((ref) {
   return RealPersonApiClient(
-    client: ref.watch(coreHttpClientProvider),
+    client: ref.watch(oaCoreHttpClientProvider),
     endpoints: ref.watch(realPersonEndpointsProvider),
   );
 });
@@ -43,7 +46,11 @@ final baiduFaceLicenseIdProvider = Provider<String?>((ref) {
 
 final identityAuthBiometricAuthenticatorProvider =
     Provider<DeviceBiometricAuthenticator?>((ref) {
-      return null;
+      return SystemDeviceBiometricAuthenticator(
+        localizedReason: _resolveBiometricReason(
+          ref.watch(appLanguageProvider),
+        ),
+      );
     });
 
 final identityAuthLivenessCollectorProvider = Provider<LivenessCollector?>((
@@ -69,3 +76,12 @@ final identityAuthCoordinatorProvider = Provider<IdentityAuthCoordinator>((
     flow: ref.watch(identityAuthFlowProvider),
   );
 });
+
+String _resolveBiometricReason(AppLanguage language) {
+  return switch (language) {
+    AppLanguage.ja => '続行するために生体認証を行ってください。',
+    AppLanguage.en => 'Authenticate with Face ID or Touch ID to continue.',
+    AppLanguage.zh || AppLanguage.zhHant => '请使用面容 ID 或触控 ID 以继续操作。',
+    AppLanguage.system => 'Authenticate with Face ID or Touch ID to continue.',
+  };
+}

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/network/app_network_providers.dart';
 import '../../../../app/storage/app_storage_providers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/member_profile_local_data_source.dart';
@@ -37,7 +38,7 @@ final memberProfileRepositoryProvider = Provider<MemberProfileRepository>((
 final memberProfileRemoteDataSourceProvider =
     Provider<MemberProfileRemoteDataSource>((ref) {
       return MemberProfileRemoteDataSourceImpl(
-        ref.watch(coreHttpClientProvider),
+        ref.watch(oaCoreHttpClientProvider),
       );
     });
 

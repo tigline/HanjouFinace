@@ -89,6 +89,14 @@ template_v2/
 - 后续如需补齐历史流程、字段含义或交互细节，先到该工程对照确认，再在 FUNDEX 落地实现。
 - 落地优先级：当前 FUNDEX 设计稿与 funding Swagger（crowdfunding + member）> 参考工程实现；参考工程仅作行为参考，不直接复用旧接口命名。
 
+## 9. 多 App 组合优化建议（2026-03-14）
+
+- 网络层依赖反转：`coreHttpClient/tokenStore/tokenRefresher` 统一收敛到 `fundex/lib/app/network/app_network_providers.dart`，业务 feature 不再依赖 `feature_auth` 才能发起请求。
+- 多集群注入统一入口：新增 `AppApiCluster`（`oa/member/hotel`）和 `coreHttpClientByClusterProvider`，后续新 App 仅需替换环境配置或 provider override，不需要改各 feature data 层。
+- 鉴权失效统一信号：网络层通过 `appNetworkAuthFailureSignalProvider` 发出失效事件，App 层统一处理登出状态，避免网络层反向依赖 auth feature。
+- 数据源按集群声明：每个 remote datasource 必须显式选择集群 client（例如 `oaCoreHttpClientProvider`），禁止隐式共享单一 client。
+- 后续建议：新增 `ApiEnvelopeParser`（统一处理 `code/msg/data` 兼容 `0/200`）与 `ApiDomainTag`（fund/member/comment/identity）以降低多后端差异成本。
+
 
 
 ## 阶段一任务：

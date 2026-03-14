@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../../app/network/app_network_providers.dart';
 import '../../data/datasources/fund_project_remote_data_source.dart';
 import '../../data/repositories/fund_project_repository_impl.dart';
 import '../../domain/entities/fund_project.dart';
@@ -11,7 +11,9 @@ import '../support/fund_detail_static_content.dart';
 
 final fundProjectRemoteDataSourceProvider =
     Provider<FundProjectRemoteDataSource>((ref) {
-      return FundProjectRemoteDataSourceImpl(ref.watch(coreHttpClientProvider));
+      return FundProjectRemoteDataSourceImpl(
+        ref.watch(oaCoreHttpClientProvider),
+      );
     });
 
 final fundProjectRepositoryProvider = Provider<FundProjectRepository>((ref) {

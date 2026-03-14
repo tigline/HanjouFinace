@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +12,7 @@ import 'localization/app_locale_providers.dart';
 import 'observability/app_observability_providers.dart';
 import 'observability/app_ui_message_localizer.dart';
 import 'router/app_router.dart';
+import 'network/app_network_providers.dart';
 import 'theme/app_theme_mode_providers.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
 import '../features/member_profile/presentation/providers/member_profile_providers.dart';
@@ -62,6 +65,13 @@ class MemberTemplateApp extends ConsumerWidget {
       }
       ref.invalidate(memberProfileDetailsProvider);
       ref.invalidate(isMemberProfileCompletedProvider);
+    });
+
+    ref.listen<int>(appNetworkAuthFailureSignalProvider, (previous, next) {
+      if (previous == next) {
+        return;
+      }
+      unawaited(ref.read(authSessionProvider.notifier).markUnauthenticated());
     });
 
     return MaterialApp.router(

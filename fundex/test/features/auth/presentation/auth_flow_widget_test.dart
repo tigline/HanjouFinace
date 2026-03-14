@@ -7,6 +7,7 @@ import 'package:fundex/app/localization/app_localizations_ext.dart';
 import 'package:fundex/app/config/app_environment.dart';
 import 'package:fundex/app/config/app_flavor.dart';
 import 'package:fundex/app/config/environment_provider.dart';
+import 'package:fundex/app/network/app_network_providers.dart';
 import 'package:fundex/features/auth/data/datasources/auth_local_data_source.dart';
 import 'package:fundex/features/auth/data/models/auth_user_dto.dart';
 import 'package:fundex/features/auth/domain/entities/auth_session.dart';

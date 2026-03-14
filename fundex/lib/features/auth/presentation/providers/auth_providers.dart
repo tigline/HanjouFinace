@@ -3,12 +3,8 @@ import 'dart:async';
 import 'package:core_network/core_network.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../app/auth/app_auth_failure_handler.dart';
-import '../../../../app/auth/persistent_token_store.dart';
-import '../../../../app/config/api_paths.dart';
 import '../../../../app/config/environment_provider.dart';
-import '../../../../app/network/app_observability_interceptor.dart';
-import '../../../../app/observability/app_observability_providers.dart';
+import '../../../../app/network/app_network_providers.dart';
 import '../../../../app/storage/app_storage_providers.dart';
 import '../../data/datasources/auth_local_data_source.dart';
 import '../../data/datasources/auth_remote_data_source.dart';
@@ -23,10 +19,6 @@ import '../../domain/usecases/send_register_code_usecase.dart';
 import '../../domain/usecases/send_login_code_usecase.dart';
 import '../controllers/auth_controller.dart';
 import '../state/auth_state.dart';
-
-final tokenStoreProvider = Provider<TokenStore>((ref) {
-  return PersistentTokenStore(ref.watch(secureKeyValueStorageProvider));
-});
 
 final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
   return AuthLocalDataSourceImpl(ref.watch(largeDataStoreProvider));
@@ -151,62 +143,8 @@ final isAuthenticatedProvider = Provider<AsyncValue<bool>>((ref) {
   return ref.watch(authSessionProvider);
 });
 
-final authFailureHandlerProvider = Provider<AuthFailureHandler>((ref) {
-  final logger = ref.watch(appLoggerProvider);
-  final messageController = ref.watch(appUiMessageProvider.notifier);
-  final authSessionController = ref.watch(authSessionProvider.notifier);
-
-  return AppAuthFailureHandler(
-    logger: logger,
-    onSignedOut: authSessionController.markUnauthenticated,
-    reportErrorMessage: messageController.showError,
-  );
-});
-
-final tokenRefresherProvider = Provider<TokenRefresher>((ref) {
-  final baseUrl = ref.watch(oaApiBaseUrlProvider);
-  return EndpointTokenRefresher.oauth2(
-    Dio(BaseOptions(baseUrl: baseUrl)),
-    refreshPath: FundingAuthApiPath.oauthToken,
-    basicAuthorization: fundingOauthClientAuthorization,
-  );
-});
-
-final coreHttpClientProvider = Provider<CoreHttpClient>((ref) {
-  final baseUrl = ref.watch(oaApiBaseUrlProvider);
-  final environment = ref.watch(appEnvironmentProvider);
-  final logger = ref.watch(appLoggerProvider);
-  final messageController = ref.watch(appUiMessageProvider.notifier);
-
-  final client = CoreHttpClient(
-    baseUrl: baseUrl,
-    tokenStore: ref.watch(tokenStoreProvider),
-    tokenRefresher: ref.watch(tokenRefresherProvider),
-    authFailureHandler: ref.watch(authFailureHandlerProvider),
-  );
-
-  client.dio.interceptors.add(
-    AppObservabilityInterceptor(
-      logger: logger,
-      reportErrorMessage: messageController.showError,
-    ),
-  );
-
-  if (environment.enableHttpLog) {
-    client.dio.interceptors.add(
-      LogInterceptor(
-        requestBody: true,
-        responseBody: false,
-        logPrint: (Object value) => logger.debug(value.toString()),
-      ),
-    );
-  }
-
-  return client;
-});
-
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
-  return AuthRemoteDataSourceImpl(ref.watch(coreHttpClientProvider));
+  return AuthRemoteDataSourceImpl(ref.watch(oaCoreHttpClientProvider));
 });
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

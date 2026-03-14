@@ -7,7 +7,7 @@ import 'package:fundex/app/app.dart';
 import 'package:fundex/app/config/app_environment.dart';
 import 'package:fundex/app/config/app_flavor.dart';
 import 'package:fundex/app/config/environment_provider.dart';
-import 'package:fundex/features/auth/presentation/providers/auth_providers.dart';
+import 'package:fundex/app/network/app_network_providers.dart';
 
 class _SeededTokenStore implements TokenStore {
   _SeededTokenStore({String? accessToken, String? refreshToken})

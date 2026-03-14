@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/network/app_network_providers.dart';
 import '../../../../app/storage/app_storage_providers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/discussion_board_local_data_source.dart';
@@ -17,7 +18,7 @@ import '../state/discussion_board_state.dart';
 final discussionBoardRemoteDataSourceProvider =
     Provider<DiscussionBoardRemoteDataSource>((ref) {
       return DiscussionBoardRemoteDataSourceImpl(
-        ref.watch(coreHttpClientProvider),
+        ref.watch(oaCoreHttpClientProvider),
       );
     });
 

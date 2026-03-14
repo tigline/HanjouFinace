@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/network/app_network_providers.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/mypage_remote_data_source.dart';
 import '../../data/repositories/mypage_repository_impl.dart';
@@ -11,7 +12,7 @@ import '../../domain/usecases/fetch_mypage_investment_list_usecase.dart';
 import '../../domain/usecases/fetch_mypage_order_inquiry_list_usecase.dart';
 
 final myPageRemoteDataSourceProvider = Provider<MyPageRemoteDataSource>((ref) {
-  return MyPageRemoteDataSourceImpl(ref.watch(coreHttpClientProvider));
+  return MyPageRemoteDataSourceImpl(ref.watch(oaCoreHttpClientProvider));
 });
 
 final myPageRepositoryProvider = Provider<MyPageRepository>((ref) {
