@@ -333,6 +333,25 @@
   "notificationsLotterySubtitle": "After API integration, lottery and deposit notifications will appear here.",
   "notificationsSystemTitle": "System notices",
   "notificationsSystemSubtitle": "Maintenance, statements, and legal updates.",
+  "notificationsTabImportant": "Important",
+  "notificationsTabGeneral": "Updates",
+  "notificationsMarkAllRead": "Mark all as read",
+  "notificationsNewsPushLabel": "Receive news notifications",
+  "notificationsMarkAllReadDone": "Marked {count} items as read.",
+  "@notificationsMarkAllReadDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsAllReadAlreadyDone": "No unread notifications.",
+  "notificationsEmptyImportant": "No important notifications.",
+  "notificationsEmptyGeneral": "No notifications.",
+  "notificationsEmptyGuest": "Sign in to view notifications.",
+  "notificationsLoginRequired": "Sign in required.",
+  "notificationsDetailNoContent": "No details available.",
+  "notificationsDetailClose": "Close",
   "homeLogout": "Sign out",
   "uiErrorRequestFailed": "Request failed. Please try again later.",
   "uiErrorNetworkUnavailable": "Network connection error. Please try again later.",

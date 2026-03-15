@@ -1883,6 +1883,78 @@ abstract class AppLocalizations {
   /// **'Maintenance, statements, and legal updates.'**
   String get notificationsSystemSubtitle;
 
+  /// No description provided for @notificationsTabImportant.
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get notificationsTabImportant;
+
+  /// No description provided for @notificationsTabGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates'**
+  String get notificationsTabGeneral;
+
+  /// No description provided for @notificationsMarkAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get notificationsMarkAllRead;
+
+  /// No description provided for @notificationsNewsPushLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive news notifications'**
+  String get notificationsNewsPushLabel;
+
+  /// No description provided for @notificationsMarkAllReadDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked {count} items as read.'**
+  String notificationsMarkAllReadDone(int count);
+
+  /// No description provided for @notificationsAllReadAlreadyDone.
+  ///
+  /// In en, this message translates to:
+  /// **'No unread notifications.'**
+  String get notificationsAllReadAlreadyDone;
+
+  /// No description provided for @notificationsEmptyImportant.
+  ///
+  /// In en, this message translates to:
+  /// **'No important notifications.'**
+  String get notificationsEmptyImportant;
+
+  /// No description provided for @notificationsEmptyGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications.'**
+  String get notificationsEmptyGeneral;
+
+  /// No description provided for @notificationsEmptyGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to view notifications.'**
+  String get notificationsEmptyGuest;
+
+  /// No description provided for @notificationsLoginRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in required.'**
+  String get notificationsLoginRequired;
+
+  /// No description provided for @notificationsDetailNoContent.
+  ///
+  /// In en, this message translates to:
+  /// **'No details available.'**
+  String get notificationsDetailNoContent;
+
+  /// No description provided for @notificationsDetailClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get notificationsDetailClose;
+
   /// No description provided for @homeLogout.
   ///
   /// In en, this message translates to:

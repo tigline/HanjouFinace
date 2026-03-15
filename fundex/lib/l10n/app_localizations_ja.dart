@@ -921,6 +921,44 @@ class AppLocalizationsJa extends AppLocalizations {
   String get notificationsSystemSubtitle => 'メンテナンス、報告書、法令関連のお知らせ。';
 
   @override
+  String get notificationsTabImportant => '重要';
+
+  @override
+  String get notificationsTabGeneral => 'お知らせ';
+
+  @override
+  String get notificationsMarkAllRead => '全て既読';
+
+  @override
+  String get notificationsNewsPushLabel => 'ニュースを通知で受け取る';
+
+  @override
+  String notificationsMarkAllReadDone(int count) {
+    return '$count件を既読にしました。';
+  }
+
+  @override
+  String get notificationsAllReadAlreadyDone => '未読のお知らせはありません。';
+
+  @override
+  String get notificationsEmptyImportant => '重要なお知らせはありません。';
+
+  @override
+  String get notificationsEmptyGeneral => 'お知らせはありません。';
+
+  @override
+  String get notificationsEmptyGuest => 'ログインするとお知らせを確認できます。';
+
+  @override
+  String get notificationsLoginRequired => 'ログインが必要です。';
+
+  @override
+  String get notificationsDetailNoContent => '詳細はありません。';
+
+  @override
+  String get notificationsDetailClose => '閉じる';
+
+  @override
   String get homeLogout => 'ログアウト';
 
   @override

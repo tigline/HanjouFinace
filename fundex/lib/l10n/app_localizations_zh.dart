@@ -916,6 +916,44 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notificationsSystemSubtitle => '维护、报表与法规相关通知。';
 
   @override
+  String get notificationsTabImportant => '重要';
+
+  @override
+  String get notificationsTabGeneral => '通知';
+
+  @override
+  String get notificationsMarkAllRead => '全部已读';
+
+  @override
+  String get notificationsNewsPushLabel => '接收新闻通知';
+
+  @override
+  String notificationsMarkAllReadDone(int count) {
+    return '已将 $count 条设为已读。';
+  }
+
+  @override
+  String get notificationsAllReadAlreadyDone => '没有未读通知。';
+
+  @override
+  String get notificationsEmptyImportant => '暂无重要通知。';
+
+  @override
+  String get notificationsEmptyGeneral => '暂无通知。';
+
+  @override
+  String get notificationsEmptyGuest => '登录后可查看通知。';
+
+  @override
+  String get notificationsLoginRequired => '需要先登录。';
+
+  @override
+  String get notificationsDetailNoContent => '暂无详细内容。';
+
+  @override
+  String get notificationsDetailClose => '关闭';
+
+  @override
   String get homeLogout => '退出登录';
 
   @override
@@ -2955,6 +2993,44 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get notificationsSystemSubtitle => '维护、报表与法规相关通知。';
+
+  @override
+  String get notificationsTabImportant => '重要';
+
+  @override
+  String get notificationsTabGeneral => '通知';
+
+  @override
+  String get notificationsMarkAllRead => '全部已讀';
+
+  @override
+  String get notificationsNewsPushLabel => '接收新聞通知';
+
+  @override
+  String notificationsMarkAllReadDone(int count) {
+    return '已將 $count 則設為已讀。';
+  }
+
+  @override
+  String get notificationsAllReadAlreadyDone => '沒有未讀通知。';
+
+  @override
+  String get notificationsEmptyImportant => '暫無重要通知。';
+
+  @override
+  String get notificationsEmptyGeneral => '暫無通知。';
+
+  @override
+  String get notificationsEmptyGuest => '登入後可查看通知。';
+
+  @override
+  String get notificationsLoginRequired => '需要先登入。';
+
+  @override
+  String get notificationsDetailNoContent => '暫無詳細內容。';
+
+  @override
+  String get notificationsDetailClose => '關閉';
 
   @override
   String get homeLogout => '登出';

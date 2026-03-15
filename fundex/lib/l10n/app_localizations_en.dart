@@ -976,6 +976,44 @@ class AppLocalizationsEn extends AppLocalizations {
       'Maintenance, statements, and legal updates.';
 
   @override
+  String get notificationsTabImportant => 'Important';
+
+  @override
+  String get notificationsTabGeneral => 'Updates';
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all as read';
+
+  @override
+  String get notificationsNewsPushLabel => 'Receive news notifications';
+
+  @override
+  String notificationsMarkAllReadDone(int count) {
+    return 'Marked $count items as read.';
+  }
+
+  @override
+  String get notificationsAllReadAlreadyDone => 'No unread notifications.';
+
+  @override
+  String get notificationsEmptyImportant => 'No important notifications.';
+
+  @override
+  String get notificationsEmptyGeneral => 'No notifications.';
+
+  @override
+  String get notificationsEmptyGuest => 'Sign in to view notifications.';
+
+  @override
+  String get notificationsLoginRequired => 'Sign in required.';
+
+  @override
+  String get notificationsDetailNoContent => 'No details available.';
+
+  @override
+  String get notificationsDetailClose => 'Close';
+
+  @override
   String get homeLogout => 'Sign out';
 
   @override

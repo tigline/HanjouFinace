@@ -333,6 +333,25 @@
   "notificationsLotterySubtitle": "接入 API 后，抽签结果与入金提醒会显示在这里。",
   "notificationsSystemTitle": "系统通知",
   "notificationsSystemSubtitle": "维护、报表与法规相关通知。",
+  "notificationsTabImportant": "重要",
+  "notificationsTabGeneral": "通知",
+  "notificationsMarkAllRead": "全部已讀",
+  "notificationsNewsPushLabel": "接收新聞通知",
+  "notificationsMarkAllReadDone": "已將 {count} 則設為已讀。",
+  "@notificationsMarkAllReadDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsAllReadAlreadyDone": "沒有未讀通知。",
+  "notificationsEmptyImportant": "暫無重要通知。",
+  "notificationsEmptyGeneral": "暫無通知。",
+  "notificationsEmptyGuest": "登入後可查看通知。",
+  "notificationsLoginRequired": "需要先登入。",
+  "notificationsDetailNoContent": "暫無詳細內容。",
+  "notificationsDetailClose": "關閉",
   "homeLogout": "登出",
   "uiErrorRequestFailed": "请求失败，请稍后重试",
   "uiErrorNetworkUnavailable": "网络连接异常，请稍后重试",
