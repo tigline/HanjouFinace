@@ -1,6 +1,7 @@
 import '../../domain/entities/fund_project.dart';
 import '../../domain/repositories/fund_project_repository.dart';
 import '../datasources/fund_project_remote_data_source.dart';
+import '../models/fund_project_dto.dart';
 
 class FundProjectRepositoryImpl implements FundProjectRepository {
   FundProjectRepositoryImpl({required FundProjectRemoteDataSource remote})

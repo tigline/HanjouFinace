@@ -7,3 +7,4 @@ Current scope:
 - success-code profile support (`0` / `200` / mixed)
 - common paged rows extraction (`data.rows`, `rows`)
 - shared discussion-board API client and DTOs
+- shared investment API client and DTOs
