@@ -1,13 +1,12 @@
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../auth/app_auth_failure_handler.dart';
 import '../auth/persistent_token_store.dart';
-import '../config/api_paths.dart';
 import '../config/environment_provider.dart';
 import '../observability/app_observability_providers.dart';
 import '../storage/app_storage_providers.dart';
-import 'api_cluster_router.dart';
 import 'app_observability_interceptor.dart';
 
 enum AppApiCluster { oa, member, hotel }
@@ -33,8 +32,8 @@ final tokenRefresherProvider = Provider<TokenRefresher>((ref) {
   final baseUrl = ref.watch(oaApiBaseUrlProvider);
   return EndpointTokenRefresher.oauth2(
     Dio(BaseOptions(baseUrl: baseUrl)),
-    refreshPath: FundingAuthApiPath.oauthToken,
-    basicAuthorization: fundingOauthClientAuthorization,
+    refreshPath: AuthApiPaths.oauthToken,
+    basicAuthorization: AuthApiDefaults.oauthClientAuthorization,
   );
 });
 

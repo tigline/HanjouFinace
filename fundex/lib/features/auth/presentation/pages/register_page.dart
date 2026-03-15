@@ -1,10 +1,10 @@
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/config/api_paths.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../providers/auth_providers.dart';
 import '../support/code_send_cooldown.dart';
@@ -132,7 +132,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     try {
       await ref
           .read(sendRegisterCodeUseCaseProvider)
-          .call(account: _accountValue, intlCode: defaultIntlCode);
+          .call(
+            account: _accountValue,
+            intlCode: AuthApiDefaults.defaultIntlCode,
+          );
 
       if (!mounted) {
         return;
@@ -175,7 +178,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           .call(
             account: _accountValue,
             code: _codeController.text.trim(),
-            intlCode: defaultIntlCode,
+            intlCode: AuthApiDefaults.defaultIntlCode,
           );
     } catch (error) {
       if (!mounted) {

@@ -6,6 +6,7 @@ import '../datasources/member_profile_local_data_source.dart';
 import '../datasources/member_profile_remote_data_source.dart';
 import '../mappers/member_profile_api_payload_mapper.dart';
 import '../models/member_profile_details_dto.dart';
+import '../models/member_profile_region_dto.dart';
 
 class MemberProfileRepositoryImpl implements MemberProfileRepository {
   MemberProfileRepositoryImpl({

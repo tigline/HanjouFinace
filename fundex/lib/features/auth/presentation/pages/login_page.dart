@@ -1,8 +1,8 @@
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:fundex/app/config/api_paths.dart';
 import 'package:fundex/features/auth/presentation/support/intl_code_picker_field.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
@@ -30,7 +30,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   _LoginChannel _loginChannel = _LoginChannel.email;
   String? _localValidationError;
   late final CodeSendCooldown _sendCodeCooldown;
-  String _selectedIntlCode = defaultIntlCode;
+  String _selectedIntlCode = AuthApiDefaults.defaultIntlCode;
   bool _didOpenRegisterOnEnter = false;
 
   bool get _isEmailMode => _loginChannel == _LoginChannel.email;

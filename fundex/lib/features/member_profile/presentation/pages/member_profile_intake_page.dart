@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/config/api_paths.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../auth/presentation/support/intl_code_picker_field.dart';
@@ -58,7 +58,7 @@ class _MemberProfileIntakePageState
   bool _isLoading = true;
   bool _isSaving = false;
   bool _isPickingPhoto = false;
-  String _selectedIntlCode = defaultIntlCode;
+  String _selectedIntlCode = AuthApiDefaults.defaultIntlCode;
   String? _documentPhotoPath;
   DateTime? _lastSkippedAt;
   DateTime? _lastUpdatedAt;
@@ -118,7 +118,7 @@ class _MemberProfileIntakePageState
       _phoneController.text = merged.phone;
       _emailController.text = merged.email;
       _selectedIntlCode = (merged.phoneIntlCode.trim().isEmpty)
-          ? defaultIntlCode
+          ? AuthApiDefaults.defaultIntlCode
           : merged.phoneIntlCode;
       _documentPhotoPath = merged.idDocumentPhotoPath;
       _lastSkippedAt = merged.lastSkippedAt;
@@ -143,7 +143,7 @@ class _MemberProfileIntakePageState
       givenName: _normalized(_givenNameController.text),
       address: _normalized(_addressController.text),
       phoneIntlCode: _selectedIntlCode.trim().isEmpty
-          ? defaultIntlCode
+          ? AuthApiDefaults.defaultIntlCode
           : _selectedIntlCode.trim(),
       phone: _normalized(_phoneController.text),
       email: _normalized(_emailController.text),

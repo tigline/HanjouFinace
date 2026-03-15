@@ -3,8 +3,9 @@ import 'package:core_network/core_network.dart';
 import '../../domain/entities/auth_session.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_local_data_source.dart';
-import '../models/auth_user_dto.dart';
 import '../datasources/auth_remote_data_source.dart';
+import '../models/auth_session_dto.dart';
+import '../models/auth_user_dto.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({

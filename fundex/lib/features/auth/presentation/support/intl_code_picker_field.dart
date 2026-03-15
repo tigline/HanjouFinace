@@ -1,7 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../app/config/phone_country_codes.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 
 class IntlCodePickerField extends StatelessWidget {

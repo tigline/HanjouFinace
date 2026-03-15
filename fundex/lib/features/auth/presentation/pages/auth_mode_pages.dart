@@ -1,10 +1,10 @@
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/config/api_paths.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import 'auth_visual_scaffold.dart';
 import '../controllers/auth_controller.dart';
@@ -68,7 +68,7 @@ class _AuthMethodLoginPageState extends ConsumerState<_AuthMethodLoginPage> {
   late final TextEditingController _codeController;
   late final CodeSendCooldown _sendCodeCooldown;
   String? _localValidationError;
-  String _selectedIntlCode = defaultIntlCode;
+  String _selectedIntlCode = AuthApiDefaults.defaultIntlCode;
 
   bool get _isEmailMode => widget.mode == _AuthAccountMode.email;
 
@@ -378,7 +378,7 @@ class _AuthMethodRegisterPageState
   bool _acceptPolicy = false;
   bool _isSubmitting = false;
   bool _isSendingCode = false;
-  String _selectedIntlCode = defaultIntlCode;
+  String _selectedIntlCode = AuthApiDefaults.defaultIntlCode;
 
   bool get _isEmailMode => widget.mode == _AuthAccountMode.email;
 

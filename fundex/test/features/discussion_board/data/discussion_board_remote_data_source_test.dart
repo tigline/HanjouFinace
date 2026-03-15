@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fundex/app/config/api_paths.dart';
 import 'package:fundex/features/discussion_board/data/datasources/discussion_board_remote_data_source.dart';
 
 class _FakeAdapter implements HttpClientAdapter {
@@ -57,10 +57,10 @@ CoreHttpClient _buildClient(
 void main() {
   group('DiscussionBoardRemoteDataSourceImpl', () {
     test('comment endpoints should include crowdfunding prefix', () {
-      expect(FundingCommentApiPath.commentPage, '/crowdfunding/comment/page');
-      expect(FundingCommentApiPath.commentSend, '/crowdfunding/comment/send');
+      expect(DiscussionBoardApiPaths.commentPage, '/crowdfunding/comment/page');
+      expect(DiscussionBoardApiPaths.commentSend, '/crowdfunding/comment/send');
       expect(
-        FundingCommentApiPath.commentDelete,
+        DiscussionBoardApiPaths.commentDelete,
         '/crowdfunding/comment/delete',
       );
     });
@@ -68,7 +68,7 @@ void main() {
     test('fetchCommentPage posts payload and parses rows', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, FundingCommentApiPath.commentPage);
+        expect(options.path, DiscussionBoardApiPaths.commentPage);
         expect(options.extra['auth_required'], true);
         expect(options.data, <String, dynamic>{
           'startPage': 1,
@@ -96,7 +96,7 @@ void main() {
     test('sendComment posts payload and validates success envelope', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, FundingCommentApiPath.commentSend);
+        expect(options.path, DiscussionBoardApiPaths.commentSend);
         expect(options.extra['auth_required'], true);
         expect(options.data, <String, dynamic>{
           'content': '新留言',
@@ -113,7 +113,7 @@ void main() {
     test('deleteComment hits delete endpoint with commentId', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'DELETE');
-        expect(options.path, FundingCommentApiPath.commentDelete);
+        expect(options.path, DiscussionBoardApiPaths.commentDelete);
         expect(options.extra['auth_required'], true);
         expect(options.queryParameters, <String, dynamic>{'commentId': 101});
         return _jsonOk('{"msg":"success","code":200,"data":true}');

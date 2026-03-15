@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fundex/app/config/api_paths.dart';
 import 'package:fundex/features/member_profile/data/datasources/mypage_remote_data_source.dart';
 
 class _FakeAdapter implements HttpClientAdapter {
@@ -59,7 +59,7 @@ void main() {
     test('fetchAccountStatistic gets envelope and parses data', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'GET');
-        expect(options.path, FundingMemberApiPath.accountStatistic);
+        expect(options.path, UserInvestmentApiPaths.accountStatistic);
         expect(options.extra['auth_required'], true);
 
         return _jsonOk(
@@ -80,7 +80,7 @@ void main() {
     test('fetchApplyList posts payload and parses rows envelope', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, FundingMemberApiPath.applyList);
+        expect(options.path, UserInvestmentApiPaths.applyList);
         expect(options.extra['auth_required'], true);
         expect(options.data, <String, dynamic>{'startPage': 1, 'limit': 20});
 
@@ -104,7 +104,7 @@ void main() {
     test('fetchOrderInquiryList posts userId and parses pdf rows', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, FundingMemberApiPath.orderInquiryPage);
+        expect(options.path, UserInvestmentApiPaths.orderInquiryPage);
         expect(options.extra['auth_required'], true);
         expect(options.data, <String, dynamic>{
           'startPage': 1,
@@ -134,7 +134,7 @@ void main() {
     test('fetchInvestmentList posts payload and parses rows envelope', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'POST');
-        expect(options.path, FundingMemberApiPath.myInvestmentList);
+        expect(options.path, UserInvestmentApiPaths.myInvestmentList);
         expect(options.extra['auth_required'], true);
         expect(options.data, <String, dynamic>{'startPage': 1, 'limit': 20});
 

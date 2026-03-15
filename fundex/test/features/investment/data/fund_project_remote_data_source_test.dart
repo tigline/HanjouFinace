@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fundex/app/config/api_paths.dart';
 import 'package:fundex/features/investment/data/datasources/fund_project_remote_data_source.dart';
 
 class _FakeAdapter implements HttpClientAdapter {
@@ -59,7 +59,7 @@ void main() {
     test('fetchFundProjectList uses list endpoint and parses envelope', () async {
       final client = _buildClient((options) async {
         expect(options.method, 'GET');
-        expect(options.path, FundingFundApiPath.projectList);
+        expect(options.path, FundProjectApiPaths.projectList);
         expect(options.extra['auth_required'], true);
 
         return _jsonOk(
@@ -99,7 +99,7 @@ void main() {
 
     test('fetchFundProjectList throws when envelope reports failure', () async {
       final client = _buildClient((options) async {
-        expect(options.path, FundingFundApiPath.projectList);
+        expect(options.path, FundProjectApiPaths.projectList);
         return _jsonOk('{"msg":"query failed","code":500,"data":null}');
       });
       final source = FundProjectRemoteDataSourceImpl(client);
@@ -115,7 +115,7 @@ void main() {
       () async {
         final client = _buildClient((options) async {
           expect(options.method, 'GET');
-          expect(options.path, FundingFundApiPath.projectDetail);
+          expect(options.path, FundProjectApiPaths.projectDetail);
           expect(options.queryParameters['id'], '453461223669231137');
           expect(options.extra['auth_required'], true);
 

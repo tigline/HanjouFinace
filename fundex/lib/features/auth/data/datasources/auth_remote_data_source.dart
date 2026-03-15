@@ -1,13 +1,5 @@
 import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
-import 'package:encrypt/encrypt.dart' as crypto;
-
-import '../../../../app/config/api_paths.dart';
-import '../../../../app/network/app_api_response_profiles.dart';
-import '../../../../app/network/api_cluster_router.dart';
-import '../models/auth_login_result_dto.dart';
-import '../models/auth_session_dto.dart';
-import '../models/auth_user_dto.dart';
 
 abstract class AuthRemoteDataSource {
   Future<void> sendLoginCode({required String account, String? intlCode});
@@ -37,127 +29,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     CoreHttpClient? memberClient,
     ApiClusterRouter? clusterRouter,
     LegacyEnvelopeCodec? envelopeCodec,
-  }) : _envelopeCodec =
-           envelopeCodec ??
-           const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa),
-       _clusterRouter =
-           clusterRouter ??
-           ApiClusterRouter.fromClients(
-             oaClient: oaClient,
-             memberClient: memberClient,
+    AuthApiClient? apiClient,
+  }) : _apiClient =
+           apiClient ??
+           AuthApiClient(
+             dioForPath:
+                 (clusterRouter ??
+                         ApiClusterRouter.fromClients(
+                           oaClient: oaClient,
+                           memberClient: memberClient,
+                         ))
+                     .dioForPath,
+             envelopeCodec: envelopeCodec,
            );
 
-  final ApiClusterRouter _clusterRouter;
-  final LegacyEnvelopeCodec _envelopeCodec;
-
-  bool _isEmailAccount(String account) => account.contains('@');
-
-  String _normalizedIntlCode(String? intlCode) {
-    final value = intlCode?.trim();
-    return (value == null || value.isEmpty) ? defaultIntlCode : value;
-  }
-
-  String _buildSmsSecret(String mobile) {
-    final key = crypto.Key.fromUtf8('ookawasebirukura');
-    final iv = crypto.IV.fromUtf8('fkabushikigaisha');
-    final aes = crypto.Encrypter(crypto.AES(key, mode: crypto.AESMode.cbc));
-    return aes.encrypt(mobile, iv: iv).base64;
-  }
-
-  bool _hasOauthTokenFields(Map<String, dynamic> payload) {
-    return payload.containsKey('access_token') ||
-        payload.containsKey('refresh_token') ||
-        payload.containsKey('accessToken') ||
-        payload.containsKey('refreshToken');
-  }
-
-  void _assertLegacyBoolSuccessIfPresent(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    _envelopeCodec.assertSuccessIfEnvelope(
-      payload,
-      fallbackMessage: fallbackMessage,
-      requireTruthyData: true,
-    );
-  }
-
-  Map<String, dynamic> _extractTokenPayload(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty) {
-      return payload;
-    }
-
-    if (_hasOauthTokenFields(payload)) {
-      return payload;
-    }
-
-    if (_envelopeCodec.looksLikeEnvelope(payload)) {
-      return _envelopeCodec.extractDataMap(
-        payload,
-        fallbackMessage: fallbackMessage,
-      );
-    }
-
-    return payload;
-  }
-
-  Map<String, dynamic> _extractEnvelopeDataPayload(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    if (payload.isEmpty) {
-      return payload;
-    }
-
-    return _envelopeCodec.extractDataMap(
-      payload,
-      fallbackMessage: fallbackMessage,
-    );
-  }
+  final AuthApiClient _apiClient;
 
   @override
   Future<void> sendLoginCode({
     required String account,
     String? intlCode,
   }) async {
-    final normalizedAccount = account.trim();
-    if (_isEmailAccount(normalizedAccount)) {
-      const path = FundingAuthApiPath.emailLoginCode;
-      final response = await _clusterRouter
-          .dioForPath(path)
-          .get<Map<String, dynamic>>(
-            path,
-            queryParameters: <String, dynamic>{'email': normalizedAccount},
-            options: authRequired(false),
-          );
-      _assertLegacyBoolSuccessIfPresent(
-        _envelopeCodec.toJsonMap(response.data),
-        fallbackMessage: 'Failed to send login code.',
-      );
-      return;
-    }
-
-    const path = FundingAuthApiPath.smsCode;
-    final response = await _clusterRouter
-        .dioForPath(path)
-        .get<Map<String, dynamic>>(
-          path,
-          queryParameters: <String, dynamic>{
-            'mobile': normalizedAccount,
-            'biz': _normalizedIntlCode(intlCode),
-            'secret': _buildSmsSecret(normalizedAccount),
-          },
-          options: authRequired(
-            false,
-          ).copyWith(contentType: Headers.formUrlEncodedContentType),
-        );
-    _assertLegacyBoolSuccessIfPresent(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Failed to send login code.',
-    );
+    return _apiClient.sendLoginCode(account: account, intlCode: intlCode);
   }
 
   @override
@@ -165,45 +58,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String account,
     required String intlCode,
   }) async {
-    final normalizedAccount = account.trim();
-    final normalizedIntlCode = intlCode.trim().isEmpty
-        ? defaultIntlCode
-        : intlCode.trim();
-
-    if (_isEmailAccount(normalizedAccount)) {
-      const path = FundingAuthApiPath.createRegisterEmailCode;
-      final response = await _clusterRouter
-          .dioForPath(path)
-          .get<Map<String, dynamic>>(
-            path,
-            queryParameters: <String, dynamic>{'email': normalizedAccount},
-            options: authRequired(false),
-          );
-      _assertLegacyBoolSuccessIfPresent(
-        _envelopeCodec.toJsonMap(response.data),
-        fallbackMessage: 'Failed to send registration code.',
-      );
-      return;
-    }
-
-    const path = FundingAuthApiPath.createRegisterMobileCode;
-    final response = await _clusterRouter
-        .dioForPath(path)
-        .get<Map<String, dynamic>>(
-          path,
-          queryParameters: <String, dynamic>{
-            'mobile': normalizedAccount,
-            'biz': normalizedIntlCode,
-            'secret': _buildSmsSecret(normalizedAccount),
-          },
-          options: authRequired(
-            false,
-          ).copyWith(contentType: Headers.formUrlEncodedContentType),
-        );
-    _assertLegacyBoolSuccessIfPresent(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Failed to send registration code.',
-    );
+    return _apiClient.sendRegisterCode(account: account, intlCode: intlCode);
   }
 
   @override
@@ -212,56 +67,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String code,
     String? intlCode,
   }) async {
-    final normalizedAccount = account.trim();
-    final isEmail = _isEmailAccount(normalizedAccount);
-    final normalizedIntlCode = _normalizedIntlCode(intlCode);
-
-    const path = FundingAuthApiPath.oauthToken;
-    final response = await _clusterRouter
-        .dioForPath(path)
-        .post<Map<String, dynamic>>(
-          path,
-          data: <String, dynamic>{
-            'username': normalizedAccount,
-            'password': code.trim(),
-            'grant_type': 'password',
-            'auth_type': isEmail ? 'email' : 'mobile',
-            'scope': 'app',
-            if (!isEmail) 'code': normalizedIntlCode,
-          },
-          options: authRequired(false).copyWith(
-            headers: <String, dynamic>{
-              'Authorization': fundingOauthClientAuthorization,
-            },
-            contentType: Headers.formUrlEncodedContentType,
-          ),
-        );
-
-    final payload = _extractTokenPayload(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Login failed.',
+    return _apiClient.loginWithCode(
+      account: account,
+      code: code,
+      intlCode: intlCode,
     );
-    final session = AuthSessionDto.fromJson(payload);
-    final user = AuthUserDto.tryFromLoginPayload(payload);
-    return AuthLoginResultDto(session: session, user: user);
   }
 
   @override
   Future<AuthUserDto?> fetchCurrentUser() async {
-    const path = FundingAuthApiPath.crowdfundingUserIndex;
-    final response = await _clusterRouter
-        .dioForPath(path)
-        .get<Map<String, dynamic>>(path, options: authRequired(true));
-
-    final payload = _extractEnvelopeDataPayload(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Failed to load current user profile.',
-    );
-    if (payload.isEmpty) {
-      return null;
-    }
-
-    return AuthUserDto.tryFromCurrentUserPayload(payload);
+    return _apiClient.fetchCurrentUser();
   }
 
   @override
@@ -271,111 +86,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String intlCode,
     String? contact,
   }) async {
-    final normalizedAccount = account.trim();
-    final normalizedCode = code.trim();
-    final normalizedIntlCode = intlCode.trim().isEmpty
-        ? defaultIntlCode
-        : intlCode.trim();
-    final normalizedContact = contact?.trim();
-
-    final isEmail = _isEmailAccount(normalizedAccount);
-
-    final payload = <String, dynamic>{
-      'code': normalizedCode,
-      'intlTelCode': normalizedIntlCode,
-      'type': isEmail ? 'email' : 'mobile',
-      if (isEmail) 'email': normalizedAccount else 'mobile': normalizedAccount,
-    };
-
-    if (isEmail) {
-      if (normalizedContact == null || normalizedContact.isEmpty) {
-        throw StateError('Mobile number is required for email registration.');
-      }
-      payload['mobile'] = normalizedContact;
-    } else if (normalizedContact != null && normalizedContact.contains('@')) {
-      payload['email'] = normalizedContact;
-    }
-
-    const path = FundingAuthApiPath.registerApply;
-    final response = await _clusterRouter
-        .dioForPath(path)
-        .post<Map<String, dynamic>>(
-          path,
-          data: payload,
-          options: authRequired(
-            false,
-          ).copyWith(contentType: Headers.jsonContentType),
-        );
-    final responsePayload = _envelopeCodec.toJsonMap(response.data);
-    _assertLegacyBoolSuccessIfPresent(
-      responsePayload,
-      fallbackMessage: 'Registration failed.',
+    return _apiClient.registerApply(
+      account: account,
+      code: code,
+      intlCode: intlCode,
+      contact: contact,
     );
   }
 
   @override
   Future<AuthSessionDto?> refreshSession({required String refreshToken}) async {
-    final normalizedRefreshToken = refreshToken.trim();
-    if (normalizedRefreshToken.isEmpty) {
-      return null;
-    }
-
-    const path = FundingAuthApiPath.oauthToken;
-    final response = await _clusterRouter
-        .dioForPath(path)
-        .post<Map<String, dynamic>>(
-          path,
-          data: <String, dynamic>{
-            'grant_type': 'refresh_token',
-            'refresh_token': normalizedRefreshToken,
-          },
-          options: authRequired(false).copyWith(
-            headers: <String, dynamic>{
-              'Authorization': fundingOauthClientAuthorization,
-            },
-            contentType: Headers.formUrlEncodedContentType,
-          ),
-        );
-
-    final rawPayload = _envelopeCodec.toJsonMap(response.data);
-    if (rawPayload.isEmpty) {
-      return null;
-    }
-
-    final tokenPayload = _extractTokenPayload(
-      rawPayload,
-      fallbackMessage: 'Failed to refresh session.',
-    );
-    if (tokenPayload.isEmpty) {
-      return null;
-    }
-
-    try {
-      return AuthSessionDto.fromJson(tokenPayload);
-    } on FormatException {
-      return null;
-    }
+    return _apiClient.refreshSession(refreshToken: refreshToken);
   }
 
   @override
   Future<void> logout({required String accessToken}) async {
-    final normalizedAccessToken = accessToken.trim();
-    if (normalizedAccessToken.isEmpty) {
-      return;
-    }
-
-    const path = FundingAuthApiPath.oauthToken;
-    await _clusterRouter
-        .dioForPath(path)
-        .delete<void>(
-          path,
-          data: <String, dynamic>{'accessToken': normalizedAccessToken},
-          options: authRequired(false).copyWith(
-            headers: <String, dynamic>{
-              'Authorization': fundingOauthClientAuthorization,
-            },
-            contentType: Headers.jsonContentType,
-          ),
-        );
+    return _apiClient.logout(accessToken: accessToken);
   }
 }
