@@ -1,10 +1,6 @@
 import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:core_network/core_network.dart';
 
-import '../../../../app/config/api_paths.dart';
-import '../../../../app/network/app_api_response_profiles.dart';
-import '../models/discussion_comment_dto.dart';
-
 abstract class DiscussionBoardRemoteDataSource {
   Future<List<DiscussionCommentDto>> fetchCommentPage({
     int startPage = 1,
@@ -24,14 +20,11 @@ abstract class DiscussionBoardRemoteDataSource {
 class DiscussionBoardRemoteDataSourceImpl
     implements DiscussionBoardRemoteDataSource {
   DiscussionBoardRemoteDataSourceImpl(
-    this._client, {
-    LegacyEnvelopeCodec? envelopeCodec,
-  }) : _envelopeCodec =
-           envelopeCodec ??
-           const LegacyEnvelopeCodec(profile: AppApiResponseProfiles.oa);
+    CoreHttpClient client, {
+    DiscussionBoardApiClient? apiClient,
+  }) : _apiClient = apiClient ?? DiscussionBoardApiClient(client);
 
-  final CoreHttpClient _client;
-  final LegacyEnvelopeCodec _envelopeCodec;
+  final DiscussionBoardApiClient _apiClient;
 
   @override
   Future<List<DiscussionCommentDto>> fetchCommentPage({
@@ -39,25 +32,11 @@ class DiscussionBoardRemoteDataSourceImpl
     int limit = 50,
     int? projectId,
   }) async {
-    final payload = <String, dynamic>{'startPage': startPage, 'limit': limit};
-    if (projectId != null) {
-      payload['projectId'] = projectId;
-    }
-
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingCommentApiPath.commentPage,
-      data: payload,
-      options: authRequired(true),
+    return _apiClient.fetchCommentPage(
+      startPage: startPage,
+      limit: limit,
+      projectId: projectId,
     );
-
-    final rows = _envelopeCodec.extractPagedRows(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Failed to load comments.',
-      pageProfile: AppApiResponseProfiles.standardPage,
-    );
-    return rows
-        .map((Map<String, dynamic> row) => DiscussionCommentDto.fromJson(row))
-        .toList(growable: false);
   }
 
   @override
@@ -66,39 +45,15 @@ class DiscussionBoardRemoteDataSourceImpl
     int? parentId,
     int? projectId,
   }) async {
-    final payload = <String, dynamic>{'content': content.trim()};
-    if (parentId != null) {
-      payload['parentId'] = parentId;
-    }
-    if (projectId != null) {
-      payload['projectId'] = projectId;
-    }
-
-    final response = await _client.dio.post<Map<String, dynamic>>(
-      FundingCommentApiPath.commentSend,
-      data: payload,
-      options: authRequired(true),
-    );
-
-    _envelopeCodec.assertSuccessIfEnvelope(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Failed to send comment.',
-      requireTruthyData: true,
+    await _apiClient.sendComment(
+      content: content,
+      parentId: parentId,
+      projectId: projectId,
     );
   }
 
   @override
   Future<void> deleteComment({required int commentId}) async {
-    final response = await _client.dio.delete<Map<String, dynamic>>(
-      FundingCommentApiPath.commentDelete,
-      queryParameters: <String, dynamic>{'commentId': commentId},
-      options: authRequired(true),
-    );
-
-    _envelopeCodec.assertSuccessIfEnvelope(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Failed to delete comment.',
-      requireTruthyData: true,
-    );
+    await _apiClient.deleteComment(commentId: commentId);
   }
 }

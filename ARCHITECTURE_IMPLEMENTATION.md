@@ -109,6 +109,21 @@ template_v2/
   - 标准结构：`data.rows`
   - 兼容直出：`rows`（无 envelope 时）
 
+## 11. 跨 App 的 API/DTO 下沉规则（必须执行）
+
+- 判定条件：接口来源相同、字段结构稳定，且会被两个及以上 App 复用时，必须下沉到 SDK。
+- 下沉范围（放到 `mobile_core_sdk/packages/company_api_runtime` 或后续 `company_api_*`）：
+  - API client（按 path/cluster 发起请求）
+  - Request/Response DTO
+  - envelope 与分页解析
+  - 通用错误码与失败消息规范
+- 保留范围（留在 App feature）：
+  - UseCase 业务编排
+  - 页面状态机与交互逻辑（controller/state）
+  - UI 展示模型与文案映射
+- 结构约束：feature 的 remote datasource 作为薄适配层，优先委托 SDK client，禁止在各 feature 重复实现请求组装与 envelope 解析。
+- 迁移顺序：优先迁移读多写少且接口稳定的模块（例如 `discussion_board`），每迁移一个模块必须补 SDK 侧测试并回收 App 侧重复 DTO/解析逻辑。
+
 
 
 ## 阶段一任务：

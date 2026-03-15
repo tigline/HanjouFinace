@@ -6,3 +6,4 @@ Current scope:
 - legacy envelope parsing (`code/msg/data`)
 - success-code profile support (`0` / `200` / mixed)
 - common paged rows extraction (`data.rows`, `rows`)
+- shared discussion-board API client and DTOs
