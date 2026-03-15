@@ -124,6 +124,14 @@ template_v2/
 - 结构约束：feature 的 remote datasource 作为薄适配层，优先委托 SDK client，禁止在各 feature 重复实现请求组装与 envelope 解析。
 - 迁移顺序：优先迁移读多写少且接口稳定的模块（例如 `discussion_board`），每迁移一个模块必须补 SDK 侧测试并回收 App 侧重复 DTO/解析逻辑。
 
+## 12. 手写 API Client / DTO 脚手架标准（当前执行）
+
+- 鉴于上游 Swagger 质量不稳定，当前阶段默认采用“手写 client + DTO”。
+- 标准模板与未来 Skill 自动化流程定义见：
+  - `MANUAL_API_CLIENT_DTO_SCAFFOLD_TEMPLATE.md`
+  - `skills/manual-api-client-dto-scaffold/SKILL.md`
+- 新增接口必须先按模板补齐输入（cluster/path/method/request/response/success code），再落地代码。
+
 
 
 ## 阶段一任务：
