@@ -1,62 +1,36 @@
-class DiscussionQuoteDto {
-  const DiscussionQuoteDto({
-    required this.id,
-    required this.username,
-    required this.content,
-    required this.createTime,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  final int? id;
-  final String username;
-  final String content;
-  final String createTime;
+part 'discussion_comment_dto.freezed.dart';
+part 'discussion_comment_dto.g.dart';
 
-  factory DiscussionQuoteDto.fromJson(Map<String, dynamic> json) {
-    return DiscussionQuoteDto(
-      id: _toNullableInt(json['id']),
-      username: json['username']?.toString() ?? '',
-      content: json['content']?.toString() ?? '',
-      createTime: json['createTime']?.toString() ?? '',
-    );
-  }
+@freezed
+class DiscussionQuoteDto with _$DiscussionQuoteDto {
+  const factory DiscussionQuoteDto({
+    @JsonKey(fromJson: _toNullableInt) int? id,
+    @Default('') String username,
+    @Default('') String content,
+    @Default('') String createTime,
+  }) = _DiscussionQuoteDto;
+
+  factory DiscussionQuoteDto.fromJson(Map<String, dynamic> json) =>
+      _$DiscussionQuoteDtoFromJson(json);
 }
 
-class DiscussionCommentDto {
-  const DiscussionCommentDto({
-    required this.id,
-    required this.userId,
-    required this.username,
-    required this.content,
-    required this.createTime,
-    required this.projectId,
-    required this.projectName,
-    this.quote,
-  });
+@freezed
+class DiscussionCommentDto with _$DiscussionCommentDto {
+  const factory DiscussionCommentDto({
+    @JsonKey(fromJson: _toNullableInt) int? id,
+    @JsonKey(fromJson: _toNullableInt) int? userId,
+    @Default('') String username,
+    @Default('') String content,
+    @Default('') String createTime,
+    @JsonKey(fromJson: _toNullableInt) int? projectId,
+    @Default('') String projectName,
+    @JsonKey(fromJson: _quoteFromJson) DiscussionQuoteDto? quote,
+  }) = _DiscussionCommentDto;
 
-  final int? id;
-  final int? userId;
-  final String username;
-  final String content;
-  final String createTime;
-  final int? projectId;
-  final String projectName;
-  final DiscussionQuoteDto? quote;
-
-  factory DiscussionCommentDto.fromJson(Map<String, dynamic> json) {
-    final quoteRaw = json['quote'];
-    return DiscussionCommentDto(
-      id: _toNullableInt(json['id']),
-      userId: _toNullableInt(json['userId']),
-      username: json['username']?.toString() ?? '',
-      content: json['content']?.toString() ?? '',
-      createTime: json['createTime']?.toString() ?? '',
-      projectId: _toNullableInt(json['projectId']),
-      projectName: json['projectName']?.toString() ?? '',
-      quote: quoteRaw is Map
-          ? DiscussionQuoteDto.fromJson(Map<String, dynamic>.from(quoteRaw))
-          : null,
-    );
-  }
+  factory DiscussionCommentDto.fromJson(Map<String, dynamic> json) =>
+      _$DiscussionCommentDtoFromJson(json);
 }
 
 int? _toNullableInt(Object? value) {
@@ -70,4 +44,14 @@ int? _toNullableInt(Object? value) {
     return value.toInt();
   }
   return int.tryParse(value.toString());
+}
+
+DiscussionQuoteDto? _quoteFromJson(Object? value) {
+  if (value is Map<String, dynamic>) {
+    return DiscussionQuoteDto.fromJson(value);
+  }
+  if (value is Map) {
+    return DiscussionQuoteDto.fromJson(Map<String, dynamic>.from(value));
+  }
+  return null;
 }

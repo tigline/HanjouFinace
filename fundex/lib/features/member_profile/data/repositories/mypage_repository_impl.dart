@@ -1,6 +1,7 @@
 import '../../domain/entities/mypage_models.dart';
 import '../../domain/repositories/mypage_repository.dart';
 import '../datasources/mypage_remote_data_source.dart';
+import '../models/mypage_dtos.dart';
 
 class MyPageRepositoryImpl implements MyPageRepository {
   MyPageRepositoryImpl({required MyPageRemoteDataSource remote})
