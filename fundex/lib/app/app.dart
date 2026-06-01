@@ -128,6 +128,9 @@ class MemberTemplateApp extends ConsumerWidget {
       routerConfig: router,
       builder: (BuildContext context, Widget? child) {
         final mediaQuery = MediaQuery.of(context);
+        final fixedTextScaleMediaQuery = mediaQuery.copyWith(
+          textScaler: TextScaler.noScaling,
+        );
         final brightness = Theme.of(context).brightness;
         final statusBarColor = brightness == Brightness.dark
             ? AppColorTokens.statusBarBackgroundDark
@@ -137,8 +140,11 @@ class MemberTemplateApp extends ConsumerWidget {
         ).copyWith(statusBarColor: statusBarColor);
         SystemChrome.setSystemUIOverlayStyle(statusBarOverlayStyle);
         final appChild = AppLifecycleRefreshScope(
-          child: _GlobalKeyboardDismissLayer(
-            child: child ?? const SizedBox.shrink(),
+          child: MediaQuery(
+            data: fixedTextScaleMediaQuery,
+            child: _GlobalKeyboardDismissLayer(
+              child: child ?? const SizedBox.shrink(),
+            ),
           ),
         );
         return AnnotatedRegion<SystemUiOverlayStyle>(
