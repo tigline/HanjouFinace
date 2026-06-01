@@ -645,14 +645,18 @@ Widget _buildActiveFundsSection(
                 investorCode: investorTypeDisplay.investorCode,
                 investorType: investorTypeDisplay.investorType,
                 returnText: investorTypeDisplay.returnText,
-                investmentAmountLabel:
-                    resolveActiveFundInvestmentAmountUnitsLabel(l10n),
-                investmentAmountValue:
-                    formatActiveFundInvestmentAmountUnitsValue(
-                      group,
-                      currencyFormatter,
-                      l10n,
-                    ),
+                investmentAmountLabel: l10n.myPageInvestmentAmountLabel,
+                investmentAmountValue: _formatCurrency(
+                  group.investMoney,
+                  currencyFormatter,
+                ),
+                investmentUnitsLabel: resolveActiveFundInvestmentUnitsLabel(
+                  l10n,
+                ),
+                investmentUnitsValue: formatActiveFundInvestmentUnitsValue(
+                  group,
+                  l10n,
+                ),
                 accumulatedEarningsLabel:
                     l10n.myPageAccumulatedDistributionLabel,
                 accumulatedEarningsValue: _formatCurrency(
