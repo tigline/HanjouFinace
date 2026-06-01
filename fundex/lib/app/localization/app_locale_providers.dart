@@ -8,10 +8,11 @@ const _localeStorageKey = 'app_locale';
 
 enum AppLanguage {
   system(null),
-  zh('zh'),
+  ja('ja'),
   zhHant('zh', 'Hant'),
-  en('en'),
-  ja('ja');
+  zh('zh'),
+  en('en');
+  
 
   const AppLanguage(this.languageCode, [this.scriptCode]);
 

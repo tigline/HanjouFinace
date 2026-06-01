@@ -889,7 +889,7 @@ class FundFeaturedFundCard extends StatelessWidget {
     super.key,
     required this.data,
     required this.yieldLabel,
-    this.width = 280,
+    this.width = 305,
     this.shadowPadding = const EdgeInsets.fromLTRB(2, 2, 2, 8),
   });
 
