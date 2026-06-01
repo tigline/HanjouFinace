@@ -827,7 +827,7 @@ class FundFeaturedFundCarousel extends StatelessWidget {
     this.leading,
     this.actionLabel,
     this.onActionTap,
-    this.height = 260,
+    this.height,
     this.itemSpacing = 12,
     this.headerSpacing = 0,
   });
@@ -837,7 +837,7 @@ class FundFeaturedFundCarousel extends StatelessWidget {
   final String? actionLabel;
   final VoidCallback? onActionTap;
   final List<Widget> children;
-  final double height;
+  final double? height;
   final double itemSpacing;
   final double headerSpacing;
 
@@ -846,6 +846,21 @@ class FundFeaturedFundCarousel extends StatelessWidget {
     if (children.isEmpty) {
       return const SizedBox.shrink();
     }
+
+    final row = Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        for (var index = 0; index < children.length; index++) ...<Widget>[
+          children[index],
+          if (index < children.length - 1) SizedBox(width: itemSpacing),
+        ],
+      ],
+    );
+    final scrollView = SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      clipBehavior: Clip.none,
+      child: height == null ? IntrinsicHeight(child: row) : row,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -860,26 +875,10 @@ class FundFeaturedFundCarousel extends StatelessWidget {
           ),
         ),
         SizedBox(height: headerSpacing),
-        SizedBox(
-          height: height,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            clipBehavior: Clip.none,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                for (
-                  var index = 0;
-                  index < children.length;
-                  index++
-                ) ...<Widget>[
-                  children[index],
-                  if (index < children.length - 1) SizedBox(width: itemSpacing),
-                ],
-              ],
-            ),
-          ),
-        ),
+        if (height == null)
+          scrollView
+        else
+          SizedBox(height: height, child: scrollView),
       ],
     );
   }
@@ -925,7 +924,6 @@ class FundFeaturedFundCard extends StatelessWidget {
 
     return SizedBox(
       width: width,
-      height: double.infinity,
       child: Padding(
         padding: shadowPadding,
         child: DecoratedBox(
@@ -951,7 +949,8 @@ class FundFeaturedFundCard extends StatelessWidget {
               onTap: data.onTap,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
                   Container(
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
                     decoration: BoxDecoration(
@@ -962,105 +961,104 @@ class FundFeaturedFundCard extends StatelessWidget {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         if (data.tags.isNotEmpty)
-                        Row(
-                          spacing: 6,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ...data.tags.map(
-                            (FundFeaturedFundTagData tag) => Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: tag.backgroundColor,
-                                borderRadius: BorderRadius.circular(999),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                widthFactor: 1,
-                                heightFactor: 1,
-                                child: Text(
-                                  tag.label,
-                                  textHeightBehavior:
-                                      const TextHeightBehavior(
-                                        applyHeightToFirstAscent: false,
-                                        applyHeightToLastDescent: false,
+                          Row(
+                            spacing: 6,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ...data.tags.map(
+                                (FundFeaturedFundTagData tag) => Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: tag.backgroundColor,
+                                    borderRadius: BorderRadius.circular(999),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    widthFactor: 1,
+                                    heightFactor: 1,
+                                    child: Text(
+                                      tag.label,
+                                      textHeightBehavior:
+                                          const TextHeightBehavior(
+                                            applyHeightToFirstAscent: false,
+                                            applyHeightToLastDescent: false,
+                                          ),
+                                      style: appText.micro.copyWith(
+                                        color: tag.foregroundColor,
+                                        height: 1,
+                                        fontSize: 11,
                                       ),
-                                  style: appText.micro.copyWith(
-                                    color: tag.foregroundColor,
-                                    height: 1,
-                                    fontSize: 11,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      AspectRatio(
-                        aspectRatio: 16 / 10,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(UiTokens.radius16),
-                          child: !hasArtwork
-                              ? const _FundFeaturedArtworkPlaceholder()
-                              : FundHeroMediaBackground(
-                                  gradientColors: artworkGradientColors,
-                                  imageUrls: data.imageUrls,
-                                  showArtworkOverlay: false,
-                                ),
+                        const SizedBox(height: 8),
+                        AspectRatio(
+                          aspectRatio: 16 / 10,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                              UiTokens.radius16,
+                            ),
+                            child: !hasArtwork
+                                ? const _FundFeaturedArtworkPlaceholder()
+                                : FundHeroMediaBackground(
+                                    gradientColors: artworkGradientColors,
+                                    imageUrls: data.imageUrls,
+                                    showArtworkOverlay: false,
+                                  ),
+                          ),
                         ),
-                      ),
-                      
                       ],
                     ),
                   ),
 
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                        decoration: BoxDecoration(
-                          color: colors.surfaceAlt,
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                    decoration: BoxDecoration(color: colors.surfaceAlt),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          data.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: appText.cardTitle.copyWith(
+                            color: primaryTextColor,
+                            fontSize: 16,
+                            height: 1.35,
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              data.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: appText.cardTitle.copyWith(
-                                color: primaryTextColor,
-                                fontSize: 16,
-                                height: 1.35,
-                              ),
-                            ),
-                          
-                            const Spacer(),
-                            Text(
-                              yieldLabel,
-                              style: appText.bodyMuted.copyWith(
-                                color: secondaryTextColor,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              data.annualYield,
-                              style: appText.numericHeadline.copyWith(
-                                color: colors.highlightGold,
-                                height: 1.0,
-                                fontSize: 28,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(height: 12),
+                        Text(
+                          yieldLabel,
+                          style: appText.bodyMuted.copyWith(
+                            color: secondaryTextColor,
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 6),
+                        Text(
+                          data.annualYield,
+                          style: appText.numericHeadline.copyWith(
+                            color: colors.highlightGold,
+                            height: 1.0,
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
                     ),
-                ]
+                  ),
+                ],
               ),
             ),
           ),
