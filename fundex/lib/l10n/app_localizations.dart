@@ -2999,6 +2999,24 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get menuItemLanguage;
 
+  /// No description provided for @settingsFontSizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Font size'**
+  String get settingsFontSizeTitle;
+
+  /// No description provided for @settingsFontSizeNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get settingsFontSizeNormal;
+
+  /// No description provided for @settingsFontSizeLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Large'**
+  String get settingsFontSizeLarge;
+
   /// No description provided for @menuThemeSystem.
   ///
   /// In en, this message translates to:

@@ -71,7 +71,7 @@ class MyPageAssetTrendCard extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surface,
-        borderRadius: BorderRadius.circular(UiTokens.radius16),
+        //borderRadius: BorderRadius.circular(UiTokens.radius16),
         //border: Border.all(color: colors.border),
         boxShadow: <BoxShadow>[
           BoxShadow(
@@ -312,10 +312,8 @@ class _MyPageAssetTrendChart extends StatelessWidget {
         Expanded(
           child: Row(
             children: <Widget>[
-              SizedBox(
-                width: leftAxisWidth,
-                child: _AxisLabelColumn(labels: yAxisLabels, style: labelStyle),
-              ),
+              _AxisLabelColumn(labels: yAxisLabels, style: labelStyle),
+              
               Expanded(
                 // CustomPaint has a zero preferred size without a child.
                 // Force it to fill the Row's cross-axis height.

@@ -186,7 +186,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
                 child: MyPageAssetTrendCard(
                   title: l10n.myPageAssetTrendTitle,
                   selectedRange: _selectedTrendRange,

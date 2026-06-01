@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
 
+import 'accessibility/app_text_scale_providers.dart';
 import 'config/environment_provider.dart';
 import 'firebase/push_token_sync_providers.dart';
 import 'localization/app_locale_providers.dart';
@@ -47,6 +48,7 @@ class MemberTemplateApp extends ConsumerWidget {
     final environment = ref.watch(appEnvironmentProvider);
     final locale = ref.watch(appLocaleProvider);
     final effectiveLocale = ref.watch(appEffectiveLocaleProvider);
+    final textScaleFactor = ref.watch(appTextScaleFactorProvider);
 
     ref.listen<AppUiMessage?>(appUiMessageProvider, (previous, next) {
       if (next == null) {
@@ -129,7 +131,7 @@ class MemberTemplateApp extends ConsumerWidget {
       builder: (BuildContext context, Widget? child) {
         final mediaQuery = MediaQuery.of(context);
         final fixedTextScaleMediaQuery = mediaQuery.copyWith(
-          textScaler: TextScaler.noScaling,
+          textScaler: TextScaler.linear(textScaleFactor),
         );
         final brightness = Theme.of(context).brightness;
         final statusBarColor = brightness == Brightness.dark
