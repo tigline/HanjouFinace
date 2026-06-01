@@ -305,6 +305,11 @@ class _DepositDetailBodyState extends ConsumerState<_DepositDetailBody> {
     final transferNoticeAccountId = formatWalletDepositTransferNoticeAccountId(
       currentUser,
     );
+    final overseasTransferNoticeAccountId =
+        formatWalletDepositTransferNoticeAccountId(
+          currentUser,
+          preferEnglishName: true,
+        );
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
@@ -323,6 +328,7 @@ class _DepositDetailBodyState extends ConsumerState<_DepositDetailBody> {
             texts: _buildProjectDepositBankCardTexts(
               context,
               transferNoticeAccountId: transferNoticeAccountId,
+              overseasTransferNoticeAccountId: overseasTransferNoticeAccountId,
             ),
           ),
         const SizedBox(height: 20),
@@ -412,6 +418,7 @@ bool _isUsableOverseasDepositBank(FundProjectLiveJapanBank? bank) {
 ProjectDepositBankCardTexts _buildProjectDepositBankCardTexts(
   BuildContext context, {
   required String transferNoticeAccountId,
+  required String overseasTransferNoticeAccountId,
 }) {
   final l10n = context.l10n;
   return ProjectDepositBankCardTexts(
@@ -434,6 +441,10 @@ ProjectDepositBankCardTexts _buildProjectDepositBankCardTexts(
         l10n.walletProjectDepositAccountHolderAddressLabel,
     transferNotice: l10n.walletDepositTransferNotice(transferNoticeAccountId),
     transferName: transferNoticeAccountId,
+    overseasTransferNotice: l10n.walletDepositTransferNotice(
+      overseasTransferNoticeAccountId,
+    ),
+    overseasTransferName: overseasTransferNoticeAccountId,
     transferNameCopyButtonLabel: l10n.walletDepositTransferNameCopyAction,
   );
 }
