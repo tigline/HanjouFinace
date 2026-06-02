@@ -1626,6 +1626,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter the required booker information.';
 
   @override
+  String get hotelBookingRoomGuestRequiredFieldsMissing =>
+      'Enter the required guest information for each room.';
+
+  @override
   String get hotelBookingCreateFailed =>
       'Could not create the pre-order. Please try again later.';
 

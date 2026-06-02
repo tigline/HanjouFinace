@@ -24,6 +24,10 @@ class HotelBookingGuestFormSection extends StatelessWidget {
     this.kids,
     this.maxAdults,
     this.maxKids,
+    this.showPhoneFields = true,
+    this.showTitle = true,
+    this.wrapInCard = true,
+    this.priceTipText = '',
     this.onAdultsChanged,
     this.onKidsChanged,
   });
@@ -44,16 +48,28 @@ class HotelBookingGuestFormSection extends StatelessWidget {
   final int? kids;
   final int? maxAdults;
   final int? maxKids;
+  final bool showPhoneFields;
+  final bool showTitle;
+  final bool wrapInCard;
+  final String priceTipText;
   final ValueChanged<int>? onAdultsChanged;
   final ValueChanged<int>? onKidsChanged;
 
   @override
   Widget build(BuildContext context) {
+    final child = _buildContent(context);
+    if (!wrapInCard) {
+      return child;
+    }
+    return HotelBookingSectionCard(child: child);
+  }
+
+  Widget _buildContent(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    return HotelBookingSectionCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (showTitle) ...<Widget>[
           Text(
             title,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -61,35 +77,37 @@ class HotelBookingGuestFormSection extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          if (roomName != null && roomName!.isNotEmpty) ...<Widget>[
-            const SizedBox(height: 6),
-            Text(
-              roomName!,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: colors.textPrimary,
-                fontWeight: FontWeight.w700,
-              ),
+        ],
+        if (roomName != null && roomName!.isNotEmpty) ...<Widget>[
+          if (showTitle) const SizedBox(height: 6),
+          Text(
+            roomName!,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: colors.textPrimary,
+              fontWeight: FontWeight.w700,
             ),
-          ],
-          const SizedBox(height: 18),
-          _NameFields(
-            firstNameController: firstNameController,
-            lastNameController: lastNameController,
-            isRequired: isRequired,
           ),
-          const SizedBox(height: 14),
-          _CountryDropdown(
-            countryCodes: countryCodes,
-            selectedCountryCode: selectedCountryCode,
-            onChanged: onCountryChanged,
-            isRequired: isRequired,
-          ),
-          const SizedBox(height: 14),
-          HotelBookingTextField(
-            controller: emailController,
-            hintText: context.l10n.hotelBookingEmail,
-            keyboardType: TextInputType.emailAddress,
-          ),
+        ],
+        const SizedBox(height: 18),
+        _NameFields(
+          firstNameController: firstNameController,
+          lastNameController: lastNameController,
+          isRequired: isRequired,
+        ),
+        const SizedBox(height: 14),
+        _CountryDropdown(
+          countryCodes: countryCodes,
+          selectedCountryCode: selectedCountryCode,
+          onChanged: onCountryChanged,
+          isRequired: isRequired,
+        ),
+        const SizedBox(height: 14),
+        HotelBookingTextField(
+          controller: emailController,
+          hintText: context.l10n.hotelBookingEmail,
+          keyboardType: TextInputType.emailAddress,
+        ),
+        if (showPhoneFields) ...<Widget>[
           const SizedBox(height: 14),
           _PhoneFields(
             phoneController: phoneController,
@@ -97,28 +115,42 @@ class HotelBookingGuestFormSection extends StatelessWidget {
             onIntlCodeChanged: onIntlCodeChanged,
             isRequired: isRequired,
           ),
-          if (adults != null && kids != null) ...<Widget>[
-            const SizedBox(height: 18),
-            _CounterRow(
-              label: context.l10n.hotelBookingAdults,
-              value: adults!,
-              requiredMark: true,
-              minValue: 1,
-              maxValue: maxAdults,
-              onChanged: onAdultsChanged,
+        ],
+        if (adults != null && kids != null) ...<Widget>[
+          const SizedBox(height: 18),
+          if (priceTipText.isNotEmpty) ...<Widget>[
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                priceTipText,
+                textAlign: TextAlign.right,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: colors.danger,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
             const SizedBox(height: 10),
-            _CounterRow(
-              label: context.l10n.hotelBookingChildren,
-              value: kids!,
-              requiredMark: false,
-              minValue: 0,
-              maxValue: maxKids,
-              onChanged: onKidsChanged,
-            ),
           ],
+          _CounterRow(
+            label: context.l10n.hotelBookingAdults,
+            value: adults!,
+            requiredMark: true,
+            minValue: 1,
+            maxValue: maxAdults,
+            onChanged: onAdultsChanged,
+          ),
+          const SizedBox(height: 10),
+          _CounterRow(
+            label: context.l10n.hotelBookingChildren,
+            value: kids!,
+            requiredMark: false,
+            minValue: 0,
+            maxValue: maxKids,
+            onChanged: onKidsChanged,
+          ),
         ],
-      ),
+      ],
     );
   }
 }

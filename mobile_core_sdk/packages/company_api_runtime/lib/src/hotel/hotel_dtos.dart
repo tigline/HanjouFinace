@@ -179,6 +179,8 @@ abstract class HotelRoomTypeDto with _$HotelRoomTypeDto {
     num? discount2,
     String? discountName2,
     int? occupancy,
+    int? adults,
+    int? kids,
     int? occupantsForBaseRate,
     Object? roomSize,
     int? bedRoomCount,

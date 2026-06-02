@@ -704,6 +704,7 @@
   "hotelBookingMessageHint": "特別なご要望は保証できませんが、できる限り対応いたします",
   "hotelBookingConfirmAction": "予約を確認",
   "hotelBookingRequiredFieldsMissing": "予約者の必須情報を入力してください。",
+  "hotelBookingRoomGuestRequiredFieldsMissing": "各部屋の宿泊者必須情報を入力してください。",
   "hotelBookingCreateFailed": "仮予約を作成できませんでした。しばらくしてからもう一度お試しください。",
   "hotelPaymentComingSoon": "支払いフローは後で接続します",
   "hotelPaymentPageTitle": "支払い",

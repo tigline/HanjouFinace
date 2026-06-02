@@ -3009,6 +3009,12 @@ abstract class AppLocalizations {
   /// **'Enter the required booker information.'**
   String get hotelBookingRequiredFieldsMissing;
 
+  /// No description provided for @hotelBookingRoomGuestRequiredFieldsMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the required guest information for each room.'**
+  String get hotelBookingRoomGuestRequiredFieldsMissing;
+
   /// No description provided for @hotelBookingCreateFailed.
   ///
   /// In en, this message translates to:

@@ -335,6 +335,8 @@ class HotelRoomPlan {
     required this.discount,
     required this.discountName,
     required this.occupancy,
+    required this.adultCapacity,
+    required this.childCapacity,
     required this.baseOccupancy,
     required this.roomSize,
     required this.bedroomCount,
@@ -353,6 +355,8 @@ class HotelRoomPlan {
   final num? discount;
   final String discountName;
   final int? occupancy;
+  final int? adultCapacity;
+  final int? childCapacity;
   final int? baseOccupancy;
   final String roomSize;
   final int? bedroomCount;
@@ -432,6 +436,7 @@ class HotelBookingPreparation {
     required this.registeredCardCount,
     required this.quotedPrice,
     required this.originalPrice,
+    required this.roomPriceElements,
   });
 
   final Map<String, String> pageTexts;
@@ -442,16 +447,31 @@ class HotelBookingPreparation {
   final int registeredCardCount;
   final num? quotedPrice;
   final num? originalPrice;
+  final List<HotelBookingRoomPriceElement> roomPriceElements;
 }
 
 class HotelBookingQuote {
   const HotelBookingQuote({
     required this.quotedPrice,
     required this.originalPrice,
+    required this.roomPriceElements,
   });
 
   final num? quotedPrice;
   final num? originalPrice;
+  final List<HotelBookingRoomPriceElement> roomPriceElements;
+}
+
+class HotelBookingRoomPriceElement {
+  const HotelBookingRoomPriceElement({
+    required this.roomTypeId,
+    required this.freeUserPrice,
+    required this.priceTip,
+  });
+
+  final String roomTypeId;
+  final int freeUserPrice;
+  final String priceTip;
 }
 
 class HotelBookingQuoteRequest {

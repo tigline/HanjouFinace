@@ -15,6 +15,7 @@ import '../widgets/hotel_booking_extra_sections.dart';
 import '../widgets/hotel_booking_guest_form_section.dart';
 import '../widgets/hotel_booking_order_summary_card.dart';
 import '../widgets/hotel_booking_payment_section.dart';
+import '../widgets/hotel_booking_section_card.dart';
 import '../widgets/hotel_coupon_list_widgets.dart';
 import '../widgets/hotel_state_views.dart';
 import '../widgets/hotel_status_bar_preference_scope.dart';
@@ -57,6 +58,8 @@ class _HotelBookingConfirmPageState
   int _quoteRevision = 0;
   HotelCoupon? _selectedCoupon;
   num? _quotedAmountOverride;
+  List<HotelBookingRoomPriceElement> _roomPriceElements =
+      const <HotelBookingRoomPriceElement>[];
 
   @override
   void initState() {
@@ -118,6 +121,10 @@ class _HotelBookingConfirmPageState
     final memberPayInfoState = ref.watch(hotelMemberPayInfoProvider);
     _scheduleBookerAuthUserApply(authUserState.valueOrNull);
     final preparation = preparationState.valueOrNull;
+    final effectiveRoomPriceElements = _roomPriceElements.isNotEmpty
+        ? _roomPriceElements
+        : preparation?.roomPriceElements ??
+              const <HotelBookingRoomPriceElement>[];
     final amount =
         _quotedAmountOverride ??
         preparation?.quotedPrice ??
@@ -213,39 +220,52 @@ class _HotelBookingConfirmPageState
                         isRequired: true,
                       ),
                       const SizedBox(height: 14),
-                      ...List<Widget>.generate(_roomGuestTargets.length, (
-                        index,
-                      ) {
-                        final target = _roomGuestTargets[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 14),
-                          child: HotelBookingGuestFormSection(
-                            title: context.l10n.hotelBookingRoomGuestInfoTitle,
-                            roomName: _roomDisplayName(target),
-                            countryCodes: preparation?.countryCodes ?? const [],
-                            firstNameController:
-                                _roomFirstNameControllers[index],
-                            lastNameController: _roomLastNameControllers[index],
-                            emailController: _roomEmailControllers[index],
-                            phoneController: _roomPhoneControllers[index],
-                            selectedCountryCode: _roomCountryCodes[index],
-                            onCountryChanged: (value) => setState(
-                              () => _roomCountryCodes[index] = value,
-                            ),
-                            selectedIntlCode: _roomIntlCodes[index],
-                            onIntlCodeChanged: (value) =>
-                                setState(() => _roomIntlCodes[index] = value),
-                            adults: _roomAdults[index],
-                            kids: _roomKids[index],
-                            maxAdults: _maxAdultsFor(index),
-                            maxKids: _maxKidsFor(index),
-                            onAdultsChanged: (value) =>
-                                _setRoomAdults(index, value),
-                            onKidsChanged: (value) =>
-                                _setRoomKids(index, value),
-                          ),
-                        );
-                      }),
+                      _RoomGuestFormsCard(
+                        title: context.l10n.hotelBookingRoomGuestInfoTitle,
+                        children: List<Widget>.generate(
+                          _roomGuestTargets.length,
+                          (index) {
+                            final target = _roomGuestTargets[index];
+                            return HotelBookingGuestFormSection(
+                              title:
+                                  context.l10n.hotelBookingRoomGuestInfoTitle,
+                              roomName: _roomDisplayName(target),
+                              countryCodes:
+                                  preparation?.countryCodes ?? const [],
+                              firstNameController:
+                                  _roomFirstNameControllers[index],
+                              lastNameController:
+                                  _roomLastNameControllers[index],
+                              emailController: _roomEmailControllers[index],
+                              phoneController: _roomPhoneControllers[index],
+                              selectedCountryCode: _roomCountryCodes[index],
+                              onCountryChanged: (value) => setState(
+                                () => _roomCountryCodes[index] = value,
+                              ),
+                              selectedIntlCode: _roomIntlCodes[index],
+                              onIntlCodeChanged: (value) =>
+                                  setState(() => _roomIntlCodes[index] = value),
+                              adults: _roomAdults[index],
+                              kids: _roomKids[index],
+                              maxAdults: _maxAdultsFor(index),
+                              maxKids: _maxKidsFor(index),
+                              isRequired: true,
+                              priceTipText: _priceTipForRoom(
+                                index,
+                                effectiveRoomPriceElements,
+                              ),
+                              showTitle: false,
+                              showPhoneFields: false,
+                              wrapInCard: false,
+                              onAdultsChanged: (value) =>
+                                  _setRoomAdults(index, value),
+                              onKidsChanged: (value) =>
+                                  _setRoomKids(index, value),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 14),
                       HotelBookingInvoiceSection(
                         controller: _invoiceController,
                         useGuestName: _useGuestNameForInvoice,
@@ -288,46 +308,30 @@ class _HotelBookingConfirmPageState
   }
 
   int? _maxAdultsFor(int index) {
-    final maxGuests = _maxGuestsFor(index);
-    if (maxGuests == null) {
-      return null;
-    }
-    return (maxGuests - _roomKids[index]).clamp(1, maxGuests).toInt();
+    final maxAdults =
+        _roomGuestTargets[index].maxAdults ?? _maxGuestsFor(index);
+    return maxAdults != null && maxAdults > 0 ? maxAdults : null;
   }
 
   int? _maxKidsFor(int index) {
-    final maxGuests = _maxGuestsFor(index);
-    if (maxGuests == null) {
-      return null;
-    }
-    return (maxGuests - _roomAdults[index]).clamp(0, maxGuests).toInt();
+    final maxKids = _roomGuestTargets[index].maxKids;
+    return maxKids != null && maxKids > 0 ? maxKids : _maxAdultsFor(index);
   }
 
   void _setRoomAdults(int index, int value) {
-    final maxGuests = _maxGuestsFor(index);
-    final maxAdults = maxGuests == null
-        ? 99
-        : (maxGuests - _roomKids[index]).clamp(1, maxGuests).toInt();
+    final maxAdults = _maxAdultsFor(index) ?? 99;
     final nextAdults = value.clamp(1, maxAdults).toInt();
-    var nextKids = _roomKids[index];
-    if (maxGuests != null && nextAdults + nextKids > maxGuests) {
-      nextKids = (maxGuests - nextAdults).clamp(0, maxGuests).toInt();
-    }
-    if (nextAdults == _roomAdults[index] && nextKids == _roomKids[index]) {
+    if (nextAdults == _roomAdults[index]) {
       return;
     }
     setState(() {
       _roomAdults[index] = nextAdults;
-      _roomKids[index] = nextKids;
     });
     _requoteCurrentGuests();
   }
 
   void _setRoomKids(int index, int value) {
-    final maxGuests = _maxGuestsFor(index);
-    final maxKids = maxGuests == null
-        ? 99
-        : (maxGuests - _roomAdults[index]).clamp(0, maxGuests).toInt();
+    final maxKids = _maxKidsFor(index) ?? 99;
     final nextKids = value.clamp(0, maxKids).toInt();
     if (nextKids == _roomKids[index]) {
       return;
@@ -350,6 +354,7 @@ class _HotelBookingConfirmPageState
       }
       setState(() {
         _quotedAmountOverride = quote.quotedPrice ?? widget.seed.fallbackAmount;
+        _roomPriceElements = quote.roomPriceElements;
         _isQuoting = false;
       });
     } catch (_) {
@@ -393,6 +398,7 @@ class _HotelBookingConfirmPageState
             quote.quotedPrice ??
             preparation.quotedPrice ??
             widget.seed.fallbackAmount;
+        _roomPriceElements = quote.roomPriceElements;
       });
     } catch (_) {
       if (!mounted) {
@@ -466,22 +472,16 @@ class _HotelBookingConfirmPageState
       AppNotice.show(context, message: context.l10n.hotelBookingCreateFailed);
       return null;
     }
+    final roomGuests = _buildRoomGuestDrafts();
+    if (roomGuests == null) {
+      return null;
+    }
     return HotelBookingCreateDraft(
       seed: widget.seed,
       languageCode: ref.read(hotelLocaleLanguageCodeProvider),
       totalAmount: totalAmount,
       booker: booker,
-      roomGuests: List<HotelBookingRoomGuestDraft>.generate(
-        _roomGuestTargets.length,
-        (index) => HotelBookingRoomGuestDraft(
-          firstName: _roomFirstNameControllers[index].text.trim(),
-          lastName: _roomLastNameControllers[index].text.trim(),
-          nationality: (_roomCountryCodes[index] ?? '').trim(),
-          email: _roomEmailControllers[index].text.trim(),
-          adults: _roomAdults[index],
-          children: _roomKids[index],
-        ),
-      ),
+      roomGuests: roomGuests,
       receiptTitle: _useGuestNameForInvoice
           ? booker.fullName
           : _invoiceController.text.trim(),
@@ -492,6 +492,32 @@ class _HotelBookingConfirmPageState
               HotelBookingSelectedCoupon(couponId: _selectedCoupon!.id!),
             ],
     );
+  }
+
+  List<HotelBookingRoomGuestDraft>? _buildRoomGuestDrafts() {
+    final guests = <HotelBookingRoomGuestDraft>[];
+    for (var index = 0; index < _roomGuestTargets.length; index += 1) {
+      final guest = HotelBookingRoomGuestDraft(
+        firstName: _roomFirstNameControllers[index].text.trim(),
+        lastName: _roomLastNameControllers[index].text.trim(),
+        nationality: (_roomCountryCodes[index] ?? '').trim(),
+        email: _roomEmailControllers[index].text.trim(),
+        adults: _roomAdults[index],
+        children: _roomKids[index],
+      );
+      if (guest.firstName.isEmpty ||
+          guest.lastName.isEmpty ||
+          guest.nationality.isEmpty ||
+          guest.email.isEmpty) {
+        AppNotice.show(
+          context,
+          message: context.l10n.hotelBookingRoomGuestRequiredFieldsMissing,
+        );
+        return null;
+      }
+      guests.add(guest);
+    }
+    return guests;
   }
 
   HotelBookingQuoteRequest _buildQuoteRequest(HotelCoupon? coupon) {
@@ -591,6 +617,27 @@ class _HotelBookingConfirmPageState
     }
     return '$base #${target.instanceNumber}';
   }
+
+  String _priceTipForRoom(
+    int index,
+    List<HotelBookingRoomPriceElement> priceElements,
+  ) {
+    if (index < priceElements.length) {
+      final row = priceElements[index];
+      final roomTypeId = row.roomTypeId.trim();
+      if (roomTypeId.isEmpty ||
+          roomTypeId == _roomGuestTargets[index].room.id) {
+        return row.priceTip;
+      }
+    }
+    final roomId = _roomGuestTargets[index].room.id;
+    for (final row in priceElements) {
+      if (row.roomTypeId == roomId && row.priceTip.isNotEmpty) {
+        return row.priceTip;
+      }
+    }
+    return '';
+  }
 }
 
 List<_RoomGuestFormTarget> _buildRoomGuestTargets(
@@ -615,6 +662,8 @@ List<_RoomGuestFormTarget> _buildRoomGuestTargets(
             facilityCategories: const <HotelRoomFacilityCategory>[],
             images: seed.detail.images,
             beds: const <HotelRoomBed>[],
+            adultCapacity: seed.criteria.occupancy,
+            childCapacity: seed.criteria.kids,
           )
         : seed.selectedRooms.first.room;
     return <_RoomGuestFormTarget>[
@@ -624,6 +673,8 @@ List<_RoomGuestFormTarget> _buildRoomGuestTargets(
         initialAdults: seed.criteria.occupancy,
         initialKids: seed.criteria.kids,
         maxGuests: null,
+        maxAdults: null,
+        maxKids: null,
       ),
     ];
   }
@@ -647,15 +698,19 @@ List<_RoomGuestFormTarget> _buildRoomGuestTargets(
           ? assignedOccupancies.removeAt(0)
           : 1;
       final maxGuests = selection.room.occupancy;
+      final maxAdults = selection.room.adultCapacity ?? maxGuests;
+      final maxKids = selection.room.childCapacity;
       targets.add(
         _RoomGuestFormTarget(
           room: selection.room,
           instanceNumber: index + 1,
-          initialAdults: maxGuests == null
+          initialAdults: maxAdults == null
               ? assignedAdults.clamp(1, 99).toInt()
-              : assignedAdults.clamp(1, maxGuests).toInt(),
+              : assignedAdults.clamp(1, maxAdults).toInt(),
           initialKids: 0,
           maxGuests: maxGuests,
+          maxAdults: maxAdults,
+          maxKids: maxKids,
         ),
       );
     }
@@ -670,6 +725,8 @@ class _RoomGuestFormTarget {
     required this.initialAdults,
     required this.initialKids,
     required this.maxGuests,
+    required this.maxAdults,
+    required this.maxKids,
   });
 
   final HotelRoomPlan room;
@@ -677,6 +734,44 @@ class _RoomGuestFormTarget {
   final int initialAdults;
   final int initialKids;
   final int? maxGuests;
+  final int? maxAdults;
+  final int? maxKids;
+}
+
+class _RoomGuestFormsCard extends StatelessWidget {
+  const _RoomGuestFormsCard({required this.title, required this.children});
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return HotelBookingSectionCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              color: colors.textPrimary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 18),
+          for (var index = 0; index < children.length; index += 1) ...<Widget>[
+            if (index > 0) ...<Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                child: Divider(height: 1, color: colors.borderSoft),
+              ),
+            ],
+            children[index],
+          ],
+        ],
+      ),
+    );
+  }
 }
 
 class _BookerAuthUserName {

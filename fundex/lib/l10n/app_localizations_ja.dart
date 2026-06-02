@@ -1555,6 +1555,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelBookingRequiredFieldsMissing => '予約者の必須情報を入力してください。';
 
   @override
+  String get hotelBookingRoomGuestRequiredFieldsMissing =>
+      '各部屋の宿泊者必須情報を入力してください。';
+
+  @override
   String get hotelBookingCreateFailed => '仮予約を作成できませんでした。しばらくしてからもう一度お試しください。';
 
   @override

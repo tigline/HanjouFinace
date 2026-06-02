@@ -397,6 +397,8 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
           facilityCategories: firstRoom.facilityCategories,
           images: firstRoom.images,
           beds: firstRoom.beds,
+          adultCapacity: firstRoom.adultCapacity,
+          childCapacity: firstRoom.childCapacity,
         ),
         quantity: 1,
       );
@@ -410,6 +412,8 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
         discount: null,
         discountName: '',
         occupancy: _criteria.occupancy + _criteria.kids,
+        adultCapacity: null,
+        childCapacity: null,
         baseOccupancy: _criteria.occupancy,
         roomSize: '',
         bedroomCount: null,

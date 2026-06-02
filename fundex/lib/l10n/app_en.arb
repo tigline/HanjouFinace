@@ -704,6 +704,7 @@
   "hotelBookingMessageHint": "Special requests cannot be guaranteed, but we will do our best.",
   "hotelBookingConfirmAction": "Confirm booking",
   "hotelBookingRequiredFieldsMissing": "Enter the required booker information.",
+  "hotelBookingRoomGuestRequiredFieldsMissing": "Enter the required guest information for each room.",
   "hotelBookingCreateFailed": "Could not create the pre-order. Please try again later.",
   "hotelPaymentComingSoon": "Payment flow will be added later",
   "hotelPaymentPageTitle": "Payment",

@@ -1540,6 +1540,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelBookingRequiredFieldsMissing => '请填写预约人的必填信息。';
 
   @override
+  String get hotelBookingRoomGuestRequiredFieldsMissing => '请填写每个房间入住人的必填信息。';
+
+  @override
   String get hotelBookingCreateFailed => '预下单失败，请稍后再试。';
 
   @override
@@ -6904,6 +6907,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelBookingRequiredFieldsMissing => '請填寫預約人的必填資訊。';
+
+  @override
+  String get hotelBookingRoomGuestRequiredFieldsMissing => '請填寫每個房間入住人的必填資訊。';
 
   @override
   String get hotelBookingCreateFailed => '預下單失敗，請稍後再試。';

@@ -704,6 +704,7 @@
   "hotelBookingMessageHint": "無法保證滿足您的特殊要求，但我們將盡力滿足您的要求",
   "hotelBookingConfirmAction": "確認預訂",
   "hotelBookingRequiredFieldsMissing": "請填寫預約人的必填資訊。",
+  "hotelBookingRoomGuestRequiredFieldsMissing": "請填寫每個房間入住人的必填資訊。",
   "hotelBookingCreateFailed": "預下單失敗，請稍後再試。",
   "hotelPaymentComingSoon": "支付流程稍後接入",
   "hotelPaymentPageTitle": "支付",

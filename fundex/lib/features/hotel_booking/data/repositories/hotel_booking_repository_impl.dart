@@ -195,6 +195,10 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
       registeredCardCount: cards.length,
       quotedPrice: quote.priceElement?.price,
       originalPrice: quote.priceElement?.originalPrice,
+      roomPriceElements: _mapRoomPriceElements(
+        quote.priceElement?.roomPriceElements ??
+            const <HotelRoomPriceElementDto>[],
+      ),
     );
   }
 
@@ -238,6 +242,10 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
     return HotelBookingQuote(
       quotedPrice: quote.priceElement?.price,
       originalPrice: quote.priceElement?.originalPrice,
+      roomPriceElements: _mapRoomPriceElements(
+        quote.priceElement?.roomPriceElements ??
+            const <HotelRoomPriceElementDto>[],
+      ),
     );
   }
 
@@ -993,6 +1001,8 @@ HotelRoomPlan _mapRoomPlan(HotelRoomTypeDto dto) {
     discount: discount,
     discountName: discountName.trim(),
     occupancy: dto.occupancy,
+    adultCapacity: dto.adults,
+    childCapacity: dto.kids,
     baseOccupancy: dto.occupantsForBaseRate,
     roomSize: _stringOrEmpty(dto.roomSize),
     bedroomCount: dto.bedRoomCount,
@@ -1042,6 +1052,20 @@ HotelAssignOccupancyResult _mapAssignOccupancyResult(
         .where((item) => item.roomTypeId.isNotEmpty)
         .toList(growable: false),
   );
+}
+
+List<HotelBookingRoomPriceElement> _mapRoomPriceElements(
+  List<HotelRoomPriceElementDto> rows,
+) {
+  return rows
+      .map(
+        (row) => HotelBookingRoomPriceElement(
+          roomTypeId: _stringOrEmpty(row.roomTypeId),
+          freeUserPrice: row.freeUserPrice ?? 0,
+          priceTip: row.priceTip?.trim() ?? '',
+        ),
+      )
+      .toList(growable: false);
 }
 
 List<HotelCountryCode> _mapCountryCodes(Map<String, String> rows) {
