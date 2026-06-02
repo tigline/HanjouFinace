@@ -33,6 +33,25 @@ Future<void> runHotelNativePaymentFlow({
     return;
   }
 
+  if (paymentMethod == HotelBookingPaymentMethod.accountBalance) {
+    await _handleNativePaymentResult(
+      context: context,
+      ref: ref,
+      orderId: orderId,
+      result: orderPayment.pay
+          ? const HotelNativePaymentResult(
+              status: HotelNativePaymentStatus.success,
+            )
+          : HotelNativePaymentResult(
+              status: HotelNativePaymentStatus.failure,
+              message: orderPayment.message,
+            ),
+      syncBackend: false,
+      onSuccess: onSuccess,
+    );
+    return;
+  }
+
   if (orderPayment.pay &&
       orderPayment.wechat == null &&
       orderPayment.alipay == null) {
@@ -83,6 +102,8 @@ Future<void> runHotelNativePaymentFlow({
         action: () => service.payWithAlipay(payload),
       );
     case HotelBookingPaymentMethod.creditCard:
+      return;
+    case HotelBookingPaymentMethod.accountBalance:
       return;
   }
 
@@ -198,6 +219,7 @@ Future<void> _handleNativePaymentResult({
 
 String? _paymentCodeForMethod(HotelBookingPaymentMethod method) {
   return switch (method) {
+    HotelBookingPaymentMethod.accountBalance => '10',
     HotelBookingPaymentMethod.wechatPay => '14',
     HotelBookingPaymentMethod.alipay => null,
     HotelBookingPaymentMethod.creditCard => null,

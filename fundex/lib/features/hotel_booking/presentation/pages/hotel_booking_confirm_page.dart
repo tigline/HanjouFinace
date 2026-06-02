@@ -113,6 +113,7 @@ class _HotelBookingConfirmPageState
       hotelBookingPreparationProvider(widget.seed),
     );
     final authUserState = ref.watch(currentAuthUserProvider);
+    final memberPayInfoState = ref.watch(hotelMemberPayInfoProvider);
     _scheduleBookerAuthUserApply(authUserState.valueOrNull);
     final preparation = preparationState.valueOrNull;
     final amount =
@@ -187,6 +188,9 @@ class _HotelBookingConfirmPageState
                         selected: _paymentMethod,
                         registeredCardCount:
                             preparation?.registeredCardCount ?? 0,
+                        accountBalance: memberPayInfoState.valueOrNull?.balance,
+                        isAccountBalanceLoading: memberPayInfoState.isLoading,
+                        payableAmount: amount ?? 0,
                         onChanged: (value) =>
                             setState(() => _paymentMethod = value),
                       ),

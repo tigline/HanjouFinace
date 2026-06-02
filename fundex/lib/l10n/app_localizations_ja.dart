@@ -1469,6 +1469,17 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelBookingCreditCardPay => 'クレジットカード決済';
 
   @override
+  String get hotelBookingAccountBalancePay => '待機資金で支払う';
+
+  @override
+  String get hotelBookingAccountBalanceLoading => '利用可能残高を読み込み中';
+
+  @override
+  String hotelBookingAccountBalanceAvailable(num balance) {
+    return '利用可能残高：$balance 円';
+  }
+
+  @override
   String hotelBookingRegisteredCards(int count) {
     return '登録済みカード $count件';
   }
@@ -1582,6 +1593,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hotelPaymentNativeSuccess => 'お支払いが完了しました。注文をご確認ください。';
+
+  @override
+  String get hotelPaymentAccountBalanceInsufficient => '待機資金の残高が支払い金額を下回っています。';
 
   @override
   String get hotelPaymentAddCreditCardAndPay => 'クレジットカードを追加して支払う';

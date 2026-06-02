@@ -201,6 +201,12 @@ class HotelCreditCardPaymentResult {
   final String secureUrl;
 }
 
+class HotelMemberPayInfo {
+  const HotelMemberPayInfo({required this.balance});
+
+  final num balance;
+}
+
 class HotelOrderPaymentResult {
   const HotelOrderPaymentResult({
     required this.pay,

@@ -156,6 +156,8 @@ class HotelBookingResultCard extends StatelessWidget {
     return switch (method) {
       HotelBookingPaymentMethod.creditCard =>
         context.l10n.hotelBookingCreditCardPay,
+      HotelBookingPaymentMethod.accountBalance =>
+        context.l10n.hotelBookingAccountBalancePay,
       HotelBookingPaymentMethod.alipay => context.l10n.hotelBookingAlipay,
       HotelBookingPaymentMethod.wechatPay => context.l10n.hotelBookingWechatPay,
     };

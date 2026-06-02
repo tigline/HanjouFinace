@@ -27,8 +27,9 @@ class HotelPaymentMethodPage extends ConsumerStatefulWidget {
 
 class _HotelPaymentMethodPageState
     extends ConsumerState<HotelPaymentMethodPage> {
-  late HotelBookingPaymentMethod _paymentMethod =
-      widget.args.initialPaymentMethod;
+  late HotelBookingPaymentMethod _paymentMethod = _visibleInitialPaymentMethod(
+    widget.args.initialPaymentMethod,
+  );
   HotelCreditCard? _selectedCard;
   bool _isSubmitting = false;
 
@@ -39,6 +40,7 @@ class _HotelPaymentMethodPageState
       Localizations.localeOf(context).toLanguageTag(),
     );
     final cardsState = ref.watch(hotelCreditCardsProvider);
+    final memberPayInfoState = ref.watch(hotelMemberPayInfoProvider);
     _syncSelectedCard(cardsState.valueOrNull ?? const <HotelCreditCard>[]);
 
     return HotelStatusBarPreferenceScope(
@@ -70,6 +72,9 @@ class _HotelPaymentMethodPageState
                 HotelBookingPaymentSection(
                   selected: _paymentMethod,
                   registeredCardCount: cardsState.valueOrNull?.length ?? 0,
+                  accountBalance: memberPayInfoState.valueOrNull?.balance,
+                  isAccountBalanceLoading: memberPayInfoState.isLoading,
+                  payableAmount: widget.args.totalAmount,
                   onChanged: (value) {
                     setState(() {
                       _paymentMethod = value;
@@ -147,6 +152,15 @@ class _HotelPaymentMethodPageState
       AppNotice.show(context, message: context.l10n.hotelPaymentNoCreditCard);
       return;
     }
+    if (_paymentMethod == HotelBookingPaymentMethod.accountBalance &&
+        (ref.read(hotelMemberPayInfoProvider).valueOrNull?.balance ?? 0) <
+            widget.args.totalAmount) {
+      AppNotice.show(
+        context,
+        message: context.l10n.hotelPaymentAccountBalanceInsufficient,
+      );
+      return;
+    }
 
     setState(() => _isSubmitting = true);
     void onSuccess() {
@@ -184,4 +198,15 @@ class _HotelPaymentMethodPageState
       setState(() => _isSubmitting = false);
     }
   }
+}
+
+HotelBookingPaymentMethod _visibleInitialPaymentMethod(
+  HotelBookingPaymentMethod method,
+) {
+  return switch (method) {
+    HotelBookingPaymentMethod.creditCard ||
+    HotelBookingPaymentMethod.accountBalance => method,
+    HotelBookingPaymentMethod.alipay ||
+    HotelBookingPaymentMethod.wechatPay => HotelBookingPaymentMethod.creditCard,
+  };
 }

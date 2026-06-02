@@ -262,6 +262,7 @@ class HotelPaymentBottomBar extends StatelessWidget {
 
 HotelBookingPaymentMethod hotelPaymentMethodFromCode(String code) {
   return switch (code.trim()) {
+    '10' => HotelBookingPaymentMethod.accountBalance,
     '14' => HotelBookingPaymentMethod.wechatPay,
     '2' => HotelBookingPaymentMethod.wechatPay,
     '3' => HotelBookingPaymentMethod.alipay,

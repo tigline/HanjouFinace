@@ -652,6 +652,16 @@
   "hotelCouponSpecialSecondary": "泊",
   "hotelBookingPaymentTitle": "お支払い方法を選択",
   "hotelBookingCreditCardPay": "クレジットカード決済",
+  "hotelBookingAccountBalancePay": "待機資金で支払う",
+  "hotelBookingAccountBalanceLoading": "利用可能残高を読み込み中",
+  "hotelBookingAccountBalanceAvailable": "利用可能残高：{balance} 円",
+  "@hotelBookingAccountBalanceAvailable": {
+    "placeholders": {
+      "balance": {
+        "type": "num"
+      }
+    }
+  },
   "hotelBookingRegisteredCards": "登録済みカード {count}件",
   "@hotelBookingRegisteredCards": {
     "placeholders": {
@@ -696,6 +706,7 @@
   "hotelPaymentNativeFailed": "お支払いに失敗しました。しばらくしてからもう一度お試しください。",
   "hotelPaymentNativeCancelled": "お支払いはキャンセルされました。",
   "hotelPaymentNativeSuccess": "お支払いが完了しました。注文をご確認ください。",
+  "hotelPaymentAccountBalanceInsufficient": "待機資金の残高が支払い金額を下回っています。",
   "hotelPaymentAddCreditCardAndPay": "クレジットカードを追加して支払う",
   "hotelPaymentExitTitle": "お支払いはまだ完了していません",
   "hotelPaymentExitMessage": "この画面を閉じると、お支払い手続きが中断される可能性があります。終了しますか？",

@@ -1537,6 +1537,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelBookingCreditCardPay => 'Credit card';
 
   @override
+  String get hotelBookingAccountBalancePay => 'Standby balance';
+
+  @override
+  String get hotelBookingAccountBalanceLoading => 'Loading available balance';
+
+  @override
+  String hotelBookingAccountBalanceAvailable(num balance) {
+    return 'Available balance: $balance JPY';
+  }
+
+  @override
   String hotelBookingRegisteredCards(int count) {
     return '$count saved cards';
   }
@@ -1658,6 +1669,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get hotelPaymentNativeSuccess =>
       'Payment completed. Please check your order.';
+
+  @override
+  String get hotelPaymentAccountBalanceInsufficient =>
+      'Your standby balance is lower than the payment amount.';
 
   @override
   String get hotelPaymentAddCreditCardAndPay => 'Add credit card and pay';

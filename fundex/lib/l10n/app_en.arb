@@ -652,6 +652,16 @@
   "hotelCouponSpecialSecondary": "night",
   "hotelBookingPaymentTitle": "Select payment method",
   "hotelBookingCreditCardPay": "Credit card",
+  "hotelBookingAccountBalancePay": "Standby balance",
+  "hotelBookingAccountBalanceLoading": "Loading available balance",
+  "hotelBookingAccountBalanceAvailable": "Available balance: {balance} JPY",
+  "@hotelBookingAccountBalanceAvailable": {
+    "placeholders": {
+      "balance": {
+        "type": "num"
+      }
+    }
+  },
   "hotelBookingRegisteredCards": "{count} saved cards",
   "@hotelBookingRegisteredCards": {
     "placeholders": {
@@ -696,6 +706,7 @@
   "hotelPaymentNativeFailed": "Payment failed. Please try again later.",
   "hotelPaymentNativeCancelled": "Payment was cancelled.",
   "hotelPaymentNativeSuccess": "Payment completed. Please check your order.",
+  "hotelPaymentAccountBalanceInsufficient": "Your standby balance is lower than the payment amount.",
   "hotelPaymentAddCreditCardAndPay": "Add credit card and pay",
   "hotelPaymentExitTitle": "Payment is not complete",
   "hotelPaymentExitMessage": "Closing this page may interrupt the current payment process. Do you want to exit?",

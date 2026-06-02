@@ -2853,6 +2853,24 @@ abstract class AppLocalizations {
   /// **'Credit card'**
   String get hotelBookingCreditCardPay;
 
+  /// No description provided for @hotelBookingAccountBalancePay.
+  ///
+  /// In en, this message translates to:
+  /// **'Standby balance'**
+  String get hotelBookingAccountBalancePay;
+
+  /// No description provided for @hotelBookingAccountBalanceLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading available balance'**
+  String get hotelBookingAccountBalanceLoading;
+
+  /// No description provided for @hotelBookingAccountBalanceAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available balance: {balance} JPY'**
+  String hotelBookingAccountBalanceAvailable(num balance);
+
   /// No description provided for @hotelBookingRegisteredCards.
   ///
   /// In en, this message translates to:
@@ -3074,6 +3092,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Payment completed. Please check your order.'**
   String get hotelPaymentNativeSuccess;
+
+  /// No description provided for @hotelPaymentAccountBalanceInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Your standby balance is lower than the payment amount.'**
+  String get hotelPaymentAccountBalanceInsufficient;
 
   /// No description provided for @hotelPaymentAddCreditCardAndPay.
   ///

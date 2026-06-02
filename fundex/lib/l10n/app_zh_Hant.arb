@@ -652,6 +652,16 @@
   "hotelCouponSpecialSecondary": "晚",
   "hotelBookingPaymentTitle": "請選擇付款方式",
   "hotelBookingCreditCardPay": "信用卡付款",
+  "hotelBookingAccountBalancePay": "待機資金付款",
+  "hotelBookingAccountBalanceLoading": "正在讀取可用餘額",
+  "hotelBookingAccountBalanceAvailable": "可用餘額：{balance} 日圓",
+  "@hotelBookingAccountBalanceAvailable": {
+    "placeholders": {
+      "balance": {
+        "type": "num"
+      }
+    }
+  },
   "hotelBookingRegisteredCards": "{count}張已綁定信用卡",
   "@hotelBookingRegisteredCards": {
     "placeholders": {
@@ -696,6 +706,7 @@
   "hotelPaymentNativeFailed": "支付失敗，請稍後再試。",
   "hotelPaymentNativeCancelled": "支付已取消。",
   "hotelPaymentNativeSuccess": "支付成功，請查看訂單。",
+  "hotelPaymentAccountBalanceInsufficient": "待機資金餘額小於待支付金額。",
   "hotelPaymentAddCreditCardAndPay": "新增信用卡並支付",
   "hotelPaymentExitTitle": "支付尚未完成",
   "hotelPaymentExitMessage": "關閉此頁面可能會中斷目前支付流程。確定要退出嗎？",

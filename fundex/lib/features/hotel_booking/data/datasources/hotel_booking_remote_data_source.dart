@@ -48,6 +48,8 @@ abstract class HotelBookingRemoteDataSource {
 
   Future<List<HotelCreditCardDto>> fetchRegisteredCards();
 
+  Future<HotelMemberPayInfoDto> fetchMemberPayInfo();
+
   Future<String> registerCreditCard(HotelCreditCardRegisterRequestDto request);
 
   Future<String> unregisterCreditCard({required String cardId});
@@ -198,6 +200,11 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
   @override
   Future<List<HotelCreditCardDto>> fetchRegisteredCards() {
     return _client.fetchRegisteredCards();
+  }
+
+  @override
+  Future<HotelMemberPayInfoDto> fetchMemberPayInfo() {
+    return _client.fetchMemberPayInfo();
   }
 
   @override

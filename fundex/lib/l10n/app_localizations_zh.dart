@@ -1454,6 +1454,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelBookingCreditCardPay => '信用卡支付';
 
   @override
+  String get hotelBookingAccountBalancePay => '待机资金支付';
+
+  @override
+  String get hotelBookingAccountBalanceLoading => '正在读取可用余额';
+
+  @override
+  String hotelBookingAccountBalanceAvailable(num balance) {
+    return '可用余额：$balance 日元';
+  }
+
+  @override
   String hotelBookingRegisteredCards(int count) {
     return '$count张已绑定信用卡';
   }
@@ -1565,6 +1576,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hotelPaymentNativeSuccess => '支付成功，请查看订单。';
+
+  @override
+  String get hotelPaymentAccountBalanceInsufficient => '待机资金余额小于待支付金额。';
 
   @override
   String get hotelPaymentAddCreditCardAndPay => '添加信用卡并支付';
@@ -6796,6 +6810,17 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelBookingCreditCardPay => '信用卡付款';
 
   @override
+  String get hotelBookingAccountBalancePay => '待機資金付款';
+
+  @override
+  String get hotelBookingAccountBalanceLoading => '正在讀取可用餘額';
+
+  @override
+  String hotelBookingAccountBalanceAvailable(num balance) {
+    return '可用餘額：$balance 日圓';
+  }
+
+  @override
   String hotelBookingRegisteredCards(int count) {
     return '$count張已綁定信用卡';
   }
@@ -6907,6 +6932,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelPaymentNativeSuccess => '支付成功，請查看訂單。';
+
+  @override
+  String get hotelPaymentAccountBalanceInsufficient => '待機資金餘額小於待支付金額。';
 
   @override
   String get hotelPaymentAddCreditCardAndPay => '新增信用卡並支付';

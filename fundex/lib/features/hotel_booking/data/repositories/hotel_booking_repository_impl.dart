@@ -387,6 +387,12 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
+  Future<HotelMemberPayInfo> fetchMemberPayInfo() async {
+    final info = await _remote.fetchMemberPayInfo();
+    return HotelMemberPayInfo(balance: info.balance ?? 0);
+  }
+
+  @override
   Future<String> registerCreditCard(HotelCreditCardRegistrationDraft draft) {
     return _remote.registerCreditCard(
       HotelCreditCardRegisterRequestDto(

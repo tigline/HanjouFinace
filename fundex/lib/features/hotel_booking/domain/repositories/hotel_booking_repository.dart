@@ -70,6 +70,8 @@ abstract class HotelBookingRepository {
 
   Future<List<HotelCreditCard>> fetchRegisteredCreditCards();
 
+  Future<HotelMemberPayInfo> fetchMemberPayInfo();
+
   Future<String> registerCreditCard(HotelCreditCardRegistrationDraft draft);
 
   Future<String> unregisterCreditCard(String cardId);

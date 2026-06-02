@@ -4,18 +4,24 @@ import 'package:flutter/material.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import 'hotel_booking_section_card.dart';
 
-enum HotelBookingPaymentMethod { creditCard, alipay, wechatPay }
+enum HotelBookingPaymentMethod { creditCard, accountBalance, alipay, wechatPay }
 
 class HotelBookingPaymentSection extends StatelessWidget {
   const HotelBookingPaymentSection({
     super.key,
     required this.selected,
     required this.registeredCardCount,
+    required this.accountBalance,
+    required this.isAccountBalanceLoading,
+    required this.payableAmount,
     required this.onChanged,
   });
 
   final HotelBookingPaymentMethod selected;
   final int registeredCardCount;
+  final num? accountBalance;
+  final bool isAccountBalanceLoading;
+  final num payableAmount;
   final ValueChanged<HotelBookingPaymentMethod> onChanged;
 
   @override
@@ -43,16 +49,32 @@ class HotelBookingPaymentSection extends StatelessWidget {
             onChanged: onChanged,
           ),
           _PaymentTile(
+            value: HotelBookingPaymentMethod.accountBalance,
+            selected: selected,
+            title: context.l10n.hotelBookingAccountBalancePay,
+            subtitle: isAccountBalanceLoading
+                ? context.l10n.hotelBookingAccountBalanceLoading
+                : context.l10n.hotelBookingAccountBalanceAvailable(
+                    accountBalance ?? 0,
+                  ),
+            isEnabled:
+                isAccountBalanceLoading ||
+                (accountBalance ?? 0) >= payableAmount,
+            onChanged: onChanged,
+          ),
+          _PaymentTile(
             value: HotelBookingPaymentMethod.alipay,
             selected: selected,
             title: context.l10n.hotelBookingAlipay,
             onChanged: onChanged,
+            isVisible: false,
           ),
           _PaymentTile(
             value: HotelBookingPaymentMethod.wechatPay,
             selected: selected,
             title: context.l10n.hotelBookingWechatPay,
             onChanged: onChanged,
+            isVisible: false,
           ),
         ],
       ),
@@ -67,20 +89,27 @@ class _PaymentTile extends StatelessWidget {
     required this.title,
     required this.onChanged,
     this.subtitle,
+    this.isVisible = true,
+    this.isEnabled = true,
   });
 
   final HotelBookingPaymentMethod value;
   final HotelBookingPaymentMethod selected;
   final String title;
   final String? subtitle;
+  final bool isVisible;
+  final bool isEnabled;
   final ValueChanged<HotelBookingPaymentMethod> onChanged;
 
   @override
   Widget build(BuildContext context) {
+    if (!isVisible) {
+      return const SizedBox.shrink();
+    }
     final colors = Theme.of(context).appColors;
     final isSelected = selected == value;
     return InkWell(
-      onTap: () => onChanged(value),
+      onTap: isEnabled ? () => onChanged(value) : null,
       borderRadius: BorderRadius.circular(UiTokens.radius8),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -95,7 +124,9 @@ class _PaymentTile extends StatelessWidget {
                   Text(
                     title,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: colors.textPrimary,
+                      color: isEnabled
+                          ? colors.textPrimary
+                          : colors.textTertiary,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -104,7 +135,9 @@ class _PaymentTile extends StatelessWidget {
                     Text(
                       subtitle!,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colors.textSecondary,
+                        color: isEnabled
+                            ? colors.textSecondary
+                            : colors.textTertiary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
