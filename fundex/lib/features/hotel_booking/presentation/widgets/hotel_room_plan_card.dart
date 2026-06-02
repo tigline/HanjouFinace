@@ -16,6 +16,10 @@ class HotelRoomPlanCard extends StatelessWidget {
     required this.quantity,
     required this.nights,
     this.isBusy = false,
+    this.showQuantityControls = true,
+    this.canIncrementQuantity = true,
+    this.extraGuestCount = 0,
+    this.extraGuestPrice,
     this.onTap,
     required this.onDecrement,
     required this.onIncrement,
@@ -26,6 +30,10 @@ class HotelRoomPlanCard extends StatelessWidget {
   final int quantity;
   final int nights;
   final bool isBusy;
+  final bool showQuantityControls;
+  final bool canIncrementQuantity;
+  final int extraGuestCount;
+  final num? extraGuestPrice;
   final VoidCallback? onTap;
   final VoidCallback onDecrement;
   final VoidCallback onIncrement;
@@ -43,9 +51,10 @@ class HotelRoomPlanCard extends StatelessWidget {
         room.discountName.isNotEmpty && (room.discount ?? 0) > 0;
     final remainingRooms = room.remainingRooms;
     final canIncrement =
-        remainingRooms == null ||
-        remainingRooms < 0 ||
-        quantity < remainingRooms;
+        canIncrementQuantity &&
+        (remainingRooms == null ||
+            remainingRooms < 0 ||
+            quantity < remainingRooms);
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -79,6 +88,9 @@ class HotelRoomPlanCard extends StatelessWidget {
               remainingRooms: remainingRooms,
               canIncrement: canIncrement,
               isBusy: isBusy,
+              showQuantityControls: showQuantityControls,
+              extraGuestCount: extraGuestCount,
+              extraGuestPrice: extraGuestPrice,
               onDecrement: onDecrement,
               onIncrement: onIncrement,
             ),
@@ -188,6 +200,9 @@ class _RoomPlanCardContent extends StatelessWidget {
     required this.remainingRooms,
     required this.canIncrement,
     required this.isBusy,
+    required this.showQuantityControls,
+    required this.extraGuestCount,
+    required this.extraGuestPrice,
     required this.onDecrement,
     required this.onIncrement,
   });
@@ -203,6 +218,9 @@ class _RoomPlanCardContent extends StatelessWidget {
   final int? remainingRooms;
   final bool canIncrement;
   final bool isBusy;
+  final bool showQuantityControls;
+  final int extraGuestCount;
+  final num? extraGuestPrice;
   final VoidCallback onDecrement;
   final VoidCallback onIncrement;
 
@@ -314,15 +332,82 @@ class _RoomPlanCardContent extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            _RoomQuantityStepper(
-              quantity: quantity,
-              remainingRooms: remainingRooms,
-              onDecrement: isBusy ? null : onDecrement,
-              onIncrement: isBusy || !canIncrement ? null : onIncrement,
-            ),
+            if (showQuantityControls)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  if (extraGuestCount > 0) ...<Widget>[
+                    _ExtraGuestPriceNotice(
+                      extraGuestCount: extraGuestCount,
+                      extraGuestPrice: extraGuestPrice,
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  _RoomQuantityStepper(
+                    quantity: quantity,
+                    remainingRooms: remainingRooms,
+                    onDecrement: isBusy ? null : onDecrement,
+                    onIncrement: isBusy || !canIncrement ? null : onIncrement,
+                  ),
+                ],
+              )
+            else if (remainingRooms != null && remainingRooms! >= 0)
+              HotelRemainingRoomsLabel(
+                count: remainingRooms!,
+                textAlign: TextAlign.end,
+              ),
           ],
         ),
       ],
+    );
+  }
+}
+
+class _ExtraGuestPriceNotice extends StatelessWidget {
+  const _ExtraGuestPriceNotice({
+    required this.extraGuestCount,
+    required this.extraGuestPrice,
+  });
+
+  final int extraGuestCount;
+  final num? extraGuestPrice;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final presenter = HotelBookingPresenter(
+      Localizations.localeOf(context).toLanguageTag(),
+    );
+    final priceText = presenter.price(extraGuestPrice);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.highlightGold.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(UiTokens.radius8),
+        border: Border.all(color: colors.highlightGold.withValues(alpha: 0.32)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              context.l10n.hotelDetailExtraGuestCount(extraGuestCount),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: colors.brandPrimaryDark,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            if (priceText.isNotEmpty)
+              Text(
+                context.l10n.hotelDetailExtraGuestPrice(priceText),
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: colors.brandPrimaryDark,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -352,7 +437,7 @@ class _RoomFactChip extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-        )
+        ),
       ],
     );
   }

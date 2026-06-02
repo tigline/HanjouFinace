@@ -1446,6 +1446,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelAssignOccupancyDialogConfirm => 'Confirm';
 
   @override
+  String hotelDetailExtraGuestCount(int count) {
+    return 'Extra guests: $count';
+  }
+
+  @override
+  String hotelDetailExtraGuestPrice(Object price) {
+    return 'Extra fee: $price';
+  }
+
+  @override
   String get hotelDetailBookingComingSoon => 'Booking flow will be added later';
 
   @override

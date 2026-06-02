@@ -388,11 +388,31 @@ class HotelAssignOccupancyResult {
     required this.price,
     required this.message,
     required this.roomTypeCustNums,
+    required this.roomTypeExtraGuestPrices,
   });
 
   final num? price;
   final String message;
   final List<HotelRoomOccupancyAssignment> roomTypeCustNums;
+  final List<HotelRoomTypeExtraGuestPrice> roomTypeExtraGuestPrices;
+}
+
+class HotelRoomTypeExtraGuestPrice {
+  const HotelRoomTypeExtraGuestPrice({
+    required this.roomTypeId,
+    required this.roomTypeName,
+    required this.roomCount,
+    required this.totalGuestCount,
+    required this.extraGuestCount,
+    required this.extraGuestPrice,
+  });
+
+  final String roomTypeId;
+  final String roomTypeName;
+  final int roomCount;
+  final int totalGuestCount;
+  final int extraGuestCount;
+  final num? extraGuestPrice;
 }
 
 class HotelCountryCode {
@@ -442,6 +462,8 @@ class HotelBookingQuoteRequest {
     required this.languageCode,
     required this.rooms,
     required this.coupons,
+    required this.usesRoomPlanSelection,
+    required this.selectedRooms,
   });
 
   final String hotelId;
@@ -450,6 +472,8 @@ class HotelBookingQuoteRequest {
   final String languageCode;
   final List<HotelBookingQuoteRoom> rooms;
   final List<HotelBookingSelectedCoupon> coupons;
+  final bool usesRoomPlanSelection;
+  final List<HotelSelectedRoom> selectedRooms;
 }
 
 class HotelBookingQuoteRoom {
@@ -787,12 +811,16 @@ class HotelBookingConfirmSeed {
     required this.criteria,
     required this.selectedRooms,
     required this.assignedPrice,
+    this.roomTypeCustNums = const <HotelRoomOccupancyAssignment>[],
   });
 
   final HotelDetail detail;
   final HotelSearchCriteria criteria;
   final List<HotelSelectedRoom> selectedRooms;
   final num? assignedPrice;
+  final List<HotelRoomOccupancyAssignment> roomTypeCustNums;
+
+  bool get usesRoomPlanSelection => detail.bookingType == 0;
 
   num? get fallbackAmount {
     if (assignedPrice != null) {

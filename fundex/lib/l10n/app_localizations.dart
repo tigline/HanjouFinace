@@ -2691,6 +2691,18 @@ abstract class AppLocalizations {
   /// **'Confirm'**
   String get hotelAssignOccupancyDialogConfirm;
 
+  /// No description provided for @hotelDetailExtraGuestCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra guests: {count}'**
+  String hotelDetailExtraGuestCount(int count);
+
+  /// No description provided for @hotelDetailExtraGuestPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra fee: {price}'**
+  String hotelDetailExtraGuestPrice(Object price);
+
   /// No description provided for @hotelDetailBookingComingSoon.
   ///
   /// In en, this message translates to:

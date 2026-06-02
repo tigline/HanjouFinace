@@ -98,6 +98,9 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
                 roomQuantities: _roomQuantities,
                 expandedInfoSectionIds: _expandedInfoSectionIds,
                 assignedPrice: _assignOccupancyResult?.price,
+                assignedExtraGuestPrices:
+                    _assignOccupancyResult?.roomTypeExtraGuestPrices ??
+                    const <HotelRoomTypeExtraGuestPrice>[],
                 isAssigningOccupancy: _isAssigningOccupancy,
                 onBack: _handleBack,
                 onEditDates: _editStayDates,
@@ -228,9 +231,20 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
   }
 
   Future<void> _handleBookNow(HotelDetail detail) async {
-    final selectedRooms = _selectedRoomsFor(detail, _roomQuantities);
-    if (selectedRooms.isEmpty) {
+    final usesRoomPlanSelection = detail.bookingType == 0;
+    final selectedRooms = usesRoomPlanSelection
+        ? _selectedRoomsFor(detail, _roomQuantities)
+        : <HotelSelectedRoom>[_wholePropertySelection(detail)];
+    if (usesRoomPlanSelection && selectedRooms.isEmpty) {
       AppNotice.show(context, message: context.l10n.hotelDetailSelectRoomFirst);
+      return;
+    }
+    final fallbackAmount = selectedRooms.fold<num>(
+      0,
+      (sum, selection) => sum + selection.subtotal,
+    );
+    if (!usesRoomPlanSelection && fallbackAmount <= 0) {
+      AppNotice.show(context, message: context.l10n.hotelBookingCreateFailed);
       return;
     }
     final isAuthenticated =
@@ -252,17 +266,27 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
     if (_isAssigningOccupancy) {
       return;
     }
-    final finalAssignResult = await _runFinalAssignOccupancyCheck(
-      detail,
-      selectedRooms,
-    );
-    if (!mounted || finalAssignResult == null) {
-      return;
-    }
-    final assignMessage = finalAssignResult.message.trim();
-    if (assignMessage.isNotEmpty) {
+    HotelAssignOccupancyResult? finalAssignResult;
+    if (usesRoomPlanSelection) {
+      finalAssignResult = await _runFinalAssignOccupancyCheck(
+        detail,
+        selectedRooms,
+      );
+      if (!mounted || finalAssignResult == null) {
+        return;
+      }
+      final assignMessage = finalAssignResult.message.trim();
+      if (assignMessage.isNotEmpty) {
+        final shouldContinue = await _showAssignOccupancyMessageDialog(
+          assignMessage,
+        );
+        if (!mounted || !shouldContinue) {
+          return;
+        }
+      }
+    } else if (detail.checkInMessage.trim().isNotEmpty) {
       final shouldContinue = await _showAssignOccupancyMessageDialog(
-        assignMessage,
+        detail.checkInMessage.trim(),
       );
       if (!mounted || !shouldContinue) {
         return;
@@ -275,7 +299,10 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
         detail: detail,
         criteria: _criteria,
         selectedRooms: selectedRooms,
-        assignedPrice: finalAssignResult.price,
+        assignedPrice: finalAssignResult?.price,
+        roomTypeCustNums:
+            finalAssignResult?.roomTypeCustNums ??
+            const <HotelRoomOccupancyAssignment>[],
       ),
     );
   }
@@ -348,6 +375,55 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
     return selectedRooms;
   }
 
+  HotelSelectedRoom _wholePropertySelection(HotelDetail detail) {
+    if (detail.roomPlans.isNotEmpty) {
+      final firstRoom = detail.roomPlans.first;
+      return HotelSelectedRoom(
+        room: HotelRoomPlan(
+          id: firstRoom.id,
+          name: detail.name.isEmpty ? firstRoom.name : detail.name,
+          price:
+              detail.entirePrice ?? detail.lowestRoomPrice ?? firstRoom.price,
+          beforeDiscountPrice: firstRoom.beforeDiscountPrice,
+          discount: firstRoom.discount,
+          discountName: firstRoom.discountName,
+          occupancy: firstRoom.occupancy,
+          baseOccupancy: firstRoom.baseOccupancy,
+          roomSize: firstRoom.roomSize,
+          bedroomCount: firstRoom.bedroomCount,
+          bathroomCount: firstRoom.bathroomCount,
+          remainingRooms: firstRoom.remainingRooms,
+          description: firstRoom.description,
+          facilityCategories: firstRoom.facilityCategories,
+          images: firstRoom.images,
+          beds: firstRoom.beds,
+        ),
+        quantity: 1,
+      );
+    }
+    return HotelSelectedRoom(
+      room: HotelRoomPlan(
+        id: detail.id,
+        name: detail.name,
+        price: detail.entirePrice ?? detail.lowestRoomPrice,
+        beforeDiscountPrice: null,
+        discount: null,
+        discountName: '',
+        occupancy: _criteria.occupancy + _criteria.kids,
+        baseOccupancy: _criteria.occupancy,
+        roomSize: '',
+        bedroomCount: null,
+        bathroomCount: null,
+        remainingRooms: 1,
+        description: detail.description,
+        facilityCategories: const <HotelRoomFacilityCategory>[],
+        images: detail.images,
+        beds: const <HotelRoomBed>[],
+      ),
+      quantity: 1,
+    );
+  }
+
   void _resetRoomSelection() {
     _criteriaRevision += 1;
     _roomQuantities.clear();
@@ -364,6 +440,7 @@ class _HotelDetailContent extends StatelessWidget {
     required this.roomQuantities,
     required this.expandedInfoSectionIds,
     required this.assignedPrice,
+    required this.assignedExtraGuestPrices,
     required this.isAssigningOccupancy,
     required this.onBack,
     required this.onEditDates,
@@ -379,6 +456,7 @@ class _HotelDetailContent extends StatelessWidget {
   final Map<String, int> roomQuantities;
   final Set<String> expandedInfoSectionIds;
   final num? assignedPrice;
+  final List<HotelRoomTypeExtraGuestPrice> assignedExtraGuestPrices;
   final bool isAssigningOccupancy;
   final VoidCallback onBack;
   final VoidCallback onEditDates;
@@ -440,6 +518,11 @@ class _HotelDetailContent extends StatelessWidget {
                       final key = _roomKey(room, index);
                       final quantity = roomQuantities[key] ?? 0;
                       final remainingRooms = room.remainingRooms;
+                      final selectedRoomCount = _selectedRooms;
+                      final canAddMoreRooms =
+                          !_usesRoomPlanSelection ||
+                          selectedRoomCount < criteria.occupancy;
+                      final extraGuestPrice = _extraGuestPriceFor(room);
                       return Padding(
                         padding: EdgeInsets.only(
                           bottom: index == detail.roomPlans.length - 1 ? 0 : 14,
@@ -450,6 +533,11 @@ class _HotelDetailContent extends StatelessWidget {
                           quantity: quantity,
                           nights: criteria.nights,
                           isBusy: isAssigningOccupancy,
+                          showQuantityControls: _usesRoomPlanSelection,
+                          canIncrementQuantity: canAddMoreRooms,
+                          extraGuestCount:
+                              extraGuestPrice?.extraGuestCount ?? 0,
+                          extraGuestPrice: extraGuestPrice?.extraGuestPrice,
                           onTap: () => showHotelRoomDetailSheet(
                             context: context,
                             detail: detail,
@@ -459,6 +547,9 @@ class _HotelDetailContent extends StatelessWidget {
                             _RoomQuantityChange(key, quantity - 1),
                           ),
                           onIncrement: () {
+                            if (!canAddMoreRooms) {
+                              return;
+                            }
                             if (remainingRooms != null &&
                                 quantity >= remainingRooms) {
                               return;
@@ -523,11 +614,20 @@ class _HotelDetailContent extends StatelessWidget {
     if (_usesRoomPlanSelection) {
       return 0;
     }
-    return detail.lowestRoomPrice;
+    return detail.entirePrice ?? detail.lowestRoomPrice;
   }
 
   bool get _usesRoomPlanSelection {
-    return detail.bookingType == 0 || detail.roomPlans.isNotEmpty;
+    return detail.bookingType == 0;
+  }
+
+  HotelRoomTypeExtraGuestPrice? _extraGuestPriceFor(HotelRoomPlan room) {
+    for (final price in assignedExtraGuestPrices) {
+      if (price.roomTypeId == room.id) {
+        return price;
+      }
+    }
+    return null;
   }
 
   List<Widget> _detailInfoSections(BuildContext context) {

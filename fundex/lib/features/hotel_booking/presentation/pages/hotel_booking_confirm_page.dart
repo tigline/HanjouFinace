@@ -41,6 +41,7 @@ class _HotelBookingConfirmPageState
   late final List<TextEditingController> _roomLastNameControllers;
   late final List<TextEditingController> _roomEmailControllers;
   late final List<TextEditingController> _roomPhoneControllers;
+  late final List<_RoomGuestFormTarget> _roomGuestTargets;
   late final List<int> _roomAdults;
   late final List<int> _roomKids;
   HotelBookingPaymentMethod _paymentMethod =
@@ -52,6 +53,8 @@ class _HotelBookingConfirmPageState
   bool _useGuestNameForInvoice = true;
   bool _didApplyBookerAuthUser = false;
   bool _isSubmitting = false;
+  bool _isQuoting = false;
+  int _quoteRevision = 0;
   HotelCoupon? _selectedCoupon;
   num? _quotedAmountOverride;
 
@@ -68,17 +71,16 @@ class _HotelBookingConfirmPageState
     _roomLastNameControllers = <TextEditingController>[];
     _roomEmailControllers = <TextEditingController>[];
     _roomPhoneControllers = <TextEditingController>[];
+    _roomGuestTargets = _buildRoomGuestTargets(widget.seed);
     _roomAdults = <int>[];
     _roomKids = <int>[];
-    for (final selection in widget.seed.selectedRooms) {
+    for (final target in _roomGuestTargets) {
       _roomFirstNameControllers.add(TextEditingController());
       _roomLastNameControllers.add(TextEditingController());
       _roomEmailControllers.add(TextEditingController());
       _roomPhoneControllers.add(TextEditingController());
-      _roomAdults.add(
-        selection.room.occupancy ?? widget.seed.criteria.occupancy,
-      );
-      _roomKids.add(widget.seed.criteria.kids);
+      _roomAdults.add(target.initialAdults);
+      _roomKids.add(target.initialKids);
       _roomCountryCodes.add('JP');
       _roomIntlCodes.add('+81');
     }
@@ -150,7 +152,7 @@ class _HotelBookingConfirmPageState
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 132),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(<Widget>[
-                      if (preparationState.isLoading)
+                      if (preparationState.isLoading || _isQuoting)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: LinearProgressIndicator(
@@ -211,15 +213,15 @@ class _HotelBookingConfirmPageState
                         isRequired: true,
                       ),
                       const SizedBox(height: 14),
-                      ...List<
-                        Widget
-                      >.generate(widget.seed.selectedRooms.length, (index) {
-                        final selection = widget.seed.selectedRooms[index];
+                      ...List<Widget>.generate(_roomGuestTargets.length, (
+                        index,
+                      ) {
+                        final target = _roomGuestTargets[index];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 14),
                           child: HotelBookingGuestFormSection(
                             title: context.l10n.hotelBookingRoomGuestInfoTitle,
-                            roomName: selection.room.name,
+                            roomName: _roomDisplayName(target),
                             countryCodes: preparation?.countryCodes ?? const [],
                             firstNameController:
                                 _roomFirstNameControllers[index],
@@ -235,15 +237,12 @@ class _HotelBookingConfirmPageState
                                 setState(() => _roomIntlCodes[index] = value),
                             adults: _roomAdults[index],
                             kids: _roomKids[index],
-                            onAdultsChanged: (value) => setState(
-                              () => _roomAdults[index] = value
-                                  .clamp(1, 99)
-                                  .toInt(),
-                            ),
-                            onKidsChanged: (value) => setState(
-                              () =>
-                                  _roomKids[index] = value.clamp(0, 99).toInt(),
-                            ),
+                            maxAdults: _maxAdultsFor(index),
+                            maxKids: _maxKidsFor(index),
+                            onAdultsChanged: (value) =>
+                                _setRoomAdults(index, value),
+                            onKidsChanged: (value) =>
+                                _setRoomKids(index, value),
                           ),
                         );
                       }),
@@ -283,6 +282,85 @@ class _HotelBookingConfirmPageState
     AppNotice.show(context, message: context.l10n.hotelDetailBookingComingSoon);
   }
 
+  int? _maxGuestsFor(int index) {
+    final maxGuests = _roomGuestTargets[index].maxGuests;
+    return maxGuests != null && maxGuests > 0 ? maxGuests : null;
+  }
+
+  int? _maxAdultsFor(int index) {
+    final maxGuests = _maxGuestsFor(index);
+    if (maxGuests == null) {
+      return null;
+    }
+    return (maxGuests - _roomKids[index]).clamp(1, maxGuests).toInt();
+  }
+
+  int? _maxKidsFor(int index) {
+    final maxGuests = _maxGuestsFor(index);
+    if (maxGuests == null) {
+      return null;
+    }
+    return (maxGuests - _roomAdults[index]).clamp(0, maxGuests).toInt();
+  }
+
+  void _setRoomAdults(int index, int value) {
+    final maxGuests = _maxGuestsFor(index);
+    final maxAdults = maxGuests == null
+        ? 99
+        : (maxGuests - _roomKids[index]).clamp(1, maxGuests).toInt();
+    final nextAdults = value.clamp(1, maxAdults).toInt();
+    var nextKids = _roomKids[index];
+    if (maxGuests != null && nextAdults + nextKids > maxGuests) {
+      nextKids = (maxGuests - nextAdults).clamp(0, maxGuests).toInt();
+    }
+    if (nextAdults == _roomAdults[index] && nextKids == _roomKids[index]) {
+      return;
+    }
+    setState(() {
+      _roomAdults[index] = nextAdults;
+      _roomKids[index] = nextKids;
+    });
+    _requoteCurrentGuests();
+  }
+
+  void _setRoomKids(int index, int value) {
+    final maxGuests = _maxGuestsFor(index);
+    final maxKids = maxGuests == null
+        ? 99
+        : (maxGuests - _roomAdults[index]).clamp(0, maxGuests).toInt();
+    final nextKids = value.clamp(0, maxKids).toInt();
+    if (nextKids == _roomKids[index]) {
+      return;
+    }
+    setState(() {
+      _roomKids[index] = nextKids;
+    });
+    _requoteCurrentGuests();
+  }
+
+  Future<void> _requoteCurrentGuests() async {
+    final revision = ++_quoteRevision;
+    setState(() => _isQuoting = true);
+    try {
+      final quote = await ref.read(quoteHotelBookingPriceUseCaseProvider)(
+        _buildQuoteRequest(_selectedCoupon),
+      );
+      if (!mounted || revision != _quoteRevision) {
+        return;
+      }
+      setState(() {
+        _quotedAmountOverride = quote.quotedPrice ?? widget.seed.fallbackAmount;
+        _isQuoting = false;
+      });
+    } catch (_) {
+      if (!mounted || revision != _quoteRevision) {
+        return;
+      }
+      setState(() => _isQuoting = false);
+      AppNotice.show(context, message: context.l10n.hotelBookingCreateFailed);
+    }
+  }
+
   Future<void> _openCouponPicker(HotelBookingPreparation preparation) async {
     final result = await showHotelCouponPickerSheet(
       context: context,
@@ -309,6 +387,7 @@ class _HotelBookingConfirmPageState
       if (!mounted) {
         return;
       }
+      _quoteRevision += 1;
       setState(() {
         _quotedAmountOverride =
             quote.quotedPrice ??
@@ -393,7 +472,7 @@ class _HotelBookingConfirmPageState
       totalAmount: totalAmount,
       booker: booker,
       roomGuests: List<HotelBookingRoomGuestDraft>.generate(
-        widget.seed.selectedRooms.length,
+        _roomGuestTargets.length,
         (index) => HotelBookingRoomGuestDraft(
           firstName: _roomFirstNameControllers[index].text.trim(),
           lastName: _roomLastNameControllers[index].text.trim(),
@@ -422,10 +501,10 @@ class _HotelBookingConfirmPageState
       checkOut: widget.seed.criteria.checkOutDate,
       languageCode: ref.read(hotelLocaleLanguageCodeProvider),
       rooms: List<HotelBookingQuoteRoom>.generate(
-        widget.seed.selectedRooms.length,
+        _roomGuestTargets.length,
         (index) => HotelBookingQuoteRoom(
-          roomTypeId: widget.seed.selectedRooms[index].room.id,
-          occupancy: _roomAdults[index],
+          roomTypeId: _roomGuestTargets[index].room.id,
+          occupancy: _roomAdults[index] + _roomKids[index],
         ),
       ),
       coupons: coupon?.id == null
@@ -433,6 +512,8 @@ class _HotelBookingConfirmPageState
           : <HotelBookingSelectedCoupon>[
               HotelBookingSelectedCoupon(couponId: coupon!.id!),
             ],
+      usesRoomPlanSelection: widget.seed.usesRoomPlanSelection,
+      selectedRooms: widget.seed.selectedRooms,
     );
   }
 
@@ -500,6 +581,102 @@ class _HotelBookingConfirmPageState
         ? normalized
         : null;
   }
+
+  String _roomDisplayName(_RoomGuestFormTarget target) {
+    final base = target.room.name.trim().isEmpty
+        ? widget.seed.detail.name
+        : target.room.name.trim();
+    if (!widget.seed.usesRoomPlanSelection) {
+      return base;
+    }
+    return '$base #${target.instanceNumber}';
+  }
+}
+
+List<_RoomGuestFormTarget> _buildRoomGuestTargets(
+  HotelBookingConfirmSeed seed,
+) {
+  if (!seed.usesRoomPlanSelection) {
+    final room = seed.selectedRooms.isEmpty
+        ? HotelRoomPlan(
+            id: seed.detail.id,
+            name: seed.detail.name,
+            price: seed.detail.entirePrice ?? seed.detail.lowestRoomPrice,
+            beforeDiscountPrice: null,
+            discount: null,
+            discountName: '',
+            occupancy: seed.criteria.occupancy + seed.criteria.kids,
+            baseOccupancy: seed.criteria.occupancy,
+            roomSize: '',
+            bedroomCount: null,
+            bathroomCount: null,
+            remainingRooms: 1,
+            description: seed.detail.description,
+            facilityCategories: const <HotelRoomFacilityCategory>[],
+            images: seed.detail.images,
+            beds: const <HotelRoomBed>[],
+          )
+        : seed.selectedRooms.first.room;
+    return <_RoomGuestFormTarget>[
+      _RoomGuestFormTarget(
+        room: room,
+        instanceNumber: 1,
+        initialAdults: seed.criteria.occupancy,
+        initialKids: seed.criteria.kids,
+        maxGuests: null,
+      ),
+    ];
+  }
+
+  final assignedOccupanciesByRoomId = <String, List<int>>{};
+  for (final assignment in seed.roomTypeCustNums) {
+    if (assignment.occupancy <= 0) {
+      continue;
+    }
+    assignedOccupanciesByRoomId
+        .putIfAbsent(assignment.roomTypeId, () => <int>[])
+        .add(assignment.occupancy);
+  }
+
+  final targets = <_RoomGuestFormTarget>[];
+  for (final selection in seed.selectedRooms) {
+    final assignedOccupancies =
+        assignedOccupanciesByRoomId[selection.room.id] ?? <int>[];
+    for (var index = 0; index < selection.quantity; index += 1) {
+      final assignedAdults = assignedOccupancies.isNotEmpty
+          ? assignedOccupancies.removeAt(0)
+          : 1;
+      final maxGuests = selection.room.occupancy;
+      targets.add(
+        _RoomGuestFormTarget(
+          room: selection.room,
+          instanceNumber: index + 1,
+          initialAdults: maxGuests == null
+              ? assignedAdults.clamp(1, 99).toInt()
+              : assignedAdults.clamp(1, maxGuests).toInt(),
+          initialKids: 0,
+          maxGuests: maxGuests,
+        ),
+      );
+    }
+  }
+  return targets;
+}
+
+class _RoomGuestFormTarget {
+  const _RoomGuestFormTarget({
+    required this.room,
+    required this.instanceNumber,
+    required this.initialAdults,
+    required this.initialKids,
+    required this.maxGuests,
+  });
+
+  final HotelRoomPlan room;
+  final int instanceNumber;
+  final int initialAdults;
+  final int initialKids;
+  final int? maxGuests;
 }
 
 class _BookerAuthUserName {

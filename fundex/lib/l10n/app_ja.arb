@@ -591,6 +591,20 @@
   "hotelAssignOccupancyFailed": "客室数を更新できませんでした。しばらくしてからもう一度お試しください。",
   "hotelAssignOccupancyDialogTitle": "ご案内",
   "hotelAssignOccupancyDialogConfirm": "確認",
+  "hotelDetailExtraGuestCount": "追加料金人数：{count}名",
+  "@hotelDetailExtraGuestCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelDetailExtraGuestPrice": "追加料金：{price}",
+  "@hotelDetailExtraGuestPrice": {
+    "placeholders": {
+      "price": {}
+    }
+  },
   "hotelDetailBookingComingSoon": "予約フローは後で接続します",
   "hotelCurrencyCode": "JPY",
   "hotelBookingConfirmTitle": "予約確認",

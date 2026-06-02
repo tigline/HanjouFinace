@@ -1363,6 +1363,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelAssignOccupancyDialogConfirm => '确定';
 
   @override
+  String hotelDetailExtraGuestCount(int count) {
+    return '追加料金人数：$count人';
+  }
+
+  @override
+  String hotelDetailExtraGuestPrice(Object price) {
+    return '追加料金：$price';
+  }
+
+  @override
   String get hotelDetailBookingComingSoon => '预订流程稍后接入';
 
   @override
@@ -6717,6 +6727,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelAssignOccupancyDialogConfirm => '確定';
+
+  @override
+  String hotelDetailExtraGuestCount(int count) {
+    return '追加料金人數：$count人';
+  }
+
+  @override
+  String hotelDetailExtraGuestPrice(Object price) {
+    return '追加料金：$price';
+  }
 
   @override
   String get hotelDetailBookingComingSoon => '預訂流程稍後接入';

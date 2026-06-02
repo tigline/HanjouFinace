@@ -35,6 +35,16 @@ abstract class HotelBookingRemoteDataSource {
     HotelRoomExtraPersonRequestDto request,
   );
 
+  Future<HotelRoomExtraPersonResultDto> fetchExtraPerson({
+    required String hotelId,
+    required String checkIn,
+    required String checkOut,
+    required String languageCode,
+    required List<Map<String, Object?>> orderRoomTypeData,
+    required int customerCount,
+    required List<Object?> couponsCounts,
+  });
+
   Future<Map<String, dynamic>> fetchOrderCoupons({
     required String languageCode,
     required String hotelId,
@@ -175,6 +185,27 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
     HotelRoomExtraPersonRequestDto request,
   ) {
     return _client.fetchRoomExtraPerson(request);
+  }
+
+  @override
+  Future<HotelRoomExtraPersonResultDto> fetchExtraPerson({
+    required String hotelId,
+    required String checkIn,
+    required String checkOut,
+    required String languageCode,
+    required List<Map<String, Object?>> orderRoomTypeData,
+    required int customerCount,
+    required List<Object?> couponsCounts,
+  }) {
+    return _client.fetchExtraPerson(
+      hotelId: hotelId,
+      checkIn: checkIn,
+      checkOut: checkOut,
+      lang: languageCode,
+      orderRoomTypeData: orderRoomTypeData,
+      customerCount: customerCount,
+      couponsCounts: couponsCounts,
+    );
   }
 
   @override

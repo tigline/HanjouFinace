@@ -591,6 +591,20 @@
   "hotelAssignOccupancyFailed": "房間數量更新失敗，請稍後再試。",
   "hotelAssignOccupancyDialogTitle": "提示",
   "hotelAssignOccupancyDialogConfirm": "確定",
+  "hotelDetailExtraGuestCount": "追加料金人數：{count}人",
+  "@hotelDetailExtraGuestCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelDetailExtraGuestPrice": "追加料金：{price}",
+  "@hotelDetailExtraGuestPrice": {
+    "placeholders": {
+      "price": {}
+    }
+  },
   "hotelDetailBookingComingSoon": "預訂流程稍後接入",
   "hotelCurrencyCode": "JPY",
   "hotelBookingConfirmTitle": "預訂確認",

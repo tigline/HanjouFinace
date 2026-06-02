@@ -591,6 +591,20 @@
   "hotelAssignOccupancyFailed": "Could not update the room quantity. Please try again.",
   "hotelAssignOccupancyDialogTitle": "Notice",
   "hotelAssignOccupancyDialogConfirm": "Confirm",
+  "hotelDetailExtraGuestCount": "Extra guests: {count}",
+  "@hotelDetailExtraGuestCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelDetailExtraGuestPrice": "Extra fee: {price}",
+  "@hotelDetailExtraGuestPrice": {
+    "placeholders": {
+      "price": {}
+    }
+  },
   "hotelDetailBookingComingSoon": "Booking flow will be added later",
   "hotelCurrencyCode": "JPY",
   "hotelBookingConfirmTitle": "Booking confirmation",

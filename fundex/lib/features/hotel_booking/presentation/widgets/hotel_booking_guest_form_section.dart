@@ -22,6 +22,8 @@ class HotelBookingGuestFormSection extends StatelessWidget {
     this.roomName,
     this.adults,
     this.kids,
+    this.maxAdults,
+    this.maxKids,
     this.onAdultsChanged,
     this.onKidsChanged,
   });
@@ -40,6 +42,8 @@ class HotelBookingGuestFormSection extends StatelessWidget {
   final String? roomName;
   final int? adults;
   final int? kids;
+  final int? maxAdults;
+  final int? maxKids;
   final ValueChanged<int>? onAdultsChanged;
   final ValueChanged<int>? onKidsChanged;
 
@@ -99,6 +103,8 @@ class HotelBookingGuestFormSection extends StatelessWidget {
               label: context.l10n.hotelBookingAdults,
               value: adults!,
               requiredMark: true,
+              minValue: 1,
+              maxValue: maxAdults,
               onChanged: onAdultsChanged,
             ),
             const SizedBox(height: 10),
@@ -106,6 +112,8 @@ class HotelBookingGuestFormSection extends StatelessWidget {
               label: context.l10n.hotelBookingChildren,
               value: kids!,
               requiredMark: false,
+              minValue: 0,
+              maxValue: maxKids,
               onChanged: onKidsChanged,
             ),
           ],
@@ -193,10 +201,14 @@ class _CountryDropdown extends StatelessWidget {
             .map(
               (country) => DropdownMenuItem<String>(
                 value: country.code,
-                child: Text(country.name, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: FontWeight.w700,
-                    )),
+                child: Text(
+                  country.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: colors.textPrimary,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             )
             .toList(growable: false),
@@ -326,12 +338,16 @@ class _CounterRow extends StatelessWidget {
     required this.label,
     required this.value,
     required this.requiredMark,
+    this.minValue = 0,
+    this.maxValue,
     this.onChanged,
   });
 
   final String label;
   final int value;
   final bool requiredMark;
+  final int minValue;
+  final int? maxValue;
   final ValueChanged<int>? onChanged;
 
   @override
@@ -359,7 +375,7 @@ class _CounterRow extends StatelessWidget {
         ),
         _CounterButton(
           icon: Icons.remove_rounded,
-          onTap: value > 0 && onChanged != null
+          onTap: value > minValue && onChanged != null
               ? () => onChanged!(value - 1)
               : null,
         ),
@@ -376,7 +392,9 @@ class _CounterRow extends StatelessWidget {
         ),
         _CounterButton(
           icon: Icons.add_rounded,
-          onTap: onChanged == null ? null : () => onChanged!(value + 1),
+          onTap: onChanged == null || (maxValue != null && value >= maxValue!)
+              ? null
+              : () => onChanged!(value + 1),
         ),
       ],
     );

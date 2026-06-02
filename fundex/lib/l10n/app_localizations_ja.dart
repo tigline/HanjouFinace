@@ -1378,6 +1378,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelAssignOccupancyDialogConfirm => '確認';
 
   @override
+  String hotelDetailExtraGuestCount(int count) {
+    return '追加料金人数：$count名';
+  }
+
+  @override
+  String hotelDetailExtraGuestPrice(Object price) {
+    return '追加料金：$price';
+  }
+
+  @override
   String get hotelDetailBookingComingSoon => '予約フローは後で接続します';
 
   @override

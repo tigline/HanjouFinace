@@ -155,26 +155,12 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
     final countryCodesFuture = _remote
         .fetchCountryCodeList(languageCode: languageCode)
         .catchError((_) => const <String, String>{});
-    final quoteFuture = _remote
-        .fetchRoomExtraPerson(
-          HotelRoomExtraPersonRequestDto(
-            hotelId: seed.detail.id,
-            checkIn: checkIn,
-            checkOut: checkOut,
-            lang: languageCode,
-            roomTypeCustNums: seed.selectedRooms
-                .map(
-                  (selection) => HotelRoomTypeCustNumRequestDto(
-                    roomTypeId: selection.room.id,
-                    occupancy:
-                        (selection.room.occupancy ?? seed.criteria.occupancy)
-                            .toString(),
-                  ),
-                )
-                .toList(growable: false),
-          ),
-        )
-        .catchError((_) => const HotelRoomExtraPersonResultDto());
+    final quoteFuture = _fetchPreparationQuote(
+      seed: seed,
+      languageCode: languageCode,
+      checkIn: checkIn,
+      checkOut: checkOut,
+    ).catchError((_) => const HotelRoomExtraPersonResultDto());
     final couponsFuture = _remote
         .fetchOrderCoupons(languageCode: languageCode, hotelId: seed.detail.id)
         .catchError((_) => const <String, dynamic>{});
@@ -216,30 +202,39 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   Future<HotelBookingQuote> quoteBookingPrice(
     HotelBookingQuoteRequest request,
   ) async {
-    final quote = await _remote.fetchRoomExtraPerson(
-      HotelRoomExtraPersonRequestDto(
-        hotelId: request.hotelId,
-        checkIn: _wireDateTimeFormat.format(request.checkIn),
-        checkOut: _wireDateTimeFormat.format(request.checkOut),
-        lang: request.languageCode,
-        roomTypeCustNums: request.rooms
-            .map(
-              (room) => HotelRoomTypeCustNumRequestDto(
-                roomTypeId: room.roomTypeId,
-                occupancy: room.occupancy.toString(),
-              ),
-            )
-            .toList(growable: false),
-        couponsCounts: request.coupons
-            .map(
-              (coupon) => <String, Object>{
-                'couponsId': coupon.couponId,
-                'count': coupon.count,
-              },
-            )
-            .toList(growable: false),
-      ),
-    );
+    final couponsCounts = _mapCouponsCounts(request.coupons);
+    final quote = request.usesRoomPlanSelection
+        ? await _remote.fetchRoomExtraPerson(
+            HotelRoomExtraPersonRequestDto(
+              hotelId: request.hotelId,
+              checkIn: _wireDateTimeFormat.format(request.checkIn),
+              checkOut: _wireDateTimeFormat.format(request.checkOut),
+              lang: request.languageCode,
+              roomTypeCustNums: request.rooms
+                  .map(
+                    (room) => HotelRoomTypeCustNumRequestDto(
+                      roomTypeId: room.roomTypeId,
+                      occupancy: room.occupancy.toString(),
+                    ),
+                  )
+                  .toList(growable: false),
+              couponsCounts: couponsCounts,
+            ),
+          )
+        : await _remote.fetchExtraPerson(
+            hotelId: request.hotelId,
+            checkIn: _wireDateFormat.format(request.checkIn),
+            checkOut: _wireDateFormat.format(request.checkOut),
+            languageCode: request.languageCode,
+            orderRoomTypeData: _mapOrderRoomTypeDataForSelections(
+              request.selectedRooms,
+            ),
+            customerCount: request.rooms.fold<int>(
+              0,
+              (sum, room) => sum + room.occupancy,
+            ),
+            couponsCounts: couponsCounts,
+          );
     return HotelBookingQuote(
       quotedPrice: quote.priceElement?.price,
       originalPrice: quote.priceElement?.originalPrice,
@@ -515,6 +510,93 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
     );
   }
 
+  Future<HotelRoomExtraPersonResultDto> _fetchPreparationQuote({
+    required HotelBookingConfirmSeed seed,
+    required String languageCode,
+    required String checkIn,
+    required String checkOut,
+  }) {
+    if (seed.usesRoomPlanSelection) {
+      return _remote.fetchRoomExtraPerson(
+        HotelRoomExtraPersonRequestDto(
+          hotelId: seed.detail.id,
+          checkIn: checkIn,
+          checkOut: checkOut,
+          lang: languageCode,
+          roomTypeCustNums: _roomTypeCustNumsForSeed(seed),
+        ),
+      );
+    }
+    return _remote.fetchExtraPerson(
+      hotelId: seed.detail.id,
+      checkIn: checkIn,
+      checkOut: checkOut,
+      languageCode: languageCode,
+      orderRoomTypeData: _mapOrderRoomTypeDataForSelections(seed.selectedRooms),
+      customerCount: seed.criteria.occupancy + seed.criteria.kids,
+      couponsCounts: const <Object?>[],
+    );
+  }
+
+  List<HotelRoomTypeCustNumRequestDto> _roomTypeCustNumsForSeed(
+    HotelBookingConfirmSeed seed,
+  ) {
+    final assignedOccupanciesByRoomId = <String, List<int>>{};
+    for (final assignment in seed.roomTypeCustNums) {
+      if (assignment.occupancy <= 0) {
+        continue;
+      }
+      assignedOccupanciesByRoomId
+          .putIfAbsent(assignment.roomTypeId, () => <int>[])
+          .add(assignment.occupancy);
+    }
+    final rows = <HotelRoomTypeCustNumRequestDto>[];
+    for (final selection in seed.selectedRooms) {
+      final assignedOccupancies =
+          assignedOccupanciesByRoomId[selection.room.id] ?? <int>[];
+      for (var index = 0; index < selection.quantity; index += 1) {
+        final occupancy = assignedOccupancies.isNotEmpty
+            ? assignedOccupancies.removeAt(0)
+            : 1;
+        rows.add(
+          HotelRoomTypeCustNumRequestDto(
+            roomTypeId: selection.room.id,
+            occupancy: occupancy.clamp(1, 999).toString(),
+          ),
+        );
+      }
+    }
+    return rows;
+  }
+
+  List<Object?> _mapCouponsCounts(List<HotelBookingSelectedCoupon> coupons) {
+    return coupons
+        .map(
+          (coupon) => <String, Object>{
+            'couponsId': coupon.couponId,
+            'count': coupon.count,
+          },
+        )
+        .toList(growable: false);
+  }
+
+  List<Map<String, Object?>> _mapOrderRoomTypeDataForSelections(
+    List<HotelSelectedRoom> selectedRooms,
+  ) {
+    return selectedRooms
+        .map(
+          (selection) => <String, Object?>{
+            'roomTypeID': selection.room.id,
+            'roomCount': selection.quantity,
+            'roomTypename': selection.room.name,
+            'roomPrice': selection.room.price,
+            'occupancy':
+                selection.room.baseOccupancy ?? selection.room.occupancy,
+          },
+        )
+        .toList(growable: false);
+  }
+
   HotelCreditCard _mapCreditCard(HotelCreditCardDto dto) {
     return HotelCreditCard(
       id: dto.cardId.trim(),
@@ -598,27 +680,49 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
       (sum, guest) => sum + guest.adults + guest.children,
     );
     final orderRooms = <HotelOrderRoomTypeDataDto>[];
-    for (var index = 0; index < seed.selectedRooms.length; index++) {
-      final selection = seed.selectedRooms[index];
+    var guestCursor = 0;
+    for (final selection in seed.selectedRooms) {
       final room = selection.room;
-      final guest = index < draft.roomGuests.length
-          ? draft.roomGuests[index]
-          : HotelBookingRoomGuestDraft(
+      final guestsForSelection = <HotelBookingRoomGuestDraft>[];
+      for (var index = 0; index < selection.quantity; index += 1) {
+        if (guestCursor < draft.roomGuests.length) {
+          guestsForSelection.add(draft.roomGuests[guestCursor]);
+        } else {
+          guestsForSelection.add(
+            HotelBookingRoomGuestDraft(
               firstName: draft.booker.firstName,
               lastName: draft.booker.lastName,
               nationality: draft.booker.nationality,
               email: draft.booker.email,
               adults: seed.criteria.occupancy,
               children: seed.criteria.kids,
-            );
+            ),
+          );
+        }
+        guestCursor += 1;
+      }
       final roomTypeId = _intOrNull(room.id);
-      final maxAdults = room.baseOccupancy ?? room.occupancy ?? guest.adults;
+      final maxAdults =
+          room.baseOccupancy ??
+          room.occupancy ??
+          (guestsForSelection.isEmpty
+              ? null
+              : guestsForSelection.first.adults) ??
+          seed.criteria.occupancy;
       final fallbackRoomPrice = totalRoomCount <= 0
           ? 0
           : draft.totalAmount / totalRoomCount;
       final roomPrice = room.price ?? fallbackRoomPrice;
-      final guestCount = guest.adults + guest.children;
-      final extraGuestCount = (guestCount - maxAdults).clamp(0, 999).toInt();
+      final selectionGuestCount = guestsForSelection.fold<int>(
+        0,
+        (sum, guest) => sum + guest.adults + guest.children,
+      );
+      final extraGuestCount = guestsForSelection.fold<int>(
+        0,
+        (sum, guest) =>
+            sum +
+            ((guest.adults + guest.children) - maxAdults).clamp(0, 999).toInt(),
+      );
       orderRooms.add(
         HotelOrderRoomTypeDataDto(
           roomTypeId: room.id,
@@ -630,23 +734,25 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
             roomTypeId: roomTypeId ?? room.id,
             roomTypeName: room.name,
             roomCount: selection.quantity,
-            totalGuestCount: guestCount,
+            totalGuestCount: selectionGuestCount,
             extraGuestCount: extraGuestCount,
             extraGuestPrice: 0,
           ),
-          roomCusts: <HotelRoomCustomerDto>[
-            HotelRoomCustomerDto(
-              roomTypeId: roomTypeId,
-              firstName: guest.firstName,
-              lastName: guest.lastName,
-              name: guest.fullName,
-              email: guest.email,
-              count: guest.adults,
-              childCount: guest.children,
-              nationality: guest.nationality,
-              maxcount: maxAdults,
-            ),
-          ],
+          roomCusts: guestsForSelection
+              .map(
+                (guest) => HotelRoomCustomerDto(
+                  roomTypeId: roomTypeId,
+                  firstName: guest.firstName,
+                  lastName: guest.lastName,
+                  name: guest.fullName,
+                  email: guest.email,
+                  count: guest.adults,
+                  childCount: guest.children,
+                  nationality: guest.nationality,
+                  maxcount: maxAdults,
+                ),
+              )
+              .toList(growable: false),
         ),
       );
     }
@@ -918,6 +1024,19 @@ HotelAssignOccupancyResult _mapAssignOccupancyResult(
           (item) => HotelRoomOccupancyAssignment(
             roomTypeId: _stringOrEmpty(item.roomTypeId),
             occupancy: item.occupancy ?? 0,
+          ),
+        )
+        .where((item) => item.roomTypeId.isNotEmpty)
+        .toList(growable: false),
+    roomTypeExtraGuestPrices: dto.roomTypeExtraGuestPrices
+        .map(
+          (item) => HotelRoomTypeExtraGuestPrice(
+            roomTypeId: _stringOrEmpty(item.roomTypeId),
+            roomTypeName: item.roomTypeName?.trim() ?? '',
+            roomCount: item.roomCount ?? 0,
+            totalGuestCount: item.totalGuestCount ?? 0,
+            extraGuestCount: item.extraGuestCount ?? 0,
+            extraGuestPrice: item.extraGuestPrice,
           ),
         )
         .where((item) => item.roomTypeId.isNotEmpty)

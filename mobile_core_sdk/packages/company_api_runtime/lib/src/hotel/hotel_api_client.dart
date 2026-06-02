@@ -31,6 +31,7 @@ class HotelApiPaths {
   static const String priceByDate = '/pms/priceByDate';
   static const String assignOccupancy = '/pms/assign/occupancy';
   static const String countryCodeList = '/pms/countryCodeList';
+  static const String extraPerson = '/pms/order/extraPerson';
   static const String roomExtraPerson = '/pms/order/room/extraPerson';
   static const String couponsCustList = '/pms/coupons/custListV2';
   static const String couponsOrderCustList = '/pms/coupons/order/custListV2';
@@ -76,6 +77,7 @@ class HotelApiClient {
     this.priceByDatePath = HotelApiPaths.priceByDate,
     this.assignOccupancyPath = HotelApiPaths.assignOccupancy,
     this.countryCodeListPath = HotelApiPaths.countryCodeList,
+    this.extraPersonPath = HotelApiPaths.extraPerson,
     this.roomExtraPersonPath = HotelApiPaths.roomExtraPerson,
     this.couponsCustListPath = HotelApiPaths.couponsCustList,
     this.couponsOrderCustListPath = HotelApiPaths.couponsOrderCustList,
@@ -117,6 +119,7 @@ class HotelApiClient {
   final String priceByDatePath;
   final String assignOccupancyPath;
   final String countryCodeListPath;
+  final String extraPersonPath;
   final String roomExtraPersonPath;
   final String couponsCustListPath;
   final String couponsOrderCustListPath;
@@ -288,6 +291,36 @@ class HotelApiClient {
     final data = _envelopeCodec.extractDataMap(
       _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load hotel room extra person quote.',
+    );
+    return HotelRoomExtraPersonResultDto.fromJson(data);
+  }
+
+  Future<HotelRoomExtraPersonResultDto> fetchExtraPerson({
+    required String hotelId,
+    required String checkIn,
+    required String checkOut,
+    required String lang,
+    required List<Map<String, Object?>> orderRoomTypeData,
+    required int customerCount,
+    required List<Object?> couponsCounts,
+  }) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      extraPersonPath,
+      data: <String, Object?>{
+        'hotelId': hotelId,
+        'checkIn': checkIn,
+        'checkOut': checkOut,
+        'lang': lang,
+        'orderRoomTypeData': orderRoomTypeData,
+        'customerCount': customerCount,
+        'couponsCounts': couponsCounts,
+      },
+      options: authRequired(true),
+    );
+
+    final data = _envelopeCodec.extractDataMap(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to load hotel extra person quote.',
     );
     return HotelRoomExtraPersonResultDto.fromJson(data);
   }
