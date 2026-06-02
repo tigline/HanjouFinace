@@ -20,6 +20,7 @@ class HotelApiPaths {
   static const String pmsSite = '/pms/site';
   static const String paymentType = '/pms/paymenttype';
   static const String payForOrder = '/pms/pay4order';
+  static const String optimismPayment = '/pms/optimismPayment';
   static const String orderList = '/pms/order/list';
   static const String orderDetail = '/pms/order/detail';
   static const String orderInvoice = '/pms/order/invoice';
@@ -63,6 +64,7 @@ class HotelApiClient {
     this.hotelDetailPath = HotelApiPaths.hotelDetail,
     this.bookingOrderSaveV2Path = HotelApiPaths.bookingOrderSaveV2,
     this.payForOrderPath = HotelApiPaths.payForOrder,
+    this.optimismPaymentPath = HotelApiPaths.optimismPayment,
     this.orderListPath = HotelApiPaths.orderList,
     this.orderDetailPath = HotelApiPaths.orderDetail,
     this.orderInvoicePath = HotelApiPaths.orderInvoice,
@@ -102,6 +104,7 @@ class HotelApiClient {
   final String hotelDetailPath;
   final String bookingOrderSaveV2Path;
   final String payForOrderPath;
+  final String optimismPaymentPath;
   final String orderListPath;
   final String orderDetailPath;
   final String orderInvoicePath;
@@ -655,6 +658,30 @@ class HotelApiClient {
       fallbackMessage: 'Failed to pay hotel order.',
     );
     return HotelPaymentResultDto.fromJson(data);
+  }
+
+  Future<String> syncOptimismPayment(OptimismPaymentRequestDto request) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      optimismPaymentPath,
+      data: request.toJson(),
+      options: authRequired(true),
+    );
+
+    final payload = _envelopeCodec.toJsonMap(response.data);
+    if (_envelopeCodec.isSuccessEnvelope(payload)) {
+      final data = payload['data']?.toString().trim();
+      if (data != null && data.isNotEmpty) {
+        return data;
+      }
+      return _envelopeCodec.resolveErrorMessage(
+        payload,
+        fallbackMessage: 'success',
+      );
+    }
+    return _envelopeCodec.resolveErrorMessage(
+      payload,
+      fallbackMessage: 'Failed to sync hotel payment result.',
+    );
   }
 
   Future<HotelCreditCardPaymentResultDto> payWithRegisteredCard(

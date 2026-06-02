@@ -201,6 +201,52 @@ class HotelCreditCardPaymentResult {
   final String secureUrl;
 }
 
+class HotelOrderPaymentResult {
+  const HotelOrderPaymentResult({
+    required this.pay,
+    required this.message,
+    required this.code,
+    required this.wechat,
+    required this.alipay,
+  });
+
+  final bool pay;
+  final String message;
+  final int? code;
+  final HotelWechatPaymentPayload? wechat;
+  final HotelAlipayPaymentPayload? alipay;
+}
+
+class HotelWechatPaymentPayload {
+  const HotelWechatPaymentPayload({
+    required this.appId,
+    required this.partnerId,
+    required this.prepayId,
+    required this.packageValue,
+    required this.nonceStr,
+    required this.timestamp,
+    required this.paySign,
+    required this.signType,
+    required this.mwebUrl,
+  });
+
+  final String appId;
+  final String partnerId;
+  final String prepayId;
+  final String packageValue;
+  final String nonceStr;
+  final int? timestamp;
+  final String paySign;
+  final String signType;
+  final String mwebUrl;
+}
+
+class HotelAlipayPaymentPayload {
+  const HotelAlipayPaymentPayload({required this.orderInfo});
+
+  final String orderInfo;
+}
+
 class HotelDetail {
   const HotelDetail({
     required this.id,

@@ -26,12 +26,14 @@ import '../../domain/usecases/fetch_hotel_member_profile_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_cancel_rule_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_detail_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_list_usecase.dart';
+import '../../domain/usecases/pay_hotel_order_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_with_registered_card_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_with_credit_card_token_usecase.dart';
 import '../../domain/usecases/quote_hotel_booking_price_usecase.dart';
 import '../../domain/usecases/register_hotel_credit_card_usecase.dart';
 import '../../domain/usecases/request_hotel_order_invoice_usecase.dart';
 import '../../domain/usecases/search_hotels_usecase.dart';
+import '../../domain/usecases/sync_hotel_optimism_payment_usecase.dart';
 import '../../domain/usecases/unregister_hotel_credit_card_usecase.dart';
 import '../../domain/usecases/update_hotel_member_profile_usecase.dart';
 import '../controllers/hotel_booking_controller.dart';
@@ -149,6 +151,17 @@ final payHotelOrderWithRegisteredCardUseCaseProvider =
 final payHotelOrderWithCreditCardTokenUseCaseProvider =
     Provider<PayHotelOrderWithCreditCardTokenUseCase>((ref) {
       return PayHotelOrderWithCreditCardTokenUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
+final payHotelOrderUseCaseProvider = Provider<PayHotelOrderUseCase>((ref) {
+  return PayHotelOrderUseCase(ref.watch(hotelBookingRepositoryProvider));
+});
+
+final syncHotelOptimismPaymentUseCaseProvider =
+    Provider<SyncHotelOptimismPaymentUseCase>((ref) {
+      return SyncHotelOptimismPaymentUseCase(
         ref.watch(hotelBookingRepositoryProvider),
       );
     });

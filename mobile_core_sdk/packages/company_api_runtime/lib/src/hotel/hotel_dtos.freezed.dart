@@ -11648,7 +11648,7 @@ as num?,
 /// @nodoc
 mixin _$HotelPaymentResultDto {
 
- bool? get pay; Map<String, dynamic>? get wechatPay;
+ bool? get pay; String? get msg; int? get code; HotelWechatPaymentDto? get wechatPay;@JsonKey(name: '旅馆微信支付后返回结果') HotelWechatPaymentDto? get swaggerWechatPay; HotelAlipayPaymentDto? get aliPay;@JsonKey(name: '旅馆支付宝支付后返回结果') HotelAlipayPaymentDto? get swaggerAliPay; AliPayResponseAppDto? get aliPayReponseApp;
 /// Create a copy of HotelPaymentResultDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -11661,16 +11661,16 @@ $HotelPaymentResultDtoCopyWith<HotelPaymentResultDto> get copyWith => _$HotelPay
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelPaymentResultDto&&(identical(other.pay, pay) || other.pay == pay)&&const DeepCollectionEquality().equals(other.wechatPay, wechatPay));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelPaymentResultDto&&(identical(other.pay, pay) || other.pay == pay)&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.code, code) || other.code == code)&&(identical(other.wechatPay, wechatPay) || other.wechatPay == wechatPay)&&(identical(other.swaggerWechatPay, swaggerWechatPay) || other.swaggerWechatPay == swaggerWechatPay)&&(identical(other.aliPay, aliPay) || other.aliPay == aliPay)&&(identical(other.swaggerAliPay, swaggerAliPay) || other.swaggerAliPay == swaggerAliPay)&&(identical(other.aliPayReponseApp, aliPayReponseApp) || other.aliPayReponseApp == aliPayReponseApp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pay,const DeepCollectionEquality().hash(wechatPay));
+int get hashCode => Object.hash(runtimeType,pay,msg,code,wechatPay,swaggerWechatPay,aliPay,swaggerAliPay,aliPayReponseApp);
 
 @override
 String toString() {
-  return 'HotelPaymentResultDto(pay: $pay, wechatPay: $wechatPay)';
+  return 'HotelPaymentResultDto(pay: $pay, msg: $msg, code: $code, wechatPay: $wechatPay, swaggerWechatPay: $swaggerWechatPay, aliPay: $aliPay, swaggerAliPay: $swaggerAliPay, aliPayReponseApp: $aliPayReponseApp)';
 }
 
 
@@ -11681,11 +11681,11 @@ abstract mixin class $HotelPaymentResultDtoCopyWith<$Res>  {
   factory $HotelPaymentResultDtoCopyWith(HotelPaymentResultDto value, $Res Function(HotelPaymentResultDto) _then) = _$HotelPaymentResultDtoCopyWithImpl;
 @useResult
 $Res call({
- bool? pay, Map<String, dynamic>? wechatPay
+ bool? pay, String? msg, int? code, HotelWechatPaymentDto? wechatPay,@JsonKey(name: '旅馆微信支付后返回结果') HotelWechatPaymentDto? swaggerWechatPay, HotelAlipayPaymentDto? aliPay,@JsonKey(name: '旅馆支付宝支付后返回结果') HotelAlipayPaymentDto? swaggerAliPay, AliPayResponseAppDto? aliPayReponseApp
 });
 
 
-
+$HotelWechatPaymentDtoCopyWith<$Res>? get wechatPay;$HotelWechatPaymentDtoCopyWith<$Res>? get swaggerWechatPay;$HotelAlipayPaymentDtoCopyWith<$Res>? get aliPay;$HotelAlipayPaymentDtoCopyWith<$Res>? get swaggerAliPay;$AliPayResponseAppDtoCopyWith<$Res>? get aliPayReponseApp;
 
 }
 /// @nodoc
@@ -11698,14 +11698,80 @@ class _$HotelPaymentResultDtoCopyWithImpl<$Res>
 
 /// Create a copy of HotelPaymentResultDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? pay = freezed,Object? wechatPay = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? pay = freezed,Object? msg = freezed,Object? code = freezed,Object? wechatPay = freezed,Object? swaggerWechatPay = freezed,Object? aliPay = freezed,Object? swaggerAliPay = freezed,Object? aliPayReponseApp = freezed,}) {
   return _then(_self.copyWith(
 pay: freezed == pay ? _self.pay : pay // ignore: cast_nullable_to_non_nullable
-as bool?,wechatPay: freezed == wechatPay ? _self.wechatPay : wechatPay // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as bool?,msg: freezed == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
+as String?,code: freezed == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as int?,wechatPay: freezed == wechatPay ? _self.wechatPay : wechatPay // ignore: cast_nullable_to_non_nullable
+as HotelWechatPaymentDto?,swaggerWechatPay: freezed == swaggerWechatPay ? _self.swaggerWechatPay : swaggerWechatPay // ignore: cast_nullable_to_non_nullable
+as HotelWechatPaymentDto?,aliPay: freezed == aliPay ? _self.aliPay : aliPay // ignore: cast_nullable_to_non_nullable
+as HotelAlipayPaymentDto?,swaggerAliPay: freezed == swaggerAliPay ? _self.swaggerAliPay : swaggerAliPay // ignore: cast_nullable_to_non_nullable
+as HotelAlipayPaymentDto?,aliPayReponseApp: freezed == aliPayReponseApp ? _self.aliPayReponseApp : aliPayReponseApp // ignore: cast_nullable_to_non_nullable
+as AliPayResponseAppDto?,
   ));
 }
+/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelWechatPaymentDtoCopyWith<$Res>? get wechatPay {
+    if (_self.wechatPay == null) {
+    return null;
+  }
 
+  return $HotelWechatPaymentDtoCopyWith<$Res>(_self.wechatPay!, (value) {
+    return _then(_self.copyWith(wechatPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelWechatPaymentDtoCopyWith<$Res>? get swaggerWechatPay {
+    if (_self.swaggerWechatPay == null) {
+    return null;
+  }
+
+  return $HotelWechatPaymentDtoCopyWith<$Res>(_self.swaggerWechatPay!, (value) {
+    return _then(_self.copyWith(swaggerWechatPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelAlipayPaymentDtoCopyWith<$Res>? get aliPay {
+    if (_self.aliPay == null) {
+    return null;
+  }
+
+  return $HotelAlipayPaymentDtoCopyWith<$Res>(_self.aliPay!, (value) {
+    return _then(_self.copyWith(aliPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelAlipayPaymentDtoCopyWith<$Res>? get swaggerAliPay {
+    if (_self.swaggerAliPay == null) {
+    return null;
+  }
+
+  return $HotelAlipayPaymentDtoCopyWith<$Res>(_self.swaggerAliPay!, (value) {
+    return _then(_self.copyWith(swaggerAliPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AliPayResponseAppDtoCopyWith<$Res>? get aliPayReponseApp {
+    if (_self.aliPayReponseApp == null) {
+    return null;
+  }
+
+  return $AliPayResponseAppDtoCopyWith<$Res>(_self.aliPayReponseApp!, (value) {
+    return _then(_self.copyWith(aliPayReponseApp: value));
+  });
+}
 }
 
 
@@ -11787,10 +11853,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? pay,  Map<String, dynamic>? wechatPay)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? pay,  String? msg,  int? code,  HotelWechatPaymentDto? wechatPay, @JsonKey(name: '旅馆微信支付后返回结果')  HotelWechatPaymentDto? swaggerWechatPay,  HotelAlipayPaymentDto? aliPay, @JsonKey(name: '旅馆支付宝支付后返回结果')  HotelAlipayPaymentDto? swaggerAliPay,  AliPayResponseAppDto? aliPayReponseApp)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HotelPaymentResultDto() when $default != null:
-return $default(_that.pay,_that.wechatPay);case _:
+return $default(_that.pay,_that.msg,_that.code,_that.wechatPay,_that.swaggerWechatPay,_that.aliPay,_that.swaggerAliPay,_that.aliPayReponseApp);case _:
   return orElse();
 
 }
@@ -11808,10 +11874,10 @@ return $default(_that.pay,_that.wechatPay);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? pay,  Map<String, dynamic>? wechatPay)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? pay,  String? msg,  int? code,  HotelWechatPaymentDto? wechatPay, @JsonKey(name: '旅馆微信支付后返回结果')  HotelWechatPaymentDto? swaggerWechatPay,  HotelAlipayPaymentDto? aliPay, @JsonKey(name: '旅馆支付宝支付后返回结果')  HotelAlipayPaymentDto? swaggerAliPay,  AliPayResponseAppDto? aliPayReponseApp)  $default,) {final _that = this;
 switch (_that) {
 case _HotelPaymentResultDto():
-return $default(_that.pay,_that.wechatPay);case _:
+return $default(_that.pay,_that.msg,_that.code,_that.wechatPay,_that.swaggerWechatPay,_that.aliPay,_that.swaggerAliPay,_that.aliPayReponseApp);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -11828,10 +11894,10 @@ return $default(_that.pay,_that.wechatPay);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? pay,  Map<String, dynamic>? wechatPay)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? pay,  String? msg,  int? code,  HotelWechatPaymentDto? wechatPay, @JsonKey(name: '旅馆微信支付后返回结果')  HotelWechatPaymentDto? swaggerWechatPay,  HotelAlipayPaymentDto? aliPay, @JsonKey(name: '旅馆支付宝支付后返回结果')  HotelAlipayPaymentDto? swaggerAliPay,  AliPayResponseAppDto? aliPayReponseApp)?  $default,) {final _that = this;
 switch (_that) {
 case _HotelPaymentResultDto() when $default != null:
-return $default(_that.pay,_that.wechatPay);case _:
+return $default(_that.pay,_that.msg,_that.code,_that.wechatPay,_that.swaggerWechatPay,_that.aliPay,_that.swaggerAliPay,_that.aliPayReponseApp);case _:
   return null;
 
 }
@@ -11843,19 +11909,17 @@ return $default(_that.pay,_that.wechatPay);case _:
 @JsonSerializable()
 
 class _HotelPaymentResultDto implements HotelPaymentResultDto {
-  const _HotelPaymentResultDto({this.pay, final  Map<String, dynamic>? wechatPay}): _wechatPay = wechatPay;
+  const _HotelPaymentResultDto({this.pay, this.msg, this.code, this.wechatPay, @JsonKey(name: '旅馆微信支付后返回结果') this.swaggerWechatPay, this.aliPay, @JsonKey(name: '旅馆支付宝支付后返回结果') this.swaggerAliPay, this.aliPayReponseApp});
   factory _HotelPaymentResultDto.fromJson(Map<String, dynamic> json) => _$HotelPaymentResultDtoFromJson(json);
 
 @override final  bool? pay;
- final  Map<String, dynamic>? _wechatPay;
-@override Map<String, dynamic>? get wechatPay {
-  final value = _wechatPay;
-  if (value == null) return null;
-  if (_wechatPay is EqualUnmodifiableMapView) return _wechatPay;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(value);
-}
-
+@override final  String? msg;
+@override final  int? code;
+@override final  HotelWechatPaymentDto? wechatPay;
+@override@JsonKey(name: '旅馆微信支付后返回结果') final  HotelWechatPaymentDto? swaggerWechatPay;
+@override final  HotelAlipayPaymentDto? aliPay;
+@override@JsonKey(name: '旅馆支付宝支付后返回结果') final  HotelAlipayPaymentDto? swaggerAliPay;
+@override final  AliPayResponseAppDto? aliPayReponseApp;
 
 /// Create a copy of HotelPaymentResultDto
 /// with the given fields replaced by the non-null parameter values.
@@ -11870,16 +11934,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelPaymentResultDto&&(identical(other.pay, pay) || other.pay == pay)&&const DeepCollectionEquality().equals(other._wechatPay, _wechatPay));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelPaymentResultDto&&(identical(other.pay, pay) || other.pay == pay)&&(identical(other.msg, msg) || other.msg == msg)&&(identical(other.code, code) || other.code == code)&&(identical(other.wechatPay, wechatPay) || other.wechatPay == wechatPay)&&(identical(other.swaggerWechatPay, swaggerWechatPay) || other.swaggerWechatPay == swaggerWechatPay)&&(identical(other.aliPay, aliPay) || other.aliPay == aliPay)&&(identical(other.swaggerAliPay, swaggerAliPay) || other.swaggerAliPay == swaggerAliPay)&&(identical(other.aliPayReponseApp, aliPayReponseApp) || other.aliPayReponseApp == aliPayReponseApp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pay,const DeepCollectionEquality().hash(_wechatPay));
+int get hashCode => Object.hash(runtimeType,pay,msg,code,wechatPay,swaggerWechatPay,aliPay,swaggerAliPay,aliPayReponseApp);
 
 @override
 String toString() {
-  return 'HotelPaymentResultDto(pay: $pay, wechatPay: $wechatPay)';
+  return 'HotelPaymentResultDto(pay: $pay, msg: $msg, code: $code, wechatPay: $wechatPay, swaggerWechatPay: $swaggerWechatPay, aliPay: $aliPay, swaggerAliPay: $swaggerAliPay, aliPayReponseApp: $aliPayReponseApp)';
 }
 
 
@@ -11890,11 +11954,11 @@ abstract mixin class _$HotelPaymentResultDtoCopyWith<$Res> implements $HotelPaym
   factory _$HotelPaymentResultDtoCopyWith(_HotelPaymentResultDto value, $Res Function(_HotelPaymentResultDto) _then) = __$HotelPaymentResultDtoCopyWithImpl;
 @override @useResult
 $Res call({
- bool? pay, Map<String, dynamic>? wechatPay
+ bool? pay, String? msg, int? code, HotelWechatPaymentDto? wechatPay,@JsonKey(name: '旅馆微信支付后返回结果') HotelWechatPaymentDto? swaggerWechatPay, HotelAlipayPaymentDto? aliPay,@JsonKey(name: '旅馆支付宝支付后返回结果') HotelAlipayPaymentDto? swaggerAliPay, AliPayResponseAppDto? aliPayReponseApp
 });
 
 
-
+@override $HotelWechatPaymentDtoCopyWith<$Res>? get wechatPay;@override $HotelWechatPaymentDtoCopyWith<$Res>? get swaggerWechatPay;@override $HotelAlipayPaymentDtoCopyWith<$Res>? get aliPay;@override $HotelAlipayPaymentDtoCopyWith<$Res>? get swaggerAliPay;@override $AliPayResponseAppDtoCopyWith<$Res>? get aliPayReponseApp;
 
 }
 /// @nodoc
@@ -11907,11 +11971,904 @@ class __$HotelPaymentResultDtoCopyWithImpl<$Res>
 
 /// Create a copy of HotelPaymentResultDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? pay = freezed,Object? wechatPay = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? pay = freezed,Object? msg = freezed,Object? code = freezed,Object? wechatPay = freezed,Object? swaggerWechatPay = freezed,Object? aliPay = freezed,Object? swaggerAliPay = freezed,Object? aliPayReponseApp = freezed,}) {
   return _then(_HotelPaymentResultDto(
 pay: freezed == pay ? _self.pay : pay // ignore: cast_nullable_to_non_nullable
-as bool?,wechatPay: freezed == wechatPay ? _self._wechatPay : wechatPay // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as bool?,msg: freezed == msg ? _self.msg : msg // ignore: cast_nullable_to_non_nullable
+as String?,code: freezed == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as int?,wechatPay: freezed == wechatPay ? _self.wechatPay : wechatPay // ignore: cast_nullable_to_non_nullable
+as HotelWechatPaymentDto?,swaggerWechatPay: freezed == swaggerWechatPay ? _self.swaggerWechatPay : swaggerWechatPay // ignore: cast_nullable_to_non_nullable
+as HotelWechatPaymentDto?,aliPay: freezed == aliPay ? _self.aliPay : aliPay // ignore: cast_nullable_to_non_nullable
+as HotelAlipayPaymentDto?,swaggerAliPay: freezed == swaggerAliPay ? _self.swaggerAliPay : swaggerAliPay // ignore: cast_nullable_to_non_nullable
+as HotelAlipayPaymentDto?,aliPayReponseApp: freezed == aliPayReponseApp ? _self.aliPayReponseApp : aliPayReponseApp // ignore: cast_nullable_to_non_nullable
+as AliPayResponseAppDto?,
+  ));
+}
+
+/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelWechatPaymentDtoCopyWith<$Res>? get wechatPay {
+    if (_self.wechatPay == null) {
+    return null;
+  }
+
+  return $HotelWechatPaymentDtoCopyWith<$Res>(_self.wechatPay!, (value) {
+    return _then(_self.copyWith(wechatPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelWechatPaymentDtoCopyWith<$Res>? get swaggerWechatPay {
+    if (_self.swaggerWechatPay == null) {
+    return null;
+  }
+
+  return $HotelWechatPaymentDtoCopyWith<$Res>(_self.swaggerWechatPay!, (value) {
+    return _then(_self.copyWith(swaggerWechatPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelAlipayPaymentDtoCopyWith<$Res>? get aliPay {
+    if (_self.aliPay == null) {
+    return null;
+  }
+
+  return $HotelAlipayPaymentDtoCopyWith<$Res>(_self.aliPay!, (value) {
+    return _then(_self.copyWith(aliPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HotelAlipayPaymentDtoCopyWith<$Res>? get swaggerAliPay {
+    if (_self.swaggerAliPay == null) {
+    return null;
+  }
+
+  return $HotelAlipayPaymentDtoCopyWith<$Res>(_self.swaggerAliPay!, (value) {
+    return _then(_self.copyWith(swaggerAliPay: value));
+  });
+}/// Create a copy of HotelPaymentResultDto
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AliPayResponseAppDtoCopyWith<$Res>? get aliPayReponseApp {
+    if (_self.aliPayReponseApp == null) {
+    return null;
+  }
+
+  return $AliPayResponseAppDtoCopyWith<$Res>(_self.aliPayReponseApp!, (value) {
+    return _then(_self.copyWith(aliPayReponseApp: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$HotelWechatPaymentDto {
+
+ Object? get code; Object? get orderId;@JsonKey(name: 'mweb_url') String? get mwebUrl; String? get appId; String? get mchId;@JsonKey(name: 'prepay_id') String? get prepayId; String? get packageValue; String? get nonceStr; String? get timeStamp; String? get paySign; String? get signType;
+/// Create a copy of HotelWechatPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HotelWechatPaymentDtoCopyWith<HotelWechatPaymentDto> get copyWith => _$HotelWechatPaymentDtoCopyWithImpl<HotelWechatPaymentDto>(this as HotelWechatPaymentDto, _$identity);
+
+  /// Serializes this HotelWechatPaymentDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelWechatPaymentDto&&const DeepCollectionEquality().equals(other.code, code)&&const DeepCollectionEquality().equals(other.orderId, orderId)&&(identical(other.mwebUrl, mwebUrl) || other.mwebUrl == mwebUrl)&&(identical(other.appId, appId) || other.appId == appId)&&(identical(other.mchId, mchId) || other.mchId == mchId)&&(identical(other.prepayId, prepayId) || other.prepayId == prepayId)&&(identical(other.packageValue, packageValue) || other.packageValue == packageValue)&&(identical(other.nonceStr, nonceStr) || other.nonceStr == nonceStr)&&(identical(other.timeStamp, timeStamp) || other.timeStamp == timeStamp)&&(identical(other.paySign, paySign) || other.paySign == paySign)&&(identical(other.signType, signType) || other.signType == signType));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(code),const DeepCollectionEquality().hash(orderId),mwebUrl,appId,mchId,prepayId,packageValue,nonceStr,timeStamp,paySign,signType);
+
+@override
+String toString() {
+  return 'HotelWechatPaymentDto(code: $code, orderId: $orderId, mwebUrl: $mwebUrl, appId: $appId, mchId: $mchId, prepayId: $prepayId, packageValue: $packageValue, nonceStr: $nonceStr, timeStamp: $timeStamp, paySign: $paySign, signType: $signType)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HotelWechatPaymentDtoCopyWith<$Res>  {
+  factory $HotelWechatPaymentDtoCopyWith(HotelWechatPaymentDto value, $Res Function(HotelWechatPaymentDto) _then) = _$HotelWechatPaymentDtoCopyWithImpl;
+@useResult
+$Res call({
+ Object? code, Object? orderId,@JsonKey(name: 'mweb_url') String? mwebUrl, String? appId, String? mchId,@JsonKey(name: 'prepay_id') String? prepayId, String? packageValue, String? nonceStr, String? timeStamp, String? paySign, String? signType
+});
+
+
+
+
+}
+/// @nodoc
+class _$HotelWechatPaymentDtoCopyWithImpl<$Res>
+    implements $HotelWechatPaymentDtoCopyWith<$Res> {
+  _$HotelWechatPaymentDtoCopyWithImpl(this._self, this._then);
+
+  final HotelWechatPaymentDto _self;
+  final $Res Function(HotelWechatPaymentDto) _then;
+
+/// Create a copy of HotelWechatPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? code = freezed,Object? orderId = freezed,Object? mwebUrl = freezed,Object? appId = freezed,Object? mchId = freezed,Object? prepayId = freezed,Object? packageValue = freezed,Object? nonceStr = freezed,Object? timeStamp = freezed,Object? paySign = freezed,Object? signType = freezed,}) {
+  return _then(_self.copyWith(
+code: freezed == code ? _self.code : code ,orderId: freezed == orderId ? _self.orderId : orderId ,mwebUrl: freezed == mwebUrl ? _self.mwebUrl : mwebUrl // ignore: cast_nullable_to_non_nullable
+as String?,appId: freezed == appId ? _self.appId : appId // ignore: cast_nullable_to_non_nullable
+as String?,mchId: freezed == mchId ? _self.mchId : mchId // ignore: cast_nullable_to_non_nullable
+as String?,prepayId: freezed == prepayId ? _self.prepayId : prepayId // ignore: cast_nullable_to_non_nullable
+as String?,packageValue: freezed == packageValue ? _self.packageValue : packageValue // ignore: cast_nullable_to_non_nullable
+as String?,nonceStr: freezed == nonceStr ? _self.nonceStr : nonceStr // ignore: cast_nullable_to_non_nullable
+as String?,timeStamp: freezed == timeStamp ? _self.timeStamp : timeStamp // ignore: cast_nullable_to_non_nullable
+as String?,paySign: freezed == paySign ? _self.paySign : paySign // ignore: cast_nullable_to_non_nullable
+as String?,signType: freezed == signType ? _self.signType : signType // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [HotelWechatPaymentDto].
+extension HotelWechatPaymentDtoPatterns on HotelWechatPaymentDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HotelWechatPaymentDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _HotelWechatPaymentDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HotelWechatPaymentDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _HotelWechatPaymentDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HotelWechatPaymentDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _HotelWechatPaymentDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Object? code,  Object? orderId, @JsonKey(name: 'mweb_url')  String? mwebUrl,  String? appId,  String? mchId, @JsonKey(name: 'prepay_id')  String? prepayId,  String? packageValue,  String? nonceStr,  String? timeStamp,  String? paySign,  String? signType)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _HotelWechatPaymentDto() when $default != null:
+return $default(_that.code,_that.orderId,_that.mwebUrl,_that.appId,_that.mchId,_that.prepayId,_that.packageValue,_that.nonceStr,_that.timeStamp,_that.paySign,_that.signType);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Object? code,  Object? orderId, @JsonKey(name: 'mweb_url')  String? mwebUrl,  String? appId,  String? mchId, @JsonKey(name: 'prepay_id')  String? prepayId,  String? packageValue,  String? nonceStr,  String? timeStamp,  String? paySign,  String? signType)  $default,) {final _that = this;
+switch (_that) {
+case _HotelWechatPaymentDto():
+return $default(_that.code,_that.orderId,_that.mwebUrl,_that.appId,_that.mchId,_that.prepayId,_that.packageValue,_that.nonceStr,_that.timeStamp,_that.paySign,_that.signType);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Object? code,  Object? orderId, @JsonKey(name: 'mweb_url')  String? mwebUrl,  String? appId,  String? mchId, @JsonKey(name: 'prepay_id')  String? prepayId,  String? packageValue,  String? nonceStr,  String? timeStamp,  String? paySign,  String? signType)?  $default,) {final _that = this;
+switch (_that) {
+case _HotelWechatPaymentDto() when $default != null:
+return $default(_that.code,_that.orderId,_that.mwebUrl,_that.appId,_that.mchId,_that.prepayId,_that.packageValue,_that.nonceStr,_that.timeStamp,_that.paySign,_that.signType);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+@JsonSerializable(includeIfNull: false)
+class _HotelWechatPaymentDto implements HotelWechatPaymentDto {
+  const _HotelWechatPaymentDto({this.code, this.orderId, @JsonKey(name: 'mweb_url') this.mwebUrl, this.appId, this.mchId, @JsonKey(name: 'prepay_id') this.prepayId, this.packageValue, this.nonceStr, this.timeStamp, this.paySign, this.signType});
+  factory _HotelWechatPaymentDto.fromJson(Map<String, dynamic> json) => _$HotelWechatPaymentDtoFromJson(json);
+
+@override final  Object? code;
+@override final  Object? orderId;
+@override@JsonKey(name: 'mweb_url') final  String? mwebUrl;
+@override final  String? appId;
+@override final  String? mchId;
+@override@JsonKey(name: 'prepay_id') final  String? prepayId;
+@override final  String? packageValue;
+@override final  String? nonceStr;
+@override final  String? timeStamp;
+@override final  String? paySign;
+@override final  String? signType;
+
+/// Create a copy of HotelWechatPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HotelWechatPaymentDtoCopyWith<_HotelWechatPaymentDto> get copyWith => __$HotelWechatPaymentDtoCopyWithImpl<_HotelWechatPaymentDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$HotelWechatPaymentDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelWechatPaymentDto&&const DeepCollectionEquality().equals(other.code, code)&&const DeepCollectionEquality().equals(other.orderId, orderId)&&(identical(other.mwebUrl, mwebUrl) || other.mwebUrl == mwebUrl)&&(identical(other.appId, appId) || other.appId == appId)&&(identical(other.mchId, mchId) || other.mchId == mchId)&&(identical(other.prepayId, prepayId) || other.prepayId == prepayId)&&(identical(other.packageValue, packageValue) || other.packageValue == packageValue)&&(identical(other.nonceStr, nonceStr) || other.nonceStr == nonceStr)&&(identical(other.timeStamp, timeStamp) || other.timeStamp == timeStamp)&&(identical(other.paySign, paySign) || other.paySign == paySign)&&(identical(other.signType, signType) || other.signType == signType));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(code),const DeepCollectionEquality().hash(orderId),mwebUrl,appId,mchId,prepayId,packageValue,nonceStr,timeStamp,paySign,signType);
+
+@override
+String toString() {
+  return 'HotelWechatPaymentDto(code: $code, orderId: $orderId, mwebUrl: $mwebUrl, appId: $appId, mchId: $mchId, prepayId: $prepayId, packageValue: $packageValue, nonceStr: $nonceStr, timeStamp: $timeStamp, paySign: $paySign, signType: $signType)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$HotelWechatPaymentDtoCopyWith<$Res> implements $HotelWechatPaymentDtoCopyWith<$Res> {
+  factory _$HotelWechatPaymentDtoCopyWith(_HotelWechatPaymentDto value, $Res Function(_HotelWechatPaymentDto) _then) = __$HotelWechatPaymentDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ Object? code, Object? orderId,@JsonKey(name: 'mweb_url') String? mwebUrl, String? appId, String? mchId,@JsonKey(name: 'prepay_id') String? prepayId, String? packageValue, String? nonceStr, String? timeStamp, String? paySign, String? signType
+});
+
+
+
+
+}
+/// @nodoc
+class __$HotelWechatPaymentDtoCopyWithImpl<$Res>
+    implements _$HotelWechatPaymentDtoCopyWith<$Res> {
+  __$HotelWechatPaymentDtoCopyWithImpl(this._self, this._then);
+
+  final _HotelWechatPaymentDto _self;
+  final $Res Function(_HotelWechatPaymentDto) _then;
+
+/// Create a copy of HotelWechatPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? code = freezed,Object? orderId = freezed,Object? mwebUrl = freezed,Object? appId = freezed,Object? mchId = freezed,Object? prepayId = freezed,Object? packageValue = freezed,Object? nonceStr = freezed,Object? timeStamp = freezed,Object? paySign = freezed,Object? signType = freezed,}) {
+  return _then(_HotelWechatPaymentDto(
+code: freezed == code ? _self.code : code ,orderId: freezed == orderId ? _self.orderId : orderId ,mwebUrl: freezed == mwebUrl ? _self.mwebUrl : mwebUrl // ignore: cast_nullable_to_non_nullable
+as String?,appId: freezed == appId ? _self.appId : appId // ignore: cast_nullable_to_non_nullable
+as String?,mchId: freezed == mchId ? _self.mchId : mchId // ignore: cast_nullable_to_non_nullable
+as String?,prepayId: freezed == prepayId ? _self.prepayId : prepayId // ignore: cast_nullable_to_non_nullable
+as String?,packageValue: freezed == packageValue ? _self.packageValue : packageValue // ignore: cast_nullable_to_non_nullable
+as String?,nonceStr: freezed == nonceStr ? _self.nonceStr : nonceStr // ignore: cast_nullable_to_non_nullable
+as String?,timeStamp: freezed == timeStamp ? _self.timeStamp : timeStamp // ignore: cast_nullable_to_non_nullable
+as String?,paySign: freezed == paySign ? _self.paySign : paySign // ignore: cast_nullable_to_non_nullable
+as String?,signType: freezed == signType ? _self.signType : signType // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$HotelAlipayPaymentDto {
+
+ String? get orderInfo; String? get paymentData; String? get normalUrl;
+/// Create a copy of HotelAlipayPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HotelAlipayPaymentDtoCopyWith<HotelAlipayPaymentDto> get copyWith => _$HotelAlipayPaymentDtoCopyWithImpl<HotelAlipayPaymentDto>(this as HotelAlipayPaymentDto, _$identity);
+
+  /// Serializes this HotelAlipayPaymentDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelAlipayPaymentDto&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,orderInfo,paymentData,normalUrl);
+
+@override
+String toString() {
+  return 'HotelAlipayPaymentDto(orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HotelAlipayPaymentDtoCopyWith<$Res>  {
+  factory $HotelAlipayPaymentDtoCopyWith(HotelAlipayPaymentDto value, $Res Function(HotelAlipayPaymentDto) _then) = _$HotelAlipayPaymentDtoCopyWithImpl;
+@useResult
+$Res call({
+ String? orderInfo, String? paymentData, String? normalUrl
+});
+
+
+
+
+}
+/// @nodoc
+class _$HotelAlipayPaymentDtoCopyWithImpl<$Res>
+    implements $HotelAlipayPaymentDtoCopyWith<$Res> {
+  _$HotelAlipayPaymentDtoCopyWithImpl(this._self, this._then);
+
+  final HotelAlipayPaymentDto _self;
+  final $Res Function(HotelAlipayPaymentDto) _then;
+
+/// Create a copy of HotelAlipayPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,}) {
+  return _then(_self.copyWith(
+orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
+as String?,paymentData: freezed == paymentData ? _self.paymentData : paymentData // ignore: cast_nullable_to_non_nullable
+as String?,normalUrl: freezed == normalUrl ? _self.normalUrl : normalUrl // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [HotelAlipayPaymentDto].
+extension HotelAlipayPaymentDtoPatterns on HotelAlipayPaymentDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HotelAlipayPaymentDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _HotelAlipayPaymentDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HotelAlipayPaymentDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _HotelAlipayPaymentDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HotelAlipayPaymentDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _HotelAlipayPaymentDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? orderInfo,  String? paymentData,  String? normalUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _HotelAlipayPaymentDto() when $default != null:
+return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? orderInfo,  String? paymentData,  String? normalUrl)  $default,) {final _that = this;
+switch (_that) {
+case _HotelAlipayPaymentDto():
+return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? orderInfo,  String? paymentData,  String? normalUrl)?  $default,) {final _that = this;
+switch (_that) {
+case _HotelAlipayPaymentDto() when $default != null:
+return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+@JsonSerializable(includeIfNull: false)
+class _HotelAlipayPaymentDto implements HotelAlipayPaymentDto {
+  const _HotelAlipayPaymentDto({this.orderInfo, this.paymentData, this.normalUrl});
+  factory _HotelAlipayPaymentDto.fromJson(Map<String, dynamic> json) => _$HotelAlipayPaymentDtoFromJson(json);
+
+@override final  String? orderInfo;
+@override final  String? paymentData;
+@override final  String? normalUrl;
+
+/// Create a copy of HotelAlipayPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HotelAlipayPaymentDtoCopyWith<_HotelAlipayPaymentDto> get copyWith => __$HotelAlipayPaymentDtoCopyWithImpl<_HotelAlipayPaymentDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$HotelAlipayPaymentDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelAlipayPaymentDto&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,orderInfo,paymentData,normalUrl);
+
+@override
+String toString() {
+  return 'HotelAlipayPaymentDto(orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$HotelAlipayPaymentDtoCopyWith<$Res> implements $HotelAlipayPaymentDtoCopyWith<$Res> {
+  factory _$HotelAlipayPaymentDtoCopyWith(_HotelAlipayPaymentDto value, $Res Function(_HotelAlipayPaymentDto) _then) = __$HotelAlipayPaymentDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ String? orderInfo, String? paymentData, String? normalUrl
+});
+
+
+
+
+}
+/// @nodoc
+class __$HotelAlipayPaymentDtoCopyWithImpl<$Res>
+    implements _$HotelAlipayPaymentDtoCopyWith<$Res> {
+  __$HotelAlipayPaymentDtoCopyWithImpl(this._self, this._then);
+
+  final _HotelAlipayPaymentDto _self;
+  final $Res Function(_HotelAlipayPaymentDto) _then;
+
+/// Create a copy of HotelAlipayPaymentDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,}) {
+  return _then(_HotelAlipayPaymentDto(
+orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
+as String?,paymentData: freezed == paymentData ? _self.paymentData : paymentData // ignore: cast_nullable_to_non_nullable
+as String?,normalUrl: freezed == normalUrl ? _self.normalUrl : normalUrl // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$AliPayResponseAppDto {
+
+ String? get orderInfo; String? get paymentData; String? get normalUrl;
+/// Create a copy of AliPayResponseAppDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AliPayResponseAppDtoCopyWith<AliPayResponseAppDto> get copyWith => _$AliPayResponseAppDtoCopyWithImpl<AliPayResponseAppDto>(this as AliPayResponseAppDto, _$identity);
+
+  /// Serializes this AliPayResponseAppDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AliPayResponseAppDto&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,orderInfo,paymentData,normalUrl);
+
+@override
+String toString() {
+  return 'AliPayResponseAppDto(orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AliPayResponseAppDtoCopyWith<$Res>  {
+  factory $AliPayResponseAppDtoCopyWith(AliPayResponseAppDto value, $Res Function(AliPayResponseAppDto) _then) = _$AliPayResponseAppDtoCopyWithImpl;
+@useResult
+$Res call({
+ String? orderInfo, String? paymentData, String? normalUrl
+});
+
+
+
+
+}
+/// @nodoc
+class _$AliPayResponseAppDtoCopyWithImpl<$Res>
+    implements $AliPayResponseAppDtoCopyWith<$Res> {
+  _$AliPayResponseAppDtoCopyWithImpl(this._self, this._then);
+
+  final AliPayResponseAppDto _self;
+  final $Res Function(AliPayResponseAppDto) _then;
+
+/// Create a copy of AliPayResponseAppDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,}) {
+  return _then(_self.copyWith(
+orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
+as String?,paymentData: freezed == paymentData ? _self.paymentData : paymentData // ignore: cast_nullable_to_non_nullable
+as String?,normalUrl: freezed == normalUrl ? _self.normalUrl : normalUrl // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AliPayResponseAppDto].
+extension AliPayResponseAppDtoPatterns on AliPayResponseAppDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AliPayResponseAppDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AliPayResponseAppDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AliPayResponseAppDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _AliPayResponseAppDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AliPayResponseAppDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AliPayResponseAppDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? orderInfo,  String? paymentData,  String? normalUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AliPayResponseAppDto() when $default != null:
+return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? orderInfo,  String? paymentData,  String? normalUrl)  $default,) {final _that = this;
+switch (_that) {
+case _AliPayResponseAppDto():
+return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? orderInfo,  String? paymentData,  String? normalUrl)?  $default,) {final _that = this;
+switch (_that) {
+case _AliPayResponseAppDto() when $default != null:
+return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+@JsonSerializable(includeIfNull: false)
+class _AliPayResponseAppDto implements AliPayResponseAppDto {
+  const _AliPayResponseAppDto({this.orderInfo, this.paymentData, this.normalUrl});
+  factory _AliPayResponseAppDto.fromJson(Map<String, dynamic> json) => _$AliPayResponseAppDtoFromJson(json);
+
+@override final  String? orderInfo;
+@override final  String? paymentData;
+@override final  String? normalUrl;
+
+/// Create a copy of AliPayResponseAppDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AliPayResponseAppDtoCopyWith<_AliPayResponseAppDto> get copyWith => __$AliPayResponseAppDtoCopyWithImpl<_AliPayResponseAppDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AliPayResponseAppDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AliPayResponseAppDto&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,orderInfo,paymentData,normalUrl);
+
+@override
+String toString() {
+  return 'AliPayResponseAppDto(orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AliPayResponseAppDtoCopyWith<$Res> implements $AliPayResponseAppDtoCopyWith<$Res> {
+  factory _$AliPayResponseAppDtoCopyWith(_AliPayResponseAppDto value, $Res Function(_AliPayResponseAppDto) _then) = __$AliPayResponseAppDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ String? orderInfo, String? paymentData, String? normalUrl
+});
+
+
+
+
+}
+/// @nodoc
+class __$AliPayResponseAppDtoCopyWithImpl<$Res>
+    implements _$AliPayResponseAppDtoCopyWith<$Res> {
+  __$AliPayResponseAppDtoCopyWithImpl(this._self, this._then);
+
+  final _AliPayResponseAppDto _self;
+  final $Res Function(_AliPayResponseAppDto) _then;
+
+/// Create a copy of AliPayResponseAppDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,}) {
+  return _then(_AliPayResponseAppDto(
+orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
+as String?,paymentData: freezed == paymentData ? _self.paymentData : paymentData // ignore: cast_nullable_to_non_nullable
+as String?,normalUrl: freezed == normalUrl ? _self.normalUrl : normalUrl // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -12202,6 +13159,272 @@ as String?,lang: freezed == lang ? _self.lang : lang // ignore: cast_nullable_to
 as String?,isCheck: freezed == isCheck ? _self.isCheck : isCheck // ignore: cast_nullable_to_non_nullable
 as bool?,system: freezed == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$OptimismPaymentRequestDto {
+
+ int get id; bool get success;
+/// Create a copy of OptimismPaymentRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OptimismPaymentRequestDtoCopyWith<OptimismPaymentRequestDto> get copyWith => _$OptimismPaymentRequestDtoCopyWithImpl<OptimismPaymentRequestDto>(this as OptimismPaymentRequestDto, _$identity);
+
+  /// Serializes this OptimismPaymentRequestDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OptimismPaymentRequestDto&&(identical(other.id, id) || other.id == id)&&(identical(other.success, success) || other.success == success));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,success);
+
+@override
+String toString() {
+  return 'OptimismPaymentRequestDto(id: $id, success: $success)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OptimismPaymentRequestDtoCopyWith<$Res>  {
+  factory $OptimismPaymentRequestDtoCopyWith(OptimismPaymentRequestDto value, $Res Function(OptimismPaymentRequestDto) _then) = _$OptimismPaymentRequestDtoCopyWithImpl;
+@useResult
+$Res call({
+ int id, bool success
+});
+
+
+
+
+}
+/// @nodoc
+class _$OptimismPaymentRequestDtoCopyWithImpl<$Res>
+    implements $OptimismPaymentRequestDtoCopyWith<$Res> {
+  _$OptimismPaymentRequestDtoCopyWithImpl(this._self, this._then);
+
+  final OptimismPaymentRequestDto _self;
+  final $Res Function(OptimismPaymentRequestDto) _then;
+
+/// Create a copy of OptimismPaymentRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? success = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OptimismPaymentRequestDto].
+extension OptimismPaymentRequestDtoPatterns on OptimismPaymentRequestDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OptimismPaymentRequestDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OptimismPaymentRequestDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OptimismPaymentRequestDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _OptimismPaymentRequestDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OptimismPaymentRequestDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OptimismPaymentRequestDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  bool success)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OptimismPaymentRequestDto() when $default != null:
+return $default(_that.id,_that.success);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  bool success)  $default,) {final _that = this;
+switch (_that) {
+case _OptimismPaymentRequestDto():
+return $default(_that.id,_that.success);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  bool success)?  $default,) {final _that = this;
+switch (_that) {
+case _OptimismPaymentRequestDto() when $default != null:
+return $default(_that.id,_that.success);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _OptimismPaymentRequestDto implements OptimismPaymentRequestDto {
+  const _OptimismPaymentRequestDto({required this.id, required this.success});
+  factory _OptimismPaymentRequestDto.fromJson(Map<String, dynamic> json) => _$OptimismPaymentRequestDtoFromJson(json);
+
+@override final  int id;
+@override final  bool success;
+
+/// Create a copy of OptimismPaymentRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OptimismPaymentRequestDtoCopyWith<_OptimismPaymentRequestDto> get copyWith => __$OptimismPaymentRequestDtoCopyWithImpl<_OptimismPaymentRequestDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OptimismPaymentRequestDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OptimismPaymentRequestDto&&(identical(other.id, id) || other.id == id)&&(identical(other.success, success) || other.success == success));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,success);
+
+@override
+String toString() {
+  return 'OptimismPaymentRequestDto(id: $id, success: $success)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OptimismPaymentRequestDtoCopyWith<$Res> implements $OptimismPaymentRequestDtoCopyWith<$Res> {
+  factory _$OptimismPaymentRequestDtoCopyWith(_OptimismPaymentRequestDto value, $Res Function(_OptimismPaymentRequestDto) _then) = __$OptimismPaymentRequestDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, bool success
+});
+
+
+
+
+}
+/// @nodoc
+class __$OptimismPaymentRequestDtoCopyWithImpl<$Res>
+    implements _$OptimismPaymentRequestDtoCopyWith<$Res> {
+  __$OptimismPaymentRequestDtoCopyWithImpl(this._self, this._then);
+
+  final _OptimismPaymentRequestDto _self;
+  final $Res Function(_OptimismPaymentRequestDto) _then;
+
+/// Create a copy of OptimismPaymentRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? success = null,}) {
+  return _then(_OptimismPaymentRequestDto(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

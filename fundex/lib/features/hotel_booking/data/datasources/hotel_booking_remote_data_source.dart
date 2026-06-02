@@ -61,6 +61,10 @@ abstract class HotelBookingRemoteDataSource {
     HotelRegisteredCardPaymentRequestDto request,
   );
 
+  Future<HotelPaymentResultDto> payForOrder(Pay4OrderRequestDto request);
+
+  Future<String> syncOptimismPayment(OptimismPaymentRequestDto request);
+
   Future<String> createBooking(HotelBookingCreateRequestDto request);
 
   Future<HotelOrderListDto> fetchOrderList({
@@ -217,6 +221,16 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
     HotelRegisteredCardPaymentRequestDto request,
   ) {
     return _client.payWithRegisteredCard(request);
+  }
+
+  @override
+  Future<HotelPaymentResultDto> payForOrder(Pay4OrderRequestDto request) {
+    return _client.payForOrder(request);
+  }
+
+  @override
+  Future<String> syncOptimismPayment(OptimismPaymentRequestDto request) {
+    return _client.syncOptimismPayment(request);
   }
 
   @override

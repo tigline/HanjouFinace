@@ -458,6 +458,38 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
     );
   }
 
+  @override
+  Future<HotelOrderPaymentResult> payOrder({
+    required String orderId,
+    required String paymentCode,
+    required String languageCode,
+    bool isCheck = false,
+  }) async {
+    final result = await _remote.payForOrder(
+      Pay4OrderRequestDto(
+        bookingOrderId: int.parse(orderId.trim()),
+        paymentCode: paymentCode.trim(),
+        lang: languageCode.trim(),
+        isCheck: isCheck,
+        system: 'app',
+      ),
+    );
+    return _mapOrderPaymentResult(result);
+  }
+
+  @override
+  Future<String> syncOptimismPayment({
+    required String orderId,
+    required bool success,
+  }) {
+    return _remote.syncOptimismPayment(
+      OptimismPaymentRequestDto(
+        id: int.parse(orderId.trim()),
+        success: success,
+      ),
+    );
+  }
+
   HotelCreditCard _mapCreditCard(HotelCreditCardDto dto) {
     return HotelCreditCard(
       id: dto.cardId.trim(),
@@ -467,6 +499,51 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
       isDefault: dto.defaultCard.trim() == '1',
       brandCode: _firstNotEmpty(<String?>[dto.kindCode, dto.acquireCode3]),
     );
+  }
+
+  HotelOrderPaymentResult _mapOrderPaymentResult(HotelPaymentResultDto dto) {
+    return HotelOrderPaymentResult(
+      pay: dto.pay ?? false,
+      message: dto.msg?.trim() ?? '',
+      code: dto.code,
+      wechat: _mapWechatPayment(dto.wechatPay ?? dto.swaggerWechatPay),
+      alipay: _mapAlipayPayment(dto),
+    );
+  }
+
+  HotelWechatPaymentPayload? _mapWechatPayment(HotelWechatPaymentDto? dto) {
+    if (dto == null) {
+      return null;
+    }
+    return HotelWechatPaymentPayload(
+      appId: dto.appId?.trim() ?? '',
+      partnerId: dto.mchId?.trim() ?? '',
+      prepayId: dto.prepayId?.trim() ?? '',
+      packageValue: dto.packageValue?.trim() ?? '',
+      nonceStr: dto.nonceStr?.trim() ?? '',
+      timestamp: _intOrNull(dto.timeStamp),
+      paySign: dto.paySign?.trim() ?? '',
+      signType: dto.signType?.trim() ?? '',
+      mwebUrl: dto.mwebUrl?.trim() ?? '',
+    );
+  }
+
+  HotelAlipayPaymentPayload? _mapAlipayPayment(HotelPaymentResultDto dto) {
+    final orderInfo = _firstNotEmpty(<String?>[
+      dto.aliPay?.orderInfo,
+      dto.aliPay?.paymentData,
+      dto.aliPay?.normalUrl,
+      dto.swaggerAliPay?.orderInfo,
+      dto.swaggerAliPay?.paymentData,
+      dto.swaggerAliPay?.normalUrl,
+      dto.aliPayReponseApp?.orderInfo,
+      dto.aliPayReponseApp?.paymentData,
+      dto.aliPayReponseApp?.normalUrl,
+    ]);
+    if (orderInfo.isEmpty) {
+      return null;
+    }
+    return HotelAlipayPaymentPayload(orderInfo: orderInfo);
   }
 
   HotelBookingCreateRequestDto _mapBookingCreateRequest(

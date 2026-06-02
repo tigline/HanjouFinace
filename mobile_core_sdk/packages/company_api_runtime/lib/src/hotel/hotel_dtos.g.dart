@@ -1171,12 +1171,109 @@ _HotelPaymentResultDto _$HotelPaymentResultDtoFromJson(
   Map<String, dynamic> json,
 ) => _HotelPaymentResultDto(
   pay: json['pay'] as bool?,
-  wechatPay: json['wechatPay'] as Map<String, dynamic>?,
+  msg: json['msg'] as String?,
+  code: (json['code'] as num?)?.toInt(),
+  wechatPay: json['wechatPay'] == null
+      ? null
+      : HotelWechatPaymentDto.fromJson(
+          json['wechatPay'] as Map<String, dynamic>,
+        ),
+  swaggerWechatPay: json['旅馆微信支付后返回结果'] == null
+      ? null
+      : HotelWechatPaymentDto.fromJson(
+          json['旅馆微信支付后返回结果'] as Map<String, dynamic>,
+        ),
+  aliPay: json['aliPay'] == null
+      ? null
+      : HotelAlipayPaymentDto.fromJson(json['aliPay'] as Map<String, dynamic>),
+  swaggerAliPay: json['旅馆支付宝支付后返回结果'] == null
+      ? null
+      : HotelAlipayPaymentDto.fromJson(
+          json['旅馆支付宝支付后返回结果'] as Map<String, dynamic>,
+        ),
+  aliPayReponseApp: json['aliPayReponseApp'] == null
+      ? null
+      : AliPayResponseAppDto.fromJson(
+          json['aliPayReponseApp'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$HotelPaymentResultDtoToJson(
   _HotelPaymentResultDto instance,
-) => <String, dynamic>{'pay': instance.pay, 'wechatPay': instance.wechatPay};
+) => <String, dynamic>{
+  'pay': instance.pay,
+  'msg': instance.msg,
+  'code': instance.code,
+  'wechatPay': instance.wechatPay,
+  '旅馆微信支付后返回结果': instance.swaggerWechatPay,
+  'aliPay': instance.aliPay,
+  '旅馆支付宝支付后返回结果': instance.swaggerAliPay,
+  'aliPayReponseApp': instance.aliPayReponseApp,
+};
+
+_HotelWechatPaymentDto _$HotelWechatPaymentDtoFromJson(
+  Map<String, dynamic> json,
+) => _HotelWechatPaymentDto(
+  code: json['code'],
+  orderId: json['orderId'],
+  mwebUrl: json['mweb_url'] as String?,
+  appId: json['appId'] as String?,
+  mchId: json['mchId'] as String?,
+  prepayId: json['prepay_id'] as String?,
+  packageValue: json['packageValue'] as String?,
+  nonceStr: json['nonceStr'] as String?,
+  timeStamp: json['timeStamp'] as String?,
+  paySign: json['paySign'] as String?,
+  signType: json['signType'] as String?,
+);
+
+Map<String, dynamic> _$HotelWechatPaymentDtoToJson(
+  _HotelWechatPaymentDto instance,
+) => <String, dynamic>{
+  'code': ?instance.code,
+  'orderId': ?instance.orderId,
+  'mweb_url': ?instance.mwebUrl,
+  'appId': ?instance.appId,
+  'mchId': ?instance.mchId,
+  'prepay_id': ?instance.prepayId,
+  'packageValue': ?instance.packageValue,
+  'nonceStr': ?instance.nonceStr,
+  'timeStamp': ?instance.timeStamp,
+  'paySign': ?instance.paySign,
+  'signType': ?instance.signType,
+};
+
+_HotelAlipayPaymentDto _$HotelAlipayPaymentDtoFromJson(
+  Map<String, dynamic> json,
+) => _HotelAlipayPaymentDto(
+  orderInfo: json['orderInfo'] as String?,
+  paymentData: json['paymentData'] as String?,
+  normalUrl: json['normalUrl'] as String?,
+);
+
+Map<String, dynamic> _$HotelAlipayPaymentDtoToJson(
+  _HotelAlipayPaymentDto instance,
+) => <String, dynamic>{
+  'orderInfo': ?instance.orderInfo,
+  'paymentData': ?instance.paymentData,
+  'normalUrl': ?instance.normalUrl,
+};
+
+_AliPayResponseAppDto _$AliPayResponseAppDtoFromJson(
+  Map<String, dynamic> json,
+) => _AliPayResponseAppDto(
+  orderInfo: json['orderInfo'] as String?,
+  paymentData: json['paymentData'] as String?,
+  normalUrl: json['normalUrl'] as String?,
+);
+
+Map<String, dynamic> _$AliPayResponseAppDtoToJson(
+  _AliPayResponseAppDto instance,
+) => <String, dynamic>{
+  'orderInfo': ?instance.orderInfo,
+  'paymentData': ?instance.paymentData,
+  'normalUrl': ?instance.normalUrl,
+};
 
 _Pay4OrderRequestDto _$Pay4OrderRequestDtoFromJson(Map<String, dynamic> json) =>
     _Pay4OrderRequestDto(
@@ -1206,3 +1303,14 @@ Map<String, dynamic> _$Pay4OrderRequestDtoToJson(
   'isCheck': ?instance.isCheck,
   'system': ?instance.system,
 };
+
+_OptimismPaymentRequestDto _$OptimismPaymentRequestDtoFromJson(
+  Map<String, dynamic> json,
+) => _OptimismPaymentRequestDto(
+  id: (json['id'] as num).toInt(),
+  success: json['success'] as bool,
+);
+
+Map<String, dynamic> _$OptimismPaymentRequestDtoToJson(
+  _OptimismPaymentRequestDto instance,
+) => <String, dynamic>{'id': instance.id, 'success': instance.success};

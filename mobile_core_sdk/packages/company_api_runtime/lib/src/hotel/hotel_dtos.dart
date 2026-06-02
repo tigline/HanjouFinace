@@ -964,11 +964,64 @@ abstract class HotelMemberPayInfoDto with _$HotelMemberPayInfoDto {
 abstract class HotelPaymentResultDto with _$HotelPaymentResultDto {
   const factory HotelPaymentResultDto({
     bool? pay,
-    Map<String, dynamic>? wechatPay,
+    String? msg,
+    int? code,
+    HotelWechatPaymentDto? wechatPay,
+    @JsonKey(name: '旅馆微信支付后返回结果') HotelWechatPaymentDto? swaggerWechatPay,
+    HotelAlipayPaymentDto? aliPay,
+    @JsonKey(name: '旅馆支付宝支付后返回结果') HotelAlipayPaymentDto? swaggerAliPay,
+    AliPayResponseAppDto? aliPayReponseApp,
   }) = _HotelPaymentResultDto;
 
   factory HotelPaymentResultDto.fromJson(Map<String, dynamic> json) =>
       _$HotelPaymentResultDtoFromJson(json);
+}
+
+@freezed
+abstract class HotelWechatPaymentDto with _$HotelWechatPaymentDto {
+  @JsonSerializable(includeIfNull: false)
+  const factory HotelWechatPaymentDto({
+    Object? code,
+    Object? orderId,
+    @JsonKey(name: 'mweb_url') String? mwebUrl,
+    String? appId,
+    String? mchId,
+    @JsonKey(name: 'prepay_id') String? prepayId,
+    String? packageValue,
+    String? nonceStr,
+    String? timeStamp,
+    String? paySign,
+    String? signType,
+  }) = _HotelWechatPaymentDto;
+
+  factory HotelWechatPaymentDto.fromJson(Map<String, dynamic> json) =>
+      _$HotelWechatPaymentDtoFromJson(json);
+}
+
+@freezed
+abstract class HotelAlipayPaymentDto with _$HotelAlipayPaymentDto {
+  @JsonSerializable(includeIfNull: false)
+  const factory HotelAlipayPaymentDto({
+    String? orderInfo,
+    String? paymentData,
+    String? normalUrl,
+  }) = _HotelAlipayPaymentDto;
+
+  factory HotelAlipayPaymentDto.fromJson(Map<String, dynamic> json) =>
+      _$HotelAlipayPaymentDtoFromJson(json);
+}
+
+@freezed
+abstract class AliPayResponseAppDto with _$AliPayResponseAppDto {
+  @JsonSerializable(includeIfNull: false)
+  const factory AliPayResponseAppDto({
+    String? orderInfo,
+    String? paymentData,
+    String? normalUrl,
+  }) = _AliPayResponseAppDto;
+
+  factory AliPayResponseAppDto.fromJson(Map<String, dynamic> json) =>
+      _$AliPayResponseAppDtoFromJson(json);
 }
 
 @freezed
@@ -989,4 +1042,15 @@ abstract class Pay4OrderRequestDto with _$Pay4OrderRequestDto {
 
   factory Pay4OrderRequestDto.fromJson(Map<String, dynamic> json) =>
       _$Pay4OrderRequestDtoFromJson(json);
+}
+
+@freezed
+abstract class OptimismPaymentRequestDto with _$OptimismPaymentRequestDto {
+  const factory OptimismPaymentRequestDto({
+    required int id,
+    required bool success,
+  }) = _OptimismPaymentRequestDto;
+
+  factory OptimismPaymentRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$OptimismPaymentRequestDtoFromJson(json);
 }

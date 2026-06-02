@@ -827,5 +827,64 @@ void main() {
       expect(detail.roomTypeCount, hasLength(1));
       expect(detail.roomTypeCount.first['name'], equals('スーペリアツイン'));
     });
+
+    test(
+      'payForOrder and syncOptimismPayment use authenticated endpoints',
+      () async {
+        var call = 0;
+        final client = _buildClient((options) async {
+          call++;
+          if (call == 1) {
+            expect(options.method, equals('POST'));
+            expect(options.path, equals(HotelApiPaths.payForOrder));
+            expect(options.extra['auth_required'], isTrue);
+            expect(
+              options.data,
+              equals(<String, dynamic>{
+                'bookingOrderID': 1290689,
+                'paymentCode': '2',
+                'lang': 'JP',
+                'isCheck': true,
+                'system': 'app',
+              }),
+            );
+            return _jsonOk(
+              '{"code":200,"msg":"success","data":{"pay":false,"msg":"created","code":0,"wechatPay":{"appId":"wx-app","mchId":"mch-1","prepay_id":"prepay-1","packageValue":"Sign=WXPay","nonceStr":"nonce","timeStamp":"1780000000","paySign":"signed","signType":"RSA"},"aliPay":{"orderInfo":"alipay-order-info"}}}',
+            );
+          }
+
+          expect(options.method, equals('POST'));
+          expect(options.path, equals(HotelApiPaths.optimismPayment));
+          expect(options.extra['auth_required'], isTrue);
+          expect(
+            options.data,
+            equals(<String, dynamic>{'id': 1290689, 'success': true}),
+          );
+          return _jsonOk('{"code":200,"msg":"success","data":"ok"}');
+        });
+        final api = HotelApiClient(client);
+
+        final payment = await api.payForOrder(
+          const Pay4OrderRequestDto(
+            bookingOrderId: 1290689,
+            paymentCode: '2',
+            lang: 'JP',
+            isCheck: true,
+            system: 'app',
+          ),
+        );
+        final syncMessage = await api.syncOptimismPayment(
+          const OptimismPaymentRequestDto(id: 1290689, success: true),
+        );
+
+        expect(payment.pay, isFalse);
+        expect(payment.msg, equals('created'));
+        expect(payment.wechatPay?.appId, equals('wx-app'));
+        expect(payment.wechatPay?.prepayId, equals('prepay-1'));
+        expect(payment.aliPay?.orderInfo, equals('alipay-order-info'));
+        expect(syncMessage, equals('ok'));
+        expect(call, equals(2));
+      },
+    );
   });
 }

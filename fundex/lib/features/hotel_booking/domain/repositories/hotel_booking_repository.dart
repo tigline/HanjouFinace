@@ -83,4 +83,16 @@ abstract class HotelBookingRepository {
     required String cardId,
     required String orderId,
   });
+
+  Future<HotelOrderPaymentResult> payOrder({
+    required String orderId,
+    required String paymentCode,
+    required String languageCode,
+    bool isCheck = false,
+  });
+
+  Future<String> syncOptimismPayment({
+    required String orderId,
+    required bool success,
+  });
 }
