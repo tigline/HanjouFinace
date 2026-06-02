@@ -28,6 +28,8 @@ class ProjectDepositBankCardTexts {
     required this.accountHolderAddressLabel,
     required this.transferNotice,
     required this.transferName,
+    this.overseasTransferNotice,
+    this.overseasTransferName,
     required this.transferNameCopyButtonLabel,
   });
 
@@ -49,6 +51,8 @@ class ProjectDepositBankCardTexts {
   final String accountHolderAddressLabel;
   final String transferNotice;
   final String transferName;
+  final String? overseasTransferNotice;
+  final String? overseasTransferName;
   final String transferNameCopyButtonLabel;
 }
 
@@ -123,6 +127,12 @@ class _ProjectDepositBankCardState extends State<ProjectDepositBankCard> {
         ? _buildOverseasRows(widget.notLiveJapanBank)
         : _buildDomesticRows(widget.liveJapanBank);
     final fullCopyText = _formatCopyRows(rows);
+    final transferNotice = showOverseas
+        ? widget.texts.overseasTransferNotice ?? widget.texts.transferNotice
+        : widget.texts.transferNotice;
+    final transferName = showOverseas
+        ? widget.texts.overseasTransferName ?? widget.texts.transferName
+        : widget.texts.transferName;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -199,8 +209,8 @@ class _ProjectDepositBankCardState extends State<ProjectDepositBankCard> {
               ),
             const SizedBox(height: 12),
             WalletDepositTransferNotice(
-              message: widget.texts.transferNotice,
-              transferName: widget.texts.transferName,
+              message: transferNotice,
+              transferName: transferName,
               copyButtonLabel: widget.texts.transferNameCopyButtonLabel,
               copyDoneMessage: widget.texts.copyDoneMessage,
             ),
@@ -370,7 +380,9 @@ class _SegmentButton extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: textStyle.copyWith(
-                color: selected ? colors.onDark : colors.textSecondary.withValues(alpha: 0.6),
+                color: selected
+                    ? colors.onDark
+                    : colors.textSecondary.withValues(alpha: 0.6),
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -396,25 +408,24 @@ class _DomesticDepositRows extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     return Column(
-        children: <Widget>[
-          ...List<Widget>.generate(rows.length, (int index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: Column(
-                children: <Widget>[
-                  _DepositBankInfoRow(
-                    row: rows[index],
-                    copyLabel: copyLabel,
-                    onCopy: onCopy,
-                  ),
-                  if (index < rows.length - 1)
-                    Divider(height: 1, thickness: 1, color: colors.border),
-                ],
-              ),
-            );
-          }),
-        ],
-      
+      children: <Widget>[
+        ...List<Widget>.generate(rows.length, (int index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: Column(
+              children: <Widget>[
+                _DepositBankInfoRow(
+                  row: rows[index],
+                  copyLabel: copyLabel,
+                  onCopy: onCopy,
+                ),
+                if (index < rows.length - 1)
+                  Divider(height: 1, thickness: 1, color: colors.border),
+              ],
+            ),
+          );
+        }),
+      ],
     );
   }
 }

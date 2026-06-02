@@ -287,7 +287,7 @@ Color resolveMyPageActiveFundStatusBackgroundColor(
     4 => Color.lerp(colors.surface, colors.successSubtle, 0.5)!,
     5 => colors.brandPrimary.withValues(alpha: 0.12),
     1 => colors.highlightGold.withValues(alpha: 0.22),
-    _ => colors.surfaceAlt,
+    _ => colors.highlightGold.withValues(alpha: 0.10),
   };
 }
 
@@ -738,21 +738,20 @@ String formatCurrency(num? amount, NumberFormat formatter) {
   return formatter.format(amount);
 }
 
-String resolveActiveFundInvestmentAmountUnitsLabel(AppLocalizations l10n) {
+String resolveActiveFundInvestmentUnitsLabel(AppLocalizations l10n) {
   final unitsLabel = l10n.localeName.toLowerCase().contains('hant')
       ? '口數'
       : l10n.localeName.toLowerCase().startsWith('en')
       ? 'Units'
       : '口数';
-  return '${l10n.myPageInvestmentAmountLabel}/$unitsLabel';
+  return unitsLabel;
 }
 
-String formatActiveFundInvestmentAmountUnitsValue(
+String formatActiveFundInvestmentUnitsValue(
   MyPageInvestmentGroup group,
-  NumberFormat formatter,
   AppLocalizations l10n,
 ) {
-  return '${formatCurrency(group.investMoney, formatter)} / ${group.investNum}${l10n.myPageResaleUnitsSuffix}';
+  return '${group.investNum}${l10n.myPageResaleUnitsSuffix}';
 }
 
 String formatApplyUnitsAmountLabel(

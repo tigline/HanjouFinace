@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
 
+import 'accessibility/app_text_scale_providers.dart';
 import 'config/environment_provider.dart';
 import 'firebase/push_token_sync_providers.dart';
 import 'localization/app_locale_providers.dart';
@@ -70,6 +71,7 @@ class MemberTemplateApp extends ConsumerWidget {
     final immersiveHotelStatusBarHint = ref.watch(
       appImmersiveHotelStatusBarHintProvider,
     );
+    final textScaleFactor = ref.watch(appTextScaleFactorProvider);
 
     ref.listen<AppUiMessage?>(appUiMessageProvider, (previous, next) {
       if (next == null) {
@@ -150,9 +152,24 @@ class MemberTemplateApp extends ConsumerWidget {
       scaffoldMessengerKey: _rootScaffoldMessengerKey,
       routerConfig: router,
       builder: (BuildContext context, Widget? child) {
+        final mediaQuery = MediaQuery.of(context);
+        final fixedTextScaleMediaQuery = mediaQuery.copyWith(
+          textScaler: TextScaler.linear(textScaleFactor),
+        );
+        final brightness = Theme.of(context).brightness;
+        final statusBarColor = brightness == Brightness.dark
+            ? AppColorTokens.statusBarBackgroundDark
+            : AppColorTokens.statusBarBackgroundLight;
+        final statusBarOverlayStyle = AppThemeFactory.statusBarOverlayStyleFor(
+          brightness,
+        ).copyWith(statusBarColor: statusBarColor);
+        SystemChrome.setSystemUIOverlayStyle(statusBarOverlayStyle);
         final appChild = AppLifecycleRefreshScope(
-          child: _GlobalKeyboardDismissLayer(
-            child: child ?? const SizedBox.shrink(),
+          child: MediaQuery(
+            data: fixedTextScaleMediaQuery,
+            child: _GlobalKeyboardDismissLayer(
+              child: child ?? const SizedBox.shrink(),
+            ),
           ),
         );
         return _AppStatusBarFrame(

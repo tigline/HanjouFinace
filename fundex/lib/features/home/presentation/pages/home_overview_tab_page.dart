@@ -145,7 +145,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
         //   (FundProject project) =>
         //       _featuredProjectStatuses.contains(project.projectStatus),
         // )
-        .take(6)
+        .take(4)
         .toList(growable: false);
     final featuredFundCards = featuredProjects
         .map(
@@ -308,7 +308,6 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                             title: l10n.homeFeaturedFundsTitle,
                             actionLabel: l10n.homeViewAllAction,
                             onActionTap: () => context.go('/funds'),
-                            height: 350,
                             children: featuredFundCards,
                           ),
                         if (showGuide)

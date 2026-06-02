@@ -2475,6 +2475,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get menuItemLanguage => '言語';
 
   @override
+  String get settingsFontSizeTitle => '文字サイズ';
+
+  @override
+  String get settingsFontSizeNormal => '標準';
+
+  @override
+  String get settingsFontSizeLarge => '大';
+
+  @override
   String get menuThemeSystem => 'システム設定に従う';
 
   @override

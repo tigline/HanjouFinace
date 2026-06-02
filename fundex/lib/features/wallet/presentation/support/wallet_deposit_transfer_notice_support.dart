@@ -1,9 +1,21 @@
 import '../../../auth/domain/entities/auth_user.dart';
 
-String formatWalletDepositTransferNoticeAccountId(AuthUser? user) {
+String formatWalletDepositTransferNoticeAccountId(
+  AuthUser? user, {
+  bool preferEnglishName = false,
+}) {
   final accountId = _normalizeTransferNoticePart(user?.accountId);
   if (accountId.isEmpty) {
     return '';
+  }
+
+  final romanName = _joinTransferNoticeParts(<String?>[
+    user?.lastNameEn,
+    user?.firstNameEn,
+  ]);
+
+  if (preferEnglishName) {
+    return romanName.isEmpty ? accountId : '$accountId $romanName';
   }
 
   final katakana = _normalizeTransferNoticePart(user?.katakana);
@@ -11,10 +23,6 @@ String formatWalletDepositTransferNoticeAccountId(AuthUser? user) {
     return '$accountId $katakana';
   }
 
-  final romanName = _joinTransferNoticeParts(<String?>[
-    user?.lastNameEn,
-    user?.firstNameEn,
-  ]);
   if (romanName.isNotEmpty) {
     return '$accountId $romanName';
   }

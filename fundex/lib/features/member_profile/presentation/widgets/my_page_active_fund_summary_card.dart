@@ -10,6 +10,8 @@ class MyPageActiveFundSummaryCardData {
     required this.returnText,
     required this.investmentAmountLabel,
     required this.investmentAmountValue,
+    this.investmentUnitsLabel,
+    this.investmentUnitsValue,
     required this.accumulatedEarningsLabel,
     required this.accumulatedEarningsValue,
     required this.statusLabel,
@@ -27,6 +29,8 @@ class MyPageActiveFundSummaryCardData {
   final String returnText;
   final String investmentAmountLabel;
   final String investmentAmountValue;
+  final String? investmentUnitsLabel;
+  final String? investmentUnitsValue;
   final String accumulatedEarningsLabel;
   final String accumulatedEarningsValue;
   final String statusLabel;
@@ -77,72 +81,80 @@ class MyPageActiveFundSummaryCard extends StatelessWidget {
           child: InkWell(
             borderRadius: cardRadius,
             onTap: data.onTap,
-            child: SizedBox(
-              height: 192,
-              child: Padding(
-                padding: const EdgeInsets.all(18),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 72,
-                      child: Column(
-                        children: <Widget>[
-                          _ActiveFundThumbnail(imageUrls: data.imageUrls),
-                          const SizedBox(height: 12),
-                          _ActiveFundStatusBadge(
-                            label: data.statusLabel,
-                            backgroundColor: data.statusBackgroundColor,
-                            foregroundColor: data.statusForegroundColor,
-                          ),
-                        ],
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      data.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: appText.cardTitle.copyWith(
+                        color: colors.textPrimary,
+                        fontSize: 13,
+                        height: 1.3,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            data.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: appText.cardTitle.copyWith(
-                              color: colors.textPrimary,
-                              fontSize: 13,
-                              height: 1.3,
-                              fontWeight: FontWeight.w700,
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 72,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            _ActiveFundThumbnail(imageUrls: data.imageUrls),
+                            const SizedBox(height: 12),
+                            _ActiveFundStatusBadge(
+                              label: data.statusLabel,
+                              backgroundColor: data.statusBackgroundColor,
+                              foregroundColor: data.statusForegroundColor,
                             ),
-                          ),
-                          const SizedBox(height: 6),
-                          const Spacer(),
-                          _ActiveFundMiddlePanel(
-                            investorCode: data.investorCode,
-                            returnText: data.returnText,
-                            investmentAmountLabel: data.investmentAmountLabel,
-                            investmentAmountValue: data.investmentAmountValue,
-                            accumulatedEarningsLabel:
-                                data.accumulatedEarningsLabel,
-                            accumulatedEarningsValue:
-                                data.accumulatedEarningsValue,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            data.periodText,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: appText.cardTitle.copyWith(
-                              color: colors.textSecondary,
-                              fontSize: 12,
-                              height: 1.35,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _ActiveFundMiddlePanel(
+                              investorCode: data.investorCode,
+                              returnText: data.returnText,
+                              investmentAmountLabel: data.investmentAmountLabel,
+                              investmentAmountValue: data.investmentAmountValue,
+                              investmentUnitsLabel: data.investmentUnitsLabel,
+                              investmentUnitsValue: data.investmentUnitsValue,
+                              accumulatedEarningsLabel:
+                                  data.accumulatedEarningsLabel,
+                              accumulatedEarningsValue:
+                                  data.accumulatedEarningsValue,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              data.periodText,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: appText.cardTitle.copyWith(
+                                color: colors.textSecondary,
+                                fontSize: 12,
+                                height: 1.35,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -158,6 +170,8 @@ class _ActiveFundMiddlePanel extends StatelessWidget {
     required this.returnText,
     required this.investmentAmountLabel,
     required this.investmentAmountValue,
+    this.investmentUnitsLabel,
+    this.investmentUnitsValue,
     required this.accumulatedEarningsLabel,
     required this.accumulatedEarningsValue,
   });
@@ -166,6 +180,8 @@ class _ActiveFundMiddlePanel extends StatelessWidget {
   final String returnText;
   final String investmentAmountLabel;
   final String investmentAmountValue;
+  final String? investmentUnitsLabel;
+  final String? investmentUnitsValue;
   final String accumulatedEarningsLabel;
   final String accumulatedEarningsValue;
 
@@ -187,56 +203,30 @@ class _ActiveFundMiddlePanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 6,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                  investmentAmountLabel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: appText.micro.copyWith(
-                    color: colors.textSecondary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              Text(
-                  investmentAmountValue,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.right,
-                  style: appText.caption.copyWith(
-                    color: colors.highlightGold,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              
-            ],
+          _ActiveFundMetricRow(
+            label: investmentAmountLabel,
+            value: investmentAmountValue,
+            valueStyle: appText.caption.copyWith(
+              color: colors.highlightGold,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                  investorCode,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: appText.micro.copyWith(
-                    color: colors.textSecondary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              Text(
-                  returnText,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.right,
-                  style: appText.micro.copyWith(
-                    color: colors.highlightGold,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              
-            ],
+          if (investmentUnitsLabel != null && investmentUnitsValue != null)
+            _ActiveFundMetricRow(
+              label: investmentUnitsLabel!,
+              value: investmentUnitsValue!,
+              valueStyle: appText.caption.copyWith(
+                color: colors.highlightGold,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          _ActiveFundMetricRow(
+            label: investorCode,
+            value: returnText,
+            valueStyle: appText.micro.copyWith(
+              color: colors.highlightGold,
+              fontWeight: FontWeight.w800,
+            ),
           ),
 
           _AccumulatedEarningsPill(
@@ -245,6 +235,50 @@ class _ActiveFundMiddlePanel extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ActiveFundMetricRow extends StatelessWidget {
+  const _ActiveFundMetricRow({
+    required this.label,
+    required this.value,
+    required this.valueStyle,
+  });
+
+  final String label;
+  final String value;
+  final TextStyle valueStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final appText = Theme.of(context).appTextTheme;
+    final colors = Theme.of(context).appColors;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: appText.micro.copyWith(
+              color: colors.textSecondary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        
+        //const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.right,
+            style: valueStyle,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -363,7 +397,7 @@ class _ActiveFundStatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final appText = Theme.of(context).appTextTheme;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(999),

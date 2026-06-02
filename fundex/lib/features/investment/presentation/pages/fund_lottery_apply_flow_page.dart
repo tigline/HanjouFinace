@@ -794,6 +794,11 @@ class _FundLotteryApplyFlowPageState
             formatWalletDepositTransferNoticeAccountId(
               ref.watch(currentAuthUserProvider).valueOrNull,
             );
+        final overseasTransferNoticeAccountId =
+            formatWalletDepositTransferNoticeAccountId(
+              ref.watch(currentAuthUserProvider).valueOrNull,
+              preferEnglishName: true,
+            );
 
         return PopScope<void>(
           canPop: _currentStep.isFirst,
@@ -1026,6 +1031,8 @@ class _FundLotteryApplyFlowPageState
                             depositBankTexts: _buildProjectDepositBankCardTexts(
                               context,
                               transferNoticeAccountId: transferNoticeAccountId,
+                              overseasTransferNoticeAccountId:
+                                  overseasTransferNoticeAccountId,
                             ),
                             jumpDepositButtonLabel:
                                 l10n.lotteryApplyStep1DepositAction,
@@ -1118,6 +1125,7 @@ class _FlowLoadingScaffold extends StatelessWidget {
 ProjectDepositBankCardTexts _buildProjectDepositBankCardTexts(
   BuildContext context, {
   required String transferNoticeAccountId,
+  required String overseasTransferNoticeAccountId,
 }) {
   final l10n = context.l10n;
   return ProjectDepositBankCardTexts(
@@ -1140,6 +1148,10 @@ ProjectDepositBankCardTexts _buildProjectDepositBankCardTexts(
         l10n.walletProjectDepositAccountHolderAddressLabel,
     transferNotice: l10n.walletDepositTransferNotice(transferNoticeAccountId),
     transferName: transferNoticeAccountId,
+    overseasTransferNotice: l10n.walletDepositTransferNotice(
+      overseasTransferNoticeAccountId,
+    ),
+    overseasTransferName: overseasTransferNoticeAccountId,
     transferNameCopyButtonLabel: l10n.walletDepositTransferNameCopyAction,
   );
 }

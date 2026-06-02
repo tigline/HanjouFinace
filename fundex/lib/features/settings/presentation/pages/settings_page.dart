@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/config/environment_provider.dart';
+import '../../../../app/accessibility/app_text_scale_providers.dart';
 import '../../../../app/localization/app_locale_providers.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/network/app_network_providers.dart';
@@ -22,6 +23,7 @@ class SettingsPage extends ConsumerStatefulWidget {
 
 class _SettingsPageState extends ConsumerState<SettingsPage> {
   bool _showLanguageOptions = false;
+  bool _showTextScaleOptions = false;
   bool _isLoggingOut = false;
   bool _isRunningTokenRefreshProbe = false;
 
@@ -42,6 +44,18 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     }
     setState(() {
       _showLanguageOptions = false;
+    });
+  }
+
+  Future<void> _switchTextScale(AppTextScalePreference preference) async {
+    await ref
+        .read(appTextScalePreferenceProvider.notifier)
+        .setPreference(preference);
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _showTextScaleOptions = false;
     });
   }
 
@@ -258,6 +272,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     return language.nativeLabel;
   }
 
+  String _textScaleLabel(AppTextScalePreference preference) {
+    return switch (preference) {
+      AppTextScalePreference.normal => context.l10n.settingsFontSizeNormal,
+      AppTextScalePreference.large => context.l10n.settingsFontSizeLarge,
+    };
+  }
+
   String _buildFooterText({
     required String fallback,
     required String appName,
@@ -296,6 +317,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     final appText = theme.appTextTheme;
     final environment = ref.watch(appEnvironmentProvider);
     final currentLanguage = ref.watch(appLanguageProvider);
+    final currentTextScale = ref.watch(appTextScalePreferenceProvider);
     final isAuthenticated =
         ref.watch(isAuthenticatedProvider).asData?.value ?? false;
     final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
@@ -476,6 +498,46 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                               selected: currentLanguage == language,
                               isLast: language == AppLanguage.values.last,
                               onTap: () => _switchLanguage(language),
+                            ),
+                          )
+                          .toList(growable: false),
+                    ),
+                  ),
+                ),
+              AppMenuItem(
+                icon: Icons.format_size_rounded,
+                label: l10n.settingsFontSizeTitle,
+                iconBackgroundColor: colors.primarySubtle,
+                iconForegroundColor: colors.primary,
+                trailing: Text(
+                  _textScaleLabel(currentTextScale),
+                  style: appText.cellValue,
+                ),
+                onTap: () {
+                  setState(() {
+                    _showTextScaleOptions = !_showTextScaleOptions;
+                  });
+                },
+              ),
+              if (_showTextScaleOptions)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 0, 4, 6),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: colors.surface,
+                      borderRadius: BorderRadius.circular(UiTokens.radius16),
+                      border: Border.all(color: colors.border),
+                    ),
+                    child: Column(
+                      children: AppTextScalePreference.values
+                          .map(
+                            (preference) => _SettingsOptionTile(
+                              label: _textScaleLabel(preference),
+                              selected: currentTextScale == preference,
+                              isLast:
+                                  preference ==
+                                  AppTextScalePreference.values.last,
+                              onTap: () => _switchTextScale(preference),
                             ),
                           )
                           .toList(growable: false),

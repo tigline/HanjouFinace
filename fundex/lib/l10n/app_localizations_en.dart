@@ -2579,6 +2579,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menuItemLanguage => 'Language';
 
   @override
+  String get settingsFontSizeTitle => 'Font size';
+
+  @override
+  String get settingsFontSizeNormal => 'Normal';
+
+  @override
+  String get settingsFontSizeLarge => 'Large';
+
+  @override
   String get menuThemeSystem => 'Follow system';
 
   @override

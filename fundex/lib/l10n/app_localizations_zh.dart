@@ -2452,6 +2452,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get menuItemLanguage => '语言';
 
   @override
+  String get settingsFontSizeTitle => '字体大小';
+
+  @override
+  String get settingsFontSizeNormal => '普通';
+
+  @override
+  String get settingsFontSizeLarge => '大';
+
+  @override
   String get menuThemeSystem => '跟随系统';
 
   @override
@@ -7764,6 +7773,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get menuItemLanguage => '語言';
+
+  @override
+  String get settingsFontSizeTitle => '字體大小';
+
+  @override
+  String get settingsFontSizeNormal => '普通';
+
+  @override
+  String get settingsFontSizeLarge => '大';
 
   @override
   String get menuThemeSystem => '跟隨系統';
