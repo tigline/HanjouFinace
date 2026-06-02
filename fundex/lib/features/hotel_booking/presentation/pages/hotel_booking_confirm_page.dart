@@ -58,6 +58,7 @@ class _HotelBookingConfirmPageState
   int _quoteRevision = 0;
   HotelCoupon? _selectedCoupon;
   num? _quotedAmountOverride;
+  num? _quotedOriginalAmountOverride;
   List<HotelBookingRoomPriceElement> _roomPriceElements =
       const <HotelBookingRoomPriceElement>[];
 
@@ -129,6 +130,8 @@ class _HotelBookingConfirmPageState
         _quotedAmountOverride ??
         preparation?.quotedPrice ??
         widget.seed.fallbackAmount;
+    final originalAmount =
+        _quotedOriginalAmountOverride ?? preparation?.originalPrice;
     final amountText = presenter.price(amount);
 
     return HotelStatusBarPreferenceScope(
@@ -159,7 +162,7 @@ class _HotelBookingConfirmPageState
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 132),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(<Widget>[
-                      if (preparationState.isLoading || _isQuoting)
+                      if (preparationState.isLoading)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: LinearProgressIndicator(
@@ -180,8 +183,8 @@ class _HotelBookingConfirmPageState
                         seed: widget.seed,
                         presenter: presenter,
                         amount: amount,
-                        couponsAvailableCount:
-                            preparation?.couponsAvailableCount ?? 0,
+                        originalAmount: originalAmount,
+                        selectedCoupon: _selectedCoupon,
                         onEdit: () => Navigator.of(context).maybePop(),
                       ),
                       const SizedBox(height: 14),
@@ -281,6 +284,19 @@ class _HotelBookingConfirmPageState
                 ),
               ],
             ),
+            if (_isQuoting)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: IgnorePointer(
+                  child: LinearProgressIndicator(
+                    minHeight: 2,
+                    color: colors.brandSecondary,
+                    backgroundColor: colors.borderSoft.withValues(alpha: 0),
+                  ),
+                ),
+              ),
             Align(
               alignment: Alignment.bottomCenter,
               child: HotelBookingConfirmBottomBar(
@@ -354,6 +370,7 @@ class _HotelBookingConfirmPageState
       }
       setState(() {
         _quotedAmountOverride = quote.quotedPrice ?? widget.seed.fallbackAmount;
+        _quotedOriginalAmountOverride = quote.originalPrice;
         _roomPriceElements = quote.roomPriceElements;
         _isQuoting = false;
       });
@@ -398,6 +415,7 @@ class _HotelBookingConfirmPageState
             quote.quotedPrice ??
             preparation.quotedPrice ??
             widget.seed.fallbackAmount;
+        _quotedOriginalAmountOverride = quote.originalPrice;
         _roomPriceElements = quote.roomPriceElements;
       });
     } catch (_) {
