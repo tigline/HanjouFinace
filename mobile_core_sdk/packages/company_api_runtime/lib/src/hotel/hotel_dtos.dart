@@ -1015,13 +1015,25 @@ abstract class HotelAlipayPaymentDto with _$HotelAlipayPaymentDto {
 abstract class AliPayResponseAppDto with _$AliPayResponseAppDto {
   @JsonSerializable(includeIfNull: false)
   const factory AliPayResponseAppDto({
+    String? transSerial,
     String? orderInfo,
     String? paymentData,
     String? normalUrl,
+    String? payUrl,
   }) = _AliPayResponseAppDto;
 
   factory AliPayResponseAppDto.fromJson(Map<String, dynamic> json) =>
       _$AliPayResponseAppDtoFromJson(json);
+}
+
+@freezed
+abstract class AliAppPayRequestDto with _$AliAppPayRequestDto {
+  @JsonSerializable(includeIfNull: false)
+  const factory AliAppPayRequestDto({required int id, required String system}) =
+      _AliAppPayRequestDto;
+
+  factory AliAppPayRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$AliAppPayRequestDtoFromJson(json);
 }
 
 @freezed
@@ -1030,6 +1042,7 @@ abstract class Pay4OrderRequestDto with _$Pay4OrderRequestDto {
   const factory Pay4OrderRequestDto({
     @JsonKey(name: 'bookingOrderID') required int bookingOrderId,
     required String paymentCode,
+    num? totalAmount,
     String? cardNumber,
     String? cardExpire,
     String? securityCode,

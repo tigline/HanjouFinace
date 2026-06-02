@@ -20,6 +20,7 @@ class HotelApiPaths {
   static const String pmsSite = '/pms/site';
   static const String paymentType = '/pms/paymenttype';
   static const String payForOrder = '/pms/pay4order';
+  static const String aliAppPay = '/ali/app/pay';
   static const String optimismPayment = '/pms/optimismPayment';
   static const String orderList = '/pms/order/list';
   static const String orderDetail = '/pms/order/detail';
@@ -64,6 +65,7 @@ class HotelApiClient {
     this.hotelDetailPath = HotelApiPaths.hotelDetail,
     this.bookingOrderSaveV2Path = HotelApiPaths.bookingOrderSaveV2,
     this.payForOrderPath = HotelApiPaths.payForOrder,
+    this.aliAppPayPath = HotelApiPaths.aliAppPay,
     this.optimismPaymentPath = HotelApiPaths.optimismPayment,
     this.orderListPath = HotelApiPaths.orderList,
     this.orderDetailPath = HotelApiPaths.orderDetail,
@@ -104,6 +106,7 @@ class HotelApiClient {
   final String hotelDetailPath;
   final String bookingOrderSaveV2Path;
   final String payForOrderPath;
+  final String aliAppPayPath;
   final String optimismPaymentPath;
   final String orderListPath;
   final String orderDetailPath;
@@ -658,6 +661,22 @@ class HotelApiClient {
       fallbackMessage: 'Failed to pay hotel order.',
     );
     return HotelPaymentResultDto.fromJson(data);
+  }
+
+  Future<AliPayResponseAppDto> createAliAppPayment(
+    AliAppPayRequestDto request,
+  ) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      aliAppPayPath,
+      data: request.toJson(),
+      options: authRequired(true),
+    );
+
+    final data = _envelopeCodec.extractDataMap(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to create Alipay order.',
+    );
+    return AliPayResponseAppDto.fromJson(data);
   }
 
   Future<String> syncOptimismPayment(OptimismPaymentRequestDto request) async {

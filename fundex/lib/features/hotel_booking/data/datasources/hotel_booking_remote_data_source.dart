@@ -63,6 +63,8 @@ abstract class HotelBookingRemoteDataSource {
 
   Future<HotelPaymentResultDto> payForOrder(Pay4OrderRequestDto request);
 
+  Future<AliPayResponseAppDto> createAliAppPayment(AliAppPayRequestDto request);
+
   Future<String> syncOptimismPayment(OptimismPaymentRequestDto request);
 
   Future<String> createBooking(HotelBookingCreateRequestDto request);
@@ -226,6 +228,13 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
   @override
   Future<HotelPaymentResultDto> payForOrder(Pay4OrderRequestDto request) {
     return _client.payForOrder(request);
+  }
+
+  @override
+  Future<AliPayResponseAppDto> createAliAppPayment(
+    AliAppPayRequestDto request,
+  ) {
+    return _client.createAliAppPayment(request);
   }
 
   @override

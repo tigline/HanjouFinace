@@ -1546,6 +1546,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelPaymentCreditCardSuccess => '支付成功，请查看订单。';
 
   @override
+  String get hotelPaymentNativeConfigMissing => '支付 App 配置缺失。';
+
+  @override
+  String get hotelPaymentWechatNotInstalled => '未安装微信。';
+
+  @override
+  String get hotelPaymentAlipayNotInstalled => '未安装支付宝。';
+
+  @override
+  String get hotelPaymentNativePayloadMissing => '无法发起支付，请稍后再试。';
+
+  @override
+  String get hotelPaymentNativeFailed => '支付失败，请稍后再试。';
+
+  @override
+  String get hotelPaymentNativeCancelled => '支付已取消。';
+
+  @override
+  String get hotelPaymentNativeSuccess => '支付成功，请查看订单。';
+
+  @override
   String get hotelPaymentAddCreditCardAndPay => '添加信用卡并支付';
 
   @override
@@ -6865,6 +6886,27 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelPaymentCreditCardSuccess => '支付成功，請查看訂單。';
+
+  @override
+  String get hotelPaymentNativeConfigMissing => '支付 App 配置缺失。';
+
+  @override
+  String get hotelPaymentWechatNotInstalled => '未安裝微信。';
+
+  @override
+  String get hotelPaymentAlipayNotInstalled => '未安裝支付寶。';
+
+  @override
+  String get hotelPaymentNativePayloadMissing => '無法發起支付，請稍後再試。';
+
+  @override
+  String get hotelPaymentNativeFailed => '支付失敗，請稍後再試。';
+
+  @override
+  String get hotelPaymentNativeCancelled => '支付已取消。';
+
+  @override
+  String get hotelPaymentNativeSuccess => '支付成功，請查看訂單。';
 
   @override
   String get hotelPaymentAddCreditCardAndPay => '新增信用卡並支付';

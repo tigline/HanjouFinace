@@ -4,6 +4,8 @@ PODS:
     - AlicloudELS (~> 1.0.3)
     - AlicloudUTDID (~> 1.0)
   - AlicloudUTDID (1.6.1)
+  - alipay_payment (1.1.2):
+    - Flutter
   - aliyun_push_flutter (0.0.1):
     - AlicloudPush (< 4.0, >= 3.2.3)
     - Flutter
@@ -108,6 +110,12 @@ PODS:
     - OrderedSet (~> 6.0.3)
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - fluwx (0.0.1):
+    - Flutter
+    - fluwx/pay (= 0.0.1)
+  - fluwx/pay (0.0.1):
+    - Flutter
+    - WechatOpenSDK-XCFramework (~> 2.0.5)
   - geolocator_apple (1.2.0):
     - Flutter
     - FlutterMacOS
@@ -237,8 +245,10 @@ PODS:
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
     - FlutterMacOS
+  - WechatOpenSDK-XCFramework (2.0.5)
 
 DEPENDENCIES:
+  - alipay_payment (from `.symlinks/plugins/alipay_payment/ios`)
   - aliyun_push_flutter (from `.symlinks/plugins/aliyun_push_flutter/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -250,6 +260,7 @@ DEPENDENCIES:
   - flutter_image_compress_common (from `.symlinks/plugins/flutter_image_compress_common/ios`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - fluwx (from `.symlinks/plugins/fluwx/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -278,6 +289,7 @@ SPEC REPOS:
     - OrderedSet
     - SDWebImage
     - SDWebImageWebPCoder
+    - WechatOpenSDK-XCFramework
   trunk:
     - Firebase
     - FirebaseAnalytics
@@ -298,6 +310,8 @@ SPEC REPOS:
     - PromisesSwift
 
 EXTERNAL SOURCES:
+  alipay_payment:
+    :path: ".symlinks/plugins/alipay_payment/ios"
   aliyun_push_flutter:
     :path: ".symlinks/plugins/aliyun_push_flutter/ios"
   connectivity_plus:
@@ -320,6 +334,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  fluwx:
+    :path: ".symlinks/plugins/fluwx/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/darwin"
   google_maps_flutter_ios:
@@ -353,6 +369,7 @@ SPEC CHECKSUMS:
   AlicloudELS: fbf821383330465a5af84a033f36f263ae46ca41
   AlicloudPush: 52cbf38ffc20c07f039cbc72d5738745fd986215
   AlicloudUTDID: 5d2f22d50e11eecd38f30bc7a48c71925ea90976
+  alipay_payment: 1c4b4d7afe888bacd22754aec2d69925048da616
   aliyun_push_flutter: ab0bf7112ef3797f506770a7a9f47f004635a9f6
   connectivity_plus: 2a701ffec2c0ae28a48cf7540e279787e77c447d
   Firebase: 065f2bb395062046623036d8e6dc857bc2521d56
@@ -374,6 +391,7 @@ SPEC CHECKSUMS:
   flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
   flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
+  fluwx: 95a2274c23418c1098940bd00dcfe7c975bb0550
   geolocator_apple: 66b711889fd333205763b83c9dcf0a57a28c7afd
   Google-Maps-iOS-Utils: 0a484b05ed21d88c9f9ebbacb007956edd508a96
   google_maps_flutter_ios: 5f2ee3f5cc4fc2398574367f893e3f97bbbcea39
@@ -402,7 +420,8 @@ SPEC CHECKSUMS:
   url_launcher_ios: bb13df5870e8c4234ca12609d04010a21be43dfa
   video_player_avfoundation: 7993f492ae0bd77edaea24d9dc051d8bb2cd7c86
   webview_flutter_wkwebview: 29eb20d43355b48fe7d07113835b9128f84e3af4
+  WechatOpenSDK-XCFramework: ff342ae616bb86df3d236aca38059dfd4bc4a949
 
-PODFILE CHECKSUM: a5691678df9009517d5eea80ebf7ae5d26490aac
+PODFILE CHECKSUM: afacde88806c3ea2a292c5e7574686c65b62d32c
 
 COCOAPODS: 1.16.2

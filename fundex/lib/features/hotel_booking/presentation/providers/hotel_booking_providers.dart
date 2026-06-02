@@ -15,6 +15,7 @@ import '../../domain/repositories/hotel_credit_card_token_repository.dart';
 import '../../domain/repositories/hotel_booking_repository.dart';
 import '../../domain/usecases/assign_hotel_occupancy_usecase.dart';
 import '../../domain/usecases/cancel_hotel_order_usecase.dart';
+import '../../domain/usecases/create_hotel_alipay_payment_usecase.dart';
 import '../../domain/usecases/create_hotel_credit_card_token_usecase.dart';
 import '../../domain/usecases/create_hotel_booking_usecase.dart';
 import '../../domain/usecases/fetch_hotel_building_filters_usecase.dart';
@@ -38,6 +39,8 @@ import '../../domain/usecases/unregister_hotel_credit_card_usecase.dart';
 import '../../domain/usecases/update_hotel_member_profile_usecase.dart';
 import '../controllers/hotel_booking_controller.dart';
 import '../controllers/hotel_order_list_controller.dart';
+import '../support/hotel_native_payment_service.dart';
+import '../support/hotel_native_payment_settings.dart';
 
 final hotelApiClientProvider = Provider<HotelApiClient>((ref) {
   return HotelApiClient(ref.watch(hotelCoreHttpClientProvider));
@@ -69,6 +72,14 @@ final hotelCreditCardTokenRepositoryProvider =
         remote: ref.watch(hotelCreditCardTokenRemoteDataSourceProvider),
       );
     });
+
+final hotelNativePaymentServiceProvider = Provider<HotelNativePaymentService>((
+  ref,
+) {
+  return HotelNativePaymentService(
+    settings: ref.watch(hotelNativePaymentSettingsProvider),
+  );
+});
 
 final searchHotelsUseCaseProvider = Provider<SearchHotelsUseCase>((ref) {
   return SearchHotelsUseCase(ref.watch(hotelBookingRepositoryProvider));
@@ -158,6 +169,13 @@ final payHotelOrderWithCreditCardTokenUseCaseProvider =
 final payHotelOrderUseCaseProvider = Provider<PayHotelOrderUseCase>((ref) {
   return PayHotelOrderUseCase(ref.watch(hotelBookingRepositoryProvider));
 });
+
+final createHotelAlipayPaymentUseCaseProvider =
+    Provider<CreateHotelAlipayPaymentUseCase>((ref) {
+      return CreateHotelAlipayPaymentUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
 
 final syncHotelOptimismPaymentUseCaseProvider =
     Provider<SyncHotelOptimismPaymentUseCase>((ref) {

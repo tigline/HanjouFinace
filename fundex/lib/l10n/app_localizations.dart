@@ -3033,6 +3033,48 @@ abstract class AppLocalizations {
   /// **'Payment completed. Please check your order.'**
   String get hotelPaymentCreditCardSuccess;
 
+  /// No description provided for @hotelPaymentNativeConfigMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment app configuration is missing.'**
+  String get hotelPaymentNativeConfigMissing;
+
+  /// No description provided for @hotelPaymentWechatNotInstalled.
+  ///
+  /// In en, this message translates to:
+  /// **'WeChat is not installed.'**
+  String get hotelPaymentWechatNotInstalled;
+
+  /// No description provided for @hotelPaymentAlipayNotInstalled.
+  ///
+  /// In en, this message translates to:
+  /// **'Alipay is not installed.'**
+  String get hotelPaymentAlipayNotInstalled;
+
+  /// No description provided for @hotelPaymentNativePayloadMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start payment. Please try again later.'**
+  String get hotelPaymentNativePayloadMissing;
+
+  /// No description provided for @hotelPaymentNativeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment failed. Please try again later.'**
+  String get hotelPaymentNativeFailed;
+
+  /// No description provided for @hotelPaymentNativeCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment was cancelled.'**
+  String get hotelPaymentNativeCancelled;
+
+  /// No description provided for @hotelPaymentNativeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment completed. Please check your order.'**
+  String get hotelPaymentNativeSuccess;
+
   /// No description provided for @hotelPaymentAddCreditCardAndPay.
   ///
   /// In en, this message translates to:

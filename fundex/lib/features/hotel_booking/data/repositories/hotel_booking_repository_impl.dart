@@ -462,6 +462,7 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   Future<HotelOrderPaymentResult> payOrder({
     required String orderId,
     required String paymentCode,
+    required num totalAmount,
     required String languageCode,
     bool isCheck = false,
   }) async {
@@ -469,12 +470,30 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
       Pay4OrderRequestDto(
         bookingOrderId: int.parse(orderId.trim()),
         paymentCode: paymentCode.trim(),
-        lang: languageCode.trim(),
+        totalAmount: totalAmount,
+        lang: _legacyHotelPaymentLang(languageCode),
         isCheck: isCheck,
         system: 'app',
       ),
     );
     return _mapOrderPaymentResult(result);
+  }
+
+  @override
+  Future<HotelOrderPaymentResult> createAlipayPayment({
+    required String orderId,
+    required String system,
+  }) async {
+    final result = await _remote.createAliAppPayment(
+      AliAppPayRequestDto(id: int.parse(orderId.trim()), system: system.trim()),
+    );
+    return HotelOrderPaymentResult(
+      pay: false,
+      message: '',
+      code: null,
+      wechat: null,
+      alipay: _mapAliPayResponseApp(result),
+    );
   }
 
   @override
@@ -538,7 +557,21 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
       dto.swaggerAliPay?.normalUrl,
       dto.aliPayReponseApp?.orderInfo,
       dto.aliPayReponseApp?.paymentData,
+      dto.aliPayReponseApp?.payUrl,
       dto.aliPayReponseApp?.normalUrl,
+    ]);
+    if (orderInfo.isEmpty) {
+      return null;
+    }
+    return HotelAlipayPaymentPayload(orderInfo: orderInfo);
+  }
+
+  HotelAlipayPaymentPayload? _mapAliPayResponseApp(AliPayResponseAppDto dto) {
+    final orderInfo = _firstNotEmpty(<String?>[
+      dto.orderInfo,
+      dto.paymentData,
+      dto.payUrl,
+      dto.normalUrl,
     ]);
     if (orderInfo.isEmpty) {
       return null;
@@ -647,6 +680,17 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
       ),
     );
   }
+}
+
+String _legacyHotelPaymentLang(String raw) {
+  final normalized = raw.trim().toLowerCase();
+  if (normalized.startsWith('ja') || normalized == 'jp') {
+    return 'JP';
+  }
+  if (normalized.startsWith('zh') || normalized == 'cn') {
+    return 'CN';
+  }
+  return 'EN';
 }
 
 String _formatBuildingName(HotelBuildingCodeDto dto, String languageCode) {

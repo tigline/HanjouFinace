@@ -12610,7 +12610,7 @@ as String?,
 /// @nodoc
 mixin _$AliPayResponseAppDto {
 
- String? get orderInfo; String? get paymentData; String? get normalUrl;
+ String? get transSerial; String? get orderInfo; String? get paymentData; String? get normalUrl; String? get payUrl;
 /// Create a copy of AliPayResponseAppDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -12623,16 +12623,16 @@ $AliPayResponseAppDtoCopyWith<AliPayResponseAppDto> get copyWith => _$AliPayResp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AliPayResponseAppDto&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AliPayResponseAppDto&&(identical(other.transSerial, transSerial) || other.transSerial == transSerial)&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl)&&(identical(other.payUrl, payUrl) || other.payUrl == payUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderInfo,paymentData,normalUrl);
+int get hashCode => Object.hash(runtimeType,transSerial,orderInfo,paymentData,normalUrl,payUrl);
 
 @override
 String toString() {
-  return 'AliPayResponseAppDto(orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl)';
+  return 'AliPayResponseAppDto(transSerial: $transSerial, orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl, payUrl: $payUrl)';
 }
 
 
@@ -12643,7 +12643,7 @@ abstract mixin class $AliPayResponseAppDtoCopyWith<$Res>  {
   factory $AliPayResponseAppDtoCopyWith(AliPayResponseAppDto value, $Res Function(AliPayResponseAppDto) _then) = _$AliPayResponseAppDtoCopyWithImpl;
 @useResult
 $Res call({
- String? orderInfo, String? paymentData, String? normalUrl
+ String? transSerial, String? orderInfo, String? paymentData, String? normalUrl, String? payUrl
 });
 
 
@@ -12660,11 +12660,13 @@ class _$AliPayResponseAppDtoCopyWithImpl<$Res>
 
 /// Create a copy of AliPayResponseAppDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? transSerial = freezed,Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,Object? payUrl = freezed,}) {
   return _then(_self.copyWith(
-orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
+transSerial: freezed == transSerial ? _self.transSerial : transSerial // ignore: cast_nullable_to_non_nullable
+as String?,orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
 as String?,paymentData: freezed == paymentData ? _self.paymentData : paymentData // ignore: cast_nullable_to_non_nullable
 as String?,normalUrl: freezed == normalUrl ? _self.normalUrl : normalUrl // ignore: cast_nullable_to_non_nullable
+as String?,payUrl: freezed == payUrl ? _self.payUrl : payUrl // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -12750,10 +12752,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? orderInfo,  String? paymentData,  String? normalUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? transSerial,  String? orderInfo,  String? paymentData,  String? normalUrl,  String? payUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AliPayResponseAppDto() when $default != null:
-return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+return $default(_that.transSerial,_that.orderInfo,_that.paymentData,_that.normalUrl,_that.payUrl);case _:
   return orElse();
 
 }
@@ -12771,10 +12773,10 @@ return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? orderInfo,  String? paymentData,  String? normalUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? transSerial,  String? orderInfo,  String? paymentData,  String? normalUrl,  String? payUrl)  $default,) {final _that = this;
 switch (_that) {
 case _AliPayResponseAppDto():
-return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+return $default(_that.transSerial,_that.orderInfo,_that.paymentData,_that.normalUrl,_that.payUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -12791,10 +12793,10 @@ return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? orderInfo,  String? paymentData,  String? normalUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? transSerial,  String? orderInfo,  String? paymentData,  String? normalUrl,  String? payUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _AliPayResponseAppDto() when $default != null:
-return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
+return $default(_that.transSerial,_that.orderInfo,_that.paymentData,_that.normalUrl,_that.payUrl);case _:
   return null;
 
 }
@@ -12806,12 +12808,14 @@ return $default(_that.orderInfo,_that.paymentData,_that.normalUrl);case _:
 
 @JsonSerializable(includeIfNull: false)
 class _AliPayResponseAppDto implements AliPayResponseAppDto {
-  const _AliPayResponseAppDto({this.orderInfo, this.paymentData, this.normalUrl});
+  const _AliPayResponseAppDto({this.transSerial, this.orderInfo, this.paymentData, this.normalUrl, this.payUrl});
   factory _AliPayResponseAppDto.fromJson(Map<String, dynamic> json) => _$AliPayResponseAppDtoFromJson(json);
 
+@override final  String? transSerial;
 @override final  String? orderInfo;
 @override final  String? paymentData;
 @override final  String? normalUrl;
+@override final  String? payUrl;
 
 /// Create a copy of AliPayResponseAppDto
 /// with the given fields replaced by the non-null parameter values.
@@ -12826,16 +12830,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AliPayResponseAppDto&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AliPayResponseAppDto&&(identical(other.transSerial, transSerial) || other.transSerial == transSerial)&&(identical(other.orderInfo, orderInfo) || other.orderInfo == orderInfo)&&(identical(other.paymentData, paymentData) || other.paymentData == paymentData)&&(identical(other.normalUrl, normalUrl) || other.normalUrl == normalUrl)&&(identical(other.payUrl, payUrl) || other.payUrl == payUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,orderInfo,paymentData,normalUrl);
+int get hashCode => Object.hash(runtimeType,transSerial,orderInfo,paymentData,normalUrl,payUrl);
 
 @override
 String toString() {
-  return 'AliPayResponseAppDto(orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl)';
+  return 'AliPayResponseAppDto(transSerial: $transSerial, orderInfo: $orderInfo, paymentData: $paymentData, normalUrl: $normalUrl, payUrl: $payUrl)';
 }
 
 
@@ -12846,7 +12850,7 @@ abstract mixin class _$AliPayResponseAppDtoCopyWith<$Res> implements $AliPayResp
   factory _$AliPayResponseAppDtoCopyWith(_AliPayResponseAppDto value, $Res Function(_AliPayResponseAppDto) _then) = __$AliPayResponseAppDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String? orderInfo, String? paymentData, String? normalUrl
+ String? transSerial, String? orderInfo, String? paymentData, String? normalUrl, String? payUrl
 });
 
 
@@ -12863,12 +12867,280 @@ class __$AliPayResponseAppDtoCopyWithImpl<$Res>
 
 /// Create a copy of AliPayResponseAppDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? transSerial = freezed,Object? orderInfo = freezed,Object? paymentData = freezed,Object? normalUrl = freezed,Object? payUrl = freezed,}) {
   return _then(_AliPayResponseAppDto(
-orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
+transSerial: freezed == transSerial ? _self.transSerial : transSerial // ignore: cast_nullable_to_non_nullable
+as String?,orderInfo: freezed == orderInfo ? _self.orderInfo : orderInfo // ignore: cast_nullable_to_non_nullable
 as String?,paymentData: freezed == paymentData ? _self.paymentData : paymentData // ignore: cast_nullable_to_non_nullable
 as String?,normalUrl: freezed == normalUrl ? _self.normalUrl : normalUrl // ignore: cast_nullable_to_non_nullable
+as String?,payUrl: freezed == payUrl ? _self.payUrl : payUrl // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$AliAppPayRequestDto {
+
+ int get id; String get system;
+/// Create a copy of AliAppPayRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AliAppPayRequestDtoCopyWith<AliAppPayRequestDto> get copyWith => _$AliAppPayRequestDtoCopyWithImpl<AliAppPayRequestDto>(this as AliAppPayRequestDto, _$identity);
+
+  /// Serializes this AliAppPayRequestDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AliAppPayRequestDto&&(identical(other.id, id) || other.id == id)&&(identical(other.system, system) || other.system == system));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,system);
+
+@override
+String toString() {
+  return 'AliAppPayRequestDto(id: $id, system: $system)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AliAppPayRequestDtoCopyWith<$Res>  {
+  factory $AliAppPayRequestDtoCopyWith(AliAppPayRequestDto value, $Res Function(AliAppPayRequestDto) _then) = _$AliAppPayRequestDtoCopyWithImpl;
+@useResult
+$Res call({
+ int id, String system
+});
+
+
+
+
+}
+/// @nodoc
+class _$AliAppPayRequestDtoCopyWithImpl<$Res>
+    implements $AliAppPayRequestDtoCopyWith<$Res> {
+  _$AliAppPayRequestDtoCopyWithImpl(this._self, this._then);
+
+  final AliAppPayRequestDto _self;
+  final $Res Function(AliAppPayRequestDto) _then;
+
+/// Create a copy of AliAppPayRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? system = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,system: null == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AliAppPayRequestDto].
+extension AliAppPayRequestDtoPatterns on AliAppPayRequestDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AliAppPayRequestDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AliAppPayRequestDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AliAppPayRequestDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _AliAppPayRequestDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AliAppPayRequestDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AliAppPayRequestDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String system)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AliAppPayRequestDto() when $default != null:
+return $default(_that.id,_that.system);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String system)  $default,) {final _that = this;
+switch (_that) {
+case _AliAppPayRequestDto():
+return $default(_that.id,_that.system);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String system)?  $default,) {final _that = this;
+switch (_that) {
+case _AliAppPayRequestDto() when $default != null:
+return $default(_that.id,_that.system);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+@JsonSerializable(includeIfNull: false)
+class _AliAppPayRequestDto implements AliAppPayRequestDto {
+  const _AliAppPayRequestDto({required this.id, required this.system});
+  factory _AliAppPayRequestDto.fromJson(Map<String, dynamic> json) => _$AliAppPayRequestDtoFromJson(json);
+
+@override final  int id;
+@override final  String system;
+
+/// Create a copy of AliAppPayRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AliAppPayRequestDtoCopyWith<_AliAppPayRequestDto> get copyWith => __$AliAppPayRequestDtoCopyWithImpl<_AliAppPayRequestDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AliAppPayRequestDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AliAppPayRequestDto&&(identical(other.id, id) || other.id == id)&&(identical(other.system, system) || other.system == system));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,system);
+
+@override
+String toString() {
+  return 'AliAppPayRequestDto(id: $id, system: $system)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AliAppPayRequestDtoCopyWith<$Res> implements $AliAppPayRequestDtoCopyWith<$Res> {
+  factory _$AliAppPayRequestDtoCopyWith(_AliAppPayRequestDto value, $Res Function(_AliAppPayRequestDto) _then) = __$AliAppPayRequestDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String system
+});
+
+
+
+
+}
+/// @nodoc
+class __$AliAppPayRequestDtoCopyWithImpl<$Res>
+    implements _$AliAppPayRequestDtoCopyWith<$Res> {
+  __$AliAppPayRequestDtoCopyWithImpl(this._self, this._then);
+
+  final _AliAppPayRequestDto _self;
+  final $Res Function(_AliAppPayRequestDto) _then;
+
+/// Create a copy of AliAppPayRequestDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? system = null,}) {
+  return _then(_AliAppPayRequestDto(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,system: null == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -12879,7 +13151,7 @@ as String?,
 /// @nodoc
 mixin _$Pay4OrderRequestDto {
 
-@JsonKey(name: 'bookingOrderID') int get bookingOrderId; String get paymentCode; String? get cardNumber; String? get cardExpire; String? get securityCode; String? get cardholderName; String? get cardInfo; String? get lang; bool? get isCheck; String? get system;
+@JsonKey(name: 'bookingOrderID') int get bookingOrderId; String get paymentCode; num? get totalAmount; String? get cardNumber; String? get cardExpire; String? get securityCode; String? get cardholderName; String? get cardInfo; String? get lang; bool? get isCheck; String? get system;
 /// Create a copy of Pay4OrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -12892,16 +13164,16 @@ $Pay4OrderRequestDtoCopyWith<Pay4OrderRequestDto> get copyWith => _$Pay4OrderReq
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Pay4OrderRequestDto&&(identical(other.bookingOrderId, bookingOrderId) || other.bookingOrderId == bookingOrderId)&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.cardNumber, cardNumber) || other.cardNumber == cardNumber)&&(identical(other.cardExpire, cardExpire) || other.cardExpire == cardExpire)&&(identical(other.securityCode, securityCode) || other.securityCode == securityCode)&&(identical(other.cardholderName, cardholderName) || other.cardholderName == cardholderName)&&(identical(other.cardInfo, cardInfo) || other.cardInfo == cardInfo)&&(identical(other.lang, lang) || other.lang == lang)&&(identical(other.isCheck, isCheck) || other.isCheck == isCheck)&&(identical(other.system, system) || other.system == system));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Pay4OrderRequestDto&&(identical(other.bookingOrderId, bookingOrderId) || other.bookingOrderId == bookingOrderId)&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.cardNumber, cardNumber) || other.cardNumber == cardNumber)&&(identical(other.cardExpire, cardExpire) || other.cardExpire == cardExpire)&&(identical(other.securityCode, securityCode) || other.securityCode == securityCode)&&(identical(other.cardholderName, cardholderName) || other.cardholderName == cardholderName)&&(identical(other.cardInfo, cardInfo) || other.cardInfo == cardInfo)&&(identical(other.lang, lang) || other.lang == lang)&&(identical(other.isCheck, isCheck) || other.isCheck == isCheck)&&(identical(other.system, system) || other.system == system));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,bookingOrderId,paymentCode,cardNumber,cardExpire,securityCode,cardholderName,cardInfo,lang,isCheck,system);
+int get hashCode => Object.hash(runtimeType,bookingOrderId,paymentCode,totalAmount,cardNumber,cardExpire,securityCode,cardholderName,cardInfo,lang,isCheck,system);
 
 @override
 String toString() {
-  return 'Pay4OrderRequestDto(bookingOrderId: $bookingOrderId, paymentCode: $paymentCode, cardNumber: $cardNumber, cardExpire: $cardExpire, securityCode: $securityCode, cardholderName: $cardholderName, cardInfo: $cardInfo, lang: $lang, isCheck: $isCheck, system: $system)';
+  return 'Pay4OrderRequestDto(bookingOrderId: $bookingOrderId, paymentCode: $paymentCode, totalAmount: $totalAmount, cardNumber: $cardNumber, cardExpire: $cardExpire, securityCode: $securityCode, cardholderName: $cardholderName, cardInfo: $cardInfo, lang: $lang, isCheck: $isCheck, system: $system)';
 }
 
 
@@ -12912,7 +13184,7 @@ abstract mixin class $Pay4OrderRequestDtoCopyWith<$Res>  {
   factory $Pay4OrderRequestDtoCopyWith(Pay4OrderRequestDto value, $Res Function(Pay4OrderRequestDto) _then) = _$Pay4OrderRequestDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'bookingOrderID') int bookingOrderId, String paymentCode, String? cardNumber, String? cardExpire, String? securityCode, String? cardholderName, String? cardInfo, String? lang, bool? isCheck, String? system
+@JsonKey(name: 'bookingOrderID') int bookingOrderId, String paymentCode, num? totalAmount, String? cardNumber, String? cardExpire, String? securityCode, String? cardholderName, String? cardInfo, String? lang, bool? isCheck, String? system
 });
 
 
@@ -12929,11 +13201,12 @@ class _$Pay4OrderRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of Pay4OrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? bookingOrderId = null,Object? paymentCode = null,Object? cardNumber = freezed,Object? cardExpire = freezed,Object? securityCode = freezed,Object? cardholderName = freezed,Object? cardInfo = freezed,Object? lang = freezed,Object? isCheck = freezed,Object? system = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? bookingOrderId = null,Object? paymentCode = null,Object? totalAmount = freezed,Object? cardNumber = freezed,Object? cardExpire = freezed,Object? securityCode = freezed,Object? cardholderName = freezed,Object? cardInfo = freezed,Object? lang = freezed,Object? isCheck = freezed,Object? system = freezed,}) {
   return _then(_self.copyWith(
 bookingOrderId: null == bookingOrderId ? _self.bookingOrderId : bookingOrderId // ignore: cast_nullable_to_non_nullable
 as int,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
-as String,cardNumber: freezed == cardNumber ? _self.cardNumber : cardNumber // ignore: cast_nullable_to_non_nullable
+as String,totalAmount: freezed == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
+as num?,cardNumber: freezed == cardNumber ? _self.cardNumber : cardNumber // ignore: cast_nullable_to_non_nullable
 as String?,cardExpire: freezed == cardExpire ? _self.cardExpire : cardExpire // ignore: cast_nullable_to_non_nullable
 as String?,securityCode: freezed == securityCode ? _self.securityCode : securityCode // ignore: cast_nullable_to_non_nullable
 as String?,cardholderName: freezed == cardholderName ? _self.cardholderName : cardholderName // ignore: cast_nullable_to_non_nullable
@@ -13026,10 +13299,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'bookingOrderID')  int bookingOrderId,  String paymentCode,  String? cardNumber,  String? cardExpire,  String? securityCode,  String? cardholderName,  String? cardInfo,  String? lang,  bool? isCheck,  String? system)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'bookingOrderID')  int bookingOrderId,  String paymentCode,  num? totalAmount,  String? cardNumber,  String? cardExpire,  String? securityCode,  String? cardholderName,  String? cardInfo,  String? lang,  bool? isCheck,  String? system)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Pay4OrderRequestDto() when $default != null:
-return $default(_that.bookingOrderId,_that.paymentCode,_that.cardNumber,_that.cardExpire,_that.securityCode,_that.cardholderName,_that.cardInfo,_that.lang,_that.isCheck,_that.system);case _:
+return $default(_that.bookingOrderId,_that.paymentCode,_that.totalAmount,_that.cardNumber,_that.cardExpire,_that.securityCode,_that.cardholderName,_that.cardInfo,_that.lang,_that.isCheck,_that.system);case _:
   return orElse();
 
 }
@@ -13047,10 +13320,10 @@ return $default(_that.bookingOrderId,_that.paymentCode,_that.cardNumber,_that.ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'bookingOrderID')  int bookingOrderId,  String paymentCode,  String? cardNumber,  String? cardExpire,  String? securityCode,  String? cardholderName,  String? cardInfo,  String? lang,  bool? isCheck,  String? system)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'bookingOrderID')  int bookingOrderId,  String paymentCode,  num? totalAmount,  String? cardNumber,  String? cardExpire,  String? securityCode,  String? cardholderName,  String? cardInfo,  String? lang,  bool? isCheck,  String? system)  $default,) {final _that = this;
 switch (_that) {
 case _Pay4OrderRequestDto():
-return $default(_that.bookingOrderId,_that.paymentCode,_that.cardNumber,_that.cardExpire,_that.securityCode,_that.cardholderName,_that.cardInfo,_that.lang,_that.isCheck,_that.system);case _:
+return $default(_that.bookingOrderId,_that.paymentCode,_that.totalAmount,_that.cardNumber,_that.cardExpire,_that.securityCode,_that.cardholderName,_that.cardInfo,_that.lang,_that.isCheck,_that.system);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -13067,10 +13340,10 @@ return $default(_that.bookingOrderId,_that.paymentCode,_that.cardNumber,_that.ca
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'bookingOrderID')  int bookingOrderId,  String paymentCode,  String? cardNumber,  String? cardExpire,  String? securityCode,  String? cardholderName,  String? cardInfo,  String? lang,  bool? isCheck,  String? system)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'bookingOrderID')  int bookingOrderId,  String paymentCode,  num? totalAmount,  String? cardNumber,  String? cardExpire,  String? securityCode,  String? cardholderName,  String? cardInfo,  String? lang,  bool? isCheck,  String? system)?  $default,) {final _that = this;
 switch (_that) {
 case _Pay4OrderRequestDto() when $default != null:
-return $default(_that.bookingOrderId,_that.paymentCode,_that.cardNumber,_that.cardExpire,_that.securityCode,_that.cardholderName,_that.cardInfo,_that.lang,_that.isCheck,_that.system);case _:
+return $default(_that.bookingOrderId,_that.paymentCode,_that.totalAmount,_that.cardNumber,_that.cardExpire,_that.securityCode,_that.cardholderName,_that.cardInfo,_that.lang,_that.isCheck,_that.system);case _:
   return null;
 
 }
@@ -13082,11 +13355,12 @@ return $default(_that.bookingOrderId,_that.paymentCode,_that.cardNumber,_that.ca
 
 @JsonSerializable(includeIfNull: false)
 class _Pay4OrderRequestDto implements Pay4OrderRequestDto {
-  const _Pay4OrderRequestDto({@JsonKey(name: 'bookingOrderID') required this.bookingOrderId, required this.paymentCode, this.cardNumber, this.cardExpire, this.securityCode, this.cardholderName, this.cardInfo, this.lang, this.isCheck, this.system});
+  const _Pay4OrderRequestDto({@JsonKey(name: 'bookingOrderID') required this.bookingOrderId, required this.paymentCode, this.totalAmount, this.cardNumber, this.cardExpire, this.securityCode, this.cardholderName, this.cardInfo, this.lang, this.isCheck, this.system});
   factory _Pay4OrderRequestDto.fromJson(Map<String, dynamic> json) => _$Pay4OrderRequestDtoFromJson(json);
 
 @override@JsonKey(name: 'bookingOrderID') final  int bookingOrderId;
 @override final  String paymentCode;
+@override final  num? totalAmount;
 @override final  String? cardNumber;
 @override final  String? cardExpire;
 @override final  String? securityCode;
@@ -13109,16 +13383,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pay4OrderRequestDto&&(identical(other.bookingOrderId, bookingOrderId) || other.bookingOrderId == bookingOrderId)&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.cardNumber, cardNumber) || other.cardNumber == cardNumber)&&(identical(other.cardExpire, cardExpire) || other.cardExpire == cardExpire)&&(identical(other.securityCode, securityCode) || other.securityCode == securityCode)&&(identical(other.cardholderName, cardholderName) || other.cardholderName == cardholderName)&&(identical(other.cardInfo, cardInfo) || other.cardInfo == cardInfo)&&(identical(other.lang, lang) || other.lang == lang)&&(identical(other.isCheck, isCheck) || other.isCheck == isCheck)&&(identical(other.system, system) || other.system == system));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Pay4OrderRequestDto&&(identical(other.bookingOrderId, bookingOrderId) || other.bookingOrderId == bookingOrderId)&&(identical(other.paymentCode, paymentCode) || other.paymentCode == paymentCode)&&(identical(other.totalAmount, totalAmount) || other.totalAmount == totalAmount)&&(identical(other.cardNumber, cardNumber) || other.cardNumber == cardNumber)&&(identical(other.cardExpire, cardExpire) || other.cardExpire == cardExpire)&&(identical(other.securityCode, securityCode) || other.securityCode == securityCode)&&(identical(other.cardholderName, cardholderName) || other.cardholderName == cardholderName)&&(identical(other.cardInfo, cardInfo) || other.cardInfo == cardInfo)&&(identical(other.lang, lang) || other.lang == lang)&&(identical(other.isCheck, isCheck) || other.isCheck == isCheck)&&(identical(other.system, system) || other.system == system));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,bookingOrderId,paymentCode,cardNumber,cardExpire,securityCode,cardholderName,cardInfo,lang,isCheck,system);
+int get hashCode => Object.hash(runtimeType,bookingOrderId,paymentCode,totalAmount,cardNumber,cardExpire,securityCode,cardholderName,cardInfo,lang,isCheck,system);
 
 @override
 String toString() {
-  return 'Pay4OrderRequestDto(bookingOrderId: $bookingOrderId, paymentCode: $paymentCode, cardNumber: $cardNumber, cardExpire: $cardExpire, securityCode: $securityCode, cardholderName: $cardholderName, cardInfo: $cardInfo, lang: $lang, isCheck: $isCheck, system: $system)';
+  return 'Pay4OrderRequestDto(bookingOrderId: $bookingOrderId, paymentCode: $paymentCode, totalAmount: $totalAmount, cardNumber: $cardNumber, cardExpire: $cardExpire, securityCode: $securityCode, cardholderName: $cardholderName, cardInfo: $cardInfo, lang: $lang, isCheck: $isCheck, system: $system)';
 }
 
 
@@ -13129,7 +13403,7 @@ abstract mixin class _$Pay4OrderRequestDtoCopyWith<$Res> implements $Pay4OrderRe
   factory _$Pay4OrderRequestDtoCopyWith(_Pay4OrderRequestDto value, $Res Function(_Pay4OrderRequestDto) _then) = __$Pay4OrderRequestDtoCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'bookingOrderID') int bookingOrderId, String paymentCode, String? cardNumber, String? cardExpire, String? securityCode, String? cardholderName, String? cardInfo, String? lang, bool? isCheck, String? system
+@JsonKey(name: 'bookingOrderID') int bookingOrderId, String paymentCode, num? totalAmount, String? cardNumber, String? cardExpire, String? securityCode, String? cardholderName, String? cardInfo, String? lang, bool? isCheck, String? system
 });
 
 
@@ -13146,11 +13420,12 @@ class __$Pay4OrderRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of Pay4OrderRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? bookingOrderId = null,Object? paymentCode = null,Object? cardNumber = freezed,Object? cardExpire = freezed,Object? securityCode = freezed,Object? cardholderName = freezed,Object? cardInfo = freezed,Object? lang = freezed,Object? isCheck = freezed,Object? system = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? bookingOrderId = null,Object? paymentCode = null,Object? totalAmount = freezed,Object? cardNumber = freezed,Object? cardExpire = freezed,Object? securityCode = freezed,Object? cardholderName = freezed,Object? cardInfo = freezed,Object? lang = freezed,Object? isCheck = freezed,Object? system = freezed,}) {
   return _then(_Pay4OrderRequestDto(
 bookingOrderId: null == bookingOrderId ? _self.bookingOrderId : bookingOrderId // ignore: cast_nullable_to_non_nullable
 as int,paymentCode: null == paymentCode ? _self.paymentCode : paymentCode // ignore: cast_nullable_to_non_nullable
-as String,cardNumber: freezed == cardNumber ? _self.cardNumber : cardNumber // ignore: cast_nullable_to_non_nullable
+as String,totalAmount: freezed == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
+as num?,cardNumber: freezed == cardNumber ? _self.cardNumber : cardNumber // ignore: cast_nullable_to_non_nullable
 as String?,cardExpire: freezed == cardExpire ? _self.cardExpire : cardExpire // ignore: cast_nullable_to_non_nullable
 as String?,securityCode: freezed == securityCode ? _self.securityCode : securityCode // ignore: cast_nullable_to_non_nullable
 as String?,cardholderName: freezed == cardholderName ? _self.cardholderName : cardholderName // ignore: cast_nullable_to_non_nullable

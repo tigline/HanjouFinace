@@ -9,12 +9,14 @@ class PayHotelOrderUseCase {
   Future<HotelOrderPaymentResult> call({
     required String orderId,
     required String paymentCode,
+    required num totalAmount,
     required String languageCode,
     bool isCheck = false,
   }) {
     return _repository.payOrder(
       orderId: orderId,
       paymentCode: paymentCode,
+      totalAmount: totalAmount,
       languageCode: languageCode,
       isCheck: isCheck,
     );

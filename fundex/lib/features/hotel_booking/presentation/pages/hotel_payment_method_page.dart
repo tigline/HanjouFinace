@@ -9,6 +9,7 @@ import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
 import '../support/hotel_credit_card_payment_flow.dart';
+import '../support/hotel_native_payment_flow.dart';
 import '../support/hotel_payment_route_args.dart';
 import '../widgets/hotel_booking_payment_section.dart';
 import '../widgets/hotel_payment_method_widgets.dart';
@@ -141,33 +142,44 @@ class _HotelPaymentMethodPageState
     if (_isSubmitting) {
       return;
     }
-    if (_paymentMethod != HotelBookingPaymentMethod.creditCard) {
-      AppNotice.show(context, message: context.l10n.hotelPaymentComingSoon);
-      return;
-    }
-    if (_selectedCard == null) {
+    if (_paymentMethod == HotelBookingPaymentMethod.creditCard &&
+        _selectedCard == null) {
       AppNotice.show(context, message: context.l10n.hotelPaymentNoCreditCard);
       return;
     }
 
     setState(() => _isSubmitting = true);
-    await runHotelCreditCardPaymentFlow(
-      context: context,
-      ref: ref,
-      orderId: widget.args.orderId,
-      paymentMethod: _paymentMethod,
-      selectedCard: _selectedCard,
-      onSuccess: () {
-        if (!mounted) {
-          return;
-        }
-        if (widget.args.redirectToOrderDetailOnSuccess) {
-          goToHotelOrderDetail(context, widget.args.orderId);
-          return;
-        }
-        context.pop(true);
-      },
-    );
+    void onSuccess() {
+      if (!mounted) {
+        return;
+      }
+      if (widget.args.redirectToOrderDetailOnSuccess) {
+        goToHotelOrderDetail(context, widget.args.orderId);
+        return;
+      }
+      context.pop(true);
+    }
+
+    if (_paymentMethod == HotelBookingPaymentMethod.creditCard) {
+      await runHotelCreditCardPaymentFlow(
+        context: context,
+        ref: ref,
+        orderId: widget.args.orderId,
+        paymentMethod: _paymentMethod,
+        selectedCard: _selectedCard,
+        onSuccess: onSuccess,
+      );
+    } else {
+      await runHotelNativePaymentFlow(
+        context: context,
+        ref: ref,
+        orderId: widget.args.orderId,
+        totalAmount: widget.args.totalAmount,
+        languageCode: Localizations.localeOf(context).toLanguageTag(),
+        paymentMethod: _paymentMethod,
+        onSuccess: onSuccess,
+      );
+    }
     if (mounted) {
       setState(() => _isSubmitting = false);
     }

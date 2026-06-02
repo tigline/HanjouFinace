@@ -842,7 +842,8 @@ void main() {
               options.data,
               equals(<String, dynamic>{
                 'bookingOrderID': 1290689,
-                'paymentCode': '2',
+                'paymentCode': '14',
+                'totalAmount': 36000,
                 'lang': 'JP',
                 'isCheck': true,
                 'system': 'app',
@@ -867,7 +868,8 @@ void main() {
         final payment = await api.payForOrder(
           const Pay4OrderRequestDto(
             bookingOrderId: 1290689,
-            paymentCode: '2',
+            paymentCode: '14',
+            totalAmount: 36000,
             lang: 'JP',
             isCheck: true,
             system: 'app',
@@ -886,5 +888,29 @@ void main() {
         expect(call, equals(2));
       },
     );
+
+    test('createAliAppPayment posts app payment payload', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.aliAppPay));
+        expect(options.extra['auth_required'], isTrue);
+        expect(
+          options.data,
+          equals(<String, dynamic>{'id': 1219463, 'system': 'android'}),
+        );
+        return _jsonOk(
+          '{"code":200,"msg":"success","data":{"transSerial":"ts-1","paymentData":"alipay-sdk-payload","payUrl":"https://pay.example.com/a"}}',
+        );
+      });
+      final api = HotelApiClient(client);
+
+      final payment = await api.createAliAppPayment(
+        const AliAppPayRequestDto(id: 1219463, system: 'android'),
+      );
+
+      expect(payment.transSerial, equals('ts-1'));
+      expect(payment.paymentData, equals('alipay-sdk-payload'));
+      expect(payment.payUrl, equals('https://pay.example.com/a'));
+    });
   });
 }

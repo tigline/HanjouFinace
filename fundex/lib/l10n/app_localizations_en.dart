@@ -1635,6 +1635,31 @@ class AppLocalizationsEn extends AppLocalizations {
       'Payment completed. Please check your order.';
 
   @override
+  String get hotelPaymentNativeConfigMissing =>
+      'Payment app configuration is missing.';
+
+  @override
+  String get hotelPaymentWechatNotInstalled => 'WeChat is not installed.';
+
+  @override
+  String get hotelPaymentAlipayNotInstalled => 'Alipay is not installed.';
+
+  @override
+  String get hotelPaymentNativePayloadMissing =>
+      'Could not start payment. Please try again later.';
+
+  @override
+  String get hotelPaymentNativeFailed =>
+      'Payment failed. Please try again later.';
+
+  @override
+  String get hotelPaymentNativeCancelled => 'Payment was cancelled.';
+
+  @override
+  String get hotelPaymentNativeSuccess =>
+      'Payment completed. Please check your order.';
+
+  @override
   String get hotelPaymentAddCreditCardAndPay => 'Add credit card and pay';
 
   @override

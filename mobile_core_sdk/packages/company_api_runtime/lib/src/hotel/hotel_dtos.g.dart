@@ -1262,23 +1262,38 @@ Map<String, dynamic> _$HotelAlipayPaymentDtoToJson(
 _AliPayResponseAppDto _$AliPayResponseAppDtoFromJson(
   Map<String, dynamic> json,
 ) => _AliPayResponseAppDto(
+  transSerial: json['transSerial'] as String?,
   orderInfo: json['orderInfo'] as String?,
   paymentData: json['paymentData'] as String?,
   normalUrl: json['normalUrl'] as String?,
+  payUrl: json['payUrl'] as String?,
 );
 
 Map<String, dynamic> _$AliPayResponseAppDtoToJson(
   _AliPayResponseAppDto instance,
 ) => <String, dynamic>{
+  'transSerial': ?instance.transSerial,
   'orderInfo': ?instance.orderInfo,
   'paymentData': ?instance.paymentData,
   'normalUrl': ?instance.normalUrl,
+  'payUrl': ?instance.payUrl,
 };
+
+_AliAppPayRequestDto _$AliAppPayRequestDtoFromJson(Map<String, dynamic> json) =>
+    _AliAppPayRequestDto(
+      id: (json['id'] as num).toInt(),
+      system: json['system'] as String,
+    );
+
+Map<String, dynamic> _$AliAppPayRequestDtoToJson(
+  _AliAppPayRequestDto instance,
+) => <String, dynamic>{'id': instance.id, 'system': instance.system};
 
 _Pay4OrderRequestDto _$Pay4OrderRequestDtoFromJson(Map<String, dynamic> json) =>
     _Pay4OrderRequestDto(
       bookingOrderId: (json['bookingOrderID'] as num).toInt(),
       paymentCode: json['paymentCode'] as String,
+      totalAmount: json['totalAmount'] as num?,
       cardNumber: json['cardNumber'] as String?,
       cardExpire: json['cardExpire'] as String?,
       securityCode: json['securityCode'] as String?,
@@ -1294,6 +1309,7 @@ Map<String, dynamic> _$Pay4OrderRequestDtoToJson(
 ) => <String, dynamic>{
   'bookingOrderID': instance.bookingOrderId,
   'paymentCode': instance.paymentCode,
+  'totalAmount': ?instance.totalAmount,
   'cardNumber': ?instance.cardNumber,
   'cardExpire': ?instance.cardExpire,
   'securityCode': ?instance.securityCode,

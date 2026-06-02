@@ -1562,6 +1562,28 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelPaymentCreditCardSuccess => 'お支払いが完了しました。注文をご確認ください。';
 
   @override
+  String get hotelPaymentNativeConfigMissing => '決済アプリの設定が不足しています。';
+
+  @override
+  String get hotelPaymentWechatNotInstalled => 'WeChat がインストールされていません。';
+
+  @override
+  String get hotelPaymentAlipayNotInstalled => 'Alipay がインストールされていません。';
+
+  @override
+  String get hotelPaymentNativePayloadMissing =>
+      'お支払いを開始できませんでした。しばらくしてからもう一度お試しください。';
+
+  @override
+  String get hotelPaymentNativeFailed => 'お支払いに失敗しました。しばらくしてからもう一度お試しください。';
+
+  @override
+  String get hotelPaymentNativeCancelled => 'お支払いはキャンセルされました。';
+
+  @override
+  String get hotelPaymentNativeSuccess => 'お支払いが完了しました。注文をご確認ください。';
+
+  @override
   String get hotelPaymentAddCreditCardAndPay => 'クレジットカードを追加して支払う';
 
   @override

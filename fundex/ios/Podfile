@@ -100,7 +100,7 @@ post_install do |installer|
         simulator_unsupported_framework_flags.reduce(base_ldflags.dup) do |flags, framework_flag|
           flags.gsub(framework_flag, '').gsub(/\s+/, ' ').strip
         end
-    device_only_ldflags = '$(inherited) -framework "BDFaceBaseKit" -framework "IDLFaceSDK"'
+    device_only_ldflags = "#{sanitized_ldflags} -framework \"BDFaceBaseKit\" -framework \"IDLFaceSDK\""
     replacement = <<~LDFLAGS
       OTHER_LDFLAGS = #{sanitized_ldflags}
       OTHER_LDFLAGS[sdk=iphoneos*] = #{device_only_ldflags}
