@@ -89,6 +89,11 @@ class _HotelOrderDetailPageState extends ConsumerState<HotelOrderDetailPage> {
                     if (_paymentExpired) {
                       setState(() => _paymentExpired = false);
                     }
+                    if (ref.exists(hotelOrderListControllerProvider)) {
+                      await ref
+                          .read(hotelOrderListControllerProvider.notifier)
+                          .refresh();
+                    }
                     ref.invalidate(hotelOrderDetailProvider(widget.orderId));
                   },
                 ),
