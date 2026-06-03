@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:alipay_payment/alipay_payment.dart';
 import 'package:fluwx/fluwx.dart';
 
 import '../../domain/entities/hotel_models.dart';
@@ -28,7 +27,7 @@ class HotelNativePaymentService {
   Future<bool> get isWechatInstalled => _fluwx.isWeChatInstalled;
 
   Future<bool> get isAlipayInstalled {
-    return AlipayPaymentPlatform.instance.isAlipayInstalled();
+    return Future<bool>.value(false);
   }
 
   Future<HotelNativePaymentResult> payWithWechat(
@@ -107,38 +106,9 @@ class HotelNativePaymentService {
   Future<HotelNativePaymentResult> payWithAlipay(
     HotelAlipayPaymentPayload payload,
   ) async {
-    if (payload.orderInfo.trim().isEmpty) {
-      return const HotelNativePaymentResult(
-        status: HotelNativePaymentStatus.failure,
-        message: 'Alipay payment payload is incomplete.',
-      );
-    }
-    if (!await isAlipayInstalled) {
-      return const HotelNativePaymentResult(
-        status: HotelNativePaymentStatus.unavailable,
-        message: 'Alipay is not installed.',
-      );
-    }
-    final result = await AlipayPaymentPlatform.instance.payAndWait(
-      orderInfo: payload.orderInfo,
-      universalLink: _settings.alipayUniversalLink.trim().isEmpty
-          ? null
-          : _settings.alipayUniversalLink.trim(),
-    );
-    if (result.isSuccess) {
-      return const HotelNativePaymentResult(
-        status: HotelNativePaymentStatus.success,
-      );
-    }
-    if (result.isCancel) {
-      return HotelNativePaymentResult(
-        status: HotelNativePaymentStatus.cancelled,
-        message: result.memo ?? '',
-      );
-    }
-    return HotelNativePaymentResult(
-      status: HotelNativePaymentStatus.failure,
-      message: result.memo ?? result.resultStatus,
+    return const HotelNativePaymentResult(
+      status: HotelNativePaymentStatus.unavailable,
+      message: 'Alipay native SDK is not linked in this build.',
     );
   }
 

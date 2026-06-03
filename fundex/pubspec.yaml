@@ -54,7 +54,6 @@ dependencies:
   flutter_image_compress: ^2.4.0
   path_provider: ^2.1.5
   fluwx: ^5.7.5
-  alipay_payment: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +91,3 @@ fluwx:
   #universal_link: https://example.com/wechat/
   ios:
     universal_link: https://gutingjun.com/
-
-alipay_payment:
-  scheme: alipayStellavia
