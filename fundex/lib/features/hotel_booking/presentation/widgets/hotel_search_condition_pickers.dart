@@ -429,7 +429,7 @@ class _WeekdayHeader extends StatelessWidget {
                 DateFormat.E(localeName).format(date),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: colors.brandSecondary,
+                  color: colors.highlightGold,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -531,14 +531,14 @@ class _CalendarDayCell extends StatelessWidget {
     final backgroundColor = isSelectedEdge
         ? colors.brandPrimary
         : isInRange
-        ? colors.borderSoft
+        ? colors.primaryAlt
         : colors.surface;
-    final foregroundColor = isSelectedEdge
+    final foregroundColor = (isSelectedEdge || isInRange)
         ? colors.onDark
         : enabled && isCurrentMonth
         ? colors.textPrimary
         : colors.textTertiary;
-    final priceColor = isSelectedEdge
+    final priceColor = (isSelectedEdge || isInRange)
         ? colors.onDark
         : enabled && isCurrentMonth
         ? colors.textTertiary
@@ -561,7 +561,7 @@ class _CalendarDayCell extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     date.day.toString(),
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: foregroundColor,
                       fontWeight: isSelectedEdge
                           ? FontWeight.w800
@@ -573,9 +573,9 @@ class _CalendarDayCell extends StatelessWidget {
                     priceText,
                     maxLines: 1,
                     overflow: TextOverflow.clip,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: priceColor,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
