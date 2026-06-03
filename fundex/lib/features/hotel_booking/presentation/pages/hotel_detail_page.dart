@@ -103,7 +103,7 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
                     const <HotelRoomTypeExtraGuestPrice>[],
                 isAssigningOccupancy: _isAssigningOccupancy,
                 onBack: _handleBack,
-                onEditDates: _editStayDates,
+                onEditDates: () => _editStayDates(detail),
                 onEditGuests: _editGuests,
                 onInfoSectionExpandedChanged: _setInfoSectionExpanded,
                 onRoomQuantityChanged: (change) =>
@@ -125,10 +125,11 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
     context.go('/hotel-booking');
   }
 
-  Future<void> _editStayDates() async {
+  Future<void> _editStayDates(HotelDetail detail) async {
     final nextCriteria = await pickHotelStayDates(
       context: context,
       criteria: _criteria,
+      priceCalendarByDate: detail.priceCalendarByDate,
     );
     if (nextCriteria == null || !mounted) {
       return;

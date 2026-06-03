@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../member_profile/presentation/providers/mypage_providers.dart';
 import '../../../settings/presentation/pages/settings_credit_card_page.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
@@ -40,7 +41,7 @@ class _HotelPaymentMethodPageState
       Localizations.localeOf(context).toLanguageTag(),
     );
     final cardsState = ref.watch(hotelCreditCardsProvider);
-    final memberPayInfoState = ref.watch(hotelMemberPayInfoProvider);
+    final accountStatisticState = ref.watch(myPageAccountStatisticProvider);
     _syncSelectedCard(cardsState.valueOrNull ?? const <HotelCreditCard>[]);
 
     return HotelStatusBarPreferenceScope(
@@ -72,8 +73,9 @@ class _HotelPaymentMethodPageState
                 HotelBookingPaymentSection(
                   selected: _paymentMethod,
                   registeredCardCount: cardsState.valueOrNull?.length ?? 0,
-                  accountBalance: memberPayInfoState.valueOrNull?.balance,
-                  isAccountBalanceLoading: memberPayInfoState.isLoading,
+                  accountBalance:
+                      accountStatisticState.valueOrNull?.firstLevelAccountTotal,
+                  isAccountBalanceLoading: accountStatisticState.isLoading,
                   payableAmount: widget.args.totalAmount,
                   onChanged: (value) {
                     setState(() {
@@ -153,7 +155,11 @@ class _HotelPaymentMethodPageState
       return;
     }
     if (_paymentMethod == HotelBookingPaymentMethod.accountBalance &&
-        (ref.read(hotelMemberPayInfoProvider).valueOrNull?.balance ?? 0) <
+        (ref
+                    .read(myPageAccountStatisticProvider)
+                    .valueOrNull
+                    ?.firstLevelAccountTotal ??
+                0) <
             widget.args.totalAmount) {
       AppNotice.show(
         context,

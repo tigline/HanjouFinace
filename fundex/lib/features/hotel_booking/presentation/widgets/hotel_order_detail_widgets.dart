@@ -278,9 +278,9 @@ class _StatusBadge extends StatelessWidget {
 
 _StatusBadgeTone _orderStatusTone(int? code) {
   switch (code) {
-    case 25:
     case 80:
       return _StatusBadgeTone.success;
+    case 25:  
     case 30:
     case 40:
       return _StatusBadgeTone.warning;

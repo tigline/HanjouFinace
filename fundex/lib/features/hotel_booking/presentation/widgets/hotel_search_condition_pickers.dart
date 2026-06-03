@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/hotel_models.dart';
@@ -7,6 +8,7 @@ import '../../domain/entities/hotel_models.dart';
 Future<HotelSearchCriteria?> pickHotelStayDates({
   required BuildContext context,
   required HotelSearchCriteria criteria,
+  Map<String, Object?> priceCalendarByDate = const <String, Object?>{},
 }) async {
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
@@ -21,11 +23,17 @@ Future<HotelSearchCriteria?> pickHotelStayDates({
       ? initialEnd
       : defaultLastDate;
 
-  final range = await showDateRangePicker(
+  final range = await showModalBottomSheet<DateTimeRange>(
     context: context,
-    firstDate: firstDate,
-    lastDate: lastDate,
-    initialDateRange: DateTimeRange(start: initialStart, end: initialEnd),
+    useRootNavigator: true,
+    isScrollControlled: true,
+    builder: (context) => HotelStayDateRangePicker(
+      initialStartDate: initialStart,
+      initialEndDate: initialEnd,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      priceCalendarByDate: priceCalendarByDate,
+    ),
   );
   if (range == null) {
     return null;
@@ -173,4 +181,481 @@ class HotelGuestStepperRow extends StatelessWidget {
       ),
     );
   }
+}
+
+class HotelStayDateRangePicker extends StatefulWidget {
+  const HotelStayDateRangePicker({
+    super.key,
+    required this.initialStartDate,
+    required this.initialEndDate,
+    required this.firstDate,
+    required this.lastDate,
+    required this.priceCalendarByDate,
+  });
+
+  final DateTime initialStartDate;
+  final DateTime initialEndDate;
+  final DateTime firstDate;
+  final DateTime lastDate;
+  final Map<String, Object?> priceCalendarByDate;
+
+  @override
+  State<HotelStayDateRangePicker> createState() =>
+      _HotelStayDateRangePickerState();
+}
+
+class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
+  late DateTime _visibleMonth;
+  DateTime? _startDate;
+  DateTime? _endDate;
+
+  @override
+  void initState() {
+    super.initState();
+    final initialStart = _dateOnly(widget.initialStartDate);
+    _startDate = initialStart;
+    _endDate = _normalizedCheckoutDate(initialStart, widget.initialEndDate);
+    _visibleMonth = DateTime(initialStart.year, initialStart.month);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final localeName = Localizations.localeOf(context).toLanguageTag();
+    final monthText = DateFormat.yMMMM(localeName).format(_visibleMonth);
+    final canGoPrevious = DateTime(
+      _visibleMonth.year,
+      _visibleMonth.month - 1,
+    ).isAfter(DateTime(widget.firstDate.year, widget.firstDate.month - 1));
+    final canGoNext = DateTime(
+      _visibleMonth.year,
+      _visibleMonth.month + 1,
+    ).isBefore(DateTime(widget.lastDate.year, widget.lastDate.month + 1));
+
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(18, 14, 18, 22),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              width: 42,
+              height: 4,
+              decoration: BoxDecoration(
+                color: colors.border,
+                borderRadius: BorderRadius.circular(999),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: _SelectedDateHeaderItem(
+                    label: context.l10n.hotelBookingCheckInDate,
+                    value: _formatOptionalFullDate(localeName, _startDate),
+                  ),
+                ),
+                SizedBox(
+                  width: 1,
+                  height: 46,
+                  child: ColoredBox(color: colors.borderSoft),
+                ),
+                Expanded(
+                  child: _SelectedDateHeaderItem(
+                    label: context.l10n.hotelBookingCheckOutDate,
+                    value: _formatOptionalFullDate(localeName, _endDate),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Divider(color: colors.borderSoft),
+            const SizedBox(height: 8),
+            Row(
+              children: <Widget>[
+                IconButton(
+                  onPressed: canGoPrevious ? _goPreviousMonth : null,
+                  icon: const Icon(Icons.chevron_left_rounded),
+                ),
+                Expanded(
+                  child: Text(
+                    monthText,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: colors.textPrimary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: canGoNext ? _goNextMonth : null,
+                  icon: const Icon(Icons.chevron_right_rounded),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            _WeekdayHeader(localeName: localeName),
+            const SizedBox(height: 6),
+            _MonthGrid(
+              visibleMonth: _visibleMonth,
+              startDate: _startDate,
+              endDate: _endDate,
+              firstDate: widget.firstDate,
+              lastDate: widget.lastDate,
+              priceCalendarByDate: widget.priceCalendarByDate,
+              onDateTap: _selectDate,
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: colors.brandPrimary,
+                  foregroundColor: colors.onDark,
+                ),
+                onPressed: () {
+                  final startDate = _startDate;
+                  if (startDate == null) {
+                    return;
+                  }
+                  final endDate =
+                      _endDate ?? startDate.add(const Duration(days: 1));
+                  Navigator.of(
+                    context,
+                  ).pop(DateTimeRange(start: startDate, end: endDate));
+                },
+                child: Text(context.l10n.commonApply),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _formatOptionalFullDate(String localeName, DateTime? date) {
+    return date == null
+        ? '--'
+        : DateFormat('yyyy-MM-dd', localeName).format(date);
+  }
+
+  void _goPreviousMonth() {
+    setState(() {
+      _visibleMonth = DateTime(_visibleMonth.year, _visibleMonth.month - 1);
+    });
+  }
+
+  void _goNextMonth() {
+    setState(() {
+      _visibleMonth = DateTime(_visibleMonth.year, _visibleMonth.month + 1);
+    });
+  }
+
+  void _selectDate(DateTime date) {
+    final selected = _dateOnly(date);
+    setState(() {
+      final startDate = _startDate;
+      final endDate = _endDate;
+      if (startDate == null) {
+        _startDate = selected;
+        _endDate = null;
+        return;
+      }
+
+      if (endDate != null) {
+        _startDate = selected;
+        _endDate = null;
+        return;
+      }
+
+      if (selected.isAfter(startDate)) {
+        _endDate = selected;
+        return;
+      }
+
+      _startDate = selected;
+      _endDate = null;
+    });
+  }
+}
+
+class _SelectedDateHeaderItem extends StatelessWidget {
+  const _SelectedDateHeaderItem({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return Column(
+      children: <Widget>[
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: colors.textTertiary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            color: colors.textPrimary,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _WeekdayHeader extends StatelessWidget {
+  const _WeekdayHeader({required this.localeName});
+
+  final String localeName;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final firstWeek = _monthGridDates(DateTime(2026, 2));
+    return Row(
+      children: firstWeek
+          .take(7)
+          .map((date) {
+            return Expanded(
+              child: Text(
+                DateFormat.E(localeName).format(date),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: colors.brandSecondary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            );
+          })
+          .toList(growable: false),
+    );
+  }
+}
+
+class _MonthGrid extends StatelessWidget {
+  const _MonthGrid({
+    required this.visibleMonth,
+    required this.startDate,
+    required this.endDate,
+    required this.firstDate,
+    required this.lastDate,
+    required this.priceCalendarByDate,
+    required this.onDateTap,
+  });
+
+  final DateTime visibleMonth;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final DateTime firstDate;
+  final DateTime lastDate;
+  final Map<String, Object?> priceCalendarByDate;
+  final ValueChanged<DateTime> onDateTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final dates = _monthGridDates(visibleMonth);
+    final rows = <Widget>[];
+    for (var row = 0; row < 6; row++) {
+      rows.add(
+        Row(
+          children: dates
+              .skip(row * 7)
+              .take(7)
+              .map(
+                (date) => Expanded(
+                  child: _CalendarDayCell(
+                    date: date,
+                    visibleMonth: visibleMonth,
+                    startDate: startDate,
+                    endDate: endDate,
+                    firstDate: firstDate,
+                    lastDate: lastDate,
+                    priceText: _priceTextFor(date, priceCalendarByDate),
+                    onTap: onDateTap,
+                  ),
+                ),
+              )
+              .toList(growable: false),
+        ),
+      );
+    }
+    return Column(children: rows);
+  }
+}
+
+class _CalendarDayCell extends StatelessWidget {
+  const _CalendarDayCell({
+    required this.date,
+    required this.visibleMonth,
+    required this.startDate,
+    required this.endDate,
+    required this.firstDate,
+    required this.lastDate,
+    required this.priceText,
+    required this.onTap,
+  });
+
+  final DateTime date;
+  final DateTime visibleMonth;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final DateTime firstDate;
+  final DateTime lastDate;
+  final String priceText;
+  final ValueChanged<DateTime> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final dateOnly = _dateOnly(date);
+    final enabled =
+        !dateOnly.isBefore(_dateOnly(firstDate)) &&
+        !dateOnly.isAfter(_dateOnly(lastDate));
+    final isCurrentMonth = date.month == visibleMonth.month;
+    final isStart = startDate != null && _sameDay(date, startDate!);
+    final isEnd = endDate != null && _sameDay(date, endDate!);
+    final isSelectedEdge = isStart || isEnd;
+    final isInRange =
+        startDate != null &&
+        endDate != null &&
+        date.isAfter(startDate!) &&
+        date.isBefore(endDate!);
+    final backgroundColor = isSelectedEdge
+        ? colors.brandPrimary
+        : isInRange
+        ? colors.borderSoft
+        : colors.surface;
+    final foregroundColor = isSelectedEdge
+        ? colors.onDark
+        : enabled && isCurrentMonth
+        ? colors.textPrimary
+        : colors.textTertiary;
+    final priceColor = isSelectedEdge
+        ? colors.onDark
+        : enabled && isCurrentMonth
+        ? colors.textTertiary
+        : colors.disabled;
+
+    return AspectRatio(
+      aspectRatio: 0.92,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
+        child: Material(
+          color: backgroundColor,
+          borderRadius: _rangeRadius(isStart: isStart, isEnd: isEnd),
+          child: InkWell(
+            onTap: enabled ? () => onTap(dateOnly) : null,
+            borderRadius: _rangeRadius(isStart: isStart, isEnd: isEnd),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    date.day.toString(),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: foregroundColor,
+                      fontWeight: isSelectedEdge
+                          ? FontWeight.w800
+                          : FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    priceText,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: priceColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  BorderRadius _rangeRadius({required bool isStart, required bool isEnd}) {
+    const radius = Radius.circular(UiTokens.radius8);
+    if (isStart && isEnd) {
+      return const BorderRadius.all(radius);
+    }
+    if (isStart) {
+      return const BorderRadius.only(topLeft: radius, bottomLeft: radius);
+    }
+    if (isEnd) {
+      return const BorderRadius.only(topRight: radius, bottomRight: radius);
+    }
+    return BorderRadius.zero;
+  }
+}
+
+List<DateTime> _monthGridDates(DateTime month) {
+  final firstOfMonth = DateTime(month.year, month.month);
+  final leadingDays = firstOfMonth.weekday % 7;
+  final firstVisible = firstOfMonth.subtract(Duration(days: leadingDays));
+  return List<DateTime>.generate(
+    42,
+    (index) => firstVisible.add(Duration(days: index)),
+  );
+}
+
+bool _sameDay(DateTime first, DateTime second) {
+  return first.year == second.year &&
+      first.month == second.month &&
+      first.day == second.day;
+}
+
+String _priceTextFor(DateTime date, Map<String, Object?> priceCalendarByDate) {
+  final value = priceCalendarByDate[_wireDate(date)];
+  final price = _priceValue(value);
+  if (price == null) {
+    return '';
+  }
+  final text = price % 1 == 0 ? price.toInt().toString() : price.toString();
+  return '¥$text';
+}
+
+num? _priceValue(Object? value) {
+  if (value is num) {
+    return value;
+  }
+  if (value is String) {
+    final normalized = value.replaceAll(RegExp(r'[^0-9.\-]'), '').trim();
+    return normalized.isEmpty ? null : num.tryParse(normalized);
+  }
+  if (value is Map) {
+    for (final key in <String>[
+      'price',
+      'amount',
+      'minPrice',
+      'lowestPrice',
+      'roomPrice',
+      'salePrice',
+    ]) {
+      final parsed = _priceValue(value[key]);
+      if (parsed != null) {
+        return parsed;
+      }
+    }
+  }
+  return null;
+}
+
+String _wireDate(DateTime value) {
+  final month = value.month.toString().padLeft(2, '0');
+  final day = value.day.toString().padLeft(2, '0');
+  return '${value.year}-$month-$day';
 }

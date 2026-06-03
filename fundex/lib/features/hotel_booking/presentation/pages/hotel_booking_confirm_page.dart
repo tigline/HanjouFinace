@@ -7,6 +7,7 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/status_bar/app_status_bar_providers.dart';
 import '../../../auth/domain/entities/auth_user.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../member_profile/presentation/providers/mypage_providers.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
@@ -119,7 +120,7 @@ class _HotelBookingConfirmPageState
       hotelBookingPreparationProvider(widget.seed),
     );
     final authUserState = ref.watch(currentAuthUserProvider);
-    final memberPayInfoState = ref.watch(hotelMemberPayInfoProvider);
+    final accountStatisticState = ref.watch(myPageAccountStatisticProvider);
     _scheduleBookerAuthUserApply(authUserState.valueOrNull);
     final preparation = preparationState.valueOrNull;
     final effectiveRoomPriceElements = _roomPriceElements.isNotEmpty
@@ -200,8 +201,11 @@ class _HotelBookingConfirmPageState
                         selected: _paymentMethod,
                         registeredCardCount:
                             preparation?.registeredCardCount ?? 0,
-                        accountBalance: memberPayInfoState.valueOrNull?.balance,
-                        isAccountBalanceLoading: memberPayInfoState.isLoading,
+                        accountBalance: accountStatisticState
+                            .valueOrNull
+                            ?.firstLevelAccountTotal,
+                        isAccountBalanceLoading:
+                            accountStatisticState.isLoading,
                         payableAmount: amount ?? 0,
                         onChanged: (value) =>
                             setState(() => _paymentMethod = value),
