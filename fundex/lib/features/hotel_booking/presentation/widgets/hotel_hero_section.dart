@@ -209,7 +209,7 @@ class _HeroCopy extends StatelessWidget {
         //     letterSpacing: 0,
         //   ),
         // ),
-        const SizedBox(height: 22),
+        const SizedBox(height: 12),
         Text(
           context.l10n.hotelTabSubtitle,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
