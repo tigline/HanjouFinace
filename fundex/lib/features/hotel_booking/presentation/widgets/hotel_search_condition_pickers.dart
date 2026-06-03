@@ -561,7 +561,7 @@ class _CalendarDayCell extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     date.day.toString(),
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: foregroundColor,
                       fontWeight: isSelectedEdge
                           ? FontWeight.w800
@@ -573,9 +573,9 @@ class _CalendarDayCell extends StatelessWidget {
                     priceText,
                     maxLines: 1,
                     overflow: TextOverflow.clip,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: priceColor,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -620,21 +620,27 @@ bool _sameDay(DateTime first, DateTime second) {
 
 String _priceTextFor(DateTime date, Map<String, Object?> priceCalendarByDate) {
   final value = priceCalendarByDate[_wireDate(date)];
-  final price = _priceValue(value);
-  if (price == null) {
-    return '';
-  }
-  final text = price % 1 == 0 ? price.toInt().toString() : price.toString();
-  return '¥$text';
+  return _priceDisplayText(value);
 }
 
-num? _priceValue(Object? value) {
+String _priceDisplayText(Object? value) {
   if (value is num) {
-    return value;
+    final text = value % 1 == 0 ? value.toInt().toString() : value.toString();
+    return '¥$text';
   }
   if (value is String) {
-    final normalized = value.replaceAll(RegExp(r'[^0-9.\-]'), '').trim();
-    return normalized.isEmpty ? null : num.tryParse(normalized);
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) {
+      return '';
+    }
+    final numeric = num.tryParse(trimmed.replaceAll(',', ''));
+    if (numeric == null) {
+      return trimmed;
+    }
+    final text = numeric % 1 == 0
+        ? numeric.toInt().toString()
+        : numeric.toString();
+    return '¥$text';
   }
   if (value is Map) {
     for (final key in <String>[
@@ -645,13 +651,13 @@ num? _priceValue(Object? value) {
       'roomPrice',
       'salePrice',
     ]) {
-      final parsed = _priceValue(value[key]);
-      if (parsed != null) {
-        return parsed;
+      final text = _priceDisplayText(value[key]);
+      if (text.isNotEmpty) {
+        return text;
       }
     }
   }
-  return null;
+  return '';
 }
 
 String _wireDate(DateTime value) {
