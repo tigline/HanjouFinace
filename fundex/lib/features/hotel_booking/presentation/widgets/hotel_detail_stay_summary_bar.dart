@@ -37,9 +37,7 @@ class HotelDetailStaySummaryBar extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(UiTokens.radius16),
-        child: SizedBox(
-          height: 92,
-          child: Row(
+        child: Row(
             children: <Widget>[
               Expanded(
                 child: _SummaryItem(
@@ -71,7 +69,7 @@ class HotelDetailStaySummaryBar extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      
     );
   }
 }

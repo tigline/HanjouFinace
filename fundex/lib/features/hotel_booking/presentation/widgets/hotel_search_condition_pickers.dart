@@ -276,7 +276,7 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
               children: <Widget>[
                 IconButton(
                   onPressed: canGoPrevious ? _goPreviousMonth : null,
-                  icon: const Icon(Icons.chevron_left_rounded),
+                  icon: const Icon(Icons.chevron_left_rounded,size: 28),
                 ),
                 Expanded(
                   child: Text(
@@ -290,7 +290,7 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
                 ),
                 IconButton(
                   onPressed: canGoNext ? _goNextMonth : null,
-                  icon: const Icon(Icons.chevron_right_rounded),
+                  icon: const Icon(Icons.chevron_right_rounded,size: 28),
                 ),
               ],
             ),
@@ -429,7 +429,7 @@ class _WeekdayHeader extends StatelessWidget {
                 DateFormat.E(localeName).format(date),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: colors.highlightGold,
+                  color: colors.brandSecondary,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -542,7 +542,7 @@ class _CalendarDayCell extends StatelessWidget {
         ? colors.onDark
         : enabled && isCurrentMonth
         ? colors.textTertiary
-        : colors.disabled;
+        : colors.textTertiary.withValues(alpha: 0.58);
 
     return AspectRatio(
       aspectRatio: 0.92,

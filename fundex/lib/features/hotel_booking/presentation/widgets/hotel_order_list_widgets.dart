@@ -80,9 +80,11 @@ class HotelOrderSummaryCard extends StatelessWidget {
     final hasActions = canCancel || canPay;
     final showPaymentCountdown = order.orderStatusCode == 1;
 
-    return AspectRatio(
-      aspectRatio: 4.2 / 3,
-      child: Material(
+    return 
+    // AspectRatio(
+    //   aspectRatio: 4.2 / 3,
+    //   child: 
+      Material(
         color: colors.brandWhite,
         elevation: 3,
         shadowColor: colors.brandPrimaryDark.withValues(alpha: 0.08),
@@ -190,7 +192,7 @@ class HotelOrderSummaryCard extends StatelessWidget {
                     ],
                   ),
 
-                  const Spacer(),
+                  const SizedBox(height: 6),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
@@ -247,7 +249,7 @@ class HotelOrderSummaryCard extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      //),
     );
   }
 

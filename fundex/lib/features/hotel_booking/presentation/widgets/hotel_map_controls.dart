@@ -65,10 +65,10 @@ class HotelMapControls extends StatelessWidget {
                   selected: true,
                   onTap: onOpenFilters,
                 ),
-                _HotelMapPillButton(
-                  label: context.l10n.hotelMapListButton,
-                  onTap: onShowList,
-                ),
+                // _HotelMapPillButton(
+                //   label: context.l10n.hotelMapListButton,
+                //   onTap: onShowList,
+                // ),
                 _HotelMapPillButton(
                   label: context.l10n.hotelMapNearbyButton,
                   onTap: onNearby,

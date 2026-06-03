@@ -43,10 +43,8 @@ class HotelSearchSummaryBar extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
-          child: SizedBox(
-            height: 72,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 12, 12, 12),
+              padding: const EdgeInsets.fromLTRB(20, 12, 12, 12),
               child: Row(
                 children: <Widget>[
                   if (leading != null) ...<Widget>[
@@ -98,7 +96,7 @@ class HotelSearchSummaryBar extends StatelessWidget {
                 ],
               ),
             ),
-          ),
+          
         ),
       ),
     );
