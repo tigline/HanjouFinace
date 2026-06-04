@@ -18,6 +18,7 @@ abstract class AuthRemoteDataSource {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   });
   Future<AuthSessionDto?> refreshSession({required String refreshToken});
   Future<void> logout({required String accessToken});
@@ -85,12 +86,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) async {
     return _apiClient.registerApply(
       account: account,
       code: code,
       intlCode: intlCode,
       contact: contact,
+      inviteCode: inviteCode,
     );
   }
 

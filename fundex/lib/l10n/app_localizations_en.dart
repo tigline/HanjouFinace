@@ -588,6 +588,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerInviteCodeLabel => 'Invite code (optional)';
 
   @override
+  String get registerInviteCodeHint => 'Ex: STLV-ABCD1234';
+
+  @override
+  String get registerInviteCodeHelper =>
+      'Enter the invite code you received from your referrer.';
+
+  @override
+  String get registerOptionalBadge => 'Optional';
+
+  @override
   String get registerAcceptPolicy => 'I agree to the Terms of Service';
 
   @override

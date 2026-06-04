@@ -129,12 +129,14 @@ class AuthRepositoryImpl implements AuthRepository {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) async {
     await _remote.registerApply(
       account: account,
       code: code,
       intlCode: intlCode,
       contact: contact,
+      inviteCode: inviteCode,
     );
 
     final accessToken = await _tokenStore.readAccessToken();

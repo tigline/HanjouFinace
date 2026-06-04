@@ -1163,6 +1163,24 @@ abstract class AppLocalizations {
   /// **'Invite code (optional)'**
   String get registerInviteCodeLabel;
 
+  /// No description provided for @registerInviteCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ex: STLV-ABCD1234'**
+  String get registerInviteCodeHint;
+
+  /// No description provided for @registerInviteCodeHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the invite code you received from your referrer.'**
+  String get registerInviteCodeHelper;
+
+  /// No description provided for @registerOptionalBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get registerOptionalBadge;
+
   /// No description provided for @registerAcceptPolicy.
   ///
   /// In en, this message translates to:

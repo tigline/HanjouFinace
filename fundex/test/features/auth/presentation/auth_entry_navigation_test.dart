@@ -159,6 +159,7 @@ class _FakeAuthRepository implements AuthRepository {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) async {}
 
   @override

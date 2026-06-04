@@ -391,6 +391,7 @@ class AuthApiClient {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) async {
     final normalizedAccount = account.trim();
     final normalizedCode = code.trim();
@@ -398,8 +399,13 @@ class AuthApiClient {
         ? defaultIntlCode
         : intlCode.trim();
     final normalizedContact = contact?.trim();
+    final normalizedInviteCode = inviteCode?.trim();
 
     final isEmail = _isEmailAccount(normalizedAccount);
+    final inviteCodePayload =
+        normalizedInviteCode == null || normalizedInviteCode.isEmpty
+        ? const <String, dynamic>{}
+        : <String, dynamic>{'inviteCode': normalizedInviteCode};
 
     if (isEmail) {
       final response = await _dioForPath(verifyRegisterEmailCodePath)
@@ -409,6 +415,7 @@ class AuthApiClient {
               'email': normalizedAccount,
               'code': normalizedCode,
               'from': 'stellavia',
+              ...inviteCodePayload,
             },
             options: authRequired(
               false,
@@ -426,6 +433,7 @@ class AuthApiClient {
       'intlTelCode': normalizedIntlCode,
       'type': 'mobile',
       'mobile': normalizedAccount,
+      ...inviteCodePayload,
     };
 
     if (normalizedContact != null && normalizedContact.contains('@')) {

@@ -10,12 +10,14 @@ class RegisterAccountUseCase {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) {
     return _repository.registerAccount(
       account: account,
       code: code,
       intlCode: intlCode,
       contact: contact,
+      inviteCode: inviteCode,
     );
   }
 }

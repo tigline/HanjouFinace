@@ -46,6 +46,7 @@ class _FakeRepository implements AuthRepository {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) async {}
 
   @override
@@ -157,12 +158,14 @@ class _ThrowingSendCodeRepository implements AuthRepository {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) {
     return loginRepository.registerAccount(
       account: account,
       code: code,
       intlCode: intlCode,
       contact: contact,
+      inviteCode: inviteCode,
     );
   }
 
@@ -205,6 +208,7 @@ class _ThrowingLoginRepository implements AuthRepository {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) async {}
 
   @override

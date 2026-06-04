@@ -16,6 +16,7 @@ abstract class AuthRepository {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   });
   Future<bool> restoreSession();
   Future<bool> refreshSession();
