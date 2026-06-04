@@ -4,17 +4,41 @@ import 'dart:ui' as ui;
 
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../../app/support/app_permission_dialogs.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../support/hotel_booking_presenter.dart';
 
 const Offset _priceMarkerAnchor = Offset(0.5, 0.73);
+const gmaps.MarkerId _currentLocationMarkerId = gmaps.MarkerId(
+  'current-location',
+);
+
+class HotelMapCanvasController {
+  _HotelMapCanvasState? _state;
+
+  Future<void> moveToCurrentLocation() async {
+    await _state?._moveToCurrentLocation();
+  }
+
+  void _attach(_HotelMapCanvasState state) {
+    _state = state;
+  }
+
+  void _detach(_HotelMapCanvasState state) {
+    if (_state == state) {
+      _state = null;
+    }
+  }
+}
 
 class HotelMapCanvas extends StatefulWidget {
   const HotelMapCanvas({
     super.key,
+    this.controller,
     required this.hotels,
     required this.selectedHotelId,
     required this.fallbackTarget,
@@ -23,6 +47,7 @@ class HotelMapCanvas extends StatefulWidget {
     required this.onMapTap,
   });
 
+  final HotelMapCanvasController? controller;
   final List<HotelSummary> hotels;
   final String? selectedHotelId;
   final gmaps.LatLng fallbackTarget;
@@ -39,7 +64,14 @@ class _HotelMapCanvasState extends State<HotelMapCanvas> {
       <String, gmaps.BitmapDescriptor>{};
   gmaps.GoogleMapController? _controller;
   Set<gmaps.Marker> _markers = const <gmaps.Marker>{};
+  gmaps.LatLng? _currentLocation;
   int _generation = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller?._attach(this);
+  }
 
   @override
   void didChangeDependencies() {
@@ -50,6 +82,10 @@ class _HotelMapCanvasState extends State<HotelMapCanvas> {
   @override
   void didUpdateWidget(covariant HotelMapCanvas oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?._detach(this);
+      widget.controller?._attach(this);
+    }
     if (oldWidget.hotels != widget.hotels ||
         oldWidget.selectedHotelId != widget.selectedHotelId ||
         oldWidget.presenter.localeName != widget.presenter.localeName) {
@@ -62,6 +98,7 @@ class _HotelMapCanvasState extends State<HotelMapCanvas> {
 
   @override
   void dispose() {
+    widget.controller?._detach(this);
     _controller?.dispose();
     super.dispose();
   }
@@ -75,6 +112,7 @@ class _HotelMapCanvasState extends State<HotelMapCanvas> {
       ),
       markers: _markers,
       myLocationButtonEnabled: false,
+      myLocationEnabled: false,
       mapToolbarEnabled: false,
       zoomControlsEnabled: false,
       compassEnabled: false,
@@ -128,6 +166,7 @@ class _HotelMapCanvasState extends State<HotelMapCanvas> {
     final colors = Theme.of(context).appColors;
     final textStyle = Theme.of(context).textTheme.labelLarge;
     final priceAskLabel = context.l10n.hotelPriceAsk;
+    final currentLocationLabel = context.l10n.hotelMapNearbyButton;
     final pixelRatio = MediaQuery.devicePixelRatioOf(context).clamp(1.0, 3.0);
     final nextMarkers = <gmaps.Marker>{};
 
@@ -157,6 +196,19 @@ class _HotelMapCanvasState extends State<HotelMapCanvas> {
           icon: icon,
           anchor: _priceMarkerAnchor,
           onTap: () => widget.onHotelSelected(hotel),
+        ),
+      );
+    }
+    final currentLocation = _currentLocation;
+    if (currentLocation != null) {
+      nextMarkers.add(
+        gmaps.Marker(
+          markerId: _currentLocationMarkerId,
+          position: currentLocation,
+          icon: gmaps.BitmapDescriptor.defaultMarkerWithHue(
+            gmaps.BitmapDescriptor.hueAzure,
+          ),
+          infoWindow: gmaps.InfoWindow(title: currentLocationLabel),
         ),
       );
     }
@@ -277,6 +329,58 @@ class _HotelMapCanvasState extends State<HotelMapCanvas> {
       width: logicalWidth,
       height: logicalHeight,
     );
+  }
+
+  Future<void> _moveToCurrentLocation() async {
+    try {
+      var permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+      if (!mounted) {
+        return;
+      }
+      if (permission == LocationPermission.deniedForever) {
+        await showAppPermissionSettingsDialog(
+          context,
+          permission: AppPermissionKind.location,
+        );
+        return;
+      }
+      if (permission == LocationPermission.denied) {
+        AppNotice.show(
+          context,
+          message: context.l10n.permissionSettingsLocationMessage,
+        );
+        return;
+      }
+
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+        ),
+      );
+      if (!mounted) {
+        return;
+      }
+      final current = gmaps.LatLng(position.latitude, position.longitude);
+      setState(() {
+        _currentLocation = current;
+      });
+      await _controller?.animateCamera(
+        gmaps.CameraUpdate.newLatLngZoom(current, 14.6),
+      );
+      await _rebuildMarkers();
+      await _controller?.showMarkerInfoWindow(_currentLocationMarkerId);
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+      AppNotice.show(
+        context,
+        message: context.l10n.permissionSettingsLocationMessage,
+      );
+    }
   }
 
   gmaps.LatLng? _coordinateFor(HotelSummary hotel) {

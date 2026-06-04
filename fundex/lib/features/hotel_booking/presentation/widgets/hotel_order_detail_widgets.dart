@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../support/hotel_booking_presenter.dart';
+import '../support/hotel_map_app_picker.dart';
 import 'hotel_detail_image_placeholder.dart';
 import 'hotel_payment_countdown_badge.dart';
 
@@ -280,7 +281,7 @@ _StatusBadgeTone _orderStatusTone(int? code) {
   switch (code) {
     case 80:
       return _StatusBadgeTone.success;
-    case 25:  
+    case 25:
     case 30:
     case 40:
       return _StatusBadgeTone.warning;
@@ -1081,6 +1082,13 @@ class _OrderLocationSection extends StatelessWidget {
                 height: width.isFinite ? width * 0.56 : 170,
                 showAddressOverlay: false,
                 showZoomControls: true,
+                onTap: coordinate == null
+                    ? null
+                    : () => showHotelMapAppPicker(
+                        context: context,
+                        coordinate: coordinate,
+                        queryLabel: _mapAddressLabel(context, detail, address),
+                      ),
               );
             },
           ),
@@ -1088,6 +1096,22 @@ class _OrderLocationSection extends StatelessWidget {
       ),
     );
   }
+}
+
+String _mapAddressLabel(
+  BuildContext context,
+  HotelOrderDetail detail,
+  String address,
+) {
+  final trimmedAddress = address.trim();
+  if (trimmedAddress.isNotEmpty) {
+    return trimmedAddress;
+  }
+  final name = detail.summary.hotelName.trim();
+  if (name.isNotEmpty) {
+    return name;
+  }
+  return context.l10n.hotelUnnamedProperty;
 }
 
 class _OrderCancelPolicySection extends StatelessWidget {

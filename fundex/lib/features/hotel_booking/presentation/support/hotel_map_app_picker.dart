@@ -1,0 +1,211 @@
+import 'package:core_ui_kit/core_ui_kit.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../app/localization/app_localizations_ext.dart';
+
+Future<void> showHotelMapAppPicker({
+  required BuildContext context,
+  required FundPropertyCoordinate coordinate,
+  required String queryLabel,
+}) {
+  final platform = Theme.of(context).platform;
+  final options = <_HotelMapAppOption>[
+    if (platform == TargetPlatform.iOS)
+      _HotelMapAppOption(
+        name: 'Apple map',
+        icon: Icons.map_outlined,
+        uri: _mapUri(
+          _HotelMapAppType.apple,
+          coordinate: coordinate,
+          queryLabel: queryLabel,
+          isIos: true,
+        ),
+      ),
+    _HotelMapAppOption(
+      name: 'Google Map',
+      icon: Icons.public_outlined,
+      uri: _mapUri(
+        _HotelMapAppType.google,
+        coordinate: coordinate,
+        queryLabel: queryLabel,
+        isIos: platform == TargetPlatform.iOS,
+      ),
+    ),
+    _HotelMapAppOption(
+      name: 'Yahoo Map',
+      icon: Icons.travel_explore_outlined,
+      uri: _mapUri(
+        _HotelMapAppType.yahoo,
+        coordinate: coordinate,
+        queryLabel: queryLabel,
+        isIos: platform == TargetPlatform.iOS,
+      ),
+    ),
+    _HotelMapAppOption(
+      name: 'Amap',
+      icon: Icons.near_me_outlined,
+      uri: _mapUri(
+        _HotelMapAppType.amap,
+        coordinate: coordinate,
+        queryLabel: queryLabel,
+        isIos: platform == TargetPlatform.iOS,
+      ),
+    ),
+  ];
+  final colors = Theme.of(context).appColors;
+  return showModalBottomSheet<void>(
+    context: context,
+    useRootNavigator: true,
+    backgroundColor: colors.brandWhite,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    ),
+    builder: (sheetContext) {
+      return SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                width: 42,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: colors.borderSoft,
+                  borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                context.l10n.hotelMapAppPickerTitle,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colors.brandPrimaryDark,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 12),
+              for (final option in options) ...<Widget>[
+                _HotelMapAppCell(
+                  option: option,
+                  onTap: () async {
+                    Navigator.of(sheetContext).pop();
+                    await _openMapApp(context, option.uri);
+                  },
+                ),
+                if (option != options.last)
+                  Divider(height: 1, color: colors.borderSoft),
+              ],
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Uri _mapUri(
+  _HotelMapAppType type, {
+  required FundPropertyCoordinate coordinate,
+  required String queryLabel,
+  required bool isIos,
+}) {
+  final lat = coordinate.latitude;
+  final lng = coordinate.longitude;
+  final encodedLabel = Uri.encodeComponent(queryLabel);
+  return switch (type) {
+    _HotelMapAppType.apple => Uri.parse('maps://?q=$encodedLabel&ll=$lat,$lng'),
+    _HotelMapAppType.google =>
+      isIos
+          ? Uri.parse('comgooglemaps://?q=$lat,$lng($encodedLabel)')
+          : Uri.parse('geo:$lat,$lng?q=$lat,$lng($encodedLabel)'),
+    _HotelMapAppType.yahoo => Uri.parse(
+      'yjmap://?lat=$lat&lon=$lng&z=16&mode=map',
+    ),
+    _HotelMapAppType.amap =>
+      isIos
+          ? Uri.parse(
+              'iosamap://viewMap?sourceApplication=StellaVia&poiname=$encodedLabel&lat=$lat&lon=$lng&dev=0',
+            )
+          : Uri.parse(
+              'androidamap://viewMap?sourceApplication=StellaVia&poiname=$encodedLabel&lat=$lat&lon=$lng&dev=0',
+            ),
+  };
+}
+
+Future<void> _openMapApp(BuildContext context, Uri uri) async {
+  try {
+    final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (launched) {
+      return;
+    }
+  } catch (_) {
+    // Fall through to the user-facing not-installed notice.
+  }
+  if (!context.mounted) {
+    return;
+  }
+  AppNotice.show(context, message: context.l10n.hotelMapAppNotInstalled);
+}
+
+enum _HotelMapAppType { apple, google, yahoo, amap }
+
+class _HotelMapAppOption {
+  const _HotelMapAppOption({
+    required this.name,
+    required this.icon,
+    required this.uri,
+  });
+
+  final String name;
+  final IconData icon;
+  final Uri uri;
+}
+
+class _HotelMapAppCell extends StatelessWidget {
+  const _HotelMapAppCell({required this.option, required this.onTap});
+
+  final _HotelMapAppOption option;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: colors.brandSecondary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(option.icon, color: colors.brandSecondary, size: 21),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                option.name,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: colors.brandPrimaryDark,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: colors.textTertiary,
+              size: 22,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

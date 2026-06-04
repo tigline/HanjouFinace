@@ -37,6 +37,7 @@ class HotelMapPage extends ConsumerStatefulWidget {
 }
 
 class _HotelMapPageState extends ConsumerState<HotelMapPage> {
+  final HotelMapCanvasController _mapController = HotelMapCanvasController();
   String? _selectedHotelId;
   bool _initialCriteriaApplied = false;
   bool _selectionSuppressed = false;
@@ -79,6 +80,7 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
             children: <Widget>[
               Positioned.fill(
                 child: HotelMapCanvas(
+                  controller: _mapController,
                   hotels: hotels,
                   selectedHotelId: _selectedHotelId,
                   fallbackTarget: _fallbackTarget(state.criteria),
@@ -105,7 +107,7 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
                   onBack: _showList,
                   onOpenFilters: () => _openSearchConditions(state.criteria),
                   onShowList: _showList,
-                  onNearby: () {},
+                  onNearby: _mapController.moveToCurrentLocation,
                 ),
               ),
               if (mapResult.isLoading && hotels.isEmpty)
