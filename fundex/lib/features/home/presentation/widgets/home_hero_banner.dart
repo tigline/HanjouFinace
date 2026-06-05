@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'home_register_bonus_campaign_bar.dart';
 
 const String _homeHeroBannerBaseUrl = 'https://stellavia.co.jp/img';
-const int _homeHeroBannerImageCount = 3;
+const int _homeHeroBannerImageCount = 4;
 final String _homeHeroBannerCacheVersion = DateTime.now().millisecondsSinceEpoch
     .toString();
 
