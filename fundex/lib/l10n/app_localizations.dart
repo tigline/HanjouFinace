@@ -1163,6 +1163,18 @@ abstract class AppLocalizations {
   /// **'Invite code (optional)'**
   String get registerInviteCodeLabel;
 
+  /// No description provided for @registerInviteCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code'**
+  String get registerInviteCodeTitle;
+
+  /// No description provided for @registerInviteCodeHolderOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'(if you have one)'**
+  String get registerInviteCodeHolderOnly;
+
   /// No description provided for @registerInviteCodeHint.
   ///
   /// In en, this message translates to:

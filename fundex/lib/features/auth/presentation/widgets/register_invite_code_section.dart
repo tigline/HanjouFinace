@@ -6,6 +6,8 @@ class RegisterInviteCodeSection extends StatelessWidget {
     super.key,
     required this.controller,
     required this.labelText,
+    required this.titleText,
+    required this.holderOnlyText,
     required this.hintText,
     required this.helperText,
     required this.optionalLabel,
@@ -14,6 +16,8 @@ class RegisterInviteCodeSection extends StatelessWidget {
 
   final TextEditingController controller;
   final String labelText;
+  final String titleText;
+  final String holderOnlyText;
   final String hintText;
   final String helperText;
   final String optionalLabel;
@@ -23,12 +27,7 @@ class RegisterInviteCodeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.appColors;
-    final travelTheme = theme.extension<AppFTKTheme>();
-    final accentColor =
-        travelTheme?.primaryButtonColor ?? theme.colorScheme.primary;
-    final borderColor = accentColor.withValues(alpha: 0.72);
     final helperColor = colors.textSecondary.withValues(alpha: 0.9);
-    final iconBackgroundColor = accentColor.withValues(alpha: 0.12);
 
     return Container(
       width: double.infinity,
@@ -38,100 +37,65 @@ class RegisterInviteCodeSection extends StatelessWidget {
         UiTokens.spacing12,
         UiTokens.spacing8,
       ),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(UiTokens.radius12),
-        border: Border.all(color: borderColor, width: 1.4),
-      ),
+      decoration: BoxDecoration(color: theme.colorScheme.surface),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            labelText,
-            style: theme.appTextTheme.inputLabel.copyWith(
-              color: colors.textPrimary,
-              fontWeight: FontWeight.w700,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Divider(
+                  color: colors.textSecondary.withValues(alpha: 0.52),
+                  thickness: 1,
+                  endIndent: UiTokens.spacing12,
+                ),
+              ),
+              const SizedBox(width: UiTokens.spacing8),
+              Text(
+                labelText,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.textSecondary,
+                ),
+              ),
+              const SizedBox(width: UiTokens.spacing8),
+              Expanded(
+                child: Divider(
+                  color: colors.textSecondary.withValues(alpha: 0.52),
+                  thickness: 1,
+                  indent: UiTokens.spacing12,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: UiTokens.spacing12),
+          Row(
+            children: [
+              Text(
+                titleText,
+                style: theme.appTextTheme.inputLabel.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(width: UiTokens.spacing4),
+              Text(
+                holderOnlyText,
+                style: theme.appTextTheme.inputLabel.copyWith(
+                  color: colors.textSecondary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: UiTokens.spacing8),
-          TextField(
-            key: const Key('register_invite_code_input'),
+          InviteCodeTextField(
+            inputKey: const Key('register_invite_code_input'),
             controller: controller,
+            labelText: labelText,
+            hintText: hintText,
+            optionalLabel: optionalLabel,
             onChanged: onChanged,
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.done,
-            textCapitalization: TextCapitalization.characters,
-            style: theme.appTextTheme.inputText,
-            cursorColor: accentColor,
-            decoration: InputDecoration(
-              isDense: true,
-              hintText: hintText,
-              hintStyle: theme.appTextTheme.inputText.copyWith(
-                color: helperColor.withValues(alpha: 0.55),
-              ),
-              prefixIcon: Container(
-                width: 34,
-                height: 34,
-                margin: const EdgeInsetsDirectional.only(
-                  start: UiTokens.spacing12,
-                  end: UiTokens.spacing8,
-                ),
-                decoration: BoxDecoration(
-                  color: iconBackgroundColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  Icons.confirmation_number_outlined,
-                  size: 18,
-                  color: accentColor,
-                ),
-              ),
-              prefixIconConstraints: const BoxConstraints(
-                minWidth: 54,
-                minHeight: 34,
-              ),
-              suffixIcon: Center(
-                widthFactor: 1,
-                child: Container(
-                  margin: const EdgeInsetsDirectional.only(
-                    end: UiTokens.spacing12,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: UiTokens.spacing8,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: accentColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    optionalLabel,
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: accentColor,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-              filled: true,
-              fillColor: theme.colorScheme.surface,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: UiTokens.spacing12,
-                vertical: UiTokens.spacing12,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(UiTokens.radius12),
-                borderSide: BorderSide(color: borderColor),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(UiTokens.radius12),
-                borderSide: BorderSide(color: borderColor),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(UiTokens.radius12),
-                borderSide: BorderSide(color: accentColor, width: 1.6),
-              ),
-            ),
           ),
           const SizedBox(height: UiTokens.spacing8),
           Text(
@@ -142,6 +106,7 @@ class RegisterInviteCodeSection extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+          const SizedBox(height: UiTokens.spacing12),
         ],
       ),
     );

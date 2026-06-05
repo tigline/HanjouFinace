@@ -547,6 +547,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get registerInviteCodeLabel => '邀请码（选填）';
 
   @override
+  String get registerInviteCodeTitle => '邀请码';
+
+  @override
+  String get registerInviteCodeHolderOnly => '（仅持有者填写）';
+
+  @override
   String get registerInviteCodeHint => '例：STLV-ABCD1234';
 
   @override
@@ -4917,6 +4923,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get registerInviteCodeLabel => '邀請碼（選填）';
+
+  @override
+  String get registerInviteCodeTitle => '邀請碼';
+
+  @override
+  String get registerInviteCodeHolderOnly => '（僅持有者填寫）';
 
   @override
   String get registerInviteCodeHint => '例：STLV-ABCD1234';

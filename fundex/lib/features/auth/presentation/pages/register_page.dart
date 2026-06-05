@@ -326,6 +326,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 RegisterInviteCodeSection(
                   controller: _inviteCodeController,
                   labelText: l10n.registerInviteCodeLabel,
+                  titleText: l10n.registerInviteCodeTitle,
+                  holderOnlyText: l10n.registerInviteCodeHolderOnly,
                   hintText: l10n.registerInviteCodeHint,
                   helperText: l10n.registerInviteCodeHelper,
                   optionalLabel: l10n.registerOptionalBadge,

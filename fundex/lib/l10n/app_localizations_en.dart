@@ -588,6 +588,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerInviteCodeLabel => 'Invite code (optional)';
 
   @override
+  String get registerInviteCodeTitle => 'Invite code';
+
+  @override
+  String get registerInviteCodeHolderOnly => '(if you have one)';
+
+  @override
   String get registerInviteCodeHint => 'Ex: STLV-ABCD1234';
 
   @override

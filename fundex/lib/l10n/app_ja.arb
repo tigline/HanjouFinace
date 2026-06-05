@@ -187,6 +187,8 @@
   "registerPasswordLabel": "パスワード",
   "registerConfirmPasswordLabel": "パスワード確認",
   "registerInviteCodeLabel": "招待コード（任意）",
+  "registerInviteCodeTitle": "招待コード",
+  "registerInviteCodeHolderOnly": "（お持ちの方のみ）",
   "registerInviteCodeHint": "例：STLV-ABCD1234",
   "registerInviteCodeHelper": "渠道人から受け取った招待コードをご入力ください",
   "registerOptionalBadge": "任意",

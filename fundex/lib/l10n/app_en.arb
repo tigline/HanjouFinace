@@ -187,6 +187,8 @@
   "registerPasswordLabel": "Password",
   "registerConfirmPasswordLabel": "Confirm password",
   "registerInviteCodeLabel": "Invite code (optional)",
+  "registerInviteCodeTitle": "Invite code",
+  "registerInviteCodeHolderOnly": "(if you have one)",
   "registerInviteCodeHint": "Ex: STLV-ABCD1234",
   "registerInviteCodeHelper": "Enter the invite code you received from your referrer.",
   "registerOptionalBadge": "Optional",

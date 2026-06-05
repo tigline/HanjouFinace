@@ -554,6 +554,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get registerInviteCodeLabel => '招待コード（任意）';
 
   @override
+  String get registerInviteCodeTitle => '招待コード';
+
+  @override
+  String get registerInviteCodeHolderOnly => '（お持ちの方のみ）';
+
+  @override
   String get registerInviteCodeHint => '例：STLV-ABCD1234';
 
   @override
