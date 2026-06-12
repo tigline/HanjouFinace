@@ -834,7 +834,7 @@ _AchievementBannerPalette _resolveAchievementBannerPalette({
   final effectiveGradientColors = shiftedGradientColors
       .map((Color color) => Color.lerp(trackColor, color, visibility) ?? color)
       .toList(growable: false);
-  final foregroundColor = normalizedValue >= 0.32
+  final foregroundColor = normalizedValue >= 0.15
       ? colors.onDark
       : colors.textPrimary;
   final borderColor =
