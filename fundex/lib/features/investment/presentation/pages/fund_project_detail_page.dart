@@ -734,15 +734,17 @@ class _FundDetailDistributionDisclosureRow extends StatelessWidget {
     final appText = theme.appTextTheme;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
           item.label,
+          textAlign: TextAlign.start,
           style: appText.tableLabel.copyWith(color: colors.textTertiary),
         ),
         const SizedBox(height: 4),
         Text(
           item.value,
+          textAlign: TextAlign.start,
           style: appText.tableValue.copyWith(color: colors.textPrimary),
         ),
       ],
@@ -832,7 +834,7 @@ _AchievementBannerPalette _resolveAchievementBannerPalette({
   final effectiveGradientColors = shiftedGradientColors
       .map((Color color) => Color.lerp(trackColor, color, visibility) ?? color)
       .toList(growable: false);
-  final foregroundColor = normalizedValue >= 0.62
+  final foregroundColor = normalizedValue >= 0.32
       ? colors.onDark
       : colors.textPrimary;
   final borderColor =

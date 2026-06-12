@@ -2414,7 +2414,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get fundDetailDistributionCalculationPeriodMonth =>
-      '按自然月计算。自然月是指每月1日至月末日的期间。';
+      '按每月计算。每月是指每月1日至月末日的期间。';
 
   @override
   String get fundDetailDistributionCalculationPeriodSeason =>
@@ -6796,7 +6796,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get fundDetailDistributionCalculationPeriodMonth =>
-      '按自然月計算。自然月是指每月1日至月末日的期間。';
+      '按每月計算。每月是指每月1日至月末日的期間。';
 
   @override
   String get fundDetailDistributionCalculationPeriodSeason =>

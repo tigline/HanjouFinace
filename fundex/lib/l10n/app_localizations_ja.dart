@@ -2443,7 +2443,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fundDetailDistributionCalculationPeriodMonth =>
-      '自然月ごとに計算します。自然月とは、毎月1日から月末日までの期間を指します。';
+      '毎月計算します。毎月とは、毎月1日から月末日までの期間を指します。';
 
   @override
   String get fundDetailDistributionCalculationPeriodSeason =>
@@ -2880,7 +2880,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walletPaymentConfirmationSentNotice =>
-      'すでに通知が送信されています。重複してご送信いただく必要はありません。';
+      '入金処理中です。ご入金報告は受け付けております。担当者が着金確認を順次行っておりますので、しばらくお待ちください。';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => '通知日時';
