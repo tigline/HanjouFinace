@@ -135,6 +135,9 @@ class InviteCodeTextField extends StatelessWidget {
       keyboardType: TextInputType.text,
       textInputAction: textInputAction,
       autofillHints: const <String>[],
+      inputFormatters: const <TextInputFormatter>[
+        _UpperCaseTextInputFormatter(),
+      ],
       leadingIcon: leadingIcon,
       textCapitalization: TextCapitalization.characters,
       trailing: normalizedOptionalLabel.isEmpty
@@ -158,6 +161,22 @@ class InviteCodeTextField extends StatelessWidget {
             ),
       onChanged: onChanged,
     );
+  }
+}
+
+class _UpperCaseTextInputFormatter extends TextInputFormatter {
+  const _UpperCaseTextInputFormatter();
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final upperText = newValue.text.toUpperCase();
+    if (upperText == newValue.text) {
+      return newValue;
+    }
+    return newValue.copyWith(text: upperText, composing: TextRange.empty);
   }
 }
 
