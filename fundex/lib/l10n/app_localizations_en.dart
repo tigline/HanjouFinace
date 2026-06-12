@@ -3038,7 +3038,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walletPaymentConfirmationSentNotice =>
-      'A payment notification has already been sent. You do not need to send it again.';
+      'Your payment is currently being processed. We have received your payment report. Our staff will confirm the receipt of funds in order, so please wait for a while.';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => 'Notification time';

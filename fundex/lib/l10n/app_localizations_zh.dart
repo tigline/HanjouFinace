@@ -2850,7 +2850,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get walletProjectDepositAccountHolderAddressLabel => '地址';
 
   @override
-  String get walletPaymentConfirmationSentNotice => '已发送过入金通知，无需重复发送。';
+  String get walletPaymentConfirmationSentNotice =>
+      '正在进行入金处理。我们已受理您的入金报告，将依次确认款项到账情况，请稍候。';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => '通知时间';
@@ -7232,7 +7233,8 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get walletProjectDepositAccountHolderAddressLabel => '地址';
 
   @override
-  String get walletPaymentConfirmationSentNotice => '已發送過入金通知，無需重複發送。';
+  String get walletPaymentConfirmationSentNotice =>
+      '正在進行入金處理。我們已受理您的入金報告，將依序確認款項到帳情況，請稍候。';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => '通知時間';

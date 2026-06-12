@@ -5606,7 +5606,7 @@ abstract class AppLocalizations {
   /// No description provided for @walletPaymentConfirmationSentNotice.
   ///
   /// In en, this message translates to:
-  /// **'A payment notification has already been sent. You do not need to send it again.'**
+  /// **'Your payment is currently being processed. We have received your payment report. Our staff will confirm the receipt of funds in order, so please wait for a while.'**
   String get walletPaymentConfirmationSentNotice;
 
   /// No description provided for @walletPaymentConfirmationSentAtLabel.
