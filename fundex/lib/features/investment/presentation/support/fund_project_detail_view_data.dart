@@ -126,6 +126,7 @@ List<FundDetailInfoItemData> _buildDistributionInfoItems(
   BuildContext context,
   FundProject project,
 ) {
+  final distributionDate = _resolveDistributionDateText(context, project);
   return <FundDetailInfoItemData>[
     FundDetailInfoItemData(
       label: context.l10n.fundDetailDistributionCalculationPeriodLabel,
@@ -133,7 +134,7 @@ List<FundDetailInfoItemData> _buildDistributionInfoItems(
     ),
     FundDetailInfoItemData(
       label: context.l10n.fundDetailDistributionScheduleLabel,
-      value: context.l10n.fundDetailDistributionScheduleDefault,
+      value: distributionDate ?? context.l10n.fundDetailUnknownValue,
     ),
   ];
 }

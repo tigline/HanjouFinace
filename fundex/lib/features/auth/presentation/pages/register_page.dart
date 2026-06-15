@@ -9,6 +9,7 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../settings/presentation/providers/settings_content_providers.dart';
 import '../providers/auth_providers.dart';
 import '../support/code_send_cooldown.dart';
+import '../widgets/register_invite_code_section.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -20,6 +21,7 @@ class RegisterPage extends ConsumerStatefulWidget {
 class _RegisterPageState extends ConsumerState<RegisterPage> {
   late final TextEditingController _accountController;
   late final TextEditingController _codeController;
+  late final TextEditingController _inviteCodeController;
   bool _acceptPolicy = false;
   bool _acceptElectronicDelivery = false;
   bool _acceptAntiSocial = false;
@@ -33,6 +35,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.initState();
     _accountController = TextEditingController();
     _codeController = TextEditingController();
+    _inviteCodeController = TextEditingController();
     _sendCodeCooldown = CodeSendCooldown(
       onChanged: () {
         if (mounted) {
@@ -47,6 +50,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     _sendCodeCooldown.dispose();
     _accountController.dispose();
     _codeController.dispose();
+    _inviteCodeController.dispose();
     super.dispose();
   }
 
@@ -174,6 +178,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             account: _accountValue,
             code: _codeController.text.trim(),
             intlCode: AuthApiDefaults.defaultIntlCode,
+            inviteCode: _inviteCodeController.text.trim(),
           );
     } catch (error) {
       if (!mounted) {
@@ -316,6 +321,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   onChanged: (_) => setState(() {}),
                   onSendCode: _canSendCode ? _sendCode : null,
                   buttonWidth: 132,
+                ),
+                const SizedBox(height: UiTokens.spacing12),
+                RegisterInviteCodeSection(
+                  controller: _inviteCodeController,
+                  labelText: l10n.registerInviteCodeLabel,
+                  titleText: l10n.registerInviteCodeTitle,
+                  holderOnlyText: l10n.registerInviteCodeHolderOnly,
+                  hintText: l10n.registerInviteCodeHint,
+                  helperText: l10n.registerInviteCodeHelper,
+                  optionalLabel: l10n.registerOptionalBadge,
+                  onChanged: (_) => setState(() {}),
                 ),
                 const SizedBox(height: UiTokens.spacing12),
                 _RegisterPolicyRow(

@@ -594,6 +594,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerInviteCodeLabel => 'Invite code (optional)';
 
   @override
+  String get registerInviteCodeTitle => 'Invite code';
+
+  @override
+  String get registerInviteCodeHolderOnly => '(if you have one)';
+
+  @override
+  String get registerInviteCodeHint => 'Ex: STLV-ABCD1234';
+
+  @override
+  String get registerInviteCodeHelper =>
+      'Enter the invite code you received from your referrer.';
+
+  @override
+  String get registerOptionalBadge => 'Optional';
+
+  @override
   String get registerAcceptPolicy => 'I agree to the Terms of Service';
 
   @override
@@ -4057,7 +4073,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walletPaymentConfirmationSentNotice =>
-      'A payment notification has already been sent. You do not need to send it again.';
+      'Your payment is currently being processed. We have received your payment report. Our staff will confirm the receipt of funds in order, so please wait for a while.';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => 'Notification time';

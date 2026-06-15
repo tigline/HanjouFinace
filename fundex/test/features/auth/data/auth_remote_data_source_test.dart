@@ -310,28 +310,31 @@ void main() {
     test(
       'registerApply uses offline email verification endpoint when account is email',
       () async {
-      final client = _buildClient((options) async {
-        expect(options.method, 'PUT');
-        expect(options.path, AuthApiPaths.verifyRegisterEmailCode);
-        expect(options.contentType, Headers.jsonContentType);
-        expect(options.extra['auth_required'], false);
+        final client = _buildClient((options) async {
+          expect(options.method, 'PUT');
+          expect(options.path, AuthApiPaths.verifyRegisterEmailCode);
+          expect(options.contentType, Headers.jsonContentType);
+          expect(options.extra['auth_required'], false);
 
-        final body = options.data as Map<String, dynamic>;
-        expect(body['email'], 'user@example.com');
-        expect(body['code'], '123456');
-        expect(body['from'], 'stellavia');
-        expect(body.containsKey('mobile'), isFalse);
-        expect(body.containsKey('intlTelCode'), isFalse);
-        return _jsonOk('{"code":200,"msg":"success"}');
-      });
-      final source = AuthRemoteDataSourceImpl(client);
+          final body = options.data as Map<String, dynamic>;
+          expect(body['email'], 'user@example.com');
+          expect(body['code'], '123456');
+          expect(body['from'], 'stellavia');
+          expect(body['inviteCode'], 'STLV-ABCD1234');
+          expect(body.containsKey('mobile'), isFalse);
+          expect(body.containsKey('intlTelCode'), isFalse);
+          return _jsonOk('{"code":200,"msg":"success"}');
+        });
+        final source = AuthRemoteDataSourceImpl(client);
 
-      await source.registerApply(
-        account: 'user@example.com',
-        code: '123456',
-        intlCode: '81',
-      );
-    });
+        await source.registerApply(
+          account: 'user@example.com',
+          code: '123456',
+          intlCode: '81',
+          inviteCode: 'STLV-ABCD1234',
+        );
+      },
+    );
 
     test('registerApply uses mobile payload when account is phone', () async {
       final client = _buildClient((options) async {
@@ -345,6 +348,7 @@ void main() {
         expect(body['mobile'], '13900000000');
         expect(body['intlTelCode'], '81');
         expect(body['code'], '123456');
+        expect(body['inviteCode'], 'STLV-ABCD1234');
         return _jsonOk('{"code":200,"data":true}');
       });
       final source = AuthRemoteDataSourceImpl(client);
@@ -353,6 +357,7 @@ void main() {
         account: '13900000000',
         code: '123456',
         intlCode: '81',
+        inviteCode: 'STLV-ABCD1234',
       );
     });
   });

@@ -553,6 +553,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get registerInviteCodeLabel => '邀请码（选填）';
 
   @override
+  String get registerInviteCodeTitle => '邀请码';
+
+  @override
+  String get registerInviteCodeHolderOnly => '（仅持有者填写）';
+
+  @override
+  String get registerInviteCodeHint => '例：STLV-ABCD1234';
+
+  @override
+  String get registerInviteCodeHelper => '请输入从渠道方收到的邀请码';
+
+  @override
+  String get registerOptionalBadge => '选填';
+
+  @override
   String get registerAcceptPolicy => '我已阅读并同意《服务条款》';
 
   @override
@@ -3404,7 +3419,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get fundDetailDistributionCalculationPeriodMonth =>
-      '按自然月计算。自然月是指每月1日至月末日的期间。';
+      '按每月计算。每月是指每月1日至月末日的期间。';
 
   @override
   String get fundDetailDistributionCalculationPeriodSeason =>
@@ -3840,7 +3855,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get walletProjectDepositAccountHolderAddressLabel => '地址';
 
   @override
-  String get walletPaymentConfirmationSentNotice => '已发送过入金通知，无需重复发送。';
+  String get walletPaymentConfirmationSentNotice =>
+      '正在进行入金处理。我们已受理您的入金报告，将依次确认款项到账情况，请稍候。';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => '通知时间';
@@ -5919,6 +5935,21 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get registerInviteCodeLabel => '邀請碼（選填）';
+
+  @override
+  String get registerInviteCodeTitle => '邀請碼';
+
+  @override
+  String get registerInviteCodeHolderOnly => '（僅持有者填寫）';
+
+  @override
+  String get registerInviteCodeHint => '例：STLV-ABCD1234';
+
+  @override
+  String get registerInviteCodeHelper => '請輸入從渠道方收到的邀請碼';
+
+  @override
+  String get registerOptionalBadge => '選填';
 
   @override
   String get registerAcceptPolicy => '我已閱讀並同意《服務條款》';
@@ -8776,7 +8807,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get fundDetailDistributionCalculationPeriodMonth =>
-      '按自然月計算。自然月是指每月1日至月末日的期間。';
+      '按每月計算。每月是指每月1日至月末日的期間。';
 
   @override
   String get fundDetailDistributionCalculationPeriodSeason =>
@@ -9212,7 +9243,8 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get walletProjectDepositAccountHolderAddressLabel => '地址';
 
   @override
-  String get walletPaymentConfirmationSentNotice => '已發送過入金通知，無需重複發送。';
+  String get walletPaymentConfirmationSentNotice =>
+      '正在進行入金處理。我們已受理您的入金報告，將依序確認款項到帳情況，請稍候。';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => '通知時間';

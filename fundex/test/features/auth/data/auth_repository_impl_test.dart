@@ -14,6 +14,7 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
   String? lastRegisterAccount;
   String? lastRegisterCode;
   String? lastRegisterContact;
+  String? lastRegisterInviteCode;
   String? lastLoginAccount;
   String? lastLoginCode;
   String? lastLoginIntlCode;
@@ -89,11 +90,13 @@ class _FakeRemoteDataSource implements AuthRemoteDataSource {
     required String code,
     required String intlCode,
     String? contact,
+    String? inviteCode,
   }) async {
     lastRegisterAccount = account;
     lastRegisterCode = code;
     lastRegisterIntlCode = intlCode;
     lastRegisterContact = contact;
+    lastRegisterInviteCode = inviteCode;
   }
 
   @override
@@ -280,9 +283,11 @@ void main() {
           code: '123456',
           intlCode: '81',
           contact: '13900000000',
+          inviteCode: 'STLV-ABCD1234',
         );
 
         expect(remote.lastRegisterAccount, 'user@example.com');
+        expect(remote.lastRegisterInviteCode, 'STLV-ABCD1234');
         expect(remote.fetchCurrentUserCallCount, 1);
         expect(local.savedUser?.username, 'registered@example.com');
         expect(local.savedUser?.memberId, 2002);
@@ -371,12 +376,14 @@ void main() {
         code: '123456',
         intlCode: '81',
         contact: '13900000000',
+        inviteCode: 'STLV-ABCD1234',
       );
 
       expect(remote.lastRegisterAccount, 'user@example.com');
       expect(remote.lastRegisterCode, '123456');
       expect(remote.lastRegisterIntlCode, '81');
       expect(remote.lastRegisterContact, '13900000000');
+      expect(remote.lastRegisterInviteCode, 'STLV-ABCD1234');
     });
   });
 }

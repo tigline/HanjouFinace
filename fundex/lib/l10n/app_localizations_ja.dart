@@ -560,6 +560,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get registerInviteCodeLabel => '招待コード（任意）';
 
   @override
+  String get registerInviteCodeTitle => '招待コード';
+
+  @override
+  String get registerInviteCodeHolderOnly => '（お持ちの方のみ）';
+
+  @override
+  String get registerInviteCodeHint => '例：STLV-ABCD1234';
+
+  @override
+  String get registerInviteCodeHelper => '渠道人から受け取った招待コードをご入力ください';
+
+  @override
+  String get registerOptionalBadge => '任意';
+
+  @override
   String get registerAcceptPolicy => '利用規約に同意します。';
 
   @override
@@ -3439,7 +3454,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fundDetailDistributionCalculationPeriodMonth =>
-      '自然月ごとに計算します。自然月とは、毎月1日から月末日までの期間を指します。';
+      '毎月計算します。毎月とは、毎月1日から月末日までの期間を指します。';
 
   @override
   String get fundDetailDistributionCalculationPeriodSeason =>
@@ -3876,7 +3891,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walletPaymentConfirmationSentNotice =>
-      'すでに通知が送信されています。重複してご送信いただく必要はありません。';
+      '入金処理中です。ご入金報告は受け付けております。担当者が着金確認を順次行っておりますので、しばらくお待ちください。';
 
   @override
   String get walletPaymentConfirmationSentAtLabel => '通知日時';

@@ -95,6 +95,91 @@ class PhoneTextField extends StatelessWidget {
   }
 }
 
+class InviteCodeTextField extends StatelessWidget {
+  const InviteCodeTextField({
+    super.key,
+    required this.controller,
+    required this.labelText,
+    this.inputKey,
+    this.onChanged,
+    this.hintText,
+    this.enabled = true,
+    this.leadingIcon = Icons.confirmation_number_outlined,
+    this.textInputAction = TextInputAction.done,
+    this.optionalLabel,
+  });
+
+  final TextEditingController controller;
+  final String labelText;
+  final Key? inputKey;
+  final ValueChanged<String>? onChanged;
+  final String? hintText;
+  final bool enabled;
+  final IconData leadingIcon;
+  final TextInputAction? textInputAction;
+  final String? optionalLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final hotelTheme = theme.extension<AppFTKTheme>()!;
+    final normalizedOptionalLabel = optionalLabel?.trim() ?? '';
+
+    return _BaseInputField(
+      fieldKey: inputKey,
+      controller: controller,
+      labelText: labelText,
+      showLabel: false,
+      hintText: hintText ?? labelText,
+      enabled: enabled,
+      keyboardType: TextInputType.text,
+      textInputAction: textInputAction,
+      autofillHints: const <String>[],
+      inputFormatters: const <TextInputFormatter>[
+        _UpperCaseTextInputFormatter(),
+      ],
+      leadingIcon: leadingIcon,
+      textCapitalization: TextCapitalization.characters,
+      trailing: normalizedOptionalLabel.isEmpty
+          ? null
+          : Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: UiTokens.spacing8,
+                vertical: 3,
+              ),
+              decoration: BoxDecoration(
+                color: hotelTheme.primaryButtonColor.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                normalizedOptionalLabel,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: hotelTheme.primaryButtonColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+      onChanged: onChanged,
+    );
+  }
+}
+
+class _UpperCaseTextInputFormatter extends TextInputFormatter {
+  const _UpperCaseTextInputFormatter();
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final upperText = newValue.text.toUpperCase();
+    if (upperText == newValue.text) {
+      return newValue;
+    }
+    return newValue.copyWith(text: upperText, composing: TextRange.empty);
+  }
+}
+
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({
     super.key,
@@ -287,6 +372,7 @@ class _BaseInputField extends StatefulWidget {
     this.autofillHints,
     this.inputFormatters,
     this.obscureText = false,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   final Key? fieldKey;
@@ -303,6 +389,7 @@ class _BaseInputField extends StatefulWidget {
   final Iterable<String>? autofillHints;
   final List<TextInputFormatter>? inputFormatters;
   final bool obscureText;
+  final TextCapitalization textCapitalization;
 
   @override
   State<_BaseInputField> createState() => _BaseInputFieldState();
@@ -350,10 +437,12 @@ class _BaseInputFieldState extends State<_BaseInputField> {
     final appText = theme.appTextTheme;
     final hotelTheme = theme.extension<AppFTKTheme>()!;
     final isDark = theme.brightness == Brightness.dark;
-    final surfaceColor = theme.colorScheme.surface;
+    //final surfaceColor = theme.colorScheme.surface;
     final fillColor = isDark
-        ? surfaceColor.withValues(alpha: 0.9)
-        : surfaceColor.withValues(alpha: 0.92);
+        ? colors.primarySoft.withValues(alpha: 0.9)
+        : colors.onDark;
+    // ? surfaceColor.withValues(alpha: 0.9)
+    // : surfaceColor.withValues(alpha: 0.92);
     final iconBg = hotelTheme.primaryButtonColor.withValues(
       alpha: isDark ? 0.24 : 0.12,
     );
@@ -402,6 +491,7 @@ class _BaseInputFieldState extends State<_BaseInputField> {
                 obscureText: widget.obscureText,
                 keyboardType: widget.keyboardType,
                 textInputAction: widget.textInputAction,
+                textCapitalization: widget.textCapitalization,
                 onChanged: widget.onChanged,
                 autofocus: false,
                 autofillHints: widget.autofillHints,
@@ -411,6 +501,8 @@ class _BaseInputFieldState extends State<_BaseInputField> {
                 cursorColor: hotelTheme.primaryButtonColor,
                 decoration: InputDecoration(
                   isDense: true,
+                  filled: false,
+                  fillColor: Colors.transparent,
                   hintText: widget.hintText,
                   hintStyle: hintStyle,
                   border: InputBorder.none,

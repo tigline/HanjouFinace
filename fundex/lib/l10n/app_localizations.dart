@@ -1175,6 +1175,36 @@ abstract class AppLocalizations {
   /// **'Invite code (optional)'**
   String get registerInviteCodeLabel;
 
+  /// No description provided for @registerInviteCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code'**
+  String get registerInviteCodeTitle;
+
+  /// No description provided for @registerInviteCodeHolderOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'(if you have one)'**
+  String get registerInviteCodeHolderOnly;
+
+  /// No description provided for @registerInviteCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ex: STLV-ABCD1234'**
+  String get registerInviteCodeHint;
+
+  /// No description provided for @registerInviteCodeHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the invite code you received from your referrer.'**
+  String get registerInviteCodeHelper;
+
+  /// No description provided for @registerOptionalBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get registerOptionalBadge;
+
   /// No description provided for @registerAcceptPolicy.
   ///
   /// In en, this message translates to:
@@ -7428,7 +7458,7 @@ abstract class AppLocalizations {
   /// No description provided for @walletPaymentConfirmationSentNotice.
   ///
   /// In en, this message translates to:
-  /// **'A payment notification has already been sent. You do not need to send it again.'**
+  /// **'Your payment is currently being processed. We have received your payment report. Our staff will confirm the receipt of funds in order, so please wait for a while.'**
   String get walletPaymentConfirmationSentNotice;
 
   /// No description provided for @walletPaymentConfirmationSentAtLabel.
