@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../../app/navigation/app_root_tab_refresh.dart';
 import '../../../../app/network/app_network_connectivity_providers.dart';
 import '../../../../app/support/app_compact_money_formatter.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
@@ -729,6 +730,7 @@ Future<void> refreshProfileCenterTabPage(WidgetRef ref) async {
   ref.invalidate(fundProjectListProvider);
   ref.invalidate(myPageAssetTrendProvider);
   await Future.wait<void>(<Future<void>>[
+    refreshRootTabSharedData(ref),
     ref.refresh(fundProjectListProvider.future).then((_) {}),
     ref.refresh(myPageAccountStatisticProvider.future).then((_) {}),
     ref.refresh(myPagePendingApplyListProvider.future).then((_) {}),

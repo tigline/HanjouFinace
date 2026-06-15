@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/network/app_network_connectivity_providers.dart';
+import '../../../../app/navigation/app_root_tab_refresh.dart';
 import '../support/home_featured_fund_card_mapper.dart';
 import '../support/home_member_profile_reminder_support.dart';
 import '../widgets/home_attraction_detail_sheet.dart';
@@ -375,6 +376,7 @@ Future<void> _refreshHomeOverviewTab(WidgetRef ref) async {
   ref.invalidate(fundProjectListProvider);
   ref.invalidate(memberProfileDetailsProvider);
   await Future.wait<void>(<Future<void>>[
+    refreshRootTabSharedData(ref),
     ref.refresh(fundProjectListProvider.future).then((_) {}),
     ref.refresh(memberProfileDetailsProvider.future).then((_) {}),
   ]);
