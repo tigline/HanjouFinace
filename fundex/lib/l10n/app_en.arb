@@ -630,7 +630,24 @@
   },
   "hotelBookingNoCoupons": "None available",
   "hotelCouponsTitle": "Coupons",
+  "hotelCouponsOrdinarySegment": "Coupons {count}",
+  "@hotelCouponsOrdinarySegment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelFundBenefitTicketsSegment": "Stay benefits {count}",
+  "@hotelFundBenefitTicketsSegment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hotelCouponsEmpty": "No coupons yet",
+  "hotelFundBenefitTicketsEmpty": "No stay benefit tickets yet",
   "hotelCouponsSelectTitle": "Select coupon",
   "hotelCouponsClearSelection": "Do not use",
   "hotelCouponsAvailableSegment": "Available {count}",
@@ -669,6 +686,18 @@
   },
   "hotelCouponSpecialPrimarySuffix": "day",
   "hotelCouponSpecialSecondary": "night",
+  "hotelFundBenefitTicketAmountCaption": "Fund stay benefit",
+  "hotelFundBenefitTicketNoLabel": "Ticket no.",
+  "hotelFundBenefitTicketGrantMethodLabel": "Grant method",
+  "hotelFundBenefitTicketGrantDateLabel": "Granted",
+  "hotelFundBenefitTicketUsedDateLabel": "Used",
+  "hotelFundBenefitTicketOrderLabel": "Order ID",
+  "hotelFundBenefitTicketGrantMethodSystem": "System grant",
+  "hotelFundBenefitTicketGrantMethodManual": "Manual grant",
+  "hotelFundBenefitTicketStatusUnused": "Unused",
+  "hotelFundBenefitTicketStatusUsed": "Used",
+  "hotelFundBenefitTicketStatusVoided": "Voided",
+  "hotelFundBenefitTicketStatusUnknown": "Unknown",
   "hotelBookingPaymentTitle": "Select payment method",
   "hotelBookingCreditCardPay": "Credit card",
   "hotelBookingAccountBalancePay": "Standby balance",

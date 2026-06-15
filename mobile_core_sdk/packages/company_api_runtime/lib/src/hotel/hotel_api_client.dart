@@ -35,6 +35,7 @@ class HotelApiPaths {
   static const String roomExtraPerson = '/pms/order/room/extraPerson';
   static const String couponsCustList = '/pms/coupons/custListV2';
   static const String couponsOrderCustList = '/pms/coupons/order/custListV2';
+  static const String fundBenefitTickets = '/pms/my/fundBenefitTickets';
   static const String memberInfo = '/pms/member/info';
   static const String memberInfoUpdate = '/pms/member/custSetInfo';
   static const String memberContactsList = '/pms/member/memberContactsList';
@@ -81,6 +82,7 @@ class HotelApiClient {
     this.roomExtraPersonPath = HotelApiPaths.roomExtraPerson,
     this.couponsCustListPath = HotelApiPaths.couponsCustList,
     this.couponsOrderCustListPath = HotelApiPaths.couponsOrderCustList,
+    this.fundBenefitTicketsPath = HotelApiPaths.fundBenefitTickets,
     this.memberInfoPath = HotelApiPaths.memberInfo,
     this.memberInfoUpdatePath = HotelApiPaths.memberInfoUpdate,
     this.memberContactsListPath = HotelApiPaths.memberContactsList,
@@ -123,6 +125,7 @@ class HotelApiClient {
   final String roomExtraPersonPath;
   final String couponsCustListPath;
   final String couponsOrderCustListPath;
+  final String fundBenefitTicketsPath;
   final String memberInfoPath;
   final String memberInfoUpdatePath;
   final String memberContactsListPath;
@@ -355,6 +358,20 @@ class HotelApiClient {
       fallbackMessage: 'Failed to load hotel coupons.',
     );
     return rows.map(HotelCouponDto.fromJson).toList(growable: false);
+  }
+
+  Future<List<HotelFundBenefitTicketDto>> fetchFundBenefitTickets() async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      fundBenefitTicketsPath,
+      data: <String, dynamic>{},
+      options: authRequired(true),
+    );
+
+    final rows = _envelopeCodec.extractDataList(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to load hotel fund benefit tickets.',
+    );
+    return rows.map(HotelFundBenefitTicketDto.fromJson).toList(growable: false);
   }
 
   Future<HotelMemberInfoDto> fetchMemberInfo() async {

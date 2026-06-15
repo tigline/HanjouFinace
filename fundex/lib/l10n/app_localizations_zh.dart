@@ -1429,7 +1429,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelCouponsTitle => '优惠券';
 
   @override
+  String hotelCouponsOrdinarySegment(int count) {
+    return '优惠券 $count';
+  }
+
+  @override
+  String hotelFundBenefitTicketsSegment(int count) {
+    return '宿泊特典 $count';
+  }
+
+  @override
   String get hotelCouponsEmpty => '暂无优惠券';
+
+  @override
+  String get hotelFundBenefitTicketsEmpty => '暂无宿泊特典券';
 
   @override
   String get hotelCouponsSelectTitle => '选择优惠券';
@@ -1471,6 +1484,42 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hotelCouponSpecialSecondary => '晚';
+
+  @override
+  String get hotelFundBenefitTicketAmountCaption => '我的基金宿泊特典';
+
+  @override
+  String get hotelFundBenefitTicketNoLabel => '券编号';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodLabel => '发放方式';
+
+  @override
+  String get hotelFundBenefitTicketGrantDateLabel => '发放时间';
+
+  @override
+  String get hotelFundBenefitTicketUsedDateLabel => '使用时间';
+
+  @override
+  String get hotelFundBenefitTicketOrderLabel => '订单ID';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodSystem => '系统发放';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodManual => '人工发放';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnused => '未使用';
+
+  @override
+  String get hotelFundBenefitTicketStatusUsed => '已使用';
+
+  @override
+  String get hotelFundBenefitTicketStatusVoided => '已作废';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnknown => '未知';
 
   @override
   String get hotelBookingPaymentTitle => '请选择支付方式';
@@ -6814,7 +6863,20 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelCouponsTitle => '優惠券';
 
   @override
+  String hotelCouponsOrdinarySegment(int count) {
+    return '優惠券 $count';
+  }
+
+  @override
+  String hotelFundBenefitTicketsSegment(int count) {
+    return '宿泊特典 $count';
+  }
+
+  @override
   String get hotelCouponsEmpty => '暫無優惠券';
+
+  @override
+  String get hotelFundBenefitTicketsEmpty => '暫無宿泊特典券';
 
   @override
   String get hotelCouponsSelectTitle => '選擇優惠券';
@@ -6856,6 +6918,42 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelCouponSpecialSecondary => '晚';
+
+  @override
+  String get hotelFundBenefitTicketAmountCaption => '我的基金宿泊特典';
+
+  @override
+  String get hotelFundBenefitTicketNoLabel => '券編號';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodLabel => '發放方式';
+
+  @override
+  String get hotelFundBenefitTicketGrantDateLabel => '發放時間';
+
+  @override
+  String get hotelFundBenefitTicketUsedDateLabel => '使用時間';
+
+  @override
+  String get hotelFundBenefitTicketOrderLabel => '訂單ID';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodSystem => '系統發放';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodManual => '人工發放';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnused => '未使用';
+
+  @override
+  String get hotelFundBenefitTicketStatusUsed => '已使用';
+
+  @override
+  String get hotelFundBenefitTicketStatusVoided => '已作廢';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnknown => '未知';
 
   @override
   String get hotelBookingPaymentTitle => '請選擇付款方式';

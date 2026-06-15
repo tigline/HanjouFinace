@@ -912,5 +912,30 @@ void main() {
       expect(payment.paymentData, equals('alipay-sdk-payload'));
       expect(payment.payUrl, equals('https://pay.example.com/a'));
     });
+
+    test('fetchFundBenefitTickets posts authenticated list request', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.fundBenefitTickets));
+        expect(options.extra['auth_required'], isTrue);
+        expect(options.data, equals(<String, dynamic>{}));
+        return _jsonOk(
+          '{"code":200,"msg":"success","data":[{"id":10,"memberId":20,"ticketNo":"FBT-001","benefitAmount":12000,"grantMethod":1,"ticketStatus":1,"grantTime":"2026-06-01T10:00:00","usedTime":null,"bookingOrderId":null,"createdTime":"2026-06-01T10:00:00","updatedTime":"2026-06-01T10:00:00"}]}',
+        );
+      });
+      final api = HotelApiClient(client);
+
+      final tickets = await api.fetchFundBenefitTickets();
+
+      expect(tickets, hasLength(1));
+      expect(tickets.first.id, equals(10));
+      expect(tickets.first.memberId, equals(20));
+      expect(tickets.first.ticketNo, equals('FBT-001'));
+      expect(tickets.first.benefitAmount, equals(12000));
+      expect(tickets.first.grantMethod, equals(1));
+      expect(tickets.first.ticketStatus, equals(1));
+      expect(tickets.first.grantTime, equals('2026-06-01T10:00:00'));
+      expect(tickets.first.usedTime, isEmpty);
+    });
   });
 }

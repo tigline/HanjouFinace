@@ -10,6 +10,7 @@ export 'src/app_copy_button.dart';
 export 'src/app_notice.dart';
 export 'src/app_network_status_bar.dart';
 export 'src/app_filter_bar.dart';
+export 'src/app_dual_segmented_control.dart';
 export 'src/app_navigation_bar.dart';
 export 'src/app_underlined_tab_bar.dart';
 export 'src/app_remote_image.dart';

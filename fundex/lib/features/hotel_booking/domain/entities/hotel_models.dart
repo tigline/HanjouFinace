@@ -552,6 +552,32 @@ class HotelCoupon {
   final bool? canUse;
 }
 
+class HotelFundBenefitTicket {
+  const HotelFundBenefitTicket({
+    required this.id,
+    required this.ticketNo,
+    required this.benefitAmount,
+    required this.grantMethod,
+    required this.ticketStatus,
+    required this.grantTime,
+    required this.usedTime,
+    required this.bookingOrderId,
+    required this.createdTime,
+    required this.updatedTime,
+  });
+
+  final int? id;
+  final String ticketNo;
+  final int? benefitAmount;
+  final int? grantMethod;
+  final int? ticketStatus;
+  final String grantTime;
+  final String usedTime;
+  final int? bookingOrderId;
+  final String createdTime;
+  final String updatedTime;
+}
+
 class HotelMemberProfile {
   const HotelMemberProfile({
     required this.id,

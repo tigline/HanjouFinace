@@ -731,6 +731,48 @@ Map<String, dynamic> _$HotelRoomPriceElementDtoToJson(
   'priceTip': instance.priceTip,
 };
 
+_HotelFundBenefitTicketDto _$HotelFundBenefitTicketDtoFromJson(
+  Map<String, dynamic> json,
+) => _HotelFundBenefitTicketDto(
+  id: _hotelIntFromJson(json['id']),
+  memberId: _hotelIntFromJson(json['memberId']),
+  ticketNo: json['ticketNo'] == null
+      ? ''
+      : hotelStringFromJson(json['ticketNo']),
+  benefitAmount: _hotelIntFromJson(json['benefitAmount']),
+  grantMethod: _hotelIntFromJson(json['grantMethod']),
+  ticketStatus: _hotelIntFromJson(json['ticketStatus']),
+  grantTime: json['grantTime'] == null
+      ? ''
+      : hotelStringFromJson(json['grantTime']),
+  usedTime: json['usedTime'] == null
+      ? ''
+      : hotelStringFromJson(json['usedTime']),
+  bookingOrderId: _hotelIntFromJson(json['bookingOrderId']),
+  createdTime: json['createdTime'] == null
+      ? ''
+      : hotelStringFromJson(json['createdTime']),
+  updatedTime: json['updatedTime'] == null
+      ? ''
+      : hotelStringFromJson(json['updatedTime']),
+);
+
+Map<String, dynamic> _$HotelFundBenefitTicketDtoToJson(
+  _HotelFundBenefitTicketDto instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'memberId': instance.memberId,
+  'ticketNo': instance.ticketNo,
+  'benefitAmount': instance.benefitAmount,
+  'grantMethod': instance.grantMethod,
+  'ticketStatus': instance.ticketStatus,
+  'grantTime': instance.grantTime,
+  'usedTime': instance.usedTime,
+  'bookingOrderId': instance.bookingOrderId,
+  'createdTime': instance.createdTime,
+  'updatedTime': instance.updatedTime,
+};
+
 _HotelBookingCreateRequestDto _$HotelBookingCreateRequestDtoFromJson(
   Map<String, dynamic> json,
 ) => _HotelBookingCreateRequestDto(

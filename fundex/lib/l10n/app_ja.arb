@@ -630,7 +630,24 @@
   },
   "hotelBookingNoCoupons": "利用できません",
   "hotelCouponsTitle": "クーポン",
+  "hotelCouponsOrdinarySegment": "クーポン {count}",
+  "@hotelCouponsOrdinarySegment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelFundBenefitTicketsSegment": "宿泊特典 {count}",
+  "@hotelFundBenefitTicketsSegment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hotelCouponsEmpty": "クーポンはありません",
+  "hotelFundBenefitTicketsEmpty": "宿泊特典券はありません",
   "hotelCouponsSelectTitle": "クーポンを選択",
   "hotelCouponsClearSelection": "使用しない",
   "hotelCouponsAvailableSegment": "利用可 {count}",
@@ -669,6 +686,18 @@
   },
   "hotelCouponSpecialPrimarySuffix": "日",
   "hotelCouponSpecialSecondary": "泊",
+  "hotelFundBenefitTicketAmountCaption": "基金宿泊特典",
+  "hotelFundBenefitTicketNoLabel": "特典券番号",
+  "hotelFundBenefitTicketGrantMethodLabel": "発行方法",
+  "hotelFundBenefitTicketGrantDateLabel": "発行日",
+  "hotelFundBenefitTicketUsedDateLabel": "利用日",
+  "hotelFundBenefitTicketOrderLabel": "注文ID",
+  "hotelFundBenefitTicketGrantMethodSystem": "システム発行",
+  "hotelFundBenefitTicketGrantMethodManual": "手動発行",
+  "hotelFundBenefitTicketStatusUnused": "未使用",
+  "hotelFundBenefitTicketStatusUsed": "使用済み",
+  "hotelFundBenefitTicketStatusVoided": "無効",
+  "hotelFundBenefitTicketStatusUnknown": "不明",
   "hotelBookingPaymentTitle": "お支払い方法を選択",
   "hotelBookingCreditCardPay": "クレジットカード決済",
   "hotelBookingAccountBalancePay": "待機資金で支払う",

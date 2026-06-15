@@ -630,7 +630,24 @@
   },
   "hotelBookingNoCoupons": "暫無可用",
   "hotelCouponsTitle": "優惠券",
+  "hotelCouponsOrdinarySegment": "優惠券 {count}",
+  "@hotelCouponsOrdinarySegment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelFundBenefitTicketsSegment": "宿泊特典 {count}",
+  "@hotelFundBenefitTicketsSegment": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hotelCouponsEmpty": "暫無優惠券",
+  "hotelFundBenefitTicketsEmpty": "暫無宿泊特典券",
   "hotelCouponsSelectTitle": "選擇優惠券",
   "hotelCouponsClearSelection": "不使用",
   "hotelCouponsAvailableSegment": "可用 {count}",
@@ -669,6 +686,18 @@
   },
   "hotelCouponSpecialPrimarySuffix": "天",
   "hotelCouponSpecialSecondary": "晚",
+  "hotelFundBenefitTicketAmountCaption": "我的基金宿泊特典",
+  "hotelFundBenefitTicketNoLabel": "券編號",
+  "hotelFundBenefitTicketGrantMethodLabel": "發放方式",
+  "hotelFundBenefitTicketGrantDateLabel": "發放時間",
+  "hotelFundBenefitTicketUsedDateLabel": "使用時間",
+  "hotelFundBenefitTicketOrderLabel": "訂單ID",
+  "hotelFundBenefitTicketGrantMethodSystem": "系統發放",
+  "hotelFundBenefitTicketGrantMethodManual": "人工發放",
+  "hotelFundBenefitTicketStatusUnused": "未使用",
+  "hotelFundBenefitTicketStatusUsed": "已使用",
+  "hotelFundBenefitTicketStatusVoided": "已作廢",
+  "hotelFundBenefitTicketStatusUnknown": "未知",
   "hotelBookingPaymentTitle": "請選擇付款方式",
   "hotelBookingCreditCardPay": "信用卡付款",
   "hotelBookingAccountBalancePay": "待機資金付款",

@@ -5,18 +5,30 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/status_bar/app_status_bar_providers.dart';
+import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../widgets/hotel_coupon_list_widgets.dart';
 import '../widgets/hotel_state_views.dart';
 import '../widgets/hotel_status_bar_preference_scope.dart';
 
-class HotelCouponListPage extends ConsumerWidget {
+enum _HotelCouponListSegment { coupons, fundBenefits }
+
+class HotelCouponListPage extends ConsumerStatefulWidget {
   const HotelCouponListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HotelCouponListPage> createState() =>
+      _HotelCouponListPageState();
+}
+
+class _HotelCouponListPageState extends ConsumerState<HotelCouponListPage> {
+  _HotelCouponListSegment _segment = _HotelCouponListSegment.coupons;
+
+  @override
+  Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    final state = ref.watch(hotelCouponsProvider);
+    final couponsState = ref.watch(hotelCouponsProvider);
+    final fundBenefitState = ref.watch(hotelFundBenefitTicketsProvider);
     return HotelStatusBarPreferenceScope(
       immersive: false,
       immersiveOnPop: true,
@@ -41,70 +53,169 @@ class HotelCouponListPage extends ConsumerWidget {
             foregroundColor: colors.textPrimary,
           ),
         ),
-        body: RefreshIndicator(
-          onRefresh: () => ref.refresh(hotelCouponsProvider.future),
-          child: state.when(
-            loading: () => const CustomScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              slivers: <Widget>[
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-              ],
-            ),
-            error: (_, __) => CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: <Widget>[
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: HotelFullPageError(
-                    onRetry: () => ref.invalidate(hotelCouponsProvider),
+        body: Column(
+          children: [
+          Padding(
+              padding: const EdgeInsets.fromLTRB(42, 16, 42, 0),
+              child: AppDualSegmentedControl<_HotelCouponListSegment>(
+                value: _segment,
+                height: 40,
+                radius: 999,
+                onChanged: (value) => setState(() => _segment = value),
+                first: AppDualSegmentItem<_HotelCouponListSegment>(
+                  value: _HotelCouponListSegment.coupons,
+                  icon: Icons.local_offer_outlined,
+                  label: context.l10n.hotelCouponsOrdinarySegment(
+                    couponsState.valueOrNull?.coupons.length ?? 0,
                   ),
                 ),
-              ],
+                second: AppDualSegmentItem<_HotelCouponListSegment>(
+                  value: _HotelCouponListSegment.fundBenefits,
+                  icon: Icons.card_giftcard_rounded,
+                  label: context.l10n.hotelFundBenefitTicketsSegment(
+                    fundBenefitState.valueOrNull?.length ?? 0,
+                  ),
+                ),
+              ),
             ),
-            data: (result) {
-              if (result.coupons.isEmpty) {
-                return CustomScrollView(
+            
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: _refresh,
+                child: CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: <Widget>[
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Center(
-                        child: Text(
-                          context.l10n.hotelCouponsEmpty,
-                          style: Theme.of(context).textTheme.titleSmall
-                              ?.copyWith(
-                                color: colors.textSecondary,
-                                fontWeight: FontWeight.w700,
-                              ),
-                        ),
-                      ),
-                    ),
+                    
+                    if (_segment == _HotelCouponListSegment.coupons)
+                      ..._buildCouponSlivers(context, couponsState)
+                    else
+                      ..._buildFundBenefitSlivers(context, fundBenefitState),
                   ],
-                );
-              }
-              return CustomScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: <Widget>[
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
-                    sliver: SliverList.separated(
-                      itemCount: result.coupons.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 14),
-                      itemBuilder: (context, index) {
-                        return HotelCouponCard(
-                          coupon: result.coupons[index],
-                          pageTexts: result.pageTexts,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _refresh() async {
+    await Future.wait<void>(<Future<void>>[
+      ref.refresh(hotelCouponsProvider.future).then((_) {}),
+      ref.refresh(hotelFundBenefitTicketsProvider.future).then((_) {}),
+    ]);
+  }
+
+  List<Widget> _buildCouponSlivers(
+    BuildContext context,
+    AsyncValue<HotelCouponListResult> state,
+  ) {
+    return state.when<List<Widget>>(
+      loading: () => const <Widget>[
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      ],
+      error: (_, __) => <Widget>[
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: HotelFullPageError(
+            onRetry: () => ref.invalidate(hotelCouponsProvider),
           ),
+        ),
+      ],
+      data: (result) {
+        final coupons = result.coupons;
+        if (coupons.isEmpty) {
+          return <Widget>[
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: _EmptyMessage(message: context.l10n.hotelCouponsEmpty),
+            ),
+          ];
+        }
+        return <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+            sliver: SliverList.separated(
+              itemCount: coupons.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 14),
+              itemBuilder: (context, index) {
+                return HotelCouponCard(
+                  coupon: coupons[index],
+                  pageTexts: result.pageTexts,
+                );
+              },
+            ),
+          ),
+        ];
+      },
+    );
+  }
+
+  List<Widget> _buildFundBenefitSlivers(
+    BuildContext context,
+    AsyncValue<List<HotelFundBenefitTicket>> state,
+  ) {
+    return state.when<List<Widget>>(
+      loading: () => const <Widget>[
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      ],
+      error: (_, __) => <Widget>[
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: HotelFullPageError(
+            onRetry: () => ref.invalidate(hotelFundBenefitTicketsProvider),
+          ),
+        ),
+      ],
+      data: (tickets) {
+        if (tickets.isEmpty) {
+          return <Widget>[
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: _EmptyMessage(
+                message: context.l10n.hotelFundBenefitTicketsEmpty,
+              ),
+            ),
+          ];
+        }
+        return <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+            sliver: SliverList.separated(
+              itemCount: tickets.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 14),
+              itemBuilder: (context, index) {
+                return HotelFundBenefitTicketCard(ticket: tickets[index]);
+              },
+            ),
+          ),
+        ];
+      },
+    );
+  }
+}
+
+class _EmptyMessage extends StatelessWidget {
+  const _EmptyMessage({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return Center(
+      child: Text(
+        message,
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+          color: colors.textSecondary,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

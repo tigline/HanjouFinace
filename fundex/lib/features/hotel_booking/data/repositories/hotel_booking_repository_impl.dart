@@ -271,6 +271,12 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
+  Future<List<HotelFundBenefitTicket>> fetchFundBenefitTickets() async {
+    final rows = await _remote.fetchFundBenefitTickets();
+    return rows.map(_mapFundBenefitTicket).toList(growable: false);
+  }
+
+  @override
   Future<HotelOrderListResult> fetchOrderList({
     required String languageCode,
     required HotelOrderStatusFilter status,
@@ -867,6 +873,21 @@ HotelCoupon _mapCoupon(HotelCouponDto dto) {
     endDate: dto.endDate.trim(),
     createdTime: dto.createdTime.trim(),
     canUse: dto.use,
+  );
+}
+
+HotelFundBenefitTicket _mapFundBenefitTicket(HotelFundBenefitTicketDto dto) {
+  return HotelFundBenefitTicket(
+    id: dto.id,
+    ticketNo: dto.ticketNo.trim(),
+    benefitAmount: dto.benefitAmount,
+    grantMethod: dto.grantMethod,
+    ticketStatus: dto.ticketStatus,
+    grantTime: dto.grantTime.trim(),
+    usedTime: dto.usedTime.trim(),
+    bookingOrderId: dto.bookingOrderId,
+    createdTime: dto.createdTime.trim(),
+    updatedTime: dto.updatedTime.trim(),
   );
 }
 

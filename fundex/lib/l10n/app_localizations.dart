@@ -2811,11 +2811,29 @@ abstract class AppLocalizations {
   /// **'Coupons'**
   String get hotelCouponsTitle;
 
+  /// No description provided for @hotelCouponsOrdinarySegment.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupons {count}'**
+  String hotelCouponsOrdinarySegment(int count);
+
+  /// No description provided for @hotelFundBenefitTicketsSegment.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefits {count}'**
+  String hotelFundBenefitTicketsSegment(int count);
+
   /// No description provided for @hotelCouponsEmpty.
   ///
   /// In en, this message translates to:
   /// **'No coupons yet'**
   String get hotelCouponsEmpty;
+
+  /// No description provided for @hotelFundBenefitTicketsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No stay benefit tickets yet'**
+  String get hotelFundBenefitTicketsEmpty;
 
   /// No description provided for @hotelCouponsSelectTitle.
   ///
@@ -2882,6 +2900,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'night'**
   String get hotelCouponSpecialSecondary;
+
+  /// No description provided for @hotelFundBenefitTicketAmountCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund stay benefit'**
+  String get hotelFundBenefitTicketAmountCaption;
+
+  /// No description provided for @hotelFundBenefitTicketNoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket no.'**
+  String get hotelFundBenefitTicketNoLabel;
+
+  /// No description provided for @hotelFundBenefitTicketGrantMethodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant method'**
+  String get hotelFundBenefitTicketGrantMethodLabel;
+
+  /// No description provided for @hotelFundBenefitTicketGrantDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Granted'**
+  String get hotelFundBenefitTicketGrantDateLabel;
+
+  /// No description provided for @hotelFundBenefitTicketUsedDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Used'**
+  String get hotelFundBenefitTicketUsedDateLabel;
+
+  /// No description provided for @hotelFundBenefitTicketOrderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Order ID'**
+  String get hotelFundBenefitTicketOrderLabel;
+
+  /// No description provided for @hotelFundBenefitTicketGrantMethodSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System grant'**
+  String get hotelFundBenefitTicketGrantMethodSystem;
+
+  /// No description provided for @hotelFundBenefitTicketGrantMethodManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual grant'**
+  String get hotelFundBenefitTicketGrantMethodManual;
+
+  /// No description provided for @hotelFundBenefitTicketStatusUnused.
+  ///
+  /// In en, this message translates to:
+  /// **'Unused'**
+  String get hotelFundBenefitTicketStatusUnused;
+
+  /// No description provided for @hotelFundBenefitTicketStatusUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Used'**
+  String get hotelFundBenefitTicketStatusUsed;
+
+  /// No description provided for @hotelFundBenefitTicketStatusVoided.
+  ///
+  /// In en, this message translates to:
+  /// **'Voided'**
+  String get hotelFundBenefitTicketStatusVoided;
+
+  /// No description provided for @hotelFundBenefitTicketStatusUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get hotelFundBenefitTicketStatusUnknown;
 
   /// No description provided for @hotelBookingPaymentTitle.
   ///

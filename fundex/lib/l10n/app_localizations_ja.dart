@@ -1444,7 +1444,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelCouponsTitle => 'クーポン';
 
   @override
+  String hotelCouponsOrdinarySegment(int count) {
+    return 'クーポン $count';
+  }
+
+  @override
+  String hotelFundBenefitTicketsSegment(int count) {
+    return '宿泊特典 $count';
+  }
+
+  @override
   String get hotelCouponsEmpty => 'クーポンはありません';
+
+  @override
+  String get hotelFundBenefitTicketsEmpty => '宿泊特典券はありません';
 
   @override
   String get hotelCouponsSelectTitle => 'クーポンを選択';
@@ -1486,6 +1499,42 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hotelCouponSpecialSecondary => '泊';
+
+  @override
+  String get hotelFundBenefitTicketAmountCaption => '基金宿泊特典';
+
+  @override
+  String get hotelFundBenefitTicketNoLabel => '特典券番号';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodLabel => '発行方法';
+
+  @override
+  String get hotelFundBenefitTicketGrantDateLabel => '発行日';
+
+  @override
+  String get hotelFundBenefitTicketUsedDateLabel => '利用日';
+
+  @override
+  String get hotelFundBenefitTicketOrderLabel => '注文ID';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodSystem => 'システム発行';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodManual => '手動発行';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnused => '未使用';
+
+  @override
+  String get hotelFundBenefitTicketStatusUsed => '使用済み';
+
+  @override
+  String get hotelFundBenefitTicketStatusVoided => '無効';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnknown => '不明';
 
   @override
   String get hotelBookingPaymentTitle => 'お支払い方法を選択';

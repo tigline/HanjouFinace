@@ -1513,7 +1513,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelCouponsTitle => 'Coupons';
 
   @override
+  String hotelCouponsOrdinarySegment(int count) {
+    return 'Coupons $count';
+  }
+
+  @override
+  String hotelFundBenefitTicketsSegment(int count) {
+    return 'Stay benefits $count';
+  }
+
+  @override
   String get hotelCouponsEmpty => 'No coupons yet';
+
+  @override
+  String get hotelFundBenefitTicketsEmpty => 'No stay benefit tickets yet';
 
   @override
   String get hotelCouponsSelectTitle => 'Select coupon';
@@ -1555,6 +1568,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hotelCouponSpecialSecondary => 'night';
+
+  @override
+  String get hotelFundBenefitTicketAmountCaption => 'Fund stay benefit';
+
+  @override
+  String get hotelFundBenefitTicketNoLabel => 'Ticket no.';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodLabel => 'Grant method';
+
+  @override
+  String get hotelFundBenefitTicketGrantDateLabel => 'Granted';
+
+  @override
+  String get hotelFundBenefitTicketUsedDateLabel => 'Used';
+
+  @override
+  String get hotelFundBenefitTicketOrderLabel => 'Order ID';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodSystem => 'System grant';
+
+  @override
+  String get hotelFundBenefitTicketGrantMethodManual => 'Manual grant';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnused => 'Unused';
+
+  @override
+  String get hotelFundBenefitTicketStatusUsed => 'Used';
+
+  @override
+  String get hotelFundBenefitTicketStatusVoided => 'Voided';
+
+  @override
+  String get hotelFundBenefitTicketStatusUnknown => 'Unknown';
 
   @override
   String get hotelBookingPaymentTitle => 'Select payment method';

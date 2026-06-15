@@ -620,6 +620,26 @@ class HotelCouponDto {
   final bool? use;
 }
 
+@freezed
+abstract class HotelFundBenefitTicketDto with _$HotelFundBenefitTicketDto {
+  const factory HotelFundBenefitTicketDto({
+    @JsonKey(fromJson: _hotelIntFromJson) int? id,
+    @JsonKey(fromJson: _hotelIntFromJson) int? memberId,
+    @JsonKey(fromJson: hotelStringFromJson) @Default('') String ticketNo,
+    @JsonKey(fromJson: _hotelIntFromJson) int? benefitAmount,
+    @JsonKey(fromJson: _hotelIntFromJson) int? grantMethod,
+    @JsonKey(fromJson: _hotelIntFromJson) int? ticketStatus,
+    @JsonKey(fromJson: hotelStringFromJson) @Default('') String grantTime,
+    @JsonKey(fromJson: hotelStringFromJson) @Default('') String usedTime,
+    @JsonKey(fromJson: _hotelIntFromJson) int? bookingOrderId,
+    @JsonKey(fromJson: hotelStringFromJson) @Default('') String createdTime,
+    @JsonKey(fromJson: hotelStringFromJson) @Default('') String updatedTime,
+  }) = _HotelFundBenefitTicketDto;
+
+  factory HotelFundBenefitTicketDto.fromJson(Map<String, dynamic> json) =>
+      _$HotelFundBenefitTicketDtoFromJson(json);
+}
+
 int? _hotelIntFromJson(Object? raw) {
   if (raw == null) {
     return null;

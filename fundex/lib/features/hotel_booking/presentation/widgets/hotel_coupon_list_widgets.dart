@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/hotel_models.dart';
@@ -168,6 +169,215 @@ class HotelCouponPickerResult {
   final bool shouldClear;
 }
 
+class HotelFundBenefitTicketCard extends StatelessWidget {
+  const HotelFundBenefitTicketCard({super.key, required this.ticket});
+
+  final HotelFundBenefitTicket ticket;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final textTheme = Theme.of(context).textTheme;
+    final amountText = _formatYen(context, ticket.benefitAmount);
+    return Material(
+      color: colors.brandWhite,
+      borderRadius: BorderRadius.circular(UiTokens.radius20),
+      elevation: 3,
+      shadowColor: colors.brandPrimaryDark.withValues(alpha: 0.08),
+      clipBehavior: Clip.antiAlias,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(UiTokens.radius20),
+          border: Border.all(color: colors.borderSoft),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: Color.alphaBlend(
+                  colors.highlightGold.withValues(alpha: 0.16),
+                  colors.surface,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            amountText,
+                            style: textTheme.headlineSmall?.copyWith(
+                              color: colors.textPrimary,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            context.l10n.hotelFundBenefitTicketAmountCaption,
+                            style: textTheme.labelMedium?.copyWith(
+                              color: colors.textSecondary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    _FundBenefitStatusChip(status: ticket.ticketStatus),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+              child: Column(
+                children: <Widget>[
+                  _FundBenefitMetaLine(
+                    icon: Icons.confirmation_number_outlined,
+                    label: context.l10n.hotelFundBenefitTicketNoLabel,
+                    value: ticket.ticketNo.isEmpty ? '--' : ticket.ticketNo,
+                  ),
+                  const SizedBox(height: 10),
+                  _FundBenefitMetaLine(
+                    icon: Icons.card_giftcard_rounded,
+                    label: context.l10n.hotelFundBenefitTicketGrantMethodLabel,
+                    value: _grantMethodLabel(context, ticket.grantMethod),
+                  ),
+                  const SizedBox(height: 10),
+                  _FundBenefitMetaLine(
+                    icon: Icons.event_available_rounded,
+                    label: context.l10n.hotelFundBenefitTicketGrantDateLabel,
+                    value: _formatDate(ticket.grantTime),
+                  ),
+                  if (ticket.usedTime.isNotEmpty) ...<Widget>[
+                    const SizedBox(height: 10),
+                    _FundBenefitMetaLine(
+                      icon: Icons.task_alt_rounded,
+                      label: context.l10n.hotelFundBenefitTicketUsedDateLabel,
+                      value: _formatDate(ticket.usedTime),
+                    ),
+                  ],
+                  if (ticket.bookingOrderId != null) ...<Widget>[
+                    const SizedBox(height: 10),
+                    _FundBenefitMetaLine(
+                      icon: Icons.receipt_long_rounded,
+                      label: context.l10n.hotelFundBenefitTicketOrderLabel,
+                      value: ticket.bookingOrderId.toString(),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FundBenefitStatusChip extends StatelessWidget {
+  const _FundBenefitStatusChip({required this.status});
+
+  final int? status;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final label = switch (status) {
+      1 => context.l10n.hotelFundBenefitTicketStatusUnused,
+      2 => context.l10n.hotelFundBenefitTicketStatusUsed,
+      3 => context.l10n.hotelFundBenefitTicketStatusVoided,
+      _ => context.l10n.hotelFundBenefitTicketStatusUnknown,
+    };
+    final background = switch (status) {
+      1 => colors.successSoft,
+      2 => colors.surfaceAlt,
+      3 => colors.dangerSoft,
+      _ => colors.warningSoft,
+    };
+    final foreground = switch (status) {
+      1 => colors.successForeground,
+      2 => colors.textSecondary,
+      3 => colors.dangerForeground,
+      _ => colors.warningForeground,
+    };
+    final border = switch (status) {
+      1 => colors.successBorder,
+      2 => colors.border,
+      3 => colors.dangerBorder,
+      _ => colors.warningBorder,
+    };
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: border),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: foreground,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FundBenefitMetaLine extends StatelessWidget {
+  const _FundBenefitMetaLine({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final textTheme = Theme.of(context).textTheme;
+    return Row(
+      children: <Widget>[
+        Icon(icon, size: 17, color: colors.textTertiary),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: textTheme.bodySmall?.copyWith(
+              color: colors.textSecondary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Flexible(
+          child: Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.right,
+            style: textTheme.bodySmall?.copyWith(
+              color: colors.textPrimary,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 Future<HotelCouponPickerResult?> showHotelCouponPickerSheet({
   required BuildContext context,
   required List<HotelCoupon> coupons,
@@ -246,23 +456,27 @@ class _HotelCouponPickerSheetState extends State<HotelCouponPickerSheet> {
             ],
           ),
           const SizedBox(height: 14),
-          AppFilterBar<_CouponSegment>(
-            value: _segment,
-            onChanged: (value) => setState(() => _segment = value),
-            items: <AppFilterBarItem<_CouponSegment>>[
-              AppFilterBarItem<_CouponSegment>(
-                value: _CouponSegment.available,
-                label: context.l10n.hotelCouponsAvailableSegment(
-                  available.length,
-                ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(42, 0, 42, 0),
+                child: AppDualSegmentedControl<_CouponSegment>(
+                  value: _segment,
+                  height: 40,
+                  onChanged: (value) => setState(() => _segment = value),
+                  first: AppDualSegmentItem<_CouponSegment>(
+                    value: _CouponSegment.available,
+                    icon: Icons.check_circle_outline_rounded,
+                    label: context.l10n.hotelCouponsAvailableSegment(
+                      available.length,
+                    ),
+                  ),
+                  second: AppDualSegmentItem<_CouponSegment>(
+                    value: _CouponSegment.unavailable,
+                    icon: Icons.block_rounded,
+                    label: context.l10n.hotelCouponsUnavailableSegment(
+                      unavailable.length,
+                    ),
               ),
-              AppFilterBarItem<_CouponSegment>(
-                value: _CouponSegment.unavailable,
-                label: context.l10n.hotelCouponsUnavailableSegment(
-                  unavailable.length,
-                ),
-              ),
-            ],
+            )
           ),
           const SizedBox(height: 14),
           Expanded(
@@ -419,6 +633,37 @@ String _validPeriodText(BuildContext context, HotelCoupon coupon) {
   final begin = coupon.beginDate.isEmpty ? '--' : coupon.beginDate;
   final end = coupon.endDate.isEmpty ? '--' : coupon.endDate;
   return context.l10n.hotelCouponsValidPeriod(begin, end);
+}
+
+String _formatYen(BuildContext context, num? value) {
+  if (value == null) {
+    return '--';
+  }
+  return NumberFormat.currency(
+    locale: Localizations.localeOf(context).toLanguageTag(),
+    symbol: '¥',
+    decimalDigits: 0,
+  ).format(value);
+}
+
+String _formatDate(String raw) {
+  final value = raw.trim();
+  if (value.isEmpty) {
+    return '--';
+  }
+  final date = DateTime.tryParse(value);
+  if (date == null) {
+    return value.length > 10 ? value.substring(0, 10) : value;
+  }
+  return DateFormat('yyyy/MM/dd').format(date);
+}
+
+String _grantMethodLabel(BuildContext context, int? method) {
+  return switch (method) {
+    1 => context.l10n.hotelFundBenefitTicketGrantMethodSystem,
+    2 => context.l10n.hotelFundBenefitTicketGrantMethodManual,
+    _ => '--',
+  };
 }
 
 String? _formatNumber(num? value) {

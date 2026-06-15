@@ -8007,6 +8007,299 @@ as String?,
 
 
 /// @nodoc
+mixin _$HotelFundBenefitTicketDto {
+
+@JsonKey(fromJson: _hotelIntFromJson) int? get id;@JsonKey(fromJson: _hotelIntFromJson) int? get memberId;@JsonKey(fromJson: hotelStringFromJson) String get ticketNo;@JsonKey(fromJson: _hotelIntFromJson) int? get benefitAmount;@JsonKey(fromJson: _hotelIntFromJson) int? get grantMethod;@JsonKey(fromJson: _hotelIntFromJson) int? get ticketStatus;@JsonKey(fromJson: hotelStringFromJson) String get grantTime;@JsonKey(fromJson: hotelStringFromJson) String get usedTime;@JsonKey(fromJson: _hotelIntFromJson) int? get bookingOrderId;@JsonKey(fromJson: hotelStringFromJson) String get createdTime;@JsonKey(fromJson: hotelStringFromJson) String get updatedTime;
+/// Create a copy of HotelFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HotelFundBenefitTicketDtoCopyWith<HotelFundBenefitTicketDto> get copyWith => _$HotelFundBenefitTicketDtoCopyWithImpl<HotelFundBenefitTicketDto>(this as HotelFundBenefitTicketDto, _$identity);
+
+  /// Serializes this HotelFundBenefitTicketDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelFundBenefitTicketDto&&(identical(other.id, id) || other.id == id)&&(identical(other.memberId, memberId) || other.memberId == memberId)&&(identical(other.ticketNo, ticketNo) || other.ticketNo == ticketNo)&&(identical(other.benefitAmount, benefitAmount) || other.benefitAmount == benefitAmount)&&(identical(other.grantMethod, grantMethod) || other.grantMethod == grantMethod)&&(identical(other.ticketStatus, ticketStatus) || other.ticketStatus == ticketStatus)&&(identical(other.grantTime, grantTime) || other.grantTime == grantTime)&&(identical(other.usedTime, usedTime) || other.usedTime == usedTime)&&(identical(other.bookingOrderId, bookingOrderId) || other.bookingOrderId == bookingOrderId)&&(identical(other.createdTime, createdTime) || other.createdTime == createdTime)&&(identical(other.updatedTime, updatedTime) || other.updatedTime == updatedTime));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,memberId,ticketNo,benefitAmount,grantMethod,ticketStatus,grantTime,usedTime,bookingOrderId,createdTime,updatedTime);
+
+@override
+String toString() {
+  return 'HotelFundBenefitTicketDto(id: $id, memberId: $memberId, ticketNo: $ticketNo, benefitAmount: $benefitAmount, grantMethod: $grantMethod, ticketStatus: $ticketStatus, grantTime: $grantTime, usedTime: $usedTime, bookingOrderId: $bookingOrderId, createdTime: $createdTime, updatedTime: $updatedTime)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HotelFundBenefitTicketDtoCopyWith<$Res>  {
+  factory $HotelFundBenefitTicketDtoCopyWith(HotelFundBenefitTicketDto value, $Res Function(HotelFundBenefitTicketDto) _then) = _$HotelFundBenefitTicketDtoCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(fromJson: _hotelIntFromJson) int? id,@JsonKey(fromJson: _hotelIntFromJson) int? memberId,@JsonKey(fromJson: hotelStringFromJson) String ticketNo,@JsonKey(fromJson: _hotelIntFromJson) int? benefitAmount,@JsonKey(fromJson: _hotelIntFromJson) int? grantMethod,@JsonKey(fromJson: _hotelIntFromJson) int? ticketStatus,@JsonKey(fromJson: hotelStringFromJson) String grantTime,@JsonKey(fromJson: hotelStringFromJson) String usedTime,@JsonKey(fromJson: _hotelIntFromJson) int? bookingOrderId,@JsonKey(fromJson: hotelStringFromJson) String createdTime,@JsonKey(fromJson: hotelStringFromJson) String updatedTime
+});
+
+
+
+
+}
+/// @nodoc
+class _$HotelFundBenefitTicketDtoCopyWithImpl<$Res>
+    implements $HotelFundBenefitTicketDtoCopyWith<$Res> {
+  _$HotelFundBenefitTicketDtoCopyWithImpl(this._self, this._then);
+
+  final HotelFundBenefitTicketDto _self;
+  final $Res Function(HotelFundBenefitTicketDto) _then;
+
+/// Create a copy of HotelFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? memberId = freezed,Object? ticketNo = null,Object? benefitAmount = freezed,Object? grantMethod = freezed,Object? ticketStatus = freezed,Object? grantTime = null,Object? usedTime = null,Object? bookingOrderId = freezed,Object? createdTime = null,Object? updatedTime = null,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,memberId: freezed == memberId ? _self.memberId : memberId // ignore: cast_nullable_to_non_nullable
+as int?,ticketNo: null == ticketNo ? _self.ticketNo : ticketNo // ignore: cast_nullable_to_non_nullable
+as String,benefitAmount: freezed == benefitAmount ? _self.benefitAmount : benefitAmount // ignore: cast_nullable_to_non_nullable
+as int?,grantMethod: freezed == grantMethod ? _self.grantMethod : grantMethod // ignore: cast_nullable_to_non_nullable
+as int?,ticketStatus: freezed == ticketStatus ? _self.ticketStatus : ticketStatus // ignore: cast_nullable_to_non_nullable
+as int?,grantTime: null == grantTime ? _self.grantTime : grantTime // ignore: cast_nullable_to_non_nullable
+as String,usedTime: null == usedTime ? _self.usedTime : usedTime // ignore: cast_nullable_to_non_nullable
+as String,bookingOrderId: freezed == bookingOrderId ? _self.bookingOrderId : bookingOrderId // ignore: cast_nullable_to_non_nullable
+as int?,createdTime: null == createdTime ? _self.createdTime : createdTime // ignore: cast_nullable_to_non_nullable
+as String,updatedTime: null == updatedTime ? _self.updatedTime : updatedTime // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [HotelFundBenefitTicketDto].
+extension HotelFundBenefitTicketDtoPatterns on HotelFundBenefitTicketDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HotelFundBenefitTicketDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _HotelFundBenefitTicketDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HotelFundBenefitTicketDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _HotelFundBenefitTicketDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HotelFundBenefitTicketDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _HotelFundBenefitTicketDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(fromJson: _hotelIntFromJson)  int? id, @JsonKey(fromJson: _hotelIntFromJson)  int? memberId, @JsonKey(fromJson: hotelStringFromJson)  String ticketNo, @JsonKey(fromJson: _hotelIntFromJson)  int? benefitAmount, @JsonKey(fromJson: _hotelIntFromJson)  int? grantMethod, @JsonKey(fromJson: _hotelIntFromJson)  int? ticketStatus, @JsonKey(fromJson: hotelStringFromJson)  String grantTime, @JsonKey(fromJson: hotelStringFromJson)  String usedTime, @JsonKey(fromJson: _hotelIntFromJson)  int? bookingOrderId, @JsonKey(fromJson: hotelStringFromJson)  String createdTime, @JsonKey(fromJson: hotelStringFromJson)  String updatedTime)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _HotelFundBenefitTicketDto() when $default != null:
+return $default(_that.id,_that.memberId,_that.ticketNo,_that.benefitAmount,_that.grantMethod,_that.ticketStatus,_that.grantTime,_that.usedTime,_that.bookingOrderId,_that.createdTime,_that.updatedTime);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(fromJson: _hotelIntFromJson)  int? id, @JsonKey(fromJson: _hotelIntFromJson)  int? memberId, @JsonKey(fromJson: hotelStringFromJson)  String ticketNo, @JsonKey(fromJson: _hotelIntFromJson)  int? benefitAmount, @JsonKey(fromJson: _hotelIntFromJson)  int? grantMethod, @JsonKey(fromJson: _hotelIntFromJson)  int? ticketStatus, @JsonKey(fromJson: hotelStringFromJson)  String grantTime, @JsonKey(fromJson: hotelStringFromJson)  String usedTime, @JsonKey(fromJson: _hotelIntFromJson)  int? bookingOrderId, @JsonKey(fromJson: hotelStringFromJson)  String createdTime, @JsonKey(fromJson: hotelStringFromJson)  String updatedTime)  $default,) {final _that = this;
+switch (_that) {
+case _HotelFundBenefitTicketDto():
+return $default(_that.id,_that.memberId,_that.ticketNo,_that.benefitAmount,_that.grantMethod,_that.ticketStatus,_that.grantTime,_that.usedTime,_that.bookingOrderId,_that.createdTime,_that.updatedTime);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(fromJson: _hotelIntFromJson)  int? id, @JsonKey(fromJson: _hotelIntFromJson)  int? memberId, @JsonKey(fromJson: hotelStringFromJson)  String ticketNo, @JsonKey(fromJson: _hotelIntFromJson)  int? benefitAmount, @JsonKey(fromJson: _hotelIntFromJson)  int? grantMethod, @JsonKey(fromJson: _hotelIntFromJson)  int? ticketStatus, @JsonKey(fromJson: hotelStringFromJson)  String grantTime, @JsonKey(fromJson: hotelStringFromJson)  String usedTime, @JsonKey(fromJson: _hotelIntFromJson)  int? bookingOrderId, @JsonKey(fromJson: hotelStringFromJson)  String createdTime, @JsonKey(fromJson: hotelStringFromJson)  String updatedTime)?  $default,) {final _that = this;
+switch (_that) {
+case _HotelFundBenefitTicketDto() when $default != null:
+return $default(_that.id,_that.memberId,_that.ticketNo,_that.benefitAmount,_that.grantMethod,_that.ticketStatus,_that.grantTime,_that.usedTime,_that.bookingOrderId,_that.createdTime,_that.updatedTime);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _HotelFundBenefitTicketDto implements HotelFundBenefitTicketDto {
+  const _HotelFundBenefitTicketDto({@JsonKey(fromJson: _hotelIntFromJson) this.id, @JsonKey(fromJson: _hotelIntFromJson) this.memberId, @JsonKey(fromJson: hotelStringFromJson) this.ticketNo = '', @JsonKey(fromJson: _hotelIntFromJson) this.benefitAmount, @JsonKey(fromJson: _hotelIntFromJson) this.grantMethod, @JsonKey(fromJson: _hotelIntFromJson) this.ticketStatus, @JsonKey(fromJson: hotelStringFromJson) this.grantTime = '', @JsonKey(fromJson: hotelStringFromJson) this.usedTime = '', @JsonKey(fromJson: _hotelIntFromJson) this.bookingOrderId, @JsonKey(fromJson: hotelStringFromJson) this.createdTime = '', @JsonKey(fromJson: hotelStringFromJson) this.updatedTime = ''});
+  factory _HotelFundBenefitTicketDto.fromJson(Map<String, dynamic> json) => _$HotelFundBenefitTicketDtoFromJson(json);
+
+@override@JsonKey(fromJson: _hotelIntFromJson) final  int? id;
+@override@JsonKey(fromJson: _hotelIntFromJson) final  int? memberId;
+@override@JsonKey(fromJson: hotelStringFromJson) final  String ticketNo;
+@override@JsonKey(fromJson: _hotelIntFromJson) final  int? benefitAmount;
+@override@JsonKey(fromJson: _hotelIntFromJson) final  int? grantMethod;
+@override@JsonKey(fromJson: _hotelIntFromJson) final  int? ticketStatus;
+@override@JsonKey(fromJson: hotelStringFromJson) final  String grantTime;
+@override@JsonKey(fromJson: hotelStringFromJson) final  String usedTime;
+@override@JsonKey(fromJson: _hotelIntFromJson) final  int? bookingOrderId;
+@override@JsonKey(fromJson: hotelStringFromJson) final  String createdTime;
+@override@JsonKey(fromJson: hotelStringFromJson) final  String updatedTime;
+
+/// Create a copy of HotelFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HotelFundBenefitTicketDtoCopyWith<_HotelFundBenefitTicketDto> get copyWith => __$HotelFundBenefitTicketDtoCopyWithImpl<_HotelFundBenefitTicketDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$HotelFundBenefitTicketDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelFundBenefitTicketDto&&(identical(other.id, id) || other.id == id)&&(identical(other.memberId, memberId) || other.memberId == memberId)&&(identical(other.ticketNo, ticketNo) || other.ticketNo == ticketNo)&&(identical(other.benefitAmount, benefitAmount) || other.benefitAmount == benefitAmount)&&(identical(other.grantMethod, grantMethod) || other.grantMethod == grantMethod)&&(identical(other.ticketStatus, ticketStatus) || other.ticketStatus == ticketStatus)&&(identical(other.grantTime, grantTime) || other.grantTime == grantTime)&&(identical(other.usedTime, usedTime) || other.usedTime == usedTime)&&(identical(other.bookingOrderId, bookingOrderId) || other.bookingOrderId == bookingOrderId)&&(identical(other.createdTime, createdTime) || other.createdTime == createdTime)&&(identical(other.updatedTime, updatedTime) || other.updatedTime == updatedTime));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,memberId,ticketNo,benefitAmount,grantMethod,ticketStatus,grantTime,usedTime,bookingOrderId,createdTime,updatedTime);
+
+@override
+String toString() {
+  return 'HotelFundBenefitTicketDto(id: $id, memberId: $memberId, ticketNo: $ticketNo, benefitAmount: $benefitAmount, grantMethod: $grantMethod, ticketStatus: $ticketStatus, grantTime: $grantTime, usedTime: $usedTime, bookingOrderId: $bookingOrderId, createdTime: $createdTime, updatedTime: $updatedTime)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$HotelFundBenefitTicketDtoCopyWith<$Res> implements $HotelFundBenefitTicketDtoCopyWith<$Res> {
+  factory _$HotelFundBenefitTicketDtoCopyWith(_HotelFundBenefitTicketDto value, $Res Function(_HotelFundBenefitTicketDto) _then) = __$HotelFundBenefitTicketDtoCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(fromJson: _hotelIntFromJson) int? id,@JsonKey(fromJson: _hotelIntFromJson) int? memberId,@JsonKey(fromJson: hotelStringFromJson) String ticketNo,@JsonKey(fromJson: _hotelIntFromJson) int? benefitAmount,@JsonKey(fromJson: _hotelIntFromJson) int? grantMethod,@JsonKey(fromJson: _hotelIntFromJson) int? ticketStatus,@JsonKey(fromJson: hotelStringFromJson) String grantTime,@JsonKey(fromJson: hotelStringFromJson) String usedTime,@JsonKey(fromJson: _hotelIntFromJson) int? bookingOrderId,@JsonKey(fromJson: hotelStringFromJson) String createdTime,@JsonKey(fromJson: hotelStringFromJson) String updatedTime
+});
+
+
+
+
+}
+/// @nodoc
+class __$HotelFundBenefitTicketDtoCopyWithImpl<$Res>
+    implements _$HotelFundBenefitTicketDtoCopyWith<$Res> {
+  __$HotelFundBenefitTicketDtoCopyWithImpl(this._self, this._then);
+
+  final _HotelFundBenefitTicketDto _self;
+  final $Res Function(_HotelFundBenefitTicketDto) _then;
+
+/// Create a copy of HotelFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? memberId = freezed,Object? ticketNo = null,Object? benefitAmount = freezed,Object? grantMethod = freezed,Object? ticketStatus = freezed,Object? grantTime = null,Object? usedTime = null,Object? bookingOrderId = freezed,Object? createdTime = null,Object? updatedTime = null,}) {
+  return _then(_HotelFundBenefitTicketDto(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,memberId: freezed == memberId ? _self.memberId : memberId // ignore: cast_nullable_to_non_nullable
+as int?,ticketNo: null == ticketNo ? _self.ticketNo : ticketNo // ignore: cast_nullable_to_non_nullable
+as String,benefitAmount: freezed == benefitAmount ? _self.benefitAmount : benefitAmount // ignore: cast_nullable_to_non_nullable
+as int?,grantMethod: freezed == grantMethod ? _self.grantMethod : grantMethod // ignore: cast_nullable_to_non_nullable
+as int?,ticketStatus: freezed == ticketStatus ? _self.ticketStatus : ticketStatus // ignore: cast_nullable_to_non_nullable
+as int?,grantTime: null == grantTime ? _self.grantTime : grantTime // ignore: cast_nullable_to_non_nullable
+as String,usedTime: null == usedTime ? _self.usedTime : usedTime // ignore: cast_nullable_to_non_nullable
+as String,bookingOrderId: freezed == bookingOrderId ? _self.bookingOrderId : bookingOrderId // ignore: cast_nullable_to_non_nullable
+as int?,createdTime: null == createdTime ? _self.createdTime : createdTime // ignore: cast_nullable_to_non_nullable
+as String,updatedTime: null == updatedTime ? _self.updatedTime : updatedTime // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$HotelBookingCreateRequestDto {
 
  List<Map<String, dynamic>>? get couponsCounts; HotelBookingCreateParentDto get parent; String get site;
