@@ -10,6 +10,7 @@ class HotelSearchCriteria {
     this.occupancy = 1,
     this.kids = 0,
     this.roomCount = 1,
+    this.stayBenefit = false,
   });
 
   factory HotelSearchCriteria.initial(DateTime now) {
@@ -30,6 +31,7 @@ class HotelSearchCriteria {
   final int occupancy;
   final int kids;
   final int roomCount;
+  final bool stayBenefit;
 
   int get nights => checkOutDate.difference(checkInDate).inDays.clamp(1, 365);
   int get guests => occupancy + kids;
@@ -45,6 +47,7 @@ class HotelSearchCriteria {
     int? occupancy,
     int? kids,
     int? roomCount,
+    bool? stayBenefit,
   }) {
     return HotelSearchCriteria(
       checkInDate: checkInDate ?? this.checkInDate,
@@ -61,6 +64,7 @@ class HotelSearchCriteria {
       occupancy: occupancy ?? this.occupancy,
       kids: kids ?? this.kids,
       roomCount: roomCount ?? this.roomCount,
+      stayBenefit: stayBenefit ?? this.stayBenefit,
     );
   }
 }

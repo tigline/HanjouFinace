@@ -78,6 +78,7 @@ void main() {
             'occupancy': 2,
             'kids': 1,
             'roomNum': 1,
+            'stayBenefit': false,
           }),
         );
 

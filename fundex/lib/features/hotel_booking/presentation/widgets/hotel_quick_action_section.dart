@@ -31,7 +31,7 @@ class HotelQuickActionSection extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: _HotelQuickActionItem(
-              icon: Icons.account_circle_outlined,
+              icon: Icons.card_giftcard_rounded,
               label: userInfoLabel,
               onTap: onUserInfoTap,
             ),

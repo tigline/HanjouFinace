@@ -26,6 +26,7 @@ abstract class HotelSearchRequestDto with _$HotelSearchRequestDto {
     @Default(1) int occupancy,
     @Default(0) int kids,
     @Default(1) int roomNum,
+    @Default(false) bool stayBenefit,
   }) = _HotelSearchRequestDto;
 
   factory HotelSearchRequestDto.fromJson(Map<String, dynamic> json) =>

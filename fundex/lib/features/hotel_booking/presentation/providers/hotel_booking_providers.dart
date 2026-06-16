@@ -270,6 +270,16 @@ final hotelMapSearchProvider = FutureProvider.autoDispose
       );
     });
 
+final hotelStayBenefitSearchProvider = FutureProvider.autoDispose
+    .family<HotelSearchResult, HotelSearchCriteria>((ref, criteria) {
+      final languageCode = ref.watch(hotelLocaleLanguageCodeProvider);
+      return ref.watch(searchHotelsUseCaseProvider)(
+        criteria: criteria.copyWith(stayBenefit: true),
+        languageCode: languageCode,
+        limit: 100,
+      );
+    });
+
 final hotelBookingControllerProvider =
     StateNotifierProvider.autoDispose<
       HotelBookingController,

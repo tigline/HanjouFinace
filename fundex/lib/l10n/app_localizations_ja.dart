@@ -1169,6 +1169,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelQuickActionUserInfo => '会員情報';
 
   @override
+  String get hotelQuickActionStayBenefits => '宿泊特典';
+
+  @override
   String get hotelQuickActionOrders => '予約一覧';
 
   @override
@@ -1179,6 +1182,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hotelMemberProfileTitle => 'プロフィール';
+
+  @override
+  String get hotelStayBenefitsTitle => '宿泊特典';
 
   @override
   String get hotelMemberProfileNickname => 'ニックネーム';

@@ -1155,6 +1155,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelQuickActionUserInfo => '用户信息';
 
   @override
+  String get hotelQuickActionStayBenefits => '宿泊特典';
+
+  @override
   String get hotelQuickActionOrders => '我的订单';
 
   @override
@@ -1165,6 +1168,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hotelMemberProfileTitle => '用户信息';
+
+  @override
+  String get hotelStayBenefitsTitle => '宿泊特典';
 
   @override
   String get hotelMemberProfileNickname => '昵称';
@@ -6589,6 +6595,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelQuickActionUserInfo => '用戶資訊';
 
   @override
+  String get hotelQuickActionStayBenefits => '宿泊特典';
+
+  @override
   String get hotelQuickActionOrders => '我的訂單';
 
   @override
@@ -6599,6 +6608,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelMemberProfileTitle => '用戶資訊';
+
+  @override
+  String get hotelStayBenefitsTitle => '宿泊特典';
 
   @override
   String get hotelMemberProfileNickname => '暱稱';

@@ -276,7 +276,7 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
               children: <Widget>[
                 IconButton(
                   onPressed: canGoPrevious ? _goPreviousMonth : null,
-                  icon: const Icon(Icons.chevron_left_rounded,size: 28),
+                  icon: const Icon(Icons.chevron_left_rounded, size: 28),
                 ),
                 Expanded(
                   child: Text(
@@ -290,7 +290,7 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
                 ),
                 IconButton(
                   onPressed: canGoNext ? _goNextMonth : null,
-                  icon: const Icon(Icons.chevron_right_rounded,size: 28),
+                  icon: const Icon(Icons.chevron_right_rounded, size: 28),
                 ),
               ],
             ),

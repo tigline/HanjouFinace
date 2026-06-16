@@ -39,6 +39,7 @@ class HotelMapPage extends ConsumerStatefulWidget {
 class _HotelMapPageState extends ConsumerState<HotelMapPage> {
   final HotelMapCanvasController _mapController = HotelMapCanvasController();
   String? _selectedHotelId;
+  HotelSearchCriteria? _localCriteria;
   bool _initialCriteriaApplied = false;
   bool _selectionSuppressed = false;
 
@@ -46,6 +47,10 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
   void initState() {
     super.initState();
     _selectedHotelId = widget.initialSelectedHotelId ?? widget.initialHotel?.id;
+    final initialCriteria = widget.initialCriteria;
+    if (initialCriteria != null && initialCriteria.stayBenefit) {
+      _localCriteria = initialCriteria;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _applyInitialCriteria();
     });
@@ -54,14 +59,16 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(hotelBookingControllerProvider);
+    final effectiveCriteria = _localCriteria ?? state.criteria;
     final colors = Theme.of(context).appColors;
     final presenter = HotelBookingPresenter(
       Localizations.localeOf(context).toLanguageTag(),
     );
-    final mapResult = ref.watch(hotelMapSearchProvider(state.criteria));
+    final mapResult = ref.watch(hotelMapSearchProvider(effectiveCriteria));
     final fetchedHotels = mapResult.maybeWhen(
       data: (result) => result.hotels,
-      orElse: () => state.hotels,
+      orElse: () =>
+          _localCriteria == null ? state.hotels : const <HotelSummary>[],
     );
     final hotels = _mergeInitialHotel(fetchedHotels);
     final selectedHotel = _selectedHotel(hotels);
@@ -83,7 +90,7 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
                   controller: _mapController,
                   hotels: hotels,
                   selectedHotelId: _selectedHotelId,
-                  fallbackTarget: _fallbackTarget(state.criteria),
+                  fallbackTarget: _fallbackTarget(effectiveCriteria),
                   presenter: presenter,
                   onHotelSelected: (hotel) {
                     setState(() {
@@ -102,10 +109,10 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
               Align(
                 alignment: Alignment.topCenter,
                 child: HotelMapControls(
-                  criteria: state.criteria,
+                  criteria: effectiveCriteria,
                   presenter: presenter,
                   onBack: _showList,
-                  onOpenFilters: () => _openSearchConditions(state.criteria),
+                  onOpenFilters: () => _openSearchConditions(effectiveCriteria),
                   onShowList: _showList,
                   onNearby: _mapController.moveToCurrentLocation,
                 ),
@@ -120,7 +127,7 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
                     color: colors.surfaceAlt,
                     child: HotelFullPageError(
                       onRetry: () => ref.invalidate(
-                        hotelMapSearchProvider(state.criteria),
+                        hotelMapSearchProvider(effectiveCriteria),
                       ),
                     ),
                   ),
@@ -132,7 +139,7 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
                     hotel: selectedHotel,
                     presenter: presenter,
                     onTap: () =>
-                        _openHotelDetail(selectedHotel, state.criteria),
+                        _openHotelDetail(selectedHotel, effectiveCriteria),
                   ),
                 ),
             ],
@@ -171,9 +178,15 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
               _selectedHotelId = null;
               _selectionSuppressed = false;
             });
+            if (_localCriteria != null) {
+              setState(() {
+                _localCriteria = nextCriteria.copyWith(stayBenefit: true);
+              });
+              return;
+            }
             await ref
                 .read(hotelBookingControllerProvider.notifier)
-                .applyCriteria(nextCriteria);
+                .applyCriteria(nextCriteria.copyWith(stayBenefit: false));
           },
         );
       },
@@ -208,13 +221,16 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
     if (initialCriteria == null) {
       return;
     }
+    if (initialCriteria.stayBenefit) {
+      return;
+    }
     final current = ref.read(hotelBookingControllerProvider).criteria;
     if (_sameCriteria(current, initialCriteria)) {
       return;
     }
     ref
         .read(hotelBookingControllerProvider.notifier)
-        .applyCriteria(initialCriteria);
+        .applyCriteria(initialCriteria.copyWith(stayBenefit: false));
   }
 
   void _syncSelectedHotel(
@@ -336,6 +352,7 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
         a.priceSort == b.priceSort &&
         a.occupancy == b.occupancy &&
         a.kids == b.kids &&
-        a.roomCount == b.roomCount;
+        a.roomCount == b.roomCount &&
+        a.stayBenefit == b.stayBenefit;
   }
 }

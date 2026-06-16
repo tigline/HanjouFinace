@@ -24,6 +24,7 @@ _HotelSearchRequestDto _$HotelSearchRequestDtoFromJson(
   occupancy: (json['occupancy'] as num?)?.toInt() ?? 1,
   kids: (json['kids'] as num?)?.toInt() ?? 0,
   roomNum: (json['roomNum'] as num?)?.toInt() ?? 1,
+  stayBenefit: json['stayBenefit'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$HotelSearchRequestDtoToJson(
@@ -44,6 +45,7 @@ Map<String, dynamic> _$HotelSearchRequestDtoToJson(
   'occupancy': instance.occupancy,
   'kids': instance.kids,
   'roomNum': instance.roomNum,
+  'stayBenefit': instance.stayBenefit,
 };
 
 _HotelSearchResultDto _$HotelSearchResultDtoFromJson(

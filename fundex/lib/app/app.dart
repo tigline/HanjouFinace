@@ -51,7 +51,12 @@ bool _usesImmersiveHotelStatusBar(String path) {
   if (tail.isEmpty || tail.contains('/')) {
     return false;
   }
-  return !const <String>{'map', 'member-profile', 'orders'}.contains(tail);
+  return !const <String>{
+    'map',
+    'member-profile',
+    'orders',
+    'stay-benefits',
+  }.contains(tail);
 }
 
 class MemberTemplateApp extends ConsumerWidget {

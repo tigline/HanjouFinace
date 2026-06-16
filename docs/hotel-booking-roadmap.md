@@ -1,6 +1,6 @@
 # Hotel Booking Roadmap
 
-Last updated: 2026-05-29
+Last updated: 2026-06-16
 
 This document defines the working plan for the upcoming hotel booking feature. It should be read before opening task threads related to hotel list, hotel detail, room selection, booking, payment, or hotel orders.
 
@@ -21,9 +21,9 @@ Current behavior:
 - Hotel home hero temporarily reuses the same remote banner image URL pattern as the home tab.
 - Hotel home and hotel detail are immersive with transparent status bars and content extending to the top edge. Other hotel child pages, including orders, profile, confirmation, and result pages, use the default app status bar.
 - Hotel API requests include fixed app metadata headers from the app network layer: `x-client-type: Stellavia-App` and `app-version` from `PackageInfo.version`.
-- Hotel home shows a four-entry quick action row above the search filter controls: user info, hotel orders, coupons, and contact. User info opens the hotel-specific profile route `/hotel-booking/member-profile` backed by `/pms/member/info` and `/pms/member/custSetInfo`, hotel orders opens `/hotel-booking/orders`, coupons opens `/hotel-booking/coupons`, and contact opens the existing contact form.
+- Hotel home shows a four-entry quick action row above the search filter controls: stay benefits, hotel orders, coupons, and contact. Stay benefits opens `/hotel-booking/stay-benefits`, which reuses the filter/sort/map toolbar, `/hotel/hotelSearch` list API with `stayBenefit: true`, and home hotel cards without price/discount display. The older hotel-specific member profile route `/hotel-booking/member-profile`, backed by `/pms/member/info` and `/pms/member/custSetInfo`, remains implemented but is not currently linked from the hotel home quick-action row. Hotel orders opens `/hotel-booking/orders`, coupons opens `/hotel-booking/coupons`, and contact opens the existing contact form.
 - App settings now includes a credit-card list entry under bank account settings. The list page calls `/creditCard/register/list` and opens a separate fullscreen add page at `/profile/settings/credit-card/add`; the add page validates card data through Veritrans `/4gtoken`, then registers through `/creditCard/register`. The Veritrans token API key is injected through `VERITRANS_TOKEN_API_KEY` rather than committed in code.
-- Hotel list search uses fixed area choices only: all areas as `area: ""`, plus `osaka`, `kyoto`, and `tokyo`. Building/property type choices come from `/hotel/buildingCode`, including the empty-code "all" option returned by the API.
+- Hotel list search uses fixed area choices only: all areas as `area: ""`, plus `osaka`, `kyoto`, and `tokyo`. Building/property type choices come from `/hotel/buildingCode`, including the empty-code "all" option returned by the API. `/hotel/hotelSearch` requests include `stayBenefit`, defaulting to `false` for normal hotel browsing and set to `true` for the stay-benefits list.
 - Hotel home shows selected search conditions as a compact summary bar; tapping the summary bar or search icon opens the full four-row search condition sheet over the tab bar. The sheet edits a local draft and refreshes the list only after "Check availability". Hotel date picking uses the shared custom range calendar across home/search and detail; home/search shows date cells without prices, while detail injects `/pms/priceByDate` prices into the same calendar.
 - Hotel list cards navigate to the public detail route `/hotel-booking/:id` with the current search criteria.
 - Hotel detail has a first UI/data slice: hero gallery, stay summary, room-plan selection, detail sections, refund policy text, and sticky booking amount bar. Booking submit is still a placeholder action.

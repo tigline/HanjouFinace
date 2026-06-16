@@ -2331,6 +2331,12 @@ abstract class AppLocalizations {
   /// **'User info'**
   String get hotelQuickActionUserInfo;
 
+  /// No description provided for @hotelQuickActionStayBenefits.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefits'**
+  String get hotelQuickActionStayBenefits;
+
   /// No description provided for @hotelQuickActionOrders.
   ///
   /// In en, this message translates to:
@@ -2354,6 +2360,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User info'**
   String get hotelMemberProfileTitle;
+
+  /// No description provided for @hotelStayBenefitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefits'**
+  String get hotelStayBenefitsTitle;
 
   /// No description provided for @hotelMemberProfileNickname.
   ///

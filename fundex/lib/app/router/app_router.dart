@@ -22,6 +22,7 @@ import '../../features/hotel_booking/presentation/pages/hotel_member_profile_pag
 import '../../features/hotel_booking/presentation/pages/hotel_order_detail_page.dart';
 import '../../features/hotel_booking/presentation/pages/hotel_order_list_page.dart';
 import '../../features/hotel_booking/presentation/pages/hotel_payment_method_page.dart';
+import '../../features/hotel_booking/presentation/pages/hotel_stay_benefit_page.dart';
 import '../../features/hotel_booking/presentation/support/hotel_booking_result_route_args.dart';
 import '../../features/hotel_booking/presentation/support/hotel_map_route_args.dart';
 import '../../features/hotel_booking/presentation/support/hotel_payment_route_args.dart';
@@ -426,6 +427,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     parentNavigatorKey: _rootNavigatorKey,
                     builder: (BuildContext context, GoRouterState state) {
                       return const HotelMemberProfilePage();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'stay-benefits',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const HotelStayBenefitPage();
                     },
                   ),
                   GoRoute(

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HotelSearchRequestDto {
 
- int get startPage; int get limit; String get startDate; String get endDate; String? get keyWord; String? get lang; Map<String, Object?>? get price; List<Object?>? get filterVal; String? get area; int? get bookingType; String? get buildingCode; String? get priceSort; int get occupancy; int get kids; int get roomNum;
+ int get startPage; int get limit; String get startDate; String get endDate; String? get keyWord; String? get lang; Map<String, Object?>? get price; List<Object?>? get filterVal; String? get area; int? get bookingType; String? get buildingCode; String? get priceSort; int get occupancy; int get kids; int get roomNum; bool get stayBenefit;
 /// Create a copy of HotelSearchRequestDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $HotelSearchRequestDtoCopyWith<HotelSearchRequestDto> get copyWith => _$HotelSea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelSearchRequestDto&&(identical(other.startPage, startPage) || other.startPage == startPage)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.keyWord, keyWord) || other.keyWord == keyWord)&&(identical(other.lang, lang) || other.lang == lang)&&const DeepCollectionEquality().equals(other.price, price)&&const DeepCollectionEquality().equals(other.filterVal, filterVal)&&(identical(other.area, area) || other.area == area)&&(identical(other.bookingType, bookingType) || other.bookingType == bookingType)&&(identical(other.buildingCode, buildingCode) || other.buildingCode == buildingCode)&&(identical(other.priceSort, priceSort) || other.priceSort == priceSort)&&(identical(other.occupancy, occupancy) || other.occupancy == occupancy)&&(identical(other.kids, kids) || other.kids == kids)&&(identical(other.roomNum, roomNum) || other.roomNum == roomNum));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelSearchRequestDto&&(identical(other.startPage, startPage) || other.startPage == startPage)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.keyWord, keyWord) || other.keyWord == keyWord)&&(identical(other.lang, lang) || other.lang == lang)&&const DeepCollectionEquality().equals(other.price, price)&&const DeepCollectionEquality().equals(other.filterVal, filterVal)&&(identical(other.area, area) || other.area == area)&&(identical(other.bookingType, bookingType) || other.bookingType == bookingType)&&(identical(other.buildingCode, buildingCode) || other.buildingCode == buildingCode)&&(identical(other.priceSort, priceSort) || other.priceSort == priceSort)&&(identical(other.occupancy, occupancy) || other.occupancy == occupancy)&&(identical(other.kids, kids) || other.kids == kids)&&(identical(other.roomNum, roomNum) || other.roomNum == roomNum)&&(identical(other.stayBenefit, stayBenefit) || other.stayBenefit == stayBenefit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,startPage,limit,startDate,endDate,keyWord,lang,const DeepCollectionEquality().hash(price),const DeepCollectionEquality().hash(filterVal),area,bookingType,buildingCode,priceSort,occupancy,kids,roomNum);
+int get hashCode => Object.hash(runtimeType,startPage,limit,startDate,endDate,keyWord,lang,const DeepCollectionEquality().hash(price),const DeepCollectionEquality().hash(filterVal),area,bookingType,buildingCode,priceSort,occupancy,kids,roomNum,stayBenefit);
 
 @override
 String toString() {
-  return 'HotelSearchRequestDto(startPage: $startPage, limit: $limit, startDate: $startDate, endDate: $endDate, keyWord: $keyWord, lang: $lang, price: $price, filterVal: $filterVal, area: $area, bookingType: $bookingType, buildingCode: $buildingCode, priceSort: $priceSort, occupancy: $occupancy, kids: $kids, roomNum: $roomNum)';
+  return 'HotelSearchRequestDto(startPage: $startPage, limit: $limit, startDate: $startDate, endDate: $endDate, keyWord: $keyWord, lang: $lang, price: $price, filterVal: $filterVal, area: $area, bookingType: $bookingType, buildingCode: $buildingCode, priceSort: $priceSort, occupancy: $occupancy, kids: $kids, roomNum: $roomNum, stayBenefit: $stayBenefit)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $HotelSearchRequestDtoCopyWith<$Res>  {
   factory $HotelSearchRequestDtoCopyWith(HotelSearchRequestDto value, $Res Function(HotelSearchRequestDto) _then) = _$HotelSearchRequestDtoCopyWithImpl;
 @useResult
 $Res call({
- int startPage, int limit, String startDate, String endDate, String? keyWord, String? lang, Map<String, Object?>? price, List<Object?>? filterVal, String? area, int? bookingType, String? buildingCode, String? priceSort, int occupancy, int kids, int roomNum
+ int startPage, int limit, String startDate, String endDate, String? keyWord, String? lang, Map<String, Object?>? price, List<Object?>? filterVal, String? area, int? bookingType, String? buildingCode, String? priceSort, int occupancy, int kids, int roomNum, bool stayBenefit
 });
 
 
@@ -65,7 +65,7 @@ class _$HotelSearchRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of HotelSearchRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? startPage = null,Object? limit = null,Object? startDate = null,Object? endDate = null,Object? keyWord = freezed,Object? lang = freezed,Object? price = freezed,Object? filterVal = freezed,Object? area = freezed,Object? bookingType = freezed,Object? buildingCode = freezed,Object? priceSort = freezed,Object? occupancy = null,Object? kids = null,Object? roomNum = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? startPage = null,Object? limit = null,Object? startDate = null,Object? endDate = null,Object? keyWord = freezed,Object? lang = freezed,Object? price = freezed,Object? filterVal = freezed,Object? area = freezed,Object? bookingType = freezed,Object? buildingCode = freezed,Object? priceSort = freezed,Object? occupancy = null,Object? kids = null,Object? roomNum = null,Object? stayBenefit = null,}) {
   return _then(_self.copyWith(
 startPage: null == startPage ? _self.startPage : startPage // ignore: cast_nullable_to_non_nullable
 as int,limit: null == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
@@ -82,7 +82,8 @@ as String?,priceSort: freezed == priceSort ? _self.priceSort : priceSort // igno
 as String?,occupancy: null == occupancy ? _self.occupancy : occupancy // ignore: cast_nullable_to_non_nullable
 as int,kids: null == kids ? _self.kids : kids // ignore: cast_nullable_to_non_nullable
 as int,roomNum: null == roomNum ? _self.roomNum : roomNum // ignore: cast_nullable_to_non_nullable
-as int,
+as int,stayBenefit: null == stayBenefit ? _self.stayBenefit : stayBenefit // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -167,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int startPage,  int limit,  String startDate,  String endDate,  String? keyWord,  String? lang,  Map<String, Object?>? price,  List<Object?>? filterVal,  String? area,  int? bookingType,  String? buildingCode,  String? priceSort,  int occupancy,  int kids,  int roomNum)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int startPage,  int limit,  String startDate,  String endDate,  String? keyWord,  String? lang,  Map<String, Object?>? price,  List<Object?>? filterVal,  String? area,  int? bookingType,  String? buildingCode,  String? priceSort,  int occupancy,  int kids,  int roomNum,  bool stayBenefit)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HotelSearchRequestDto() when $default != null:
-return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.keyWord,_that.lang,_that.price,_that.filterVal,_that.area,_that.bookingType,_that.buildingCode,_that.priceSort,_that.occupancy,_that.kids,_that.roomNum);case _:
+return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.keyWord,_that.lang,_that.price,_that.filterVal,_that.area,_that.bookingType,_that.buildingCode,_that.priceSort,_that.occupancy,_that.kids,_that.roomNum,_that.stayBenefit);case _:
   return orElse();
 
 }
@@ -188,10 +189,10 @@ return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int startPage,  int limit,  String startDate,  String endDate,  String? keyWord,  String? lang,  Map<String, Object?>? price,  List<Object?>? filterVal,  String? area,  int? bookingType,  String? buildingCode,  String? priceSort,  int occupancy,  int kids,  int roomNum)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int startPage,  int limit,  String startDate,  String endDate,  String? keyWord,  String? lang,  Map<String, Object?>? price,  List<Object?>? filterVal,  String? area,  int? bookingType,  String? buildingCode,  String? priceSort,  int occupancy,  int kids,  int roomNum,  bool stayBenefit)  $default,) {final _that = this;
 switch (_that) {
 case _HotelSearchRequestDto():
-return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.keyWord,_that.lang,_that.price,_that.filterVal,_that.area,_that.bookingType,_that.buildingCode,_that.priceSort,_that.occupancy,_that.kids,_that.roomNum);case _:
+return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.keyWord,_that.lang,_that.price,_that.filterVal,_that.area,_that.bookingType,_that.buildingCode,_that.priceSort,_that.occupancy,_that.kids,_that.roomNum,_that.stayBenefit);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +209,10 @@ return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int startPage,  int limit,  String startDate,  String endDate,  String? keyWord,  String? lang,  Map<String, Object?>? price,  List<Object?>? filterVal,  String? area,  int? bookingType,  String? buildingCode,  String? priceSort,  int occupancy,  int kids,  int roomNum)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int startPage,  int limit,  String startDate,  String endDate,  String? keyWord,  String? lang,  Map<String, Object?>? price,  List<Object?>? filterVal,  String? area,  int? bookingType,  String? buildingCode,  String? priceSort,  int occupancy,  int kids,  int roomNum,  bool stayBenefit)?  $default,) {final _that = this;
 switch (_that) {
 case _HotelSearchRequestDto() when $default != null:
-return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.keyWord,_that.lang,_that.price,_that.filterVal,_that.area,_that.bookingType,_that.buildingCode,_that.priceSort,_that.occupancy,_that.kids,_that.roomNum);case _:
+return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.keyWord,_that.lang,_that.price,_that.filterVal,_that.area,_that.bookingType,_that.buildingCode,_that.priceSort,_that.occupancy,_that.kids,_that.roomNum,_that.stayBenefit);case _:
   return null;
 
 }
@@ -223,7 +224,7 @@ return $default(_that.startPage,_that.limit,_that.startDate,_that.endDate,_that.
 
 @JsonSerializable(includeIfNull: false)
 class _HotelSearchRequestDto implements HotelSearchRequestDto {
-  const _HotelSearchRequestDto({this.startPage = 1, this.limit = 20, required this.startDate, required this.endDate, this.keyWord, this.lang, final  Map<String, Object?>? price, final  List<Object?>? filterVal, this.area, this.bookingType, this.buildingCode, this.priceSort, this.occupancy = 1, this.kids = 0, this.roomNum = 1}): _price = price,_filterVal = filterVal;
+  const _HotelSearchRequestDto({this.startPage = 1, this.limit = 20, required this.startDate, required this.endDate, this.keyWord, this.lang, final  Map<String, Object?>? price, final  List<Object?>? filterVal, this.area, this.bookingType, this.buildingCode, this.priceSort, this.occupancy = 1, this.kids = 0, this.roomNum = 1, this.stayBenefit = false}): _price = price,_filterVal = filterVal;
   factory _HotelSearchRequestDto.fromJson(Map<String, dynamic> json) => _$HotelSearchRequestDtoFromJson(json);
 
 @override@JsonKey() final  int startPage;
@@ -257,6 +258,7 @@ class _HotelSearchRequestDto implements HotelSearchRequestDto {
 @override@JsonKey() final  int occupancy;
 @override@JsonKey() final  int kids;
 @override@JsonKey() final  int roomNum;
+@override@JsonKey() final  bool stayBenefit;
 
 /// Create a copy of HotelSearchRequestDto
 /// with the given fields replaced by the non-null parameter values.
@@ -271,16 +273,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelSearchRequestDto&&(identical(other.startPage, startPage) || other.startPage == startPage)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.keyWord, keyWord) || other.keyWord == keyWord)&&(identical(other.lang, lang) || other.lang == lang)&&const DeepCollectionEquality().equals(other._price, _price)&&const DeepCollectionEquality().equals(other._filterVal, _filterVal)&&(identical(other.area, area) || other.area == area)&&(identical(other.bookingType, bookingType) || other.bookingType == bookingType)&&(identical(other.buildingCode, buildingCode) || other.buildingCode == buildingCode)&&(identical(other.priceSort, priceSort) || other.priceSort == priceSort)&&(identical(other.occupancy, occupancy) || other.occupancy == occupancy)&&(identical(other.kids, kids) || other.kids == kids)&&(identical(other.roomNum, roomNum) || other.roomNum == roomNum));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelSearchRequestDto&&(identical(other.startPage, startPage) || other.startPage == startPage)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.keyWord, keyWord) || other.keyWord == keyWord)&&(identical(other.lang, lang) || other.lang == lang)&&const DeepCollectionEquality().equals(other._price, _price)&&const DeepCollectionEquality().equals(other._filterVal, _filterVal)&&(identical(other.area, area) || other.area == area)&&(identical(other.bookingType, bookingType) || other.bookingType == bookingType)&&(identical(other.buildingCode, buildingCode) || other.buildingCode == buildingCode)&&(identical(other.priceSort, priceSort) || other.priceSort == priceSort)&&(identical(other.occupancy, occupancy) || other.occupancy == occupancy)&&(identical(other.kids, kids) || other.kids == kids)&&(identical(other.roomNum, roomNum) || other.roomNum == roomNum)&&(identical(other.stayBenefit, stayBenefit) || other.stayBenefit == stayBenefit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,startPage,limit,startDate,endDate,keyWord,lang,const DeepCollectionEquality().hash(_price),const DeepCollectionEquality().hash(_filterVal),area,bookingType,buildingCode,priceSort,occupancy,kids,roomNum);
+int get hashCode => Object.hash(runtimeType,startPage,limit,startDate,endDate,keyWord,lang,const DeepCollectionEquality().hash(_price),const DeepCollectionEquality().hash(_filterVal),area,bookingType,buildingCode,priceSort,occupancy,kids,roomNum,stayBenefit);
 
 @override
 String toString() {
-  return 'HotelSearchRequestDto(startPage: $startPage, limit: $limit, startDate: $startDate, endDate: $endDate, keyWord: $keyWord, lang: $lang, price: $price, filterVal: $filterVal, area: $area, bookingType: $bookingType, buildingCode: $buildingCode, priceSort: $priceSort, occupancy: $occupancy, kids: $kids, roomNum: $roomNum)';
+  return 'HotelSearchRequestDto(startPage: $startPage, limit: $limit, startDate: $startDate, endDate: $endDate, keyWord: $keyWord, lang: $lang, price: $price, filterVal: $filterVal, area: $area, bookingType: $bookingType, buildingCode: $buildingCode, priceSort: $priceSort, occupancy: $occupancy, kids: $kids, roomNum: $roomNum, stayBenefit: $stayBenefit)';
 }
 
 
@@ -291,7 +293,7 @@ abstract mixin class _$HotelSearchRequestDtoCopyWith<$Res> implements $HotelSear
   factory _$HotelSearchRequestDtoCopyWith(_HotelSearchRequestDto value, $Res Function(_HotelSearchRequestDto) _then) = __$HotelSearchRequestDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int startPage, int limit, String startDate, String endDate, String? keyWord, String? lang, Map<String, Object?>? price, List<Object?>? filterVal, String? area, int? bookingType, String? buildingCode, String? priceSort, int occupancy, int kids, int roomNum
+ int startPage, int limit, String startDate, String endDate, String? keyWord, String? lang, Map<String, Object?>? price, List<Object?>? filterVal, String? area, int? bookingType, String? buildingCode, String? priceSort, int occupancy, int kids, int roomNum, bool stayBenefit
 });
 
 
@@ -308,7 +310,7 @@ class __$HotelSearchRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of HotelSearchRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? startPage = null,Object? limit = null,Object? startDate = null,Object? endDate = null,Object? keyWord = freezed,Object? lang = freezed,Object? price = freezed,Object? filterVal = freezed,Object? area = freezed,Object? bookingType = freezed,Object? buildingCode = freezed,Object? priceSort = freezed,Object? occupancy = null,Object? kids = null,Object? roomNum = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? startPage = null,Object? limit = null,Object? startDate = null,Object? endDate = null,Object? keyWord = freezed,Object? lang = freezed,Object? price = freezed,Object? filterVal = freezed,Object? area = freezed,Object? bookingType = freezed,Object? buildingCode = freezed,Object? priceSort = freezed,Object? occupancy = null,Object? kids = null,Object? roomNum = null,Object? stayBenefit = null,}) {
   return _then(_HotelSearchRequestDto(
 startPage: null == startPage ? _self.startPage : startPage // ignore: cast_nullable_to_non_nullable
 as int,limit: null == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
@@ -325,7 +327,8 @@ as String?,priceSort: freezed == priceSort ? _self.priceSort : priceSort // igno
 as String?,occupancy: null == occupancy ? _self.occupancy : occupancy // ignore: cast_nullable_to_non_nullable
 as int,kids: null == kids ? _self.kids : kids // ignore: cast_nullable_to_non_nullable
 as int,roomNum: null == roomNum ? _self.roomNum : roomNum // ignore: cast_nullable_to_non_nullable
-as int,
+as int,stayBenefit: null == stayBenefit ? _self.stayBenefit : stayBenefit // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

@@ -43,6 +43,7 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
         occupancy: criteria.occupancy,
         kids: criteria.kids,
         roomNum: criteria.roomCount,
+        stayBenefit: criteria.stayBenefit,
       ),
     );
 

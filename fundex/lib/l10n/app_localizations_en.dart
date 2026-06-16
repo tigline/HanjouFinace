@@ -1236,6 +1236,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelQuickActionUserInfo => 'User info';
 
   @override
+  String get hotelQuickActionStayBenefits => 'Stay benefits';
+
+  @override
   String get hotelQuickActionOrders => 'My orders';
 
   @override
@@ -1246,6 +1249,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hotelMemberProfileTitle => 'User info';
+
+  @override
+  String get hotelStayBenefitsTitle => 'Stay benefits';
 
   @override
   String get hotelMemberProfileNickname => 'Nickname';

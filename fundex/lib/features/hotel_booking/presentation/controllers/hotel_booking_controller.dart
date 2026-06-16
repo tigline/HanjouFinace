@@ -106,6 +106,7 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         area: area,
         checkInDate: nextCheckIn,
         checkOutDate: nextCheckOut,
+        stayBenefit: false,
       ),
     );
     return refresh();
@@ -124,6 +125,7 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         occupancy: criteria.occupancy.clamp(1, 20),
         kids: criteria.kids.clamp(0, 20),
         roomCount: criteria.roomCount.clamp(1, 10),
+        stayBenefit: false,
       ),
     );
     return refresh();
@@ -131,14 +133,20 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
 
   Future<void> selectBuildingCode(String? buildingCode) {
     state = state.copyWith(
-      criteria: state.criteria.copyWith(buildingCode: buildingCode),
+      criteria: state.criteria.copyWith(
+        buildingCode: buildingCode,
+        stayBenefit: false,
+      ),
     );
     return refresh();
   }
 
   Future<void> setPriceSort(HotelPriceSort priceSort) {
     state = state.copyWith(
-      criteria: state.criteria.copyWith(priceSort: priceSort),
+      criteria: state.criteria.copyWith(
+        priceSort: priceSort,
+        stayBenefit: false,
+      ),
     );
     return refresh();
   }
@@ -153,6 +161,7 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         occupancy: adults.clamp(1, 20),
         kids: children.clamp(0, 20),
         roomCount: rooms.clamp(1, 10),
+        stayBenefit: false,
       ),
     );
     return refresh();

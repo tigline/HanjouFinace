@@ -106,12 +106,12 @@ class _HotelHeroSectionState extends ConsumerState<HotelHeroSection> {
               const SizedBox(height: 20),
 
               HotelQuickActionSection(
-                userInfoLabel: context.l10n.hotelQuickActionUserInfo,
+                userInfoLabel: context.l10n.hotelQuickActionStayBenefits,
                 ordersLabel: context.l10n.hotelQuickActionOrders,
                 couponsLabel: context.l10n.hotelQuickActionCoupons,
                 contactLabel: context.l10n.hotelQuickActionContact,
                 onUserInfoTap: () =>
-                    context.push('/hotel-booking/member-profile'),
+                    context.push('/hotel-booking/stay-benefits'),
                 onOrdersTap: widget.onOrdersTap,
                 onCouponsTap: widget.onCouponsTap,
                 onContactTap: () => context.push('/profile/settings/contact'),

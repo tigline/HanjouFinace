@@ -161,8 +161,9 @@ class _HotelSearchConditionsSheetState
   }
 
   Future<void> _apply() async {
+    final criteria = _criteria;
     Navigator.of(context).pop();
-    await widget.onApply(_criteria);
+    await widget.onApply(criteria);
   }
 
   @override
