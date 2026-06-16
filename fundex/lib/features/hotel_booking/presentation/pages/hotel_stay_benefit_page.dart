@@ -67,6 +67,7 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
       Localizations.localeOf(context).toLanguageTag(),
     );
     final result = ref.watch(hotelStayBenefitSearchProvider(_criteria));
+    ref.watch(hotelStayBenefitPeriodsProvider);
     final hotels = result.valueOrNull?.hotels ?? const <HotelSummary>[];
     final filterState = HotelBookingState(criteria: _criteria, hotels: hotels);
 

@@ -69,6 +69,19 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
+  Future<List<HotelStayBenefitPeriod>> fetchStayBenefitPeriods() async {
+    final rows = await _remote.fetchStayBenefitPeriods();
+    return rows
+        .map(
+          (row) => HotelStayBenefitPeriod(
+            month: row.month,
+            days: List<int>.unmodifiable(row.days),
+          ),
+        )
+        .toList(growable: false);
+  }
+
+  @override
   Future<HotelDetail> fetchHotelDetail({
     required String hotelId,
     required HotelSearchCriteria criteria,

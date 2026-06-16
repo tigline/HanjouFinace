@@ -28,6 +28,7 @@ import '../../domain/usecases/fetch_hotel_member_profile_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_cancel_rule_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_detail_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_list_usecase.dart';
+import '../../domain/usecases/fetch_hotel_stay_benefit_periods_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_with_registered_card_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_with_credit_card_token_usecase.dart';
@@ -122,6 +123,13 @@ final fetchHotelCouponsUseCaseProvider = Provider<FetchHotelCouponsUseCase>((
 final fetchHotelFundBenefitTicketsUseCaseProvider =
     Provider<FetchHotelFundBenefitTicketsUseCase>((ref) {
       return FetchHotelFundBenefitTicketsUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
+final fetchHotelStayBenefitPeriodsUseCaseProvider =
+    Provider<FetchHotelStayBenefitPeriodsUseCase>((ref) {
+      return FetchHotelStayBenefitPeriodsUseCase(
         ref.watch(hotelBookingRepositoryProvider),
       );
     });
@@ -322,6 +330,11 @@ final hotelCouponsProvider = FutureProvider.autoDispose<HotelCouponListResult>((
 final hotelFundBenefitTicketsProvider =
     FutureProvider.autoDispose<List<HotelFundBenefitTicket>>((ref) {
       return ref.watch(fetchHotelFundBenefitTicketsUseCaseProvider)();
+    });
+
+final hotelStayBenefitPeriodsProvider =
+    FutureProvider.autoDispose<List<HotelStayBenefitPeriod>>((ref) {
+      return ref.watch(fetchHotelStayBenefitPeriodsUseCaseProvider)();
     });
 
 final hotelMemberProfileProvider =

@@ -141,6 +141,28 @@ void main() {
       expect(result.last.localizedNames['EN'], equals('Aparthotel'));
     });
 
+    test('fetchStayBenefitPeriods loads public homepage periods', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('GET'));
+        expect(options.path, equals(HotelApiPaths.stayBenefitPeriods));
+        expect(options.extra['auth_required'], isFalse);
+        expect(options.data, isNull);
+
+        return _jsonOk(
+          '{"code":200,"msg":"success","data":[{"2026-05":[21,22,23]},{"2026-06":[28,29,30]}]}',
+        );
+      });
+      final api = HotelApiClient(client);
+
+      final result = await api.fetchStayBenefitPeriods();
+
+      expect(result, hasLength(2));
+      expect(result.first.month, equals('2026-05'));
+      expect(result.first.days, equals(<int>[21, 22, 23]));
+      expect(result.last.month, equals('2026-06'));
+      expect(result.last.days, equals(<int>[28, 29, 30]));
+    });
+
     test('fetchHotelDetail accepts code 0 and parses rooms/pictures', () async {
       final client = _buildClient((options) async {
         expect(options.method, equals('POST'));

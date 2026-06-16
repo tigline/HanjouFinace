@@ -92,6 +92,24 @@ abstract class HotelBuildingCodeDto with _$HotelBuildingCodeDto {
       _$HotelBuildingCodeDtoFromJson(json);
 }
 
+class HotelStayBenefitPeriodDto {
+  const HotelStayBenefitPeriodDto({required this.month, required this.days});
+
+  factory HotelStayBenefitPeriodDto.fromJson(Map<String, dynamic> json) {
+    if (json.isEmpty) {
+      return const HotelStayBenefitPeriodDto(month: '', days: <int>[]);
+    }
+    final entry = json.entries.first;
+    return HotelStayBenefitPeriodDto(
+      month: entry.key.trim(),
+      days: hotelIntListFromJson(entry.value),
+    );
+  }
+
+  final String month;
+  final List<int> days;
+}
+
 @freezed
 abstract class HotelFacilityFilterDto with _$HotelFacilityFilterDto {
   const factory HotelFacilityFilterDto({
@@ -528,6 +546,42 @@ List<String> hotelStringListFromJson(Object? raw) {
     }
   }
   return <String>[raw.toString()];
+}
+
+List<int> hotelIntListFromJson(Object? raw) {
+  if (raw == null) {
+    return const <int>[];
+  }
+  if (raw is List) {
+    return raw
+        .map((value) {
+          if (value is int) {
+            return value;
+          }
+          if (value is num) {
+            return value.toInt();
+          }
+          return int.tryParse(value?.toString().trim() ?? '');
+        })
+        .whereType<int>()
+        .toList(growable: false);
+  }
+  if (raw is String) {
+    final trimmed = raw.trim();
+    if (trimmed.isEmpty) {
+      return const <int>[];
+    }
+    try {
+      return hotelIntListFromJson(jsonDecode(trimmed));
+    } catch (_) {
+      final parsed = int.tryParse(trimmed);
+      return parsed == null ? const <int>[] : <int>[parsed];
+    }
+  }
+  if (raw is num) {
+    return <int>[raw.toInt()];
+  }
+  return const <int>[];
 }
 
 List<Map<String, Object?>> hotelMapListFromJson(Object? raw) {

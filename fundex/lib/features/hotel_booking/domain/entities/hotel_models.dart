@@ -123,6 +123,13 @@ class HotelBuildingFilter {
   final String name;
 }
 
+class HotelStayBenefitPeriod {
+  const HotelStayBenefitPeriod({required this.month, required this.days});
+
+  final String month;
+  final List<int> days;
+}
+
 class HotelCreditCard {
   const HotelCreditCard({
     required this.id,

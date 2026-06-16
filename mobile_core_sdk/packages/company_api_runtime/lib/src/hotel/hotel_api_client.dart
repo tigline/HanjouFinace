@@ -11,6 +11,7 @@ class HotelApiPaths {
   static const String bookingOrderSendPaymentLink =
       '/booking/order/sendPaymentLink';
   static const String buildingCode = '/hotel/buildingCode';
+  static const String stayBenefitPeriods = '/hotel/homePage/stayBenefitPeriods';
   static const String page = '/pms/page';
   static const String refundStrategyText = '/pms/refundStrategyText';
   static const String roomFacility = '/pms/esLoadRoomFacility';
@@ -61,6 +62,7 @@ class HotelApiClient {
     this.bookingOrderSendPaymentLinkPath =
         HotelApiPaths.bookingOrderSendPaymentLink,
     this.buildingCodePath = HotelApiPaths.buildingCode,
+    this.stayBenefitPeriodsPath = HotelApiPaths.stayBenefitPeriods,
     this.pagePath = HotelApiPaths.page,
     this.refundStrategyTextPath = HotelApiPaths.refundStrategyText,
     this.roomFacilityPath = HotelApiPaths.roomFacility,
@@ -104,6 +106,7 @@ class HotelApiClient {
   final String bookingOrderPath;
   final String bookingOrderSendPaymentLinkPath;
   final String buildingCodePath;
+  final String stayBenefitPeriodsPath;
   final String pagePath;
   final String refundStrategyTextPath;
   final String roomFacilityPath;
@@ -197,6 +200,22 @@ class HotelApiClient {
       fallbackMessage: 'Failed to load hotel building codes.',
     );
     return rows.map(HotelBuildingCodeDto.fromJson).toList(growable: false);
+  }
+
+  Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriods() async {
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      stayBenefitPeriodsPath,
+      options: authRequired(false),
+    );
+
+    final rows = _envelopeCodec.extractDataList(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to load hotel stay benefit periods.',
+    );
+    return rows
+        .map(HotelStayBenefitPeriodDto.fromJson)
+        .where((period) => period.month.isNotEmpty && period.days.isNotEmpty)
+        .toList(growable: false);
   }
 
   Future<List<HotelFacilityFilterDto>> fetchRoomFacilities({

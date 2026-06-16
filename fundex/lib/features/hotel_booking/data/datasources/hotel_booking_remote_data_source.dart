@@ -18,6 +18,8 @@ abstract class HotelBookingRemoteDataSource {
     required String languageCode,
   });
 
+  Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriods();
+
   Future<HotelAssignOccupancyResultDto> assignOccupancy(
     HotelAssignOccupancyRequestDto request,
   );
@@ -158,6 +160,11 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
     required String languageCode,
   }) {
     return _client.fetchBuildingCodes(lang: languageCode);
+  }
+
+  @override
+  Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriods() {
+    return _client.fetchStayBenefitPeriods();
   }
 
   @override
