@@ -29,7 +29,7 @@ class HotelDetailBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    final price = presenter.price(amount);
+    final amountText = presenter.amount(amount);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.brandWhite,
@@ -60,18 +60,10 @@ class HotelDetailBottomBar extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      price.isEmpty
-                          ? context.l10n.hotelPriceAsk
-                          : '$price ${context.l10n.hotelCurrencyCode}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: colors.brandAlert,
-                            fontWeight: FontWeight.w900,
-                            height: 1,
-                          ),
+                    _BottomBarAmountText(
+                      amountText: amountText,
+                      presenter: presenter,
+                      useStayBenefitAccent: useStayBenefitAccent,
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -130,6 +122,73 @@ class HotelDetailBottomBar extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _BottomBarAmountText extends StatelessWidget {
+  const _BottomBarAmountText({
+    required this.amountText,
+    required this.presenter,
+    required this.useStayBenefitAccent,
+  });
+
+  final String amountText;
+  final HotelBookingPresenter presenter;
+  final bool useStayBenefitAccent;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final baseStyle = Theme.of(context).textTheme.headlineSmall?.copyWith(
+      color: colors.brandAlert,
+      fontWeight: FontWeight.w900,
+      height: 1,
+    );
+    if (amountText.isEmpty) {
+      return Text(
+        context.l10n.hotelPriceAsk,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: baseStyle,
+      );
+    }
+    final currencyCode = context.l10n.hotelCurrencyCode;
+    if (!useStayBenefitAccent) {
+      return Text(
+        '¥ $amountText $currencyCode',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: baseStyle,
+      );
+    }
+    return Text.rich(
+      TextSpan(
+        children: <InlineSpan>[
+          TextSpan(
+            text: '¥ ',
+            style: baseStyle?.copyWith(color: colors.textTertiary),
+          ),
+          TextSpan(
+            text: amountText,
+            style: baseStyle?.copyWith(
+              color: colors.textTertiary,
+              decoration: TextDecoration.lineThrough,
+            ),
+          ),
+          const TextSpan(text: '  '),
+          TextSpan(
+            text: presenter.amount(0),
+            style: baseStyle?.copyWith(color: colors.highlightGold),
+          ),
+          TextSpan(
+            text: ' $currencyCode',
+            style: baseStyle?.copyWith(color: colors.highlightGold),
+          ),
+        ],
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

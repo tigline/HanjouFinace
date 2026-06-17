@@ -638,7 +638,7 @@
     }
   },
   "hotelDetailBookingComingSoon": "预订流程稍后接入",
-  "hotelCurrencyCode": "JPY",
+  "hotelCurrencyCode": "日元",
   "hotelBookingConfirmTitle": "预订确认",
   "hotelBookingCheckInDate": "入住日期",
   "hotelBookingCheckOutDate": "退房日期",

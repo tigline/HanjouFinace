@@ -1462,7 +1462,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelDetailBookingComingSoon => '予約フローは後で接続します';
 
   @override
-  String get hotelCurrencyCode => 'JPY';
+  String get hotelCurrencyCode => '円';
 
   @override
   String get hotelBookingConfirmTitle => '予約確認';

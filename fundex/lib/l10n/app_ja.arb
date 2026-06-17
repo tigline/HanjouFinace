@@ -638,7 +638,7 @@
     }
   },
   "hotelDetailBookingComingSoon": "予約フローは後で接続します",
-  "hotelCurrencyCode": "JPY",
+  "hotelCurrencyCode": "円",
   "hotelBookingConfirmTitle": "予約確認",
   "hotelBookingCheckInDate": "チェックイン日",
   "hotelBookingCheckOutDate": "チェックアウト日",

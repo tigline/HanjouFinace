@@ -1447,7 +1447,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelDetailBookingComingSoon => '预订流程稍后接入';
 
   @override
-  String get hotelCurrencyCode => 'JPY';
+  String get hotelCurrencyCode => '日元';
 
   @override
   String get hotelBookingConfirmTitle => '预订确认';
@@ -6937,7 +6937,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelDetailBookingComingSoon => '預訂流程稍後接入';
 
   @override
-  String get hotelCurrencyCode => 'JPY';
+  String get hotelCurrencyCode => '日圓';
 
   @override
   String get hotelBookingConfirmTitle => '預訂確認';
