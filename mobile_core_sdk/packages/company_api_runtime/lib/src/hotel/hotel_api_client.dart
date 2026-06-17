@@ -12,6 +12,7 @@ class HotelApiPaths {
       '/booking/order/sendPaymentLink';
   static const String buildingCode = '/hotel/buildingCode';
   static const String stayBenefitPeriods = '/hotel/homePage/stayBenefitPeriods';
+  static const String stayBenefitPeriod = '/hotel/homePage/stayBenefitPeriod';
   static const String page = '/pms/page';
   static const String refundStrategyText = '/pms/refundStrategyText';
   static const String roomFacility = '/pms/esLoadRoomFacility';
@@ -63,6 +64,7 @@ class HotelApiClient {
         HotelApiPaths.bookingOrderSendPaymentLink,
     this.buildingCodePath = HotelApiPaths.buildingCode,
     this.stayBenefitPeriodsPath = HotelApiPaths.stayBenefitPeriods,
+    this.stayBenefitPeriodPath = HotelApiPaths.stayBenefitPeriod,
     this.pagePath = HotelApiPaths.page,
     this.refundStrategyTextPath = HotelApiPaths.refundStrategyText,
     this.roomFacilityPath = HotelApiPaths.roomFacility,
@@ -107,6 +109,7 @@ class HotelApiClient {
   final String bookingOrderSendPaymentLinkPath;
   final String buildingCodePath;
   final String stayBenefitPeriodsPath;
+  final String stayBenefitPeriodPath;
   final String pagePath;
   final String refundStrategyTextPath;
   final String roomFacilityPath;
@@ -203,7 +206,7 @@ class HotelApiClient {
   }
 
   Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriods() async {
-    final response = await _client.dio.get<Map<String, dynamic>>(
+    final response = await _client.dio.post<Map<String, dynamic>>(
       stayBenefitPeriodsPath,
       options: authRequired(false),
     );
@@ -216,6 +219,30 @@ class HotelApiClient {
         .map(HotelStayBenefitPeriodDto.fromJson)
         .where((period) => period.month.isNotEmpty && period.days.isNotEmpty)
         .toList(growable: false);
+  }
+
+  Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriodsForHotel({
+    required String hotelId,
+  }) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      stayBenefitPeriodPath,
+      data: <String, dynamic>{'hotelId': _hotelIdPayload(hotelId)},
+      options: authRequired(false),
+    );
+
+    final rows = _envelopeCodec.extractDataList(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to load hotel stay benefit periods.',
+    );
+    return rows
+        .map(HotelStayBenefitPeriodDto.fromJson)
+        .where((period) => period.month.isNotEmpty && period.days.isNotEmpty)
+        .toList(growable: false);
+  }
+
+  Object _hotelIdPayload(String hotelId) {
+    final trimmed = hotelId.trim();
+    return int.tryParse(trimmed) ?? trimmed;
   }
 
   Future<List<HotelFacilityFilterDto>> fetchRoomFacilities({

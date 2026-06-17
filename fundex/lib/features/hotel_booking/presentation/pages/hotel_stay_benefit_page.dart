@@ -56,8 +56,11 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
     return Future<void>.value();
   }
 
-  Future<void> _refresh() {
-    return ref.refresh(hotelStayBenefitSearchProvider(_criteria).future);
+  Future<void> _refresh() async {
+    await Future.wait(<Future<Object?>>[
+      ref.refresh(hotelStayBenefitSearchProvider(_criteria).future),
+      ref.refresh(hotelStayBenefitPeriodsProvider.future),
+    ]);
   }
 
   @override
@@ -67,7 +70,9 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
       Localizations.localeOf(context).toLanguageTag(),
     );
     final result = ref.watch(hotelStayBenefitSearchProvider(_criteria));
-    ref.watch(hotelStayBenefitPeriodsProvider);
+    final periods =
+        ref.watch(hotelStayBenefitPeriodsProvider).valueOrNull ??
+        const <HotelStayBenefitPeriod>[];
     final hotels = result.valueOrNull?.hotels ?? const <HotelSummary>[];
     final filterState = HotelBookingState(criteria: _criteria, hotels: hotels);
 
@@ -110,6 +115,7 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
                         presenter: presenter,
                         onPriceSortSelected: _setPriceSort,
                         onCriteriaApplied: _applyCriteria,
+                        stayBenefitPeriods: periods,
                         onMapTap: () => context.push(
                           '/hotel-booking/map',
                           extra: _criteria,
@@ -159,7 +165,12 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
                       return HotelSummaryCard(
                         hotel: hotel,
                         presenter: presenter,
-                        showPricing: false,
+                        statusText: hotel.stayBenefitParticipate
+                            ? null
+                            : context.l10n.hotelStayBenefitUnavailableForDate,
+                        statusTone: hotel.stayBenefitParticipate
+                            ? HotelSummaryCardStatusTone.normal
+                            : HotelSummaryCardStatusTone.muted,
                         onTap: hotel.id.trim().isEmpty
                             ? null
                             : () => context.push(

@@ -1187,6 +1187,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelStayBenefitsTitle => '宿泊特典';
 
   @override
+  String get hotelStayBenefitSingleNightOnly => '宿泊特典は1泊のみ選択できます';
+
+  @override
+  String get hotelStayBenefitUnavailableForDate => '現在の日付は宿泊特典対象外です';
+
+  @override
   String get hotelMemberProfileNickname => 'ニックネーム';
 
   @override

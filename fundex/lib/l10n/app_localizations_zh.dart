@@ -1173,6 +1173,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelStayBenefitsTitle => '宿泊特典';
 
   @override
+  String get hotelStayBenefitSingleNightOnly => '宿泊特典仅支持选择一天';
+
+  @override
+  String get hotelStayBenefitUnavailableForDate => '当前日期无宿泊特典';
+
+  @override
   String get hotelMemberProfileNickname => '昵称';
 
   @override
@@ -6611,6 +6617,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelStayBenefitsTitle => '宿泊特典';
+
+  @override
+  String get hotelStayBenefitSingleNightOnly => '宿泊特典僅支援選擇一天';
+
+  @override
+  String get hotelStayBenefitUnavailableForDate => '目前日期無宿泊特典';
 
   @override
   String get hotelMemberProfileNickname => '暱稱';

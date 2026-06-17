@@ -14,6 +14,10 @@ abstract class HotelBookingRepository {
 
   Future<List<HotelStayBenefitPeriod>> fetchStayBenefitPeriods();
 
+  Future<List<HotelStayBenefitPeriod>> fetchStayBenefitPeriodsForHotel({
+    required String hotelId,
+  });
+
   Future<HotelDetail> fetchHotelDetail({
     required String hotelId,
     required HotelSearchCriteria criteria,

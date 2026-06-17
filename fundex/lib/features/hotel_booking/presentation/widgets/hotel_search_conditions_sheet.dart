@@ -39,12 +39,14 @@ class HotelSearchConditionsSheet extends StatefulWidget {
     required this.presenter,
     required this.buildingFilters,
     required this.onApply,
+    this.stayBenefitPeriods = const <HotelStayBenefitPeriod>[],
   });
 
   final HotelSearchCriteria criteria;
   final HotelBookingPresenter presenter;
   final List<HotelBuildingFilter> buildingFilters;
   final Future<void> Function(HotelSearchCriteria criteria) onApply;
+  final List<HotelStayBenefitPeriod> stayBenefitPeriods;
 
   @override
   State<HotelSearchConditionsSheet> createState() =>
@@ -142,11 +144,44 @@ class _HotelSearchConditionsSheetState
     final nextCriteria = await pickHotelStayDates(
       context: context,
       criteria: _criteria,
+      stayBenefitSelectableDates: _stayBenefitSelectableDates(),
+      selectionMode: _criteria.stayBenefit
+          ? HotelStayDateSelectionMode.stayBenefitSingleNight
+          : HotelStayDateSelectionMode.range,
+      guidanceText: _criteria.stayBenefit
+          ? context.l10n.hotelStayBenefitSingleNightOnly
+          : null,
     );
     if (nextCriteria == null || !mounted) {
       return;
     }
     setState(() => _criteria = nextCriteria);
+  }
+
+  Set<DateTime> _stayBenefitSelectableDates() {
+    if (!_criteria.stayBenefit) {
+      return const <DateTime>{};
+    }
+    final dates = <DateTime>{};
+    for (final period in widget.stayBenefitPeriods) {
+      final parts = period.month.split('-');
+      if (parts.length != 2) {
+        continue;
+      }
+      final year = int.tryParse(parts[0]);
+      final month = int.tryParse(parts[1]);
+      if (year == null || month == null) {
+        continue;
+      }
+      final lastDayOfMonth = DateTime(year, month + 1, 0).day;
+      for (final day in period.days) {
+        if (day <= 0 || day > lastDayOfMonth) {
+          continue;
+        }
+        dates.add(DateTime(year, month, day));
+      }
+    }
+    return dates;
   }
 
   Future<void> _editGuests() async {

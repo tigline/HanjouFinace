@@ -83,7 +83,7 @@ void main() {
         );
 
         return _jsonOk(
-          '{"code":200,"msg":"success","data":{"count":1,"showStatus":"2","showStatusStr":"limited","hotels":[{"hotelId":"h1","hotelName":"Tokyo Business Stay","address":"Shinagawa","image":"https://cdn.example.com/h1.jpg","basePrice":18000,"basePrice2":12000,"discountName2":"T1会員割引","discount2":59,"bookingType":"2","bookingStatus":true,"remainRoomNum":"残り4部屋以上","lat":35.628,"lng":139.738,"tags":["station","business"]}]}}',
+          '{"code":200,"msg":"success","data":{"count":1,"showStatus":"2","showStatusStr":"limited","hotels":[{"hotelId":"h1","hotelName":"Tokyo Business Stay","address":"Shinagawa","image":"https://cdn.example.com/h1.jpg","basePrice":18000,"basePrice2":12000,"discountName2":"T1会員割引","discount2":59,"bookingType":"2","bookingStatus":true,"remainRoomNum":"残り4部屋以上","stayBenefitParticipate":true,"lat":35.628,"lng":139.738,"tags":["station","business"]}]}}',
         );
       });
       final api = HotelApiClient(client);
@@ -116,6 +116,7 @@ void main() {
       expect(result.hotels.first.discount2, equals(59));
       expect(result.hotels.first.bookingType, equals('2'));
       expect(result.hotels.first.remainRoomNum, equals('残り4部屋以上'));
+      expect(result.hotels.first.stayBenefitParticipate, isTrue);
       expect(result.hotels.first.tags, equals(<String>['station', 'business']));
     });
 
@@ -143,7 +144,7 @@ void main() {
 
     test('fetchStayBenefitPeriods loads public homepage periods', () async {
       final client = _buildClient((options) async {
-        expect(options.method, equals('GET'));
+        expect(options.method, equals('POST'));
         expect(options.path, equals(HotelApiPaths.stayBenefitPeriods));
         expect(options.extra['auth_required'], isFalse);
         expect(options.data, isNull);
@@ -161,6 +162,28 @@ void main() {
       expect(result.first.days, equals(<int>[21, 22, 23]));
       expect(result.last.month, equals('2026-06'));
       expect(result.last.days, equals(<int>[28, 29, 30]));
+    });
+
+    test('fetchStayBenefitPeriodsForHotel posts hotel id', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.stayBenefitPeriod));
+        expect(options.extra['auth_required'], isFalse);
+        expect(options.data, equals(<String, dynamic>{'hotelId': 22}));
+
+        return _jsonOk(
+          '{"code":200,"msg":"success","data":[{"2026-05":[1,2,3,4]},{"2026-06":[7,8,9,10]}]}',
+        );
+      });
+      final api = HotelApiClient(client);
+
+      final result = await api.fetchStayBenefitPeriodsForHotel(hotelId: '22');
+
+      expect(result, hasLength(2));
+      expect(result.first.month, equals('2026-05'));
+      expect(result.first.days, equals(<int>[1, 2, 3, 4]));
+      expect(result.last.month, equals('2026-06'));
+      expect(result.last.days, equals(<int>[7, 8, 9, 10]));
     });
 
     test('fetchHotelDetail accepts code 0 and parses rooms/pictures', () async {

@@ -427,6 +427,8 @@
   "hotelQuickActionContact": "お問い合わせ",
   "hotelMemberProfileTitle": "プロフィール",
   "hotelStayBenefitsTitle": "宿泊特典",
+  "hotelStayBenefitSingleNightOnly": "宿泊特典は1泊のみ選択できます",
+  "hotelStayBenefitUnavailableForDate": "現在の日付は宿泊特典対象外です",
   "hotelMemberProfileNickname": "ニックネーム",
   "hotelMemberProfileEmail": "メールアドレス",
   "hotelMemberProfilePhone": "電話番号",

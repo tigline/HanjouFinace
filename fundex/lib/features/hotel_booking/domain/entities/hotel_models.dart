@@ -95,6 +95,7 @@ class HotelSummary {
     required this.buildingType,
     required this.isBookable,
     required this.remainingRooms,
+    required this.stayBenefitParticipate,
     required this.tags,
   });
 
@@ -113,6 +114,7 @@ class HotelSummary {
   final String buildingType;
   final bool isBookable;
   final int? remainingRooms;
+  final bool stayBenefitParticipate;
   final List<String> tags;
 }
 

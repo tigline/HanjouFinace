@@ -9,6 +9,9 @@ Future<HotelSearchCriteria?> pickHotelStayDates({
   required BuildContext context,
   required HotelSearchCriteria criteria,
   Map<String, Object?> priceCalendarByDate = const <String, Object?>{},
+  Set<DateTime> stayBenefitSelectableDates = const <DateTime>{},
+  HotelStayDateSelectionMode selectionMode = HotelStayDateSelectionMode.range,
+  String? guidanceText,
 }) async {
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
@@ -33,6 +36,9 @@ Future<HotelSearchCriteria?> pickHotelStayDates({
       firstDate: firstDate,
       lastDate: lastDate,
       priceCalendarByDate: priceCalendarByDate,
+      stayBenefitSelectableDates: stayBenefitSelectableDates,
+      selectionMode: selectionMode,
+      guidanceText: guidanceText,
     ),
   );
   if (range == null) {
@@ -42,6 +48,8 @@ Future<HotelSearchCriteria?> pickHotelStayDates({
   final checkOut = _normalizedCheckoutDate(checkIn, range.end);
   return criteria.copyWith(checkInDate: checkIn, checkOutDate: checkOut);
 }
+
+enum HotelStayDateSelectionMode { range, stayBenefitSingleNight }
 
 Future<HotelSearchCriteria?> editHotelGuests({
   required BuildContext context,
@@ -191,6 +199,9 @@ class HotelStayDateRangePicker extends StatefulWidget {
     required this.firstDate,
     required this.lastDate,
     required this.priceCalendarByDate,
+    this.stayBenefitSelectableDates = const <DateTime>{},
+    this.selectionMode = HotelStayDateSelectionMode.range,
+    this.guidanceText,
   });
 
   final DateTime initialStartDate;
@@ -198,6 +209,9 @@ class HotelStayDateRangePicker extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final Map<String, Object?> priceCalendarByDate;
+  final Set<DateTime> stayBenefitSelectableDates;
+  final HotelStayDateSelectionMode selectionMode;
+  final String? guidanceText;
 
   @override
   State<HotelStayDateRangePicker> createState() =>
@@ -206,6 +220,7 @@ class HotelStayDateRangePicker extends StatefulWidget {
 
 class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
   late DateTime _visibleMonth;
+  late Set<String> _stayBenefitSelectableDateKeys;
   DateTime? _startDate;
   DateTime? _endDate;
 
@@ -216,6 +231,9 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
     _startDate = initialStart;
     _endDate = _normalizedCheckoutDate(initialStart, widget.initialEndDate);
     _visibleMonth = DateTime(initialStart.year, initialStart.month);
+    _stayBenefitSelectableDateKeys = widget.stayBenefitSelectableDates
+        .map((date) => _wireDate(_dateOnly(date)))
+        .toSet();
   }
 
   @override
@@ -272,6 +290,17 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
             const SizedBox(height: 14),
             Divider(color: colors.borderSoft),
             const SizedBox(height: 8),
+            if (_shouldShowGuidance) ...<Widget>[
+              const SizedBox(height: 6),
+              Text(
+                widget.guidanceText!,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: colors.brandSecondary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
             Row(
               children: <Widget>[
                 IconButton(
@@ -304,6 +333,8 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
               firstDate: widget.firstDate,
               lastDate: widget.lastDate,
               priceCalendarByDate: widget.priceCalendarByDate,
+              stayBenefitSelectableDateKeys: _stayBenefitSelectableDateKeys,
+              selectionMode: widget.selectionMode,
               onDateTap: _selectDate,
             ),
             const SizedBox(height: 18),
@@ -340,6 +371,14 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
         : DateFormat('yyyy-MM-dd', localeName).format(date);
   }
 
+  bool get _shouldShowGuidance {
+    final text = widget.guidanceText?.trim();
+    return widget.selectionMode ==
+            HotelStayDateSelectionMode.stayBenefitSingleNight &&
+        text != null &&
+        text.isNotEmpty;
+  }
+
   void _goPreviousMonth() {
     setState(() {
       _visibleMonth = DateTime(_visibleMonth.year, _visibleMonth.month - 1);
@@ -355,6 +394,13 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
   void _selectDate(DateTime date) {
     final selected = _dateOnly(date);
     setState(() {
+      if (widget.selectionMode ==
+          HotelStayDateSelectionMode.stayBenefitSingleNight) {
+        _startDate = selected;
+        _endDate = selected.add(const Duration(days: 1));
+        return;
+      }
+
       final startDate = _startDate;
       final endDate = _endDate;
       if (startDate == null) {
@@ -448,6 +494,8 @@ class _MonthGrid extends StatelessWidget {
     required this.firstDate,
     required this.lastDate,
     required this.priceCalendarByDate,
+    required this.stayBenefitSelectableDateKeys,
+    required this.selectionMode,
     required this.onDateTap,
   });
 
@@ -457,6 +505,8 @@ class _MonthGrid extends StatelessWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final Map<String, Object?> priceCalendarByDate;
+  final Set<String> stayBenefitSelectableDateKeys;
+  final HotelStayDateSelectionMode selectionMode;
   final ValueChanged<DateTime> onDateTap;
 
   @override
@@ -479,6 +529,9 @@ class _MonthGrid extends StatelessWidget {
                     firstDate: firstDate,
                     lastDate: lastDate,
                     priceText: _priceTextFor(date, priceCalendarByDate),
+                    isStayBenefitSelectable: stayBenefitSelectableDateKeys
+                        .contains(_wireDate(date)),
+                    selectionMode: selectionMode,
                     onTap: onDateTap,
                   ),
                 ),
@@ -500,6 +553,8 @@ class _CalendarDayCell extends StatelessWidget {
     required this.firstDate,
     required this.lastDate,
     required this.priceText,
+    required this.isStayBenefitSelectable,
+    required this.selectionMode,
     required this.onTap,
   });
 
@@ -510,15 +565,21 @@ class _CalendarDayCell extends StatelessWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final String priceText;
+  final bool isStayBenefitSelectable;
+  final HotelStayDateSelectionMode selectionMode;
   final ValueChanged<DateTime> onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     final dateOnly = _dateOnly(date);
-    final enabled =
+    final isStayBenefitMode =
+        selectionMode == HotelStayDateSelectionMode.stayBenefitSingleNight;
+    final inDateBounds =
         !dateOnly.isBefore(_dateOnly(firstDate)) &&
         !dateOnly.isAfter(_dateOnly(lastDate));
+    final enabled =
+        inDateBounds && (!isStayBenefitMode || isStayBenefitSelectable);
     final isCurrentMonth = date.month == visibleMonth.month;
     final isStart = startDate != null && _sameDay(date, startDate!);
     final isEnd = endDate != null && _sameDay(date, endDate!);
@@ -535,6 +596,8 @@ class _CalendarDayCell extends StatelessWidget {
         : colors.surface;
     final foregroundColor = (isSelectedEdge || isInRange)
         ? colors.onDark
+        : isStayBenefitMode && isStayBenefitSelectable && isCurrentMonth
+        ? colors.brandSecondary
         : enabled && isCurrentMonth
         ? colors.textPrimary
         : colors.textTertiary;

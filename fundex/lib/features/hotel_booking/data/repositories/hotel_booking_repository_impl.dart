@@ -71,6 +71,22 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   @override
   Future<List<HotelStayBenefitPeriod>> fetchStayBenefitPeriods() async {
     final rows = await _remote.fetchStayBenefitPeriods();
+    return _mapStayBenefitPeriods(rows);
+  }
+
+  @override
+  Future<List<HotelStayBenefitPeriod>> fetchStayBenefitPeriodsForHotel({
+    required String hotelId,
+  }) async {
+    final rows = await _remote.fetchStayBenefitPeriodsForHotel(
+      hotelId: hotelId,
+    );
+    return _mapStayBenefitPeriods(rows);
+  }
+
+  List<HotelStayBenefitPeriod> _mapStayBenefitPeriods(
+    List<HotelStayBenefitPeriodDto> rows,
+  ) {
     return rows
         .map(
           (row) => HotelStayBenefitPeriod(
@@ -865,6 +881,7 @@ HotelSummary _mapHotelSummary(HotelSummaryDto dto) {
     buildingType: dto.buildingType?.trim() ?? '',
     isBookable: dto.bookingStatus ?? true,
     remainingRooms: _mapSummaryRemainingRooms(dto),
+    stayBenefitParticipate: dto.stayBenefitParticipate,
     tags: dto.tags
         .map((tag) => tag.trim())
         .where((tag) => tag.isNotEmpty)

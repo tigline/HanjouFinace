@@ -427,6 +427,8 @@
   "hotelQuickActionContact": "联系我们",
   "hotelMemberProfileTitle": "用户信息",
   "hotelStayBenefitsTitle": "宿泊特典",
+  "hotelStayBenefitSingleNightOnly": "宿泊特典仅支持选择一天",
+  "hotelStayBenefitUnavailableForDate": "当前日期无宿泊特典",
   "hotelMemberProfileNickname": "昵称",
   "hotelMemberProfileEmail": "邮箱地址",
   "hotelMemberProfilePhone": "电话号码",

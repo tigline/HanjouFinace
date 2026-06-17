@@ -16,6 +16,7 @@ class HotelFilterSection extends ConsumerWidget {
     required this.presenter,
     required this.onPriceSortSelected,
     required this.onCriteriaApplied,
+    this.stayBenefitPeriods = const <HotelStayBenefitPeriod>[],
     this.onMapTap,
   });
 
@@ -23,6 +24,7 @@ class HotelFilterSection extends ConsumerWidget {
   final HotelBookingPresenter presenter;
   final Future<void> Function(HotelPriceSort priceSort) onPriceSortSelected;
   final Future<void> Function(HotelSearchCriteria criteria) onCriteriaApplied;
+  final List<HotelStayBenefitPeriod> stayBenefitPeriods;
   final VoidCallback? onMapTap;
 
   Future<void> _openSearchConditions(
@@ -45,6 +47,7 @@ class HotelFilterSection extends ConsumerWidget {
           criteria: state.criteria,
           presenter: presenter,
           buildingFilters: filters,
+          stayBenefitPeriods: stayBenefitPeriods,
           onApply: onCriteriaApplied,
         );
       },

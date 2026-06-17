@@ -427,6 +427,8 @@
   "hotelQuickActionContact": "Contact us",
   "hotelMemberProfileTitle": "User info",
   "hotelStayBenefitsTitle": "Stay benefits",
+  "hotelStayBenefitSingleNightOnly": "Stay benefits support one night only",
+  "hotelStayBenefitUnavailableForDate": "No stay benefit for the current date",
   "hotelMemberProfileNickname": "Nickname",
   "hotelMemberProfileEmail": "Email address",
   "hotelMemberProfilePhone": "Phone number",

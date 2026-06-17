@@ -1254,6 +1254,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelStayBenefitsTitle => 'Stay benefits';
 
   @override
+  String get hotelStayBenefitSingleNightOnly =>
+      'Stay benefits support one night only';
+
+  @override
+  String get hotelStayBenefitUnavailableForDate =>
+      'No stay benefit for the current date';
+
+  @override
   String get hotelMemberProfileNickname => 'Nickname';
 
   @override

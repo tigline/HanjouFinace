@@ -2367,6 +2367,18 @@ abstract class AppLocalizations {
   /// **'Stay benefits'**
   String get hotelStayBenefitsTitle;
 
+  /// No description provided for @hotelStayBenefitSingleNightOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefits support one night only'**
+  String get hotelStayBenefitSingleNightOnly;
+
+  /// No description provided for @hotelStayBenefitUnavailableForDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No stay benefit for the current date'**
+  String get hotelStayBenefitUnavailableForDate;
+
   /// No description provided for @hotelMemberProfileNickname.
   ///
   /// In en, this message translates to:

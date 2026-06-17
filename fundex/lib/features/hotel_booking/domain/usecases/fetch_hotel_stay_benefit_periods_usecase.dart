@@ -9,4 +9,8 @@ class FetchHotelStayBenefitPeriodsUseCase {
   Future<List<HotelStayBenefitPeriod>> call() {
     return _repository.fetchStayBenefitPeriods();
   }
+
+  Future<List<HotelStayBenefitPeriod>> forHotel({required String hotelId}) {
+    return _repository.fetchStayBenefitPeriodsForHotel(hotelId: hotelId);
+  }
 }

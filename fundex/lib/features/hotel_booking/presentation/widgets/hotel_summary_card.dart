@@ -16,6 +16,8 @@ class HotelSummaryCard extends StatelessWidget {
     this.onTap,
     this.onMapTap,
     this.showPricing = true,
+    this.statusText,
+    this.statusTone = HotelSummaryCardStatusTone.normal,
   });
 
   final HotelSummary hotel;
@@ -23,6 +25,8 @@ class HotelSummaryCard extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onMapTap;
   final bool showPricing;
+  final String? statusText;
+  final HotelSummaryCardStatusTone statusTone;
 
   @override
   Widget build(BuildContext context) {
@@ -141,10 +145,11 @@ class HotelSummaryCard extends StatelessWidget {
                               if (hotel.discountName.isNotEmpty &&
                                   (hotel.discount ?? 0) > 0)
                                 const SizedBox(height: 8),
-                              HotelRemainingRoomsLabel(
-                                count: hotel.isBookable
-                                    ? remainingRooms ?? 0
-                                    : 0,
+                              _HotelSummaryStatusLine(
+                                hotel: hotel,
+                                remainingRooms: remainingRooms,
+                                statusText: statusText,
+                                statusTone: statusTone,
                               ),
                             ],
                           ),
@@ -202,8 +207,11 @@ class HotelSummaryCard extends StatelessWidget {
                       ],
                     )
                   else
-                    HotelRemainingRoomsLabel(
-                      count: hotel.isBookable ? remainingRooms ?? 0 : 0,
+                    _HotelSummaryStatusLine(
+                      hotel: hotel,
+                      remainingRooms: remainingRooms,
+                      statusText: statusText,
+                      statusTone: statusTone,
                     ),
                 ],
               ),
@@ -246,6 +254,46 @@ class HotelSummaryCard extends StatelessWidget {
       return false;
     }
     return original > current;
+  }
+}
+
+enum HotelSummaryCardStatusTone { normal, muted }
+
+class _HotelSummaryStatusLine extends StatelessWidget {
+  const _HotelSummaryStatusLine({
+    required this.hotel,
+    required this.remainingRooms,
+    required this.statusText,
+    required this.statusTone,
+  });
+
+  final HotelSummary hotel;
+  final int? remainingRooms;
+  final String? statusText;
+  final HotelSummaryCardStatusTone statusTone;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = statusText?.trim();
+    if (text == null || text.isEmpty) {
+      return HotelRemainingRoomsLabel(
+        count: hotel.isBookable ? remainingRooms ?? 0 : 0,
+      );
+    }
+    final colors = Theme.of(context).appColors;
+    final textColor = switch (statusTone) {
+      HotelSummaryCardStatusTone.normal => colors.brandSecondary,
+      HotelSummaryCardStatusTone.muted => colors.textTertiary,
+    };
+    return Text(
+      text,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+        color: textColor,
+        fontWeight: FontWeight.w900,
+      ),
+    );
   }
 }
 

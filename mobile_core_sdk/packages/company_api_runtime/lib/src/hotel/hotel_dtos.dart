@@ -69,6 +69,7 @@ abstract class HotelSummaryDto with _$HotelSummaryDto {
     bool? bookingStatus,
     int? roomCount,
     Object? remainRoomNum,
+    @Default(false) bool stayBenefitParticipate,
     Object? lat,
     Object? lng,
     @JsonKey(fromJson: hotelStringListFromJson)

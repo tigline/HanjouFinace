@@ -73,6 +73,7 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
       criteria: _criteria,
     );
     final detailState = ref.watch(hotelDetailProvider(query));
+    ref.watch(hotelStayBenefitPeriodsForHotelProvider(widget.hotelId));
 
     return HotelStatusBarPreferenceScope(
       immersive: true,

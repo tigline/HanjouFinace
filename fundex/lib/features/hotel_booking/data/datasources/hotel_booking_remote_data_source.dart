@@ -20,6 +20,10 @@ abstract class HotelBookingRemoteDataSource {
 
   Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriods();
 
+  Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriodsForHotel({
+    required String hotelId,
+  });
+
   Future<HotelAssignOccupancyResultDto> assignOccupancy(
     HotelAssignOccupancyRequestDto request,
   );
@@ -165,6 +169,13 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
   @override
   Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriods() {
     return _client.fetchStayBenefitPeriods();
+  }
+
+  @override
+  Future<List<HotelStayBenefitPeriodDto>> fetchStayBenefitPeriodsForHotel({
+    required String hotelId,
+  }) {
+    return _client.fetchStayBenefitPeriodsForHotel(hotelId: hotelId);
   }
 
   @override

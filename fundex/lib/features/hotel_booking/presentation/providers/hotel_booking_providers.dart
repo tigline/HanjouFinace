@@ -337,6 +337,13 @@ final hotelStayBenefitPeriodsProvider =
       return ref.watch(fetchHotelStayBenefitPeriodsUseCaseProvider)();
     });
 
+final hotelStayBenefitPeriodsForHotelProvider = FutureProvider.autoDispose
+    .family<List<HotelStayBenefitPeriod>, String>((ref, hotelId) {
+      return ref
+          .watch(fetchHotelStayBenefitPeriodsUseCaseProvider)
+          .forHotel(hotelId: hotelId);
+    });
+
 final hotelMemberProfileProvider =
     FutureProvider.autoDispose<HotelMemberProfile>((ref) {
       return ref.watch(fetchHotelMemberProfileUseCaseProvider)();
