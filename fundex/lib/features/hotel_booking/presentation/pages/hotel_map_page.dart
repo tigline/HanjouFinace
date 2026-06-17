@@ -64,6 +64,9 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
     final presenter = HotelBookingPresenter(
       Localizations.localeOf(context).toLanguageTag(),
     );
+    if (effectiveCriteria.stayBenefit) {
+      ref.watch(hotelStayBenefitPeriodsProvider);
+    }
     final mapResult = ref.watch(hotelMapSearchProvider(effectiveCriteria));
     final fetchedHotels = mapResult.maybeWhen(
       data: (result) => result.hotels,
@@ -138,6 +141,9 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
                   child: HotelMapSelectedCard(
                     hotel: selectedHotel,
                     presenter: presenter,
+                    showStayBenefitUnavailable:
+                        effectiveCriteria.stayBenefit &&
+                        !selectedHotel.stayBenefitParticipate,
                     onTap: () =>
                         _openHotelDetail(selectedHotel, effectiveCriteria),
                   ),
@@ -160,6 +166,14 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
           data: (items) => items,
           orElse: () => const <HotelBuildingFilter>[],
         );
+    final stayBenefitPeriods = criteria.stayBenefit
+        ? ref
+              .read(hotelStayBenefitPeriodsProvider)
+              .maybeWhen(
+                data: (items) => items,
+                orElse: () => const <HotelStayBenefitPeriod>[],
+              )
+        : const <HotelStayBenefitPeriod>[];
     await showModalBottomSheet<void>(
       context: context,
       useRootNavigator: true,
@@ -173,6 +187,7 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
           criteria: criteria,
           presenter: presenter,
           buildingFilters: filters,
+          stayBenefitPeriods: stayBenefitPeriods,
           onApply: (nextCriteria) async {
             setState(() {
               _selectedHotelId = null;

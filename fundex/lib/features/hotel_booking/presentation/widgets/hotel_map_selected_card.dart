@@ -13,11 +13,13 @@ class HotelMapSelectedCard extends StatelessWidget {
     required this.hotel,
     required this.presenter,
     required this.onTap,
+    this.showStayBenefitUnavailable = false,
   });
 
   final HotelSummary hotel;
   final HotelBookingPresenter presenter;
   final VoidCallback onTap;
+  final bool showStayBenefitUnavailable;
 
   @override
   Widget build(BuildContext context) {
@@ -65,73 +67,94 @@ class HotelMapSelectedCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 6),
                           HotelRemainingRoomsLabel(
-                              count: hotel.isBookable
-                                  ? hotel.remainingRooms ?? 0
-                                  : 0,
-                            ),
+                            count: hotel.isBookable
+                                ? hotel.remainingRooms ?? 0
+                                : 0,
+                          ),
                         ],
                       ),
                       const SizedBox(width: 14),
                       Expanded(
                         child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Text(
-                              hotel.name.isEmpty
-                                  ? context.l10n.hotelUnnamedProperty
-                                  : hotel.name,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(
-                                    color: colors.brandPrimaryDark,
-                                    fontWeight: FontWeight.w900,
-                                    height: 1.15,
-                                  ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  hotel.name.isEmpty
+                                      ? context.l10n.hotelUnnamedProperty
+                                      : hotel.name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.titleLarge
+                                      ?.copyWith(
+                                        color: colors.brandPrimaryDark,
+                                        fontWeight: FontWeight.w900,
+                                        height: 1.15,
+                                      ),
+                                ),
+                                const SizedBox(height: 7),
+                                Text(
+                                  _locationText(context),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: colors.textSecondary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                HotelDiscountBadge(
+                                  name: hotel.discountName,
+                                  discount: hotel.discount,
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 7),
-                            Text(
-                              _locationText(context),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(
-                                    color: colors.textSecondary,
-                                    fontWeight: FontWeight.w600,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                if (oldPrice.isNotEmpty)
+                                  Text(
+                                    oldPrice,
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: colors.textTertiary,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
                                   ),
-                            ),
-                            //const SizedBox(height: 8),
-                            HotelDiscountBadge(
-                              name: hotel.discountName,
-                              discount: hotel.discount,
-                            ),
-                            //const SizedBox(height: 12),
-                            
-                            if (oldPrice.isNotEmpty)
-                              Text(
-                                oldPrice,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                      color: colors.textTertiary,
-                                      decoration:
-                                          TextDecoration.lineThrough,
-                                    ),
-                              ),
-                            Text(
-                              price.isEmpty
-                                  ? context.l10n.hotelPriceAsk
-                                  : '$price${context.l10n.hotelPricePerNight}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    color: colors.brandPrimaryDark,
-                                    fontWeight: FontWeight.w900,
-                                    height: 1.1,
+                                Text(
+                                  price.isEmpty
+                                      ? context.l10n.hotelPriceAsk
+                                      : '$price${context.l10n.hotelPricePerNight}',
+                                  style: Theme.of(context).textTheme.titleLarge
+                                      ?.copyWith(
+                                        color: colors.brandPrimaryDark,
+                                        fontWeight: FontWeight.w900,
+                                        height: 1.1,
+                                      ),
+                                ),
+                                if (showStayBenefitUnavailable) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    context
+                                        .l10n
+                                        .hotelStayBenefitStatusDateUnavailable,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.end,
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: colors.textTertiary,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                   ),
+                                ],
+                              ],
                             ),
                           ],
                         ),

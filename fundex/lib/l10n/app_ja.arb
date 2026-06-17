@@ -596,6 +596,29 @@
     }
   },
   "hotelDetailBookNow": "今すぐ予約",
+  "hotelDetailUseStayBenefitBookNow": "宿泊特典で予約",
+  "hotelDetailOrdinaryBookNow": "通常予約",
+  "hotelStayBenefitStatusAvailable": "宿泊特典券を利用できます · 最高 ¥{amount}",
+  "@hotelStayBenefitStatusAvailable": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "hotelStayBenefitStatusChecking": "宿泊特典券の利用可否を確認中です",
+  "hotelStayBenefitStatusInfoUnavailable": "宿泊特典券の利用可否を確認できません",
+  "hotelStayBenefitStatusDateUnavailable": "現在の日付は宿泊特典対象外です",
+  "hotelStayBenefitStatusOneNightOnly": "宿泊特典券は1泊のみ利用できます",
+  "hotelStayBenefitStatusOneRoomOnly": "宿泊特典券は1室のみ予約できます",
+  "hotelStayBenefitStatusNoTicket": "利用可能な宿泊特典券がありません",
+  "hotelStayBenefitStatusAmountInsufficient": "宿泊特典券の金額が不足しているため、この予約では利用できません · 最高 ¥{amount}",
+  "@hotelStayBenefitStatusAmountInsufficient": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "hotelStayBenefitOrdinaryBookingTitle": "通常予約として続行",
+  "hotelStayBenefitOrdinaryBookingMessage": "現在の条件では宿泊特典券を利用できません。今回は通常予約として続行します。",
+  "hotelStayBenefitOrdinaryBookingConfirm": "通常予約を続ける",
   "hotelDetailSelectRoomFirst": "客室を選択してください",
   "hotelAssignOccupancyFailed": "客室数を更新できませんでした。しばらくしてからもう一度お試しください。",
   "hotelAssignOccupancyDialogTitle": "ご案内",

@@ -1392,6 +1392,50 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelDetailBookNow => '今すぐ予約';
 
   @override
+  String get hotelDetailUseStayBenefitBookNow => '宿泊特典で予約';
+
+  @override
+  String get hotelDetailOrdinaryBookNow => '通常予約';
+
+  @override
+  String hotelStayBenefitStatusAvailable(Object amount) {
+    return '宿泊特典券を利用できます · 最高 ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitStatusChecking => '宿泊特典券の利用可否を確認中です';
+
+  @override
+  String get hotelStayBenefitStatusInfoUnavailable => '宿泊特典券の利用可否を確認できません';
+
+  @override
+  String get hotelStayBenefitStatusDateUnavailable => '現在の日付は宿泊特典対象外です';
+
+  @override
+  String get hotelStayBenefitStatusOneNightOnly => '宿泊特典券は1泊のみ利用できます';
+
+  @override
+  String get hotelStayBenefitStatusOneRoomOnly => '宿泊特典券は1室のみ予約できます';
+
+  @override
+  String get hotelStayBenefitStatusNoTicket => '利用可能な宿泊特典券がありません';
+
+  @override
+  String hotelStayBenefitStatusAmountInsufficient(Object amount) {
+    return '宿泊特典券の金額が不足しているため、この予約では利用できません · 最高 ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingTitle => '通常予約として続行';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingMessage =>
+      '現在の条件では宿泊特典券を利用できません。今回は通常予約として続行します。';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingConfirm => '通常予約を続ける';
+
+  @override
   String get hotelDetailSelectRoomFirst => '客室を選択してください';
 
   @override

@@ -1378,6 +1378,50 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelDetailBookNow => '立即预订';
 
   @override
+  String get hotelDetailUseStayBenefitBookNow => '使用宿泊特典预订';
+
+  @override
+  String get hotelDetailOrdinaryBookNow => '普通预订';
+
+  @override
+  String hotelStayBenefitStatusAvailable(Object amount) {
+    return '宿泊特典券可用 · 最高 ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitStatusChecking => '正在确认宿泊特典券可用性';
+
+  @override
+  String get hotelStayBenefitStatusInfoUnavailable => '无法确认宿泊特典券可用性';
+
+  @override
+  String get hotelStayBenefitStatusDateUnavailable => '当前日期不支持宿泊特典';
+
+  @override
+  String get hotelStayBenefitStatusOneNightOnly => '宿泊特典券仅支持 1 晚住宿';
+
+  @override
+  String get hotelStayBenefitStatusOneRoomOnly => '宿泊特典券仅支持预订 1 个房间';
+
+  @override
+  String get hotelStayBenefitStatusNoTicket => '暂无可用宿泊特典券';
+
+  @override
+  String hotelStayBenefitStatusAmountInsufficient(Object amount) {
+    return '宿泊特典券额度不足，当前订单不可使用 · 最高 ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingTitle => '按普通预订继续';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingMessage =>
+      '当前条件不可使用宿泊特典券，本次将按普通预订继续。';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingConfirm => '继续普通预订';
+
+  @override
   String get hotelDetailSelectRoomFirst => '请先选择房型';
 
   @override
@@ -6822,6 +6866,50 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelDetailBookNow => '立即預訂';
+
+  @override
+  String get hotelDetailUseStayBenefitBookNow => '使用宿泊特典預訂';
+
+  @override
+  String get hotelDetailOrdinaryBookNow => '普通預訂';
+
+  @override
+  String hotelStayBenefitStatusAvailable(Object amount) {
+    return '宿泊特典券可用 · 最高 ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitStatusChecking => '正在確認宿泊特典券可用性';
+
+  @override
+  String get hotelStayBenefitStatusInfoUnavailable => '無法確認宿泊特典券可用性';
+
+  @override
+  String get hotelStayBenefitStatusDateUnavailable => '目前日期不支援宿泊特典';
+
+  @override
+  String get hotelStayBenefitStatusOneNightOnly => '宿泊特典券僅支援 1 晚住宿';
+
+  @override
+  String get hotelStayBenefitStatusOneRoomOnly => '宿泊特典券僅支援預訂 1 個房間';
+
+  @override
+  String get hotelStayBenefitStatusNoTicket => '暫無可用宿泊特典券';
+
+  @override
+  String hotelStayBenefitStatusAmountInsufficient(Object amount) {
+    return '宿泊特典券額度不足，目前訂單不可使用 · 最高 ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingTitle => '按普通預訂繼續';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingMessage =>
+      '目前條件不可使用宿泊特典券，本次將按普通預訂繼續。';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingConfirm => '繼續普通預訂';
 
   @override
   String get hotelDetailSelectRoomFirst => '請先選擇房型';

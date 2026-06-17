@@ -12,14 +12,16 @@ class HotelDetailBottomBar extends StatelessWidget {
     required this.rooms,
     required this.presenter,
     this.isLoading = false,
+    String? buttonLabel,
     required this.onBookNow,
-  });
+  }) : buttonLabel = buttonLabel ?? '';
 
   final num? amount;
   final int nights;
   final int rooms;
   final HotelBookingPresenter presenter;
   final bool isLoading;
+  final String buttonLabel;
   final VoidCallback onBookNow;
 
   @override
@@ -104,13 +106,19 @@ class HotelDetailBottomBar extends StatelessWidget {
                             color: colors.onDark,
                           ),
                         )
-                      : Text(
-                          context.l10n.hotelDetailBookNow,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: colors.onDark,
-                                fontWeight: FontWeight.w900,
-                              ),
+                      : FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            buttonLabel.isEmpty
+                                ? context.l10n.hotelDetailBookNow
+                                : buttonLabel,
+                            maxLines: 1,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  color: colors.onDark,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                          ),
                         ),
                 ),
               ),

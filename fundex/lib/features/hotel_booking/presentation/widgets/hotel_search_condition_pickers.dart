@@ -296,7 +296,7 @@ class _HotelStayDateRangePickerState extends State<HotelStayDateRangePicker> {
                 widget.guidanceText!,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: colors.brandSecondary,
+                  color: colors.highlightGold,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -597,7 +597,7 @@ class _CalendarDayCell extends StatelessWidget {
     final foregroundColor = (isSelectedEdge || isInRange)
         ? colors.onDark
         : isStayBenefitMode && isStayBenefitSelectable && isCurrentMonth
-        ? colors.brandSecondary
+        ? colors.highlightGold
         : enabled && isCurrentMonth
         ? colors.textPrimary
         : colors.textTertiary;
@@ -606,6 +606,15 @@ class _CalendarDayCell extends StatelessWidget {
         : enabled && isCurrentMonth
         ? colors.textTertiary
         : colors.textTertiary.withValues(alpha: 0.58);
+    final shouldShowStayBenefitRing =
+        isStayBenefitMode &&
+        isStayBenefitSelectable &&
+        isCurrentMonth &&
+        !isSelectedEdge &&
+        !isInRange;
+    final borderRadius = shouldShowStayBenefitRing
+        ? BorderRadius.circular(999)
+        : _rangeRadius(isStart: isStart, isEnd: isEnd);
 
     return AspectRatio(
       aspectRatio: 0.92,
@@ -613,10 +622,16 @@ class _CalendarDayCell extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
         child: Material(
           color: backgroundColor,
-          borderRadius: _rangeRadius(isStart: isStart, isEnd: isEnd),
+          shape: shouldShowStayBenefitRing
+              ? CircleBorder(side: BorderSide(color: colors.highlightGold))
+              : null,
+          borderRadius: shouldShowStayBenefitRing ? null : borderRadius,
           child: InkWell(
             onTap: enabled ? () => onTap(dateOnly) : null,
-            borderRadius: _rangeRadius(isStart: isStart, isEnd: isEnd),
+            customBorder: shouldShowStayBenefitRing
+                ? const CircleBorder()
+                : null,
+            borderRadius: shouldShowStayBenefitRing ? null : borderRadius,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
               child: Column(

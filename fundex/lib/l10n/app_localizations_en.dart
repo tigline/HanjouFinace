@@ -1463,6 +1463,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelDetailBookNow => 'Book now';
 
   @override
+  String get hotelDetailUseStayBenefitBookNow => 'Book with stay benefit';
+
+  @override
+  String get hotelDetailOrdinaryBookNow => 'Regular booking';
+
+  @override
+  String hotelStayBenefitStatusAvailable(Object amount) {
+    return 'Stay benefit ticket available · Up to ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitStatusChecking =>
+      'Checking stay benefit ticket availability';
+
+  @override
+  String get hotelStayBenefitStatusInfoUnavailable =>
+      'Could not confirm stay benefit ticket availability';
+
+  @override
+  String get hotelStayBenefitStatusDateUnavailable =>
+      'Stay benefits are not available for the current date';
+
+  @override
+  String get hotelStayBenefitStatusOneNightOnly =>
+      'Stay benefit tickets support 1 night only';
+
+  @override
+  String get hotelStayBenefitStatusOneRoomOnly =>
+      'Stay benefit tickets support 1 room only';
+
+  @override
+  String get hotelStayBenefitStatusNoTicket =>
+      'No available stay benefit ticket';
+
+  @override
+  String hotelStayBenefitStatusAmountInsufficient(Object amount) {
+    return 'Stay benefit ticket amount is insufficient for this booking · Up to ¥$amount';
+  }
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingTitle =>
+      'Continue as regular booking';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingMessage =>
+      'Stay benefit tickets cannot be used with the current conditions. This booking will continue as a regular booking.';
+
+  @override
+  String get hotelStayBenefitOrdinaryBookingConfirm =>
+      'Continue regular booking';
+
+  @override
   String get hotelDetailSelectRoomFirst => 'Select a room first';
 
   @override

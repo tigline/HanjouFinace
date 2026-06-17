@@ -332,6 +332,25 @@ final hotelFundBenefitTicketsProvider =
       return ref.watch(fetchHotelFundBenefitTicketsUseCaseProvider)();
     });
 
+final hotelMaxFundBenefitTicketAmountProvider =
+    FutureProvider.autoDispose<int?>((ref) async {
+      final tickets = await ref.watch(hotelFundBenefitTicketsProvider.future);
+      int? maxAmount;
+      for (final ticket in tickets) {
+        if (ticket.ticketStatus != 1) {
+          continue;
+        }
+        final amount = ticket.benefitAmount;
+        if (amount == null) {
+          continue;
+        }
+        if (maxAmount == null || amount > maxAmount) {
+          maxAmount = amount;
+        }
+      }
+      return maxAmount;
+    });
+
 final hotelStayBenefitPeriodsProvider =
     FutureProvider.autoDispose<List<HotelStayBenefitPeriod>>((ref) {
       return ref.watch(fetchHotelStayBenefitPeriodsUseCaseProvider)();

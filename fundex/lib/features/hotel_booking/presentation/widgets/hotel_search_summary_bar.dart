@@ -43,60 +43,59 @@ class HotelSearchSummaryBar extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 12, 12),
-              child: Row(
-                children: <Widget>[
-                  if (leading != null) ...<Widget>[
-                    leading!,
-                    const SizedBox(width: 12),
-                  ],
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          summaryLine,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: colors.brandPrimaryDark,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0,
-                              ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          guestLine,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(
-                                color: colors.textSecondary,
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: colors.brandPrimary,
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    child: SizedBox(
-                      width: 36,
-                      height: 36,
-                      child: Icon(actionIcon, color: colors.onDark, size: 22),
-                    ),
-                  ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 12, 12),
+            child: Row(
+              children: <Widget>[
+                if (leading != null) ...<Widget>[
+                  leading!,
+                  const SizedBox(width: 12),
                 ],
-              ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        summaryLine,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: colors.brandPrimaryDark,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0,
+                            ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        guestLine,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              color: colors.textSecondary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colors.brandPrimary,
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: SizedBox(
+                    width: 36,
+                    height: 36,
+                    child: Icon(actionIcon, color: colors.onDark, size: 22),
+                  ),
+                ),
+              ],
             ),
-          
+          ),
         ),
       ),
     );

@@ -2721,6 +2721,84 @@ abstract class AppLocalizations {
   /// **'Book now'**
   String get hotelDetailBookNow;
 
+  /// No description provided for @hotelDetailUseStayBenefitBookNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Book with stay benefit'**
+  String get hotelDetailUseStayBenefitBookNow;
+
+  /// No description provided for @hotelDetailOrdinaryBookNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular booking'**
+  String get hotelDetailOrdinaryBookNow;
+
+  /// No description provided for @hotelStayBenefitStatusAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefit ticket available · Up to ¥{amount}'**
+  String hotelStayBenefitStatusAvailable(Object amount);
+
+  /// No description provided for @hotelStayBenefitStatusChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking stay benefit ticket availability'**
+  String get hotelStayBenefitStatusChecking;
+
+  /// No description provided for @hotelStayBenefitStatusInfoUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not confirm stay benefit ticket availability'**
+  String get hotelStayBenefitStatusInfoUnavailable;
+
+  /// No description provided for @hotelStayBenefitStatusDateUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefits are not available for the current date'**
+  String get hotelStayBenefitStatusDateUnavailable;
+
+  /// No description provided for @hotelStayBenefitStatusOneNightOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefit tickets support 1 night only'**
+  String get hotelStayBenefitStatusOneNightOnly;
+
+  /// No description provided for @hotelStayBenefitStatusOneRoomOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefit tickets support 1 room only'**
+  String get hotelStayBenefitStatusOneRoomOnly;
+
+  /// No description provided for @hotelStayBenefitStatusNoTicket.
+  ///
+  /// In en, this message translates to:
+  /// **'No available stay benefit ticket'**
+  String get hotelStayBenefitStatusNoTicket;
+
+  /// No description provided for @hotelStayBenefitStatusAmountInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefit ticket amount is insufficient for this booking · Up to ¥{amount}'**
+  String hotelStayBenefitStatusAmountInsufficient(Object amount);
+
+  /// No description provided for @hotelStayBenefitOrdinaryBookingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as regular booking'**
+  String get hotelStayBenefitOrdinaryBookingTitle;
+
+  /// No description provided for @hotelStayBenefitOrdinaryBookingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefit tickets cannot be used with the current conditions. This booking will continue as a regular booking.'**
+  String get hotelStayBenefitOrdinaryBookingMessage;
+
+  /// No description provided for @hotelStayBenefitOrdinaryBookingConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue regular booking'**
+  String get hotelStayBenefitOrdinaryBookingConfirm;
+
   /// No description provided for @hotelDetailSelectRoomFirst.
   ///
   /// In en, this message translates to:

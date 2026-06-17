@@ -596,6 +596,29 @@
     }
   },
   "hotelDetailBookNow": "立即预订",
+  "hotelDetailUseStayBenefitBookNow": "使用宿泊特典预订",
+  "hotelDetailOrdinaryBookNow": "普通预订",
+  "hotelStayBenefitStatusAvailable": "宿泊特典券可用 · 最高 ¥{amount}",
+  "@hotelStayBenefitStatusAvailable": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "hotelStayBenefitStatusChecking": "正在确认宿泊特典券可用性",
+  "hotelStayBenefitStatusInfoUnavailable": "无法确认宿泊特典券可用性",
+  "hotelStayBenefitStatusDateUnavailable": "当前日期不支持宿泊特典",
+  "hotelStayBenefitStatusOneNightOnly": "宿泊特典券仅支持 1 晚住宿",
+  "hotelStayBenefitStatusOneRoomOnly": "宿泊特典券仅支持预订 1 个房间",
+  "hotelStayBenefitStatusNoTicket": "暂无可用宿泊特典券",
+  "hotelStayBenefitStatusAmountInsufficient": "宿泊特典券额度不足，当前订单不可使用 · 最高 ¥{amount}",
+  "@hotelStayBenefitStatusAmountInsufficient": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "hotelStayBenefitOrdinaryBookingTitle": "按普通预订继续",
+  "hotelStayBenefitOrdinaryBookingMessage": "当前条件不可使用宿泊特典券，本次将按普通预订继续。",
+  "hotelStayBenefitOrdinaryBookingConfirm": "继续普通预订",
   "hotelDetailSelectRoomFirst": "请先选择房型",
   "hotelAssignOccupancyFailed": "房间数量更新失败，请稍后再试。",
   "hotelAssignOccupancyDialogTitle": "提示",

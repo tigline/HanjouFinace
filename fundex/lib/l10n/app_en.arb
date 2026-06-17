@@ -596,6 +596,29 @@
     }
   },
   "hotelDetailBookNow": "Book now",
+  "hotelDetailUseStayBenefitBookNow": "Book with stay benefit",
+  "hotelDetailOrdinaryBookNow": "Regular booking",
+  "hotelStayBenefitStatusAvailable": "Stay benefit ticket available · Up to ¥{amount}",
+  "@hotelStayBenefitStatusAvailable": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "hotelStayBenefitStatusChecking": "Checking stay benefit ticket availability",
+  "hotelStayBenefitStatusInfoUnavailable": "Could not confirm stay benefit ticket availability",
+  "hotelStayBenefitStatusDateUnavailable": "Stay benefits are not available for the current date",
+  "hotelStayBenefitStatusOneNightOnly": "Stay benefit tickets support 1 night only",
+  "hotelStayBenefitStatusOneRoomOnly": "Stay benefit tickets support 1 room only",
+  "hotelStayBenefitStatusNoTicket": "No available stay benefit ticket",
+  "hotelStayBenefitStatusAmountInsufficient": "Stay benefit ticket amount is insufficient for this booking · Up to ¥{amount}",
+  "@hotelStayBenefitStatusAmountInsufficient": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "hotelStayBenefitOrdinaryBookingTitle": "Continue as regular booking",
+  "hotelStayBenefitOrdinaryBookingMessage": "Stay benefit tickets cannot be used with the current conditions. This booking will continue as a regular booking.",
+  "hotelStayBenefitOrdinaryBookingConfirm": "Continue regular booking",
   "hotelDetailSelectRoomFirst": "Select a room first",
   "hotelAssignOccupancyFailed": "Could not update the room quantity. Please try again.",
   "hotelAssignOccupancyDialogTitle": "Notice",

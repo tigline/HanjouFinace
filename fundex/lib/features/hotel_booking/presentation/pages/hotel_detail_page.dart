@@ -73,7 +73,12 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
       criteria: _criteria,
     );
     final detailState = ref.watch(hotelDetailProvider(query));
-    ref.watch(hotelStayBenefitPeriodsForHotelProvider(widget.hotelId));
+    final stayBenefitPeriodsState = ref.watch(
+      hotelStayBenefitPeriodsForHotelProvider(widget.hotelId),
+    );
+    final maxBenefitAmountState = ref.watch(
+      hotelMaxFundBenefitTicketAmountProvider,
+    );
 
     return HotelStatusBarPreferenceScope(
       immersive: true,
@@ -102,6 +107,8 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
                 assignedExtraGuestPrices:
                     _assignOccupancyResult?.roomTypeExtraGuestPrices ??
                     const <HotelRoomTypeExtraGuestPrice>[],
+                stayBenefitPeriodsState: stayBenefitPeriodsState,
+                maxBenefitAmountState: maxBenefitAmountState,
                 isAssigningOccupancy: _isAssigningOccupancy,
                 onBack: _handleBack,
                 onEditDates: () => _editStayDates(detail),
@@ -109,7 +116,7 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
                 onInfoSectionExpandedChanged: _setInfoSectionExpanded,
                 onRoomQuantityChanged: (change) =>
                     _setRoomQuantity(detail, change.key, change.value),
-                onBookNow: () => _handleBookNow(detail),
+                onBookNow: (decision) => _handleBookNow(detail, decision),
               ),
             ),
           ),
@@ -127,10 +134,22 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
   }
 
   Future<void> _editStayDates(HotelDetail detail) async {
+    final stayBenefitPeriods =
+        ref
+            .read(hotelStayBenefitPeriodsForHotelProvider(widget.hotelId))
+            .valueOrNull ??
+        const <HotelStayBenefitPeriod>[];
     final nextCriteria = await pickHotelStayDates(
       context: context,
       criteria: _criteria,
       priceCalendarByDate: detail.priceCalendarByDate,
+      stayBenefitSelectableDates: _stayBenefitDates(stayBenefitPeriods),
+      selectionMode: _criteria.stayBenefit
+          ? HotelStayDateSelectionMode.stayBenefitSingleNight
+          : HotelStayDateSelectionMode.range,
+      guidanceText: _criteria.stayBenefit
+          ? context.l10n.hotelStayBenefitSingleNightOnly
+          : null,
     );
     if (nextCriteria == null || !mounted) {
       return;
@@ -232,7 +251,10 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
     }
   }
 
-  Future<void> _handleBookNow(HotelDetail detail) async {
+  Future<void> _handleBookNow(
+    HotelDetail detail,
+    _StayBenefitDecision stayBenefitDecision,
+  ) async {
     final usesRoomPlanSelection = detail.bookingType == 0;
     final selectedRooms = usesRoomPlanSelection
         ? _selectedRoomsFor(detail, _roomQuantities)
@@ -248,6 +270,14 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
     if (!usesRoomPlanSelection && fallbackAmount <= 0) {
       AppNotice.show(context, message: context.l10n.hotelBookingCreateFailed);
       return;
+    }
+    final shouldUseStayBenefit =
+        _criteria.stayBenefit && stayBenefitDecision.isAvailable;
+    if (_criteria.stayBenefit && !stayBenefitDecision.isAvailable) {
+      final shouldContinue = await _showOrdinaryBookingDialog();
+      if (!mounted || !shouldContinue) {
+        return;
+      }
     }
     final isAuthenticated =
         ref.read(isAuthenticatedProvider).asData?.value ?? false;
@@ -299,7 +329,9 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
       '/hotel-booking/${Uri.encodeComponent(detail.id)}/confirm',
       extra: HotelBookingConfirmSeed(
         detail: detail,
-        criteria: _criteria,
+        criteria: shouldUseStayBenefit
+            ? _criteria
+            : _criteria.copyWith(stayBenefit: false),
         selectedRooms: selectedRooms,
         assignedPrice: finalAssignResult?.price,
         roomTypeCustNums:
@@ -307,6 +339,23 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
             const <HotelRoomOccupancyAssignment>[],
       ),
     );
+  }
+
+  Future<bool> _showOrdinaryBookingDialog() async {
+    final result = await AppDialogs.showAdaptiveAlert<bool>(
+      context: context,
+      title: context.l10n.hotelStayBenefitOrdinaryBookingTitle,
+      message: context.l10n.hotelStayBenefitOrdinaryBookingMessage,
+      actions: <AppDialogAction<bool>>[
+        AppDialogAction<bool>(label: context.l10n.commonCancel, value: false),
+        AppDialogAction<bool>(
+          label: context.l10n.hotelStayBenefitOrdinaryBookingConfirm,
+          value: true,
+          isDefaultAction: true,
+        ),
+      ],
+    );
+    return result ?? false;
   }
 
   Future<HotelAssignOccupancyResult?> _runFinalAssignOccupancyCheck(
@@ -447,6 +496,8 @@ class _HotelDetailContent extends StatelessWidget {
     required this.expandedInfoSectionIds,
     required this.assignedPrice,
     required this.assignedExtraGuestPrices,
+    required this.stayBenefitPeriodsState,
+    required this.maxBenefitAmountState,
     required this.isAssigningOccupancy,
     required this.onBack,
     required this.onEditDates,
@@ -463,6 +514,8 @@ class _HotelDetailContent extends StatelessWidget {
   final Set<String> expandedInfoSectionIds;
   final num? assignedPrice;
   final List<HotelRoomTypeExtraGuestPrice> assignedExtraGuestPrices;
+  final AsyncValue<List<HotelStayBenefitPeriod>> stayBenefitPeriodsState;
+  final AsyncValue<int?> maxBenefitAmountState;
   final bool isAssigningOccupancy;
   final VoidCallback onBack;
   final VoidCallback onEditDates;
@@ -470,7 +523,7 @@ class _HotelDetailContent extends StatelessWidget {
   final void Function(String sectionId, bool expanded)
   onInfoSectionExpandedChanged;
   final ValueChanged<_RoomQuantityChange> onRoomQuantityChanged;
-  final VoidCallback onBookNow;
+  final ValueChanged<_StayBenefitDecision> onBookNow;
 
   @override
   Widget build(BuildContext context) {
@@ -480,6 +533,7 @@ class _HotelDetailContent extends StatelessWidget {
     final roomsForNote = _usesRoomPlanSelection
         ? selectedRooms
         : criteria.roomCount;
+    final stayBenefitDecision = _stayBenefitDecision(context, amount);
 
     return Stack(
       children: <Widget>[
@@ -501,6 +555,17 @@ class _HotelDetailContent extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (criteria.stayBenefit) ...<Widget>[
+                    Transform.translate(
+                      offset: const Offset(0, -10),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: _StayBenefitEligibilityNotice(
+                          decision: stayBenefitDecision,
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -525,9 +590,12 @@ class _HotelDetailContent extends StatelessWidget {
                       final quantity = roomQuantities[key] ?? 0;
                       final remainingRooms = room.remainingRooms;
                       final selectedRoomCount = _selectedRooms;
+                      final isStayBenefitRoomLimitReached =
+                          criteria.stayBenefit && selectedRoomCount >= 1;
                       final canAddMoreRooms =
                           !_usesRoomPlanSelection ||
-                          selectedRoomCount < criteria.occupancy;
+                          (!isStayBenefitRoomLimitReached &&
+                              selectedRoomCount < criteria.occupancy);
                       final extraGuestPrice = _extraGuestPriceFor(room);
                       return Padding(
                         padding: EdgeInsets.only(
@@ -583,7 +651,8 @@ class _HotelDetailContent extends StatelessWidget {
             rooms: roomsForNote,
             presenter: presenter,
             isLoading: isAssigningOccupancy,
-            onBookNow: onBookNow,
+            buttonLabel: stayBenefitDecision.buttonLabel(context),
+            onBookNow: () => onBookNow(stayBenefitDecision),
           ),
         ),
       ],
@@ -625,6 +694,71 @@ class _HotelDetailContent extends StatelessWidget {
 
   bool get _usesRoomPlanSelection {
     return detail.bookingType == 0;
+  }
+
+  _StayBenefitDecision _stayBenefitDecision(BuildContext context, num? amount) {
+    if (!criteria.stayBenefit) {
+      return const _StayBenefitDecision.regular();
+    }
+    if (stayBenefitPeriodsState.isLoading || maxBenefitAmountState.isLoading) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusChecking,
+        tone: _StayBenefitNoticeTone.neutral,
+      );
+    }
+    if (stayBenefitPeriodsState.hasError || maxBenefitAmountState.hasError) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusInfoUnavailable,
+        tone: _StayBenefitNoticeTone.warning,
+      );
+    }
+    if (!_containsStayBenefitDate(
+      stayBenefitPeriodsState.valueOrNull ?? const <HotelStayBenefitPeriod>[],
+      criteria.checkInDate,
+    )) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusDateUnavailable,
+      );
+    }
+    if (criteria.nights != 1) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusOneNightOnly,
+      );
+    }
+    if (criteria.roomCount != 1 || _selectedRooms > 1) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusOneRoomOnly,
+      );
+    }
+    final maxBenefitAmount = maxBenefitAmountState.valueOrNull;
+    if (maxBenefitAmount == null || maxBenefitAmount <= 0) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusNoTicket,
+      );
+    }
+    final referenceAmount = _referenceAmount(amount);
+    if (referenceAmount == null) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusInfoUnavailable,
+        tone: _StayBenefitNoticeTone.warning,
+      );
+    }
+    final maxAmountText = _amountText(maxBenefitAmount);
+    if (maxBenefitAmount < referenceAmount) {
+      return _StayBenefitDecision.unavailable(
+        context.l10n.hotelStayBenefitStatusAmountInsufficient(maxAmountText),
+      );
+    }
+    return _StayBenefitDecision.available(
+      context.l10n.hotelStayBenefitStatusAvailable(maxAmountText),
+    );
+  }
+
+  num? _referenceAmount(num? amount) {
+    if (amount != null && amount > 0) {
+      return amount;
+    }
+    return detail.lowestRoomPrice ?? detail.entirePrice;
   }
 
   HotelRoomTypeExtraGuestPrice? _extraGuestPriceFor(HotelRoomPlan room) {
@@ -835,6 +969,118 @@ class _NoRoomsNotice extends StatelessWidget {
   }
 }
 
+class _StayBenefitEligibilityNotice extends StatelessWidget {
+  const _StayBenefitEligibilityNotice({required this.decision});
+
+  final _StayBenefitDecision decision;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    final colorSet = switch (decision.tone) {
+      _StayBenefitNoticeTone.available => (
+        background: colors.highlightGold.withValues(alpha: 0.10),
+        border: colors.highlightGold.withValues(alpha: 0.28),
+        foreground: colors.highlightGold,
+        icon: Icons.check_circle_outline_rounded,
+      ),
+      _StayBenefitNoticeTone.warning => (
+        background: colors.warningSoft,
+        border: colors.warningBorder,
+        foreground: colors.warningForeground,
+        icon: Icons.info_outline_rounded,
+      ),
+      _StayBenefitNoticeTone.neutral => (
+        background: colors.brandWhite,
+        border: colors.borderSoft,
+        foreground: colors.textSecondary,
+        icon: Icons.hourglass_empty_rounded,
+      ),
+    };
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colorSet.background,
+        borderRadius: BorderRadius.circular(UiTokens.radius16),
+        border: Border.all(color: colorSet.border),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Row(
+          children: <Widget>[
+            Icon(colorSet.icon, color: colorSet.foreground, size: 22),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                decision.message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: colorSet.foreground,
+                  fontWeight: FontWeight.w800,
+                  height: 1.25,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+enum _StayBenefitNoticeTone { available, warning, neutral }
+
+class _StayBenefitDecision {
+  const _StayBenefitDecision._({
+    required this.isAvailable,
+    required this.message,
+    required this.tone,
+    required this.isStayBenefitFlow,
+  });
+
+  const _StayBenefitDecision.regular()
+    : this._(
+        isAvailable: false,
+        message: '',
+        tone: _StayBenefitNoticeTone.neutral,
+        isStayBenefitFlow: false,
+      );
+
+  factory _StayBenefitDecision.available(String message) {
+    return _StayBenefitDecision._(
+      isAvailable: true,
+      message: message,
+      tone: _StayBenefitNoticeTone.available,
+      isStayBenefitFlow: true,
+    );
+  }
+
+  factory _StayBenefitDecision.unavailable(
+    String message, {
+    _StayBenefitNoticeTone tone = _StayBenefitNoticeTone.warning,
+  }) {
+    return _StayBenefitDecision._(
+      isAvailable: false,
+      message: message,
+      tone: tone,
+      isStayBenefitFlow: true,
+    );
+  }
+
+  final bool isAvailable;
+  final String message;
+  final _StayBenefitNoticeTone tone;
+  final bool isStayBenefitFlow;
+
+  String buttonLabel(BuildContext context) {
+    if (!isStayBenefitFlow) {
+      return context.l10n.hotelDetailBookNow;
+    }
+    if (isAvailable) {
+      return context.l10n.hotelDetailUseStayBenefitBookNow;
+    }
+    return context.l10n.hotelDetailOrdinaryBookNow;
+  }
+}
+
 class _RoomQuantityChange {
   const _RoomQuantityChange(this.key, this.value);
 
@@ -861,4 +1107,58 @@ bool _sameCriteria(HotelSearchCriteria a, HotelSearchCriteria b) {
       a.occupancy == b.occupancy &&
       a.kids == b.kids &&
       a.roomCount == b.roomCount;
+}
+
+bool _containsStayBenefitDate(
+  List<HotelStayBenefitPeriod> periods,
+  DateTime date,
+) {
+  final dateOnly = DateTime(date.year, date.month, date.day);
+  for (final period in periods) {
+    final parts = period.month.split('-');
+    if (parts.length != 2) {
+      continue;
+    }
+    final year = int.tryParse(parts[0]);
+    final month = int.tryParse(parts[1]);
+    if (year == null || month == null) {
+      continue;
+    }
+    for (final day in period.days) {
+      if (dateOnly == DateTime(year, month, day)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+Set<DateTime> _stayBenefitDates(List<HotelStayBenefitPeriod> periods) {
+  final dates = <DateTime>{};
+  for (final period in periods) {
+    final parts = period.month.split('-');
+    if (parts.length != 2) {
+      continue;
+    }
+    final year = int.tryParse(parts[0]);
+    final month = int.tryParse(parts[1]);
+    if (year == null || month == null) {
+      continue;
+    }
+    final lastDayOfMonth = DateTime(year, month + 1, 0).day;
+    for (final day in period.days) {
+      if (day <= 0 || day > lastDayOfMonth) {
+        continue;
+      }
+      dates.add(DateTime(year, month, day));
+    }
+  }
+  return dates;
+}
+
+String _amountText(num amount) {
+  if (amount % 1 == 0) {
+    return amount.toInt().toString();
+  }
+  return amount.toString();
 }
