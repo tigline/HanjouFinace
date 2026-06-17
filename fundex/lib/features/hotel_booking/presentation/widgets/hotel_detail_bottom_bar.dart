@@ -12,6 +12,7 @@ class HotelDetailBottomBar extends StatelessWidget {
     required this.rooms,
     required this.presenter,
     this.isLoading = false,
+    this.useStayBenefitAccent = false,
     String? buttonLabel,
     required this.onBookNow,
   }) : buttonLabel = buttonLabel ?? '';
@@ -21,6 +22,7 @@ class HotelDetailBottomBar extends StatelessWidget {
   final int rooms;
   final HotelBookingPresenter presenter;
   final bool isLoading;
+  final bool useStayBenefitAccent;
   final String buttonLabel;
   final VoidCallback onBookNow;
 
@@ -91,7 +93,9 @@ class HotelDetailBottomBar extends StatelessWidget {
                 child: FilledButton(
                   onPressed: isLoading ? null : onBookNow,
                   style: FilledButton.styleFrom(
-                    backgroundColor: colors.brandPrimary,
+                    backgroundColor: useStayBenefitAccent
+                        ? colors.highlightGold
+                        : colors.brandPrimary,
                     foregroundColor: colors.onDark,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(UiTokens.radius16),

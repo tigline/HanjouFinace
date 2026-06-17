@@ -651,6 +651,7 @@ class _HotelDetailContent extends StatelessWidget {
             rooms: roomsForNote,
             presenter: presenter,
             isLoading: isAssigningOccupancy,
+            useStayBenefitAccent: stayBenefitDecision.isAvailable,
             buttonLabel: stayBenefitDecision.buttonLabel(context),
             onBookNow: () => onBookNow(stayBenefitDecision),
           ),
