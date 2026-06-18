@@ -1422,6 +1422,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelStayBenefitOrdinaryBookingConfirm => '继续普通预订';
 
   @override
+  String get hotelStayBenefitTicketConfirmTitle => '宿泊特典券';
+
+  @override
+  String get hotelStayBenefitTicketChecking => '正在确认可用券';
+
+  @override
+  String get hotelStayBenefitTicketNotSelected => '未选择';
+
+  @override
+  String hotelStayBenefitTicketSelected(Object amount, Object ticketNo) {
+    return '¥$amount日元 · $ticketNo';
+  }
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketTitle => '暂无适合的宿泊特典券';
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketMessage =>
+      '当前没有额度大于订单金额的宿泊特典券，是否继续预约？';
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketConfirm => '继续预约';
+
+  @override
   String get hotelDetailSelectRoomFirst => '请先选择房型';
 
   @override
@@ -1732,6 +1756,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelBookingResultTitle => '您的预订尚未完成';
 
   @override
+  String get hotelBookingResultSuccessTitle => '预订成功';
+
+  @override
   String get hotelBookingResultOrderNumber => '预约编号';
 
   @override
@@ -1910,6 +1937,11 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hotelOrderDetailCouponUnused => '未使用优惠券';
+
+  @override
+  String hotelOrderDetailStayBenefitDiscount(Object amount, Object ticketNo) {
+    return '宿泊特典・$amount（$ticketNo）';
+  }
 
   @override
   String get hotelOrderDetailPaidAmount => '支付金额';
@@ -6912,6 +6944,30 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelStayBenefitOrdinaryBookingConfirm => '繼續普通預訂';
 
   @override
+  String get hotelStayBenefitTicketConfirmTitle => '宿泊特典券';
+
+  @override
+  String get hotelStayBenefitTicketChecking => '正在確認可用券';
+
+  @override
+  String get hotelStayBenefitTicketNotSelected => '未選擇';
+
+  @override
+  String hotelStayBenefitTicketSelected(Object amount, Object ticketNo) {
+    return '¥$amount日圓 · $ticketNo';
+  }
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketTitle => '暫無適合的宿泊特典券';
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketMessage =>
+      '目前沒有額度大於訂單金額的宿泊特典券，是否繼續預約？';
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketConfirm => '繼續預約';
+
+  @override
   String get hotelDetailSelectRoomFirst => '請先選擇房型';
 
   @override
@@ -7222,6 +7278,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelBookingResultTitle => '您的預訂尚未完成';
 
   @override
+  String get hotelBookingResultSuccessTitle => '預訂成功';
+
+  @override
   String get hotelBookingResultOrderNumber => '預約編號';
 
   @override
@@ -7400,6 +7459,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelOrderDetailCouponUnused => '未使用優惠券';
+
+  @override
+  String hotelOrderDetailStayBenefitDiscount(Object amount, Object ticketNo) {
+    return '宿泊特典・$amount（$ticketNo）';
+  }
 
   @override
   String get hotelOrderDetailPaidAmount => '支付金額';

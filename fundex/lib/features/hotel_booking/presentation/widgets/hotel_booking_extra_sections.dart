@@ -27,13 +27,13 @@ class HotelBookingCouponRow extends StatelessWidget {
           spacing: 12,
           children: <Widget>[
             Text(
-                context.l10n.hotelBookingCoupons,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: colors.textPrimary,
-                  fontWeight: FontWeight.w700,
-                ),
+              context.l10n.hotelBookingCoupons,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: colors.textPrimary,
+                fontWeight: FontWeight.w700,
               ),
-            
+            ),
+
             Expanded(
               child: Text(
                 selectedCouponName?.trim().isNotEmpty == true

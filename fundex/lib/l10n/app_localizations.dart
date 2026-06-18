@@ -2799,6 +2799,48 @@ abstract class AppLocalizations {
   /// **'Continue regular booking'**
   String get hotelStayBenefitOrdinaryBookingConfirm;
 
+  /// No description provided for @hotelStayBenefitTicketConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefit ticket'**
+  String get hotelStayBenefitTicketConfirmTitle;
+
+  /// No description provided for @hotelStayBenefitTicketChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking available tickets'**
+  String get hotelStayBenefitTicketChecking;
+
+  /// No description provided for @hotelStayBenefitTicketNotSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not selected'**
+  String get hotelStayBenefitTicketNotSelected;
+
+  /// No description provided for @hotelStayBenefitTicketSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'¥{amount} JPY · {ticketNo}'**
+  String hotelStayBenefitTicketSelected(Object amount, Object ticketNo);
+
+  /// No description provided for @hotelStayBenefitNoSuitableTicketTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No suitable stay benefit ticket'**
+  String get hotelStayBenefitNoSuitableTicketTitle;
+
+  /// No description provided for @hotelStayBenefitNoSuitableTicketMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no stay benefit ticket with an amount greater than this booking. Continue booking?'**
+  String get hotelStayBenefitNoSuitableTicketMessage;
+
+  /// No description provided for @hotelStayBenefitNoSuitableTicketConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue booking'**
+  String get hotelStayBenefitNoSuitableTicketConfirm;
+
   /// No description provided for @hotelDetailSelectRoomFirst.
   ///
   /// In en, this message translates to:
@@ -3375,6 +3417,12 @@ abstract class AppLocalizations {
   /// **'Your booking is not complete yet'**
   String get hotelBookingResultTitle;
 
+  /// No description provided for @hotelBookingResultSuccessTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking confirmed'**
+  String get hotelBookingResultSuccessTitle;
+
   /// No description provided for @hotelBookingResultOrderNumber.
   ///
   /// In en, this message translates to:
@@ -3728,6 +3776,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No coupon used'**
   String get hotelOrderDetailCouponUnused;
+
+  /// No description provided for @hotelOrderDetailStayBenefitDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay benefit · {amount} ({ticketNo})'**
+  String hotelOrderDetailStayBenefitDiscount(Object amount, Object ticketNo);
 
   /// No description provided for @hotelOrderDetailPaidAmount.
   ///

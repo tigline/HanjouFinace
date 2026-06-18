@@ -747,6 +747,7 @@ abstract class HotelBookingCreateRequestDto
     List<Map<String, dynamic>>? couponsCounts,
     required HotelBookingCreateParentDto parent,
     @Default('38') String site,
+    @Default('') String fundBenefitTicketNo,
   }) = _HotelBookingCreateRequestDto;
 
   factory HotelBookingCreateRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -994,6 +995,22 @@ abstract class HotelOrderDto with _$HotelOrderDto {
 
   factory HotelOrderDto.fromJson(Map<String, dynamic> json) =>
       _$HotelOrderDtoFromJson(json);
+}
+
+@freezed
+abstract class HotelOrderFundBenefitTicketDto
+    with _$HotelOrderFundBenefitTicketDto {
+  const factory HotelOrderFundBenefitTicketDto({
+    @JsonKey(fromJson: hotelNullableStringFromJson) String? id,
+    @JsonKey(fromJson: hotelStringFromJson) @Default('') String ticketNo,
+    num? benefitAmount,
+    num? deductionAmount,
+    num? beforePrice,
+    num? afterPrice,
+  }) = _HotelOrderFundBenefitTicketDto;
+
+  factory HotelOrderFundBenefitTicketDto.fromJson(Map<String, dynamic> json) =>
+      _$HotelOrderFundBenefitTicketDtoFromJson(json);
 }
 
 Object? hotelOrderIdReadValue(Map<dynamic, dynamic> json, String key) {

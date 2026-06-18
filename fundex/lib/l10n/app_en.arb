@@ -619,6 +619,19 @@
   "hotelStayBenefitOrdinaryBookingTitle": "Continue as regular booking",
   "hotelStayBenefitOrdinaryBookingMessage": "Stay benefit tickets cannot be used with the current conditions. This booking will continue as a regular booking.",
   "hotelStayBenefitOrdinaryBookingConfirm": "Continue regular booking",
+  "hotelStayBenefitTicketConfirmTitle": "Stay benefit ticket",
+  "hotelStayBenefitTicketChecking": "Checking available tickets",
+  "hotelStayBenefitTicketNotSelected": "Not selected",
+  "hotelStayBenefitTicketSelected": "¥{amount} JPY · {ticketNo}",
+  "@hotelStayBenefitTicketSelected": {
+    "placeholders": {
+      "amount": {},
+      "ticketNo": {}
+    }
+  },
+  "hotelStayBenefitNoSuitableTicketTitle": "No suitable stay benefit ticket",
+  "hotelStayBenefitNoSuitableTicketMessage": "There is no stay benefit ticket with an amount greater than this booking. Continue booking?",
+  "hotelStayBenefitNoSuitableTicketConfirm": "Continue booking",
   "hotelDetailSelectRoomFirst": "Select a room first",
   "hotelAssignOccupancyFailed": "Could not update the room quantity. Please try again.",
   "hotelAssignOccupancyDialogTitle": "Notice",
@@ -789,6 +802,7 @@
   "hotelPaymentExitConfirm": "Exit",
   "hotelBookingResultAppBarTitle": "Booking result",
   "hotelBookingResultTitle": "Your booking is not complete yet",
+  "hotelBookingResultSuccessTitle": "Booking confirmed",
   "hotelBookingResultOrderNumber": "Reservation number",
   "hotelBookingResultPaymentMethod": "Payment method",
   "hotelBookingResultPaymentAmount": "Payment amount",
@@ -853,6 +867,13 @@
   "hotelOrderDetailOrderStatus": "Order status",
   "hotelOrderDetailCouponDiscount": "Discount amount",
   "hotelOrderDetailCouponUnused": "No coupon used",
+  "hotelOrderDetailStayBenefitDiscount": "Stay benefit · {amount} ({ticketNo})",
+  "@hotelOrderDetailStayBenefitDiscount": {
+    "placeholders": {
+      "amount": {},
+      "ticketNo": {}
+    }
+  },
   "hotelOrderDetailPaidAmount": "Payment amount",
   "hotelOrderDetailPaymentStatus": "Payment status",
   "hotelOrderDetailReceiptTitle": "Receipt",

@@ -619,6 +619,19 @@
   "hotelStayBenefitOrdinaryBookingTitle": "按普通预订继续",
   "hotelStayBenefitOrdinaryBookingMessage": "当前条件不可使用宿泊特典券，本次将按普通预订继续。",
   "hotelStayBenefitOrdinaryBookingConfirm": "继续普通预订",
+  "hotelStayBenefitTicketConfirmTitle": "宿泊特典券",
+  "hotelStayBenefitTicketChecking": "正在确认可用券",
+  "hotelStayBenefitTicketNotSelected": "未选择",
+  "hotelStayBenefitTicketSelected": "¥{amount}日元 · {ticketNo}",
+  "@hotelStayBenefitTicketSelected": {
+    "placeholders": {
+      "amount": {},
+      "ticketNo": {}
+    }
+  },
+  "hotelStayBenefitNoSuitableTicketTitle": "暂无适合的宿泊特典券",
+  "hotelStayBenefitNoSuitableTicketMessage": "当前没有额度大于订单金额的宿泊特典券，是否继续预约？",
+  "hotelStayBenefitNoSuitableTicketConfirm": "继续预约",
   "hotelDetailSelectRoomFirst": "请先选择房型",
   "hotelAssignOccupancyFailed": "房间数量更新失败，请稍后再试。",
   "hotelAssignOccupancyDialogTitle": "提示",
@@ -789,6 +802,7 @@
   "hotelPaymentExitConfirm": "退出",
   "hotelBookingResultAppBarTitle": "预订结果",
   "hotelBookingResultTitle": "您的预订尚未完成",
+  "hotelBookingResultSuccessTitle": "预订成功",
   "hotelBookingResultOrderNumber": "预约编号",
   "hotelBookingResultPaymentMethod": "支付方式",
   "hotelBookingResultPaymentAmount": "支付金额",
@@ -853,6 +867,13 @@
   "hotelOrderDetailOrderStatus": "订单状态",
   "hotelOrderDetailCouponDiscount": "优惠金额",
   "hotelOrderDetailCouponUnused": "未使用优惠券",
+  "hotelOrderDetailStayBenefitDiscount": "宿泊特典・{amount}（{ticketNo}）",
+  "@hotelOrderDetailStayBenefitDiscount": {
+    "placeholders": {
+      "amount": {},
+      "ticketNo": {}
+    }
+  },
   "hotelOrderDetailPaidAmount": "支付金额",
   "hotelOrderDetailPaymentStatus": "支付状态",
   "hotelOrderDetailReceiptTitle": "领收书",

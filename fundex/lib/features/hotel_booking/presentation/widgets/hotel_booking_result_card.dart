@@ -12,11 +12,13 @@ class HotelBookingResultHero extends StatelessWidget {
     required this.title,
     required this.createdAt,
     required this.onClose,
+    this.showCountdown = true,
   });
 
   final String title;
   final String createdAt;
   final VoidCallback onClose;
+  final bool showCountdown;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +43,14 @@ class HotelBookingResultHero extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    HotelPaymentCountdownBadge(
-                      baseTime: createdAt,
-                      large: true,
-                    ),
-                    const SizedBox(height: 24),
+                    if (showCountdown) ...<Widget>[
+                      HotelPaymentCountdownBadge(
+                        baseTime: createdAt,
+                        large: true,
+                      ),
+                      const SizedBox(height: 24),
+                    ] else
+                      const SizedBox(height: 44),
                     Text(
                       title,
                       textAlign: TextAlign.center,
@@ -98,12 +103,14 @@ class HotelBookingResultCard extends StatelessWidget {
     required this.totalAmount,
     required this.paymentMethod,
     required this.presenter,
+    this.isStayBenefitBooking = false,
   });
 
   final String orderId;
   final num totalAmount;
-  final HotelBookingPaymentMethod paymentMethod;
+  final HotelBookingPaymentMethod? paymentMethod;
   final HotelBookingPresenter presenter;
+  final bool isStayBenefitBooking;
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +137,9 @@ class HotelBookingResultCard extends StatelessWidget {
               _ResultDivider(color: colors.borderSoft),
               _ResultLine(
                 label: context.l10n.hotelBookingResultPaymentMethod,
-                value: _paymentMethodLabel(context, paymentMethod),
+                value: isStayBenefitBooking
+                    ? context.l10n.hotelStayBenefitsTitle
+                    : _paymentMethodLabel(context, paymentMethod),
               ),
               _ResultDivider(color: colors.borderSoft),
               _ResultLine(
@@ -140,8 +149,10 @@ class HotelBookingResultCard extends StatelessWidget {
                 valueColor: colors.brandAlert,
                 emphasized: true,
               ),
-              _ResultDivider(color: colors.borderSoft),
-              _PaymentDeadlineNotice(),
+              if (!isStayBenefitBooking) ...<Widget>[
+                _ResultDivider(color: colors.borderSoft),
+                _PaymentDeadlineNotice(),
+              ],
             ],
           ),
         ),
@@ -151,8 +162,11 @@ class HotelBookingResultCard extends StatelessWidget {
 
   String _paymentMethodLabel(
     BuildContext context,
-    HotelBookingPaymentMethod method,
+    HotelBookingPaymentMethod? method,
   ) {
+    if (method == null) {
+      return '';
+    }
     return switch (method) {
       HotelBookingPaymentMethod.creditCard =>
         context.l10n.hotelBookingCreditCardPay,
@@ -167,11 +181,11 @@ class HotelBookingResultCard extends StatelessWidget {
 class HotelBookingResultActions extends StatelessWidget {
   const HotelBookingResultActions({
     super.key,
-    required this.onPay,
     required this.onBackToOrders,
+    this.onPay,
   });
 
-  final VoidCallback onPay;
+  final VoidCallback? onPay;
   final VoidCallback onBackToOrders;
 
   @override
@@ -179,28 +193,30 @@ class HotelBookingResultActions extends StatelessWidget {
     final colors = Theme.of(context).appColors;
     return Column(
       children: <Widget>[
-        SizedBox(
-          width: double.infinity,
-          height: 58,
-          child: FilledButton(
-            onPressed: onPay,
-            style: FilledButton.styleFrom(
-              backgroundColor: colors.brandPrimaryDark,
-              foregroundColor: colors.onDark,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(UiTokens.radius16),
+        if (onPay != null) ...<Widget>[
+          SizedBox(
+            width: double.infinity,
+            height: 58,
+            child: FilledButton(
+              onPressed: onPay,
+              style: FilledButton.styleFrom(
+                backgroundColor: colors.brandPrimaryDark,
+                foregroundColor: colors.onDark,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(UiTokens.radius16),
+                ),
               ),
-            ),
-            child: Text(
-              context.l10n.hotelBookingResultPay,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: colors.onDark,
-                fontWeight: FontWeight.w800,
+              child: Text(
+                context.l10n.hotelBookingResultPay,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colors.onDark,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 18),
+          const SizedBox(height: 18),
+        ],
         SizedBox(
           width: double.infinity,
           height: 52,
@@ -281,7 +297,11 @@ class _ResultLine extends StatelessWidget {
   }
 
   String _trimLabel(String label) {
-    return label.replaceFirst(RegExp(r'[：:]\s*$'), '');
+    final trimmed = label.trimRight();
+    if (trimmed.endsWith('：') || trimmed.endsWith(':')) {
+      return trimmed.substring(0, trimmed.length - 1);
+    }
+    return trimmed;
   }
 }
 

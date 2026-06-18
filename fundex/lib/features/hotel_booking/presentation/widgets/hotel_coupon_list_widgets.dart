@@ -163,16 +163,30 @@ class HotelCouponCard extends StatelessWidget {
 }
 
 class HotelCouponPickerResult {
-  const HotelCouponPickerResult({this.coupon, this.shouldClear = false});
+  const HotelCouponPickerResult({
+    this.coupon,
+    this.fundBenefitTicket,
+    this.shouldClear = false,
+  });
 
   final HotelCoupon? coupon;
+  final HotelFundBenefitTicket? fundBenefitTicket;
   final bool shouldClear;
 }
 
 class HotelFundBenefitTicketCard extends StatelessWidget {
-  const HotelFundBenefitTicketCard({super.key, required this.ticket});
+  const HotelFundBenefitTicketCard({
+    super.key,
+    required this.ticket,
+    this.isSelected = false,
+    this.isDisabled = false,
+    this.onTap,
+  });
 
   final HotelFundBenefitTicket ticket;
+  final bool isSelected;
+  final bool isDisabled;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -180,98 +194,120 @@ class HotelFundBenefitTicketCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final amountText = _formatYen(context, ticket.benefitAmount);
     return Material(
-      color: colors.brandWhite,
+      color: isDisabled ? colors.surfaceAlt : colors.brandWhite,
       borderRadius: BorderRadius.circular(UiTokens.radius20),
-      elevation: 3,
+      elevation: isSelected ? 5 : 3,
       shadowColor: colors.brandPrimaryDark.withValues(alpha: 0.08),
       clipBehavior: Clip.antiAlias,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(UiTokens.radius20),
-          border: Border.all(color: colors.borderSoft),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: Color.alphaBlend(
-                  colors.highlightGold.withValues(alpha: 0.16),
-                  colors.surface,
-                ),
+      child: InkWell(
+        onTap: isDisabled ? null : onTap,
+        child: Opacity(
+          opacity: isDisabled ? 0.58 : 1,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(UiTokens.radius20),
+              border: Border.all(
+                color: isSelected ? colors.brandPrimary : colors.borderSoft,
+                width: isSelected ? 1.6 : 1,
               ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            amountText,
-                            style: textTheme.headlineSmall?.copyWith(
-                              color: colors.textPrimary,
-                              fontWeight: FontWeight.w900,
-                            ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Color.alphaBlend(
+                      colors.highlightGold.withValues(alpha: 0.16),
+                      colors.surface,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                amountText,
+                                style: textTheme.headlineSmall?.copyWith(
+                                  color: colors.textPrimary,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                context
+                                    .l10n
+                                    .hotelFundBenefitTicketAmountCaption,
+                                style: textTheme.labelMedium?.copyWith(
+                                  color: colors.textSecondary,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            context.l10n.hotelFundBenefitTicketAmountCaption,
-                            style: textTheme.labelMedium?.copyWith(
-                              color: colors.textSecondary,
-                              fontWeight: FontWeight.w700,
-                            ),
+                        ),
+                        _FundBenefitStatusChip(status: ticket.ticketStatus),
+                        if (isSelected) ...<Widget>[
+                          const SizedBox(width: 8),
+                          Icon(
+                            Icons.check_circle_rounded,
+                            color: colors.brandPrimary,
+                            size: 22,
                           ),
                         ],
-                      ),
+                      ],
                     ),
-                    _FundBenefitStatusChip(status: ticket.ticketStatus),
-                  ],
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+                  child: Column(
+                    children: <Widget>[
+                      _FundBenefitMetaLine(
+                        icon: Icons.confirmation_number_outlined,
+                        label: context.l10n.hotelFundBenefitTicketNoLabel,
+                        value: ticket.ticketNo.isEmpty ? '--' : ticket.ticketNo,
+                      ),
+                      const SizedBox(height: 10),
+                      _FundBenefitMetaLine(
+                        icon: Icons.card_giftcard_rounded,
+                        label:
+                            context.l10n.hotelFundBenefitTicketGrantMethodLabel,
+                        value: _grantMethodLabel(context, ticket.grantMethod),
+                      ),
+                      const SizedBox(height: 10),
+                      _FundBenefitMetaLine(
+                        icon: Icons.event_available_rounded,
+                        label:
+                            context.l10n.hotelFundBenefitTicketGrantDateLabel,
+                        value: _formatDate(ticket.grantTime),
+                      ),
+                      if (ticket.usedTime.isNotEmpty) ...<Widget>[
+                        const SizedBox(height: 10),
+                        _FundBenefitMetaLine(
+                          icon: Icons.task_alt_rounded,
+                          label:
+                              context.l10n.hotelFundBenefitTicketUsedDateLabel,
+                          value: _formatDate(ticket.usedTime),
+                        ),
+                      ],
+                      if (ticket.bookingOrderId != null) ...<Widget>[
+                        const SizedBox(height: 10),
+                        _FundBenefitMetaLine(
+                          icon: Icons.receipt_long_rounded,
+                          label: context.l10n.hotelFundBenefitTicketOrderLabel,
+                          value: ticket.bookingOrderId.toString(),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-              child: Column(
-                children: <Widget>[
-                  _FundBenefitMetaLine(
-                    icon: Icons.confirmation_number_outlined,
-                    label: context.l10n.hotelFundBenefitTicketNoLabel,
-                    value: ticket.ticketNo.isEmpty ? '--' : ticket.ticketNo,
-                  ),
-                  const SizedBox(height: 10),
-                  _FundBenefitMetaLine(
-                    icon: Icons.card_giftcard_rounded,
-                    label: context.l10n.hotelFundBenefitTicketGrantMethodLabel,
-                    value: _grantMethodLabel(context, ticket.grantMethod),
-                  ),
-                  const SizedBox(height: 10),
-                  _FundBenefitMetaLine(
-                    icon: Icons.event_available_rounded,
-                    label: context.l10n.hotelFundBenefitTicketGrantDateLabel,
-                    value: _formatDate(ticket.grantTime),
-                  ),
-                  if (ticket.usedTime.isNotEmpty) ...<Widget>[
-                    const SizedBox(height: 10),
-                    _FundBenefitMetaLine(
-                      icon: Icons.task_alt_rounded,
-                      label: context.l10n.hotelFundBenefitTicketUsedDateLabel,
-                      value: _formatDate(ticket.usedTime),
-                    ),
-                  ],
-                  if (ticket.bookingOrderId != null) ...<Widget>[
-                    const SizedBox(height: 10),
-                    _FundBenefitMetaLine(
-                      icon: Icons.receipt_long_rounded,
-                      label: context.l10n.hotelFundBenefitTicketOrderLabel,
-                      value: ticket.bookingOrderId.toString(),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -383,6 +419,10 @@ Future<HotelCouponPickerResult?> showHotelCouponPickerSheet({
   required List<HotelCoupon> coupons,
   required Map<String, String> pageTexts,
   int? selectedCouponId,
+  List<HotelFundBenefitTicket> fundBenefitTickets =
+      const <HotelFundBenefitTicket>[],
+  int? selectedFundBenefitTicketId,
+  num? fundBenefitReferenceAmount,
 }) {
   return AppBottomSheet.showAdaptive<HotelCouponPickerResult>(
     context: context,
@@ -392,6 +432,9 @@ Future<HotelCouponPickerResult?> showHotelCouponPickerSheet({
         coupons: coupons,
         pageTexts: pageTexts,
         selectedCouponId: selectedCouponId,
+        fundBenefitTickets: fundBenefitTickets,
+        selectedFundBenefitTicketId: selectedFundBenefitTicketId,
+        fundBenefitReferenceAmount: fundBenefitReferenceAmount,
       );
     },
   );
@@ -403,33 +446,33 @@ class HotelCouponPickerSheet extends StatefulWidget {
     required this.coupons,
     required this.pageTexts,
     required this.selectedCouponId,
+    this.fundBenefitTickets = const <HotelFundBenefitTicket>[],
+    this.selectedFundBenefitTicketId,
+    this.fundBenefitReferenceAmount,
   });
 
   final List<HotelCoupon> coupons;
   final Map<String, String> pageTexts;
   final int? selectedCouponId;
+  final List<HotelFundBenefitTicket> fundBenefitTickets;
+  final int? selectedFundBenefitTicketId;
+  final num? fundBenefitReferenceAmount;
 
   @override
   State<HotelCouponPickerSheet> createState() => _HotelCouponPickerSheetState();
 }
 
-enum _CouponSegment { available, unavailable }
+enum _CouponSegment { coupons, fundBenefits }
 
 class _HotelCouponPickerSheetState extends State<HotelCouponPickerSheet> {
-  _CouponSegment _segment = _CouponSegment.available;
+  _CouponSegment _segment = _CouponSegment.coupons;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    final available = widget.coupons
-        .where((coupon) => coupon.canUse ?? true)
-        .toList(growable: false);
-    final unavailable = widget.coupons
-        .where((coupon) => !(coupon.canUse ?? true))
-        .toList(growable: false);
-    final visible = _segment == _CouponSegment.available
-        ? available
-        : unavailable;
+    final hasSelection =
+        widget.selectedCouponId != null ||
+        widget.selectedFundBenefitTicketId != null;
     return SizedBox(
       height: MediaQuery.sizeOf(context).height * 0.76,
       child: Column(
@@ -446,7 +489,7 @@ class _HotelCouponPickerSheetState extends State<HotelCouponPickerSheet> {
                   ),
                 ),
               ),
-              if (widget.selectedCouponId != null)
+              if (hasSelection)
                 TextButton(
                   onPressed: () => Navigator.of(
                     context,
@@ -458,56 +501,121 @@ class _HotelCouponPickerSheetState extends State<HotelCouponPickerSheet> {
           const SizedBox(height: 14),
           Padding(
             padding: const EdgeInsets.fromLTRB(42, 0, 42, 0),
-                child: AppDualSegmentedControl<_CouponSegment>(
-                  value: _segment,
-                  height: 40,
-                  onChanged: (value) => setState(() => _segment = value),
-                  first: AppDualSegmentItem<_CouponSegment>(
-                    value: _CouponSegment.available,
-                    icon: Icons.check_circle_outline_rounded,
-                    label: context.l10n.hotelCouponsAvailableSegment(
-                      available.length,
-                    ),
-                  ),
-                  second: AppDualSegmentItem<_CouponSegment>(
-                    value: _CouponSegment.unavailable,
-                    icon: Icons.block_rounded,
-                    label: context.l10n.hotelCouponsUnavailableSegment(
-                      unavailable.length,
-                    ),
+            child: AppDualSegmentedControl<_CouponSegment>(
+              value: _segment,
+              height: 40,
+              onChanged: (value) => setState(() => _segment = value),
+              first: AppDualSegmentItem<_CouponSegment>(
+                value: _CouponSegment.coupons,
+                icon: Icons.confirmation_number_outlined,
+                label: context.l10n.hotelCouponsOrdinarySegment(
+                  widget.coupons.length,
+                ),
               ),
-            )
+              second: AppDualSegmentItem<_CouponSegment>(
+                value: _CouponSegment.fundBenefits,
+                icon: Icons.card_giftcard_rounded,
+                label: context.l10n.hotelFundBenefitTicketsSegment(
+                  widget.fundBenefitTickets.length,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 14),
           Expanded(
-            child: visible.isEmpty
-                ? Center(
-                    child: Text(
-                      context.l10n.hotelCouponsEmpty,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colors.textTertiary,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  )
-                : ListView.separated(
-                    itemCount: visible.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    itemBuilder: (BuildContext context, int index) {
-                      final coupon = visible[index];
-                      return HotelCouponCard(
-                        coupon: coupon,
-                        pageTexts: widget.pageTexts,
-                        isSelected: coupon.id == widget.selectedCouponId,
-                        isDisabled: !(coupon.canUse ?? true),
-                        onTap: () => Navigator.of(
-                          context,
-                        ).pop(HotelCouponPickerResult(coupon: coupon)),
-                      );
-                    },
-                  ),
+            child: _segment == _CouponSegment.coupons
+                ? _CouponPickerCouponList(widget: widget)
+                : _CouponPickerFundBenefitList(widget: widget),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CouponPickerCouponList extends StatelessWidget {
+  const _CouponPickerCouponList({required this.widget});
+
+  final HotelCouponPickerSheet widget;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.coupons.isEmpty) {
+      return _CouponPickerEmptyText(message: context.l10n.hotelCouponsEmpty);
+    }
+    return ListView.separated(
+      itemCount: widget.coupons.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      itemBuilder: (BuildContext context, int index) {
+        final coupon = widget.coupons[index];
+        final isDisabled = !(coupon.canUse ?? true);
+        return HotelCouponCard(
+          coupon: coupon,
+          pageTexts: widget.pageTexts,
+          isSelected: coupon.id == widget.selectedCouponId,
+          isDisabled: isDisabled,
+          onTap: isDisabled
+              ? null
+              : () => Navigator.of(
+                  context,
+                ).pop(HotelCouponPickerResult(coupon: coupon)),
+        );
+      },
+    );
+  }
+}
+
+class _CouponPickerFundBenefitList extends StatelessWidget {
+  const _CouponPickerFundBenefitList({required this.widget});
+
+  final HotelCouponPickerSheet widget;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.fundBenefitTickets.isEmpty) {
+      return _CouponPickerEmptyText(
+        message: context.l10n.hotelFundBenefitTicketsEmpty,
+      );
+    }
+    return ListView.separated(
+      itemCount: widget.fundBenefitTickets.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 12),
+      itemBuilder: (BuildContext context, int index) {
+        final ticket = widget.fundBenefitTickets[index];
+        final isDisabled = !_isSelectableFundBenefitTicket(
+          ticket,
+          widget.fundBenefitReferenceAmount,
+        );
+        return HotelFundBenefitTicketCard(
+          ticket: ticket,
+          isSelected: ticket.id == widget.selectedFundBenefitTicketId,
+          isDisabled: isDisabled,
+          onTap: isDisabled
+              ? null
+              : () => Navigator.of(
+                  context,
+                ).pop(HotelCouponPickerResult(fundBenefitTicket: ticket)),
+        );
+      },
+    );
+  }
+}
+
+class _CouponPickerEmptyText extends StatelessWidget {
+  const _CouponPickerEmptyText({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return Center(
+      child: Text(
+        message,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: colors.textTertiary,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -664,6 +772,18 @@ String _grantMethodLabel(BuildContext context, int? method) {
     2 => context.l10n.hotelFundBenefitTicketGrantMethodManual,
     _ => '--',
   };
+}
+
+bool _isSelectableFundBenefitTicket(
+  HotelFundBenefitTicket ticket,
+  num? referenceAmount,
+) {
+  final amount = ticket.benefitAmount ?? 0;
+  return ticket.ticketStatus == 1 &&
+      ticket.usedTime.trim().isEmpty &&
+      ticket.bookingOrderId == null &&
+      amount > 0 &&
+      (referenceAmount == null || amount > referenceAmount);
 }
 
 String? _formatNumber(num? value) {

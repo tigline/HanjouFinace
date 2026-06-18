@@ -1436,6 +1436,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelStayBenefitOrdinaryBookingConfirm => '通常予約を続ける';
 
   @override
+  String get hotelStayBenefitTicketConfirmTitle => '宿泊特典券';
+
+  @override
+  String get hotelStayBenefitTicketChecking => '利用可能な券を確認中です';
+
+  @override
+  String get hotelStayBenefitTicketNotSelected => '未選択';
+
+  @override
+  String hotelStayBenefitTicketSelected(Object amount, Object ticketNo) {
+    return '¥$amount円 · $ticketNo';
+  }
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketTitle => '適した宿泊特典券がありません';
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketMessage =>
+      '現在の予約金額を超える宿泊特典券がありません。予約を続けますか？';
+
+  @override
+  String get hotelStayBenefitNoSuitableTicketConfirm => '予約を続ける';
+
+  @override
   String get hotelDetailSelectRoomFirst => '客室を選択してください';
 
   @override
@@ -1751,6 +1775,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelBookingResultTitle => 'ご予約はまだ完了していません';
 
   @override
+  String get hotelBookingResultSuccessTitle => '予約が完了しました';
+
+  @override
   String get hotelBookingResultOrderNumber => '予約番号';
 
   @override
@@ -1929,6 +1956,11 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hotelOrderDetailCouponUnused => 'クーポン未使用';
+
+  @override
+  String hotelOrderDetailStayBenefitDiscount(Object amount, Object ticketNo) {
+    return '宿泊特典・$amount（$ticketNo）';
+  }
 
   @override
   String get hotelOrderDetailPaidAmount => '支払金額';

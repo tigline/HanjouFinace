@@ -777,6 +777,7 @@ class HotelOrderDetail {
     required this.paidAmount,
     required this.originalAmount,
     required this.couponDiscountAmount,
+    required this.fundBenefitTicket,
     required this.payName,
     required this.payCode,
     required this.paymentTime,
@@ -811,6 +812,7 @@ class HotelOrderDetail {
   final num? paidAmount;
   final num? originalAmount;
   final num? couponDiscountAmount;
+  final HotelOrderFundBenefitTicket? fundBenefitTicket;
   final String payName;
   final String payCode;
   final String paymentTime;
@@ -826,6 +828,24 @@ class HotelOrderDetail {
   List<HotelOrderRoomGuest> get guests {
     return rooms.expand((room) => room.guests).toList(growable: false);
   }
+}
+
+class HotelOrderFundBenefitTicket {
+  const HotelOrderFundBenefitTicket({
+    required this.id,
+    required this.ticketNo,
+    required this.benefitAmount,
+    required this.deductionAmount,
+    required this.beforePrice,
+    required this.afterPrice,
+  });
+
+  final String id;
+  final String ticketNo;
+  final num? benefitAmount;
+  final num? deductionAmount;
+  final num? beforePrice;
+  final num? afterPrice;
 }
 
 class HotelOrderRoomSummary {
@@ -903,6 +923,7 @@ class HotelBookingCreateDraft {
     required this.receiptTitle,
     required this.comment,
     this.selectedCoupons = const <HotelBookingSelectedCoupon>[],
+    this.fundBenefitTicketNo = '',
   });
 
   final HotelBookingConfirmSeed seed;
@@ -913,6 +934,7 @@ class HotelBookingCreateDraft {
   final String receiptTitle;
   final String comment;
   final List<HotelBookingSelectedCoupon> selectedCoupons;
+  final String fundBenefitTicketNo;
 }
 
 class HotelBookingPersonDraft {

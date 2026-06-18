@@ -706,6 +706,7 @@ class _OrderPaymentInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final couponDiscountAmount = detail.couponDiscountAmount ?? 0;
+    final fundBenefitTicket = detail.fundBenefitTicket;
     final createdTime = detail.createdTime.trim().isNotEmpty
         ? detail.createdTime
         : detail.summary.bookingOrderTime;
@@ -728,7 +729,17 @@ class _OrderPaymentInfoSection extends StatelessWidget {
           _InfoLine(
             data: _InfoLineData.payment(
               context.l10n.hotelOrderDetailCouponDiscount,
-              couponDiscountAmount > 0
+              fundBenefitTicket != null
+                  ? context.l10n.hotelOrderDetailStayBenefitDiscount(
+                      presenter.price(
+                        fundBenefitTicket.benefitAmount ??
+                            fundBenefitTicket.deductionAmount,
+                      ),
+                      fundBenefitTicket.ticketNo.isEmpty
+                          ? '--'
+                          : fundBenefitTicket.ticketNo,
+                    )
+                  : couponDiscountAmount > 0
                   ? presenter.price(couponDiscountAmount)
                   : context.l10n.hotelOrderDetailCouponUnused,
             ),
@@ -1549,13 +1560,35 @@ String _formatOrderPaymentTime(String raw) {
 }
 
 String _stripHtml(String raw) {
-  return raw
-      .replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n')
-      .replaceAll(RegExp(r'</p\s*>', caseSensitive: false), '\n')
-      .replaceAll(RegExp(r'<[^>]+>'), '')
+  return _removeHtmlTags(raw)
       .replaceAll('&nbsp;', ' ')
       .replaceAll('&amp;', '&')
       .replaceAll('&lt;', '<')
       .replaceAll('&gt;', '>')
       .trim();
+}
+
+String _removeHtmlTags(String raw) {
+  final buffer = StringBuffer();
+  var index = 0;
+  while (index < raw.length) {
+    final char = raw[index];
+    if (char != '<') {
+      buffer.write(char);
+      index += 1;
+      continue;
+    }
+    final end = raw.indexOf('>', index + 1);
+    if (end == -1) {
+      buffer.write(char);
+      index += 1;
+      continue;
+    }
+    final tag = raw.substring(index + 1, end).trim().toLowerCase();
+    if (tag.startsWith('br') || tag.startsWith('/p')) {
+      buffer.write('\n');
+    }
+    index = end + 1;
+  }
+  return buffer.toString();
 }

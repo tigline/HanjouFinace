@@ -8308,7 +8308,7 @@ as String,
 /// @nodoc
 mixin _$HotelBookingCreateRequestDto {
 
- List<Map<String, dynamic>>? get couponsCounts; HotelBookingCreateParentDto get parent; String get site;
+ List<Map<String, dynamic>>? get couponsCounts; HotelBookingCreateParentDto get parent; String get site; String get fundBenefitTicketNo;
 /// Create a copy of HotelBookingCreateRequestDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -8321,16 +8321,16 @@ $HotelBookingCreateRequestDtoCopyWith<HotelBookingCreateRequestDto> get copyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelBookingCreateRequestDto&&const DeepCollectionEquality().equals(other.couponsCounts, couponsCounts)&&(identical(other.parent, parent) || other.parent == parent)&&(identical(other.site, site) || other.site == site));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelBookingCreateRequestDto&&const DeepCollectionEquality().equals(other.couponsCounts, couponsCounts)&&(identical(other.parent, parent) || other.parent == parent)&&(identical(other.site, site) || other.site == site)&&(identical(other.fundBenefitTicketNo, fundBenefitTicketNo) || other.fundBenefitTicketNo == fundBenefitTicketNo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(couponsCounts),parent,site);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(couponsCounts),parent,site,fundBenefitTicketNo);
 
 @override
 String toString() {
-  return 'HotelBookingCreateRequestDto(couponsCounts: $couponsCounts, parent: $parent, site: $site)';
+  return 'HotelBookingCreateRequestDto(couponsCounts: $couponsCounts, parent: $parent, site: $site, fundBenefitTicketNo: $fundBenefitTicketNo)';
 }
 
 
@@ -8341,7 +8341,7 @@ abstract mixin class $HotelBookingCreateRequestDtoCopyWith<$Res>  {
   factory $HotelBookingCreateRequestDtoCopyWith(HotelBookingCreateRequestDto value, $Res Function(HotelBookingCreateRequestDto) _then) = _$HotelBookingCreateRequestDtoCopyWithImpl;
 @useResult
 $Res call({
- List<Map<String, dynamic>>? couponsCounts, HotelBookingCreateParentDto parent, String site
+ List<Map<String, dynamic>>? couponsCounts, HotelBookingCreateParentDto parent, String site, String fundBenefitTicketNo
 });
 
 
@@ -8358,11 +8358,12 @@ class _$HotelBookingCreateRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of HotelBookingCreateRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? couponsCounts = freezed,Object? parent = null,Object? site = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? couponsCounts = freezed,Object? parent = null,Object? site = null,Object? fundBenefitTicketNo = null,}) {
   return _then(_self.copyWith(
 couponsCounts: freezed == couponsCounts ? _self.couponsCounts : couponsCounts // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,parent: null == parent ? _self.parent : parent // ignore: cast_nullable_to_non_nullable
 as HotelBookingCreateParentDto,site: null == site ? _self.site : site // ignore: cast_nullable_to_non_nullable
+as String,fundBenefitTicketNo: null == fundBenefitTicketNo ? _self.fundBenefitTicketNo : fundBenefitTicketNo // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -8457,10 +8458,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Map<String, dynamic>>? couponsCounts,  HotelBookingCreateParentDto parent,  String site)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Map<String, dynamic>>? couponsCounts,  HotelBookingCreateParentDto parent,  String site,  String fundBenefitTicketNo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HotelBookingCreateRequestDto() when $default != null:
-return $default(_that.couponsCounts,_that.parent,_that.site);case _:
+return $default(_that.couponsCounts,_that.parent,_that.site,_that.fundBenefitTicketNo);case _:
   return orElse();
 
 }
@@ -8478,10 +8479,10 @@ return $default(_that.couponsCounts,_that.parent,_that.site);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Map<String, dynamic>>? couponsCounts,  HotelBookingCreateParentDto parent,  String site)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Map<String, dynamic>>? couponsCounts,  HotelBookingCreateParentDto parent,  String site,  String fundBenefitTicketNo)  $default,) {final _that = this;
 switch (_that) {
 case _HotelBookingCreateRequestDto():
-return $default(_that.couponsCounts,_that.parent,_that.site);case _:
+return $default(_that.couponsCounts,_that.parent,_that.site,_that.fundBenefitTicketNo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -8498,10 +8499,10 @@ return $default(_that.couponsCounts,_that.parent,_that.site);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Map<String, dynamic>>? couponsCounts,  HotelBookingCreateParentDto parent,  String site)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Map<String, dynamic>>? couponsCounts,  HotelBookingCreateParentDto parent,  String site,  String fundBenefitTicketNo)?  $default,) {final _that = this;
 switch (_that) {
 case _HotelBookingCreateRequestDto() when $default != null:
-return $default(_that.couponsCounts,_that.parent,_that.site);case _:
+return $default(_that.couponsCounts,_that.parent,_that.site,_that.fundBenefitTicketNo);case _:
   return null;
 
 }
@@ -8513,7 +8514,7 @@ return $default(_that.couponsCounts,_that.parent,_that.site);case _:
 
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
 class _HotelBookingCreateRequestDto implements HotelBookingCreateRequestDto {
-  const _HotelBookingCreateRequestDto({final  List<Map<String, dynamic>>? couponsCounts, required this.parent, this.site = '38'}): _couponsCounts = couponsCounts;
+  const _HotelBookingCreateRequestDto({final  List<Map<String, dynamic>>? couponsCounts, required this.parent, this.site = '38', this.fundBenefitTicketNo = ''}): _couponsCounts = couponsCounts;
   factory _HotelBookingCreateRequestDto.fromJson(Map<String, dynamic> json) => _$HotelBookingCreateRequestDtoFromJson(json);
 
  final  List<Map<String, dynamic>>? _couponsCounts;
@@ -8527,6 +8528,7 @@ class _HotelBookingCreateRequestDto implements HotelBookingCreateRequestDto {
 
 @override final  HotelBookingCreateParentDto parent;
 @override@JsonKey() final  String site;
+@override@JsonKey() final  String fundBenefitTicketNo;
 
 /// Create a copy of HotelBookingCreateRequestDto
 /// with the given fields replaced by the non-null parameter values.
@@ -8541,16 +8543,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelBookingCreateRequestDto&&const DeepCollectionEquality().equals(other._couponsCounts, _couponsCounts)&&(identical(other.parent, parent) || other.parent == parent)&&(identical(other.site, site) || other.site == site));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelBookingCreateRequestDto&&const DeepCollectionEquality().equals(other._couponsCounts, _couponsCounts)&&(identical(other.parent, parent) || other.parent == parent)&&(identical(other.site, site) || other.site == site)&&(identical(other.fundBenefitTicketNo, fundBenefitTicketNo) || other.fundBenefitTicketNo == fundBenefitTicketNo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_couponsCounts),parent,site);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_couponsCounts),parent,site,fundBenefitTicketNo);
 
 @override
 String toString() {
-  return 'HotelBookingCreateRequestDto(couponsCounts: $couponsCounts, parent: $parent, site: $site)';
+  return 'HotelBookingCreateRequestDto(couponsCounts: $couponsCounts, parent: $parent, site: $site, fundBenefitTicketNo: $fundBenefitTicketNo)';
 }
 
 
@@ -8561,7 +8563,7 @@ abstract mixin class _$HotelBookingCreateRequestDtoCopyWith<$Res> implements $Ho
   factory _$HotelBookingCreateRequestDtoCopyWith(_HotelBookingCreateRequestDto value, $Res Function(_HotelBookingCreateRequestDto) _then) = __$HotelBookingCreateRequestDtoCopyWithImpl;
 @override @useResult
 $Res call({
- List<Map<String, dynamic>>? couponsCounts, HotelBookingCreateParentDto parent, String site
+ List<Map<String, dynamic>>? couponsCounts, HotelBookingCreateParentDto parent, String site, String fundBenefitTicketNo
 });
 
 
@@ -8578,11 +8580,12 @@ class __$HotelBookingCreateRequestDtoCopyWithImpl<$Res>
 
 /// Create a copy of HotelBookingCreateRequestDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? couponsCounts = freezed,Object? parent = null,Object? site = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? couponsCounts = freezed,Object? parent = null,Object? site = null,Object? fundBenefitTicketNo = null,}) {
   return _then(_HotelBookingCreateRequestDto(
 couponsCounts: freezed == couponsCounts ? _self._couponsCounts : couponsCounts // ignore: cast_nullable_to_non_nullable
 as List<Map<String, dynamic>>?,parent: null == parent ? _self.parent : parent // ignore: cast_nullable_to_non_nullable
 as HotelBookingCreateParentDto,site: null == site ? _self.site : site // ignore: cast_nullable_to_non_nullable
+as String,fundBenefitTicketNo: null == fundBenefitTicketNo ? _self.fundBenefitTicketNo : fundBenefitTicketNo // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -11680,6 +11683,284 @@ as List<Map<String, Object?>>,roomId: freezed == roomId ? _self.roomId : roomId 
 as int?,roomNo: freezed == roomNo ? _self.roomNo : roomNo // ignore: cast_nullable_to_non_nullable
 as String?,bookingType: freezed == bookingType ? _self.bookingType : bookingType // ignore: cast_nullable_to_non_nullable
 as int?,sendItem: freezed == sendItem ? _self.sendItem : sendItem ,roomClear: freezed == roomClear ? _self.roomClear : roomClear ,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$HotelOrderFundBenefitTicketDto {
+
+@JsonKey(fromJson: hotelNullableStringFromJson) String? get id;@JsonKey(fromJson: hotelStringFromJson) String get ticketNo; num? get benefitAmount; num? get deductionAmount; num? get beforePrice; num? get afterPrice;
+/// Create a copy of HotelOrderFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HotelOrderFundBenefitTicketDtoCopyWith<HotelOrderFundBenefitTicketDto> get copyWith => _$HotelOrderFundBenefitTicketDtoCopyWithImpl<HotelOrderFundBenefitTicketDto>(this as HotelOrderFundBenefitTicketDto, _$identity);
+
+  /// Serializes this HotelOrderFundBenefitTicketDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HotelOrderFundBenefitTicketDto&&(identical(other.id, id) || other.id == id)&&(identical(other.ticketNo, ticketNo) || other.ticketNo == ticketNo)&&(identical(other.benefitAmount, benefitAmount) || other.benefitAmount == benefitAmount)&&(identical(other.deductionAmount, deductionAmount) || other.deductionAmount == deductionAmount)&&(identical(other.beforePrice, beforePrice) || other.beforePrice == beforePrice)&&(identical(other.afterPrice, afterPrice) || other.afterPrice == afterPrice));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,ticketNo,benefitAmount,deductionAmount,beforePrice,afterPrice);
+
+@override
+String toString() {
+  return 'HotelOrderFundBenefitTicketDto(id: $id, ticketNo: $ticketNo, benefitAmount: $benefitAmount, deductionAmount: $deductionAmount, beforePrice: $beforePrice, afterPrice: $afterPrice)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HotelOrderFundBenefitTicketDtoCopyWith<$Res>  {
+  factory $HotelOrderFundBenefitTicketDtoCopyWith(HotelOrderFundBenefitTicketDto value, $Res Function(HotelOrderFundBenefitTicketDto) _then) = _$HotelOrderFundBenefitTicketDtoCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(fromJson: hotelNullableStringFromJson) String? id,@JsonKey(fromJson: hotelStringFromJson) String ticketNo, num? benefitAmount, num? deductionAmount, num? beforePrice, num? afterPrice
+});
+
+
+
+
+}
+/// @nodoc
+class _$HotelOrderFundBenefitTicketDtoCopyWithImpl<$Res>
+    implements $HotelOrderFundBenefitTicketDtoCopyWith<$Res> {
+  _$HotelOrderFundBenefitTicketDtoCopyWithImpl(this._self, this._then);
+
+  final HotelOrderFundBenefitTicketDto _self;
+  final $Res Function(HotelOrderFundBenefitTicketDto) _then;
+
+/// Create a copy of HotelOrderFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? ticketNo = null,Object? benefitAmount = freezed,Object? deductionAmount = freezed,Object? beforePrice = freezed,Object? afterPrice = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,ticketNo: null == ticketNo ? _self.ticketNo : ticketNo // ignore: cast_nullable_to_non_nullable
+as String,benefitAmount: freezed == benefitAmount ? _self.benefitAmount : benefitAmount // ignore: cast_nullable_to_non_nullable
+as num?,deductionAmount: freezed == deductionAmount ? _self.deductionAmount : deductionAmount // ignore: cast_nullable_to_non_nullable
+as num?,beforePrice: freezed == beforePrice ? _self.beforePrice : beforePrice // ignore: cast_nullable_to_non_nullable
+as num?,afterPrice: freezed == afterPrice ? _self.afterPrice : afterPrice // ignore: cast_nullable_to_non_nullable
+as num?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [HotelOrderFundBenefitTicketDto].
+extension HotelOrderFundBenefitTicketDtoPatterns on HotelOrderFundBenefitTicketDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HotelOrderFundBenefitTicketDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _HotelOrderFundBenefitTicketDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HotelOrderFundBenefitTicketDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _HotelOrderFundBenefitTicketDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HotelOrderFundBenefitTicketDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _HotelOrderFundBenefitTicketDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(fromJson: hotelNullableStringFromJson)  String? id, @JsonKey(fromJson: hotelStringFromJson)  String ticketNo,  num? benefitAmount,  num? deductionAmount,  num? beforePrice,  num? afterPrice)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _HotelOrderFundBenefitTicketDto() when $default != null:
+return $default(_that.id,_that.ticketNo,_that.benefitAmount,_that.deductionAmount,_that.beforePrice,_that.afterPrice);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(fromJson: hotelNullableStringFromJson)  String? id, @JsonKey(fromJson: hotelStringFromJson)  String ticketNo,  num? benefitAmount,  num? deductionAmount,  num? beforePrice,  num? afterPrice)  $default,) {final _that = this;
+switch (_that) {
+case _HotelOrderFundBenefitTicketDto():
+return $default(_that.id,_that.ticketNo,_that.benefitAmount,_that.deductionAmount,_that.beforePrice,_that.afterPrice);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(fromJson: hotelNullableStringFromJson)  String? id, @JsonKey(fromJson: hotelStringFromJson)  String ticketNo,  num? benefitAmount,  num? deductionAmount,  num? beforePrice,  num? afterPrice)?  $default,) {final _that = this;
+switch (_that) {
+case _HotelOrderFundBenefitTicketDto() when $default != null:
+return $default(_that.id,_that.ticketNo,_that.benefitAmount,_that.deductionAmount,_that.beforePrice,_that.afterPrice);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _HotelOrderFundBenefitTicketDto implements HotelOrderFundBenefitTicketDto {
+  const _HotelOrderFundBenefitTicketDto({@JsonKey(fromJson: hotelNullableStringFromJson) this.id, @JsonKey(fromJson: hotelStringFromJson) this.ticketNo = '', this.benefitAmount, this.deductionAmount, this.beforePrice, this.afterPrice});
+  factory _HotelOrderFundBenefitTicketDto.fromJson(Map<String, dynamic> json) => _$HotelOrderFundBenefitTicketDtoFromJson(json);
+
+@override@JsonKey(fromJson: hotelNullableStringFromJson) final  String? id;
+@override@JsonKey(fromJson: hotelStringFromJson) final  String ticketNo;
+@override final  num? benefitAmount;
+@override final  num? deductionAmount;
+@override final  num? beforePrice;
+@override final  num? afterPrice;
+
+/// Create a copy of HotelOrderFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HotelOrderFundBenefitTicketDtoCopyWith<_HotelOrderFundBenefitTicketDto> get copyWith => __$HotelOrderFundBenefitTicketDtoCopyWithImpl<_HotelOrderFundBenefitTicketDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$HotelOrderFundBenefitTicketDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HotelOrderFundBenefitTicketDto&&(identical(other.id, id) || other.id == id)&&(identical(other.ticketNo, ticketNo) || other.ticketNo == ticketNo)&&(identical(other.benefitAmount, benefitAmount) || other.benefitAmount == benefitAmount)&&(identical(other.deductionAmount, deductionAmount) || other.deductionAmount == deductionAmount)&&(identical(other.beforePrice, beforePrice) || other.beforePrice == beforePrice)&&(identical(other.afterPrice, afterPrice) || other.afterPrice == afterPrice));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,ticketNo,benefitAmount,deductionAmount,beforePrice,afterPrice);
+
+@override
+String toString() {
+  return 'HotelOrderFundBenefitTicketDto(id: $id, ticketNo: $ticketNo, benefitAmount: $benefitAmount, deductionAmount: $deductionAmount, beforePrice: $beforePrice, afterPrice: $afterPrice)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$HotelOrderFundBenefitTicketDtoCopyWith<$Res> implements $HotelOrderFundBenefitTicketDtoCopyWith<$Res> {
+  factory _$HotelOrderFundBenefitTicketDtoCopyWith(_HotelOrderFundBenefitTicketDto value, $Res Function(_HotelOrderFundBenefitTicketDto) _then) = __$HotelOrderFundBenefitTicketDtoCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(fromJson: hotelNullableStringFromJson) String? id,@JsonKey(fromJson: hotelStringFromJson) String ticketNo, num? benefitAmount, num? deductionAmount, num? beforePrice, num? afterPrice
+});
+
+
+
+
+}
+/// @nodoc
+class __$HotelOrderFundBenefitTicketDtoCopyWithImpl<$Res>
+    implements _$HotelOrderFundBenefitTicketDtoCopyWith<$Res> {
+  __$HotelOrderFundBenefitTicketDtoCopyWithImpl(this._self, this._then);
+
+  final _HotelOrderFundBenefitTicketDto _self;
+  final $Res Function(_HotelOrderFundBenefitTicketDto) _then;
+
+/// Create a copy of HotelOrderFundBenefitTicketDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? ticketNo = null,Object? benefitAmount = freezed,Object? deductionAmount = freezed,Object? beforePrice = freezed,Object? afterPrice = freezed,}) {
+  return _then(_HotelOrderFundBenefitTicketDto(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String?,ticketNo: null == ticketNo ? _self.ticketNo : ticketNo // ignore: cast_nullable_to_non_nullable
+as String,benefitAmount: freezed == benefitAmount ? _self.benefitAmount : benefitAmount // ignore: cast_nullable_to_non_nullable
+as num?,deductionAmount: freezed == deductionAmount ? _self.deductionAmount : deductionAmount // ignore: cast_nullable_to_non_nullable
+as num?,beforePrice: freezed == beforePrice ? _self.beforePrice : beforePrice // ignore: cast_nullable_to_non_nullable
+as num?,afterPrice: freezed == afterPrice ? _self.afterPrice : afterPrice // ignore: cast_nullable_to_non_nullable
+as num?,
   ));
 }
 

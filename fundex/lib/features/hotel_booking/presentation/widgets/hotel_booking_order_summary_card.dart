@@ -16,6 +16,8 @@ class HotelBookingOrderSummaryCard extends StatelessWidget {
     required this.originalAmount,
     required this.selectedCoupon,
     required this.onEdit,
+    this.selectedFundBenefitTicket,
+    this.showOriginalAmount = false,
   });
 
   final HotelBookingConfirmSeed seed;
@@ -24,6 +26,8 @@ class HotelBookingOrderSummaryCard extends StatelessWidget {
   final num? originalAmount;
   final HotelCoupon? selectedCoupon;
   final VoidCallback onEdit;
+  final HotelFundBenefitTicket? selectedFundBenefitTicket;
+  final bool showOriginalAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +36,15 @@ class HotelBookingOrderSummaryCard extends StatelessWidget {
         ? ''
         : seed.detail.images.first.url;
     final shouldShowOriginalPrice =
-        selectedCoupon != null &&
+        (selectedCoupon != null || showOriginalAmount) &&
         originalAmount != null &&
         amount != null &&
         originalAmount! > amount!;
-    final couponBadgeText = _couponBadgeText(context, selectedCoupon);
+    final couponBadgeText = _couponBadgeText(
+      context,
+      selectedCoupon,
+      selectedFundBenefitTicket,
+    );
     return HotelBookingSectionCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,7 +268,17 @@ class HotelBookingOrderSummaryCard extends StatelessWidget {
     return '${value.year}-$month-$day';
   }
 
-  String? _couponBadgeText(BuildContext context, HotelCoupon? coupon) {
+  String? _couponBadgeText(
+    BuildContext context,
+    HotelCoupon? coupon,
+    HotelFundBenefitTicket? fundBenefitTicket,
+  ) {
+    if (fundBenefitTicket != null) {
+      final amount = fundBenefitTicket.benefitAmount;
+      return amount == null
+          ? context.l10n.hotelStayBenefitTicketConfirmTitle
+          : '宿泊特典・${_formatNumber(amount)}円';
+    }
     if (coupon == null || coupon.type == 2) {
       return null;
     }
@@ -277,7 +295,7 @@ class HotelBookingOrderSummaryCard extends StatelessWidget {
     final priceText = presenter.price(value);
     return priceText.isEmpty
         ? priceText
-        : '$priceText${context.l10n.hotelCurrencyCode}';
+        : '$priceText ${context.l10n.hotelCurrencyCode}';
   }
 
   String _formatNumber(num value) {

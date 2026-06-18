@@ -802,6 +802,7 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
     }
 
     return HotelBookingCreateRequestDto(
+      fundBenefitTicketNo: draft.fundBenefitTicketNo,
       couponsCounts: draft.selectedCoupons.isEmpty
           ? null
           : draft.selectedCoupons
@@ -1208,6 +1209,9 @@ HotelOrderDetail _mapOrderDetail(
     paidAmount: dto.paidAmount,
     originalAmount: _numOrNull(dto.priceElement['originalPrice']),
     couponDiscountAmount: _numOrNull(dto.priceElement['coupons']),
+    fundBenefitTicket: _mapOrderFundBenefitTicket(
+      dto.priceElement['fundBenefitTicket'],
+    ),
     payName: dto.payName?.trim() ?? '',
     payCode: dto.payCode?.trim() ?? '',
     paymentTime: dto.paymentTime?.trim() ?? '',
@@ -1222,6 +1226,31 @@ HotelOrderDetail _mapOrderDetail(
     roomNo: dto.roomNo?.trim() ?? '',
     bookingType: dto.bookingType,
     pageTexts: pageTexts,
+  );
+}
+
+HotelOrderFundBenefitTicket? _mapOrderFundBenefitTicket(Object? raw) {
+  final map = hotelMapFromJson(raw);
+  if (map.isEmpty) {
+    return null;
+  }
+  final dto = HotelOrderFundBenefitTicketDto.fromJson(map);
+  final hasValue =
+      dto.ticketNo.trim().isNotEmpty ||
+      dto.benefitAmount != null ||
+      dto.deductionAmount != null ||
+      dto.beforePrice != null ||
+      dto.afterPrice != null;
+  if (!hasValue) {
+    return null;
+  }
+  return HotelOrderFundBenefitTicket(
+    id: dto.id?.trim() ?? '',
+    ticketNo: dto.ticketNo.trim(),
+    benefitAmount: dto.benefitAmount,
+    deductionAmount: dto.deductionAmount,
+    beforePrice: dto.beforePrice,
+    afterPrice: dto.afterPrice,
   );
 }
 

@@ -619,6 +619,19 @@
   "hotelStayBenefitOrdinaryBookingTitle": "通常予約として続行",
   "hotelStayBenefitOrdinaryBookingMessage": "現在の条件では宿泊特典券を利用できません。今回は通常予約として続行します。",
   "hotelStayBenefitOrdinaryBookingConfirm": "通常予約を続ける",
+  "hotelStayBenefitTicketConfirmTitle": "宿泊特典券",
+  "hotelStayBenefitTicketChecking": "利用可能な券を確認中です",
+  "hotelStayBenefitTicketNotSelected": "未選択",
+  "hotelStayBenefitTicketSelected": "¥{amount}円 · {ticketNo}",
+  "@hotelStayBenefitTicketSelected": {
+    "placeholders": {
+      "amount": {},
+      "ticketNo": {}
+    }
+  },
+  "hotelStayBenefitNoSuitableTicketTitle": "適した宿泊特典券がありません",
+  "hotelStayBenefitNoSuitableTicketMessage": "現在の予約金額を超える宿泊特典券がありません。予約を続けますか？",
+  "hotelStayBenefitNoSuitableTicketConfirm": "予約を続ける",
   "hotelDetailSelectRoomFirst": "客室を選択してください",
   "hotelAssignOccupancyFailed": "客室数を更新できませんでした。しばらくしてからもう一度お試しください。",
   "hotelAssignOccupancyDialogTitle": "ご案内",
@@ -789,6 +802,7 @@
   "hotelPaymentExitConfirm": "終了する",
   "hotelBookingResultAppBarTitle": "予約結果",
   "hotelBookingResultTitle": "ご予約はまだ完了していません",
+  "hotelBookingResultSuccessTitle": "予約が完了しました",
   "hotelBookingResultOrderNumber": "予約番号",
   "hotelBookingResultPaymentMethod": "支払方法",
   "hotelBookingResultPaymentAmount": "支払金額",
@@ -853,6 +867,13 @@
   "hotelOrderDetailOrderStatus": "注文状態",
   "hotelOrderDetailCouponDiscount": "割引額",
   "hotelOrderDetailCouponUnused": "クーポン未使用",
+  "hotelOrderDetailStayBenefitDiscount": "宿泊特典・{amount}（{ticketNo}）",
+  "@hotelOrderDetailStayBenefitDiscount": {
+    "placeholders": {
+      "amount": {},
+      "ticketNo": {}
+    }
+  },
   "hotelOrderDetailPaidAmount": "支払金額",
   "hotelOrderDetailPaymentStatus": "支払状態",
   "hotelOrderDetailReceiptTitle": "領収書",

@@ -787,6 +787,7 @@ _HotelBookingCreateRequestDto _$HotelBookingCreateRequestDtoFromJson(
     json['parent'] as Map<String, dynamic>,
   ),
   site: json['site'] as String? ?? '38',
+  fundBenefitTicketNo: json['fundBenefitTicketNo'] as String? ?? '',
 );
 
 Map<String, dynamic> _$HotelBookingCreateRequestDtoToJson(
@@ -795,6 +796,7 @@ Map<String, dynamic> _$HotelBookingCreateRequestDtoToJson(
   'couponsCounts': ?instance.couponsCounts,
   'parent': instance.parent.toJson(),
   'site': instance.site,
+  'fundBenefitTicketNo': instance.fundBenefitTicketNo,
 };
 
 _AirhostBookingOrderRequestDto _$AirhostBookingOrderRequestDtoFromJson(
@@ -1208,6 +1210,30 @@ Map<String, dynamic> _$HotelOrderDtoToJson(_HotelOrderDto instance) =>
       'sendItem': instance.sendItem,
       'roomClear': instance.roomClear,
     };
+
+_HotelOrderFundBenefitTicketDto _$HotelOrderFundBenefitTicketDtoFromJson(
+  Map<String, dynamic> json,
+) => _HotelOrderFundBenefitTicketDto(
+  id: hotelNullableStringFromJson(json['id']),
+  ticketNo: json['ticketNo'] == null
+      ? ''
+      : hotelStringFromJson(json['ticketNo']),
+  benefitAmount: json['benefitAmount'] as num?,
+  deductionAmount: json['deductionAmount'] as num?,
+  beforePrice: json['beforePrice'] as num?,
+  afterPrice: json['afterPrice'] as num?,
+);
+
+Map<String, dynamic> _$HotelOrderFundBenefitTicketDtoToJson(
+  _HotelOrderFundBenefitTicketDto instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'ticketNo': instance.ticketNo,
+  'benefitAmount': instance.benefitAmount,
+  'deductionAmount': instance.deductionAmount,
+  'beforePrice': instance.beforePrice,
+  'afterPrice': instance.afterPrice,
+};
 
 _HotelMemberPayInfoDto _$HotelMemberPayInfoDtoFromJson(
   Map<String, dynamic> json,

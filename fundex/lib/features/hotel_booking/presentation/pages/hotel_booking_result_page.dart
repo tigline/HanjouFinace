@@ -22,6 +22,8 @@ class HotelBookingResultPage extends StatelessWidget {
     final presenter = HotelBookingPresenter(
       Localizations.localeOf(context).toLanguageTag(),
     );
+    final isStayBenefitBooking =
+        args.paymentMethod == null && args.seed.criteria.stayBenefit;
     final statusBarHint = ProviderScope.containerOf(
       context,
     ).read(appImmersiveHotelStatusBarHintProvider.notifier);
@@ -46,8 +48,11 @@ class HotelBookingResultPage extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: <Widget>[
               HotelBookingResultHero(
-                title: context.l10n.hotelBookingResultTitle,
+                title: isStayBenefitBooking
+                    ? context.l10n.hotelBookingResultSuccessTitle
+                    : context.l10n.hotelBookingResultTitle,
                 createdAt: args.createdAt,
+                showCountdown: !isStayBenefitBooking,
                 onClose: goToHotelRoot,
               ),
               Padding(
@@ -59,17 +64,20 @@ class HotelBookingResultPage extends StatelessWidget {
                       totalAmount: args.totalAmount,
                       paymentMethod: args.paymentMethod,
                       presenter: presenter,
+                      isStayBenefitBooking: isStayBenefitBooking,
                     ),
                     const SizedBox(height: 28),
                     HotelBookingResultActions(
-                      onPay: () => context.push(
-                        '/hotel-booking/payment',
-                        extra: HotelPaymentRouteArgs(
-                          orderId: args.orderId,
-                          totalAmount: args.totalAmount,
-                          initialPaymentMethod: args.paymentMethod,
-                        ),
-                      ),
+                      onPay: args.paymentMethod == null
+                          ? null
+                          : () => context.push(
+                              '/hotel-booking/payment',
+                              extra: HotelPaymentRouteArgs(
+                                orderId: args.orderId,
+                                totalAmount: args.totalAmount,
+                                initialPaymentMethod: args.paymentMethod!,
+                              ),
+                            ),
                       onBackToOrders: () {
                         goToOrders();
                       },
