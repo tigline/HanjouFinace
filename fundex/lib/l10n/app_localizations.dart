@@ -1577,6 +1577,24 @@ abstract class AppLocalizations {
   /// **'Get ¥3,000 in investment credit.'**
   String get homeGuestRegisterBonusBar;
 
+  /// No description provided for @homeLotteryEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily prize draw'**
+  String get homeLotteryEntryTitle;
+
+  /// No description provided for @homeLotteryEntryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Spin to win a complimentary stay voucher.'**
+  String get homeLotteryEntryBody;
+
+  /// No description provided for @homeLotteryEntryAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Spin now'**
+  String get homeLotteryEntryAction;
+
   /// No description provided for @homeAttractionSectionTitle.
   ///
   /// In en, this message translates to:

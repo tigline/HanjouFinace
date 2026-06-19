@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/network/app_network_connectivity_providers.dart';
 import '../../../../app/navigation/app_root_tab_refresh.dart';
+import '../providers/home_lottery_providers.dart';
 import '../support/home_featured_fund_card_mapper.dart';
 import '../support/home_member_profile_reminder_support.dart';
 import '../widgets/home_attraction_detail_sheet.dart';
@@ -16,12 +17,12 @@ import '../widgets/home_attraction_section.dart';
 import '../widgets/home_hero_banner.dart';
 import '../widgets/home_investment_flow_section.dart';
 import '../widgets/home_license_bar.dart';
+import '../widgets/home_lottery_entry_bar.dart';
 import '../widgets/home_official_site_link.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
 import '../../../main_shell/presentation/widgets/main_shell_tab_refresh_scope.dart';
-import '../../../main_shell/presentation/widgets/main_shell_chrome_visibility.dart';
 import '../../../member_profile/domain/entities/member_profile_details.dart';
 import '../../../member_profile/presentation/providers/member_profile_providers.dart';
 import '../../../notifications/presentation/providers/notifications_providers.dart';
@@ -75,6 +76,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
     final asyncVerificationStatus = ref.watch(
       settingsRemoteVerificationStatusProvider,
     );
+    final showLotteryEntry = ref.watch(homeLotteryEntryVisibilityProvider);
     final memberProfile = asyncMemberProfile.valueOrNull;
     final verificationStatus = asyncVerificationStatus.valueOrNull;
     final projects = asyncProjects.valueOrNull ?? const <FundProject>[];
@@ -85,9 +87,9 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
       decimalDigits: 0,
     );
     final shouldShowMemberProfileReminder = shouldShowHomeMemberProfileReminder(
-            currentUser,
-            isMemberProfileCompleted: isMemberProfileCompleted,
-          );
+      currentUser,
+      isMemberProfileCompleted: isMemberProfileCompleted,
+    );
 
     final reminders = <FundReminderData>[
       if (shouldShowMemberProfileReminder)
@@ -166,12 +168,6 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
         verificationStatus?.isPhoneVerified == false ||
         verificationStatus?.isRealPersonVerified == false;
 
-    final topNavigationBar = HomeHeroTopBar(
-      onSettingsTap: () => context.push('/profile/settings'),
-      onNotificationTap: () => context.push('/profile/notifications'),
-      showNotificationDot: hasUnreadNotifications,
-      showGuestActions: !isAuthenticated,
-    );
     final topSection = HomeHeroBanner(
       registerBonusTitle: l10n.homeGuestRegisterBonusTitle,
       registerBonusBody: l10n.homeGuestRegisterBonusBar,
@@ -250,6 +246,17 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                       spacing: UiTokens.spacing16,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        if (showLotteryEntry)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: UiTokens.spacing16,
+                            ),
+                            child: HomeLotteryEntryBar(
+                              title: l10n.homeLotteryEntryTitle,
+                              body: l10n.homeLotteryEntryBody,
+                              actionLabel: l10n.homeLotteryEntryAction,
+                            ),
+                          ),
                         if (isAuthenticated)
                           Padding(
                             padding: const EdgeInsets.symmetric(

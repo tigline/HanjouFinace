@@ -815,6 +815,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeGuestRegisterBonusBar => 'Get ¥3,000 in investment credit.';
 
   @override
+  String get homeLotteryEntryTitle => 'Daily prize draw';
+
+  @override
+  String get homeLotteryEntryBody =>
+      'Spin to win a complimentary stay voucher.';
+
+  @override
+  String get homeLotteryEntryAction => 'Spin now';
+
+  @override
   String get homeAttractionSectionTitle => 'Why StellaVia';
 
   @override

@@ -756,6 +756,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeGuestRegisterBonusBar => '赠送 3,000 日元投资金';
 
   @override
+  String get homeLotteryEntryTitle => '抽奖机会';
+
+  @override
+  String get homeLotteryEntryBody => '转动轮盘，赢取住宿优待券。';
+
+  @override
+  String get homeLotteryEntryAction => '参与抽奖';
+
+  @override
   String get homeAttractionSectionTitle => 'StellaVia 的魅力';
 
   @override
@@ -6275,6 +6284,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get homeGuestRegisterBonusBar => '送 3,000 日圓投資金';
+
+  @override
+  String get homeLotteryEntryTitle => '抽獎機會';
+
+  @override
+  String get homeLotteryEntryBody => '轉動輪盤，贏取住宿優待券。';
+
+  @override
+  String get homeLotteryEntryAction => '參與抽獎';
 
   @override
   String get homeAttractionSectionTitle => 'StellaVia 的魅力';

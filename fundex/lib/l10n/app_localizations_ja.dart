@@ -764,6 +764,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeGuestRegisterBonusBar => '3,000円分の投資金をプレゼント';
 
   @override
+  String get homeLotteryEntryTitle => '抽選チャンス';
+
+  @override
+  String get homeLotteryEntryBody => 'ルーレットを回して宿泊優待券を当てましょう。';
+
+  @override
+  String get homeLotteryEntryAction => '抽選する';
+
+  @override
   String get homeAttractionSectionTitle => 'StellaViaの魅力';
 
   @override
