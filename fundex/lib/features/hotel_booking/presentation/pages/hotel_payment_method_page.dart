@@ -14,7 +14,6 @@ import '../support/hotel_native_payment_flow.dart';
 import '../support/hotel_payment_route_args.dart';
 import '../widgets/hotel_booking_payment_section.dart';
 import '../widgets/hotel_payment_method_widgets.dart';
-import '../widgets/hotel_status_bar_preference_scope.dart';
 
 class HotelPaymentMethodPage extends ConsumerStatefulWidget {
   const HotelPaymentMethodPage({super.key, required this.args});
@@ -44,69 +43,66 @@ class _HotelPaymentMethodPageState
     final accountStatisticState = ref.watch(myPageAccountStatisticProvider);
     _syncSelectedCard(cardsState.valueOrNull ?? const <HotelCreditCard>[]);
 
-    return HotelStatusBarPreferenceScope(
-      immersive: false,
-      child: Scaffold(
-        backgroundColor: colors.surfaceAlt,
-        appBar: AppNavigationBar(
-          title: context.l10n.hotelPaymentPageTitle,
-          backgroundColor: colors.surface,
+    return Scaffold(
+      backgroundColor: colors.surfaceAlt,
+      appBar: AppNavigationBar(
+        title: context.l10n.hotelPaymentPageTitle,
+        backgroundColor: colors.surface,
+        foregroundColor: colors.textPrimary,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: () => context.pop(),
+          backgroundColor: colors.surface.withValues(alpha: 0),
           foregroundColor: colors.textPrimary,
-          leading: AppNavigationIconButton(
-            icon: Icons.arrow_back_rounded,
-            onTap: () => context.pop(),
-            backgroundColor: colors.surface.withValues(alpha: 0),
-            foregroundColor: colors.textPrimary,
-          ),
         ),
-        body: Stack(
-          children: <Widget>[
-            ListView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 126),
-              children: <Widget>[
-                HotelPaymentOrderSummaryCard(
-                  orderId: widget.args.orderId,
-                  amount: widget.args.totalAmount,
-                  presenter: presenter,
-                ),
-                const SizedBox(height: 14),
-                HotelBookingPaymentSection(
-                  selected: _paymentMethod,
-                  registeredCardCount: cardsState.valueOrNull?.length ?? 0,
-                  accountBalance:
-                      accountStatisticState.valueOrNull?.firstLevelAccountTotal,
-                  isAccountBalanceLoading: accountStatisticState.isLoading,
-                  payableAmount: widget.args.totalAmount,
-                  onChanged: (value) {
+      ),
+      body: Stack(
+        children: <Widget>[
+          ListView(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 126),
+            children: <Widget>[
+              HotelPaymentOrderSummaryCard(
+                orderId: widget.args.orderId,
+                amount: widget.args.totalAmount,
+                presenter: presenter,
+              ),
+              const SizedBox(height: 14),
+              HotelBookingPaymentSection(
+                selected: _paymentMethod,
+                registeredCardCount: cardsState.valueOrNull?.length ?? 0,
+                accountBalance:
+                    accountStatisticState.valueOrNull?.firstLevelAccountTotal,
+                isAccountBalanceLoading: accountStatisticState.isLoading,
+                payableAmount: widget.args.totalAmount,
+                onChanged: (value) {
+                  setState(() {
+                    _paymentMethod = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 14),
+              if (_paymentMethod == HotelBookingPaymentMethod.creditCard)
+                HotelPaymentCreditCardSection(
+                  cards: cardsState.valueOrNull ?? const <HotelCreditCard>[],
+                  selectedCard: _selectedCard,
+                  isLoading: cardsState.isLoading,
+                  onCardChanged: (card) {
                     setState(() {
-                      _paymentMethod = value;
+                      _selectedCard = card;
                     });
                   },
+                  onAddCard: _openAddCardPage,
                 ),
-                const SizedBox(height: 14),
-                if (_paymentMethod == HotelBookingPaymentMethod.creditCard)
-                  HotelPaymentCreditCardSection(
-                    cards: cardsState.valueOrNull ?? const <HotelCreditCard>[],
-                    selectedCard: _selectedCard,
-                    isLoading: cardsState.isLoading,
-                    onCardChanged: (card) {
-                      setState(() {
-                        _selectedCard = card;
-                      });
-                    },
-                    onAddCard: _openAddCardPage,
-                  ),
-              ],
+            ],
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: HotelPaymentBottomBar(
+              isSubmitting: _isSubmitting,
+              onPay: _submitPayment,
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: HotelPaymentBottomBar(
-                isSubmitting: _isSubmitting,
-                onPay: _submitPayment,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

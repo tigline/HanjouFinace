@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_theme_extensions.dart';
 
@@ -11,9 +12,11 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     this.decoration,
     this.backgroundColor,
     this.foregroundColor,
+    this.statusBarIconBrightness,
     this.height = 64,
     this.horizontalPadding = 20,
     this.bottomSpacing = 0,
+    this.showDivider = true,
   });
 
   final String title;
@@ -22,9 +25,11 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   final Decoration? decoration;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final Brightness? statusBarIconBrightness;
   final double height;
   final double horizontalPadding;
   final double bottomSpacing;
+  final bool showDivider;
 
   @override
   Size get preferredSize =>
@@ -36,6 +41,14 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     final colors = theme.appColors;
     final appText = theme.appTextTheme;
     final isDark = theme.brightness == Brightness.dark;
+    final inferredStatusBarBackgroundColor =
+        backgroundColor ??
+        (isDark
+            ? Color.alphaBlend(
+                colors.brandPrimaryDark.withValues(alpha: 0.28),
+                colors.surface,
+              )
+            : colors.heroStart);
     final effectiveDecoration =
         decoration ??
         (backgroundColor != null
@@ -60,50 +73,71 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
               ));
     final inferredForegroundColor =
         foregroundColor ?? (isDark ? colors.textPrimary : colors.onDark);
+    final backgroundBrightness = ThemeData.estimateBrightnessForColor(
+      inferredStatusBarBackgroundColor,
+    );
+    final effectiveStatusBarIconBrightness =
+        statusBarIconBrightness ??
+        (backgroundBrightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark);
 
-    return DecoratedBox(
-      decoration: effectiveDecoration,
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                horizontalPadding,
-                0,
-                horizontalPadding,
-                0,
-              ),
-              child: SizedBox(
-                height: height,
-                child: Row(
-                  children: <Widget>[
-                    leading ?? const SizedBox.square(dimension: 32),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: appText.pageTitle.copyWith(
-                          color: inferredForegroundColor,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: effectiveStatusBarIconBrightness,
+        statusBarBrightness: effectiveStatusBarIconBrightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark,
+      ),
+      child: DecoratedBox(
+        decoration: effectiveDecoration,
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  horizontalPadding,
+                  0,
+                  horizontalPadding,
+                  0,
+                ),
+                child: SizedBox(
+                  height: height,
+                  child: Row(
+                    children: <Widget>[
+                      if (leading != null) ...<Widget>[
+                        leading!,
+                        const SizedBox(width: 12),
+                      ],
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: appText.pageTitle.copyWith(
+                            color: inferredForegroundColor,
+                          ),
                         ),
                       ),
-                    ),
-                    if (trailing != null) ...<Widget>[
-                      const SizedBox(width: 12),
-                      trailing!,
+                      if (trailing != null) ...<Widget>[
+                        const SizedBox(width: 12),
+                        trailing!,
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
-            ),
-            if (bottomSpacing > 0) SizedBox(height: bottomSpacing),
-            Container(
-              height: 1,
-              width: double.infinity,
-              color: colors.borderSoft,
-            ),
-          ],
+              if (bottomSpacing > 0) SizedBox(height: bottomSpacing),
+
+              if (showDivider)
+              Container(
+                height: 1,
+                width: double.infinity,
+                color: colors.borderSoft,
+              ),
+            ],
+          ),
         ),
       ),
     );

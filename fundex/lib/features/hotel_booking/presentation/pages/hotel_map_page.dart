@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 
-import '../../../../app/status_bar/app_status_bar_providers.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
@@ -14,7 +13,6 @@ import '../widgets/hotel_map_controls.dart';
 import '../widgets/hotel_map_selected_card.dart';
 import '../widgets/hotel_search_conditions_sheet.dart';
 import '../widgets/hotel_state_views.dart';
-import '../widgets/hotel_status_bar_preference_scope.dart';
 
 class HotelMapPage extends ConsumerStatefulWidget {
   const HotelMapPage({
@@ -77,79 +75,75 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
     final selectedHotel = _selectedHotel(hotels);
     _syncSelectedHotel(hotels, isLoading: mapResult.isLoading);
 
-    return HotelStatusBarPreferenceScope(
-      immersive: false,
-      immersiveOnPop: true,
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: AppThemeFactory.statusBarOverlayStyleFor(
-          Theme.of(context).brightness,
-        ),
-        child: Scaffold(
-          backgroundColor: colors.surfaceAlt,
-          body: Stack(
-            children: <Widget>[
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: AppThemeFactory.statusBarOverlayStyleFor(
+        Theme.of(context).brightness,
+      ).copyWith(statusBarColor: Colors.transparent),
+      child: Scaffold(
+        backgroundColor: colors.surfaceAlt,
+        body: Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: HotelMapCanvas(
+                controller: _mapController,
+                hotels: hotels,
+                selectedHotelId: _selectedHotelId,
+                fallbackTarget: _fallbackTarget(effectiveCriteria),
+                presenter: presenter,
+                onHotelSelected: (hotel) {
+                  setState(() {
+                    _selectedHotelId = hotel.id;
+                    _selectionSuppressed = false;
+                  });
+                },
+                onMapTap: () {
+                  setState(() {
+                    _selectedHotelId = null;
+                    _selectionSuppressed = true;
+                  });
+                },
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: HotelMapControls(
+                criteria: effectiveCriteria,
+                presenter: presenter,
+                onBack: _showList,
+                onOpenFilters: () => _openSearchConditions(effectiveCriteria),
+                onShowList: _showList,
+                onNearby: _mapController.moveToCurrentLocation,
+              ),
+            ),
+            if (mapResult.isLoading && hotels.isEmpty)
+              Center(
+                child: CircularProgressIndicator(color: colors.brandPrimary),
+              ),
+            if (mapResult.hasError && hotels.isEmpty)
               Positioned.fill(
-                child: HotelMapCanvas(
-                  controller: _mapController,
-                  hotels: hotels,
-                  selectedHotelId: _selectedHotelId,
-                  fallbackTarget: _fallbackTarget(effectiveCriteria),
-                  presenter: presenter,
-                  onHotelSelected: (hotel) {
-                    setState(() {
-                      _selectedHotelId = hotel.id;
-                      _selectionSuppressed = false;
-                    });
-                  },
-                  onMapTap: () {
-                    setState(() {
-                      _selectedHotelId = null;
-                      _selectionSuppressed = true;
-                    });
-                  },
-                ),
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: HotelMapControls(
-                  criteria: effectiveCriteria,
-                  presenter: presenter,
-                  onBack: _showList,
-                  onOpenFilters: () => _openSearchConditions(effectiveCriteria),
-                  onShowList: _showList,
-                  onNearby: _mapController.moveToCurrentLocation,
-                ),
-              ),
-              if (mapResult.isLoading && hotels.isEmpty)
-                Center(
-                  child: CircularProgressIndicator(color: colors.brandPrimary),
-                ),
-              if (mapResult.hasError && hotels.isEmpty)
-                Positioned.fill(
-                  child: ColoredBox(
-                    color: colors.surfaceAlt,
-                    child: HotelFullPageError(
-                      onRetry: () => ref.invalidate(
-                        hotelMapSearchProvider(effectiveCriteria),
-                      ),
+                child: ColoredBox(
+                  color: colors.surfaceAlt,
+                  child: HotelFullPageError(
+                    onRetry: () => ref.invalidate(
+                      hotelMapSearchProvider(effectiveCriteria),
                     ),
                   ),
                 ),
-              if (selectedHotel != null)
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: HotelMapSelectedCard(
-                    hotel: selectedHotel,
-                    presenter: presenter,
-                    showStayBenefitUnavailable:
-                        effectiveCriteria.stayBenefit &&
-                        !selectedHotel.stayBenefitParticipate,
-                    onTap: () =>
-                        _openHotelDetail(selectedHotel, effectiveCriteria),
-                  ),
+              ),
+            if (selectedHotel != null)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: HotelMapSelectedCard(
+                  hotel: selectedHotel,
+                  presenter: presenter,
+                  showStayBenefitUnavailable:
+                      effectiveCriteria.stayBenefit &&
+                      !selectedHotel.stayBenefitParticipate,
+                  onTap: () =>
+                      _openHotelDetail(selectedHotel, effectiveCriteria),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );
@@ -209,7 +203,6 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
   }
 
   void _showList() {
-    ref.read(appImmersiveHotelStatusBarHintProvider.notifier).state = true;
     if (context.canPop()) {
       context.pop();
       return;

@@ -1013,91 +1013,107 @@ class _DiscussionBoardTabPageState
       );
     }
 
-    return Column(
-      children: <Widget>[
-        // MainShellChromeVisibility(
-        //   child:
-        KizunarkGradientHeader(
-          title: l10n.mainTabKizunark,
-          subtitle: l10n.kizunarkSubtitle,
-          titleLightAssetPath: 'assets/images/kizunark.nav.light.png',
-          titleDarkAssetPath: 'assets/images/kizunark.nav.dark.png',
-          trailing: isAuthenticated
-              ? _HeaderPostAction(
-                  label: l10n.kizunarkPostAction,
-                  isVisible: _showHeaderPostAction,
-                  enabled: !state.isPosting,
-                  onTap: () => _openPostComposer(
-                    isAuthenticated: isAuthenticated,
-                    currentUser: currentUser,
-                  ),
-                )
-              : null,
-        ),
-        //),
-        Expanded(
-          child: RefreshIndicator(
-            onRefresh: () => controller.refreshThreads(),
-            child: ListView(
-              key: const Key('discussion_tab_content'),
-              controller: _scrollController,
-              physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics(),
-              ),
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-                //   child: KizunarkNoticeBanner(
-                //     label: l10n.kizunarkInvestorOnlyNotice,
-                //   ),
-                // ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-                  child: isAuthenticated
-                      ? KizunarkPostEntry(
-                          avatar: GestureDetector(
-                            onTap: _openAvatarEditor,
-                            behavior: HitTestBehavior.opaque,
-                            child: AppUserAvatar(
-                              avatarUrl: currentUser?.avatar,
-                              avatarSeed: _resolveCurrentUserAvatarSeed(
-                                currentUser,
-                              ),
-                              size: 36,
-                              fontSize: 14,
-                            ),
-                          ),
-                          title: l10n.kizunarkEntryTitle,
-                          subtitle: l10n.kizunarkEntrySubtitle,
-                          actionLabel: l10n.kizunarkPostAction,
-                          enabled: !state.isPosting,
-                          onTap: () => _openPostComposer(
-                            isAuthenticated: isAuthenticated,
-                            currentUser: currentUser,
-                          ),
-                        )
-                      : KizunarkGuestPrompt(
-                          message: l10n.kizunarkGuestLoginPrompt,
-                          onLoginTap: () => context.push('/login'),
-                          onRegisterTap: () =>
-                              context.push('/login?openRegister=1'),
+    final theme = Theme.of(context);
+    final colors = theme.appColors;
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+      ),
+      child: ColoredBox(
+        color: colors.surface,
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              // MainShellChromeVisibility(
+              //   child:
+              KizunarkGradientHeader(
+                title: l10n.mainTabKizunark,
+                subtitle: l10n.kizunarkSubtitle,
+                titleLightAssetPath: 'assets/images/kizunark.nav.light.png',
+                titleDarkAssetPath: 'assets/images/kizunark.nav.dark.png',
+                trailing: isAuthenticated
+                    ? _HeaderPostAction(
+                        label: l10n.kizunarkPostAction,
+                        isVisible: _showHeaderPostAction,
+                        enabled: !state.isPosting,
+                        onTap: () => _openPostComposer(
+                          isAuthenticated: isAuthenticated,
+                          currentUser: currentUser,
                         ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
-                  child: _buildFeedSection(
-                    l10n: l10n,
-                    state: state,
-                    isAuthenticated: isAuthenticated,
-                    currentUserId: currentUserId,
+                      )
+                    : null,
+              ),
+              //),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () => controller.refreshThreads(),
+                  child: ColoredBox(
+                    color: colors.background,
+                    child: ListView(
+                      key: const Key('discussion_tab_content'),
+                      controller: _scrollController,
+                      physics: const AlwaysScrollableScrollPhysics(
+                        parent: BouncingScrollPhysics(),
+                      ),
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        // Padding(
+                        //   padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        //   child: KizunarkNoticeBanner(
+                        //     label: l10n.kizunarkInvestorOnlyNotice,
+                        //   ),
+                        // ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+                          child: isAuthenticated
+                              ? KizunarkPostEntry(
+                                  avatar: GestureDetector(
+                                    onTap: _openAvatarEditor,
+                                    behavior: HitTestBehavior.opaque,
+                                    child: AppUserAvatar(
+                                      avatarUrl: currentUser?.avatar,
+                                      avatarSeed: _resolveCurrentUserAvatarSeed(
+                                        currentUser,
+                                      ),
+                                      size: 36,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  title: l10n.kizunarkEntryTitle,
+                                  subtitle: l10n.kizunarkEntrySubtitle,
+                                  actionLabel: l10n.kizunarkPostAction,
+                                  enabled: !state.isPosting,
+                                  onTap: () => _openPostComposer(
+                                    isAuthenticated: isAuthenticated,
+                                    currentUser: currentUser,
+                                  ),
+                                )
+                              : KizunarkGuestPrompt(
+                                  message: l10n.kizunarkGuestLoginPrompt,
+                                  onLoginTap: () => context.push('/login'),
+                                  onRegisterTap: () =>
+                                      context.push('/login?openRegister=1'),
+                                ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+                          child: _buildFeedSection(
+                            l10n: l10n,
+                            state: state,
+                            isAuthenticated: isAuthenticated,
+                            currentUserId: currentUserId,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 

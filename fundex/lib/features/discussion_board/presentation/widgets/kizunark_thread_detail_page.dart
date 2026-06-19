@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
-import '../../../main_shell/presentation/widgets/main_shell_chrome_visibility.dart';
 import '../../domain/entities/discussion_board_models.dart';
 import '../providers/discussion_board_providers.dart';
 import '../support/discussion_board_time_label.dart';
@@ -82,17 +81,15 @@ class KizunarkThreadDetailPage extends ConsumerWidget {
       backgroundColor: colors.background,
       body: Column(
         children: <Widget>[
-          MainShellChromeVisibility(
-            child: AppNavigationBar(
-              title: l10n.kizunarkRepliesTitle(liveThread.replies.length),
-              backgroundColor: colors.surface,
+          AppNavigationBar(
+            title: l10n.kizunarkRepliesTitle(liveThread.replies.length),
+            backgroundColor: colors.surface,
+            foregroundColor: colors.textPrimary,
+            leading: AppNavigationIconButton(
+              icon: Icons.arrow_back_rounded,
+              onTap: () => context.pop(),
+              backgroundColor: colors.surface.withValues(alpha: 0),
               foregroundColor: colors.textPrimary,
-              leading: AppNavigationIconButton(
-                icon: Icons.arrow_back_rounded,
-                onTap: () => context.pop(),
-                backgroundColor: colors.surface.withValues(alpha: 0),
-                foregroundColor: colors.textPrimary,
-              ),
             ),
           ),
           Expanded(

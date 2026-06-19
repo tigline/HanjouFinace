@@ -97,126 +97,149 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
       tabIndex: 3,
       onRefresh: (_) => _refreshPage(),
       scrollController: _scrollController,
-      child: ColoredBox(
-        color: colors.background,
-        child: RefreshIndicator(
-          onRefresh: _refreshPage,
-          child: ListView(
-            key: const Key('profile_tab_content'),
-            controller: _scrollController,
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              FundMyPageAssetOverview(
-                brandLabel: 'STE//AVIA',
-                welcomeLabel: l10n.myPageWelcomeBack,
-                displayName: _resolveMyPageDisplayName(
-                  locale: locale,
-                  profile: basicProfile,
-                ),
-                verificationBadge: authUserAsync.whenOrNull(
-                  data: (user) => _resolveMyPageVerificationBadge(
-                    l10n,
-                    colors,
-                    user?.status,
-                  ),
-                ),
-                totalAssetsLabel: l10n.myPageTotalAssetsLabel,
-                totalAssetsValue: _formatCurrency(
-                  totalAssetsExcludingLoan,
-                  currencyFormatter,
-                ),
-                totalAssetsCaption: l10n.myPageTotalAssetsCaption,
-                headerActions: <Widget>[
-                  _HeroHeaderActionButton(
-                    icon: Icons.notifications_none_rounded,
-                    showDot: hasUnreadNotifications,
-                    onTap: () => context.push('/profile/notifications'),
-                  ),
-                  _HeroHeaderActionButton(
-                    icon: Icons.menu_rounded,
-                    onTap: () => context.push('/profile/settings'),
-                  ),
-                ],
-                metrics: <FundMyPageMetricData>[
-                  FundMyPageMetricData(
-                    label: l10n.myPageMetricOperating,
-                    value: formatCompactYenAmount(
-                      operatingAssetsExcludingLoan ?? 0,
-                      locale: localeTag,
-                    ),
-                    onTap: () => context.push(
-                      '/profile/my/section-list?type=${MyPageSectionType.activeFunds.queryValue}',
-                    ),
-                  ),
-                  FundMyPageMetricData(
-                    label: l10n.myPageMetricStandby,
-                    value: formatCompactYenAmount(
-                      accountStatistic?.firstLevelAccountTotal,
-                      locale: localeTag,
-                    ),
-                    onTap: () => context.push('/wallet/history'),
-                  ),
-                  FundMyPageMetricData(
-                    label: l10n.myPageMetricAccumulatedDistribution,
-                    value: formatCompactYenAmount(
-                      accountStatistic?.crowdfundingDistributedBenefit ??
-                          (investmentRecords == null
-                              ? null
-                              : _sumInvestmentEarnings(investmentRecords)),
-                      locale: localeTag,
-                    ),
-                    onTap: () => context.push(
-                      '/profile/my/section-list?type=${MyPageSectionType.activeFunds.queryValue}',
-                    ),
-                  ),
-                ],
-                quickActions: <FundMyPageQuickActionData>[
-                  FundMyPageQuickActionData(
-                    label: l10n.myPageDepositAction,
-                    backgroundColor: colors.highlightGold,
-                    foregroundColor: colors.onDark,
-                    onTap: () => context.push('/wallet/deposit'),
-                  ),
-                  FundMyPageQuickActionData(
-                    label: l10n.myPageWithdrawAction,
-                    backgroundColor: colors.heroStart,
-                    borderColor: colors.highlightGold,
-                    foregroundColor: colors.highlightGold,
-                    onTap: () => _handleWithdrawTap(context, ref),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: MyPageAssetTrendCard(
-                  title: l10n.myPageAssetTrendTitle,
-                  selectedRange: _selectedTrendRange,
-                  onRangeChanged: (range) {
-                    setState(() {
-                      _selectedTrendRange = range;
-                    });
-                  },
-                  records: assetTrendAsync.valueOrNull ?? const [],
-                  isLoading: assetTrendAsync.isLoading,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _buildSectionChildren(
-                    context,
-                    ref,
-                    applyAsync: applyAsync,
-                    //orderInquiryAsync: orderInquiryAsync,
-                    investmentAsync: investmentAsync,
-                    walletHistoryAsync: walletHistoryAsync,
-                    currencyFormatter: currencyFormatter,
-                    fundProjectsById: fundProjectsById,
-                  ),
-                ),
-              ),
+      child: Scaffold(
+        appBar: AppNavigationBar(
+          title: 'STE//AVIA',
+          backgroundColor: colors.heroStart,
+          foregroundColor: colors.highlightGold,
+          showDivider: false,
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _HeroHeaderActionButton(
+              icon: Icons.notifications_none_rounded,
+              showDot: hasUnreadNotifications,
+              onTap: () => context.push('/profile/notifications'),
+            ),
+            const SizedBox(width: 8),
+            _HeroHeaderActionButton(
+              icon: Icons.menu_rounded,
+              onTap: () => context.push('/profile/settings'),
+            ),
             ],
+          ),
+        ),
+        body: ColoredBox(
+          color: colors.background,
+          child: RefreshIndicator(
+            onRefresh: _refreshPage,
+            child: ListView(
+              key: const Key('profile_tab_content'),
+              controller: _scrollController,
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                FundMyPageAssetOverview(
+                  brandLabel: 'STE//AVIA',
+                  welcomeLabel: l10n.myPageWelcomeBack,
+                  displayName: _resolveMyPageDisplayName(
+                    locale: locale,
+                    profile: basicProfile,
+                  ),
+                  verificationBadge: authUserAsync.whenOrNull(
+                    data: (user) => _resolveMyPageVerificationBadge(
+                      l10n,
+                      colors,
+                      user?.status,
+                    ),
+                  ),
+                  totalAssetsLabel: l10n.myPageTotalAssetsLabel,
+                  totalAssetsValue: _formatCurrency(
+                    totalAssetsExcludingLoan,
+                    currencyFormatter,
+                  ),
+                  totalAssetsCaption: l10n.myPageTotalAssetsCaption,
+                  headerActions: <Widget>[
+                    _HeroHeaderActionButton(
+                      icon: Icons.notifications_none_rounded,
+                      showDot: hasUnreadNotifications,
+                      onTap: () => context.push('/profile/notifications'),
+                    ),
+                    _HeroHeaderActionButton(
+                      icon: Icons.menu_rounded,
+                      onTap: () => context.push('/profile/settings'),
+                    ),
+                  ],
+                  metrics: <FundMyPageMetricData>[
+                    FundMyPageMetricData(
+                      label: l10n.myPageMetricOperating,
+                      value: formatCompactYenAmount(
+                        operatingAssetsExcludingLoan ?? 0,
+                        locale: localeTag,
+                      ),
+                      onTap: () => context.push(
+                        '/profile/my/section-list?type=${MyPageSectionType.activeFunds.queryValue}',
+                      ),
+                    ),
+                    FundMyPageMetricData(
+                      label: l10n.myPageMetricStandby,
+                      value: formatCompactYenAmount(
+                        accountStatistic?.firstLevelAccountTotal,
+                        locale: localeTag,
+                      ),
+                      onTap: () => context.push('/wallet/history'),
+                    ),
+                    FundMyPageMetricData(
+                      label: l10n.myPageMetricAccumulatedDistribution,
+                      value: formatCompactYenAmount(
+                        accountStatistic?.crowdfundingDistributedBenefit ??
+                            (investmentRecords == null
+                                ? null
+                                : _sumInvestmentEarnings(investmentRecords)),
+                        locale: localeTag,
+                      ),
+                      onTap: () => context.push(
+                        '/profile/my/section-list?type=${MyPageSectionType.activeFunds.queryValue}',
+                      ),
+                    ),
+                  ],
+                  quickActions: <FundMyPageQuickActionData>[
+                    FundMyPageQuickActionData(
+                      label: l10n.myPageDepositAction,
+                      backgroundColor: colors.highlightGold,
+                      foregroundColor: colors.onDark,
+                      onTap: () => context.push('/wallet/deposit'),
+                    ),
+                    FundMyPageQuickActionData(
+                      label: l10n.myPageWithdrawAction,
+                      backgroundColor: colors.heroStart,
+                      borderColor: colors.highlightGold,
+                      foregroundColor: colors.highlightGold,
+                      onTap: () => _handleWithdrawTap(context, ref),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                  child: MyPageAssetTrendCard(
+                    title: l10n.myPageAssetTrendTitle,
+                    selectedRange: _selectedTrendRange,
+                    onRangeChanged: (range) {
+                      setState(() {
+                        _selectedTrendRange = range;
+                      });
+                    },
+                    records: assetTrendAsync.valueOrNull ?? const [],
+                    isLoading: assetTrendAsync.isLoading,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _buildSectionChildren(
+                      context,
+                      ref,
+                      applyAsync: applyAsync,
+                      //orderInquiryAsync: orderInquiryAsync,
+                      investmentAsync: investmentAsync,
+                      walletHistoryAsync: walletHistoryAsync,
+                      currencyFormatter: currencyFormatter,
+                      fundProjectsById: fundProjectsById,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

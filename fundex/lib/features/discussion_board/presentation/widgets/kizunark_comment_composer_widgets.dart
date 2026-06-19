@@ -3,10 +3,21 @@ import 'dart:io';
 
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../auth/domain/entities/auth_user.dart';
 import '../../domain/entities/discussion_board_draft.dart';
+
+SystemUiOverlayStyle _statusBarStyleForBackground(Color backgroundColor) {
+  final backgroundBrightness = ThemeData.estimateBrightnessForColor(
+    backgroundColor,
+  );
+  return (backgroundBrightness == Brightness.dark
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark)
+      .copyWith(statusBarColor: Colors.transparent);
+}
 
 class SelectedComposerFund {
   const SelectedComposerFund({
@@ -381,6 +392,7 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     final l10n = context.l10n;
+    final statusBarStyle = _statusBarStyleForBackground(colors.surface);
     final content = Material(
       color: colors.surface,
       borderRadius: widget.fullPage
@@ -462,7 +474,10 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
       ),
     );
     return widget.fullPage
-        ? ColoredBox(color: colors.surface, child: page)
+        ? AnnotatedRegion<SystemUiOverlayStyle>(
+            value: statusBarStyle,
+            child: ColoredBox(color: colors.surface, child: page),
+          )
         : page;
   }
 }
@@ -651,6 +666,7 @@ class _KizunarkReplyComposeSheetState extends State<KizunarkReplyComposeSheet> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
+    final statusBarStyle = _statusBarStyleForBackground(colors.surface);
     final content = Material(
       color: colors.surface,
       borderRadius: widget.fullPage
@@ -732,7 +748,10 @@ class _KizunarkReplyComposeSheetState extends State<KizunarkReplyComposeSheet> {
       ),
     );
     return widget.fullPage
-        ? ColoredBox(color: colors.surface, child: page)
+        ? AnnotatedRegion<SystemUiOverlayStyle>(
+            value: statusBarStyle,
+            child: ColoredBox(color: colors.surface, child: page),
+          )
         : page;
   }
 }

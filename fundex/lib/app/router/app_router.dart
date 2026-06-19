@@ -369,6 +369,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 routes: <RouteBase>[
                   GoRoute(
                     path: 'thread/:threadId',
+                    parentNavigatorKey: _rootNavigatorKey,
                     builder: (BuildContext context, GoRouterState state) {
                       final extra = state.extra;
                       if (extra is! KizunarkThreadDetailRouteArgs) {
@@ -535,122 +536,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     },
                   ),
                   GoRoute(
-                    path: 'settings',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const SettingsPage();
-                    },
-                    routes: <RouteBase>[
-                      GoRoute(
-                        path: 'contracts',
-                        parentNavigatorKey: _rootNavigatorKey,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const SettingsContractDocumentsPage();
-                        },
-                        routes: <RouteBase>[
-                          GoRoute(
-                            path: ':projectKey',
-                            parentNavigatorKey: _rootNavigatorKey,
-                            builder:
-                                (BuildContext context, GoRouterState state) {
-                                  final projectKey =
-                                      state.pathParameters['projectKey'] ?? '';
-                                  final extra = state.extra;
-                                  return SettingsContractDocumentDetailPage(
-                                    projectKey: projectKey,
-                                    initialProject:
-                                        extra is SettingsContractProject
-                                        ? extra
-                                        : null,
-                                  );
-                                },
-                          ),
-                        ],
-                      ),
-                      GoRoute(
-                        path: 'faq',
-                        parentNavigatorKey: _rootNavigatorKey,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const SettingsFaqPage();
-                        },
-                      ),
-                      GoRoute(
-                        path: 'contact',
-                        parentNavigatorKey: _rootNavigatorKey,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const SettingsContactPage();
-                        },
-                      ),
-                      GoRoute(
-                        path: 'credit-card',
-                        parentNavigatorKey: _rootNavigatorKey,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const SettingsCreditCardPage();
-                        },
-                        routes: <RouteBase>[
-                          GoRoute(
-                            path: 'add',
-                            parentNavigatorKey: _rootNavigatorKey,
-                            pageBuilder:
-                                (BuildContext context, GoRouterState state) {
-                                  final extra = state.extra;
-                                  return MaterialPage<Object?>(
-                                    key: state.pageKey,
-                                    fullscreenDialog: true,
-                                    child: SettingsCreditCardAddPage(
-                                      args:
-                                          extra
-                                              is SettingsCreditCardAddRouteArgs
-                                          ? extra
-                                          : null,
-                                    ),
-                                  );
-                                },
-                          ),
-                        ],
-                      ),
-                      GoRoute(
-                        path: 'company',
-                        parentNavigatorKey: _rootNavigatorKey,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const SettingsOperatingCompanyPage();
-                        },
-                      ),
-                      GoRoute(
-                        path: 'two-factor',
-                        parentNavigatorKey: _rootNavigatorKey,
-                        builder: (BuildContext context, GoRouterState state) {
-                          return const SettingsTwoFactorPage();
-                        },
-                        routes: <RouteBase>[
-                          GoRoute(
-                            path: 'email',
-                            parentNavigatorKey: _rootNavigatorKey,
-                            builder:
-                                (BuildContext context, GoRouterState state) {
-                                  return const SettingsEmailVerificationPage();
-                                },
-                          ),
-                          GoRoute(
-                            path: 'phone',
-                            parentNavigatorKey: _rootNavigatorKey,
-                            builder:
-                                (BuildContext context, GoRouterState state) {
-                                  return const SettingsPhoneVerificationPage();
-                                },
-                          ),
-                          GoRoute(
-                            path: 'face',
-                            parentNavigatorKey: _rootNavigatorKey,
-                            builder:
-                                (BuildContext context, GoRouterState state) {
-                                  return const SettingsFaceVerificationPage();
-                                },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  GoRoute(
                     path: 'notifications',
                     parentNavigatorKey: _rootNavigatorKey,
                     builder: (BuildContext context, GoRouterState state) {
@@ -668,33 +553,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     path: 'wallet/history',
                     builder: (BuildContext context, GoRouterState state) {
                       return const WalletHistoryPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'my/section-list',
-                    builder: (BuildContext context, GoRouterState state) {
-                      final sectionType = MyPageSectionType.fromQueryValue(
-                        state.uri.queryParameters['type'],
-                      );
-                      final applyFilter =
-                          MyPageApplyHistoryFilterX.fromQueryValue(
-                            state.uri.queryParameters['filter'],
-                          );
-                      return MyPageSectionListPage(
-                        sectionType:
-                            sectionType ??
-                            MyPageSectionType.pendingApplications,
-                        initialApplyFilter:
-                            applyFilter ?? MyPageApplyHistoryFilter.all,
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'my/secondary-market',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const MyPageSectionListPage(
-                        sectionType: MyPageSectionType.coolingOff,
-                      );
                     },
                   ),
                   GoRoute(
@@ -721,6 +579,125 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '/profile/settings',
+        builder: (BuildContext context, GoRouterState state) {
+          return const SettingsPage();
+        },
+        routes: <RouteBase>[
+          GoRoute(
+            path: 'contracts',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsContractDocumentsPage();
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: ':projectKey',
+                builder: (BuildContext context, GoRouterState state) {
+                  final projectKey = state.pathParameters['projectKey'] ?? '';
+                  final extra = state.extra;
+                  return SettingsContractDocumentDetailPage(
+                    projectKey: projectKey,
+                    initialProject: extra is SettingsContractProject
+                        ? extra
+                        : null,
+                  );
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'faq',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsFaqPage();
+            },
+          ),
+          GoRoute(
+            path: 'contact',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsContactPage();
+            },
+          ),
+          GoRoute(
+            path: 'credit-card',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsCreditCardPage();
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'add',
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  final extra = state.extra;
+                  return MaterialPage<Object?>(
+                    key: state.pageKey,
+                    fullscreenDialog: true,
+                    child: SettingsCreditCardAddPage(
+                      args: extra is SettingsCreditCardAddRouteArgs
+                          ? extra
+                          : null,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: 'company',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsOperatingCompanyPage();
+            },
+          ),
+          GoRoute(
+            path: 'two-factor',
+            builder: (BuildContext context, GoRouterState state) {
+              return const SettingsTwoFactorPage();
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: 'email',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const SettingsEmailVerificationPage();
+                },
+              ),
+              GoRoute(
+                path: 'phone',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const SettingsPhoneVerificationPage();
+                },
+              ),
+              GoRoute(
+                path: 'face',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const SettingsFaceVerificationPage();
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/profile/my/section-list',
+        builder: (BuildContext context, GoRouterState state) {
+          final sectionType = MyPageSectionType.fromQueryValue(
+            state.uri.queryParameters['type'],
+          );
+          final applyFilter = MyPageApplyHistoryFilterX.fromQueryValue(
+            state.uri.queryParameters['filter'],
+          );
+          return MyPageSectionListPage(
+            sectionType: sectionType ?? MyPageSectionType.pendingApplications,
+            initialApplyFilter: applyFilter ?? MyPageApplyHistoryFilter.all,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/profile/my/secondary-market',
+        builder: (BuildContext context, GoRouterState state) {
+          return const MyPageSectionListPage(
+            sectionType: MyPageSectionType.coolingOff,
+          );
+        },
       ),
       GoRoute(
         path: '/settings',

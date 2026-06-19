@@ -4,12 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
-import '../../../../app/status_bar/app_status_bar_providers.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../widgets/hotel_coupon_list_widgets.dart';
 import '../widgets/hotel_state_views.dart';
-import '../widgets/hotel_status_bar_preference_scope.dart';
 
 enum _HotelCouponListSegment { coupons, fundBenefits }
 
@@ -29,73 +27,66 @@ class _HotelCouponListPageState extends ConsumerState<HotelCouponListPage> {
     final colors = Theme.of(context).appColors;
     final couponsState = ref.watch(hotelCouponsProvider);
     final fundBenefitState = ref.watch(hotelFundBenefitTicketsProvider);
-    return HotelStatusBarPreferenceScope(
-      immersive: false,
-      immersiveOnPop: true,
-      child: Scaffold(
-        backgroundColor: colors.surfaceAlt,
-        appBar: AppNavigationBar(
-          title: context.l10n.hotelCouponsTitle,
-          backgroundColor: colors.surface,
+    return Scaffold(
+      backgroundColor: colors.surfaceAlt,
+      appBar: AppNavigationBar(
+        title: context.l10n.hotelCouponsTitle,
+        backgroundColor: colors.surface,
+        foregroundColor: colors.textPrimary,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: () {
+            if (context.canPop()) {
+              context.pop();
+              return;
+            }
+            context.go('/hotel-booking');
+          },
+          backgroundColor: colors.surface.withValues(alpha: 0),
           foregroundColor: colors.textPrimary,
-          leading: AppNavigationIconButton(
-            icon: Icons.arrow_back_rounded,
-            onTap: () {
-              ref.read(appImmersiveHotelStatusBarHintProvider.notifier).state =
-                  true;
-              if (context.canPop()) {
-                context.pop();
-                return;
-              }
-              context.go('/hotel-booking');
-            },
-            backgroundColor: colors.surface.withValues(alpha: 0),
-            foregroundColor: colors.textPrimary,
-          ),
         ),
-        body: Column(
-          children: [
+      ),
+      body: Column(
+        children: [
           Padding(
-              padding: const EdgeInsets.fromLTRB(42, 16, 42, 0),
-              child: AppDualSegmentedControl<_HotelCouponListSegment>(
-                value: _segment,
-                height: 40,
-                radius: 999,
-                onChanged: (value) => setState(() => _segment = value),
-                first: AppDualSegmentItem<_HotelCouponListSegment>(
-                  value: _HotelCouponListSegment.coupons,
-                  icon: Icons.local_offer_outlined,
-                  label: context.l10n.hotelCouponsOrdinarySegment(
-                    couponsState.valueOrNull?.coupons.length ?? 0,
-                  ),
+            padding: const EdgeInsets.fromLTRB(42, 16, 42, 0),
+            child: AppDualSegmentedControl<_HotelCouponListSegment>(
+              value: _segment,
+              height: 40,
+              radius: 999,
+              onChanged: (value) => setState(() => _segment = value),
+              first: AppDualSegmentItem<_HotelCouponListSegment>(
+                value: _HotelCouponListSegment.coupons,
+                icon: Icons.local_offer_outlined,
+                label: context.l10n.hotelCouponsOrdinarySegment(
+                  couponsState.valueOrNull?.coupons.length ?? 0,
                 ),
-                second: AppDualSegmentItem<_HotelCouponListSegment>(
-                  value: _HotelCouponListSegment.fundBenefits,
-                  icon: Icons.card_giftcard_rounded,
-                  label: context.l10n.hotelFundBenefitTicketsSegment(
-                    fundBenefitState.valueOrNull?.length ?? 0,
-                  ),
+              ),
+              second: AppDualSegmentItem<_HotelCouponListSegment>(
+                value: _HotelCouponListSegment.fundBenefits,
+                icon: Icons.card_giftcard_rounded,
+                label: context.l10n.hotelFundBenefitTicketsSegment(
+                  fundBenefitState.valueOrNull?.length ?? 0,
                 ),
               ),
             ),
-            
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: _refresh,
-                child: CustomScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  slivers: <Widget>[
-                    
-                    if (_segment == _HotelCouponListSegment.coupons)
-                      ..._buildCouponSlivers(context, couponsState)
-                    else
-                      ..._buildFundBenefitSlivers(context, fundBenefitState),
-                  ],
-                ),
+          ),
+
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _refresh,
+              child: CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: <Widget>[
+                  if (_segment == _HotelCouponListSegment.coupons)
+                    ..._buildCouponSlivers(context, couponsState)
+                  else
+                    ..._buildFundBenefitSlivers(context, fundBenefitState),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

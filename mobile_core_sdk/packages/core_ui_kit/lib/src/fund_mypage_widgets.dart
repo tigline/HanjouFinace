@@ -92,34 +92,34 @@ class FundMyPageAssetOverview extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    brandLabel,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: appText.cardTitle.copyWith(
-                      color: colors.highlightGold,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1.6,
-                    ),
-                  ),
-                ),
-                if (headerActions.isNotEmpty) ...<Widget>[
-                  for (
-                    var index = 0;
-                    index < headerActions.length;
-                    index++
-                  ) ...<Widget>[
-                    headerActions[index],
-                    if (index < headerActions.length - 1)
-                      const SizedBox(width: 12),
-                  ],
-                ],
-              ],
-            ),
-            const SizedBox(height: 30),
+            // Row(
+            //   children: <Widget>[
+            //     Expanded(
+            //       child: Text(
+            //         brandLabel,
+            //         maxLines: 1,
+            //         overflow: TextOverflow.ellipsis,
+            //         style: appText.cardTitle.copyWith(
+            //           color: colors.highlightGold,
+            //           fontWeight: FontWeight.w800,
+            //           letterSpacing: 1.6,
+            //         ),
+            //       ),
+            //     ),
+            //     if (headerActions.isNotEmpty) ...<Widget>[
+            //       for (
+            //         var index = 0;
+            //         index < headerActions.length;
+            //         index++
+            //       ) ...<Widget>[
+            //         headerActions[index],
+            //         if (index < headerActions.length - 1)
+            //           const SizedBox(width: 12),
+            //       ],
+            //     ],
+            //   ],
+            // ),
+            // const SizedBox(height: 30),
             Text(
               welcomeLabel,
               style: appText.body.copyWith(

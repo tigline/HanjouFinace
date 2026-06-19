@@ -7,7 +7,6 @@ import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
 import '../support/hotel_map_route_args.dart';
 import '../widgets/hotel_hero_section.dart';
-import '../widgets/hotel_status_bar_preference_scope.dart';
 import '../widgets/hotel_state_views.dart';
 import '../widgets/hotel_summary_card.dart';
 
@@ -16,10 +15,7 @@ class HotelBookingTabPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const HotelStatusBarPreferenceScope(
-      immersive: true,
-      child: _HotelBookingTabContent(),
-    );
+    return const _HotelBookingTabContent();
   }
 }
 

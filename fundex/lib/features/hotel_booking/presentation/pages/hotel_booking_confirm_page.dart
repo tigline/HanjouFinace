@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
-import '../../../../app/status_bar/app_status_bar_providers.dart';
 import '../../../auth/domain/entities/auth_user.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../member_profile/presentation/providers/mypage_providers.dart';
@@ -19,7 +18,6 @@ import '../widgets/hotel_booking_payment_section.dart';
 import '../widgets/hotel_booking_section_card.dart';
 import '../widgets/hotel_coupon_list_widgets.dart';
 import '../widgets/hotel_state_views.dart';
-import '../widgets/hotel_status_bar_preference_scope.dart';
 
 class HotelBookingConfirmPage extends ConsumerStatefulWidget {
   const HotelBookingConfirmPage({super.key, required this.seed});
@@ -158,189 +156,176 @@ class _HotelBookingConfirmPageState
         (preparation?.couponsAvailableCount ?? 0) +
         (widget.seed.criteria.stayBenefit ? _fundBenefitTickets.length : 0);
 
-    return HotelStatusBarPreferenceScope(
-      immersive: false,
-      immersiveOnPop: true,
-      child: Scaffold(
-        backgroundColor: colors.surfaceAlt,
-        appBar: AppNavigationBar(
-          title: context.l10n.hotelBookingConfirmTitle,
-          backgroundColor: colors.surface,
+    return Scaffold(
+      backgroundColor: colors.surfaceAlt,
+      appBar: AppNavigationBar(
+        title: context.l10n.hotelBookingConfirmTitle,
+        backgroundColor: colors.surface,
+        foregroundColor: colors.textPrimary,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: () => context.pop(),
+          backgroundColor: colors.surface.withValues(alpha: 0),
           foregroundColor: colors.textPrimary,
-          leading: AppNavigationIconButton(
-            icon: Icons.arrow_back_rounded,
-            onTap: () {
-              ref.read(appImmersiveHotelStatusBarHintProvider.notifier).state =
-                  true;
-              context.pop();
-            },
-            backgroundColor: colors.surface.withValues(alpha: 0),
-            foregroundColor: colors.textPrimary,
-          ),
         ),
-        body: Stack(
-          children: <Widget>[
-            CustomScrollView(
-              slivers: <Widget>[
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 132),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(<Widget>[
-                      if (preparationState.isLoading)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: LinearProgressIndicator(
-                            color: colors.brandSecondary,
-                            backgroundColor: colors.borderSoft,
+      ),
+      body: Stack(
+        children: <Widget>[
+          CustomScrollView(
+            slivers: <Widget>[
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 132),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    if (preparationState.isLoading)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: LinearProgressIndicator(
+                          color: colors.brandSecondary,
+                          backgroundColor: colors.borderSoft,
+                        ),
+                      ),
+                    if (preparationState.hasError)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: HotelInlineErrorNotice(
+                          onRetry: () => ref.invalidate(
+                            hotelBookingPreparationProvider(widget.seed),
                           ),
                         ),
-                      if (preparationState.hasError)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: HotelInlineErrorNotice(
-                            onRetry: () => ref.invalidate(
-                              hotelBookingPreparationProvider(widget.seed),
+                      ),
+                    HotelBookingOrderSummaryCard(
+                      seed: widget.seed,
+                      presenter: presenter,
+                      amount: payableAmount,
+                      originalAmount: originalAmount,
+                      selectedCoupon: _selectedCoupon,
+                      selectedFundBenefitTicket: _selectedFundBenefitTicket,
+                      showOriginalAmount: usesFundBenefitTicket,
+                      onEdit: () => Navigator.of(context).maybePop(),
+                    ),
+                    const SizedBox(height: 14),
+                    HotelBookingCouponRow(
+                      availableCount: couponEntryCount,
+                      selectedCouponName: _couponRowSelectedName(presenter),
+                      onTap: preparation == null
+                          ? _showComingSoon
+                          : () => _openCouponPicker(preparation),
+                    ),
+                    if (!usesFundBenefitTicket) ...<Widget>[
+                      const SizedBox(height: 14),
+                      HotelBookingPaymentSection(
+                        selected: _paymentMethod,
+                        registeredCardCount:
+                            preparation?.registeredCardCount ?? 0,
+                        accountBalance: accountStatisticState
+                            .valueOrNull
+                            ?.firstLevelAccountTotal,
+                        isAccountBalanceLoading:
+                            accountStatisticState.isLoading,
+                        payableAmount: amount ?? 0,
+                        onChanged: (value) =>
+                            setState(() => _paymentMethod = value),
+                      ),
+                    ],
+                    const SizedBox(height: 14),
+                    HotelBookingGuestFormSection(
+                      title: context.l10n.hotelBookingBookerInfoTitle,
+                      countryCodes: preparation?.countryCodes ?? const [],
+                      firstNameController: _bookerFirstNameController,
+                      lastNameController: _bookerLastNameController,
+                      emailController: _bookerEmailController,
+                      phoneController: _bookerPhoneController,
+                      selectedCountryCode: _bookerCountryCode,
+                      onCountryChanged: (value) =>
+                          setState(() => _bookerCountryCode = value),
+                      selectedIntlCode: _bookerIntlCode,
+                      onIntlCodeChanged: (value) =>
+                          setState(() => _bookerIntlCode = value),
+                      isRequired: true,
+                    ),
+                    const SizedBox(height: 14),
+                    _RoomGuestFormsCard(
+                      title: context.l10n.hotelBookingRoomGuestInfoTitle,
+                      children: List<Widget>.generate(
+                        _roomGuestTargets.length,
+                        (index) {
+                          final target = _roomGuestTargets[index];
+                          return HotelBookingGuestFormSection(
+                            title: context.l10n.hotelBookingRoomGuestInfoTitle,
+                            roomName: _roomDisplayName(target),
+                            countryCodes: preparation?.countryCodes ?? const [],
+                            firstNameController:
+                                _roomFirstNameControllers[index],
+                            lastNameController: _roomLastNameControllers[index],
+                            emailController: _roomEmailControllers[index],
+                            phoneController: _roomPhoneControllers[index],
+                            selectedCountryCode: _roomCountryCodes[index],
+                            onCountryChanged: (value) => setState(
+                              () => _roomCountryCodes[index] = value,
                             ),
-                          ),
-                        ),
-                      HotelBookingOrderSummaryCard(
-                        seed: widget.seed,
-                        presenter: presenter,
-                        amount: payableAmount,
-                        originalAmount: originalAmount,
-                        selectedCoupon: _selectedCoupon,
-                        selectedFundBenefitTicket: _selectedFundBenefitTicket,
-                        showOriginalAmount: usesFundBenefitTicket,
-                        onEdit: () => Navigator.of(context).maybePop(),
+                            selectedIntlCode: _roomIntlCodes[index],
+                            onIntlCodeChanged: (value) =>
+                                setState(() => _roomIntlCodes[index] = value),
+                            adults: _roomAdults[index],
+                            kids: _roomKids[index],
+                            maxAdults: _maxAdultsFor(index),
+                            maxKids: _maxKidsFor(index),
+                            isRequired: true,
+                            priceTipText: _priceTipForRoom(
+                              index,
+                              effectiveRoomPriceElements,
+                            ),
+                            showTitle: false,
+                            showPhoneFields: false,
+                            wrapInCard: false,
+                            onAdultsChanged: (value) =>
+                                _setRoomAdults(index, value),
+                            onKidsChanged: (value) =>
+                                _setRoomKids(index, value),
+                          );
+                        },
                       ),
-                      const SizedBox(height: 14),
-                      HotelBookingCouponRow(
-                        availableCount: couponEntryCount,
-                        selectedCouponName: _couponRowSelectedName(presenter),
-                        onTap: preparation == null
-                            ? _showComingSoon
-                            : () => _openCouponPicker(preparation),
-                      ),
-                      if (!usesFundBenefitTicket) ...<Widget>[
-                        const SizedBox(height: 14),
-                        HotelBookingPaymentSection(
-                          selected: _paymentMethod,
-                          registeredCardCount:
-                              preparation?.registeredCardCount ?? 0,
-                          accountBalance: accountStatisticState
-                              .valueOrNull
-                              ?.firstLevelAccountTotal,
-                          isAccountBalanceLoading:
-                              accountStatisticState.isLoading,
-                          payableAmount: amount ?? 0,
-                          onChanged: (value) =>
-                              setState(() => _paymentMethod = value),
-                        ),
-                      ],
-                      const SizedBox(height: 14),
-                      HotelBookingGuestFormSection(
-                        title: context.l10n.hotelBookingBookerInfoTitle,
-                        countryCodes: preparation?.countryCodes ?? const [],
-                        firstNameController: _bookerFirstNameController,
-                        lastNameController: _bookerLastNameController,
-                        emailController: _bookerEmailController,
-                        phoneController: _bookerPhoneController,
-                        selectedCountryCode: _bookerCountryCode,
-                        onCountryChanged: (value) =>
-                            setState(() => _bookerCountryCode = value),
-                        selectedIntlCode: _bookerIntlCode,
-                        onIntlCodeChanged: (value) =>
-                            setState(() => _bookerIntlCode = value),
-                        isRequired: true,
-                      ),
-                      const SizedBox(height: 14),
-                      _RoomGuestFormsCard(
-                        title: context.l10n.hotelBookingRoomGuestInfoTitle,
-                        children: List<Widget>.generate(
-                          _roomGuestTargets.length,
-                          (index) {
-                            final target = _roomGuestTargets[index];
-                            return HotelBookingGuestFormSection(
-                              title:
-                                  context.l10n.hotelBookingRoomGuestInfoTitle,
-                              roomName: _roomDisplayName(target),
-                              countryCodes:
-                                  preparation?.countryCodes ?? const [],
-                              firstNameController:
-                                  _roomFirstNameControllers[index],
-                              lastNameController:
-                                  _roomLastNameControllers[index],
-                              emailController: _roomEmailControllers[index],
-                              phoneController: _roomPhoneControllers[index],
-                              selectedCountryCode: _roomCountryCodes[index],
-                              onCountryChanged: (value) => setState(
-                                () => _roomCountryCodes[index] = value,
-                              ),
-                              selectedIntlCode: _roomIntlCodes[index],
-                              onIntlCodeChanged: (value) =>
-                                  setState(() => _roomIntlCodes[index] = value),
-                              adults: _roomAdults[index],
-                              kids: _roomKids[index],
-                              maxAdults: _maxAdultsFor(index),
-                              maxKids: _maxKidsFor(index),
-                              isRequired: true,
-                              priceTipText: _priceTipForRoom(
-                                index,
-                                effectiveRoomPriceElements,
-                              ),
-                              showTitle: false,
-                              showPhoneFields: false,
-                              wrapInCard: false,
-                              onAdultsChanged: (value) =>
-                                  _setRoomAdults(index, value),
-                              onKidsChanged: (value) =>
-                                  _setRoomKids(index, value),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      HotelBookingInvoiceSection(
-                        controller: _invoiceController,
-                        useGuestName: _useGuestNameForInvoice,
-                        onUseGuestNameChanged: (value) =>
-                            setState(() => _useGuestNameForInvoice = value),
-                      ),
-                      const SizedBox(height: 14),
-                      HotelBookingMessageSection(
-                        controller: _messageController,
-                      ),
-                    ]),
-                  ),
-                ),
-              ],
-            ),
-            if (_isQuoting)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: IgnorePointer(
-                  child: LinearProgressIndicator(
-                    minHeight: 2,
-                    color: colors.brandSecondary,
-                    backgroundColor: colors.borderSoft.withValues(alpha: 0),
-                  ),
+                    ),
+                    const SizedBox(height: 14),
+                    HotelBookingInvoiceSection(
+                      controller: _invoiceController,
+                      useGuestName: _useGuestNameForInvoice,
+                      onUseGuestNameChanged: (value) =>
+                          setState(() => _useGuestNameForInvoice = value),
+                    ),
+                    const SizedBox(height: 14),
+                    HotelBookingMessageSection(controller: _messageController),
+                  ]),
                 ),
               ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: HotelBookingConfirmBottomBar(
-                amount: amountText.isEmpty
-                    ? context.l10n.hotelPriceAsk
-                    : '$amountText ${context.l10n.hotelCurrencyCode}',
-                amountLabel: context.l10n.hotelDetailPayableAmount,
-                onConfirm: () => _submitBooking(payableAmount),
-                isSubmitting: _isSubmitting,
+            ],
+          ),
+          if (_isQuoting)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: IgnorePointer(
+                child: LinearProgressIndicator(
+                  minHeight: 2,
+                  color: colors.brandSecondary,
+                  backgroundColor: colors.borderSoft.withValues(alpha: 0),
+                ),
               ),
             ),
-          ],
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: HotelBookingConfirmBottomBar(
+              amount: amountText.isEmpty
+                  ? context.l10n.hotelPriceAsk
+                  : '$amountText ${context.l10n.hotelCurrencyCode}',
+              amountLabel: context.l10n.hotelDetailPayableAmount,
+              onConfirm: () => _submitBooking(payableAmount),
+              isSubmitting: _isSubmitting,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -395,192 +396,205 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
     final asyncProjects = ref.watch(fundProjectListProvider);
     final filterOptions = _buildFilterOptions(context);
 
-    return MainShellTabRefreshScope(
-      tabIndex: 1,
-      onRefresh: _refreshInvestmentTab,
-      scrollController: _scrollController,
-      child: Container(
-        key: const Key('investment_tab_content'),
-        color: colors.background,
-        child: Column(
-          children: <Widget>[
-            MainShellChromeVisibility(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+      ),
+      child: ColoredBox(
+        color: colors.surface,
+        child: SafeArea(
+          child: ColoredBox(
+            color: colors.background,
+            child: MainShellTabRefreshScope(
+              tabIndex: 1,
+              onRefresh: _refreshInvestmentTab,
+              scrollController: _scrollController,
               child: Container(
-                width: double.infinity,
-                color: colors.surface,
-                padding: const EdgeInsets.fromLTRB(0, 14, 0, 12),
+                key: const Key('investment_tab_content'),
+                color: colors.background,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16),
-                      child: Text(
-                        l10n.fundListTitle,
-                        style: appText.pageTitle.copyWith(
-                          color: colors.textPrimary,
+                    MainShellChromeVisibility(
+                      child: Container(
+                        width: double.infinity,
+                        color: colors.surface,
+                        padding: const EdgeInsets.fromLTRB(0, 14, 0, 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16, right: 16),
+                              child: Text(
+                                l10n.fundListTitle,
+                                style: appText.pageTitle.copyWith(
+                                  color: colors.textPrimary,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            AppFilterBar<_FundListFilter>(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              value: _effectiveSelectedFilter,
+                              onChanged: (_FundListFilter value) {
+                                setState(() {
+                                  _selectedFilter = value;
+                                });
+                              },
+                              items: filterOptions
+                                  .map(
+                                    (_FundListFilterOption option) =>
+                                        AppFilterBarItem<_FundListFilter>(
+                                          value: option.filter,
+                                          label: option.label,
+                                          style: option.style,
+                                          leadingIcon: option.leadingIcon,
+                                        ),
+                                  )
+                                  .toList(growable: false),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    AppFilterBar<_FundListFilter>(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      value: _effectiveSelectedFilter,
-                      onChanged: (_FundListFilter value) {
-                        setState(() {
-                          _selectedFilter = value;
-                        });
-                      },
-                      items: filterOptions
-                          .map(
-                            (_FundListFilterOption option) =>
-                                AppFilterBarItem<_FundListFilter>(
-                                  value: option.filter,
-                                  label: option.label,
-                                  style: option.style,
-                                  leadingIcon: option.leadingIcon,
-                                ),
-                          )
-                          .toList(growable: false),
+                    Divider(height: 1, thickness: 1, color: colors.border),
+                    Expanded(
+                      child: asyncProjects.when(
+                        skipError: true,
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator.adaptive()),
+                        error: (Object error, StackTrace stackTrace) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    l10n.fundListLoadError,
+                                    textAlign: TextAlign.center,
+                                    style: appText.bodyMuted.copyWith(
+                                      color: colors.textSecondary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: UiTokens.spacing12),
+                                  OutlinedButton(
+                                    onPressed: () =>
+                                        ref.invalidate(fundProjectListProvider),
+                                    child: Text(l10n.fundListRetry),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        data: (List<FundProject> projects) {
+                          final visibleProjects = _applyFilter(
+                            projects,
+                            favoriteProjectIds,
+                          );
+                          if (visibleProjects.isEmpty) {
+                            return RefreshIndicator(
+                              onRefresh: _refreshProjects,
+                              child: ListView(
+                                controller: _scrollController,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
+                                    child: Text(
+                                      l10n.fundListEmpty,
+                                      textAlign: TextAlign.center,
+                                      style: appText.bodyMuted.copyWith(
+                                        color: colors.textSecondary,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+            
+                          return RefreshIndicator(
+                            onRefresh: _refreshProjects,
+                            child: ListView.separated(
+                              controller: _scrollController,
+                              padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
+                              itemCount: visibleProjects.length,
+                              separatorBuilder: (_, __) => const SizedBox(height: 10),
+                              itemBuilder: (BuildContext context, int index) {
+                                final project = visibleProjects[index];
+                                final projectId = project.id.trim();
+                                final palette = _resolveStatusPalette(
+                                  context,
+                                  project.projectStatus,
+                                );
+                                final statusLabel = _resolveStatusLabel(
+                                  context,
+                                  project.projectStatus,
+                                );
+                                final gainType = _resolveMethodLabel(
+                                  context,
+                                  project.gainType,
+                                );
+                                final minimumInvestmentText =
+                                    _resolveMinimumInvestmentText(
+                                      context,
+                                      project,
+                                      locale,
+                                    );
+                                final periodText =
+                                    (project.investmentPeriod?.trim().isNotEmpty ??
+                                        false)
+                                    ? project.investmentPeriod!.trim()
+                                    : '--';
+            
+                                return _FundProjectCard(
+                                  project: project,
+                                  isFavorite: favoriteProjectIds.contains(projectId),
+                                  palette: palette,
+                                  statusLabel: statusLabel,
+                                  methodLabel: project.offeringMethod ?? '--',
+                                  gainTypeLabel: gainType,
+                                  yieldLabel: l10n.fundListYieldLabel,
+                                  periodLabel: l10n.fundListPeriodLabel,
+                                  methodTitleLabel: l10n.fundListMethodLabel,
+                                  appliedAmountText: _resolveAmountBannerText(
+                                    context,
+                                    project,
+                                    currencyFormatter,
+                                  ),
+                                  annualYieldText: resolveFundProjectYieldDisplay(
+                                    project,
+                                  ),
+                                  periodValueText: periodText,
+                                  minimumInvestmentLabel:
+                                      l10n.fundDetailMinimumInvestmentLabel,
+                                  minimumInvestmentText: minimumInvestmentText,
+                                  locationText: _resolveLocationHint(project),
+                                  viewDetailText: l10n.fundListViewDetail,
+                                  volumeText: _resolveVolumeLabel(context, project),
+                                  onFavoriteTap: () {
+                                    ref
+                                        .read(
+                                          fundProjectFavoritesControllerProvider
+                                              .notifier,
+                                        )
+                                        .toggleFavorite(projectId);
+                                  },
+                                  favoriteAddedMessage: favoriteAddedMessage,
+                                  favoriteRemovedMessage: favoriteRemovedMessage,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-            Divider(height: 1, thickness: 1, color: colors.border),
-            Expanded(
-              child: asyncProjects.when(
-                skipError: true,
-                loading: () =>
-                    const Center(child: CircularProgressIndicator.adaptive()),
-                error: (Object error, StackTrace stackTrace) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            l10n.fundListLoadError,
-                            textAlign: TextAlign.center,
-                            style: appText.bodyMuted.copyWith(
-                              color: colors.textSecondary,
-                            ),
-                          ),
-                          const SizedBox(height: UiTokens.spacing12),
-                          OutlinedButton(
-                            onPressed: () =>
-                                ref.invalidate(fundProjectListProvider),
-                            child: Text(l10n.fundListRetry),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                data: (List<FundProject> projects) {
-                  final visibleProjects = _applyFilter(
-                    projects,
-                    favoriteProjectIds,
-                  );
-                  if (visibleProjects.isEmpty) {
-                    return RefreshIndicator(
-                      onRefresh: _refreshProjects,
-                      child: ListView(
-                        controller: _scrollController,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
-                            child: Text(
-                              l10n.fundListEmpty,
-                              textAlign: TextAlign.center,
-                              style: appText.bodyMuted.copyWith(
-                                color: colors.textSecondary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-
-                  return RefreshIndicator(
-                    onRefresh: _refreshProjects,
-                    child: ListView.separated(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
-                      itemCount: visibleProjects.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 10),
-                      itemBuilder: (BuildContext context, int index) {
-                        final project = visibleProjects[index];
-                        final projectId = project.id.trim();
-                        final palette = _resolveStatusPalette(
-                          context,
-                          project.projectStatus,
-                        );
-                        final statusLabel = _resolveStatusLabel(
-                          context,
-                          project.projectStatus,
-                        );
-                        final gainType = _resolveMethodLabel(
-                          context,
-                          project.gainType,
-                        );
-                        final minimumInvestmentText =
-                            _resolveMinimumInvestmentText(
-                              context,
-                              project,
-                              locale,
-                            );
-                        final periodText =
-                            (project.investmentPeriod?.trim().isNotEmpty ??
-                                false)
-                            ? project.investmentPeriod!.trim()
-                            : '--';
-
-                        return _FundProjectCard(
-                          project: project,
-                          isFavorite: favoriteProjectIds.contains(projectId),
-                          palette: palette,
-                          statusLabel: statusLabel,
-                          methodLabel: project.offeringMethod ?? '--',
-                          gainTypeLabel: gainType,
-                          yieldLabel: l10n.fundListYieldLabel,
-                          periodLabel: l10n.fundListPeriodLabel,
-                          methodTitleLabel: l10n.fundListMethodLabel,
-                          appliedAmountText: _resolveAmountBannerText(
-                            context,
-                            project,
-                            currencyFormatter,
-                          ),
-                          annualYieldText: resolveFundProjectYieldDisplay(
-                            project,
-                          ),
-                          periodValueText: periodText,
-                          minimumInvestmentLabel:
-                              l10n.fundDetailMinimumInvestmentLabel,
-                          minimumInvestmentText: minimumInvestmentText,
-                          locationText: _resolveLocationHint(project),
-                          viewDetailText: l10n.fundListViewDetail,
-                          volumeText: _resolveVolumeLabel(context, project),
-                          onFavoriteTap: () {
-                            ref
-                                .read(
-                                  fundProjectFavoritesControllerProvider
-                                      .notifier,
-                                )
-                                .toggleFavorite(projectId);
-                          },
-                          favoriteAddedMessage: favoriteAddedMessage,
-                          favoriteRemovedMessage: favoriteRemovedMessage,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

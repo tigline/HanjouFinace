@@ -13,7 +13,6 @@ import '../widgets/hotel_order_detail_widgets.dart';
 import '../widgets/hotel_order_invoice_sheet.dart';
 import '../widgets/hotel_payment_method_widgets.dart';
 import '../widgets/hotel_state_views.dart';
-import '../widgets/hotel_status_bar_preference_scope.dart';
 
 class HotelOrderDetailPage extends ConsumerStatefulWidget {
   const HotelOrderDetailPage({super.key, required this.orderId});
@@ -37,80 +36,77 @@ class _HotelOrderDetailPageState extends ConsumerState<HotelOrderDetailPage> {
       Localizations.localeOf(context).toLanguageTag(),
     );
 
-    return HotelStatusBarPreferenceScope(
-      immersive: false,
-      child: Scaffold(
-        backgroundColor: colors.surfaceAlt,
-        body: SafeArea(
-          top: true,
-          bottom: false,
-          child: detailState.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (_, __) => HotelFullPageError(
-              onRetry: () =>
-                  ref.invalidate(hotelOrderDetailProvider(widget.orderId)),
-            ),
-            data: (detail) {
-              return HotelOrderDetailContent(
-                detail: detail,
-                presenter: presenter,
-                paymentExpired: _paymentExpired,
-                onBack: () {
-                  if (context.canPop()) {
-                    context.pop();
+    return Scaffold(
+      backgroundColor: colors.surfaceAlt,
+      body: SafeArea(
+        top: true,
+        bottom: false,
+        child: detailState.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (_, __) => HotelFullPageError(
+            onRetry: () =>
+                ref.invalidate(hotelOrderDetailProvider(widget.orderId)),
+          ),
+          data: (detail) {
+            return HotelOrderDetailContent(
+              detail: detail,
+              presenter: presenter,
+              paymentExpired: _paymentExpired,
+              onBack: () {
+                if (context.canPop()) {
+                  context.pop();
+                  return;
+                }
+                context.go('/hotel-booking/orders');
+              },
+              onMore: (moreButtonContext) =>
+                  _handleMoreTap(moreButtonContext, detail),
+              onPay: () async {
+                final paid = await context.push<bool>(
+                  '/hotel-booking/payment',
+                  extra: HotelPaymentRouteArgs(
+                    orderId: widget.orderId,
+                    totalAmount: detail.summary.totalAmount ?? 0,
+                    initialPaymentMethod: hotelPaymentMethodFromCode(
+                      detail.payCode,
+                    ),
+                    redirectToOrderDetailOnSuccess: false,
+                  ),
+                );
+                if (paid == true) {
+                  ref.invalidate(hotelOrderDetailProvider(widget.orderId));
+                }
+              },
+              onCancel: () => runHotelOrderCancelFlow(
+                context: context,
+                ref: ref,
+                languageCode: languageCode,
+                orderId: widget.orderId,
+                onCancelled: () async {
+                  if (_paymentExpired) {
+                    setState(() => _paymentExpired = false);
+                  }
+                  if (ref.exists(hotelOrderListControllerProvider)) {
+                    await ref
+                        .read(hotelOrderListControllerProvider.notifier)
+                        .refresh();
+                  }
+                  ref.invalidate(hotelOrderDetailProvider(widget.orderId));
+                },
+              ),
+              onPaymentCountdownExpired: () {
+                if (!_paymentExpired) {
+                  setState(() => _paymentExpired = true);
+                }
+                Future<void>.delayed(const Duration(seconds: 3), () {
+                  if (!mounted) {
                     return;
                   }
-                  context.go('/hotel-booking/orders');
-                },
-                onMore: (moreButtonContext) =>
-                    _handleMoreTap(moreButtonContext, detail),
-                onPay: () async {
-                  final paid = await context.push<bool>(
-                    '/hotel-booking/payment',
-                    extra: HotelPaymentRouteArgs(
-                      orderId: widget.orderId,
-                      totalAmount: detail.summary.totalAmount ?? 0,
-                      initialPaymentMethod: hotelPaymentMethodFromCode(
-                        detail.payCode,
-                      ),
-                      redirectToOrderDetailOnSuccess: false,
-                    ),
-                  );
-                  if (paid == true) {
-                    ref.invalidate(hotelOrderDetailProvider(widget.orderId));
-                  }
-                },
-                onCancel: () => runHotelOrderCancelFlow(
-                  context: context,
-                  ref: ref,
-                  languageCode: languageCode,
-                  orderId: widget.orderId,
-                  onCancelled: () async {
-                    if (_paymentExpired) {
-                      setState(() => _paymentExpired = false);
-                    }
-                    if (ref.exists(hotelOrderListControllerProvider)) {
-                      await ref
-                          .read(hotelOrderListControllerProvider.notifier)
-                          .refresh();
-                    }
-                    ref.invalidate(hotelOrderDetailProvider(widget.orderId));
-                  },
-                ),
-                onPaymentCountdownExpired: () {
-                  if (!_paymentExpired) {
-                    setState(() => _paymentExpired = true);
-                  }
-                  Future<void>.delayed(const Duration(seconds: 3), () {
-                    if (!mounted) {
-                      return;
-                    }
-                    ref.invalidate(hotelOrderDetailProvider(widget.orderId));
-                  });
-                },
-              );
-            },
-          ),
+                  ref.invalidate(hotelOrderDetailProvider(widget.orderId));
+                });
+              },
+            );
+          },
         ),
       ),
     );

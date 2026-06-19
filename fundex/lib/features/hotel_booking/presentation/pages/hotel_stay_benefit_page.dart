@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
-import '../../../../app/status_bar/app_status_bar_providers.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../controllers/hotel_booking_controller.dart';
 import '../providers/hotel_booking_providers.dart';
@@ -14,7 +13,6 @@ import '../widgets/hotel_filter_section.dart';
 import '../widgets/hotel_search_conditions_sheet.dart';
 import '../widgets/hotel_search_summary_bar.dart';
 import '../widgets/hotel_state_views.dart';
-import '../widgets/hotel_status_bar_preference_scope.dart';
 import '../widgets/hotel_summary_card.dart';
 
 class HotelStayBenefitPage extends ConsumerStatefulWidget {
@@ -129,130 +127,122 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
       _criteria.roomCount,
     );
 
-    return HotelStatusBarPreferenceScope(
-      immersive: false,
-      immersiveOnPop: true,
-      child: Scaffold(
-        backgroundColor: colors.surfaceAlt,
-        appBar: AppNavigationBar(
-          title: context.l10n.hotelStayBenefitsTitle,
-          backgroundColor: colors.surface,
+    return Scaffold(
+      backgroundColor: colors.surfaceAlt,
+      appBar: AppNavigationBar(
+        title: context.l10n.hotelStayBenefitsTitle,
+        backgroundColor: colors.surface,
+        foregroundColor: colors.textPrimary,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: () {
+            if (context.canPop()) {
+              context.pop();
+              return;
+            }
+            context.go('/hotel-booking');
+          },
+          backgroundColor: colors.surface.withValues(alpha: 0),
           foregroundColor: colors.textPrimary,
-          leading: AppNavigationIconButton(
-            icon: Icons.arrow_back_rounded,
-            onTap: () {
-              ref.read(appImmersiveHotelStatusBarHintProvider.notifier).state =
-                  true;
-              if (context.canPop()) {
-                context.pop();
-                return;
-              }
-              context.go('/hotel-booking');
-            },
-            backgroundColor: colors.surface.withValues(alpha: 0),
-            foregroundColor: colors.textPrimary,
-          ),
         ),
-        body: RefreshIndicator(
-          onRefresh: _refresh,
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                  child: Column(
-                    children: <Widget>[
-                      HotelSearchSummaryBar(
-                        summaryLine: summaryLine,
-                        guestLine: guestLine,
-                        onTap: () => _openSearchConditions(
-                          context: context,
-                          presenter: presenter,
-                          filters: filters,
-                          periods: periods,
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      HotelFilterSection(
-                        state: filterState,
+      ),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Column(
+                  children: <Widget>[
+                    HotelSearchSummaryBar(
+                      summaryLine: summaryLine,
+                      guestLine: guestLine,
+                      onTap: () => _openSearchConditions(
+                        context: context,
                         presenter: presenter,
-                        onPriceSortSelected: _setPriceSort,
-                        onCriteriaApplied: _applyCriteria,
-                        stayBenefitPeriods: periods,
-                        onMapTap: () => context.push(
-                          '/hotel-booking/map',
-                          extra: _criteria,
-                        ),
+                        filters: filters,
+                        periods: periods,
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 14),
+                    HotelFilterSection(
+                      state: filterState,
+                      presenter: presenter,
+                      onPriceSortSelected: _setPriceSort,
+                      onCriteriaApplied: _applyCriteria,
+                      stayBenefitPeriods: periods,
+                      onMapTap: () =>
+                          context.push('/hotel-booking/map', extra: _criteria),
+                    ),
+                  ],
                 ),
               ),
-              if (result.hasError && hotels.isNotEmpty)
-                SliverToBoxAdapter(
-                  child: HotelInlineErrorNotice(
-                    onRetry: _refresh,
-                    error: result.error,
-                  ),
+            ),
+            if (result.hasError && hotels.isNotEmpty)
+              SliverToBoxAdapter(
+                child: HotelInlineErrorNotice(
+                  onRetry: _refresh,
+                  error: result.error,
                 ),
-              if (result.isLoading && !result.hasValue)
-                const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              else if (result.hasError && hotels.isEmpty)
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: HotelFullPageError(
-                    onRetry: _refresh,
-                    error: result.error,
-                  ),
-                )
-              else if (hotels.isEmpty)
-                const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: HotelEmptyList(),
-                )
-              else
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                  sliver: SliverList.separated(
-                    itemCount: hotels.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    itemBuilder: (context, index) {
-                      final hotel = hotels[index];
-                      final mapArgs = HotelMapRouteArgs.fromHotel(
-                        criteria: _criteria,
-                        hotel: hotel,
-                      );
-                      return HotelSummaryCard(
-                        hotel: hotel,
-                        presenter: presenter,
-                        statusText: hotel.stayBenefitParticipate
-                            ? null
-                            : context.l10n.hotelStayBenefitUnavailableForDate,
-                        statusTone: hotel.stayBenefitParticipate
-                            ? HotelSummaryCardStatusTone.normal
-                            : HotelSummaryCardStatusTone.muted,
-                        onTap: hotel.id.trim().isEmpty
-                            ? null
-                            : () => context.push(
-                                '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
-                                extra: _criteria,
-                              ),
-                        onMapTap: mapArgs.hasValidTarget
-                            ? () => context.push(
-                                '/hotel-booking/map',
-                                extra: mapArgs,
-                              )
-                            : null,
-                      );
-                    },
-                  ),
+              ),
+            if (result.isLoading && !result.hasValue)
+              const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else if (result.hasError && hotels.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: HotelFullPageError(
+                  onRetry: _refresh,
+                  error: result.error,
                 ),
-            ],
-          ),
+              )
+            else if (hotels.isEmpty)
+              const SliverFillRemaining(
+                hasScrollBody: false,
+                child: HotelEmptyList(),
+              )
+            else
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                sliver: SliverList.separated(
+                  itemCount: hotels.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final hotel = hotels[index];
+                    final mapArgs = HotelMapRouteArgs.fromHotel(
+                      criteria: _criteria,
+                      hotel: hotel,
+                    );
+                    return HotelSummaryCard(
+                      hotel: hotel,
+                      presenter: presenter,
+                      statusText: hotel.stayBenefitParticipate
+                          ? null
+                          : context.l10n.hotelStayBenefitUnavailableForDate,
+                      statusTone: hotel.stayBenefitParticipate
+                          ? HotelSummaryCardStatusTone.normal
+                          : HotelSummaryCardStatusTone.muted,
+                      onTap: hotel.id.trim().isEmpty
+                          ? null
+                          : () => context.push(
+                              '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
+                              extra: _criteria,
+                            ),
+                      onMapTap: mapArgs.hasValidTarget
+                          ? () => context.push(
+                              '/hotel-booking/map',
+                              extra: mapArgs,
+                            )
+                          : null,
+                    );
+                  },
+                ),
+              ),
+          ],
         ),
       ),
     );
