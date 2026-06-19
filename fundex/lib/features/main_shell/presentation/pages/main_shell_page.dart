@@ -185,7 +185,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
         child: Scaffold(
           key: const Key('home_page'),
           body: SafeArea(
-          top: widget.navigationShell.currentIndex != 3,
+          top: widget.navigationShell.currentIndex != 3 && widget.navigationShell.currentIndex != 0,
           bottom: false,
           child: widget.navigationShell,
         ),

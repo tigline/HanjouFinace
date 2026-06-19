@@ -264,8 +264,10 @@ class _AppStatusBarFrameState extends State<_AppStatusBarFrame> {
     final isHotelRoute =
         currentLocation == '/hotel-booking' ||
         currentLocation.startsWith('/hotel-booking/');
+    final isHomeRoute = currentLocation == '/home' ||
+        currentLocation.startsWith('/home/');
     final useImmersiveHotelStatusBar =
-        isHotelRoute &&
+        (isHotelRoute || isHomeRoute) &&
         (widget.immersiveHotelStatusBarHint ??
             _usesImmersiveHotelStatusBar(currentLocation));
     final defaultStatusBarColor = brightness == Brightness.dark

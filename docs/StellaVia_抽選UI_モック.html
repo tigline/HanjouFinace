@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StellaVia 抽選UI モック — Web / App</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fafaf7;
+  --navy:#0C1C50;
+  --navy-d:#081240;
+  --navy-l:#1a3568;
+  --gold:#B8954F;
+  --gold-l:#D4B978;
+  --gold-pale:#EFE4CC;
+  --gold-ghost:#F8F2E5;
+  --text:#1a2438;
+  --sub:#6b6e7a;
+  --bdr:#e5e2d8;
+  --white:#fff;
+  /* 等級色 */
+  --g-s:#B8954F; --g-a:#3F9D6C; --g-b:#3E78C6; --g-c:#8A6CC0; --g-d:#9aa0ab;
+  --ok:#2e9e6b; --shadow:0 6px 24px rgba(12,28,80,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+button,a{outline:none}
+button:focus,a:focus{outline:none}
+body{font-family:'Noto Sans JP',sans-serif;background:#0a1430;color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.7}
+button{font-family:inherit;cursor:pointer}
+.serif{font-family:'Noto Serif JP',serif}
+.en{font-family:'Cormorant Garamond',serif;font-style:italic}
+
+/* ===== モックシェル（成果物枠・実画面ではない） ===== */
+.shell-top{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#0c1c50,#081240);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;box-shadow:0 2px 14px rgba(0,0,0,.4)}
+.shell-brand{display:flex;align-items:center;gap:9px;font-weight:600;letter-spacing:.04em}
+.shell-brand b{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--gold-l);letter-spacing:1px}
+.shell-brand span{font-size:11px;color:rgba(255,255,255,.65);font-weight:400}
+.seg{display:flex;background:rgba(255,255,255,.08);border-radius:10px;padding:3px}
+.seg button{background:none;border:none;color:rgba(255,255,255,.7);font-size:13px;font-weight:600;padding:7px 16px;border-radius:7px;transition:.2s}
+.seg button.on{background:var(--gold);color:#1a1305;box-shadow:0 2px 8px rgba(184,149,79,.4)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.tabs button{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.75);font-size:12px;font-weight:500;padding:7px 12px;border-radius:8px;transition:.2s;white-space:nowrap}
+.tabs button .n{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-l);margin-right:5px}
+.tabs button.on{background:#fff;color:var(--navy);border-color:#fff}
+.tabs button.on .n{color:var(--gold)}
+
+/* ===== ステージ ===== */
+.stage{padding:34px 16px 70px;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;
+  background:
+   radial-gradient(ellipse at 50% 0%,rgba(40,70,120,.5) 0%,transparent 55%),
+   linear-gradient(180deg,#0a1430,#070d22)}
+.frame{display:none;width:100%}
+.frame.show{display:block}
+
+/* App phone frame */
+#stage.app .frame.app{display:block;max-width:412px;margin:0 auto}
+#stage.web .frame.web{display:block;max-width:1080px;margin:0 auto}
+#stage.app .frame.web,#stage.web .frame.app{display:none}
+
+.phone{background:var(--bg);border-radius:42px;padding:12px;box-shadow:0 0 0 11px #11162b,0 0 0 13px #2a3152,0 30px 70px rgba(0,0,0,.55);position:relative}
+.phone-screen{background:var(--bg);border-radius:31px;overflow:hidden;position:relative;height:812px;overflow-y:auto;scrollbar-width:none;transform:translateZ(0)}
+.phone-screen::-webkit-scrollbar{display:none}
+.statusbar{position:sticky;top:0;z-index:30;background:var(--bg);display:flex;justify-content:space-between;align-items:center;padding:11px 24px 7px;font-size:13px;font-weight:600;color:var(--navy)}
+.statusbar .dots{display:flex;gap:5px;align-items:center}
+.notch{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#11162b;border-radius:0 0 16px 16px;z-index:40}
+
+/* Web browser frame */
+.browser{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.bbar{background:#eceae3;padding:11px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bdr)}
+.bdot{width:11px;height:11px;border-radius:50%}
+.burl{flex:1;background:#fff;border-radius:7px;padding:6px 14px;font-size:12px;color:var(--sub);margin-left:8px}
+.bweb{height:760px;overflow-y:auto;background:var(--bg);scrollbar-width:thin;position:relative;transform:translateZ(0)}
+
+/* ===== 共通UI ===== */
+.gold-btn{background:linear-gradient(180deg,var(--gold-l),var(--gold));color:#241a06;border:none;font-weight:700;letter-spacing:.04em;border-radius:12px;padding:15px;font-size:15px;width:100%;box-shadow:0 6px 18px rgba(184,149,79,.35);transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.gold-btn:active{transform:scale(.97);box-shadow:0 3px 10px rgba(184,149,79,.3)}
+.ghost-btn{background:#fff;color:var(--navy);border:1.5px solid var(--bdr);font-weight:600;border-radius:12px;padding:14px;font-size:14px;width:100%;transition:.15s}
+.ghost-btn:active{transform:scale(.97)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.04em}
+.b-recruit{background:#e8f4ee;color:var(--ok)}
+.eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-size:12px;font-weight:600}
+.grade-chip{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;flex-shrink:0}
+.gS{background:linear-gradient(135deg,var(--gold-l),var(--gold))}
+.gA{background:var(--g-a)} .gB{background:var(--g-b)} .gC{background:var(--g-c)} .gD{background:var(--g-d)}
+
+/* ===== ホーム ===== */
+.topnav{display:flex;align-items:center;padding:14px 18px;gap:12px;background:var(--bg);position:sticky;top:0;z-index:20}
+.nav-actions{margin-left:auto;display:flex;align-items:center;gap:14px}
+.icn-btn{position:relative;width:38px;height:38px;border-radius:50%;border:1px solid var(--bdr);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+.ntf-dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:#e0473c}
+.web-only{display:none}
+.frame.web .web-only,#stage.web .web-only{display:flex}
+
+/* ===== バナー（3枚切替） ===== */
+.banner{position:relative;overflow:hidden;height:270px;margin:0}
+.banner-track{display:flex;height:100%;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+.banner-slide{flex:0 0 100%;position:relative;height:100%;overflow:hidden;display:flex;align-items:flex-end}
+.banner-slide .banner-art{position:absolute;bottom:0;left:0;width:100%;height:78%}
+.banner-slide.s1{background:#0c1c50 url('https://hoshiyajp.co.jp/hoshiya/sites/3/2026/06/0001.jpg') center/contain no-repeat}
+.banner-slide.s2{background:#0f3349 url('https://hoshiyajp.co.jp/hoshiya/sites/3/2026/06/0003.jpg') center/contain no-repeat}
+.banner-slide.s3{background:#2a1a4a url('https://hoshiyajp.co.jp/hoshiya/sites/3/2026/06/00002.jpg') center/contain no-repeat}
+.banner-text{position:relative;z-index:2;padding:20px 22px 32px;color:#fff}
+.banner-text .eyebrow{color:var(--gold-l);display:block;margin-bottom:8px}
+.banner-text h2{font-family:'Noto Serif JP',serif;font-size:23px;font-weight:600;line-height:1.5;letter-spacing:.02em}
+.banner-dots{position:absolute;left:0;right:0;bottom:13px;z-index:3;display:flex;justify-content:center;gap:6px}
+.banner-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:.25s;display:block}
+.banner-dots i.on{width:20px;border-radius:4px;background:var(--gold-l)}
+.frame.web .banner{height:340px}
+.frame.web .banner-text{padding:36px 46px 44px;max-width:560px}
+.frame.web .banner-text h2{font-size:34px}
+.banner-status{position:absolute;top:0;left:0;right:0;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:14px 20px 0;color:#fff;font-size:13px;font-weight:600}
+.banner-status .dots{display:flex;gap:5px;align-items:center;font-size:12px}
+.banner-bell{position:absolute;top:46px;right:18px;z-index:4}
+.banner-bell-btn{position:relative;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;color:#fff}
+.banner-bell-btn .ntf-dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:#e0473c}
+.frame.web .banner-status{display:none}
+.frame.web .banner-bell{top:22px;right:24px}
+
+.lottery-hero{position:relative;overflow:hidden;color:#fff;margin:14px 0 0;border-radius:18px;padding:8px 16px;display:flex;flex-direction:row;align-items:center;gap:10px;
+  background:linear-gradient(170deg,#0a1640 0%,#081230 100%)}
+.lh-main{flex:1;min-width:0}
+.lottery-hero .eyebrow{color:var(--gold-l);font-size:10px;display:block;margin-bottom:3px}
+.lottery-hero h2{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;letter-spacing:.02em;margin:0;line-height:1.25}
+.lh-desc{font-size:11px;color:rgba(255,255,255,.8);line-height:1.45;margin:4px 0 8px}
+.lh-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(212,185,120,.08);border:1.5px solid var(--gold-l);color:var(--gold-l);font-size:12px;font-weight:700;padding:7px 16px;border-radius:30px;letter-spacing:.02em;cursor:pointer}
+.lh-wheel{flex-shrink:0}
+.lh-wheel .wheel-stage2{padding:0}
+.lh-wheel .wheel-box2{width:92px;height:92px}
+.lh-wheel .pointer2{width:14px;height:12px;top:-3px}
+.lh-wheel .wheel-done-ov{width:50px;height:50px;gap:1px}
+.lh-wheel .wheel-done-ov svg{width:13px;height:13px}
+.lh-wheel .wheel-done-ov b{font-size:6.5px}
+.chance{font-size:12px;color:rgba(255,255,255,.78);white-space:nowrap}
+.chance b{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold-l);font-size:18px;margin:0 2px}
+
+.sec{padding:8px 16px 4px}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:18px 4px 14px}
+.sec-h .ja{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;color:var(--navy)}
+.sec-h .en{color:var(--gold);font-size:12px;letter-spacing:2px}
+
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.feat-card{background:#fff;border:1px solid var(--bdr);border-radius:14px;padding:22px 6px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s}
+.feat-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(12,28,80,.12)}
+.feat-ico{width:36px;height:36px;border-radius:10px;background:var(--gold-ghost);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0}
+.feat-card h4{font-family:'Noto Serif JP',serif;font-size:9.5px;color:var(--navy);font-weight:600;margin-bottom:6px;line-height:1.3}
+.feat-chev{color:var(--gold);display:flex;justify-content:center;margin-top:2px}
+.feat-card p{font-size:9px;color:var(--sub);line-height:1.4}
+
+.fund-card{background:#fff;border:1px solid var(--bdr);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:6px}
+.fund-img{height:130px;background:linear-gradient(180deg,rgba(13,24,64,.1),rgba(13,24,64,.6)),url('https://hoshiyajp.co.jp/hoshiya/sites/3/2026/06/Echoland_exterior1.jpg') center/cover;position:relative;display:flex;align-items:flex-end;padding:12px}
+.fund-badges{position:absolute;top:12px;left:12px;display:flex;gap:8px;flex-wrap:wrap}
+.b-recruit2{background:linear-gradient(180deg,var(--gold-l),var(--gold));color:#241a06;font-weight:700;font-size:11px;padding:6px 14px;border-radius:20px;white-space:nowrap}
+.b-type{background:rgba(255,255,255,.16);color:#fff;font-weight:600;font-size:11px;padding:6px 14px;border-radius:20px;backdrop-filter:blur(4px);white-space:nowrap}
+.fund-body{padding:16px}
+.fund-body h4{font-family:'Noto Serif JP',serif;font-size:16px;color:var(--navy);font-weight:600;margin-bottom:12px}
+.fund-stats{display:flex;gap:18px;margin-bottom:14px}
+.fund-stat .k{font-size:10px;color:var(--sub);letter-spacing:1px}
+.fund-stat .v{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--gold);font-weight:700}
+.fund-stat .v small{font-size:12px}
+.prog{height:7px;background:var(--gold-ghost);border-radius:10px;overflow:hidden;margin-bottom:6px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-l),var(--gold));border-radius:10px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-bottom:14px}
+
+.flow-grid{display:grid;grid-template-columns:1fr 14px 1fr 14px 1fr;align-items:center;gap:0}
+.flow-card{background:#fff;border:1px solid var(--bdr);border-radius:14px;padding:18px 6px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;box-shadow:var(--shadow);position:relative}
+.flow-badge{position:absolute;top:8px;left:10px;color:var(--gold);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:15px}
+.flow-ico{width:40px;height:40px;border-radius:12px;background:var(--gold-ghost);display:flex;align-items:center;justify-content:center;color:var(--gold);margin-top:4px}
+.flow-card h4{font-family:'Noto Serif JP',serif;font-size:11px;color:var(--navy);font-weight:600;margin-top:1px}
+.flow-card p{font-size:8.5px;color:var(--sub);line-height:1.4}
+.flow-arrow{color:var(--gold);font-size:18px;font-weight:700;text-align:center}
+.legal-bar{background:linear-gradient(135deg,var(--gold),#9c7a3d);color:#fff;text-align:center;padding:14px 16px;font-size:11px;line-height:1.8;margin-top:20px;margin-bottom:10px}
+.legal-bar .legal-main{font-weight:600}
+.legal-bar .legal-link{display:block;color:#fff;font-weight:600;font-size:13px;text-decoration:underline;text-underline-offset:3px;margin-bottom:8px;font-family:'Noto Serif JP',serif}
+
+/* ===== モーダル系 ===== */
+.modal-wrap{background:rgba(8,12,30,.55);padding:0;min-height:100%;display:flex;align-items:flex-end;justify-content:center}
+#stage.web .modal-wrap,.frame.web .modal-wrap{align-items:center;padding:30px}
+.sheet{background:var(--bg);width:100%;border-radius:26px 26px 0 0;padding:8px 0 0;position:relative;animation:rise .4s cubic-bezier(.2,.8,.2,1)}
+#stage.web .sheet,.frame.web .sheet{border-radius:24px;max-width:460px;box-shadow:0 40px 90px rgba(0,0,0,.5)}
+@keyframes rise{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.grab{width:42px;height:4px;background:var(--bdr);border-radius:4px;margin:6px auto 2px}
+.sheet-head{text-align:center;padding:12px 22px 4px;position:relative}
+.sheet-head h3{font-family:'Noto Serif JP',serif;font-size:19px;color:var(--navy);font-weight:600}
+.sheet-head .x{position:absolute;right:18px;top:10px;width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid var(--bdr);color:var(--sub);font-size:15px}
+
+/* ルーレット */
+.wheel-stage{padding:14px 0 4px;display:flex;flex-direction:column;align-items:center}
+.wheel-box{position:relative;width:268px;height:268px;margin:6px 0 4px}
+.pointer{position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:22px solid var(--gold);filter:drop-shadow(0 3px 5px rgba(0,0,0,.3))}
+.wheel{width:100%;height:100%;border-radius:50%;position:relative;box-shadow:0 0 0 8px #fff,0 0 0 11px var(--gold-pale),0 14px 40px rgba(12,28,80,.28);
+  background:conic-gradient(
+    var(--g-s) 0 45deg, #fff 45deg 90deg,
+    var(--g-a) 90deg 135deg, #fff 135deg 180deg,
+    var(--g-b) 180deg 225deg, #fff 225deg 270deg,
+    var(--g-c) 270deg 315deg, var(--g-d) 315deg 360deg);
+  transition:transform 3.5s cubic-bezier(.15,.85,.25,1)}
+.wheel-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--navy-l),var(--navy));display:flex;align-items:center;justify-content:center;color:var(--gold-l);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:3;text-align:center;line-height:1.1}
+.wheel-seg-lbl{position:absolute;top:50%;left:50%;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:17px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.grade-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:14px 18px 4px;width:100%}
+.gl{display:flex;flex-direction:column;align-items:center;gap:5px}
+.gl small{font-size:10px;color:var(--sub)}
+.sheet-foot{padding:14px 18px calc(18px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--bdr);margin-top:10px}
+.sheet-foot .chance{color:var(--sub);text-align:center;display:block;margin-bottom:10px}
+.sheet-foot .chance b{color:var(--gold)}
+
+/* ルーレット画面（新デザイン） */
+.wheel-page{background:linear-gradient(160deg,#0C1B46 0%,#0a1638 60%,#060f29 100%);min-height:100%;padding-bottom:24px;color:#fff}
+.wheel-modal-overlay{position:absolute;inset:0;z-index:30;overflow-y:auto;background:rgba(6,12,32,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.wheel-modal-card{background:#fff;border-radius:22px;padding:16px 16px 18px;width:100%;max-width:360px;box-shadow:0 30px 60px rgba(0,0,0,.4);position:relative}
+.wm-head{position:relative;text-align:center;margin-bottom:12px;padding-top:4px}
+.wm-head h3{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:var(--navy);margin:0}
+.wm-close{position:absolute;right:0;top:-4px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--bdr);background:#fff;color:var(--navy);font-size:14px;display:flex;align-items:center;justify-content:center;line-height:1;padding:0}
+.wm-disclaimer{background:var(--gold-ghost);border-radius:10px;padding:8px 10px;font-size:10px;color:var(--sub);line-height:1.5;margin:10px 0 8px}
+.wm-sub{text-align:center;font-size:12px;color:var(--sub);margin-bottom:8px}
+.wm-detail{display:block;text-align:center;margin-top:10px;font-size:12.5px;color:var(--navy);text-decoration:none;font-weight:500}
+.frame.web .wheel-modal-card{max-width:420px;padding:28px 26px 30px}
+.status-page{background:var(--bg);min-height:100%;padding-bottom:24px;color:var(--text)}
+.status-page .detail-head .back{background:rgba(12,28,80,.08);color:var(--navy)}
+.status-page .detail-head h3{color:var(--navy)}
+.wheel-page-top{display:flex;justify-content:space-between;align-items:center;padding:16px 16px 0}
+.wp-back{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);border:none;display:flex;align-items:center;justify-content:center;color:#fff}
+.wp-bell{position:relative;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:#fff}
+.wp-bell .ntf-dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:#e0473c}
+.wp-title{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;letter-spacing:.05em;color:var(--gold-l);margin:12px 0 20px}
+.wheel-stage2{display:flex;justify-content:center;padding:0 24px}
+.wheel-box2{position:relative;width:235px;height:235px}
+.pointer2{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:5;width:28px;height:24px;background:linear-gradient(180deg,#f3dba0 0%,#B8954F 100%);clip-path:polygon(50% 100%,0 0,100% 0);filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.wheel2{width:100%;height:100%;display:block;filter:drop-shadow(0 18px 40px rgba(0,0,0,.4));transition:transform 3.5s cubic-bezier(.15,.85,.25,1)}
+.wheel2-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:74px;height:74px;border-radius:50%;background:#0C1C50;border:3px solid var(--gold-l);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:15px;letter-spacing:.05em;box-shadow:0 4px 14px rgba(0,0,0,.4);z-index:3}
+.w2-lbl{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:22px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3);z-index:2}
+.w2-lbl small{font-family:'Noto Sans JP',sans-serif;font-style:normal;font-weight:600;font-size:11px;margin-top:2px}
+.wp-panel{margin:24px 18px 0;border:1px solid rgba(212,185,120,.35);border-radius:18px;padding:18px 14px;background:rgba(255,255,255,.03)}
+.legend2{display:flex;justify-content:space-between;gap:6px;margin-bottom:12px}
+.legend2-item{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.legend2-tile{width:50%;aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:14px;color:#fff;box-shadow:0 3px 6px rgba(0,0,0,.18)}
+.legend2-item small{font-size:9.5px;color:var(--sub)}
+.legend2-tile.s{background:linear-gradient(160deg,#E8CC8A,#C9A04A)}
+.legend2-tile.a{background:linear-gradient(160deg,#7FBF82,#4E9456)}
+.legend2-tile.b{background:linear-gradient(160deg,#7FAEE0,#4A7FC2)}
+.legend2-tile.c{background:linear-gradient(160deg,#C0A0DB,#9468BD)}
+.legend2-tile.d{background:linear-gradient(160deg,#B7BFC7,#8C95A0)}
+.wp-chance{text-align:center;font-size:12px;color:rgba(255,255,255,.7);margin-top:10px}
+.wp-chance b{color:var(--gold-l);font-family:'Cormorant Garamond',serif;font-style:italic}
+.wp-next{text-align:center;font-size:11px;color:rgba(255,255,255,.4);margin-top:4px}
+.wheel-box2.used .wheel2{filter:grayscale(.9) brightness(.85) drop-shadow(0 18px 40px rgba(0,0,0,.4));opacity:.4;transition:none}
+.wheel-box2.used .pointer2{opacity:.3}
+.wheel-done-ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:104px;height:104px;border-radius:50%;background:rgba(8,18,64,.9);border:1px solid rgba(212,185,120,.4);color:var(--gold-l);text-align:center}
+.wheel-done-ov svg{width:24px;height:24px}
+.wheel-done-ov b{font-family:'Noto Sans JP',sans-serif;font-size:11px;font-weight:600;color:#fff;line-height:1.35;letter-spacing:.02em}
+.gold-btn.is-disabled{background:rgba(255,255,255,.08);color:rgba(255,255,255,.42);box-shadow:none;cursor:not-allowed;pointer-events:none}
+.wp-alt{display:block;width:100%;text-align:center;margin-top:14px;font-size:12.5px;color:var(--gold-l);background:none;border:none;text-decoration:underline;text-underline-offset:3px;padding:4px}
+.wp-mock-toggle{display:block;margin:10px auto 0;font-size:10.5px;color:rgba(12,28,80,.4);background:none;border:1px dashed rgba(12,28,80,.25);border-radius:20px;padding:4px 12px}
+.frame.web .wheel-page{padding-bottom:34px}
+.frame.web .status-page{padding-bottom:34px}
+.frame.web .wp-title{font-size:24px}
+.frame.web .wheel-box2{width:300px;height:300px}
+.frame.web .wp-panel{max-width:480px;margin:28px auto 0}
+
+/* 抽選ステータス */
+.detail-head{display:flex;align-items:center;gap:12px;padding:16px 16px 4px;background:transparent;position:sticky;top:0;z-index:20}
+.detail-head .back{width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;color:#fff}
+.detail-head h3{font-family:'Noto Serif JP',serif;font-size:17px;color:var(--gold-l);font-weight:600}
+.dwrap{padding:6px 16px 24px;display:flex;flex-direction:column;gap:14px}
+.card{background:#fff;border:1px solid var(--bdr);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+.card-t{display:flex;align-items:baseline;gap:8px;margin-bottom:14px}
+.card-t .ja{font-family:'Noto Serif JP',serif;font-size:15px;color:var(--navy);font-weight:600}
+.card-t .en{color:var(--gold);font-size:11px;letter-spacing:2px}
+
+.benefit-hero{background:linear-gradient(160deg,#0d1c54 0%,#0a1640 55%,#060f30 100%);border:none;text-align:center;padding:26px 16px 22px;box-shadow:0 16px 36px rgba(6,10,30,.4)}
+.bh-eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:3px;text-transform:uppercase;color:var(--gold-l);font-size:12px;margin-bottom:6px}
+.bh-title{font-family:'Noto Serif JP',serif;font-size:20px;font-weight:700;color:#fff;margin:0 0 8px}
+.bh-sub{font-size:12px;color:rgba(255,255,255,.75);margin:0 0 4px}
+.bh-caption{font-size:12px;color:rgba(255,255,255,.6);margin-top:12px}
+.eval-desc{font-size:12.5px;color:var(--text);line-height:1.7;margin-bottom:16px}
+.eval-desc b{color:var(--navy);font-weight:700}
+.v-item .vt{font-family:'Noto Serif JP',serif;font-size:13px;color:var(--navy);font-weight:700;line-height:1.3}
+.pa i{font-style:normal;font-size:10.5px;color:var(--sub);font-weight:500;margin-left:2px}
+.score-card{display:flex;align-items:center;gap:20px;background:linear-gradient(135deg,#fff,var(--gold-ghost))}
+.gauge{--p:90;width:118px;height:118px;border-radius:50%;flex-shrink:0;position:relative;
+  background:radial-gradient(closest-side,#fff 76%,transparent 77% 100%),conic-gradient(var(--gold) calc(var(--p)*1%),var(--gold-pale) 0)}
+.gauge::after{content:'';position:absolute;inset:9px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--bdr)}
+.gauge .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge .num b{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;color:var(--navy);line-height:1}
+.gauge .num small{font-size:10px;color:var(--sub);letter-spacing:1px}
+.score-info .now{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.score-info .now .grade-chip{width:34px;height:34px}
+.score-info .now b{font-family:'Noto Serif JP',serif;font-size:16px;color:var(--navy)}
+.score-info .next{font-size:12.5px;color:var(--sub);line-height:1.7}
+.score-info .next em{font-style:normal;color:var(--gold);font-weight:700}
+.note{font-size:10.5px;color:var(--sub);background:var(--gold-ghost);border-radius:8px;padding:7px 10px;margin-top:12px;line-height:1.6}
+
+.v-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.v-item{border:1px solid var(--bdr);border-radius:13px;padding:12px;display:flex;gap:10px;align-items:center}
+.v-item .vi{width:38px;height:38px;border-radius:10px;background:var(--gold-ghost);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0}
+.v-item .vk{font-size:10.5px;color:var(--sub)}
+.v-item .vv{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--navy);font-weight:700;line-height:1.1}
+
+.prize-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bdr)}
+.prize-row:last-child{border-bottom:none}
+.prize-row .pn{flex:1}
+.prize-row .pn b{font-size:13.5px;color:var(--navy);font-weight:600;display:block}
+.prize-row .pn small{font-size:11px;color:var(--sub)}
+.prize-row .pa{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:var(--gold);font-weight:700;white-space:nowrap}
+
+.hist-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--bdr)}
+.hist-row:last-child{border-bottom:none}
+.hist-row .hn{flex:1}
+.hist-row .hn b{font-size:13px;color:var(--navy);font-weight:600;display:block}
+.hist-row .hn small{font-size:11px;color:var(--sub)}
+.b-use{background:#e8f4ee;color:var(--ok)}
+.b-used{background:#f0f0f2;color:#9aa0ab}
+.b-expired{background:#fbecec;color:#c0392b}
+.rules{counter-reset:r;display:flex;flex-direction:column;gap:11px}
+.rules li{list-style:none;display:flex;gap:11px;font-size:12.5px;color:var(--text);line-height:1.7}
+.rules li::before{counter-increment:r;content:counter(r);flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-family:'Noto Sans JP',sans-serif;font-style:normal;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+
+/* 資格なし */
+.locked-wheel{position:relative;display:flex;flex-direction:column;align-items:center;padding:18px 0 6px}
+.locked-wheel .wheel{filter:grayscale(.85) brightness(1.05);opacity:.5}
+.lock-ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;width:62px;height:62px;border-radius:50%;background:rgba(12,28,80,.82);display:flex;align-items:center;justify-content:center;color:var(--gold-l)}
+.locked-msg{text-align:center;padding:4px 24px 0}
+.locked-msg h3{font-family:'Noto Serif JP',serif;font-size:17px;color:var(--navy);margin-bottom:8px;font-weight:600}
+.locked-msg p{font-size:13px;color:var(--sub);line-height:1.8}
+.cta-card{background:linear-gradient(135deg,var(--gold-ghost),#ecd9ae);border:1px solid rgba(212,185,120,.45);border-radius:18px;padding:20px;color:var(--navy);text-align:center}
+.cta-card .eyebrow{color:#241a06}
+.cta-card h4{font-family:'Noto Serif JP',serif;font-size:16px;margin:8px 0 6px;font-weight:600;color:#1a1305}
+.cta-card p{font-size:12px;color:rgba(36,26,6,.75);margin-bottom:16px;line-height:1.8}
+
+/* 当選結果 */
+.win-sheet{text-align:center;overflow:hidden}
+.win-top{padding:34px 24px 20px;position:relative;
+  background:radial-gradient(ellipse at 50% 0%,rgba(184,149,79,.28),transparent 65%),linear-gradient(180deg,var(--gold-ghost),var(--bg))}
+.win-grade{margin:0 auto 14px;width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:700;font-size:30px;color:#fff;background:linear-gradient(135deg,var(--gold-l),var(--gold));box-shadow:0 10px 26px rgba(184,149,79,.45)}
+.win-congrat{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:.1em;margin-bottom:6px}
+.win-prize{font-family:'Noto Serif JP',serif;font-size:15px;color:var(--navy);margin-bottom:10px;font-weight:500}
+.win-amt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:56px;font-weight:700;color:var(--gold);line-height:1;letter-spacing:1px}
+.win-exp{font-size:12px;color:var(--sub);margin-top:14px}
+.win-exp b{color:var(--navy)}
+.win-meta{margin:16px 22px 0;border:1px solid var(--bdr);border-radius:14px;padding:6px 14px;background:#fff}
+.win-meta .r{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;padding:9px 0;border-bottom:1px solid var(--bdr)}
+.win-meta .r:last-child{border-bottom:none}
+.win-meta .r span{color:var(--sub)}
+.win-meta .r b{color:var(--navy);font-weight:600}
+.win-meta .code{font-family:'Cormorant Garamond',serif;font-style:normal;letter-spacing:2px;color:var(--gold);font-weight:700;font-size:14px}
+.win-foot{padding:16px 22px 24px;display:flex;flex-direction:column;gap:10px}
+.win-note{font-size:11px;color:var(--sub);text-align:center;margin-top:2px}
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.confetti i{position:absolute;top:-12px;width:8px;height:13px;opacity:.9;animation:fall 2.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(360px) rotate(420deg);opacity:0}}
+
+/* app tab bar */
+.tabbar{position:sticky;bottom:0;background:var(--bg);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:14px 6px calc(10px + env(safe-area-inset-bottom));z-index:25;box-shadow:0 -2px 10px rgba(12,28,80,.05)}
+.tabbar.has-lottery{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tabbar a{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;color:var(--sub);text-decoration:none;font-weight:500;min-width:0}
+.tabbar a .ic-circle{width:52px;height:52px;border-radius:50%;background:var(--gold-ghost);display:flex;align-items:center;justify-content:center;color:#565b6b;transition:.2s}
+.tabbar a.on .ic-circle{background:var(--navy);color:#fff;box-shadow:0 6px 16px rgba(12,28,80,.35)}
+.tabbar a.on{color:var(--navy);font-weight:700}
+.tabbar a .lbl{letter-spacing:.01em;white-space:nowrap}
+.tabbar a.tb-lottery{cursor:pointer}
+.tabbar a.tb-lottery .ic-circle{position:relative;top:-14px;width:64px;height:64px;background:none;border:none;box-shadow:0 10px 22px rgba(12,28,80,.4);overflow:visible}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tb-rim{position:absolute;inset:0;border-radius:50%;border:1.5px dashed var(--gold-l);animation:spin 12s linear infinite}
+.tb-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:84%;height:84%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#1e3f8f,#0C1C50 75%);border:1.5px solid var(--gold-l);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--gold-l)}
+.tb-hub svg{width:24px;height:24px}
+.tb-hub b{font-family:'Noto Sans JP',sans-serif;font-size:11px;font-weight:700;color:#fff;letter-spacing:.02em}
+.web-fab-dock{position:sticky;bottom:0;left:0;width:100%;height:0;overflow:visible;pointer-events:none;z-index:40}
+.web-lottery-fab{position:absolute;right:32px;bottom:32px;width:88px;height:88px;cursor:pointer;pointer-events:auto;filter:drop-shadow(0 12px 26px rgba(12,28,80,.4))}
+.web-lottery-fab .tb-hub svg{width:28px;height:28px}
+.web-lottery-fab .tb-hub b{font-size:13px}
+
+/* web layout helpers */
+.frame.web .container{max-width:920px;margin:0 auto;padding:0 28px}
+.frame.web .lottery-hero{margin:0;padding:18px 28px}
+.frame.web .lottery-hero h2{font-size:24px}
+.frame.web .lh-desc{font-size:13px}
+.frame.web .lh-wheel .wheel-box2{width:120px;height:120px}
+.frame.web .feat-grid{grid-template-columns:repeat(3,1fr);gap:18px}
+.frame.web .feat-card{flex-direction:column;text-align:center;padding:26px 20px;align-items:center}
+.frame.web .feat-ico{width:56px;height:56px}
+.frame.web .flow-card{padding:26px 16px 20px}
+.frame.web .flow-ico{width:54px;height:54px}
+.frame.web .flow-card h4{font-size:15px}
+.frame.web .flow-card p{font-size:11px}
+.frame.web .flow-arrow{font-size:26px}
+.frame.web .home-cols{display:grid;grid-template-columns:1fr;gap:8px}
+.frame.web .fund-img{height:200px}
+.frame.web .topnav{padding:18px 36px}
+.frame.web .dwrap{max-width:760px;margin:0 auto}
+.frame.web .v-grid{grid-template-columns:repeat(4,1fr)}
+.frame.web .gold-btn{font-size:16px;padding:16px}
+.frame.web .lh-btn{font-size:14px;padding:9px 20px}
+.frame.web .legal-bar{font-size:13px;padding:18px 24px}
+.frame.web .b-recruit2,.frame.web .b-type{font-size:13px;padding:7px 16px}
+.frame.web .detail-head h3{font-size:22px}
+.frame.web .card{padding:24px}
+.frame.web .card-t .ja{font-size:18px}
+.frame.web .card-t .en{font-size:13px}
+.frame.web .benefit-hero{padding:36px 28px 30px}
+.frame.web .bh-eyebrow{font-size:13px}
+.frame.web .bh-title{font-size:26px}
+.frame.web .bh-caption{font-size:13px}
+.frame.web .eval-desc{font-size:14px}
+.frame.web .v-item{padding:16px}
+.frame.web .v-item .vt{font-size:15px}
+.frame.web .v-item .vk{font-size:12px}
+.frame.web .prize-row .pn b{font-size:15px}
+.frame.web .prize-row .pn small{font-size:12.5px}
+.frame.web .prize-row .pa{font-size:21px}
+.frame.web .hist-row .hn b{font-size:14.5px}
+.frame.web .hist-row .hn small{font-size:12.5px}
+.frame.web .rules li{font-size:14px}
+.frame.web .note{font-size:12px;padding:10px 14px}
+.frame.web .locked-msg h3{font-size:20px}
+.frame.web .locked-msg p{font-size:14.5px}
+.frame.web .cta-card{padding:28px}
+.frame.web .cta-card h4{font-size:19px}
+.frame.web .cta-card p{font-size:13.5px}
+.frame.web .wm-head h3{font-size:20px}
+.frame.web .legend2-tile{font-size:18px}
+.frame.web .legend2-item small{font-size:11.5px}
+.frame.web .wm-disclaimer{font-size:12px;padding:10px 14px}
+.frame.web .wm-detail{font-size:14px}
+.frame.web .wm-sub{font-size:14px}
+.section-pad{padding-bottom:18px}
+.web-footer{background:var(--navy-d);color:rgba(255,255,255,.6);text-align:center;padding:22px;font-size:11px;letter-spacing:1px;margin-top:24px}
+.frame.web .web-footer{display:block}
+.web-footer{display:none}
+</style>
+</head>
+<body>
+
+<div class="shell-top">
+  <div class="shell-brand"><b>STE//AVIA</b><span>抽選UI デザインモック</span></div>
+  <div class="seg" id="seg">
+    <button data-mode="app" class="on">📱 App版</button>
+    <button data-mode="web">💻 Web版</button>
+  </div>
+  <div class="tabs" id="tabs">
+    <button data-s="home" class="on"><span class="n">01</span>ホーム</button>
+    <button data-s="wheel"><span class="n">02</span>ルーレットモーダル</button>
+    <button data-s="detail"><span class="n">03</span>抽選ステータス(資格あり)</button>
+    <button data-s="locked"><span class="n">04</span>抽選ステータス(資格なし)</button>
+    <button data-s="win"><span class="n">05</span>当選結果</button>
+  </div>
+</div>
+
+<div class="stage app" id="stage">
+
+  <!-- ===================== APP FRAME ===================== -->
+  <div class="frame app show">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="phone-screen" id="appScreen"></div>
+    </div>
+  </div>
+
+  <!-- ===================== WEB FRAME ===================== -->
+  <div class="frame web">
+    <div class="browser">
+      <div class="bbar">
+        <span class="bdot" style="background:#ff5f57"></span>
+        <span class="bdot" style="background:#febc2e"></span>
+        <span class="bdot" style="background:#28c840"></span>
+        <span class="burl">https://stellavia.co.jp/lottery</span>
+      </div>
+      <div class="bweb" id="webScreen"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ====== SVG icons ====== */
+const IC = {
+  wheel:`<svg viewBox="0 0 100 100">
+    <defs>
+      <radialGradient id="wheelHubSm" cx="35%" cy="30%" r="75%">
+        <stop offset="0%" stop-color="#274d9e"/>
+        <stop offset="100%" stop-color="#0C1C50"/>
+      </radialGradient>
+      <radialGradient id="wheelSheenSm" cx="50%" cy="18%" r="60%">
+        <stop offset="0%" stop-color="#fff" stop-opacity="0.32"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="50" r="44" fill="none" stroke="#D4B978" stroke-width="1.5" opacity="0.6"/>
+    <path d="M50,50 L50,8 A42,42 0 0 1 79.7,20.3 Z" fill="#B8954F"/>
+    <path d="M50,50 L79.7,20.3 A42,42 0 0 1 92,50 Z" fill="#F8F2E5"/>
+    <path d="M50,50 L92,50 A42,42 0 0 1 79.7,79.7 Z" fill="#B8954F"/>
+    <path d="M50,50 L79.7,79.7 A42,42 0 0 1 50,92 Z" fill="#F8F2E5"/>
+    <path d="M50,50 L50,92 A42,42 0 0 1 20.3,79.7 Z" fill="#B8954F"/>
+    <path d="M50,50 L20.3,79.7 A42,42 0 0 1 8,50 Z" fill="#F8F2E5"/>
+    <path d="M50,50 L8,50 A42,42 0 0 1 20.3,20.3 Z" fill="#B8954F"/>
+    <path d="M50,50 L20.3,20.3 A42,42 0 0 1 50,8 Z" fill="#F8F2E5"/>
+    <circle cx="50" cy="50" r="42" fill="url(#wheelSheenSm)"/>
+    <circle cx="50" cy="50" r="42" fill="none" stroke="#0C1C50" stroke-width="2"/>
+    <circle cx="50" cy="8" r="2.2" fill="#D4B978"/>
+    <circle cx="79.7" cy="20.3" r="2.2" fill="#D4B978"/>
+    <circle cx="92" cy="50" r="2.2" fill="#D4B978"/>
+    <circle cx="79.7" cy="79.7" r="2.2" fill="#D4B978"/>
+    <circle cx="50" cy="92" r="2.2" fill="#D4B978"/>
+    <circle cx="20.3" cy="79.7" r="2.2" fill="#D4B978"/>
+    <circle cx="8" cy="50" r="2.2" fill="#D4B978"/>
+    <circle cx="20.3" cy="20.3" r="2.2" fill="#D4B978"/>
+    <circle cx="50" cy="50" r="11" fill="url(#wheelHubSm)"/>
+    <circle cx="50" cy="50" r="11" fill="none" stroke="#D4B978" stroke-width="1.5"/>
+    <polygon points="50,1 45,9 55,9" fill="#B8954F"/>
+  </svg>`,
+  bed:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6"/><path d="M3 18v3M21 18v3M3 14h18"/><path d="M7 10V8a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>`,
+  shield:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>`,
+  coin:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M9.5 9.5h3.2a1.6 1.6 0 0 1 0 3.2H9.5M14.5 14.5h-5"/></svg>`,
+  chevDown:`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`,
+  wheat:`<svg viewBox="0 0 22 64" width="22" height="64" fill="none"><line x1="11" y1="6" x2="11" y2="62" stroke="currentColor" stroke-width="1.5"/><ellipse cx="7" cy="14" rx="4" ry="2.2" transform="rotate(-30 7 14)" fill="currentColor"/><ellipse cx="15" cy="14" rx="4" ry="2.2" transform="rotate(30 15 14)" fill="currentColor"/><ellipse cx="6.5" cy="24" rx="4.2" ry="2.3" transform="rotate(-28 6.5 24)" fill="currentColor"/><ellipse cx="15.5" cy="24" rx="4.2" ry="2.3" transform="rotate(28 15.5 24)" fill="currentColor"/><ellipse cx="6" cy="34" rx="4.4" ry="2.4" transform="rotate(-26 6 34)" fill="currentColor"/><ellipse cx="16" cy="34" rx="4.4" ry="2.4" transform="rotate(26 16 34)" fill="currentColor"/><ellipse cx="5.5" cy="44" rx="4.4" ry="2.4" transform="rotate(-24 5.5 44)" fill="currentColor"/><ellipse cx="16.5" cy="44" rx="4.4" ry="2.4" transform="rotate(24 16.5 44)" fill="currentColor"/></svg>`,
+  user:`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>`,
+  back:`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>`,
+  lock:`<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`,
+  clock:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>`,
+  yen:`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5l5 7 5-7M12 12v7M8 14h8M8 17h8"/></svg>`,
+  cal:`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 9h16M8 3v4M16 3v4"/></svg>`,
+  users:`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M16 6a3 3 0 0 1 0 6M18 20c0-2-1-3.5-2.5-4.5"/></svg>`,
+  star:`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.4 5 5.6.7-4 3.9 1 5.5-5-2.7-5 2.7 1-5.5-4-3.9 5.6-.7z"/></svg>`,
+  home:`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>`,
+  gift:`<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="1.2"/><rect x="3" y="7" width="18" height="4" rx="1"/><line x1="12" y1="7" x2="12" y2="20"/><path d="M12 7c0-2.2-1.6-4-3.6-4S6 4.6 6 6.1c0 .9.9.9 1.8.9h4.2z"/><path d="M12 7c0-2.2 1.6-4 3.6-4S18 4.6 18 6.1c0 .9-.9.9-1.8.9h-4.2z"/></svg>`,
+  grid:`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>`,
+  ticket:`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/><path d="M12 6v2M12 11v2M12 16v2"/></svg>`,
+  mypage:`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/></svg>`,
+  barchart:`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="3" width="4" height="17" rx="1"/></svg>`,
+  kizu:`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="7.5" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="7.5" r="1" fill="currentColor" stroke="none"/><path d="M4 14.5c2-3.2 4-3.2 6 0M14 14.5c2-3.2 4-3.2 6 0"/></svg>`,
+  bell:`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 1 1 12 0c0 3 1 5 2 6H4c1-1 2-3 2-6Z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>`,
+  idcard:`<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="9" cy="11.3" r="2"/><path d="M6.3 16c0-1.6 1.2-2.5 2.7-2.5s2.7.9 2.7 2.5"/><path d="M14 10h4M14 13h4"/></svg>`
+};
+
+/* ====== 共通パーツ ====== */
+const navTop = `
+<div class="topnav">
+  <div class="nav-actions">
+    <div class="icn-btn">${IC.bell}<i class="ntf-dot"></i></div>
+    <button class="gold-btn web-only" style="width:auto;padding:10px 18px;font-size:13px">オーナー登録</button>
+  </div>
+</div>`;
+
+const tabBar = (active)=>{
+  const isHome = active==='home';
+  const isKizu = ['wheel','detail','locked','win'].includes(active);
+  const lotteryTab = isHome ? `
+  <a class="tb-lottery" onclick="go('wheel')">
+    <span class="ic-circle">
+      <span class="tb-rim"></span>
+      <span class="tb-hub">${IC.gift}<b>抽選</b></span>
+    </span>
+  </a>` : '';
+  return `
+<div class="tabbar${isHome?' has-lottery':''}">
+  <a class="${isHome?'on':''}"><span class="ic-circle">${IC.home}</span><span class="lbl">ホーム</span></a>
+  <a><span class="ic-circle">${IC.barchart}</span><span class="lbl">ファンド</span></a>
+  <a class="${isKizu?'on':''}"><span class="ic-circle">${IC.kizu}</span><span class="lbl">KIZUNARK</span></a>
+  <a><span class="ic-circle">${IC.mypage}</span><span class="lbl">マイページ</span></a>
+  ${lotteryTab}
+</div>`;};
+
+const wheelLabels = `
+  <span class="wheel-seg-lbl" style="top:18%;left:62%">S</span>
+  <span class="wheel-seg-lbl" style="top:38%;left:80%;color:var(--g-a)">A</span>
+  <span class="wheel-seg-lbl" style="top:64%;left:72%;color:var(--g-b)">B</span>
+  <span class="wheel-seg-lbl" style="top:74%;left:34%;color:var(--g-c)">C</span>
+  <span class="wheel-seg-lbl" style="top:42%;left:14%;color:#fff">D</span>`;
+
+const bannerHtml = `
+<div class="banner">
+  <div class="banner-status"><span>9:41</span><span class="dots">●●● 📶 100%</span></div>
+  <div class="banner-bell"><div class="banner-bell-btn">${IC.bell}<i class="ntf-dot"></i></div></div>
+  <div class="banner-track">
+    <div class="banner-slide s1"></div>
+    <div class="banner-slide s2"></div>
+    <div class="banner-slide s3"></div>
+  </div>
+  <div class="banner-dots"><i class="on"></i><i></i><i></i></div>
+</div>`;
+
+/* ====== 画面定義 ====== */
+function screenHome(){return `
+${bannerHtml}
+
+<div class="sec">
+  <div class="lottery-hero">
+    <div class="lh-main">
+      <h2>抽選チャンス</h2>
+      <p class="lh-desc">毎日1回、ルーレットを回して<br>金券を当てましょう。</p>
+      <button class="lh-btn" onclick="go('wheel')">抽選する</button>
+    </div>
+    <div class="lh-wheel">${wheelSvgBlock()}</div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-h"><span class="ja">StellaViaの魅力</span></div>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-ico">${IC.bed}</div><div><h4>ホテル・旅館・リゾートに特化。</h4><div class="feat-chev">${IC.chevDown}</div></div></div>
+    <div class="feat-card"><div class="feat-ico">${IC.shield}</div><div><h4>投資した宿に、実際に泊まれる。</h4><div class="feat-chev">${IC.chevDown}</div></div></div>
+    <div class="feat-card"><div class="feat-ico">${IC.coin}</div><div><h4>二重構造で、資産を守る。</h4><div class="feat-chev">${IC.chevDown}</div></div></div>
+  </div>
+</div>
+
+<div class="sec section-pad">
+  <div class="sec-h"><span class="ja">最新ファンド</span></div>
+  <div class="fund-card">
+    <div class="fund-img">
+      <div class="fund-badges">
+        <span class="b-recruit2">募集中</span>
+        <span class="b-type">混合型（インカム＋キャピタル）</span>
+      </div>
+    </div>
+    <div class="fund-body">
+      <h4>Mr.T Resort 長野白馬 第12号</h4>
+      <div class="fund-stats">
+        <div class="fund-stat"><div class="k">想定利回り(年)</div><div class="v">5.8<small>%</small></div></div>
+        <div class="fund-stat"><div class="k">運用期間</div><div class="v">12<small>ヶ月</small></div></div>
+        <div class="fund-stat"><div class="k">最低出資</div><div class="v">1<small>万円〜</small></div></div>
+      </div>
+      <div class="prog"><i style="width:72%"></i></div>
+      <div class="prog-lbl"><span>募集達成率 <b style="color:var(--gold)">72%</b></span><span>残り 3日</span></div>
+      <button class="gold-btn">このファンドに申込む</button>
+    </div>
+  </div>
+</div>
+
+<div class="sec section-pad">
+  <div class="sec-h"><span class="ja">投資の流れ</span></div>
+  <div class="flow-grid">
+    <div class="flow-card">
+      <div class="flow-badge">1</div>
+      <div class="flow-ico">${IC.user}</div>
+      <h4>会員登録</h4>
+      <p>メールアドレスで<br>即時登録</p>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-card">
+      <div class="flow-badge">2</div>
+      <div class="flow-ico">${IC.idcard}</div>
+      <h4>本人確認</h4>
+      <p>安全に本人認証<br>を行います</p>
+    </div>
+    <div class="flow-arrow">›</div>
+    <div class="flow-card">
+      <div class="flow-badge">3</div>
+      <div class="flow-ico">${IC.barchart}</div>
+      <h4>投資開始</h4>
+      <p>厳選ファンドへの<br>投資が可能に</p>
+    </div>
+  </div>
+</div>
+
+<div class="legal-bar">
+  <a class="legal-link" href="#">StellaVia公式サイト</a>
+  <div class="legal-main">大阪府知事許可 第22号（本許可）</div>
+  <div>第1号・第2号・電子取引業務</div>
+</div>`;}
+
+function wheelSvgBlock(){return `
+<div class="wheel-stage2">
+  <div class="wheel-box2${spinsLeft<=0?' used':''}">
+    <div class="pointer2"></div>
+    <svg class="wheel2" id="wheelEl" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradS" gradientUnits="userSpaceOnUse" x1="150" y1="150" x2="150" y2="15">
+          <stop offset="0%" stop-color="#f8e8c4"/>
+          <stop offset="60%" stop-color="#e3c890"/>
+          <stop offset="100%" stop-color="#cda35f"/>
+        </linearGradient>
+        <linearGradient id="gradA" gradientUnits="userSpaceOnUse" x1="150" y1="150" x2="278.4" y2="108.3">
+          <stop offset="0%" stop-color="#c9a565"/>
+          <stop offset="60%" stop-color="#a8813f"/>
+          <stop offset="100%" stop-color="#8a6530"/>
+        </linearGradient>
+        <linearGradient id="gradB" gradientUnits="userSpaceOnUse" x1="150" y1="150" x2="229.4" y2="259.2">
+          <stop offset="0%" stop-color="#f8e8c4"/>
+          <stop offset="60%" stop-color="#e3c890"/>
+          <stop offset="100%" stop-color="#cda35f"/>
+        </linearGradient>
+        <linearGradient id="gradC" gradientUnits="userSpaceOnUse" x1="150" y1="150" x2="70.6" y2="259.2">
+          <stop offset="0%" stop-color="#c9a565"/>
+          <stop offset="60%" stop-color="#a8813f"/>
+          <stop offset="100%" stop-color="#8a6530"/>
+        </linearGradient>
+        <linearGradient id="gradD" gradientUnits="userSpaceOnUse" x1="150" y1="150" x2="21.6" y2="108.3">
+          <stop offset="0%" stop-color="#f8e8c4"/>
+          <stop offset="60%" stop-color="#e3c890"/>
+          <stop offset="100%" stop-color="#cda35f"/>
+        </linearGradient>
+        <radialGradient id="hubGrad" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="#102a5e"/>
+          <stop offset="100%" stop-color="#050c28"/>
+        </radialGradient>
+        <radialGradient id="sheen" cx="50%" cy="18%" r="55%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="150" cy="150" r="140" fill="#B8954F"/>
+      <circle cx="150" cy="150" r="136" fill="#7a5a28"/>
+      <circle cx="150" cy="150" r="133" fill="#D4B978"/>
+      <circle cx="150" cy="150" r="128" fill="#e8d2a0"/>
+      <path d="M150,150 L74.8,46.4 A128,128 0 0 1 225.2,46.4 Z" fill="url(#gradS)"/>
+      <path d="M150,150 L225.2,46.4 A128,128 0 0 1 271.7,189.6 Z" fill="url(#gradA)"/>
+      <path d="M150,150 L271.7,189.6 A128,128 0 0 1 150,278 Z" fill="url(#gradB)"/>
+      <path d="M150,150 L150,278 A128,128 0 0 1 28.3,189.6 Z" fill="url(#gradC)"/>
+      <path d="M150,150 L28.3,189.6 A128,128 0 0 1 74.8,46.4 Z" fill="url(#gradD)"/>
+      <line x1="150" y1="150" x2="74.8" y2="46.4" stroke="#fff" stroke-width="1.8" opacity="0.7"/>
+      <line x1="150" y1="150" x2="225.2" y2="46.4" stroke="#fff" stroke-width="1.8" opacity="0.7"/>
+      <line x1="150" y1="150" x2="271.7" y2="189.6" stroke="#fff" stroke-width="1.8" opacity="0.7"/>
+      <line x1="150" y1="150" x2="150" y2="278" stroke="#fff" stroke-width="1.8" opacity="0.7"/>
+      <line x1="150" y1="150" x2="28.3" y2="189.6" stroke="#fff" stroke-width="1.8" opacity="0.7"/>
+      <circle cx="150" cy="150" r="128" fill="url(#sheen)"/>
+
+      <text x="150" y="66" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-style="italic" font-weight="700" font-size="34" fill="#0C1C50">S</text>
+      <text x="150" y="92" text-anchor="middle" font-family="'Noto Sans JP',sans-serif" font-weight="600" font-size="13" fill="#0C1C50">¥100,000</text>
+      <text x="224" y="134" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-style="italic" font-weight="700" font-size="34" fill="#0C1C50">A</text>
+      <text x="224" y="160" text-anchor="middle" font-family="'Noto Sans JP',sans-serif" font-weight="600" font-size="13" fill="#0C1C50">¥30,000</text>
+      <text x="196" y="221" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-style="italic" font-weight="700" font-size="34" fill="#0C1C50">B</text>
+      <text x="196" y="247" text-anchor="middle" font-family="'Noto Sans JP',sans-serif" font-weight="600" font-size="13" fill="#0C1C50">¥10,000</text>
+      <text x="104" y="221" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-style="italic" font-weight="700" font-size="34" fill="#0C1C50">C</text>
+      <text x="104" y="247" text-anchor="middle" font-family="'Noto Sans JP',sans-serif" font-weight="600" font-size="13" fill="#0C1C50">¥3,000</text>
+      <text x="76" y="134" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-style="italic" font-weight="700" font-size="34" fill="#0C1C50">D</text>
+      <text x="76" y="160" text-anchor="middle" font-family="'Noto Sans JP',sans-serif" font-weight="600" font-size="13" fill="#0C1C50">¥1,000</text>
+      <circle cx="150" cy="150" r="40" fill="#D4B978"/>
+      <circle cx="150" cy="150" r="35" fill="url(#hubGrad)"/>
+      <text x="150" y="155" text-anchor="middle" font-family="'Cormorant Garamond',serif" font-style="italic" font-weight="700" font-size="15" letter-spacing="1" fill="#D4B978">SPIN</text>
+    </svg>
+    ${spinsLeft<=0?`<div class="wheel-done-ov">${IC.clock}<b>本日は<br>終了</b></div>`:''}
+  </div>
+</div>`;}
+
+function screenWheel(){return `
+<div class="wheel-modal-overlay">
+  <div class="wheel-modal-card">
+    <div class="wm-head">
+      <h3>ルーレットを回す</h3>
+      <button class="wm-close" onclick="go('home')">×</button>
+    </div>
+    ${wheelSvgBlock()}
+    <div class="legend2">
+      <div class="legend2-item"><div class="legend2-tile s">S</div><small>¥100,000相当</small></div>
+      <div class="legend2-item"><div class="legend2-tile a">A</div><small>¥30,000相当</small></div>
+      <div class="legend2-item"><div class="legend2-tile b">B</div><small>¥10,000相当</small></div>
+      <div class="legend2-item"><div class="legend2-tile c">C</div><small>¥3,000相当</small></div>
+      <div class="legend2-item"><div class="legend2-tile d">D</div><small>¥1,000相当</small></div>
+    </div>
+    <div class="wm-disclaimer">※各賞は宿泊優待券（1泊ご招待）。金額は相当額の目安で、現金化・差額充当はできません。</div>
+    ${spinsLeft>0?`
+    <button class="gold-btn" id="spinBtn" onclick="spin(this)">ルーレットを回す</button>
+    `:`
+    <div class="wm-sub">本日の抽選回数が上限に達しました</div>
+    <button class="gold-btn is-disabled" disabled>ルーレットを回す</button>
+    `}
+    <a class="wm-detail" href="#" onclick="event.preventDefault()">詳しく ›</a>
+  </div>
+</div>`;}
+
+function screenDetail(){return `
+<div class="detail-head"><button class="back" onclick="go('home')">${IC.back}</button><h3>優待ステータス</h3></div>
+<div class="dwrap">
+  <div class="card benefit-hero">
+    <div class="bh-eyebrow">OWNER'S BENEFIT</div>
+    <h2 class="bh-title">オーナーズ優待</h2>
+    ${wheelSvgBlock()}
+    ${spinsLeft>0?`<button class="gold-btn" id="spinBtn" onclick="spin(this)">ルーレットを回す</button>`:`<button class="gold-btn is-disabled" disabled>ルーレットを回す</button>`}
+    <div class="bh-caption">好きな時に好きなだけ</div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="ja">総合評価について</span><span class="en">Evaluation</span></div>
+    <p class="eval-desc">獲得確率および獲得できる宿泊優待券の金額は、<b>StellaViaアカウント全体の累計投資額</b>などにもとづいて判定されます。ご投資を続けていただくことで、より上位の宿泊優待券が当たりやすくなり、新しいファンドへのご投資により新たな抽選機会も広がります。どなたにも当選のチャンスがあります。</p>
+    <div class="v-grid">
+      <div class="v-item"><div class="vi">${IC.yen}</div><div><div class="vt">投資額</div><div class="vk">新規＋累計</div></div></div>
+      <div class="v-item"><div class="vi">${IC.cal}</div><div><div class="vt">ご投資期間</div><div class="vk">運用・待機の期間</div></div></div>
+      <div class="v-item"><div class="vi">${IC.coin}</div><div><div class="vt">継続性</div><div class="vk">償還後の再投資</div></div></div>
+      <div class="v-item"><div class="vi">${IC.users}</div><div><div class="vt">コミュニティ参加</div><div class="vk">アプリでの口コミ等</div></div></div>
+    </div>
+    <div class="note">※ 各要素の評価方法・配点は公開しておりません。評価は上記要素にもとづく総合的な判断によります。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="ja">賞品一覧（イメージ）</span><span class="en">Prizes</span></div>
+    <div class="prize-row"><span class="grade-chip gS">S</span><div class="pn"><b>S賞 宿泊優待券</b><small>1泊ご招待</small></div><span class="pa">¥100,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gA">A</span><div class="pn"><b>A賞 宿泊優待券</b><small>1泊ご招待</small></div><span class="pa">¥30,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gB">B</span><div class="pn"><b>B賞 宿泊優待券</b><small>1泊ご招待</small></div><span class="pa">¥10,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gC">C</span><div class="pn"><b>C賞 宿泊優待券</b><small>1泊ご招待</small></div><span class="pa">¥3,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gD">D</span><div class="pn"><b>D賞 宿泊優待券</b><small>1泊ご招待</small></div><span class="pa">¥1,000<i>相当</i></span></div>
+    <div class="note">※ 宿泊優待券は1枚につき1泊のみのご招待です。ご予約の宿泊代金は券面額を超えられません（差額の現金補填はできません）。金額は宿泊グレードの相当額の目安で、現金化や差額の払い戻し、2泊目以降への充当・割引はできません。対象施設で利用可・宿泊先の指定なし。賞ランク・相当額・有効日数は表示例で、実際の内容は変更される場合があります。金額・有効期限は確定後に掲載します。優待券の換金・譲渡はできません。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="ja">当選履歴</span><span class="en">History</span></div>
+    <div class="hist-row"><span class="grade-chip gA">A</span><div class="hn"><b>A賞 宿泊優待券（1泊）¥30,000相当</b><small>2025/12/18 当選 ・ 第12号 長野白馬</small></div><span class="badge b-use">使用可能</span></div>
+    <div class="hist-row"><span class="grade-chip gC">C</span><div class="hn"><b>C賞 宿泊優待券（1泊）¥3,000相当</b><small>2025/08/03 当選 ・ 第12号 長野白馬</small></div><span class="badge b-used">使用済</span></div>
+    <div class="hist-row"><span class="grade-chip gB">B</span><div class="hn"><b>B賞 宿泊優待券（1泊）¥10,000相当</b><small>2024/10/20 当選 ・ 第11号 大阪</small></div><span class="badge b-expired">期限切れ</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="ja">ご利用ルール</span><span class="en">Rules</span></div>
+    <ol class="rules">
+      <li>第12号ファンド以降へのご出資が抽選の対象であることをご了承ください。</li>
+      <li>ご出資後、入金確認から所定期間（クーリングオフ期間）の経過後に、抽選にご参加いただけます。</li>
+      <li>抽選は継続して実施します。出資後は、好きな時に好きなだけ（期限なく）ご参加いただけます。</li>
+      <li>当選後も、継続してご参加いただけます。継続的なご投資が、当選の可能性につながります。</li>
+      <li>獲得確率・獲得できる宿泊優待券の金額は、アカウント全体の累計投資額などにもとづいて判定されます。ご投資を続けるほど、より上位の宿泊優待券が当たりやすくなります。</li>
+      <li>どなたにも当選のチャンスがあります。当選は抽選により決まり、当選をお約束するものではありません。</li>
+      <li>宿泊優待券は1枚につき1泊のみのご招待です。ご予約の宿泊代金は券面額を超えられません（差額の現金補填はできません）。現金化・差額の払い戻し、2泊目以降への充当や割引はできません。有効期限内にご利用ください。</li>
+    </ol>
+  </div>
+</div>`;}
+
+function screenLocked(){return `
+<div class="detail-head"><button class="back" onclick="go('home')">${IC.back}</button><h3>優待ステータス</h3></div>
+<div class="dwrap">
+  <div class="card" style="text-align:center">
+    <div class="locked-wheel">
+      <div style="position:relative">
+        <div class="wheel" style="width:200px;height:200px">${wheelLabels}<div class="wheel-hub">SPIN</div></div>
+        <div class="lock-ov">${IC.lock}</div>
+      </div>
+    </div>
+    <div class="locked-msg">
+      <h3>ご参加いただくには</h3>
+      <p>第12号ファンド以降にご出資いただくと、<br>ご参加いただけます。</p>
+    </div>
+  </div>
+
+  <div class="cta-card">
+    <div class="eyebrow">Get Qualified</div>
+    <h4>ファンドへの出資で参加</h4>
+    <p>1万円から出資でき、出資額に応じて<br>より当たりやすくなります。</p>
+    <button class="gold-btn" onclick="go('home')" style="background:#0C1C50;color:#fff;box-shadow:none">募集中ファンドを見る　→</button>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="ja">賞品の例</span><span class="en">Prizes</span></div>
+    <div class="prize-row"><span class="grade-chip gS">S</span><div class="pn"><b>S賞 宿泊優待券</b><small>1泊ご招待 ・ 対象施設で利用可</small></div><span class="pa">¥100,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gA">A</span><div class="pn"><b>A賞 宿泊優待券</b><small>1泊ご招待 ・ 対象施設で利用可</small></div><span class="pa">¥30,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gB">B</span><div class="pn"><b>B賞 宿泊優待券</b><small>1泊ご招待 ・ 対象施設で利用可</small></div><span class="pa">¥10,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gC">C</span><div class="pn"><b>C賞 宿泊優待券</b><small>1泊ご招待 ・ 対象施設で利用可</small></div><span class="pa">¥3,000<i>相当</i></span></div>
+    <div class="prize-row"><span class="grade-chip gD">D</span><div class="pn"><b>D賞 宿泊優待券</b><small>1泊ご招待 ・ 対象施設で利用可</small></div><span class="pa">¥1,000<i>相当</i></span></div>
+    <div class="note">※ 宿泊優待券は1枚につき1泊のみのご招待です。ご予約の宿泊代金は券面額を超えられません（差額の現金補填はできません）。金額は相当額の目安で、現金化・差額充当・2泊目割引はできません。内容は表示例で、変更される場合があります。金額・有効期限は確定後に掲載します。優待券の換金・譲渡はできません。</div>
+  </div>
+</div>`;}
+
+function screenWin(){return `
+<div class="modal-wrap">
+  <div class="sheet win-sheet">
+    <div class="confetti" id="confetti"></div>
+    <div class="win-top">
+      <div class="win-grade">A</div>
+      <div class="win-congrat">当選おめでとうございます！</div>
+      <div class="win-prize">A賞 金券に当選しました</div>
+      <div class="win-amt">¥30,000</div>
+      <div class="win-exp">有効期限：<b>2026年6月30日</b>まで</div>
+    </div>
+    <div class="win-meta">
+      <div class="r"><span>当選日</span><b>2025年12月18日</b></div>
+      <div class="r"><span>対象ファンド</span><b>第12号 長野白馬</b></div>
+      <div class="r"><span>クーポンコード</span><b class="code">SV-A8K2-9XPQ</b></div>
+    </div>
+    <div class="win-foot">
+      <button class="gold-btn" onclick="go('detail')">確認する</button>
+      <div class="win-note">当選履歴はマイページからいつでも確認できます</div>
+    </div>
+  </div>
+</div>`;}
+
+const SCREENS = {home:screenHome, wheel:screenWheel, detail:screenDetail, locked:screenLocked, win:screenWin};
+const withTab = {home:true, wheel:true, detail:true, locked:true};
+
+let current='home', mode='app';
+let spinsLeft = 1; /* 本日の残り回数（モック用） */
+let bannerTimers=[];
+
+function render(){
+  bannerTimers.forEach(t=>clearInterval(t));
+  bannerTimers=[];
+  const html = SCREENS[current]();
+  const wrapped = ['detail','locked'].includes(current) ? `<div class="status-page">${html}</div>` : html;
+  const app = document.getElementById('appScreen');
+  const web = document.getElementById('webScreen');
+  const sb = current==='home' ? '' : `<div class="statusbar"><span>9:41</span><span class="dots">●●● 📶 100%</span></div>`;
+  const tb = withTab[current]?tabBar(current):'';
+  const webFab = current==='home' ? `<div class="web-fab-dock"><div class="web-lottery-fab" onclick="go('wheel')"><span class="tb-rim"></span><span class="tb-hub">${IC.gift}<b>抽選</b></span></div></div>` : '';
+  app.innerHTML = sb + wrapped + tb;
+  web.innerHTML = wrapped + webFab + `<div class="web-footer">© StellaVia ステラヴィア　|　投資が、旅になる。</div>`;
+  app.scrollTop=0; web.scrollTop=0;
+  if(current==='home'){ initBanners(); }
+  if(current==='win'){ launchConfetti('appScreen'); launchConfetti('webScreen'); }
+}
+function go(s){ current=s; syncTabs(); render(); }
+function syncTabs(){ document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on', b.dataset.s===current)); }
+
+document.getElementById('tabs').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){current=b.dataset.s; syncTabs(); render();}});
+document.getElementById('seg').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b){mode=b.dataset.mode;
+  document.getElementById('stage').className='stage '+mode;
+  document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x.dataset.mode===mode)); render();}});
+
+/* バナー：3枚自動切替 */
+function initBanners(){
+  document.querySelectorAll('.banner').forEach(banner=>{
+    const track = banner.querySelector('.banner-track');
+    const dots = banner.querySelectorAll('.banner-dots i');
+    const slides = banner.querySelectorAll('.banner-slide');
+    let idx = 0;
+    function show(i){
+      idx = (i + slides.length) % slides.length;
+      track.style.transform = 'translateX(-' + (idx*100) + '%)';
+      dots.forEach((d,di)=>d.classList.toggle('on', di===idx));
+    }
+    show(0);
+    let timer = setInterval(()=>show(idx+1), 4500);
+    bannerTimers.push(timer);
+    dots.forEach((d,di)=>{
+      d.addEventListener('click', ()=>{
+        clearInterval(timer);
+        show(di);
+        timer = setInterval(()=>show(idx+1), 4500);
+        bannerTimers.push(timer);
+      });
+    });
+    fitBannerHeight(banner, slides[0]);
+  });
+}
+/* バナー画像の実際の縦横比に合わせて高さを自動調整（上下の余白を防止） */
+function fitBannerHeight(banner, slide){
+  if(!slide) return;
+  const bg = getComputedStyle(slide).backgroundImage;
+  const m = bg.match(/url\(["']?(.*?)["']?\)/);
+  if(!m || !m[1]) return;
+  const img = new Image();
+  img.onload = () => {
+    if(!img.naturalWidth || !img.naturalHeight) return;
+    const w = banner.clientWidth || banner.offsetWidth;
+    if(!w) return;
+    const h = Math.round(w * (img.naturalHeight / img.naturalWidth));
+    banner.style.height = h + 'px';
+  };
+  img.src = m[1];
+}
+window.addEventListener('resize', ()=>{
+  document.querySelectorAll('.banner').forEach(banner=>{
+    fitBannerHeight(banner, banner.querySelector('.banner-slide'));
+  });
+});
+
+/* ルーレット回転 */
+function spin(btn){
+  const w = document.getElementById('wheelEl');
+  if(!w || w.dataset.spinning) return;
+  w.dataset.spinning='1'; btn.textContent='抽選中…'; btn.style.opacity='.7';
+  const turns = 5*360 + 67; // Aセグメント付近で停止
+  w.style.transform=`rotate(${turns}deg)`;
+  setTimeout(()=>{
+    spinsLeft = Math.max(0, spinsLeft-1);
+    btn.textContent='当選結果を見る'; btn.style.opacity='1'; btn.onclick=()=>go('win');
+  }, 3700);
+}
+/* モック用：残り回数の表示切替（デモ確認用） */
+function toggleSpinDemo(){ spinsLeft = spinsLeft>0 ? 0 : 1; render(); }
+/* 紙吹雪 */
+function launchConfetti(id){
+  const host = document.getElementById(id); if(!host) return;
+  const c = host.querySelector('#confetti'); if(!c) return;
+  const cols=['#B8954F','#D4B978','#0C1C50','#3F9D6C','#EFE4CC'];
+  c.innerHTML='';
+  for(let i=0;i<46;i++){ const s=document.createElement('i');
+    s.style.left=Math.random()*100+'%'; s.style.background=cols[i%cols.length];
+    s.style.animationDelay=(Math.random()*0.5)+'s';
+    s.style.transform=`rotate(${Math.random()*360}deg)`;
+    s.style.borderRadius=Math.random()>.5?'2px':'50%';
+    c.appendChild(s);
+  }
+}
+render();
+</script>
+</body>
+</html>

@@ -16,6 +16,8 @@ class HomeHeroBanner extends StatelessWidget {
     required this.registerLabel,
     required this.loginLabel,
     required this.showGuestActions,
+    required this.onNotificationTap,
+    required this.showNotificationDot,
     this.onRegisterTap,
     this.onLoginTap,
   });
@@ -25,9 +27,10 @@ class HomeHeroBanner extends StatelessWidget {
   final String registerLabel;
   final String loginLabel;
   final bool showGuestActions;
+  final bool showNotificationDot;
   final VoidCallback? onRegisterTap;
   final VoidCallback? onLoginTap;
-
+  final VoidCallback? onNotificationTap;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -55,7 +58,21 @@ class HomeHeroBanner extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const _HomeHeroVisual(),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const _HomeHeroVisual(),
+                  Positioned(
+                    top: 55,
+                    right: 25,
+                    child: _HomeHeroNotificationButton(
+                      showDot: showNotificationDot,
+                      onTap: onNotificationTap,
+                    ),
+                  ),
+                  
+                ],
+              ),
               if (showGuestActions)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
@@ -222,8 +239,8 @@ class _HomeHeroNotificationButton extends StatelessWidget {
             child: AppNavigationIconButton(
               icon: Icons.notifications_none_rounded,
               size: 40,
-              borderRadius: 12,
-              backgroundColor: colors.onDark.withValues(alpha: 0.08),
+              borderRadius: 999,
+              backgroundColor: colors.onDark.withValues(alpha: 0.18),
               onTap: onTap,
             ),
           ),
@@ -261,7 +278,7 @@ class _HomeHeroVisual extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: colors.background),
       child: AspectRatio(
-        aspectRatio: 11 / 5,
+        aspectRatio: 5 / 3,
         child: FundHeroMediaBackground(
           gradientColors: <Color>[colors.heroMiddle, colors.primaryAlt],
           imageUrls: imageUrls,

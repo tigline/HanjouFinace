@@ -84,9 +84,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
       symbol: '¥',
       decimalDigits: 0,
     );
-    final shouldShowMemberProfileReminder = kDebugMode
-        ? true
-        : shouldShowHomeMemberProfileReminder(
+    final shouldShowMemberProfileReminder = shouldShowHomeMemberProfileReminder(
             currentUser,
             isMemberProfileCompleted: isMemberProfileCompleted,
           );
@@ -178,11 +176,13 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
       registerBonusTitle: l10n.homeGuestRegisterBonusTitle,
       registerBonusBody: l10n.homeGuestRegisterBonusBar,
       registerLabel: l10n.homeTopBannerRegisterAction,
+      showNotificationDot: hasUnreadNotifications,
       loginLabel: l10n.loginSubmit,
       onLoginTap: isAuthenticated ? null : () => context.push('/login'),
       onRegisterTap: isAuthenticated
           ? null
           : () => context.push('/login?openRegister=1'),
+      onNotificationTap: () => context.push('/profile/notifications'),
       showGuestActions: !isAuthenticated,
     );
     final attractionSection = HomeAttractionSection(
@@ -214,7 +214,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
 
     return Column(
       children: <Widget>[
-        MainShellChromeVisibility(child: topNavigationBar),
+        //MainShellChromeVisibility(child: topNavigationBar),
         Expanded(
           child: MainShellTabRefreshScope(
             tabIndex: 0,
