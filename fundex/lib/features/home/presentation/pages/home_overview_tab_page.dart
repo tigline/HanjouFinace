@@ -9,6 +9,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/network/app_network_connectivity_providers.dart';
 import '../../../../app/navigation/app_root_tab_refresh.dart';
+import '../../../benefit_lottery/presentation/support/benefit_lottery_mock_catalog.dart';
+import '../../../benefit_lottery/presentation/support/benefit_lottery_mock_draw_source.dart';
+import '../../../benefit_lottery/presentation/widgets/benefit_lottery_draw_dialog.dart';
 import '../providers/home_lottery_providers.dart';
 import '../support/home_featured_fund_card_mapper.dart';
 import '../support/home_member_profile_reminder_support.dart';
@@ -255,6 +258,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                               title: l10n.homeLotteryEntryTitle,
                               body: l10n.homeLotteryEntryBody,
                               actionLabel: l10n.homeLotteryEntryAction,
+                              onTap: () => _openBenefitLotteryDialog(context),
                             ),
                           ),
                         if (isAuthenticated)
@@ -367,6 +371,16 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _openBenefitLotteryDialog(BuildContext context) async {
+    final model = buildBenefitLotteryMockWheelModel(context.l10n);
+    final mockDrawSource = BenefitLotteryMockDrawSource();
+    await showBenefitLotteryDrawDialog(
+      context,
+      model: model,
+      drawRequest: () => mockDrawSource.draw(model),
     );
   }
 }

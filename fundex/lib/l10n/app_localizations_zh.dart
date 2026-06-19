@@ -765,6 +765,42 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeLotteryEntryAction => '参与抽奖';
 
   @override
+  String get benefitLotteryDialogTitle => '转动幸运轮盘';
+
+  @override
+  String get benefitLotteryCenterLabel => '开始';
+
+  @override
+  String benefitLotteryMockPrizeTitle(Object grade) {
+    return '$grade奖';
+  }
+
+  @override
+  String get benefitLotteryNoWinTitle => '未中奖';
+
+  @override
+  String get benefitLotteryDisclaimer =>
+      '※各奖项均为住宿优待券（赠送一晚住宿）。金额仅为参考价值，不可兑换现金或抵扣差价。';
+
+  @override
+  String get benefitLotterySpinAction => '转动轮盘';
+
+  @override
+  String get benefitLotteryRequestingAction => '正在准备抽奖…';
+
+  @override
+  String get benefitLotterySpinningAction => '抽奖中…';
+
+  @override
+  String get benefitLotteryViewResultAction => '查看抽奖结果';
+
+  @override
+  String get benefitLotteryDetailsAction => '查看详情';
+
+  @override
+  String get benefitLotteryDrawFailed => '抽奖未能完成，请重试。';
+
+  @override
   String get homeAttractionSectionTitle => 'StellaVia 的魅力';
 
   @override
@@ -6293,6 +6329,42 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get homeLotteryEntryAction => '參與抽獎';
+
+  @override
+  String get benefitLotteryDialogTitle => '轉動幸運輪盤';
+
+  @override
+  String get benefitLotteryCenterLabel => '開始';
+
+  @override
+  String benefitLotteryMockPrizeTitle(Object grade) {
+    return '$grade獎';
+  }
+
+  @override
+  String get benefitLotteryNoWinTitle => '未中獎';
+
+  @override
+  String get benefitLotteryDisclaimer =>
+      '※各獎項均為住宿優待券（贈送一晚住宿）。金額僅為參考價值，不可兌換現金或抵扣差價。';
+
+  @override
+  String get benefitLotterySpinAction => '轉動輪盤';
+
+  @override
+  String get benefitLotteryRequestingAction => '正在準備抽獎…';
+
+  @override
+  String get benefitLotterySpinningAction => '抽獎中…';
+
+  @override
+  String get benefitLotteryViewResultAction => '查看抽獎結果';
+
+  @override
+  String get benefitLotteryDetailsAction => '查看詳情';
+
+  @override
+  String get benefitLotteryDrawFailed => '抽獎未能完成，請重試。';
 
   @override
   String get homeAttractionSectionTitle => 'StellaVia 的魅力';

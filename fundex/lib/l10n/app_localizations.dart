@@ -1595,6 +1595,72 @@ abstract class AppLocalizations {
   /// **'Spin now'**
   String get homeLotteryEntryAction;
 
+  /// No description provided for @benefitLotteryDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Spin the wheel'**
+  String get benefitLotteryDialogTitle;
+
+  /// No description provided for @benefitLotteryCenterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SPIN'**
+  String get benefitLotteryCenterLabel;
+
+  /// No description provided for @benefitLotteryMockPrizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prize {grade}'**
+  String benefitLotteryMockPrizeTitle(Object grade);
+
+  /// No description provided for @benefitLotteryNoWinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No prize'**
+  String get benefitLotteryNoWinTitle;
+
+  /// No description provided for @benefitLotteryDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Each prize is a complimentary one-night stay voucher. Amounts are estimates and cannot be redeemed for cash or applied toward a price difference.'**
+  String get benefitLotteryDisclaimer;
+
+  /// No description provided for @benefitLotterySpinAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Spin the wheel'**
+  String get benefitLotterySpinAction;
+
+  /// No description provided for @benefitLotteryRequestingAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing draw…'**
+  String get benefitLotteryRequestingAction;
+
+  /// No description provided for @benefitLotterySpinningAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Drawing…'**
+  String get benefitLotterySpinningAction;
+
+  /// No description provided for @benefitLotteryViewResultAction.
+  ///
+  /// In en, this message translates to:
+  /// **'View result'**
+  String get benefitLotteryViewResultAction;
+
+  /// No description provided for @benefitLotteryDetailsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get benefitLotteryDetailsAction;
+
+  /// No description provided for @benefitLotteryDrawFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The draw could not be completed. Please try again.'**
+  String get benefitLotteryDrawFailed;
+
   /// No description provided for @homeAttractionSectionTitle.
   ///
   /// In en, this message translates to:

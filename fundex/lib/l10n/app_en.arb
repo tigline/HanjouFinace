@@ -264,6 +264,22 @@
   "homeLotteryEntryTitle": "Daily prize draw",
   "homeLotteryEntryBody": "Spin to win a complimentary stay voucher.",
   "homeLotteryEntryAction": "Spin now",
+  "benefitLotteryDialogTitle": "Spin the wheel",
+  "benefitLotteryCenterLabel": "SPIN",
+  "benefitLotteryMockPrizeTitle": "Prize {grade}",
+  "@benefitLotteryMockPrizeTitle": {
+    "placeholders": {
+      "grade": {}
+    }
+  },
+  "benefitLotteryNoWinTitle": "No prize",
+  "benefitLotteryDisclaimer": "Each prize is a complimentary one-night stay voucher. Amounts are estimates and cannot be redeemed for cash or applied toward a price difference.",
+  "benefitLotterySpinAction": "Spin the wheel",
+  "benefitLotteryRequestingAction": "Preparing draw…",
+  "benefitLotterySpinningAction": "Drawing…",
+  "benefitLotteryViewResultAction": "View result",
+  "benefitLotteryDetailsAction": "Details",
+  "benefitLotteryDrawFailed": "The draw could not be completed. Please try again.",
   "homeAttractionSectionTitle": "Why StellaVia",
   "homeAttractionAreaTitle": "Focused on hotels, inns,",
   "homeAttractionAreaBody": " and resorts.",

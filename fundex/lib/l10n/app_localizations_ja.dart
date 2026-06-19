@@ -773,6 +773,42 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeLotteryEntryAction => '抽選する';
 
   @override
+  String get benefitLotteryDialogTitle => 'ルーレットを回す';
+
+  @override
+  String get benefitLotteryCenterLabel => 'SPIN';
+
+  @override
+  String benefitLotteryMockPrizeTitle(Object grade) {
+    return '$grade賞';
+  }
+
+  @override
+  String get benefitLotteryNoWinTitle => 'はずれ';
+
+  @override
+  String get benefitLotteryDisclaimer =>
+      '※各賞は宿泊優待券（1泊ご招待）です。金額は相当額の目安で、現金化・差額充当はできません。';
+
+  @override
+  String get benefitLotterySpinAction => 'ルーレットを回す';
+
+  @override
+  String get benefitLotteryRequestingAction => '抽選準備中…';
+
+  @override
+  String get benefitLotterySpinningAction => '抽選中…';
+
+  @override
+  String get benefitLotteryViewResultAction => '抽選結果を見る';
+
+  @override
+  String get benefitLotteryDetailsAction => '詳しく';
+
+  @override
+  String get benefitLotteryDrawFailed => '抽選を完了できませんでした。もう一度お試しください。';
+
+  @override
   String get homeAttractionSectionTitle => 'StellaViaの魅力';
 
   @override

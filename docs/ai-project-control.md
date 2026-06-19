@@ -80,6 +80,15 @@ Use three layers of coordination:
 - Avatar display uses shared SDK user-avatar UI and default avatar assets.
 - Associated fund selection should follow mypage/investment list data and card patterns where practical.
 
+### Stay Benefit Lottery
+
+- The home lottery entry bar is implemented and currently defaults to visible; its visibility provider is the future API integration seam.
+- Reusable presentation-layer lottery models, draw controller, mock draw source, and animated wheel live under `fundex/lib/features/benefit_lottery`.
+- The wheel supports 2 to 8 segments and requires exactly one zero-price no-win segment.
+- The draw controller never selects a prize locally. It animates to the prize ID returned by the injected draw request; only the temporary mock source performs random selection.
+- Tapping the home lottery entry opens the content-sized lottery dialog with 16-point horizontal insets. The dialog currently uses a six-segment mock catalog and returns the selected prize after its wheel animation.
+- Eligibility/status page, result presentation, details navigation, and backend API integration are not implemented yet.
+
 ### Settings / Documents / Contact
 
 - Settings contains FAQ, company information, contract documents, contact form, phone/email verification, and face verification pages.

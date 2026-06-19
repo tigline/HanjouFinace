@@ -825,6 +825,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeLotteryEntryAction => 'Spin now';
 
   @override
+  String get benefitLotteryDialogTitle => 'Spin the wheel';
+
+  @override
+  String get benefitLotteryCenterLabel => 'SPIN';
+
+  @override
+  String benefitLotteryMockPrizeTitle(Object grade) {
+    return 'Prize $grade';
+  }
+
+  @override
+  String get benefitLotteryNoWinTitle => 'No prize';
+
+  @override
+  String get benefitLotteryDisclaimer =>
+      'Each prize is a complimentary one-night stay voucher. Amounts are estimates and cannot be redeemed for cash or applied toward a price difference.';
+
+  @override
+  String get benefitLotterySpinAction => 'Spin the wheel';
+
+  @override
+  String get benefitLotteryRequestingAction => 'Preparing draw…';
+
+  @override
+  String get benefitLotterySpinningAction => 'Drawing…';
+
+  @override
+  String get benefitLotteryViewResultAction => 'View result';
+
+  @override
+  String get benefitLotteryDetailsAction => 'Details';
+
+  @override
+  String get benefitLotteryDrawFailed =>
+      'The draw could not be completed. Please try again.';
+
+  @override
   String get homeAttractionSectionTitle => 'Why StellaVia';
 
   @override
