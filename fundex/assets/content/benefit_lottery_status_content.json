@@ -1,0 +1,142 @@
+{
+  "ja": {
+    "evaluation": {
+      "description": "獲得確率および獲得できる宿泊優待券の金額は、StellaViaアカウント全体の累計投資額などにもとづいて判定されます。ご投資を続けていただくことで、より上位の宿泊優待券が当たりやすくなり、新しいファンドへのご投資により新たな抽選機会も広がります。どなたにも当選のチャンスがあります。",
+      "factors": [
+        { "title": "投資額", "subtitle": "新規＋累計" },
+        { "title": "ご投資期間", "subtitle": "運用・待機の期間" },
+        { "title": "継続性", "subtitle": "償還後の再投資" },
+        { "title": "コミュニティ参加", "subtitle": "アプリでの口コミ等" }
+      ],
+      "note": "※ 各要素の評価方法・配点は公開しておりません。評価は上記要素にもとづく総合的な判断によります。"
+    },
+    "rules": [
+      "第12号ファンド以降へのご出資が抽選の対象であることをご了承ください。",
+      "ご出資後、入金確認から所定期間（クーリングオフ期間）の経過後に、抽選にご参加いただけます。",
+      "抽選は継続して実施します。出資後は、好きな時に好きなだけ（期限なく）ご参加いただけます。",
+      "当選後も、継続してご参加いただけます。継続的なご投資が、当選の可能性につながります。",
+      "獲得確率・獲得できる宿泊優待券の金額は、アカウント全体の累計投資額などにもとづいて判定されます。ご投資を続けるほど、より上位の宿泊優待券が当たりやすくなります。",
+      "どなたにも当選のチャンスがあります。当選は抽選により決まり、当選をお約束するものではありません。",
+      "宿泊優待券は1枚につき1泊のみのご招待です。ご予約の宿泊代金は券面額を超えられません（差額の現金補填はできません）。現金化・差額の払い戻し、2泊目以降への充当や割引はできません。有効期限内にご利用ください。"
+    ],
+    "prizeNotice": "※ 宿泊優待券は1枚につき1泊のみのご招待です。ご予約の宿泊代金は券面額を超えられません（差額の現金補填はできません）。金額は宿泊グレードの相当額の目安で、現金化や差額の払い戻し、2泊目以降への充当・割引はできません。対象施設で利用可・宿泊先の指定なし。賞ランク・相当額・有効日数は表示例で、実際の内容は変更される場合があります。金額・有効期限は確定後に掲載します。優待券の換金・譲渡はできません。",
+    "lockedPrizeNotice": "※ 宿泊優待券は1枚につき1泊のみのご招待です。ご予約の宿泊代金は券面額を超えられません（差額の現金補填はできません）。金額は相当額の目安で、現金化・差額充当・2泊目割引はできません。内容は表示例で、変更される場合があります。金額・有効期限は確定後に掲載します。優待券の換金・譲渡はできません。",
+    "locked": {
+      "title": "ご参加いただくには",
+      "body": "第12号ファンド以降にご出資いただくと、ご参加いただけます。",
+      "ctaEyebrow": "Get Qualified",
+      "ctaTitle": "ファンドへの出資で参加",
+      "ctaBody": "1万円から出資でき、出資額に応じてより当たりやすくなります。"
+    },
+    "history": [
+      { "grade": "A", "title": "A賞 宿泊優待券（1泊）¥30,000相当", "subtitle": "2025/12/18 当選 ・ 第12号 長野白馬", "status": "使用可能", "tone": "available" },
+      { "grade": "C", "title": "C賞 宿泊優待券（1泊）¥3,000相当", "subtitle": "2025/08/03 当選 ・ 第12号 長野白馬", "status": "使用済", "tone": "used" },
+      { "grade": "B", "title": "B賞 宿泊優待券（1泊）¥10,000相当", "subtitle": "2024/10/20 当選 ・ 第11号 大阪", "status": "期限切れ", "tone": "expired" }
+    ]
+  },
+  "en": {
+    "evaluation": {
+      "description": "Your chance of winning and the value of the complimentary stay voucher are determined based on factors such as your total StellaVia account investment amount. Continuing to invest may improve the likelihood of higher-rank vouchers, and new fund investments can expand future drawing opportunities. Every eligible owner has a chance to win.",
+      "factors": [
+        { "title": "Investment amount", "subtitle": "New + cumulative" },
+        { "title": "Investment period", "subtitle": "Active and pending period" },
+        { "title": "Continuity", "subtitle": "Reinvestment after redemption" },
+        { "title": "Community activity", "subtitle": "Reviews and app activity" }
+      ],
+      "note": "Evaluation methods and scoring for each factor are not disclosed. Eligibility and ranking are judged comprehensively based on the factors above."
+    },
+    "rules": [
+      "Investments from Fund No. 12 onward are eligible for the drawing.",
+      "After investment, you may participate once payment confirmation and the required period, including the cooling-off period, have passed.",
+      "The drawing is held continuously. After investing, you may participate at any time without a fixed deadline.",
+      "You may continue participating even after winning. Continuous investment may contribute to future chances.",
+      "Winning probability and voucher value are determined based on factors such as cumulative account investment amount. Continuing to invest may improve the chance of higher-rank vouchers.",
+      "Every eligible owner has a chance. Winners are selected by drawing; winning is not guaranteed.",
+      "Each stay voucher covers one complimentary night only. Booking price cannot exceed the voucher face value, and cash top-up for the difference is not available. Vouchers cannot be exchanged for cash, refunded for differences, applied to a second night, transferred, or used after expiration."
+    ],
+    "prizeNotice": "Stay vouchers are valid for one complimentary night per voucher. The booking price cannot exceed the face value, and cash top-up for differences is not available. Amounts are estimates by stay grade and cannot be exchanged for cash, refunded, applied to a second night, or used as a discount. Eligible facilities and terms may change. Final amount and expiration will be shown after confirmation. Vouchers cannot be transferred.",
+    "lockedPrizeNotice": "Stay vouchers are examples only. Each voucher covers one complimentary night, cannot be exchanged for cash, cannot be used for price differences or second-night discounts, and final terms may change.",
+    "locked": {
+      "title": "How to participate",
+      "body": "You can participate after investing in Fund No. 12 or later.",
+      "ctaEyebrow": "Get Qualified",
+      "ctaTitle": "Participate by investing",
+      "ctaBody": "Invest from ¥10,000. Higher investment amounts may improve your chances."
+    },
+    "history": [
+      { "grade": "A", "title": "Prize A stay voucher, one night, approx. ¥30,000", "subtitle": "Won on 2025/12/18 ・ Fund No. 12 Nagano Hakuba", "status": "Available", "tone": "available" },
+      { "grade": "C", "title": "Prize C stay voucher, one night, approx. ¥3,000", "subtitle": "Won on 2025/08/03 ・ Fund No. 12 Nagano Hakuba", "status": "Used", "tone": "used" },
+      { "grade": "B", "title": "Prize B stay voucher, one night, approx. ¥10,000", "subtitle": "Won on 2024/10/20 ・ Fund No. 11 Osaka", "status": "Expired", "tone": "expired" }
+    ]
+  },
+  "zh": {
+    "evaluation": {
+      "description": "中奖概率以及可获得的住宿优待券金额，会根据 StellaVia 账户整体累计投资额等因素进行综合判断。持续投资有机会提升高等级住宿优待券的中奖可能，新基金的投资也会带来新的抽奖机会。符合条件的用户都有中奖机会。",
+      "factors": [
+        { "title": "投资金额", "subtitle": "新增＋累计" },
+        { "title": "投资期间", "subtitle": "运用与待机期间" },
+        { "title": "持续性", "subtitle": "赎回后的再投资" },
+        { "title": "社区参与", "subtitle": "App 内评价等" }
+      ],
+      "note": "※ 各要素的评价方法与配点不公开。评价会基于上述要素进行综合判断。"
+    },
+    "rules": [
+      "第12号基金及之后的出资为抽奖对象。",
+      "出资后，在确认入金并经过规定期间（含冷静期）后，即可参与抽奖。",
+      "抽奖会持续进行。出资后，可在任意时间、不限期限参与。",
+      "中奖后仍可继续参与。持续投资会影响后续中奖机会。",
+      "中奖概率与住宿优待券金额会根据账户整体累计投资额等因素判断。持续投资越多，越有机会提高高等级优待券的中奖可能。",
+      "符合条件的用户都有中奖机会。中奖由抽选决定，不保证一定中奖。",
+      "住宿优待券每张仅可赠送一晚住宿。预约住宿费用不可超过券面金额，不能用现金补差额。不可兑换现金、退还差额、抵扣第二晚或之后的住宿，也不可转让，请在有效期内使用。"
+    ],
+    "prizeNotice": "※ 住宿优待券每张仅可赠送一晚住宿。预约住宿费用不可超过券面金额，不能用现金补差额。金额为住宿等级的参考价值，不可兑换现金、退还差额、抵扣或优惠第二晚及之后的住宿。适用于对象设施，不指定住宿地点。奖项等级、参考金额和有效期为示例，实际内容可能变更。金额和有效期限将在确定后显示。优待券不可兑换或转让。",
+    "lockedPrizeNotice": "※ 住宿优待券每张仅可赠送一晚住宿。预约住宿费用不可超过券面金额，不能用现金补差额。金额为参考价值，不可兑换现金、抵扣差额或第二晚优惠。实际内容可能变更，金额和有效期限将在确定后显示。优待券不可兑换或转让。",
+    "locked": {
+      "title": "如何参与",
+      "body": "投资第12号基金及之后的项目后，即可参与。",
+      "ctaEyebrow": "Get Qualified",
+      "ctaTitle": "通过基金出资参与",
+      "ctaBody": "1万日元起即可出资，出资额越高中奖机会也可能提升。"
+    },
+    "history": [
+      { "grade": "A", "title": "A奖 住宿优待券（1晚）约¥30,000", "subtitle": "2025/12/18 中奖 ・ 第12号 长野白马", "status": "可使用", "tone": "available" },
+      { "grade": "C", "title": "C奖 住宿优待券（1晚）约¥3,000", "subtitle": "2025/08/03 中奖 ・ 第12号 长野白马", "status": "已使用", "tone": "used" },
+      { "grade": "B", "title": "B奖 住宿优待券（1晚）约¥10,000", "subtitle": "2024/10/20 中奖 ・ 第11号 大阪", "status": "已过期", "tone": "expired" }
+    ]
+  },
+  "zh_Hant": {
+    "evaluation": {
+      "description": "中獎機率以及可獲得的住宿優待券金額，會根據 StellaVia 帳戶整體累計投資額等因素進行綜合判斷。持續投資有機會提升高等級住宿優待券的中獎可能，新基金的投資也會帶來新的抽獎機會。符合條件的使用者都有中獎機會。",
+      "factors": [
+        { "title": "投資金額", "subtitle": "新增＋累計" },
+        { "title": "投資期間", "subtitle": "運用與待機期間" },
+        { "title": "持續性", "subtitle": "贖回後的再投資" },
+        { "title": "社群參與", "subtitle": "App 內評價等" }
+      ],
+      "note": "※ 各要素的評價方法與配點不公開。評價會基於上述要素進行綜合判斷。"
+    },
+    "rules": [
+      "第12號基金及之後的出資為抽獎對象。",
+      "出資後，在確認入金並經過規定期間（含冷靜期）後，即可參與抽獎。",
+      "抽獎會持續進行。出資後，可在任意時間、不限期限參與。",
+      "中獎後仍可繼續參與。持續投資會影響後續中獎機會。",
+      "中獎機率與住宿優待券金額會根據帳戶整體累計投資額等因素判斷。持續投資越多，越有機會提高高等級優待券的中獎可能。",
+      "符合條件的使用者都有中獎機會。中獎由抽選決定，不保證一定中獎。",
+      "住宿優待券每張僅可贈送一晚住宿。預約住宿費用不可超過券面金額，不能用現金補差額。不可兌換現金、退還差額、抵扣第二晚或之後的住宿，也不可轉讓，請在有效期內使用。"
+    ],
+    "prizeNotice": "※ 住宿優待券每張僅可贈送一晚住宿。預約住宿費用不可超過券面金額，不能用現金補差額。金額為住宿等級的參考價值，不可兌換現金、退還差額、抵扣或優惠第二晚及之後的住宿。適用於對象設施，不指定住宿地點。獎項等級、參考金額和有效期為示例，實際內容可能變更。金額和有效期限將在確定後顯示。優待券不可兌換或轉讓。",
+    "lockedPrizeNotice": "※ 住宿優待券每張僅可贈送一晚住宿。預約住宿費用不可超過券面金額，不能用現金補差額。金額為參考價值，不可兌換現金、抵扣差額或第二晚優惠。實際內容可能變更，金額和有效期限將在確定後顯示。優待券不可兌換或轉讓。",
+    "locked": {
+      "title": "如何參與",
+      "body": "投資第12號基金及之後的項目後，即可參與。",
+      "ctaEyebrow": "Get Qualified",
+      "ctaTitle": "透過基金出資參與",
+      "ctaBody": "1萬日圓起即可出資，出資額越高中獎機會也可能提升。"
+    },
+    "history": [
+      { "grade": "A", "title": "A獎 住宿優待券（1晚）約¥30,000", "subtitle": "2025/12/18 中獎 ・ 第12號 長野白馬", "status": "可使用", "tone": "available" },
+      { "grade": "C", "title": "C獎 住宿優待券（1晚）約¥3,000", "subtitle": "2025/08/03 中獎 ・ 第12號 長野白馬", "status": "已使用", "tone": "used" },
+      { "grade": "B", "title": "B獎 住宿優待券（1晚）約¥10,000", "subtitle": "2024/10/20 中獎 ・ 第11號 大阪", "status": "已過期", "tone": "expired" }
+    ]
+  }
+}

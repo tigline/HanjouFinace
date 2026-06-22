@@ -801,6 +801,52 @@ class AppLocalizationsZh extends AppLocalizations {
   String get benefitLotteryDrawFailed => '抽奖未能完成，请重试。';
 
   @override
+  String get benefitLotteryStatusTitle => '优待状态';
+
+  @override
+  String get benefitLotteryStatusHeroEyebrow => 'OWNER\'S BENEFIT';
+
+  @override
+  String get benefitLotteryStatusHeroTitle => '业主优待';
+
+  @override
+  String get benefitLotteryStatusHeroCaption => '想抽时即可参与';
+
+  @override
+  String get benefitLotteryStatusFindFundsAction => '查看募集中基金 →';
+
+  @override
+  String get benefitLotteryStatusEvaluationTitle => '关于综合评价';
+
+  @override
+  String get benefitLotteryStatusPrizeListTitle => '奖品一览';
+
+  @override
+  String get benefitLotteryStatusPrizeExampleTitle => '奖品示例';
+
+  @override
+  String get benefitLotteryStatusPrizeSubtitle => '赠送一晚住宿';
+
+  @override
+  String get benefitLotteryStatusPrizeLockedSubtitle => '赠送一晚住宿 ・ 可在对象设施使用';
+
+  @override
+  String benefitLotteryStatusPrizeName(Object grade) {
+    return '$grade奖 住宿优待券';
+  }
+
+  @override
+  String benefitLotteryStatusApproxAmount(Object amount) {
+    return '约 $amount';
+  }
+
+  @override
+  String get benefitLotteryStatusHistoryTitle => '中奖历史';
+
+  @override
+  String get benefitLotteryStatusRulesTitle => '使用规则';
+
+  @override
   String get homeAttractionSectionTitle => 'StellaVia 的魅力';
 
   @override
@@ -6365,6 +6411,52 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get benefitLotteryDrawFailed => '抽獎未能完成，請重試。';
+
+  @override
+  String get benefitLotteryStatusTitle => '優待狀態';
+
+  @override
+  String get benefitLotteryStatusHeroEyebrow => 'OWNER\'S BENEFIT';
+
+  @override
+  String get benefitLotteryStatusHeroTitle => '業主優待';
+
+  @override
+  String get benefitLotteryStatusHeroCaption => '想抽時即可參與';
+
+  @override
+  String get benefitLotteryStatusFindFundsAction => '查看募集中基金 →';
+
+  @override
+  String get benefitLotteryStatusEvaluationTitle => '關於綜合評價';
+
+  @override
+  String get benefitLotteryStatusPrizeListTitle => '獎品一覽';
+
+  @override
+  String get benefitLotteryStatusPrizeExampleTitle => '獎品示例';
+
+  @override
+  String get benefitLotteryStatusPrizeSubtitle => '贈送一晚住宿';
+
+  @override
+  String get benefitLotteryStatusPrizeLockedSubtitle => '贈送一晚住宿 ・ 可在對象設施使用';
+
+  @override
+  String benefitLotteryStatusPrizeName(Object grade) {
+    return '$grade獎 住宿優待券';
+  }
+
+  @override
+  String benefitLotteryStatusApproxAmount(Object amount) {
+    return '約 $amount';
+  }
+
+  @override
+  String get benefitLotteryStatusHistoryTitle => '中獎歷史';
+
+  @override
+  String get benefitLotteryStatusRulesTitle => '使用規則';
 
   @override
   String get homeAttractionSectionTitle => 'StellaVia 的魅力';

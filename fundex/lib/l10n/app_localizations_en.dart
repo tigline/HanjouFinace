@@ -862,6 +862,55 @@ class AppLocalizationsEn extends AppLocalizations {
       'The draw could not be completed. Please try again.';
 
   @override
+  String get benefitLotteryStatusTitle => 'Benefit Status';
+
+  @override
+  String get benefitLotteryStatusHeroEyebrow => 'OWNER\'S BENEFIT';
+
+  @override
+  String get benefitLotteryStatusHeroTitle => 'Owner Benefit';
+
+  @override
+  String get benefitLotteryStatusHeroCaption =>
+      'As often as you like, whenever you like';
+
+  @override
+  String get benefitLotteryStatusFindFundsAction => 'View open funds →';
+
+  @override
+  String get benefitLotteryStatusEvaluationTitle => 'About overall evaluation';
+
+  @override
+  String get benefitLotteryStatusPrizeListTitle => 'Prize list';
+
+  @override
+  String get benefitLotteryStatusPrizeExampleTitle => 'Prize examples';
+
+  @override
+  String get benefitLotteryStatusPrizeSubtitle =>
+      'One-night complimentary stay';
+
+  @override
+  String get benefitLotteryStatusPrizeLockedSubtitle =>
+      'One-night complimentary stay ・ usable at eligible facilities';
+
+  @override
+  String benefitLotteryStatusPrizeName(Object grade) {
+    return 'Prize $grade stay voucher';
+  }
+
+  @override
+  String benefitLotteryStatusApproxAmount(Object amount) {
+    return '$amount approx.';
+  }
+
+  @override
+  String get benefitLotteryStatusHistoryTitle => 'Winning history';
+
+  @override
+  String get benefitLotteryStatusRulesTitle => 'Usage rules';
+
+  @override
   String get homeAttractionSectionTitle => 'Why StellaVia';
 
   @override

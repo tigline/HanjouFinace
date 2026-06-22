@@ -809,6 +809,52 @@ class AppLocalizationsJa extends AppLocalizations {
   String get benefitLotteryDrawFailed => '抽選を完了できませんでした。もう一度お試しください。';
 
   @override
+  String get benefitLotteryStatusTitle => '優待ステータス';
+
+  @override
+  String get benefitLotteryStatusHeroEyebrow => 'OWNER\'S BENEFIT';
+
+  @override
+  String get benefitLotteryStatusHeroTitle => 'オーナーズ優待';
+
+  @override
+  String get benefitLotteryStatusHeroCaption => '好きな時に好きなだけ';
+
+  @override
+  String get benefitLotteryStatusFindFundsAction => '募集中ファンドを見る →';
+
+  @override
+  String get benefitLotteryStatusEvaluationTitle => '総合評価について';
+
+  @override
+  String get benefitLotteryStatusPrizeListTitle => '賞品一覧';
+
+  @override
+  String get benefitLotteryStatusPrizeExampleTitle => '賞品の例';
+
+  @override
+  String get benefitLotteryStatusPrizeSubtitle => '1泊ご招待';
+
+  @override
+  String get benefitLotteryStatusPrizeLockedSubtitle => '1泊ご招待 ・ 対象施設で利用可';
+
+  @override
+  String benefitLotteryStatusPrizeName(Object grade) {
+    return '$grade賞 宿泊優待券';
+  }
+
+  @override
+  String benefitLotteryStatusApproxAmount(Object amount) {
+    return '$amount相当';
+  }
+
+  @override
+  String get benefitLotteryStatusHistoryTitle => '当選履歴';
+
+  @override
+  String get benefitLotteryStatusRulesTitle => 'ご利用ルール';
+
+  @override
   String get homeAttractionSectionTitle => 'StellaViaの魅力';
 
   @override

@@ -5,12 +5,14 @@ import 'package:intl/intl.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../controllers/benefit_lottery_draw_controller.dart';
 import '../models/benefit_lottery_models.dart';
+import 'benefit_lottery_draw_button.dart';
 import 'benefit_lottery_wheel.dart';
 
 Future<BenefitLotteryPrize?> showBenefitLotteryDrawDialog(
   BuildContext context, {
   required BenefitLotteryWheelModel model,
   required BenefitLotteryDrawRequest drawRequest,
+  VoidCallback? onDetailsTap,
 }) {
   final colors = Theme.of(context).appColors;
   return showDialog<BenefitLotteryPrize>(
@@ -18,7 +20,11 @@ Future<BenefitLotteryPrize?> showBenefitLotteryDrawDialog(
     barrierDismissible: false,
     barrierColor: colors.scrim.withValues(alpha: 0.58),
     builder: (BuildContext dialogContext) {
-      return BenefitLotteryDrawDialog(model: model, drawRequest: drawRequest);
+      return BenefitLotteryDrawDialog(
+        model: model,
+        drawRequest: drawRequest,
+        onDetailsTap: onDetailsTap,
+      );
     },
   );
 }
@@ -28,10 +34,12 @@ class BenefitLotteryDrawDialog extends StatefulWidget {
     super.key,
     required this.model,
     required this.drawRequest,
+    this.onDetailsTap,
   });
 
   final BenefitLotteryWheelModel model;
   final BenefitLotteryDrawRequest drawRequest;
+  final VoidCallback? onDetailsTap;
 
   @override
   State<BenefitLotteryDrawDialog> createState() =>
@@ -79,6 +87,11 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
       case BenefitLotteryDrawPhase.spinning:
         break;
     }
+  }
+
+  void _handleDetailsAction() {
+    Navigator.of(context).pop();
+    widget.onDetailsTap?.call();
   }
 
   String _primaryActionLabel() {
@@ -165,63 +178,29 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
                 ),
               ),
               const SizedBox(height: UiTokens.spacing12),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  key: const Key('benefit_lottery_primary_action'),
-                  onPressed: isBusy ? null : _handlePrimaryAction,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: colors.highlightGold,
-                    foregroundColor: colors.heroStart,
-                    disabledBackgroundColor: colors.highlightGold.withValues(
-                      alpha: 0.48,
-                    ),
-                    disabledForegroundColor: colors.heroStart.withValues(
-                      alpha: 0.72,
-                    ),
-                    minimumSize: const Size.fromHeight(48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(UiTokens.radius12),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      if (isBusy) ...<Widget>[
-                        SizedBox.square(
-                          dimension: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: colors.heroStart,
-                          ),
-                        ),
-                        const SizedBox(width: UiTokens.spacing8),
-                      ],
-                      Text(
-                        _primaryActionLabel(),
-                        style: appText.button.copyWith(
-                          color: colors.heroStart,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              BenefitLotteryDrawButton(
+                key: const Key('benefit_lottery_primary_action'),
+                label: _primaryActionLabel(),
+                isLoading: isBusy,
+                onPressed: _handlePrimaryAction,
               ),
               const SizedBox(height: UiTokens.spacing8),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    context.l10n.benefitLotteryDetailsAction,
-                    style: appText.link.copyWith(color: colors.heroStart),
-                  ),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    size: 18,
-                    color: colors.heroStart,
-                  ),
-                ],
+              TextButton(
+                onPressed: _handleDetailsAction,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      context.l10n.benefitLotteryDetailsAction,
+                      style: appText.link.copyWith(color: colors.heroStart),
+                    ),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      size: 18,
+                      color: colors.heroStart,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

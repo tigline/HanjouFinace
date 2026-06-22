@@ -1661,6 +1661,90 @@ abstract class AppLocalizations {
   /// **'The draw could not be completed. Please try again.'**
   String get benefitLotteryDrawFailed;
 
+  /// No description provided for @benefitLotteryStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Benefit Status'**
+  String get benefitLotteryStatusTitle;
+
+  /// No description provided for @benefitLotteryStatusHeroEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'OWNER\'S BENEFIT'**
+  String get benefitLotteryStatusHeroEyebrow;
+
+  /// No description provided for @benefitLotteryStatusHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner Benefit'**
+  String get benefitLotteryStatusHeroTitle;
+
+  /// No description provided for @benefitLotteryStatusHeroCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'As often as you like, whenever you like'**
+  String get benefitLotteryStatusHeroCaption;
+
+  /// No description provided for @benefitLotteryStatusFindFundsAction.
+  ///
+  /// In en, this message translates to:
+  /// **'View open funds →'**
+  String get benefitLotteryStatusFindFundsAction;
+
+  /// No description provided for @benefitLotteryStatusEvaluationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About overall evaluation'**
+  String get benefitLotteryStatusEvaluationTitle;
+
+  /// No description provided for @benefitLotteryStatusPrizeListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prize list'**
+  String get benefitLotteryStatusPrizeListTitle;
+
+  /// No description provided for @benefitLotteryStatusPrizeExampleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prize examples'**
+  String get benefitLotteryStatusPrizeExampleTitle;
+
+  /// No description provided for @benefitLotteryStatusPrizeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One-night complimentary stay'**
+  String get benefitLotteryStatusPrizeSubtitle;
+
+  /// No description provided for @benefitLotteryStatusPrizeLockedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One-night complimentary stay ・ usable at eligible facilities'**
+  String get benefitLotteryStatusPrizeLockedSubtitle;
+
+  /// No description provided for @benefitLotteryStatusPrizeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Prize {grade} stay voucher'**
+  String benefitLotteryStatusPrizeName(Object grade);
+
+  /// No description provided for @benefitLotteryStatusApproxAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} approx.'**
+  String benefitLotteryStatusApproxAmount(Object amount);
+
+  /// No description provided for @benefitLotteryStatusHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Winning history'**
+  String get benefitLotteryStatusHistoryTitle;
+
+  /// No description provided for @benefitLotteryStatusRulesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage rules'**
+  String get benefitLotteryStatusRulesTitle;
+
   /// No description provided for @homeAttractionSectionTitle.
   ///
   /// In en, this message translates to:

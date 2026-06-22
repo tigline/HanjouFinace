@@ -30,6 +30,7 @@ import '../../features/discussion_board/presentation/widgets/kizunark_comment_co
 import '../../features/discussion_board/presentation/widgets/kizunark_draft_list_page.dart';
 import '../../features/discussion_board/presentation/widgets/kizunark_thread_detail_page.dart';
 import '../../features/home/presentation/pages/home_overview_tab_page.dart';
+import '../../features/benefit_lottery/presentation/pages/benefit_lottery_status_page.dart';
 import '../../features/investment/presentation/pages/fund_project_detail_page.dart';
 import '../../features/investment/presentation/pages/fund_lottery_apply_flow_page.dart';
 import '../../features/investment/presentation/pages/investment_tab_page.dart';
@@ -309,6 +310,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                             ? extra
                             : null,
                       );
+                    },
+                  ),
+                  GoRoute(
+                    path: 'benefit-lottery/status',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const BenefitLotteryStatusPage();
                     },
                   ),
                 ],

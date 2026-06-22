@@ -76,4 +76,61 @@ void main() {
     expect(result?.isNoWin, isTrue);
     expect(find.byKey(const Key('benefit_lottery_draw_dialog')), findsNothing);
   });
+
+  testWidgets('closes the dialog and invokes the details action', (
+    WidgetTester tester,
+  ) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(800, 900);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+
+    final model = BenefitLotteryWheelModel(
+      prizes: const <BenefitLotteryPrize>[
+        BenefitLotteryPrize(id: 'a', title: 'A賞', price: 30000),
+        BenefitLotteryPrize(
+          id: 'no-win',
+          title: 'はずれ',
+          price: 0,
+          isNoWin: true,
+        ),
+      ],
+    );
+    var detailsTapped = false;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('ja'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: AppThemeFactory.light(locale: const Locale('ja')),
+        home: Builder(
+          builder: (BuildContext context) {
+            return Scaffold(
+              body: FilledButton(
+                onPressed: () {
+                  showBenefitLotteryDrawDialog(
+                    context,
+                    model: model,
+                    drawRequest: () async =>
+                        const BenefitLotteryDrawResult(prizeId: 'no-win'),
+                    onDetailsTap: () => detailsTapped = true,
+                  );
+                },
+                child: const Text('Open'),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('詳しく'));
+    await tester.pumpAndSettle();
+
+    expect(detailsTapped, isTrue);
+    expect(find.byKey(const Key('benefit_lottery_draw_dialog')), findsNothing);
+  });
 }

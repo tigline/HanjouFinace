@@ -381,6 +381,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
       context,
       model: model,
       drawRequest: () => mockDrawSource.draw(model),
+      onDetailsTap: () => context.push('/home/benefit-lottery/status'),
     );
   }
 }

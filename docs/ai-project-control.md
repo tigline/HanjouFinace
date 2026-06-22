@@ -84,10 +84,16 @@ Use three layers of coordination:
 
 - The home lottery entry bar is implemented and currently defaults to visible; its visibility provider is the future API integration seam.
 - Reusable presentation-layer lottery models, draw controller, mock draw source, and animated wheel live under `fundex/lib/features/benefit_lottery`.
+- The dialog and status-page draw actions share `BenefitLotteryDrawButton`, including the loading spinner, disabled state, sizing, and StellaVia button styling.
 - The wheel supports 2 to 8 segments and requires exactly one zero-price no-win segment.
 - The draw controller never selects a prize locally. It animates to the prize ID returned by the injected draw request; only the temporary mock source performs random selection.
 - Tapping the home lottery entry opens the content-sized lottery dialog with 16-point horizontal insets. The dialog currently uses a six-segment mock catalog and returns the selected prize after its wheel animation.
-- Eligibility/status page, result presentation, details navigation, and backend API integration are not implemented yet.
+- The dialog details action opens `/home/benefit-lottery/status`, whose page title is `優待ステータス` in Japanese.
+- The status page currently derives eligibility from `myPageInvestmentListProvider` and checks whether the authenticated user has at least one operating investment record (`MyPageInvestmentRecord.projectStatus == 4`). This is a temporary adapter until the lottery eligibility API exists.
+- Eligible users see the reusable wheel, evaluation factors, the mock prize catalog, mock winning history, and usage rules. Ineligible users see the locked wheel and investment CTA design.
+- Tapping an available winning-history voucher switches to the Hotel tab and opens `/hotel-booking/stay-benefits`; used and expired entries remain non-interactive.
+- Evaluation copy, usage rules, prize notices, locked-state copy, and temporary winning-history data are localized in `fundex/assets/content/benefit_lottery_status_content.json`; headings and UI actions remain in ARB localization.
+- Prize-list and winning-history backend integration plus final result presentation are not implemented yet.
 
 ### Settings / Documents / Contact
 

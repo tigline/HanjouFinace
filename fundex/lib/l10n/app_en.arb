@@ -280,6 +280,30 @@
   "benefitLotteryViewResultAction": "View result",
   "benefitLotteryDetailsAction": "Details",
   "benefitLotteryDrawFailed": "The draw could not be completed. Please try again.",
+  "benefitLotteryStatusTitle": "Benefit Status",
+  "benefitLotteryStatusHeroEyebrow": "OWNER'S BENEFIT",
+  "benefitLotteryStatusHeroTitle": "Owner Benefit",
+  "benefitLotteryStatusHeroCaption": "As often as you like, whenever you like",
+  "benefitLotteryStatusFindFundsAction": "View open funds →",
+  "benefitLotteryStatusEvaluationTitle": "About overall evaluation",
+  "benefitLotteryStatusPrizeListTitle": "Prize list",
+  "benefitLotteryStatusPrizeExampleTitle": "Prize examples",
+  "benefitLotteryStatusPrizeSubtitle": "One-night complimentary stay",
+  "benefitLotteryStatusPrizeLockedSubtitle": "One-night complimentary stay ・ usable at eligible facilities",
+  "benefitLotteryStatusPrizeName": "Prize {grade} stay voucher",
+  "@benefitLotteryStatusPrizeName": {
+    "placeholders": {
+      "grade": {}
+    }
+  },
+  "benefitLotteryStatusApproxAmount": "{amount} approx.",
+  "@benefitLotteryStatusApproxAmount": {
+    "placeholders": {
+      "amount": {}
+    }
+  },
+  "benefitLotteryStatusHistoryTitle": "Winning history",
+  "benefitLotteryStatusRulesTitle": "Usage rules",
   "homeAttractionSectionTitle": "Why StellaVia",
   "homeAttractionAreaTitle": "Focused on hotels, inns,",
   "homeAttractionAreaBody": " and resorts.",
