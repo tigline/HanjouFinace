@@ -1655,6 +1655,60 @@ abstract class AppLocalizations {
   /// **'The draw could not be completed. Please try again.'**
   String get benefitLotteryDrawFailed;
 
+  /// No description provided for @benefitLotteryWinCongratulations.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get benefitLotteryWinCongratulations;
+
+  /// No description provided for @benefitLotteryWinPrizeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You won the Prize {grade} stay voucher'**
+  String benefitLotteryWinPrizeMessage(Object grade);
+
+  /// No description provided for @benefitLotteryWinExpiration.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until {date}'**
+  String benefitLotteryWinExpiration(Object date);
+
+  /// No description provided for @benefitLotteryWinDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Winning date'**
+  String get benefitLotteryWinDateLabel;
+
+  /// No description provided for @benefitLotteryWinFundLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligible fund'**
+  String get benefitLotteryWinFundLabel;
+
+  /// No description provided for @benefitLotteryWinCouponCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupon code'**
+  String get benefitLotteryWinCouponCodeLabel;
+
+  /// No description provided for @benefitLotteryWinConfirmAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get benefitLotteryWinConfirmAction;
+
+  /// No description provided for @benefitLotteryWinHistoryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You can view your winning history and voucher from the Hotel coupons list at any time.'**
+  String get benefitLotteryWinHistoryNote;
+
+  /// No description provided for @benefitLotteryWinMockFundName.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund No. 12 Nagano Hakuba'**
+  String get benefitLotteryWinMockFundName;
+
   /// No description provided for @benefitLotteryStatusTitle.
   ///
   /// In en, this message translates to:

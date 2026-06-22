@@ -64,6 +64,7 @@ void main() {
       ],
     );
     final controller = BenefitLotteryDrawController(model: model);
+    BenefitLotteryPrize? completedPrize;
 
     await tester.pumpWidget(
       MaterialApp(
@@ -74,6 +75,7 @@ void main() {
               controller: controller,
               centerLabel: 'SPIN',
               spinDuration: const Duration(milliseconds: 300),
+              onSpinCompleted: (prize) => completedPrize = prize,
             ),
           ),
         ),
@@ -90,6 +92,7 @@ void main() {
 
     expect(controller.phase, BenefitLotteryDrawPhase.completed);
     expect(controller.selectedPrize?.isNoWin, isTrue);
+    expect(completedPrize?.id, 'no-win');
     expect(
       find.byKey(const Key('benefit_lottery_no_win_toast')),
       findsOneWidget,

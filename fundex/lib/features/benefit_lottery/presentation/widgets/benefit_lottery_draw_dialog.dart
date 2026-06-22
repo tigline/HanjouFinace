@@ -7,12 +7,15 @@ import '../controllers/benefit_lottery_draw_controller.dart';
 import '../models/benefit_lottery_models.dart';
 import 'benefit_lottery_draw_button.dart';
 import 'benefit_lottery_wheel.dart';
+import 'benefit_lottery_win_dialog.dart';
 
 Future<void> showBenefitLotteryDrawDialog(
   BuildContext context, {
   required BenefitLotteryWheelModel model,
   required BenefitLotteryDrawRequest drawRequest,
   VoidCallback? onDetailsTap,
+  VoidCallback? onCouponsTap,
+  BenefitLotteryWinPresenter winPresenter = showBenefitLotteryWinPresentation,
 }) {
   final colors = Theme.of(context).appColors;
   return showDialog<void>(
@@ -24,6 +27,8 @@ Future<void> showBenefitLotteryDrawDialog(
         model: model,
         drawRequest: drawRequest,
         onDetailsTap: onDetailsTap,
+        onCouponsTap: onCouponsTap,
+        winPresenter: winPresenter,
       );
     },
   );
@@ -35,11 +40,15 @@ class BenefitLotteryDrawDialog extends StatefulWidget {
     required this.model,
     required this.drawRequest,
     this.onDetailsTap,
+    this.onCouponsTap,
+    this.winPresenter = showBenefitLotteryWinPresentation,
   });
 
   final BenefitLotteryWheelModel model;
   final BenefitLotteryDrawRequest drawRequest;
   final VoidCallback? onDetailsTap;
+  final VoidCallback? onCouponsTap;
+  final BenefitLotteryWinPresenter winPresenter;
 
   @override
   State<BenefitLotteryDrawDialog> createState() =>
@@ -50,6 +59,7 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
   late final BenefitLotteryDrawController _controller =
       BenefitLotteryDrawController(model: widget.model)
         ..addListener(_handleDrawStateChanged);
+  bool _isPresentingWin = false;
 
   @override
   void dispose() {
@@ -93,6 +103,23 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
     widget.onDetailsTap?.call();
   }
 
+  Future<void> _handleSpinCompleted(BenefitLotteryPrize prize) async {
+    if (prize.isNoWin || _isPresentingWin) {
+      return;
+    }
+    setState(() => _isPresentingWin = true);
+    final confirmed = await widget.winPresenter(context, prize: prize);
+    if (!mounted) {
+      return;
+    }
+    if (confirmed) {
+      Navigator.of(context).pop();
+      widget.onCouponsTap?.call();
+      return;
+    }
+    setState(() => _isPresentingWin = false);
+  }
+
   String _primaryActionLabel() {
     final l10n = context.l10n;
     return switch (_controller.phase) {
@@ -109,7 +136,7 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
     final theme = Theme.of(context);
     final colors = theme.appColors;
     final appText = theme.appTextTheme;
-    final isBusy = _controller.isBusy;
+    final isBusy = _controller.isBusy || _isPresentingWin;
 
     return Dialog(
       key: const Key('benefit_lottery_draw_dialog'),
@@ -151,6 +178,7 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
                       controller: _controller,
                       centerLabel: context.l10n.benefitLotteryCenterLabel,
                       size: wheelSize,
+                      onSpinCompleted: _handleSpinCompleted,
                     ),
                   );
                 },

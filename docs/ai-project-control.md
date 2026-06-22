@@ -87,6 +87,7 @@ Use three layers of coordination:
 - The dialog and status-page draw actions share `BenefitLotteryDrawButton`, including the loading spinner, disabled state, sizing, and StellaVia button styling.
 - The wheel supports 2 to 8 segments and requires exactly one zero-price no-win segment.
 - When a no-win result finishes spinning, the reusable wheel shows a localized toast over the wheel surface using fade, upward-slide, and scale animation; it automatically fades out after a short display period and also clears immediately when the next draw begins.
+- When a prize result finishes spinning, both lottery hosts play the global network `.lottie` celebration once, then show the localized design-matched winning dialog. Confirming closes the lottery dialog when applicable and navigates to `/hotel-booking/coupons`.
 - The draw controller never selects a prize locally. It animates to the prize ID returned by the injected draw request; only the temporary mock source performs random selection.
 - Tapping the home lottery entry opens the content-sized lottery dialog with 16-point horizontal insets. The dialog currently uses a six-segment mock catalog; after each wheel animation the primary action returns to the draw state so another draw can start without closing the dialog.
 - The dialog details action opens `/home/benefit-lottery/status`, whose page title is `優待ステータス` in Japanese.

@@ -859,6 +859,38 @@ class AppLocalizationsEn extends AppLocalizations {
       'The draw could not be completed. Please try again.';
 
   @override
+  String get benefitLotteryWinCongratulations => 'Congratulations!';
+
+  @override
+  String benefitLotteryWinPrizeMessage(Object grade) {
+    return 'You won the Prize $grade stay voucher';
+  }
+
+  @override
+  String benefitLotteryWinExpiration(Object date) {
+    return 'Valid until $date';
+  }
+
+  @override
+  String get benefitLotteryWinDateLabel => 'Winning date';
+
+  @override
+  String get benefitLotteryWinFundLabel => 'Eligible fund';
+
+  @override
+  String get benefitLotteryWinCouponCodeLabel => 'Coupon code';
+
+  @override
+  String get benefitLotteryWinConfirmAction => 'Confirm';
+
+  @override
+  String get benefitLotteryWinHistoryNote =>
+      'You can view your winning history and voucher from the Hotel coupons list at any time.';
+
+  @override
+  String get benefitLotteryWinMockFundName => 'Fund No. 12 Nagano Hakuba';
+
+  @override
   String get benefitLotteryStatusTitle => 'Benefit Status';
 
   @override

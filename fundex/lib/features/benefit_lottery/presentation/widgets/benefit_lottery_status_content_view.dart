@@ -13,6 +13,7 @@ import '../support/benefit_lottery_mock_draw_source.dart';
 import '../support/benefit_lottery_status_content.dart';
 import 'benefit_lottery_draw_button.dart';
 import '../widgets/benefit_lottery_wheel.dart';
+import 'benefit_lottery_win_dialog.dart';
 
 class BenefitLotteryStatusContentView extends StatelessWidget {
   const BenefitLotteryStatusContentView({
@@ -112,6 +113,7 @@ class _EligibleHeroCardState extends State<_EligibleHeroCard> {
   BenefitLotteryDrawController? _controller;
   final BenefitLotteryMockDrawSource _drawSource =
       BenefitLotteryMockDrawSource();
+  bool _isPresentingWin = false;
 
   @override
   void didChangeDependencies() {
@@ -185,6 +187,25 @@ class _EligibleHeroCardState extends State<_EligibleHeroCard> {
     };
   }
 
+  Future<void> _handleSpinCompleted(BenefitLotteryPrize prize) async {
+    if (prize.isNoWin || _isPresentingWin) {
+      return;
+    }
+    setState(() => _isPresentingWin = true);
+    final confirmed = await showBenefitLotteryWinPresentation(
+      context,
+      prize: prize,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (confirmed) {
+      context.go('/hotel-booking/coupons');
+      return;
+    }
+    setState(() => _isPresentingWin = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -194,7 +215,8 @@ class _EligibleHeroCardState extends State<_EligibleHeroCard> {
     if (controller == null) {
       return const SizedBox.shrink();
     }
-    final isBusy = controller.isBusy || widget.isEligibilityLoading;
+    final isBusy =
+        controller.isBusy || widget.isEligibilityLoading || _isPresentingWin;
 
     return _StatusCard(
       padding: const EdgeInsets.fromLTRB(
@@ -244,6 +266,7 @@ class _EligibleHeroCardState extends State<_EligibleHeroCard> {
               controller: controller,
               centerLabel: context.l10n.benefitLotteryCenterLabel,
               size: 235,
+              onSpinCompleted: _handleSpinCompleted,
             ),
           ),
           const SizedBox(height: UiTokens.spacing12),

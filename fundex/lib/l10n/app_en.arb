@@ -279,6 +279,25 @@
   "benefitLotterySpinningAction": "Drawing…",
   "benefitLotteryDetailsAction": "Details",
   "benefitLotteryDrawFailed": "The draw could not be completed. Please try again.",
+  "benefitLotteryWinCongratulations": "Congratulations!",
+  "benefitLotteryWinPrizeMessage": "You won the Prize {grade} stay voucher",
+  "@benefitLotteryWinPrizeMessage": {
+    "placeholders": {
+      "grade": {}
+    }
+  },
+  "benefitLotteryWinExpiration": "Valid until {date}",
+  "@benefitLotteryWinExpiration": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "benefitLotteryWinDateLabel": "Winning date",
+  "benefitLotteryWinFundLabel": "Eligible fund",
+  "benefitLotteryWinCouponCodeLabel": "Coupon code",
+  "benefitLotteryWinConfirmAction": "Confirm",
+  "benefitLotteryWinHistoryNote": "You can view your winning history and voucher from the Hotel coupons list at any time.",
+  "benefitLotteryWinMockFundName": "Fund No. 12 Nagano Hakuba",
   "benefitLotteryStatusTitle": "Benefit Status",
   "benefitLotteryStatusHeroEyebrow": "OWNER'S BENEFIT",
   "benefitLotteryStatusHeroTitle": "Owner Benefit",

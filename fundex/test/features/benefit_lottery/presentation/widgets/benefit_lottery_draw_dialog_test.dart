@@ -145,4 +145,62 @@ void main() {
     expect(detailsTapped, isTrue);
     expect(find.byKey(const Key('benefit_lottery_draw_dialog')), findsNothing);
   });
+
+  testWidgets('closes and invokes coupons action after confirming a win', (
+    WidgetTester tester,
+  ) async {
+    final model = BenefitLotteryWheelModel(
+      prizes: const <BenefitLotteryPrize>[
+        BenefitLotteryPrize(id: 'a', title: 'A賞', price: 30000),
+        BenefitLotteryPrize(
+          id: 'no-win',
+          title: 'はずれ',
+          price: 0,
+          isNoWin: true,
+        ),
+      ],
+    );
+    var couponsTapped = false;
+    BenefitLotteryPrize? presentedPrize;
+
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('ja'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: AppThemeFactory.light(locale: const Locale('ja')),
+        home: Builder(
+          builder: (BuildContext context) {
+            return Scaffold(
+              body: FilledButton(
+                onPressed: () {
+                  showBenefitLotteryDrawDialog(
+                    context,
+                    model: model,
+                    drawRequest: () async =>
+                        const BenefitLotteryDrawResult(prizeId: 'a'),
+                    winPresenter: (context, {required prize}) async {
+                      presentedPrize = prize;
+                      return true;
+                    },
+                    onCouponsTap: () => couponsTapped = true,
+                  );
+                },
+                child: const Text('Open'),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('benefit_lottery_primary_action')));
+    await tester.pumpAndSettle();
+
+    expect(presentedPrize?.id, 'a');
+    expect(couponsTapped, isTrue);
+    expect(find.byKey(const Key('benefit_lottery_draw_dialog')), findsNothing);
+  });
 }

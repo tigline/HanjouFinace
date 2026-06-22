@@ -806,6 +806,37 @@ class AppLocalizationsJa extends AppLocalizations {
   String get benefitLotteryDrawFailed => '抽選を完了できませんでした。もう一度お試しください。';
 
   @override
+  String get benefitLotteryWinCongratulations => '当選おめでとうございます！';
+
+  @override
+  String benefitLotteryWinPrizeMessage(Object grade) {
+    return '$grade賞 宿泊優待券に当選しました';
+  }
+
+  @override
+  String benefitLotteryWinExpiration(Object date) {
+    return '有効期限：$dateまで';
+  }
+
+  @override
+  String get benefitLotteryWinDateLabel => '当選日';
+
+  @override
+  String get benefitLotteryWinFundLabel => '対象ファンド';
+
+  @override
+  String get benefitLotteryWinCouponCodeLabel => 'クーポンコード';
+
+  @override
+  String get benefitLotteryWinConfirmAction => '確認する';
+
+  @override
+  String get benefitLotteryWinHistoryNote => '当選履歴と優待券はホテルのクーポン一覧からいつでも確認できます';
+
+  @override
+  String get benefitLotteryWinMockFundName => '第12号 長野白馬';
+
+  @override
   String get benefitLotteryStatusTitle => '優待ステータス';
 
   @override

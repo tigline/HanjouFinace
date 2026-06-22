@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
+import '../../../../app/widgets/app_network_lottie.dart';
 import '../providers/home_celebration_providers.dart';
 
 const String _defaultCelebrationLottieAsset =
@@ -124,9 +125,7 @@ class _HomeCelebrationDialogState extends State<HomeCelebrationDialog>
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8, right: 12),
                       child: IconButton(
-                        onPressed: _showActions
-                            ? widget.onDismiss
-                            : null,
+                        onPressed: _showActions ? widget.onDismiss : null,
                         icon: const Icon(Icons.close_rounded),
                         style: IconButton.styleFrom(
                           foregroundColor: colors.onDark,
@@ -200,14 +199,12 @@ class _CelebrationLottieLayer extends StatelessWidget {
         if (normalizedUrl != null && normalizedUrl.isNotEmpty) {
           return _wrapPlayer(
             constraints,
-            Lottie.network(
-              normalizedUrl,
+            AppNetworkLottie(
+              url: normalizedUrl,
               controller: controller,
               fit: BoxFit.fitWidth,
               alignment: Alignment.center,
-              repeat: false,
               onLoaded: onLoaded,
-              decoder: _decoderForUrl(normalizedUrl),
               errorBuilder: (_, __, ___) => _buildDefaultAsset(constraints),
             ),
           );
@@ -241,31 +238,4 @@ class _CelebrationLottieLayer extends StatelessWidget {
       ),
     );
   }
-
-  LottieDecoder? _decoderForUrl(String url) {
-    if (!url.toLowerCase().endsWith('.lottie')) {
-      return null;
-    }
-    return _decodeDotLottie;
-  }
-}
-
-Future<LottieComposition?> _decodeDotLottie(List<int> bytes) {
-  return LottieComposition.decodeZip(
-    bytes,
-    filePicker: (files) {
-      for (final file in files) {
-        final name = file.name;
-        if (name.startsWith('animations/') && name.endsWith('.json')) {
-          return file;
-        }
-      }
-      for (final file in files) {
-        if (file.name.endsWith('.json')) {
-          return file;
-        }
-      }
-      return null;
-    },
-  );
 }

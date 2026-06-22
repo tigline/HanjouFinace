@@ -382,6 +382,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
       model: model,
       drawRequest: () => mockDrawSource.draw(model),
       onDetailsTap: () => context.push('/home/benefit-lottery/status'),
+      onCouponsTap: () => context.go('/hotel-booking/coupons'),
     );
   }
 }

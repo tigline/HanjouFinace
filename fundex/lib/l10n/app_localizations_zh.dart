@@ -798,6 +798,37 @@ class AppLocalizationsZh extends AppLocalizations {
   String get benefitLotteryDrawFailed => '抽奖未能完成，请重试。';
 
   @override
+  String get benefitLotteryWinCongratulations => '恭喜中奖！';
+
+  @override
+  String benefitLotteryWinPrizeMessage(Object grade) {
+    return '已获得 $grade 奖住宿优待券';
+  }
+
+  @override
+  String benefitLotteryWinExpiration(Object date) {
+    return '有效期至：$date';
+  }
+
+  @override
+  String get benefitLotteryWinDateLabel => '中奖日期';
+
+  @override
+  String get benefitLotteryWinFundLabel => '对象基金';
+
+  @override
+  String get benefitLotteryWinCouponCodeLabel => '优惠券代码';
+
+  @override
+  String get benefitLotteryWinConfirmAction => '确认';
+
+  @override
+  String get benefitLotteryWinHistoryNote => '可随时在酒店优惠券列表查看中奖记录和优待券';
+
+  @override
+  String get benefitLotteryWinMockFundName => '第12号 长野白马';
+
+  @override
   String get benefitLotteryStatusTitle => '优待状态';
 
   @override
@@ -6405,6 +6436,37 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get benefitLotteryDrawFailed => '抽獎未能完成，請重試。';
+
+  @override
+  String get benefitLotteryWinCongratulations => '恭喜中獎！';
+
+  @override
+  String benefitLotteryWinPrizeMessage(Object grade) {
+    return '已獲得 $grade 獎住宿優待券';
+  }
+
+  @override
+  String benefitLotteryWinExpiration(Object date) {
+    return '有效期至：$date';
+  }
+
+  @override
+  String get benefitLotteryWinDateLabel => '中獎日期';
+
+  @override
+  String get benefitLotteryWinFundLabel => '對象基金';
+
+  @override
+  String get benefitLotteryWinCouponCodeLabel => '優惠券代碼';
+
+  @override
+  String get benefitLotteryWinConfirmAction => '確認';
+
+  @override
+  String get benefitLotteryWinHistoryNote => '可隨時在飯店優惠券列表查看中獎記錄和優待券';
+
+  @override
+  String get benefitLotteryWinMockFundName => '第12號 長野白馬';
 
   @override
   String get benefitLotteryStatusTitle => '優待狀態';

@@ -127,6 +127,7 @@ class BenefitLotteryWheel extends StatefulWidget {
     this.size = 280,
     this.spinDuration = const Duration(milliseconds: 3600),
     this.minimumTurns = 5,
+    this.onSpinCompleted,
   }) : assert(size >= 160),
        assert(minimumTurns > 0);
 
@@ -135,6 +136,7 @@ class BenefitLotteryWheel extends StatefulWidget {
   final double size;
   final Duration spinDuration;
   final int minimumTurns;
+  final ValueChanged<BenefitLotteryPrize>? onSpinCompleted;
 
   @override
   State<BenefitLotteryWheel> createState() => _BenefitLotteryWheelState();
@@ -271,6 +273,7 @@ class _BenefitLotteryWheelState extends State<BenefitLotteryWheel>
     }
     _rotationRadians = targetRotation;
     widget.controller.completeSpinAnimation(_handledSpinSequence);
+    widget.onSpinCompleted?.call(widget.controller.model.prizeById(prizeId));
   }
 
   @override
