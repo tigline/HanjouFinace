@@ -272,7 +272,6 @@
   "benefitLotterySpinAction": "转动轮盘",
   "benefitLotteryRequestingAction": "正在准备抽奖…",
   "benefitLotterySpinningAction": "抽奖中…",
-  "benefitLotteryViewResultAction": "查看抽奖结果",
   "benefitLotteryDetailsAction": "查看详情",
   "benefitLotteryDrawFailed": "抽奖未能完成，请重试。",
   "benefitLotteryStatusTitle": "优待状态",

@@ -792,9 +792,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get benefitLotterySpinningAction => '抽奖中…';
 
   @override
-  String get benefitLotteryViewResultAction => '查看抽奖结果';
-
-  @override
   String get benefitLotteryDetailsAction => '查看详情';
 
   @override
@@ -6402,9 +6399,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get benefitLotterySpinningAction => '抽獎中…';
-
-  @override
-  String get benefitLotteryViewResultAction => '查看抽獎結果';
 
   @override
   String get benefitLotteryDetailsAction => '查看詳情';

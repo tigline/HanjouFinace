@@ -272,7 +272,6 @@
   "benefitLotterySpinAction": "ルーレットを回す",
   "benefitLotteryRequestingAction": "抽選準備中…",
   "benefitLotterySpinningAction": "抽選中…",
-  "benefitLotteryViewResultAction": "抽選結果を見る",
   "benefitLotteryDetailsAction": "詳しく",
   "benefitLotteryDrawFailed": "抽選を完了できませんでした。もう一度お試しください。",
   "benefitLotteryStatusTitle": "優待ステータス",

@@ -800,9 +800,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get benefitLotterySpinningAction => '抽選中…';
 
   @override
-  String get benefitLotteryViewResultAction => '抽選結果を見る';
-
-  @override
   String get benefitLotteryDetailsAction => '詳しく';
 
   @override

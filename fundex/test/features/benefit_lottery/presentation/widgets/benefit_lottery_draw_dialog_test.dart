@@ -6,7 +6,7 @@ import 'package:fundex/features/benefit_lottery/presentation/widgets/benefit_lot
 import 'package:fundex/l10n/app_localizations.dart';
 
 void main() {
-  testWidgets('opens with sixteen-point horizontal inset and returns result', (
+  testWidgets('returns to the draw action after each completed spin', (
     WidgetTester tester,
   ) async {
     final model = BenefitLotteryWheelModel(
@@ -21,7 +21,7 @@ void main() {
         ),
       ],
     );
-    BenefitLotteryPrize? result;
+    var drawCount = 0;
 
     await tester.pumpWidget(
       MaterialApp(
@@ -34,12 +34,16 @@ void main() {
             return Scaffold(
               body: Center(
                 child: FilledButton(
-                  onPressed: () async {
-                    result = await showBenefitLotteryDrawDialog(
+                  onPressed: () {
+                    showBenefitLotteryDrawDialog(
                       context,
                       model: model,
-                      drawRequest: () async =>
-                          const BenefitLotteryDrawResult(prizeId: 'no-win'),
+                      drawRequest: () async {
+                        drawCount += 1;
+                        return const BenefitLotteryDrawResult(
+                          prizeId: 'no-win',
+                        );
+                      },
                     );
                   },
                   child: const Text('Open'),
@@ -68,13 +72,21 @@ void main() {
     await tester.pump();
     await tester.pumpAndSettle();
 
-    expect(find.text('抽選結果を見る'), findsOneWidget);
+    expect(find.text('抽選結果を見る'), findsNothing);
+    expect(
+      find.byKey(const Key('benefit_lottery_draw_dialog')),
+      findsOneWidget,
+    );
+    expect(drawCount, 1);
 
     await tester.tap(find.byKey(const Key('benefit_lottery_primary_action')));
     await tester.pumpAndSettle();
 
-    expect(result?.isNoWin, isTrue);
-    expect(find.byKey(const Key('benefit_lottery_draw_dialog')), findsNothing);
+    expect(drawCount, 2);
+    expect(
+      find.byKey(const Key('benefit_lottery_draw_dialog')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('closes the dialog and invokes the details action', (

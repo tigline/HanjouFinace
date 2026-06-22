@@ -852,9 +852,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get benefitLotterySpinningAction => 'Drawing…';
 
   @override
-  String get benefitLotteryViewResultAction => 'View result';
-
-  @override
   String get benefitLotteryDetailsAction => 'Details';
 
   @override

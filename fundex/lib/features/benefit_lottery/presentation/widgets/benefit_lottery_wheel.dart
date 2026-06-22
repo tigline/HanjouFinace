@@ -142,10 +142,16 @@ class BenefitLotteryWheel extends StatefulWidget {
 
 class _BenefitLotteryWheelState extends State<BenefitLotteryWheel>
     with SingleTickerProviderStateMixin {
+  static const Duration _noWinToastVisibleDuration = Duration(
+    milliseconds: 1800,
+  );
+
   late final AnimationController _animationController;
   Animation<double>? _rotationAnimation;
   double _rotationRadians = 0;
   int _handledSpinSequence = 0;
+  int? _visibleNoWinToastSequence;
+  Timer? _noWinToastTimer;
 
   @override
   void initState() {
@@ -165,6 +171,7 @@ class _BenefitLotteryWheelState extends State<BenefitLotteryWheel>
       oldWidget.controller.removeListener(_handleDrawStateChanged);
       widget.controller.addListener(_handleDrawStateChanged);
       _handledSpinSequence = 0;
+      _clearNoWinToast();
       _handleDrawStateChanged();
     }
     if (oldWidget.spinDuration != widget.spinDuration) {
@@ -174,6 +181,7 @@ class _BenefitLotteryWheelState extends State<BenefitLotteryWheel>
 
   @override
   void dispose() {
+    _noWinToastTimer?.cancel();
     widget.controller.removeListener(_handleDrawStateChanged);
     if (widget.controller.phase == BenefitLotteryDrawPhase.spinning &&
         widget.controller.spinSequence == _handledSpinSequence) {
@@ -193,14 +201,45 @@ class _BenefitLotteryWheelState extends State<BenefitLotteryWheel>
 
   void _handleDrawStateChanged() {
     final controller = widget.controller;
-    if (controller.phase != BenefitLotteryDrawPhase.spinning ||
-        controller.spinSequence == _handledSpinSequence ||
-        controller.selectedPrize == null) {
+    _syncNoWinToast(controller);
+    if (controller.phase == BenefitLotteryDrawPhase.spinning &&
+        controller.spinSequence != _handledSpinSequence &&
+        controller.selectedPrize != null) {
+      _handledSpinSequence = controller.spinSequence;
+      unawaited(_animateToSelectedPrize(controller.selectedPrize!.id));
+    }
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _syncNoWinToast(BenefitLotteryDrawController controller) {
+    final shouldShow =
+        controller.phase == BenefitLotteryDrawPhase.completed &&
+        controller.selectedPrize?.isNoWin == true;
+    if (!shouldShow) {
+      _clearNoWinToast();
+      return;
+    }
+    if (_visibleNoWinToastSequence == controller.spinSequence) {
       return;
     }
 
-    _handledSpinSequence = controller.spinSequence;
-    unawaited(_animateToSelectedPrize(controller.selectedPrize!.id));
+    _noWinToastTimer?.cancel();
+    _visibleNoWinToastSequence = controller.spinSequence;
+    _noWinToastTimer = Timer(_noWinToastVisibleDuration, () {
+      if (!mounted || _visibleNoWinToastSequence != controller.spinSequence) {
+        return;
+      }
+      setState(() => _visibleNoWinToastSequence = null);
+    });
+  }
+
+  void _clearNoWinToast() {
+    _noWinToastTimer?.cancel();
+    _noWinToastTimer = null;
+    _visibleNoWinToastSequence = null;
   }
 
   Future<void> _animateToSelectedPrize(String prizeId) async {
@@ -247,6 +286,10 @@ class _BenefitLotteryWheelState extends State<BenefitLotteryWheel>
     );
     final model = widget.controller.model;
     final wheelPalette = BenefitLotteryWheelPalette.stellaViaMock();
+    final selectedPrize = widget.controller.selectedPrize;
+    final showNoWinToast =
+        selectedPrize?.isNoWin == true &&
+        _visibleNoWinToastSequence == widget.controller.spinSequence;
     final semanticLabel = model.prizes
         .map((prize) {
           if (prize.isNoWin) {
@@ -334,7 +377,101 @@ class _BenefitLotteryWheelState extends State<BenefitLotteryWheel>
                 ),
               ),
             ),
+            Positioned.fill(
+              child: IgnorePointer(
+                child: Center(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 460),
+                    reverseDuration: const Duration(milliseconds: 180),
+                    switchInCurve: Curves.easeOutBack,
+                    switchOutCurve: Curves.easeIn,
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                          final slide = Tween<Offset>(
+                            begin: const Offset(0, 0.18),
+                            end: Offset.zero,
+                          ).animate(animation);
+                          final scale = Tween<double>(
+                            begin: 0.72,
+                            end: 1,
+                          ).animate(animation);
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SlideTransition(
+                              position: slide,
+                              child: ScaleTransition(
+                                scale: scale,
+                                child: child,
+                              ),
+                            ),
+                          );
+                        },
+                    child: showNoWinToast
+                        ? _BenefitLotteryNoWinToast(
+                            key: ValueKey<int>(widget.controller.spinSequence),
+                            label: selectedPrize!.title,
+                            wheelPalette: wheelPalette,
+                          )
+                        : const SizedBox.shrink(
+                            key: ValueKey<String>('no-win-hidden'),
+                          ),
+                  ),
+                ),
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BenefitLotteryNoWinToast extends StatelessWidget {
+  const _BenefitLotteryNoWinToast({
+    required this.label,
+    required this.wheelPalette,
+    super.key,
+  });
+
+  final String label;
+  final BenefitLotteryWheelPalette wheelPalette;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.appColors;
+    final appText = theme.appTextTheme;
+
+    return Semantics(
+      liveRegion: true,
+      label: label,
+      child: Container(
+        key: const Key('benefit_lottery_no_win_toast'),
+        constraints: const BoxConstraints(minWidth: 112),
+        padding: const EdgeInsets.symmetric(
+          horizontal: UiTokens.spacing20,
+          vertical: UiTokens.spacing12,
+        ),
+        decoration: BoxDecoration(
+          color: colors.scrim.withValues(alpha: 0.82),
+          borderRadius: BorderRadius.circular(UiTokens.radius20),
+          border: Border.all(color: wheelPalette.middleRingColor, width: 1.5),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: colors.scrim.withValues(alpha: 0.32),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: appText.bodyStrong.copyWith(
+            color: colors.onDark,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.8,
+          ),
         ),
       ),
     );

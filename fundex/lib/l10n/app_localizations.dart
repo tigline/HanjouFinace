@@ -1643,12 +1643,6 @@ abstract class AppLocalizations {
   /// **'Drawing…'**
   String get benefitLotterySpinningAction;
 
-  /// No description provided for @benefitLotteryViewResultAction.
-  ///
-  /// In en, this message translates to:
-  /// **'View result'**
-  String get benefitLotteryViewResultAction;
-
   /// No description provided for @benefitLotteryDetailsAction.
   ///
   /// In en, this message translates to:

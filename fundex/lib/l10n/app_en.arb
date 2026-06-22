@@ -277,7 +277,6 @@
   "benefitLotterySpinAction": "Spin the wheel",
   "benefitLotteryRequestingAction": "Preparing draw…",
   "benefitLotterySpinningAction": "Drawing…",
-  "benefitLotteryViewResultAction": "View result",
   "benefitLotteryDetailsAction": "Details",
   "benefitLotteryDrawFailed": "The draw could not be completed. Please try again.",
   "benefitLotteryStatusTitle": "Benefit Status",

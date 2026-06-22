@@ -91,8 +91,18 @@ void main() {
     expect(controller.phase, BenefitLotteryDrawPhase.completed);
     expect(controller.selectedPrize?.isNoWin, isTrue);
     expect(
+      find.byKey(const Key('benefit_lottery_no_win_toast')),
+      findsOneWidget,
+    );
+    expect(find.text('No prize'), findsWidgets);
+    expect(
       find.byKey(const Key('benefit_lottery_wheel_canvas')),
       findsOneWidget,
     );
+
+    await tester.pump(const Duration(milliseconds: 1900));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('benefit_lottery_no_win_toast')), findsNothing);
   });
 }

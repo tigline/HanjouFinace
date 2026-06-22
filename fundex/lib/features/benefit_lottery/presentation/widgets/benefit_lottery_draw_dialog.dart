@@ -8,14 +8,14 @@ import '../models/benefit_lottery_models.dart';
 import 'benefit_lottery_draw_button.dart';
 import 'benefit_lottery_wheel.dart';
 
-Future<BenefitLotteryPrize?> showBenefitLotteryDrawDialog(
+Future<void> showBenefitLotteryDrawDialog(
   BuildContext context, {
   required BenefitLotteryWheelModel model,
   required BenefitLotteryDrawRequest drawRequest,
   VoidCallback? onDetailsTap,
 }) {
   final colors = Theme.of(context).appColors;
-  return showDialog<BenefitLotteryPrize>(
+  return showDialog<void>(
     context: context,
     barrierDismissible: false,
     barrierColor: colors.scrim.withValues(alpha: 0.58),
@@ -80,9 +80,8 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
     switch (_controller.phase) {
       case BenefitLotteryDrawPhase.idle:
       case BenefitLotteryDrawPhase.failed:
-        _startDraw();
       case BenefitLotteryDrawPhase.completed:
-        Navigator.of(context).pop(_controller.selectedPrize);
+        _startDraw();
       case BenefitLotteryDrawPhase.requesting:
       case BenefitLotteryDrawPhase.spinning:
         break;
@@ -101,7 +100,7 @@ class _BenefitLotteryDrawDialogState extends State<BenefitLotteryDrawDialog> {
       BenefitLotteryDrawPhase.failed => l10n.benefitLotterySpinAction,
       BenefitLotteryDrawPhase.requesting => l10n.benefitLotteryRequestingAction,
       BenefitLotteryDrawPhase.spinning => l10n.benefitLotterySpinningAction,
-      BenefitLotteryDrawPhase.completed => l10n.benefitLotteryViewResultAction,
+      BenefitLotteryDrawPhase.completed => l10n.benefitLotterySpinAction,
     };
   }
 
