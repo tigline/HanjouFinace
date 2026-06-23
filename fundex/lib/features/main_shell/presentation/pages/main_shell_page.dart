@@ -226,146 +226,152 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                 top: false,
                                 child: SizedBox(
                                   key: const Key('main_tab_bar'),
-                                  height: 68,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: _MainTabItem(
-                                          label: l10n.mainTabHome,
-                                          isSelected: currentTabIndex == 0,
-                                          labelColor: currentTabIndex == 0
-                                              ? colorScheme.primary
-                                              : shellNavigationTheme
-                                                    .bottomTabInactiveColor,
-                                          onTap: () => _onDestinationSelected(
-                                            context,
-                                            0,
-                                          ),
-                                          badge: _MainTabBadge(
-                                            backgroundColor:
-                                                currentTabIndex == 0
-                                                ? colorScheme.primary
-                                                : inactiveTabBackgroundColor,
-                                            child: Icon(
-                                              Icons.home_rounded,
-                                              size: 20,
-                                              color: currentTabIndex == 0
-                                                  ? colors.onDark
+                                  height: 82,
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 12,),
+                                      Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: _MainTabItem(
+                                              label: l10n.mainTabHome,
+                                              isSelected: currentTabIndex == 0,
+                                              labelColor: currentTabIndex == 0
+                                                  ? colorScheme.primary
                                                   : shellNavigationTheme
                                                         .bottomTabInactiveColor,
+                                              onTap: () => _onDestinationSelected(
+                                                context,
+                                                0,
+                                              ),
+                                              badge: _MainTabBadge(
+                                                backgroundColor:
+                                                    currentTabIndex == 0
+                                                    ? colorScheme.primary
+                                                    : inactiveTabBackgroundColor,
+                                                child: Icon(
+                                                  Icons.home_rounded,
+                                                  size: 24,
+                                                  color: currentTabIndex == 0
+                                                      ? colors.onDark
+                                                      : shellNavigationTheme
+                                                            .bottomTabInactiveColor,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: _MainTabItem(
-                                          label: l10n.mainTabInvestment,
-                                          isSelected: currentTabIndex == 1,
-                                          labelColor: currentTabIndex == 1
-                                              ? colorScheme.primary
-                                              : shellNavigationTheme
-                                                    .bottomTabInactiveColor,
-                                          onTap: () => _onDestinationSelected(
-                                            context,
-                                            1,
-                                          ),
-                                          badge: _MainTabBadge(
-                                            backgroundColor:
-                                                currentTabIndex == 1
-                                                ? colorScheme.primary
-                                                : inactiveTabBackgroundColor,
-                                            child: Icon(
-                                              Icons
-                                                  .insert_chart_outlined_outlined,
-                                              size: 20,
-                                              color: currentTabIndex == 1
-                                                  ? colors.onDark
-                                                  : shellNavigationTheme
-                                                        .bottomTabInactiveColor,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: _MainTabItem(
-                                          label: l10n.mainTabKizunark,
-                                          isSelected: currentTabIndex == 2,
-                                          labelColor: currentTabIndex == 2
-                                              ? colorScheme.primary
-                                              : shellNavigationTheme
-                                                    .bottomTabInactiveColor,
-                                          onTap: () => _onDestinationSelected(
-                                            context,
-                                            2,
-                                          ),
-                                          badge: _MainTabBadge(
-                                            backgroundColor:
-                                                currentTabIndex == 2
-                                                ? colorScheme.primary
-                                                : inactiveTabBackgroundColor,
-                                            child: Image.asset(
-                                              'assets/images/kizunark.tab.normal.png',
-                                              width: 20,
-                                              height: 20,
-                                              fit: BoxFit.contain,
-                                              color: currentTabIndex == 2
-                                                  ? colors.onDark
-                                                  : shellNavigationTheme
-                                                        .bottomTabInactiveColor,
-                                              colorBlendMode: BlendMode.srcIn,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: _MainTabItem(
-                                          label: l10n.mainTabHotel,
-                                          isSelected: currentTabIndex == 3,
-                                          labelColor: currentTabIndex == 3
-                                              ? colorScheme.primary
-                                              : shellNavigationTheme.bottomTabInactiveColor,
-                                          onTap: () => _onDestinationSelected(context, 3),
-                                          badge: _MainTabBadge(
-                                            backgroundColor: currentTabIndex == 3
-                                                ? colorScheme.primary
-                                                : inactiveTabBackgroundColor,
-                                            child: Icon(
-                                              Icons.hotel_rounded,
-                                              size: 20,
-                                              color: currentTabIndex == 3
-                                                  ? colors.onDark
+                                          Expanded(
+                                            child: _MainTabItem(
+                                              label: l10n.mainTabHotel,
+                                              isSelected: currentTabIndex == 1,
+                                              labelColor: currentTabIndex == 1
+                                                  ? colorScheme.primary
                                                   : shellNavigationTheme.bottomTabInactiveColor,
+                                              onTap: () => _onDestinationSelected(context, 1),
+                                              badge: _MainTabBadge(
+                                                backgroundColor: currentTabIndex == 1
+                                                    ? colorScheme.primary
+                                                    : inactiveTabBackgroundColor,
+                                                child: Icon(
+                                                  Icons.hotel_rounded,
+                                                  size: 24,
+                                                  color: currentTabIndex == 1
+                                                      ? colors.onDark
+                                                      : shellNavigationTheme.bottomTabInactiveColor,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: _MainTabItem(
-                                          label: l10n.mainTabProfile,
-                                          isSelected: currentTabIndex == 4,
-                                          labelColor: currentTabIndex == 4
-                                              ? colorScheme.primary
-                                              : shellNavigationTheme
-                                                    .bottomTabInactiveColor,
-                                          onTap: () => _onDestinationSelected(
-                                            context,
-                                            4,
-                                          ),
-                                          badge: _MainTabBadge(
-                                            backgroundColor:
-                                                currentTabIndex == 4
-                                                ? colorScheme.primary
-                                                : inactiveTabBackgroundColor,
-                                            child: Icon(
-                                              Icons.person_rounded,
-                                              size: 20,
-                                              color: currentTabIndex == 4
-                                                  ? colors.onDark
+                                          Expanded(
+                                            child: _MainTabItem(
+                                              label: l10n.mainTabInvestment,
+                                              isSelected: currentTabIndex == 2,
+                                              labelColor: currentTabIndex == 2
+                                                  ? colorScheme.primary
                                                   : shellNavigationTheme
                                                         .bottomTabInactiveColor,
+                                              onTap: () => _onDestinationSelected(
+                                                context,
+                                                2,
+                                              ),
+                                              badge: _MainTabBadge(
+                                                backgroundColor:
+                                                    currentTabIndex == 2
+                                                    ? colorScheme.primary
+                                                    : inactiveTabBackgroundColor,
+                                                child: Icon(
+                                                  Icons
+                                                      .insert_chart_outlined_outlined,
+                                                  size: 24,
+                                                  color: currentTabIndex == 2
+                                                      ? colors.onDark
+                                                      : shellNavigationTheme
+                                                            .bottomTabInactiveColor,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                          Expanded(
+                                            child: _MainTabItem(
+                                              label: l10n.mainTabKizunark,
+                                              isSelected: currentTabIndex == 3,
+                                              labelColor: currentTabIndex == 3
+                                                  ? colorScheme.primary
+                                                  : shellNavigationTheme
+                                                        .bottomTabInactiveColor,
+                                              onTap: () => _onDestinationSelected(
+                                                context,
+                                                3,
+                                              ),
+                                              badge: _MainTabBadge(
+                                                backgroundColor:
+                                                    currentTabIndex == 3
+                                                    ? colorScheme.primary
+                                                    : inactiveTabBackgroundColor,
+                                                child: Image.asset(
+                                                  'assets/images/kizunark.tab.normal.png',
+                                                  width: 24,
+                                                  height: 24,
+                                                  fit: BoxFit.contain,
+                                                  color: currentTabIndex == 3
+                                                      ? colors.onDark
+                                                      : shellNavigationTheme
+                                                            .bottomTabInactiveColor,
+                                                  colorBlendMode: BlendMode.srcIn,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          
+                                          Expanded(
+                                            child: _MainTabItem(
+                                              label: l10n.mainTabProfile,
+                                              isSelected: currentTabIndex == 4,
+                                              labelColor: currentTabIndex == 4
+                                                  ? colorScheme.primary
+                                                  : shellNavigationTheme
+                                                        .bottomTabInactiveColor,
+                                              onTap: () => _onDestinationSelected(
+                                                context,
+                                                4,
+                                              ),
+                                              badge: _MainTabBadge(
+                                                backgroundColor:
+                                                    currentTabIndex == 4
+                                                    ? colorScheme.primary
+                                                    : inactiveTabBackgroundColor,
+                                                child: Icon(
+                                                  Icons.person_rounded,
+                                                  size: 24,
+                                                  color: currentTabIndex == 4
+                                                      ? colors.onDark
+                                                      : shellNavigationTheme
+                                                            .bottomTabInactiveColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -507,8 +513,18 @@ class _MainTabBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: backgroundColor, shape: BoxShape.circle),
-      child: SizedBox(width: 32, height: 32, child: Center(child: child)),
+      decoration: BoxDecoration(
+        color: backgroundColor, 
+        shape: BoxShape.circle,
+        boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: backgroundColor.withValues(alpha: 0.32),
+                          blurRadius: 14,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+      ),
+      child: SizedBox(width: 52, height: 52, child: Center(child: child)),
     );
   }
 }
