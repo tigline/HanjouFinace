@@ -5694,6 +5694,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get xAccountDisconnectedNotice => '已解除 X 账户关联。';
+
+  @override
+  String get kizunarkXConnectionPromptTitle => '是否关联 X 账户？';
+
+  @override
+  String get kizunarkXConnectionPromptBody =>
+      '关联后，可选择将 StellaVia App 内 KIZUNARK 发布的内容同步到 X。每次发帖时都可以单独选择是否同步。';
+
+  @override
+  String get kizunarkXConnectionLaterAction => '暂不关联';
+
+  @override
+  String get kizunarkXConnectionAction => '关联 X';
+
+  @override
+  String get kizunarkXSyncLabel => '同步到 X';
+
+  @override
+  String get kizunarkXSyncConnectedDescription => '本次发布同时同步到已关联的 X 账户。';
+
+  @override
+  String get kizunarkXSyncDisconnectedDescription => '关联 X 账户后即可使用同步功能。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -11390,4 +11412,26 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get xAccountDisconnectedNotice => '已解除 X 帳戶連結。';
+
+  @override
+  String get kizunarkXConnectionPromptTitle => '是否連結 X 帳戶？';
+
+  @override
+  String get kizunarkXConnectionPromptBody =>
+      '連結後，可選擇將 StellaVia App 內 KIZUNARK 發佈的內容同步到 X。每次發文時都可以單獨選擇是否同步。';
+
+  @override
+  String get kizunarkXConnectionLaterAction => '暫不連結';
+
+  @override
+  String get kizunarkXConnectionAction => '連結 X';
+
+  @override
+  String get kizunarkXSyncLabel => '同步到 X';
+
+  @override
+  String get kizunarkXSyncConnectedDescription => '本次發佈同時同步到已連結的 X 帳戶。';
+
+  @override
+  String get kizunarkXSyncDisconnectedDescription => '連結 X 帳戶後即可使用同步功能。';
 }

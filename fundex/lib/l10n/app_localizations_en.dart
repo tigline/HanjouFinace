@@ -6049,4 +6049,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get xAccountDisconnectedNotice => 'X account disconnected.';
+
+  @override
+  String get kizunarkXConnectionPromptTitle => 'Connect your X account?';
+
+  @override
+  String get kizunarkXConnectionPromptBody =>
+      'Connect X to optionally sync content you publish in KIZUNARK on the StellaVia app. You can choose whether to sync each time you post.';
+
+  @override
+  String get kizunarkXConnectionLaterAction => 'Not now';
+
+  @override
+  String get kizunarkXConnectionAction => 'Connect X';
+
+  @override
+  String get kizunarkXSyncLabel => 'Sync to X';
+
+  @override
+  String get kizunarkXSyncConnectedDescription =>
+      'Also publish this post to your connected X account.';
+
+  @override
+  String get kizunarkXSyncDisconnectedDescription =>
+      'Connect an X account to enable syncing.';
 }

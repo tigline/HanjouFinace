@@ -10988,6 +10988,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'X account disconnected.'**
   String get xAccountDisconnectedNotice;
+
+  /// No description provided for @kizunarkXConnectionPromptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your X account?'**
+  String get kizunarkXConnectionPromptTitle;
+
+  /// No description provided for @kizunarkXConnectionPromptBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect X to optionally sync content you publish in KIZUNARK on the StellaVia app. You can choose whether to sync each time you post.'**
+  String get kizunarkXConnectionPromptBody;
+
+  /// No description provided for @kizunarkXConnectionLaterAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get kizunarkXConnectionLaterAction;
+
+  /// No description provided for @kizunarkXConnectionAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect X'**
+  String get kizunarkXConnectionAction;
+
+  /// No description provided for @kizunarkXSyncLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync to X'**
+  String get kizunarkXSyncLabel;
+
+  /// No description provided for @kizunarkXSyncConnectedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Also publish this post to your connected X account.'**
+  String get kizunarkXSyncConnectedDescription;
+
+  /// No description provided for @kizunarkXSyncDisconnectedDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect an X account to enable syncing.'**
+  String get kizunarkXSyncDisconnectedDescription;
 }
 
 class _AppLocalizationsDelegate

@@ -28,6 +28,11 @@ Implemented:
 - Typed X account connection, binding-attempt, and binding-status DTOs.
 - Backend API client and app Clean Architecture vertical slice.
 - Settings entry and X account connection page.
+- KIZUNARK tab entry prompt for authenticated users whose X account is not
+  connected. The prompt is shown once per tab visit and links to X settings.
+- A per-post "sync to X" switch in the KIZUNARK composer. It defaults off,
+  remains disabled until an X account is connected, and is not persisted in
+  drafts or user preferences.
 - External-browser authorization launch.
 - `stellavia://oauth/x/result` callback registration on Android and iOS.
 - Cold-start and runtime callback capture through `app_links`.
@@ -63,7 +68,8 @@ result value. It must never place an authorization code or token in that URI.
    production if the product web domains can host AASA and assetlinks files.
 3. Change discussion send to return a typed result containing `commentId` and
    X sync job status.
-4. Add `syncToX` to top-level post submission and expose a composer toggle only
-   for connected accounts.
+4. Send the composer `syncToX` selection through top-level post submission.
+   The current UI keeps the selection on the in-memory send job but does not
+   include it in the backend request yet.
 5. Add queued/succeeded/failed sync status, idempotency, retry UX, and focused
    tests.

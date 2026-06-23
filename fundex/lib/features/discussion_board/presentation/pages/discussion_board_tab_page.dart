@@ -16,11 +16,14 @@ import '../../../home/presentation/support/home_display_name_resolver.dart';
 import '../../../main_shell/presentation/providers/main_shell_providers.dart';
 import '../../../member_profile/presentation/providers/member_profile_providers.dart';
 import '../../../member_profile/presentation/support/profile_document_image_picker.dart';
+import '../../../social_account/presentation/providers/x_account_providers.dart';
+import '../../../social_account/presentation/state/x_account_state.dart';
 import '../../domain/entities/discussion_board_draft.dart';
 import '../../domain/entities/discussion_board_models.dart';
 import '../providers/discussion_board_providers.dart';
 import '../state/discussion_board_state.dart';
 import '../support/discussion_board_time_label.dart';
+import '../support/kizunark_x_sync_support.dart';
 import '../widgets/kizunark_comment_composer_widgets.dart';
 import '../widgets/kizunark_composer_fund_picker_sheet.dart';
 import '../widgets/kizunark_draft_list_page.dart';
@@ -42,6 +45,7 @@ class _PendingDiscussionSendJob {
     required this.content,
     required this.imageFilePaths,
     required this.selectedFund,
+    required this.syncToX,
   }) : kind = _DiscussionSendJobKind.post,
        thread = null;
 
@@ -51,7 +55,8 @@ class _PendingDiscussionSendJob {
     required this.imageFilePaths,
     required DiscussionThread this.thread,
   }) : kind = _DiscussionSendJobKind.reply,
-       selectedFund = null;
+       selectedFund = null,
+       syncToX = false;
 
   final _DiscussionSendJobKind kind;
   final String draftId;
@@ -59,6 +64,7 @@ class _PendingDiscussionSendJob {
   final List<String> imageFilePaths;
   final SelectedComposerFund? selectedFund;
   final DiscussionThread? thread;
+  final bool syncToX;
 }
 
 class _DiscussionBoardTabPageState
@@ -75,6 +81,8 @@ class _DiscussionBoardTabPageState
   SelectedComposerFund? _selectedPostComposerFund;
   bool _isProcessingSendQueue = false;
   bool _showHeaderPostAction = false;
+  bool _hasPromptedXConnectionForCurrentVisit = false;
+  bool _isXConnectionPromptOpen = false;
 
   @override
   void initState() {
@@ -158,6 +166,7 @@ class _DiscussionBoardTabPageState
   Future<bool> _submitPostWithImages({
     required bool isAuthenticated,
     required List<String> imageFilePaths,
+    required bool syncToX,
   }) async {
     final l10n = context.l10n;
     if (!isAuthenticated) {
@@ -173,6 +182,7 @@ class _DiscussionBoardTabPageState
       content: content,
       imageFilePaths: List<String>.of(imageFilePaths),
       selectedFund: _selectedPostComposerFund,
+      syncToX: syncToX,
     );
     _enqueueSendJob(job);
     _composerController.clear();
@@ -185,6 +195,53 @@ class _DiscussionBoardTabPageState
       });
     }
     return true;
+  }
+
+  void _scheduleXConnectionPrompt() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        unawaited(_maybeShowXConnectionPrompt());
+      }
+    });
+  }
+
+  Future<void> _maybeShowXConnectionPrompt() async {
+    final xAccountState = ref.read(xAccountControllerProvider);
+    if (!shouldPromptKizunarkXConnection(
+      isKizunarkTabActive: ref.read(mainShellCurrentTabIndexProvider) == 2,
+      isAuthenticated: ref.read(isAuthenticatedProvider).asData?.value == true,
+      hasPromptedForCurrentVisit: _hasPromptedXConnectionForCurrentVisit,
+      isPromptOpen: _isXConnectionPromptOpen,
+      isAccountLoading: xAccountState.isLoading,
+      hasAccountError: xAccountState.error != null,
+      accountStatus: xAccountState.connection.status,
+    )) {
+      return;
+    }
+
+    _hasPromptedXConnectionForCurrentVisit = true;
+    _isXConnectionPromptOpen = true;
+    final l10n = context.l10n;
+    final shouldConnect = await AppDialogs.showAdaptiveAlert<bool>(
+      context: context,
+      title: l10n.kizunarkXConnectionPromptTitle,
+      message: l10n.kizunarkXConnectionPromptBody,
+      actions: <AppDialogAction<bool>>[
+        AppDialogAction<bool>(
+          label: l10n.kizunarkXConnectionLaterAction,
+          value: false,
+        ),
+        AppDialogAction<bool>(
+          label: l10n.kizunarkXConnectionAction,
+          value: true,
+          isDefaultAction: true,
+        ),
+      ],
+    );
+    _isXConnectionPromptOpen = false;
+    if (shouldConnect == true && mounted) {
+      await context.push<void>('/profile/settings/x-account');
+    }
   }
 
   Future<bool> _sendPostJob(
@@ -736,6 +793,10 @@ class _DiscussionBoardTabPageState
     if (!mounted) {
       return;
     }
+    final isXConnected = ref
+        .read(xAccountControllerProvider)
+        .connection
+        .isConnected;
     await context.push<void>(
       '/discussion-board/post',
       extra: KizunarkPostComposeRouteArgs(
@@ -750,6 +811,11 @@ class _DiscussionBoardTabPageState
           addImageLabel: context.l10n.kizunarkAddImageAction,
           linkedFundLabel: context.l10n.kizunarkAssociateFundAction,
           imageCounterBuilder: context.l10n.kizunarkImageCounter,
+          xSyncLabel: context.l10n.kizunarkXSyncLabel,
+          xSyncDescription: isXConnected
+              ? context.l10n.kizunarkXSyncConnectedDescription
+              : context.l10n.kizunarkXSyncDisconnectedDescription,
+          xSyncEnabled: isXConnected,
           controller: _composerController,
           selectedFund: _selectedPostComposerFund,
           hasDrafts: hasDrafts,
@@ -766,10 +832,11 @@ class _DiscussionBoardTabPageState
               .read(discussionBoardControllerProvider(null).notifier)
               .updateComposerText,
           onSaveDraft: _savePostDraft,
-          onSubmit: (List<String> imageFilePaths) async {
+          onSubmit: (List<String> imageFilePaths, bool syncToX) async {
             return _submitPostWithImages(
               isAuthenticated: isAuthenticated,
               imageFilePaths: imageFilePaths,
+              syncToX: syncToX,
             );
           },
           fullPage: true,
@@ -947,6 +1014,8 @@ class _DiscussionBoardTabPageState
 
   @override
   Widget build(BuildContext context) {
+    final isAuthenticated =
+        ref.watch(isAuthenticatedProvider).asData?.value ?? false;
     ref.listen<String?>(
       discussionBoardControllerProvider(
         null,
@@ -986,6 +1055,32 @@ class _DiscussionBoardTabPageState
       ref.read(discussionBoardControllerProvider(null).notifier).loadThreads();
     });
 
+    ref.listen<int>(mainShellCurrentTabIndexProvider, (previous, next) {
+      if (next != 2) {
+        _hasPromptedXConnectionForCurrentVisit = false;
+        return;
+      }
+      if (previous != next) {
+        _scheduleXConnectionPrompt();
+      }
+    });
+
+    if (isAuthenticated) {
+      final xAccountState = ref.watch(xAccountControllerProvider);
+      ref.listen<XAccountState>(xAccountControllerProvider, (previous, next) {
+        final becameAvailable = previous?.isLoading == true && !next.isLoading;
+        final statusChanged =
+            previous?.connection.status != next.connection.status;
+        if (becameAvailable || statusChanged) {
+          _scheduleXConnectionPrompt();
+        }
+      });
+      if (ref.watch(mainShellCurrentTabIndexProvider) == 2 &&
+          !xAccountState.isLoading) {
+        _scheduleXConnectionPrompt();
+      }
+    }
+
     ref.listen<int>(
       discussionSendQueueProvider.select((state) => state.cancelGeneration),
       (previous, next) {
@@ -1001,8 +1096,6 @@ class _DiscussionBoardTabPageState
     final controller = ref.read(
       discussionBoardControllerProvider(null).notifier,
     );
-    final isAuthenticated =
-        ref.watch(isAuthenticatedProvider).asData?.value ?? false;
     final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
     final currentUserId = _resolveCurrentUserId(currentUser);
 

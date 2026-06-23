@@ -170,6 +170,9 @@ class KizunarkComposeSheet extends StatefulWidget {
     required this.addImageLabel,
     required this.linkedFundLabel,
     required this.imageCounterBuilder,
+    required this.xSyncLabel,
+    required this.xSyncDescription,
+    required this.xSyncEnabled,
     required this.controller,
     required this.selectedFund,
     required this.onPickImages,
@@ -195,6 +198,9 @@ class KizunarkComposeSheet extends StatefulWidget {
   final String addImageLabel;
   final String linkedFundLabel;
   final String Function(int count) imageCounterBuilder;
+  final String xSyncLabel;
+  final String xSyncDescription;
+  final bool xSyncEnabled;
   final TextEditingController controller;
   final SelectedComposerFund? selectedFund;
   final Future<List<String>> Function(int remainingCount) onPickImages;
@@ -204,7 +210,8 @@ class KizunarkComposeSheet extends StatefulWidget {
   final ValueChanged<SelectedComposerFund?> onSelectedFundChanged;
   final ValueChanged<String> onTextChanged;
   final Future<void> Function(List<String> imageFilePaths) onSaveDraft;
-  final Future<bool> Function(List<String> imageFilePaths) onSubmit;
+  final Future<bool> Function(List<String> imageFilePaths, bool syncToX)
+  onSubmit;
   final bool hasDrafts;
   final bool fullPage;
 
@@ -220,6 +227,7 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
   bool _isSubmitting = false;
   bool _hasInputContent = false;
   bool _canSubmitContent = false;
+  bool _syncToX = false;
 
   @override
   void initState() {
@@ -384,7 +392,7 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
     setState(() {
       _isSubmitting = true;
     });
-    unawaited(widget.onSubmit(List<String>.of(_validImageFilePaths)));
+    unawaited(widget.onSubmit(List<String>.of(_validImageFilePaths), _syncToX));
     Navigator.of(context).pop();
   }
 
@@ -437,6 +445,18 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
                   const SizedBox(height: 10),
                   _LinkedFundPreview(fund: _selectedFund!),
                 ],
+                const SizedBox(height: 16),
+                _XSyncOption(
+                  label: widget.xSyncLabel,
+                  description: widget.xSyncDescription,
+                  enabled: widget.xSyncEnabled,
+                  value: _syncToX,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _syncToX = value;
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -479,6 +499,83 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
             child: ColoredBox(color: colors.surface, child: page),
           )
         : page;
+  }
+}
+
+class _XSyncOption extends StatelessWidget {
+  const _XSyncOption({
+    required this.label,
+    required this.description,
+    required this.enabled,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String label;
+  final String description;
+  final bool enabled;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.appColors;
+    final appText = theme.appTextTheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.symmetric(
+          horizontal: BorderSide(color: colors.borderSoft),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 34,
+              height: 34,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: enabled ? colors.textPrimary : colors.borderSoft,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                'X',
+                style: appText.bodyStrong.copyWith(
+                  color: enabled ? colors.surface : colors.textTertiary,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    label,
+                    style: appText.bodyStrong.copyWith(
+                      color: enabled ? colors.textPrimary : colors.textTertiary,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    description,
+                    style: appText.meta.copyWith(color: colors.textTertiary),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            Switch.adaptive(
+              key: const Key('kizunark_sync_to_x_switch'),
+              value: enabled && value,
+              onChanged: enabled ? onChanged : null,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

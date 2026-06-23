@@ -2342,5 +2342,12 @@
   "xAccountAuthorizationCancelled": "Xの認証をキャンセルしました。",
   "xAccountConnectionFailed": "Xアカウントの連携状態を更新できませんでした。",
   "xAccountConnectedNotice": "Xアカウントを連携しました。",
-  "xAccountDisconnectedNotice": "Xアカウントの連携を解除しました。"
+  "xAccountDisconnectedNotice": "Xアカウントの連携を解除しました。",
+  "kizunarkXConnectionPromptTitle": "Xアカウントを連携しますか？",
+  "kizunarkXConnectionPromptBody": "Xを連携すると、StellaViaアプリ内のKIZUNARKで投稿する内容を任意でXにも同期できます。投稿ごとに同期するかどうかを選択できます。",
+  "kizunarkXConnectionLaterAction": "今はしない",
+  "kizunarkXConnectionAction": "Xを連携",
+  "kizunarkXSyncLabel": "Xにも同期",
+  "kizunarkXSyncConnectedDescription": "今回の投稿を連携済みのXアカウントにも投稿します。",
+  "kizunarkXSyncDisconnectedDescription": "Xアカウントを連携すると同期できます。"
 }

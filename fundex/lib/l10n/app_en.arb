@@ -2372,5 +2372,12 @@
   "xAccountAuthorizationCancelled": "X authorization was cancelled.",
   "xAccountConnectionFailed": "Unable to update the X account connection.",
   "xAccountConnectedNotice": "X account connected.",
-  "xAccountDisconnectedNotice": "X account disconnected."
+  "xAccountDisconnectedNotice": "X account disconnected.",
+  "kizunarkXConnectionPromptTitle": "Connect your X account?",
+  "kizunarkXConnectionPromptBody": "Connect X to optionally sync content you publish in KIZUNARK on the StellaVia app. You can choose whether to sync each time you post.",
+  "kizunarkXConnectionLaterAction": "Not now",
+  "kizunarkXConnectionAction": "Connect X",
+  "kizunarkXSyncLabel": "Sync to X",
+  "kizunarkXSyncConnectedDescription": "Also publish this post to your connected X account.",
+  "kizunarkXSyncDisconnectedDescription": "Connect an X account to enable syncing."
 }

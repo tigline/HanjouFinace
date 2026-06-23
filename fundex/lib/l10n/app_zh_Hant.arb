@@ -2342,5 +2342,12 @@
   "xAccountAuthorizationCancelled": "已取消 X 授權。",
   "xAccountConnectionFailed": "無法更新 X 帳戶連結狀態。",
   "xAccountConnectedNotice": "X 帳戶連結成功。",
-  "xAccountDisconnectedNotice": "已解除 X 帳戶連結。"
+  "xAccountDisconnectedNotice": "已解除 X 帳戶連結。",
+  "kizunarkXConnectionPromptTitle": "是否連結 X 帳戶？",
+  "kizunarkXConnectionPromptBody": "連結後，可選擇將 StellaVia App 內 KIZUNARK 發佈的內容同步到 X。每次發文時都可以單獨選擇是否同步。",
+  "kizunarkXConnectionLaterAction": "暫不連結",
+  "kizunarkXConnectionAction": "連結 X",
+  "kizunarkXSyncLabel": "同步到 X",
+  "kizunarkXSyncConnectedDescription": "本次發佈同時同步到已連結的 X 帳戶。",
+  "kizunarkXSyncDisconnectedDescription": "連結 X 帳戶後即可使用同步功能。"
 }

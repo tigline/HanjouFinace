@@ -5751,4 +5751,26 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get xAccountDisconnectedNotice => 'Xアカウントの連携を解除しました。';
+
+  @override
+  String get kizunarkXConnectionPromptTitle => 'Xアカウントを連携しますか？';
+
+  @override
+  String get kizunarkXConnectionPromptBody =>
+      'Xを連携すると、StellaViaアプリ内のKIZUNARKで投稿する内容を任意でXにも同期できます。投稿ごとに同期するかどうかを選択できます。';
+
+  @override
+  String get kizunarkXConnectionLaterAction => '今はしない';
+
+  @override
+  String get kizunarkXConnectionAction => 'Xを連携';
+
+  @override
+  String get kizunarkXSyncLabel => 'Xにも同期';
+
+  @override
+  String get kizunarkXSyncConnectedDescription => '今回の投稿を連携済みのXアカウントにも投稿します。';
+
+  @override
+  String get kizunarkXSyncDisconnectedDescription => 'Xアカウントを連携すると同期できます。';
 }
