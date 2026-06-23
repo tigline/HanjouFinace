@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
@@ -83,12 +82,6 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
     final memberProfile = asyncMemberProfile.valueOrNull;
     final verificationStatus = asyncVerificationStatus.valueOrNull;
     final projects = asyncProjects.valueOrNull ?? const <FundProject>[];
-    final locale = Localizations.localeOf(context);
-    final currencyFormatter = NumberFormat.currency(
-      locale: locale.toLanguageTag(),
-      symbol: '¥',
-      decimalDigits: 0,
-    );
     final shouldShowMemberProfileReminder = shouldShowHomeMemberProfileReminder(
       currentUser,
       isMemberProfileCompleted: isMemberProfileCompleted,
@@ -154,12 +147,11 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
     final featuredFundCards = featuredProjects
         .map(
           (FundProject project) => FundFeaturedFundCard(
-            data: buildHomeFeaturedFundCardData(
-              context,
-              project,
-              currencyFormatter,
-            ),
+            data: buildHomeFeaturedFundCardData(context, project),
             yieldLabel: l10n.homeEstimatedYieldLabel,
+            periodLabel: l10n.fundListPeriodLabel,
+            minimumInvestmentLabel: l10n.fundDetailMinimumInvestmentLabel,
+            fundDetailAchievementRateLabel: l10n.fundDetailAchievementRateLabel,
           ),
         )
         .toList(growable: false);
@@ -229,15 +221,13 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                 children: <Widget>[
                   if (networkAccessState == AppNetworkAccessState.denied ||
                       (_isApplePlatform &&
-                          networkAvailability ==
-                              AppNetworkAvailability.offline))
+                          networkAvailability == AppNetworkAvailability.offline))
                     AppNetworkStatusBar(
                       title: l10n.networkAccessDeniedBannerTitle,
                       message: l10n.networkAccessDeniedBannerMessage,
                       icon: Icons.wifi_find_outlined,
                     )
-                  else if (networkAvailability ==
-                      AppNetworkAvailability.offline)
+                  else if (networkAvailability == AppNetworkAvailability.offline)
                     AppNetworkStatusBar(
                       title: l10n.networkOfflineBannerTitle,
                       message: l10n.networkOfflineBannerMessage,
@@ -361,11 +351,11 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                         //     onTap: () => _openOfficialSite(context),
                         //   ),
                         // ),
-                        HomeLicenseBar(linkArea: 
-                          HomeOfficialSiteLink(
-                              label: l10n.homeOfficialSiteAction,
-                              onTap: () => _openOfficialSite(context),
-                            )
+                        HomeLicenseBar(
+                          linkArea: HomeOfficialSiteLink(
+                            label: l10n.homeOfficialSiteAction,
+                            onTap: () => _openOfficialSite(context),
+                          ),
                         ),
                       ],
                     ),

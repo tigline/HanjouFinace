@@ -795,12 +795,19 @@ class FundFeaturedFundTagData {
   final Color foregroundColor;
 }
 
+enum FundFeaturedFundActionTone { apply, details }
+
 class FundFeaturedFundCardData {
   const FundFeaturedFundCardData({
     required this.title,
     required this.annualYield,
+    required this.periodValue,
+    required this.minimumInvestmentValue,
     required this.metadata,
     required this.progress,
+    required this.daysRemaining,
+    required this.actionLabel,
+    required this.actionTone,
     this.progressLabel,
     this.tags = const <FundFeaturedFundTagData>[],
     this.artworkGradientColors = const <Color>[],
@@ -810,8 +817,13 @@ class FundFeaturedFundCardData {
 
   final String title;
   final String annualYield;
+  final String periodValue;
+  final String minimumInvestmentValue;
   final String metadata;
   final double progress;
+  final String daysRemaining;
+  final String actionLabel;
+  final FundFeaturedFundActionTone actionTone;
   final String? progressLabel;
   final List<FundFeaturedFundTagData> tags;
   final List<Color> artworkGradientColors;
@@ -889,12 +901,18 @@ class FundFeaturedFundCard extends StatelessWidget {
     super.key,
     required this.data,
     required this.yieldLabel,
-    this.width = 305,
+    required this.periodLabel,
+    required this.minimumInvestmentLabel,
+    required this.fundDetailAchievementRateLabel,
+    this.width = 320,
     this.shadowPadding = const EdgeInsets.fromLTRB(2, 2, 2, 8),
   });
 
   final FundFeaturedFundCardData data;
   final String yieldLabel;
+  final String periodLabel;
+  final String minimumInvestmentLabel;
+  final String fundDetailAchievementRateLabel;
   final double width;
   final EdgeInsetsGeometry shadowPadding;
 
@@ -914,13 +932,48 @@ class FundFeaturedFundCard extends StatelessWidget {
             colors.primary.withValues(alpha: 0.46),
             colors.surface,
           )
-        : colors.primary;
+        : colors.surfaceAlt;
     final hasArtwork = data.imageUrls.isNotEmpty;
     final artworkGradientColors = data.artworkGradientColors.isEmpty
         ? <Color>[colors.heroStart, colors.heroMiddle, colors.heroEnd]
         : data.artworkGradientColors;
     final primaryTextColor = colors.textPrimary;
     final secondaryTextColor = colors.textPrimary.withValues(alpha: 0.74);
+    final progress = data.progress.clamp(0.0, 1.0);
+    final isApplyAction = data.actionTone == FundFeaturedFundActionTone.apply;
+    final actionBackgroundColor = isApplyAction
+        ? colors.highlightGold
+        : colors.primary;
+    final actionForegroundColor = isApplyAction
+        ? colors.textPrimary
+        : colors.onDark;
+
+    Widget dataBlock(String title, String value) {
+      return Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: appText.micro.copyWith(
+                color: secondaryTextColor,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              value,
+              style: appText.bodyStrong.copyWith(
+                color: colors.highlightGold,
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     return SizedBox(
       width: width,
@@ -938,7 +991,7 @@ class FundFeaturedFundCard extends StatelessWidget {
             ],
           ),
           child: Material(
-            color: colors.surfaceAlt,
+            color: colors.surface,
             shape: RoundedRectangleBorder(
               borderRadius: cardRadius,
               side: BorderSide(color: borderColor),
@@ -951,61 +1004,15 @@ class FundFeaturedFundCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 12),
-                    decoration: BoxDecoration(
-                      color: cardBackgroundColor,
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(UiTokens.radius16),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
+                  DecoratedBox(
+                    decoration: BoxDecoration(color: cardBackgroundColor),
+                    child: Stack(
                       children: <Widget>[
-                        if (data.tags.isNotEmpty)
-                          Row(
-                            spacing: 6,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              ...data.tags.map(
-                                (FundFeaturedFundTagData tag) => Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: tag.backgroundColor,
-                                    borderRadius: BorderRadius.circular(999),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    widthFactor: 1,
-                                    heightFactor: 1,
-                                    child: Text(
-                                      tag.label,
-                                      textHeightBehavior:
-                                          const TextHeightBehavior(
-                                            applyHeightToFirstAscent: false,
-                                            applyHeightToLastDescent: false,
-                                          ),
-                                      style: appText.micro.copyWith(
-                                        color: tag.foregroundColor,
-                                        height: 1,
-                                        fontSize: 11,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        const SizedBox(height: 8),
                         AspectRatio(
-                          aspectRatio: 16 / 10,
+                          aspectRatio: 26 / 10,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              UiTokens.radius16,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(UiTokens.radius16),
                             ),
                             child: !hasArtwork
                                 ? const _FundFeaturedArtworkPlaceholder()
@@ -1016,46 +1023,155 @@ class FundFeaturedFundCard extends StatelessWidget {
                                   ),
                           ),
                         ),
+                        if (data.tags.isNotEmpty)
+                          Positioned(
+                            left: 12,
+                            top: 12,
+                            child: Row(
+                              spacing: 6,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                ...data.tags.map(
+                                  (FundFeaturedFundTagData tag) => Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: tag.backgroundColor,
+                                      borderRadius: BorderRadius.circular(999),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      widthFactor: 1,
+                                      heightFactor: 1,
+                                      child: Text(
+                                        tag.label,
+                                        textHeightBehavior:
+                                            const TextHeightBehavior(
+                                              applyHeightToFirstAscent: false,
+                                              applyHeightToLastDescent: false,
+                                            ),
+                                        style: appText.micro.copyWith(
+                                          color: tag.foregroundColor,
+                                          height: 1,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                       ],
                     ),
                   ),
 
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-                    decoration: BoxDecoration(color: colors.surfaceAlt),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          data.title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: appText.cardTitle.copyWith(
-                            color: primaryTextColor,
-                            fontSize: 16,
-                            height: 1.35,
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                      decoration: BoxDecoration(color: colors.surface),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            data.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: appText.bodyStrong.copyWith(
+                              color: primaryTextColor,
+                              height: 1.35,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          yieldLabel,
-                          style: appText.bodyMuted.copyWith(
-                            color: secondaryTextColor,
+                          const Spacer(),
+                          const SizedBox(height: 16,),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              dataBlock(yieldLabel, data.annualYield),
+                              const SizedBox(width: UiTokens.spacing8),
+                              dataBlock(periodLabel, data.periodValue),
+                              const SizedBox(width: UiTokens.spacing8),
+                              dataBlock(
+                                minimumInvestmentLabel,
+                                data.minimumInvestmentValue,
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          data.annualYield,
-                          style: appText.numericHeadline.copyWith(
-                            color: colors.highlightGold,
-                            height: 1.0,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w800,
+                          const SizedBox(height: UiTokens.spacing16),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(999),
+                            child: LinearProgressIndicator(
+                              minHeight: 7,
+                              value: progress,
+                              backgroundColor: colors.highlightGold.withValues(
+                                alpha: 0.16,
+                              ),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                colors.highlightGold,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: UiTokens.spacing8),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Text.rich(
+                                  TextSpan(
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                        text: '$fundDetailAchievementRateLabel ',
+                                      ),
+                                      TextSpan(
+                                        text: data.progressLabel ?? '',
+                                        style: appText.bodyStrong.copyWith(
+                                          color: colors.highlightGold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  style: appText.bodyMuted.copyWith(
+                                    color: secondaryTextColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: UiTokens.spacing8),
+                              Text(
+                                data.daysRemaining,
+                                style: appText.bodyMuted.copyWith(
+                                  color: secondaryTextColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: UiTokens.spacing16),
+                          Container(
+                            width: double.infinity,
+                            constraints: const BoxConstraints(minHeight: 52),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: UiTokens.spacing16,
+                              vertical: UiTokens.spacing12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: actionBackgroundColor,
+                              borderRadius: BorderRadius.circular(
+                                UiTokens.radius12,
+                              ),
+                            ),
+                            child: Text(
+                              data.actionLabel,
+                              textAlign: TextAlign.center,
+                              style: appText.button.copyWith(
+                                color: actionForegroundColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

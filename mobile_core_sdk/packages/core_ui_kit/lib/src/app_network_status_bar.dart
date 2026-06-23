@@ -29,44 +29,47 @@ class AppNetworkStatusBar extends StatelessWidget {
         color: backgroundColor,
         border: Border(bottom: BorderSide(color: borderColor)),
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: colors.warning.withValues(alpha: 0.14),
-                borderRadius: BorderRadius.circular(10),
+      child: SafeArea(
+        top: true,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: colors.warning.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                alignment: Alignment.center,
+                child: Icon(icon, size: 18, color: colors.warning),
               ),
-              alignment: Alignment.center,
-              child: Icon(icon, size: 18, color: colors.warning),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    title,
-                    style: appText.bodyStrong.copyWith(
-                      color: colors.textPrimary,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: appText.bodyStrong.copyWith(
+                        color: colors.textPrimary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    message,
-                    style: appText.caption.copyWith(
-                      color: colors.textSecondary,
-                      height: 1.35,
+                    const SizedBox(height: 2),
+                    Text(
+                      message,
+                      style: appText.caption.copyWith(
+                        color: colors.textSecondary,
+                        height: 1.35,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

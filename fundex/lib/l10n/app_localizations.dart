@@ -2069,6 +2069,24 @@ abstract class AppLocalizations {
   /// **'Latest Funds'**
   String get homeFeaturedFundsTitle;
 
+  /// No description provided for @homeFeaturedFundRemainingDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days left'**
+  String homeFeaturedFundRemainingDays(Object days);
+
+  /// No description provided for @homeFeaturedFundApplyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to this fund'**
+  String get homeFeaturedFundApplyAction;
+
+  /// No description provided for @homeFeaturedFundViewDetailAction.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get homeFeaturedFundViewDetailAction;
+
   /// No description provided for @homeViewAllAction.
   ///
   /// In en, this message translates to:

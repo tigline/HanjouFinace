@@ -117,7 +117,7 @@ class _HomeAttractionCard extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_rounded,
                   size: 18,
-                  color: colors.brandPrimaryDark,
+                  color: colors.highlightGold,
                 ),
               ],
             ),

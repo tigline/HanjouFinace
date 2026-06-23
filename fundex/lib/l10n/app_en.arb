@@ -368,6 +368,14 @@
   "homeReminderCoolingOffBadge": "5 days left",
   "homeReminderCoolingOffAction": "Cancel contract",
   "homeFeaturedFundsTitle": "Latest Funds",
+  "homeFeaturedFundRemainingDays": "{days} days left",
+  "@homeFeaturedFundRemainingDays": {
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "homeFeaturedFundApplyAction": "Apply to this fund",
+  "homeFeaturedFundViewDetailAction": "View details",
   "homeViewAllAction": "View All",
   "homeOfficialSiteAction": "StellaVia Office Site",
   "homeOfficialSiteOpenFailed": "Unable to open the official site.",

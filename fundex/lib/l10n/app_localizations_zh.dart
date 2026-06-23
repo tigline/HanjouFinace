@@ -1015,6 +1015,17 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeFeaturedFundsTitle => '最新基金';
 
   @override
+  String homeFeaturedFundRemainingDays(Object days) {
+    return '剩余 $days 天';
+  }
+
+  @override
+  String get homeFeaturedFundApplyAction => '申请此基金';
+
+  @override
+  String get homeFeaturedFundViewDetailAction => '查看详情';
+
+  @override
   String get homeViewAllAction => '查看全部';
 
   @override
@@ -6728,6 +6739,17 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get homeFeaturedFundsTitle => '基金';
+
+  @override
+  String homeFeaturedFundRemainingDays(Object days) {
+    return '剩餘 $days 天';
+  }
+
+  @override
+  String get homeFeaturedFundApplyAction => '申請此基金';
+
+  @override
+  String get homeFeaturedFundViewDetailAction => '查看詳情';
 
   @override
   String get homeViewAllAction => '查看全部';

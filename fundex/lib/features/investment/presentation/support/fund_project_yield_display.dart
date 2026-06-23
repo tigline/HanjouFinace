@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:fundex/app/localization/app_localizations_ext.dart';
+import 'package:intl/intl.dart';
+
 import '../../domain/entities/fund_project.dart';
 
 String resolveFundProjectYieldDisplay(FundProject project) {
@@ -18,6 +22,51 @@ String resolveFundProjectYieldDisplay(FundProject project) {
     minimum: project.expectedDistributionRatioMin,
     maximum: project.expectedDistributionRatioMax,
   );
+}
+
+String resolvePeriodValue(FundProject project) {
+
+  return (project.investmentPeriod?.trim().isNotEmpty ??
+                                        false)
+                                    ? project.investmentPeriod!.trim()
+                                    : '--';
+  
+}
+
+String resolveMinimumInvestmentText(
+  BuildContext context,
+  FundProject project,
+  Locale locale,
+) {
+  final amount = project.investmentUnit;
+  if (amount == null || amount <= 0) {
+    return context.l10n.fundDetailUnknownValue;
+  }
+
+  final localizedAmount =
+      _formatMinimumInvestmentAmountForLocale(amount, locale) ??
+      NumberFormat.decimalPattern(locale.toLanguageTag()).format(amount);
+
+  return context.l10n.fundListMinimumInvestmentValue(localizedAmount);
+}
+
+String? _formatMinimumInvestmentAmountForLocale(int amount, Locale locale) {
+  if (amount < 10000 || amount % 10000 != 0) {
+    return null;
+  }
+
+  final manCount = amount ~/ 10000;
+  final manText = NumberFormat.decimalPattern(
+    locale.toLanguageTag(),
+  ).format(manCount);
+
+  switch (locale.languageCode) {
+    case 'ja':
+    case 'zh':
+      return '$manText万';
+    default:
+      return null;
+  }
 }
 
 String formatFundYieldPercent(double? ratio) {

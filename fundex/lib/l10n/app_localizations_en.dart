@@ -1097,6 +1097,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeFeaturedFundsTitle => 'Latest Funds';
 
   @override
+  String homeFeaturedFundRemainingDays(Object days) {
+    return '$days days left';
+  }
+
+  @override
+  String get homeFeaturedFundApplyAction => 'Apply to this fund';
+
+  @override
+  String get homeFeaturedFundViewDetailAction => 'View details';
+
+  @override
   String get homeViewAllAction => 'View All';
 
   @override

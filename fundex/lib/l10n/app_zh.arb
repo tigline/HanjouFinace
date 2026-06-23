@@ -343,6 +343,14 @@
   "homeReminderCoolingOffBadge": "剩余5天",
   "homeReminderCoolingOffAction": "办理取消",
   "homeFeaturedFundsTitle": "最新基金",
+  "homeFeaturedFundRemainingDays": "剩余 {days} 天",
+  "@homeFeaturedFundRemainingDays": {
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "homeFeaturedFundApplyAction": "申请此基金",
+  "homeFeaturedFundViewDetailAction": "查看详情",
   "homeViewAllAction": "查看全部",
   "homeOfficialSiteAction": "StellaVia 官网",
   "homeOfficialSiteOpenFailed": "无法打开官网。",

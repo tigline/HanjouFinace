@@ -1,7 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../investment/domain/entities/fund_project.dart';
@@ -11,19 +10,33 @@ import '../../../investment/presentation/support/fund_project_yield_display.dart
 FundFeaturedFundCardData buildHomeFeaturedFundCardData(
   BuildContext context,
   FundProject project,
-  NumberFormat currencyFormatter,
 ) {
   final status = project.projectStatus;
   final statusTag = _buildStatusTag(context, status);
   final methodTag = _buildMethodTag(context, project.gainType);
   final metadata = _buildFeaturedMetadata(context, project);
-
+  final locale = Localizations.localeOf(context);
   return FundFeaturedFundCardData(
     title: project.projectName,
     annualYield: resolveFundProjectYieldDisplay(project),
+    periodValue: resolvePeriodValue(project),
+    minimumInvestmentValue: resolveMinimumInvestmentText(
+      context,
+      project,
+      locale,
+    ),
     metadata: metadata,
     progress: _normalizeProgress(project.achievementRate),
-    progressLabel: _buildProgressLabel(context, project, currencyFormatter),
+    daysRemaining: context.l10n.homeFeaturedFundRemainingDays(
+      project.daysRemaining?.toString() ?? context.l10n.fundDetailUnknownValue,
+    ),
+    actionLabel: status == 1
+        ? context.l10n.homeFeaturedFundApplyAction
+        : context.l10n.homeFeaturedFundViewDetailAction,
+    actionTone: status == 1
+        ? FundFeaturedFundActionTone.apply
+        : FundFeaturedFundActionTone.details,
+    progressLabel: _formatProgressPercent(project.achievementRate),
     tags: <FundFeaturedFundTagData>[
       statusTag,
       if (methodTag != null) methodTag,
@@ -98,7 +111,7 @@ FundFeaturedFundTagData? _buildMethodTag(
   }
   return FundFeaturedFundTagData(
     label: label,
-    backgroundColor: Theme.of(context).appColors.onDark.withValues(alpha: 0.14),
+    backgroundColor: Theme.of(context).appColors.textPrimary.withValues(alpha: 0.68),
     foregroundColor: Theme.of(context).appColors.onDark.withValues(alpha: 0.92),
   );
 }
@@ -189,32 +202,6 @@ String _buildFeaturedMetadata(BuildContext context, FundProject project) {
   return _resolveStatusLabel(context, project.projectStatus);
 }
 
-String _buildProgressLabel(
-  BuildContext context,
-  FundProject project,
-  NumberFormat currencyFormatter,
-) {
-  if (project.projectStatus == 0) {
-    final openDate =
-        _parseDateTime(project.offeringStartDatetime) ??
-        _parseDateTime(project.scheduledStartDate);
-    if (openDate != null) {
-      return context.l10n.fundListOpenStartAt(
-        _formatDateForLocale(openDate, Localizations.localeOf(context)),
-      );
-    }
-  }
-
-  final amount = _formatCurrency(
-    project.currentlySubscribed ?? project.amountApplication,
-    currencyFormatter,
-  );
-  return context.l10n.fundListAppliedAmount(
-    amount,
-    _formatProgressPercent(project.achievementRate),
-  );
-}
-
 String _resolveStatusLabel(BuildContext context, int? status) {
   final l10n = context.l10n;
   switch (status) {
@@ -244,40 +231,18 @@ double _normalizeProgress(double? ratio) {
   if (ratio < 0) {
     return 0;
   }
-  return ratio > 1 ? ratio / 100 : ratio;
+  final normalized = ratio > 1 ? ratio / 100 : ratio;
+  return normalized.clamp(0, 1).toDouble();
 }
 
 String _formatProgressPercent(double? ratio) {
   if (ratio == null) {
     return '--';
   }
-  final percentage = ratio * 100;
+  final percentage = _normalizeProgress(ratio) * 100;
   final truncated = (percentage * 100).truncate() / 100;
-  return '${truncated.toStringAsFixed(2)}%';
-}
-
-String _formatCurrency(int? amount, NumberFormat formatter) {
-  if (amount == null) {
-    return '-';
-  }
-  return formatter.format(amount);
-}
-
-DateTime? _parseDateTime(String? raw) {
-  if (raw == null || raw.trim().isEmpty) {
-    return null;
-  }
-  final normalized = raw.trim().replaceAll(' ', 'T');
-  return DateTime.tryParse(normalized);
-}
-
-String _formatDateForLocale(DateTime value, Locale locale) {
-  final languageCode = locale.languageCode;
-  if (languageCode == 'ja') {
-    return DateFormat.yMMMMd('ja').format(value);
-  }
-  if (languageCode == 'zh') {
-    return DateFormat.yMd('zh').format(value);
-  }
-  return DateFormat.yMMMd(locale.toLanguageTag()).format(value);
+  final formatted = truncated
+      .toStringAsFixed(2)
+      .replaceFirst(RegExp(r'\.?0+$'), '');
+  return '$formatted%';
 }

@@ -1029,6 +1029,17 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeFeaturedFundsTitle => '最新ファンド';
 
   @override
+  String homeFeaturedFundRemainingDays(Object days) {
+    return '残り $days日';
+  }
+
+  @override
+  String get homeFeaturedFundApplyAction => 'このファンドに申し込む';
+
+  @override
+  String get homeFeaturedFundViewDetailAction => '詳細を見る';
+
+  @override
   String get homeViewAllAction => '一覧を見る';
 
   @override

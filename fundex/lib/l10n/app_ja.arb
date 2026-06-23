@@ -343,6 +343,14 @@
   "homeReminderCoolingOffBadge": "残り5日",
   "homeReminderCoolingOffAction": "取消手続き",
   "homeFeaturedFundsTitle": "最新ファンド",
+  "homeFeaturedFundRemainingDays": "残り {days}日",
+  "@homeFeaturedFundRemainingDays": {
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "homeFeaturedFundApplyAction": "このファンドに申し込む",
+  "homeFeaturedFundViewDetailAction": "詳細を見る",
   "homeViewAllAction": "一覧を見る",
   "homeOfficialSiteAction": "StellaVia公式サイト",
   "homeOfficialSiteOpenFailed": "公式サイトを開けませんでした。",

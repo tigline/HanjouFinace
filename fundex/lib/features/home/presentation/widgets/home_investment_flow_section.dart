@@ -107,7 +107,7 @@ class _HomeInvestmentFlowCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Icon(data.icon, size: 32, color: colors.primary),
+              Icon(data.icon, size: 32, color: colors.highlightGold),
               const SizedBox(height: 8),
               Text(
                 data.title,
