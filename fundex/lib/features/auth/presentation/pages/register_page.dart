@@ -233,27 +233,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     return Scaffold(
       key: const Key('register_page'),
       backgroundColor: theme.colorScheme.surface,
-      appBar: AppBar(
-        titleSpacing: 0,
-        scrolledUnderElevation: 0,
-        elevation: 0,
+      appBar: AppNavigationBar(
         backgroundColor: theme.colorScheme.surface,
-        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           key: const Key('register_back_button'),
           onPressed: () => context.pop(),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text(
-          l10n.registerTitle,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Divider(height: 1, thickness: 1, color: navBorderColor),
-        ),
+        title: l10n.registerTitle,
+        foregroundColor: theme.appColors.textPrimary,
       ),
       body: DecoratedBox(
         decoration: BoxDecoration(color: theme.colorScheme.surface),

@@ -289,220 +289,223 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     return Scaffold(
       key: const Key('login_page'),
       body: DecoratedBox(
-        decoration: BoxDecoration(color: theme.colorScheme.surface),
+        decoration: BoxDecoration(color: theme.colorScheme.primary),
         child: SafeArea(
           bottom: false,
-          child: Column(
-            children: <Widget>[
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 260),
-                curve: Curves.easeOutCubic,
-                height: isEditingInput ? 0 : 220,
-                child: ClipRect(
-                  child: OverflowBox(
-                    alignment: Alignment.topCenter,
-                    minHeight: 0,
-                    maxHeight: 220,
-                    child: AnimatedSlide(
-                      duration: const Duration(milliseconds: 260),
-                      curve: Curves.easeOutCubic,
-                      offset: Offset(0, isEditingInput ? -1.0 : 0),
-                      child: _LoginHeroHeader(
-                        subtitle: l10n.loginTitle,
-                        onClose: _continueWithoutLogin,
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: theme.colorScheme.surface),
+            child: Column(
+              children: <Widget>[
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 260),
+                  curve: Curves.easeOutCubic,
+                  height: isEditingInput ? 0 : 220,
+                  child: ClipRect(
+                    child: OverflowBox(
+                      alignment: Alignment.topCenter,
+                      minHeight: 0,
+                      maxHeight: 220,
+                      child: AnimatedSlide(
+                        duration: const Duration(milliseconds: 260),
+                        curve: Curves.easeOutCubic,
+                        offset: Offset(0, isEditingInput ? -1.0 : 0),
+                        child: _LoginHeroHeader(
+                          subtitle: l10n.loginTitle,
+                          onClose: _continueWithoutLogin,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      _LoginChannelSegmentedControl(
-                        emailButtonKey: const Key('login_mode_email_button'),
-                        mobileButtonKey: const Key('login_mode_mobile_button'),
-                        emailLabel: l10n.authModeEmail,
-                        mobileLabel: l10n.authModeMobile,
-                        selectedChannel: _loginChannel,
-                        onSelect: (_LoginChannel channel) =>
-                            _switchLoginChannel(channel, controller),
-                      ),
-                      const SizedBox(height: UiTokens.spacing12),
-                      if (!_isEmailMode) ...<Widget>[
-                        IntlCodePickerField(
-                          key: const Key('login_intl_code_picker'),
-                          selectedIntlCode: _selectedIntlCode,
-                          onChanged: (String value) {
-                            setState(() {
-                              _selectedIntlCode = value;
-                            });
-                          },
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _LoginChannelSegmentedControl(
+                          emailButtonKey: const Key('login_mode_email_button'),
+                          mobileButtonKey: const Key('login_mode_mobile_button'),
+                          emailLabel: l10n.authModeEmail,
+                          mobileLabel: l10n.authModeMobile,
+                          selectedChannel: _loginChannel,
+                          onSelect: (_LoginChannel channel) =>
+                              _switchLoginChannel(channel, controller),
                         ),
                         const SizedBox(height: UiTokens.spacing12),
-                      ],
-                      (_isEmailMode
-                              ? EmailTextField(
-                                  controller: _accountController,
-                                  inputKey: const Key('login_account_input'),
-                                  labelText: l10n.registerEmailAccountLabel,
-                                  hintText: l10n.registerEmailAccountLabel,
-                                  leadingIcon: Icons.alternate_email_rounded,
-                                  keyboardType: TextInputType.emailAddress,
-                                  textInputAction: TextInputAction.next,
-                                  trailing: Tooltip(
-                                    message: _sendCodeButtonLabel(
-                                      l10n.loginSendCode,
-                                    ),
-                                    child: AppNavigationIconButton(
-                                      key: const Key(
-                                        'login_account_send_code_button',
-                                      ),
-                                      icon: Icons.send_rounded,
-                                      size: 34,
-                                      borderRadius: 10,
-                                      backgroundColor: brandGold.withValues(
-                                        alpha: canSendCode ? 1 : 0.42,
-                                      ),
-                                      foregroundColor: canSendCode
-                                          ? theme.appColors.onDark
-                                          : theme.appColors.onDark.withValues(
-                                              alpha: 0.4,
-                                            ),
-                                      onTap: canSendCode
-                                          ? () => _handleSendCode(controller)
-                                          : null,
-                                    ),
-                                  ),
-                                  onChanged: (String value) =>
-                                      _onAccountChanged(value, controller),
-                                )
-                              : PhoneTextField(
-                                  controller: _accountController,
-                                  inputKey: const Key('login_account_input'),
-                                  labelText: l10n.registerMobileAccountLabel,
-                                  hintText: l10n.registerMobileAccountLabel,
-                                  leadingIcon: Icons.phone_iphone_rounded,
-                                  trailing: Tooltip(
-                                    message: _sendCodeButtonLabel(
-                                      l10n.loginSendCode,
-                                    ),
-                                    child: AppNavigationIconButton(
-                                      key: const Key(
-                                        'login_account_send_code_button',
-                                      ),
-                                      icon: Icons.send_rounded,
-                                      size: 34,
-                                      borderRadius: 10,
-                                      backgroundColor: brandGold.withValues(
-                                        alpha: canSendCode ? 1 : 0.42,
-                                      ),
-                                      foregroundColor: canSendCode
-                                          ? theme.appColors.onDark
-                                          : theme.appColors.onDark.withValues(
-                                              alpha: 0.4,
-                                            ),
-                                      onTap: canSendCode
-                                          ? () => _handleSendCode(controller)
-                                          : null,
-                                    ),
-                                  ),
-                                  textInputAction: TextInputAction.next,
-                                  onChanged: (String value) =>
-                                      _onAccountChanged(value, controller),
-                                ))
-                          as Widget,
-                      const SizedBox(height: UiTokens.spacing12),
-                      VerificationCodeField(
-                        key: const Key('login_code_field'),
-                        controller: _codeController,
-                        labelText: l10n.loginCodeLabel,
-                        hintText: l10n.loginCodeLabel,
-                        sendCodeLabel: _sendCodeButtonLabel(l10n.loginSendCode),
-                        inputKey: const Key('login_code_input'),
-                        sendButtonKey: const Key('login_send_code_button'),
-                        isSendingCode: state.isSendingCode,
-                        sendButtonBackgroundColor: brandGold,
-                        sendButtonForegroundColor: theme.appColors.onDark,
-                        sendButtonFilled: true,
-                        onChanged: (String value) =>
-                            _onCodeChanged(value, controller),
-                        onSendCode: canSendCode
-                            ? () => _handleSendCode(controller)
-                            : null,
-                        buttonWidth: 132,
-                      ),
-                      const SizedBox(height: UiTokens.spacing8),
-                      if (effectiveErrorMessage != null) ...<Widget>[
-                        const SizedBox(height: UiTokens.spacing4),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: hotelTheme?.discountChipBackgroundColor
-                                .withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(
-                              UiTokens.radius16,
-                            ),
+                        if (!_isEmailMode) ...<Widget>[
+                          IntlCodePickerField(
+                            key: const Key('login_intl_code_picker'),
+                            selectedIntlCode: _selectedIntlCode,
+                            onChanged: (String value) {
+                              setState(() {
+                                _selectedIntlCode = value;
+                              });
+                            },
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: UiTokens.spacing12,
-                            vertical: UiTokens.spacing12,
-                          ),
-                          child: Text(
-                            effectiveErrorMessage,
-                            style:
-                                theme
-                                    .extension<AppAuthVisualTheme>()
-                                    ?.inlineErrorTextStyle ??
-                                theme.textTheme.bodySmall,
-                          ),
+                          const SizedBox(height: UiTokens.spacing12),
+                        ],
+                        (_isEmailMode
+                                ? EmailTextField(
+                                    controller: _accountController,
+                                    inputKey: const Key('login_account_input'),
+                                    labelText: l10n.registerEmailAccountLabel,
+                                    hintText: l10n.registerEmailAccountLabel,
+                                    leadingIcon: Icons.alternate_email_rounded,
+                                    keyboardType: TextInputType.emailAddress,
+                                    textInputAction: TextInputAction.next,
+                                    trailing: Tooltip(
+                                      message: _sendCodeButtonLabel(
+                                        l10n.loginSendCode,
+                                      ),
+                                      child: AppNavigationIconButton(
+                                        key: const Key(
+                                          'login_account_send_code_button',
+                                        ),
+                                        icon: Icons.send_rounded,
+                                        size: 34,
+                                        borderRadius: 10,
+                                        backgroundColor: brandGold.withValues(
+                                          alpha: canSendCode ? 1 : 0.42,
+                                        ),
+                                        foregroundColor: canSendCode
+                                            ? theme.appColors.onDark
+                                            : theme.appColors.onDark.withValues(
+                                                alpha: 0.4,
+                                              ),
+                                        onTap: canSendCode
+                                            ? () => _handleSendCode(controller)
+                                            : null,
+                                      ),
+                                    ),
+                                    onChanged: (String value) =>
+                                        _onAccountChanged(value, controller),
+                                  )
+                                : PhoneTextField(
+                                    controller: _accountController,
+                                    inputKey: const Key('login_account_input'),
+                                    labelText: l10n.registerMobileAccountLabel,
+                                    hintText: l10n.registerMobileAccountLabel,
+                                    leadingIcon: Icons.phone_iphone_rounded,
+                                    trailing: Tooltip(
+                                      message: _sendCodeButtonLabel(
+                                        l10n.loginSendCode,
+                                      ),
+                                      child: AppNavigationIconButton(
+                                        key: const Key(
+                                          'login_account_send_code_button',
+                                        ),
+                                        icon: Icons.send_rounded,
+                                        size: 34,
+                                        borderRadius: 10,
+                                        backgroundColor: brandGold.withValues(
+                                          alpha: canSendCode ? 1 : 0.42,
+                                        ),
+                                        foregroundColor: canSendCode
+                                            ? theme.appColors.onDark
+                                            : theme.appColors.onDark.withValues(
+                                                alpha: 0.4,
+                                              ),
+                                        onTap: canSendCode
+                                            ? () => _handleSendCode(controller)
+                                            : null,
+                                      ),
+                                    ),
+                                    textInputAction: TextInputAction.next,
+                                    onChanged: (String value) =>
+                                        _onAccountChanged(value, controller),
+                                  ))
+                            as Widget,
+                        const SizedBox(height: UiTokens.spacing12),
+                        VerificationCodeField(
+                          key: const Key('login_code_field'),
+                          controller: _codeController,
+                          labelText: l10n.loginCodeLabel,
+                          hintText: l10n.loginCodeLabel,
+                          sendCodeLabel: _sendCodeButtonLabel(l10n.loginSendCode),
+                          inputKey: const Key('login_code_input'),
+                          sendButtonKey: const Key('login_send_code_button'),
+                          isSendingCode: state.isSendingCode,
+                          sendButtonBackgroundColor: brandGold,
+                          sendButtonForegroundColor: theme.appColors.onDark,
+                          sendButtonFilled: true,
+                          onChanged: (String value) =>
+                              _onCodeChanged(value, controller),
+                          onSendCode: canSendCode
+                              ? () => _handleSendCode(controller)
+                              : null,
+                          buttonWidth: 132,
                         ),
-                      ],
-                      const SizedBox(height: UiTokens.spacing12),
-                      PrimaryCtaButton(
-                        key: const Key('login_submit_button'),
-                        label: l10n.loginSubmit,
-                        isLoading: state.isLoggingIn,
-                        horizontalPadding: 0,
-                        onPressed: state.canLogin
-                            ? () => _handleLogin(controller)
-                            : null,
-                      ),
-                      const SizedBox(height: UiTokens.spacing4),
-                      Center(
-                        child: TextButton(
-                          key: const Key('to_register_button'),
-                          onPressed: () => context.push('/register'),
-                          child: Text(l10n.loginCreateAccount),
-                        ),
-                      ),
-                      const SizedBox(height: UiTokens.spacing4),
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton(
-                          key: const Key('continue_as_guest_button'),
-                          onPressed: _continueWithoutLogin,
-                          style: OutlinedButton.styleFrom(
-                            minimumSize: const Size.fromHeight(52),
-                            shape: RoundedRectangleBorder(
+                        const SizedBox(height: UiTokens.spacing8),
+                        if (effectiveErrorMessage != null) ...<Widget>[
+                          const SizedBox(height: UiTokens.spacing4),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: hotelTheme?.discountChipBackgroundColor
+                                  .withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(
-                                UiTokens.radius20,
+                                UiTokens.radius16,
                               ),
                             ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: UiTokens.spacing12,
+                              vertical: UiTokens.spacing12,
+                            ),
+                            child: Text(
+                              effectiveErrorMessage,
+                              style:
+                                  theme
+                                      .extension<AppAuthVisualTheme>()
+                                      ?.inlineErrorTextStyle ??
+                                  theme.textTheme.bodySmall,
+                            ),
                           ),
-                          child: Text(
-                            l10n.loginBrowseAsGuest,
-                            style: titleStyle,
+                        ],
+                        const SizedBox(height: UiTokens.spacing12),
+                        PrimaryCtaButton(
+                          key: const Key('login_submit_button'),
+                          label: l10n.loginSubmit,
+                          isLoading: state.isLoggingIn,
+                          horizontalPadding: 0,
+                          onPressed: state.canLogin
+                              ? () => _handleLogin(controller)
+                              : null,
+                        ),
+                        const SizedBox(height: UiTokens.spacing4),
+                        Center(
+                          child: TextButton(
+                            key: const Key('to_register_button'),
+                            onPressed: () => context.push('/register'),
+                            child: Text(l10n.loginCreateAccount),
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: UiTokens.spacing4),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            key: const Key('continue_as_guest_button'),
+                            onPressed: _continueWithoutLogin,
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size.fromHeight(52),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  UiTokens.radius20,
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              l10n.loginBrowseAsGuest,
+                              style: titleStyle,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
