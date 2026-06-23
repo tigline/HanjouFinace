@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 
 class HomeLicenseBar extends StatelessWidget {
-  const HomeLicenseBar({super.key});
+  const HomeLicenseBar({super.key, required this.linkArea});
+
+  final Widget linkArea;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +17,20 @@ class HomeLicenseBar extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(color: colors.highlightGold),
       child: Container(
+        padding: const EdgeInsets.fromLTRB(0, 16, 0, 26),
         alignment: Alignment.center,
         width: double.infinity,
-        height: 72,
-        child: Text(
-          context.l10n.myPageLicenseNotice,
-          textAlign: TextAlign.center,
-          style: appText.meta.copyWith(
-            color: colors.brandPrimaryDark,
-            height: 1.45,
-          ),
+        //height: 72,
+        child: Column(
+          spacing: 6,
+          children: [
+            linkArea,
+            Text(
+              context.l10n.myPageLicenseNotice,
+              textAlign: TextAlign.center,
+              style: appText.meta.copyWith(color: colors.onDark, height: 1.45),
+            ),
+          ],
         ),
       ),
     );

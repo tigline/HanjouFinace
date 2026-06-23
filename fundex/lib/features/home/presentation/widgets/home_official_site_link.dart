@@ -31,7 +31,7 @@ class HomeOfficialSiteLink extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: colors.highlightGold.withValues(alpha: 0.72),
+                    color: colors.onDark,
                     width: 1,
                   ),
                 ),
@@ -43,18 +43,18 @@ class HomeOfficialSiteLink extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       label,
-                      style: appText.bodyStrong.copyWith(
-                        color: colors.highlightGold,
+                      style: appText.body.copyWith(
+                        color: colors.onDark,
                         fontSize: baseFontSize * 1.2,
                         letterSpacing: 0.2,
                       ),
                     ),
-                    const SizedBox(width: 6),
-                    Icon(
-                      Icons.north_east_rounded,
-                      size: 22,
-                      color: colors.highlightGold,
-                    ),
+                    // const SizedBox(width: 6),
+                    // Icon(
+                    //   Icons.north_east_rounded,
+                    //   size: 22,
+                    //   color: colors.onDark,
+                    // ),
                   ],
                 ),
               ),

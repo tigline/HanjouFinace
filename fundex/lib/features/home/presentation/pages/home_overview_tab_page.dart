@@ -352,16 +352,21 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                             ),
                           ),
                         const SizedBox(height: UiTokens.spacing32),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: UiTokens.spacing16,
-                          ),
-                          child: HomeOfficialSiteLink(
-                            label: l10n.homeOfficialSiteAction,
-                            onTap: () => _openOfficialSite(context),
-                          ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //     horizontal: UiTokens.spacing16,
+                        //   ),
+                        //   child: HomeOfficialSiteLink(
+                        //     label: l10n.homeOfficialSiteAction,
+                        //     onTap: () => _openOfficialSite(context),
+                        //   ),
+                        // ),
+                        HomeLicenseBar(linkArea: 
+                          HomeOfficialSiteLink(
+                              label: l10n.homeOfficialSiteAction,
+                              onTap: () => _openOfficialSite(context),
+                            )
                         ),
-                        const HomeLicenseBar(),
                       ],
                     ),
                   ),
