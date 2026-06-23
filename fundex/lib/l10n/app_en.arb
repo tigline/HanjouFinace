@@ -2355,5 +2355,22 @@
   "permissionSettingsCameraMessage": "Camera access is disabled. Open system settings and allow camera access.",
   "permissionSettingsPhotosMessage": "Photo library access is disabled. Open system settings and allow photo access.",
   "permissionSettingsLocationMessage": "Location access is disabled. Open system settings and allow location access.",
-  "identityAuthBaiduLicenseMissing": "Baidu face SDK license is missing."
+  "identityAuthBaiduLicenseMissing": "Baidu face SDK license is missing.",
+  "xAccountServiceName": "X account",
+  "xAccountSettingsTitle": "X account connection",
+  "xAccountStatusDisconnected": "Not connected",
+  "xAccountStatusConnecting": "Waiting for authorization",
+  "xAccountStatusConnected": "Connected",
+  "xAccountStatusExpired": "Authorization expired",
+  "xAccountConnectAction": "Connect X account",
+  "xAccountReconnectAction": "Reconnect X account",
+  "xAccountDisconnectAction": "Disconnect",
+  "xAccountDisconnectConfirmTitle": "Disconnect X account?",
+  "xAccountDisconnectConfirmBody": "New posts will no longer be synced to this X account.",
+  "xAccountSecurityDescription": "Authorization is completed on X. StellaVia does not receive your X password, and your authorization token is managed securely by the server.",
+  "xAccountAuthorizationOpenFailed": "Unable to open X authorization.",
+  "xAccountAuthorizationCancelled": "X authorization was cancelled.",
+  "xAccountConnectionFailed": "Unable to update the X account connection.",
+  "xAccountConnectedNotice": "X account connected.",
+  "xAccountDisconnectedNotice": "X account disconnected."
 }

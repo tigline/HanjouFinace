@@ -2325,5 +2325,22 @@
   "permissionSettingsCameraMessage": "相机权限已被关闭，请前往系统设置开启相机权限。",
   "permissionSettingsPhotosMessage": "照片权限已被关闭，请前往系统设置开启照片访问权限。",
   "permissionSettingsLocationMessage": "定位权限已被关闭，请前往系统设置开启定位权限。",
-  "identityAuthBaiduLicenseMissing": "未配置百度人脸SDK许可证。"
+  "identityAuthBaiduLicenseMissing": "未配置百度人脸SDK许可证。",
+  "xAccountServiceName": "X 账户",
+  "xAccountSettingsTitle": "X 账户关联",
+  "xAccountStatusDisconnected": "未关联",
+  "xAccountStatusConnecting": "等待授权",
+  "xAccountStatusConnected": "已关联",
+  "xAccountStatusExpired": "授权已失效",
+  "xAccountConnectAction": "关联 X 账户",
+  "xAccountReconnectAction": "重新关联 X 账户",
+  "xAccountDisconnectAction": "解除关联",
+  "xAccountDisconnectConfirmTitle": "解除 X 账户关联？",
+  "xAccountDisconnectConfirmBody": "之后发布的留言将不再同步到这个 X 账户。",
+  "xAccountSecurityDescription": "授权过程在 X 完成。StellaVia 不会获取您的 X 密码，授权令牌由服务器安全管理。",
+  "xAccountAuthorizationOpenFailed": "无法打开 X 授权页面。",
+  "xAccountAuthorizationCancelled": "已取消 X 授权。",
+  "xAccountConnectionFailed": "无法更新 X 账户关联状态。",
+  "xAccountConnectedNotice": "X 账户关联成功。",
+  "xAccountDisconnectedNotice": "已解除 X 账户关联。"
 }

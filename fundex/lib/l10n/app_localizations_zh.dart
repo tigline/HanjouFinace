@@ -5642,6 +5642,58 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get identityAuthBaiduLicenseMissing => '未配置百度人脸SDK许可证。';
+
+  @override
+  String get xAccountServiceName => 'X 账户';
+
+  @override
+  String get xAccountSettingsTitle => 'X 账户关联';
+
+  @override
+  String get xAccountStatusDisconnected => '未关联';
+
+  @override
+  String get xAccountStatusConnecting => '等待授权';
+
+  @override
+  String get xAccountStatusConnected => '已关联';
+
+  @override
+  String get xAccountStatusExpired => '授权已失效';
+
+  @override
+  String get xAccountConnectAction => '关联 X 账户';
+
+  @override
+  String get xAccountReconnectAction => '重新关联 X 账户';
+
+  @override
+  String get xAccountDisconnectAction => '解除关联';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => '解除 X 账户关联？';
+
+  @override
+  String get xAccountDisconnectConfirmBody => '之后发布的留言将不再同步到这个 X 账户。';
+
+  @override
+  String get xAccountSecurityDescription =>
+      '授权过程在 X 完成。StellaVia 不会获取您的 X 密码，授权令牌由服务器安全管理。';
+
+  @override
+  String get xAccountAuthorizationOpenFailed => '无法打开 X 授权页面。';
+
+  @override
+  String get xAccountAuthorizationCancelled => '已取消 X 授权。';
+
+  @override
+  String get xAccountConnectionFailed => '无法更新 X 账户关联状态。';
+
+  @override
+  String get xAccountConnectedNotice => 'X 账户关联成功。';
+
+  @override
+  String get xAccountDisconnectedNotice => '已解除 X 账户关联。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -11286,4 +11338,56 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get identityAuthBaiduLicenseMissing => '尚未配置百度人臉SDK授權。';
+
+  @override
+  String get xAccountServiceName => 'X 帳戶';
+
+  @override
+  String get xAccountSettingsTitle => 'X 帳戶連結';
+
+  @override
+  String get xAccountStatusDisconnected => '未連結';
+
+  @override
+  String get xAccountStatusConnecting => '等待授權';
+
+  @override
+  String get xAccountStatusConnected => '已連結';
+
+  @override
+  String get xAccountStatusExpired => '授權已失效';
+
+  @override
+  String get xAccountConnectAction => '連結 X 帳戶';
+
+  @override
+  String get xAccountReconnectAction => '重新連結 X 帳戶';
+
+  @override
+  String get xAccountDisconnectAction => '解除連結';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => '解除 X 帳戶連結？';
+
+  @override
+  String get xAccountDisconnectConfirmBody => '之後發佈的留言將不再同步到此 X 帳戶。';
+
+  @override
+  String get xAccountSecurityDescription =>
+      '授權流程在 X 完成。StellaVia 不會取得您的 X 密碼，授權權杖由伺服器安全管理。';
+
+  @override
+  String get xAccountAuthorizationOpenFailed => '無法開啟 X 授權頁面。';
+
+  @override
+  String get xAccountAuthorizationCancelled => '已取消 X 授權。';
+
+  @override
+  String get xAccountConnectionFailed => '無法更新 X 帳戶連結狀態。';
+
+  @override
+  String get xAccountConnectedNotice => 'X 帳戶連結成功。';
+
+  @override
+  String get xAccountDisconnectedNotice => '已解除 X 帳戶連結。';
 }

@@ -20,3 +20,5 @@ export 'src/member_profile/member_profile_region_dto.dart';
 export 'src/notice/notice_api_client.dart';
 export 'src/notice/notice_dtos.dart';
 export 'src/push/push_token_sync_service.dart';
+export 'src/social_account/x_account_api_client.dart';
+export 'src/social_account/x_account_dtos.dart';

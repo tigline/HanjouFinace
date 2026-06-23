@@ -427,6 +427,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   iconForegroundColor: colors.info,
                   onTap: () => context.push('/profile/settings/credit-card'),
                 ),
+                AppMenuItem(
+                  icon: Icons.alternate_email_rounded,
+                  label: l10n.xAccountSettingsTitle,
+                  iconBackgroundColor: colors.textPrimary.withValues(
+                    alpha: 0.08,
+                  ),
+                  iconForegroundColor: colors.textPrimary,
+                  onTap: () => context.push('/profile/settings/x-account'),
+                ),
               ],
             ),
             AppMenuSection(

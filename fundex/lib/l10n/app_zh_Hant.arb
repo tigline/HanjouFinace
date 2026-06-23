@@ -2325,5 +2325,22 @@
   "permissionSettingsCameraMessage": "相機權限已被關閉，請前往系統設定開啟相機權限。",
   "permissionSettingsPhotosMessage": "照片權限已被關閉，請前往系統設定開啟照片存取權限。",
   "permissionSettingsLocationMessage": "定位權限已被關閉，請前往系統設定開啟定位權限。",
-  "identityAuthBaiduLicenseMissing": "尚未配置百度人臉SDK授權。"
+  "identityAuthBaiduLicenseMissing": "尚未配置百度人臉SDK授權。",
+  "xAccountServiceName": "X 帳戶",
+  "xAccountSettingsTitle": "X 帳戶連結",
+  "xAccountStatusDisconnected": "未連結",
+  "xAccountStatusConnecting": "等待授權",
+  "xAccountStatusConnected": "已連結",
+  "xAccountStatusExpired": "授權已失效",
+  "xAccountConnectAction": "連結 X 帳戶",
+  "xAccountReconnectAction": "重新連結 X 帳戶",
+  "xAccountDisconnectAction": "解除連結",
+  "xAccountDisconnectConfirmTitle": "解除 X 帳戶連結？",
+  "xAccountDisconnectConfirmBody": "之後發佈的留言將不再同步到此 X 帳戶。",
+  "xAccountSecurityDescription": "授權流程在 X 完成。StellaVia 不會取得您的 X 密碼，授權權杖由伺服器安全管理。",
+  "xAccountAuthorizationOpenFailed": "無法開啟 X 授權頁面。",
+  "xAccountAuthorizationCancelled": "已取消 X 授權。",
+  "xAccountConnectionFailed": "無法更新 X 帳戶連結狀態。",
+  "xAccountConnectedNotice": "X 帳戶連結成功。",
+  "xAccountDisconnectedNotice": "已解除 X 帳戶連結。"
 }

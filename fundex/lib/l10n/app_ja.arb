@@ -2325,5 +2325,22 @@
   "permissionSettingsCameraMessage": "カメラへのアクセスが無効になっています。システム設定でカメラ権限を許可してください。",
   "permissionSettingsPhotosMessage": "写真ライブラリへのアクセスが無効になっています。システム設定で写真へのアクセスを許可してください。",
   "permissionSettingsLocationMessage": "位置情報へのアクセスが無効になっています。システム設定で位置情報の利用を許可してください。",
-  "identityAuthBaiduLicenseMissing": "Baidu顔認証ライセンスが設定されていません。"
+  "identityAuthBaiduLicenseMissing": "Baidu顔認証ライセンスが設定されていません。",
+  "xAccountServiceName": "Xアカウント",
+  "xAccountSettingsTitle": "Xアカウント連携",
+  "xAccountStatusDisconnected": "未連携",
+  "xAccountStatusConnecting": "認証待ち",
+  "xAccountStatusConnected": "連携済み",
+  "xAccountStatusExpired": "認証の有効期限切れ",
+  "xAccountConnectAction": "Xアカウントを連携",
+  "xAccountReconnectAction": "Xアカウントを再連携",
+  "xAccountDisconnectAction": "連携を解除",
+  "xAccountDisconnectConfirmTitle": "Xアカウント連携を解除しますか？",
+  "xAccountDisconnectConfirmBody": "今後の投稿は、このXアカウントに同期されなくなります。",
+  "xAccountSecurityDescription": "認証はX上で行われます。StellaViaがXのパスワードを取得することはなく、認証トークンはサーバーで安全に管理されます。",
+  "xAccountAuthorizationOpenFailed": "Xの認証画面を開けませんでした。",
+  "xAccountAuthorizationCancelled": "Xの認証をキャンセルしました。",
+  "xAccountConnectionFailed": "Xアカウントの連携状態を更新できませんでした。",
+  "xAccountConnectedNotice": "Xアカウントを連携しました。",
+  "xAccountDisconnectedNotice": "Xアカウントの連携を解除しました。"
 }

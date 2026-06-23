@@ -5699,4 +5699,56 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get identityAuthBaiduLicenseMissing => 'Baidu顔認証ライセンスが設定されていません。';
+
+  @override
+  String get xAccountServiceName => 'Xアカウント';
+
+  @override
+  String get xAccountSettingsTitle => 'Xアカウント連携';
+
+  @override
+  String get xAccountStatusDisconnected => '未連携';
+
+  @override
+  String get xAccountStatusConnecting => '認証待ち';
+
+  @override
+  String get xAccountStatusConnected => '連携済み';
+
+  @override
+  String get xAccountStatusExpired => '認証の有効期限切れ';
+
+  @override
+  String get xAccountConnectAction => 'Xアカウントを連携';
+
+  @override
+  String get xAccountReconnectAction => 'Xアカウントを再連携';
+
+  @override
+  String get xAccountDisconnectAction => '連携を解除';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => 'Xアカウント連携を解除しますか？';
+
+  @override
+  String get xAccountDisconnectConfirmBody => '今後の投稿は、このXアカウントに同期されなくなります。';
+
+  @override
+  String get xAccountSecurityDescription =>
+      '認証はX上で行われます。StellaViaがXのパスワードを取得することはなく、認証トークンはサーバーで安全に管理されます。';
+
+  @override
+  String get xAccountAuthorizationOpenFailed => 'Xの認証画面を開けませんでした。';
+
+  @override
+  String get xAccountAuthorizationCancelled => 'Xの認証をキャンセルしました。';
+
+  @override
+  String get xAccountConnectionFailed => 'Xアカウントの連携状態を更新できませんでした。';
+
+  @override
+  String get xAccountConnectedNotice => 'Xアカウントを連携しました。';
+
+  @override
+  String get xAccountDisconnectedNotice => 'Xアカウントの連携を解除しました。';
 }

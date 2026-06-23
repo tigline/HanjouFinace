@@ -10886,6 +10886,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Baidu face SDK license is missing.'**
   String get identityAuthBaiduLicenseMissing;
+
+  /// No description provided for @xAccountServiceName.
+  ///
+  /// In en, this message translates to:
+  /// **'X account'**
+  String get xAccountServiceName;
+
+  /// No description provided for @xAccountSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'X account connection'**
+  String get xAccountSettingsTitle;
+
+  /// No description provided for @xAccountStatusDisconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not connected'**
+  String get xAccountStatusDisconnected;
+
+  /// No description provided for @xAccountStatusConnecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for authorization'**
+  String get xAccountStatusConnecting;
+
+  /// No description provided for @xAccountStatusConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get xAccountStatusConnected;
+
+  /// No description provided for @xAccountStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorization expired'**
+  String get xAccountStatusExpired;
+
+  /// No description provided for @xAccountConnectAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect X account'**
+  String get xAccountConnectAction;
+
+  /// No description provided for @xAccountReconnectAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnect X account'**
+  String get xAccountReconnectAction;
+
+  /// No description provided for @xAccountDisconnectAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get xAccountDisconnectAction;
+
+  /// No description provided for @xAccountDisconnectConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect X account?'**
+  String get xAccountDisconnectConfirmTitle;
+
+  /// No description provided for @xAccountDisconnectConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'New posts will no longer be synced to this X account.'**
+  String get xAccountDisconnectConfirmBody;
+
+  /// No description provided for @xAccountSecurityDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorization is completed on X. StellaVia does not receive your X password, and your authorization token is managed securely by the server.'**
+  String get xAccountSecurityDescription;
+
+  /// No description provided for @xAccountAuthorizationOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open X authorization.'**
+  String get xAccountAuthorizationOpenFailed;
+
+  /// No description provided for @xAccountAuthorizationCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'X authorization was cancelled.'**
+  String get xAccountAuthorizationCancelled;
+
+  /// No description provided for @xAccountConnectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to update the X account connection.'**
+  String get xAccountConnectionFailed;
+
+  /// No description provided for @xAccountConnectedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'X account connected.'**
+  String get xAccountConnectedNotice;
+
+  /// No description provided for @xAccountDisconnectedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'X account disconnected.'**
+  String get xAccountDisconnectedNotice;
 }
 
 class _AppLocalizationsDelegate

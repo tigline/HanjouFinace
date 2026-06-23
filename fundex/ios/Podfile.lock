@@ -7,6 +7,8 @@ PODS:
   - aliyun_push_flutter (0.0.1):
     - AlicloudPush (< 4.0, >= 3.2.3)
     - Flutter
+  - app_links (7.0.0):
+    - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
   - Firebase/CoreOnly (12.9.0):
@@ -247,6 +249,7 @@ PODS:
 
 DEPENDENCIES:
   - aliyun_push_flutter (from `.symlinks/plugins/aliyun_push_flutter/ios`)
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -309,6 +312,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   aliyun_push_flutter:
     :path: ".symlinks/plugins/aliyun_push_flutter/ios"
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   firebase_analytics:
@@ -365,6 +370,7 @@ SPEC CHECKSUMS:
   AlicloudPush: 52cbf38ffc20c07f039cbc72d5738745fd986215
   AlicloudUTDID: 5d2f22d50e11eecd38f30bc7a48c71925ea90976
   aliyun_push_flutter: ab0bf7112ef3797f506770a7a9f47f004635a9f6
+  app_links: 6d01271b3907b0ee7325c5297c75d697c4226c4d
   connectivity_plus: 2a701ffec2c0ae28a48cf7540e279787e77c447d
   Firebase: 065f2bb395062046623036d8e6dc857bc2521d56
   firebase_analytics: b5c909bdc321fab0f9ddf8712f5cef79057e09fa

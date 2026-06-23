@@ -5994,4 +5994,59 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get identityAuthBaiduLicenseMissing =>
       'Baidu face SDK license is missing.';
+
+  @override
+  String get xAccountServiceName => 'X account';
+
+  @override
+  String get xAccountSettingsTitle => 'X account connection';
+
+  @override
+  String get xAccountStatusDisconnected => 'Not connected';
+
+  @override
+  String get xAccountStatusConnecting => 'Waiting for authorization';
+
+  @override
+  String get xAccountStatusConnected => 'Connected';
+
+  @override
+  String get xAccountStatusExpired => 'Authorization expired';
+
+  @override
+  String get xAccountConnectAction => 'Connect X account';
+
+  @override
+  String get xAccountReconnectAction => 'Reconnect X account';
+
+  @override
+  String get xAccountDisconnectAction => 'Disconnect';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => 'Disconnect X account?';
+
+  @override
+  String get xAccountDisconnectConfirmBody =>
+      'New posts will no longer be synced to this X account.';
+
+  @override
+  String get xAccountSecurityDescription =>
+      'Authorization is completed on X. StellaVia does not receive your X password, and your authorization token is managed securely by the server.';
+
+  @override
+  String get xAccountAuthorizationOpenFailed =>
+      'Unable to open X authorization.';
+
+  @override
+  String get xAccountAuthorizationCancelled => 'X authorization was cancelled.';
+
+  @override
+  String get xAccountConnectionFailed =>
+      'Unable to update the X account connection.';
+
+  @override
+  String get xAccountConnectedNotice => 'X account connected.';
+
+  @override
+  String get xAccountDisconnectedNotice => 'X account disconnected.';
 }

@@ -65,6 +65,7 @@ import '../../features/settings/presentation/pages/settings_faq_page.dart';
 import '../../features/settings/presentation/pages/settings_operating_company_page.dart';
 import '../../features/settings/presentation/pages/settings_phone_verification_page.dart';
 import '../../features/settings/presentation/pages/settings_two_factor_page.dart';
+import '../../features/social_account/presentation/pages/x_account_settings_page.dart';
 import '../../features/settings/presentation/support/settings_contract_document_models.dart';
 import '../../features/wallet/presentation/pages/deposit_detail_page.dart';
 import '../../features/wallet/presentation/pages/deposit_list_page.dart';
@@ -649,6 +650,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 },
               ),
             ],
+          ),
+          GoRoute(
+            path: 'x-account',
+            builder: (BuildContext context, GoRouterState state) {
+              return const XAccountSettingsPage();
+            },
           ),
           GoRoute(
             path: 'company',
