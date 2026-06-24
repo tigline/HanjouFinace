@@ -688,16 +688,22 @@ Widget _buildActiveFundsSection(
                   group.earnings,
                   currencyFormatter,
                 ),
-                statusLabel: resolveMyPageActiveFundStatusLabel(l10n, status),
+                statusLabel: resolveMyPageActiveFundStatusLabel(
+                  l10n,
+                  status,
+                  investNumValid: group.investNumValid,
+                ),
                 statusBackgroundColor:
                     resolveMyPageActiveFundStatusBackgroundColor(
                       context,
                       status,
+                      investNumValid: group.investNumValid,
                     ),
                 statusForegroundColor:
                     resolveMyPageActiveFundStatusForegroundColor(
                       context,
                       status,
+                      investNumValid: group.investNumValid,
                     ),
                 progress: resolveMyPageActiveFundProgress(project),
                 imageUrls: project?.photos ?? const <String>[],

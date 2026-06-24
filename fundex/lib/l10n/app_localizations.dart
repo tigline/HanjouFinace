@@ -9033,6 +9033,12 @@ abstract class AppLocalizations {
   /// **'Remaining units'**
   String get myPageActiveFundRemainingUnitsLabel;
 
+  /// No description provided for @myPageActiveFundRedeemedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Repaid'**
+  String get myPageActiveFundRedeemedStatus;
+
   /// No description provided for @myPageActiveFundFloatingYieldLabel.
   ///
   /// In en, this message translates to:

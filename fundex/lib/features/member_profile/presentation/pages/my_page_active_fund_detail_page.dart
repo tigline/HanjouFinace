@@ -61,7 +61,7 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
         : summary.projectName.isNotEmpty
         ? summary.projectName
         : projectId;
-    final statusLabel = resolveProjectStatusLabel(l10n, summary.projectStatus);
+    final statusLabel = resolveMyPageActiveFundStatusLabel(l10n, summary.projectStatus, investNumValid:summary.investNumValid);
     //final canShowResale = summary.projectStatus == 4;
 
     return Scaffold(
@@ -133,7 +133,7 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
                 ),
                 ActiveFundOverviewMetricData(
                   label: l10n.myPageActiveFundRemainingUnitsLabel,
-                  value: _formatCount(summary.investNumRemaining),
+                  value: _formatCount(summary.investNumValid),
                 ),
               ],
             ),

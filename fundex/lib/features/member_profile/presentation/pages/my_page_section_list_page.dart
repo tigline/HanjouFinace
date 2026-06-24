@@ -570,14 +570,20 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
         investmentUnitsValue: formatActiveFundInvestmentUnitsValue(group, l10n),
         accumulatedEarningsLabel: l10n.myPageAccumulatedDistributionLabel,
         accumulatedEarningsValue: formatCurrency(group.earnings, formatter),
-        statusLabel: resolveMyPageActiveFundStatusLabel(l10n, status),
+        statusLabel: resolveMyPageActiveFundStatusLabel(
+          l10n,
+          status,
+          investNumValid: group.investNumValid,
+        ),
         statusBackgroundColor: resolveMyPageActiveFundStatusBackgroundColor(
           context,
           status,
+          investNumValid: group.investNumValid,
         ),
         statusForegroundColor: resolveMyPageActiveFundStatusForegroundColor(
           context,
           status,
+          investNumValid: group.investNumValid,
         ),
         progress: resolveMyPageActiveFundProgress(project),
         imageUrls: project?.photos ?? const <String>[],

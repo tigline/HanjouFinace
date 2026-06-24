@@ -2002,6 +2002,7 @@
   "myPageActiveFundValidUnitsLabel": "Valid units",
   "myPageActiveFundSellingUnitsLabel": "Selling in progress",
   "myPageActiveFundRemainingUnitsLabel": "Remaining units",
+  "myPageActiveFundRedeemedStatus": "Repaid",
   "myPageActiveFundFloatingYieldLabel": "Floating",
   "myPageInvestorTypeInvestment": "Investment",
   "myPageInvestorTypeBorrowing": "Loan",

@@ -4690,6 +4690,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get myPageActiveFundRemainingUnitsLabel => '剩余口数';
 
   @override
+  String get myPageActiveFundRedeemedStatus => '已偿还';
+
+  @override
   String get myPageActiveFundFloatingYieldLabel => '浮动';
 
   @override
@@ -10417,6 +10420,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get myPageActiveFundRemainingUnitsLabel => '剩餘口數';
+
+  @override
+  String get myPageActiveFundRedeemedStatus => '已償還';
 
   @override
   String get myPageActiveFundFloatingYieldLabel => '浮動';

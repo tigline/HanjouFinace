@@ -1972,6 +1972,7 @@
   "myPageActiveFundValidUnitsLabel": "有效口数",
   "myPageActiveFundSellingUnitsLabel": "卖出执行中",
   "myPageActiveFundRemainingUnitsLabel": "剩余口数",
+  "myPageActiveFundRedeemedStatus": "已偿还",
   "myPageActiveFundFloatingYieldLabel": "浮动",
   "myPageInvestorTypeInvestment": "投资",
   "myPageInvestorTypeBorrowing": "贷付",

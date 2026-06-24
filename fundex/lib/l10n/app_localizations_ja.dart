@@ -4734,6 +4734,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get myPageActiveFundRemainingUnitsLabel => '残口数';
 
   @override
+  String get myPageActiveFundRedeemedStatus => '償還済';
+
+  @override
   String get myPageActiveFundFloatingYieldLabel => '変動';
 
   @override

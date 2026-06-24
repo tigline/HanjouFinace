@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fundex/features/member_profile/domain/entities/mypage_models.dart';
 import 'package:fundex/features/member_profile/presentation/support/mypage_section_support.dart';
+import 'package:fundex/l10n/app_localizations_ja.dart';
 
 void main() {
   group('filterInvestmentRecordsByActiveFundFilter', () {
@@ -47,6 +48,40 @@ void main() {
       expect(groups, hasLength(1));
       expect(groups.single.projectStatus, 5);
     });
+
+    test('preserves missing valid units instead of treating them as zero', () {
+      final groups = groupActiveInvestmentRecords(<MyPageInvestmentRecord>[
+        _record(projectId: 'p1', projectStatus: 4),
+      ]);
+
+      expect(groups.single.investNumValid, isNull);
+    });
+
+    test('keeps an explicit zero valid units value', () {
+      final groups = groupActiveInvestmentRecords(<MyPageInvestmentRecord>[
+        _record(projectId: 'p1', projectStatus: 4, investNumValid: 0),
+      ]);
+
+      expect(groups.single.investNumValid, 0);
+    });
+  });
+
+  group('resolveMyPageActiveFundStatusLabel', () {
+    final l10n = AppLocalizationsJa();
+
+    test('uses redeemed status when valid units are explicitly zero', () {
+      expect(
+        resolveMyPageActiveFundStatusLabel(l10n, 4, investNumValid: 0),
+        '償還済',
+      );
+    });
+
+    test('keeps project status when valid units are unavailable', () {
+      expect(
+        resolveMyPageActiveFundStatusLabel(l10n, 4),
+        l10n.fundListStatusOperating,
+      );
+    });
   });
 }
 
@@ -54,11 +89,13 @@ MyPageInvestmentRecord _record({
   required String projectId,
   required int projectStatus,
   String createTime = '2026-01-01T00:00:00Z',
+  int? investNumValid,
 }) {
   return MyPageInvestmentRecord(
     projectId: projectId,
     projectName: 'Fund $projectId',
     projectStatus: projectStatus,
     createTime: createTime,
+    investNumValid: investNumValid,
   );
 }

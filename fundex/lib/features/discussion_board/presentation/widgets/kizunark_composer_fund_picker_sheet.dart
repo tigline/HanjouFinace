@@ -457,11 +457,23 @@ class _KizunarkComposerFundPickerSheetState
                 group.earnings,
                 currencyFormatter,
               ),
-              statusLabel: resolveMyPageActiveFundStatusLabel(l10n, status),
+              statusLabel: resolveMyPageActiveFundStatusLabel(
+                l10n,
+                status,
+                investNumValid: group.investNumValid,
+              ),
               statusBackgroundColor:
-                  resolveMyPageActiveFundStatusBackgroundColor(context, status),
+                  resolveMyPageActiveFundStatusBackgroundColor(
+                    context,
+                    status,
+                    investNumValid: group.investNumValid,
+                  ),
               statusForegroundColor:
-                  resolveMyPageActiveFundStatusForegroundColor(context, status),
+                  resolveMyPageActiveFundStatusForegroundColor(
+                    context,
+                    status,
+                    investNumValid: group.investNumValid,
+                  ),
               progress: resolveMyPageActiveFundProgress(project),
               imageUrls: project?.photos ?? const <String>[],
               onTap: () {

@@ -206,7 +206,7 @@ MyPageInvestmentGroup investmentRecordToGroup(MyPageInvestmentRecord record) {
     investMoney: record.investMoney ?? 0,
     earnings: record.earnings ?? 0,
     investNum: record.investNum ?? 0,
-    investNumValid: record.investNumValid ?? 0,
+    investNumValid: record.investNumValid,
     investNumRemaining: record.investNumRemaining ?? 0,
     earningType: record.earningType,
     earningRatio: record.earningRadio,
@@ -269,8 +269,12 @@ String resolveProjectStatusLabel(AppLocalizations l10n, int? projectStatus) {
 
 String resolveMyPageActiveFundStatusLabel(
   AppLocalizations l10n,
-  int? projectStatus,
-) {
+  int? projectStatus, {
+  int? investNumValid,
+}) {
+  if (investNumValid == 0) {
+    return l10n.myPageActiveFundRedeemedStatus;
+  }
   return switch (projectStatus) {
     4 => l10n.fundListStatusOperating,
     5 => l10n.fundListStatusOperatingEnded,
@@ -280,9 +284,13 @@ String resolveMyPageActiveFundStatusLabel(
 
 Color resolveMyPageActiveFundStatusBackgroundColor(
   BuildContext context,
-  int? projectStatus,
-) {
+  int? projectStatus, {
+  int? investNumValid,
+}) {
   final colors = Theme.of(context).appColors;
+  if (investNumValid == 0) {
+    return colors.surfaceAlt;
+  }
   return switch (projectStatus) {
     4 => Color.lerp(colors.surface, colors.successSubtle, 0.5)!,
     5 => colors.brandPrimary.withValues(alpha: 0.12),
@@ -293,9 +301,13 @@ Color resolveMyPageActiveFundStatusBackgroundColor(
 
 Color resolveMyPageActiveFundStatusForegroundColor(
   BuildContext context,
-  int? projectStatus,
-) {
+  int? projectStatus, {
+  int? investNumValid,
+}) {
   final colors = Theme.of(context).appColors;
+  if (investNumValid == 0) {
+    return colors.textSecondary;
+  }
   return switch (projectStatus) {
     4 => colors.successForeground,
     5 => colors.textSecondary,
@@ -841,7 +853,7 @@ class MyPageInvestmentGroup {
   final num investMoney;
   final num earnings;
   final int investNum;
-  final int investNumValid;
+  final int? investNumValid;
   final int investNumRemaining;
   final String? earningType;
   final double? earningRatio;
@@ -907,6 +919,7 @@ class _InvestmentGroupAccumulator {
       earnings = 0,
       investNum = 0,
       investNumValid = 0,
+      _hasMissingInvestNumValid = false,
       investNumRemaining = 0,
       earningType = null,
       latestCreateTime = null,
@@ -919,6 +932,7 @@ class _InvestmentGroupAccumulator {
   num earnings;
   int investNum;
   int investNumValid;
+  bool _hasMissingInvestNumValid;
   int investNumRemaining;
   String? earningType;
   double? earningRatio;
@@ -929,7 +943,12 @@ class _InvestmentGroupAccumulator {
     investMoney += record.investMoney ?? 0;
     earnings += record.earnings ?? 0;
     investNum += record.investNum ?? 0;
-    investNumValid += record.investNumValid ?? 0;
+    final valid = record.investNumValid;
+    if (valid == null) {
+      _hasMissingInvestNumValid = true;
+    } else {
+      investNumValid += valid;
+    }
     investNumRemaining += record.investNumRemaining ?? 0;
     earningType ??= record.earningType;
     earningRatio ??= record.earningRadio;
@@ -948,7 +967,7 @@ class _InvestmentGroupAccumulator {
       investMoney: investMoney,
       earnings: earnings,
       investNum: investNum,
-      investNumValid: investNumValid,
+      investNumValid: _hasMissingInvestNumValid ? null : investNumValid,
       investNumRemaining: investNumRemaining,
       earningType: earningType,
       earningRatio: earningRatio,
