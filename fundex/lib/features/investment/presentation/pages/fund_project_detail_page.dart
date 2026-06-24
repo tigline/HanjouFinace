@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/config/environment_provider.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../member_profile/presentation/providers/member_profile_providers.dart';
@@ -127,6 +128,22 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
       duration: const Duration(milliseconds: 320),
       curve: Curves.easeOutCubic,
       alignment: 0.08,
+    );
+  }
+
+  Future<void> _shareFundProject(FundProject project) {
+    final title = project.projectName.trim();
+    final url = _buildFundProjectShareUrl(
+      baseUrl: ref.read(oaApiBaseUrlProvider),
+      projectId: widget.projectId,
+    );
+    final text = title.isEmpty ? url : '$title\n$url';
+    return AppShare.shareText(
+      context,
+      text: text,
+      title: title,
+      subject: title,
+      unavailableNotice: context.l10n.fundDetailShareFailedNotice,
     );
   }
 
@@ -321,7 +338,11 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          FundProjectDetailTitleBlock(project: project),
+                          FundProjectDetailTitleBlock(
+                            project: project,
+                            onShareTap: () => _shareFundProject(project),
+                            shareTooltip: context.l10n.fundDetailShareTooltip,
+                          ),
                           if (featuresText != null) ...<Widget>[
                             const SizedBox(height: UiTokens.spacing16),
                             FundDetailContentCard(
@@ -881,6 +902,18 @@ String? _normalizeFundDetailText(String? value) {
     null;
   }
   return text;
+}
+
+String _buildFundProjectShareUrl({
+  required String baseUrl,
+  required String projectId,
+}) {
+  final normalizedProjectId = projectId.trim();
+  final uri = Uri.tryParse(baseUrl.trim());
+  if (uri == null || uri.scheme.isEmpty || uri.host.isEmpty) {
+    return 'https://stellavia.co.jp/fund/$normalizedProjectId';
+  }
+  return uri.replace(path: '/fund/$normalizedProjectId', query: '').toString();
 }
 
 String? _normalizeFundVideoLink(String? value) {

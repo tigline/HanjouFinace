@@ -134,6 +134,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pdfViewerShareLabel => '共有';
 
   @override
+  String get fundDetailShareTooltip => 'ファンドを共有';
+
+  @override
+  String get fundDetailShareFailedNotice => 'ファンドを共有できませんでした。';
+
+  @override
   String get pdfViewerLoadingLabel => 'PDFを読み込んでいます…';
 
   @override

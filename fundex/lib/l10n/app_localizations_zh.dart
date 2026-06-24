@@ -132,6 +132,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get pdfViewerShareLabel => '分享';
 
   @override
+  String get fundDetailShareTooltip => '分享基金';
+
+  @override
+  String get fundDetailShareFailedNotice => '无法分享基金。';
+
+  @override
   String get pdfViewerLoadingLabel => '正在加载 PDF...';
 
   @override
@@ -5837,6 +5843,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get pdfViewerShareLabel => '分享';
+
+  @override
+  String get fundDetailShareTooltip => '分享基金';
+
+  @override
+  String get fundDetailShareFailedNotice => '無法分享基金。';
 
   @override
   String get pdfViewerLoadingLabel => '正在載入 PDF...';

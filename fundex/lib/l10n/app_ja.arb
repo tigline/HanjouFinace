@@ -41,6 +41,8 @@
   "pdfViewerOpenExternalLabel": "外部アプリで開く",
   "pdfViewerShareTooltip": "共有",
   "pdfViewerShareLabel": "共有",
+  "fundDetailShareTooltip": "ファンドを共有",
+  "fundDetailShareFailedNotice": "ファンドを共有できませんでした。",
   "pdfViewerLoadingLabel": "PDFを読み込んでいます…",
   "pdfViewerLoadFailedLabel": "PDFの読み込みに失敗しました。",
   "pdfViewerInvalidUrlNotice": "PDFのURLが無効です。",

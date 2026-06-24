@@ -41,6 +41,8 @@
   "pdfViewerOpenExternalLabel": "在外部應用中開啟",
   "pdfViewerShareTooltip": "分享",
   "pdfViewerShareLabel": "分享",
+  "fundDetailShareTooltip": "分享基金",
+  "fundDetailShareFailedNotice": "無法分享基金。",
   "pdfViewerLoadingLabel": "正在載入 PDF...",
   "pdfViewerLoadFailedLabel": "PDF 載入失敗。",
   "pdfViewerInvalidUrlNotice": "PDF 連結無效。",

@@ -7,6 +7,7 @@ export 'src/app_dialogs.dart';
 export 'src/app_loading_dialog.dart';
 export 'src/app_bottom_sheet.dart';
 export 'src/app_copy_button.dart';
+export 'src/app_share.dart';
 export 'src/app_notice.dart';
 export 'src/app_network_status_bar.dart';
 export 'src/app_filter_bar.dart';

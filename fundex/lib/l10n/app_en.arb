@@ -41,6 +41,8 @@
   "pdfViewerOpenExternalLabel": "Open externally",
   "pdfViewerShareTooltip": "Share",
   "pdfViewerShareLabel": "Share",
+  "fundDetailShareTooltip": "Share fund",
+  "fundDetailShareFailedNotice": "Unable to share fund.",
   "pdfViewerLoadingLabel": "Loading PDF...",
   "pdfViewerLoadFailedLabel": "Failed to load PDF.",
   "pdfViewerInvalidUrlNotice": "Invalid PDF URL.",

@@ -347,6 +347,18 @@ abstract class AppLocalizations {
   /// **'Share'**
   String get pdfViewerShareLabel;
 
+  /// No description provided for @fundDetailShareTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Share fund'**
+  String get fundDetailShareTooltip;
+
+  /// No description provided for @fundDetailShareFailedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to share fund.'**
+  String get fundDetailShareFailedNotice;
+
   /// No description provided for @pdfViewerLoadingLabel.
   ///
   /// In en, this message translates to:

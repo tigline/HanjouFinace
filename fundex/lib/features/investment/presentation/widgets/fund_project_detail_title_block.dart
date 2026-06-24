@@ -4,9 +4,16 @@ import 'package:flutter/material.dart';
 import '../../domain/entities/fund_project.dart';
 
 class FundProjectDetailTitleBlock extends StatelessWidget {
-  const FundProjectDetailTitleBlock({super.key, required this.project});
+  const FundProjectDetailTitleBlock({
+    super.key,
+    required this.project,
+    this.onShareTap,
+    this.shareTooltip,
+  });
 
   final FundProject project;
+  final VoidCallback? onShareTap;
+  final String? shareTooltip;
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +26,29 @@ class FundProjectDetailTitleBlock extends StatelessWidget {
       height: 1.08,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    final title = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         if (titleParts.$1 != null)
           Text(titleParts.$1!, style: titleStyle.copyWith(height: 1.04)),
         if (titleParts.$1 != null) const SizedBox(height: 2),
         Text(titleParts.$2, style: titleStyle),
+      ],
+    );
+    if (onShareTap == null) {
+      return title;
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(child: title),
+        const SizedBox(width: UiTokens.spacing12),
+        IconButton(
+          onPressed: onShareTap,
+          tooltip: shareTooltip,
+          icon: Icon(Icons.ios_share_rounded, color: colors.textPrimary),
+        ),
       ],
     );
   }

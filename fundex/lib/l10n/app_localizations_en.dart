@@ -140,6 +140,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pdfViewerShareLabel => 'Share';
 
   @override
+  String get fundDetailShareTooltip => 'Share fund';
+
+  @override
+  String get fundDetailShareFailedNotice => 'Unable to share fund.';
+
+  @override
   String get pdfViewerLoadingLabel => 'Loading PDF...';
 
   @override
