@@ -17,6 +17,5 @@ bool shouldPromptKizunarkXConnection({
       hasAccountError) {
     return false;
   }
-  return accountStatus == XAccountStatus.disconnected ||
-      accountStatus == XAccountStatus.expired;
+  return accountStatus == XAccountStatus.disconnected;
 }

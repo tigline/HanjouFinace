@@ -15,50 +15,23 @@ class XAccountRepositoryImpl implements XAccountRepository {
   }
 
   @override
-  Future<XBindingAttempt> startBinding({required Uri callbackUri}) async {
-    final dto = await _remote.startBinding(callbackUri: callbackUri.toString());
+  Future<XOAuthAuthorization> startOAuth() async {
+    final dto = await _remote.startOAuth();
     final authorizationUri = Uri.tryParse(dto.authorizationUrl);
     if (authorizationUri == null || !authorizationUri.hasScheme) {
       throw StateError('Invalid X authorization URL.');
     }
-    return XBindingAttempt(
-      attemptId: dto.attemptId,
-      authorizationUri: authorizationUri,
-      expiresAt: dto.expiresAt,
-    );
+    return XOAuthAuthorization(authorizationUri: authorizationUri);
   }
-
-  @override
-  Future<XBindingStatus> fetchBindingStatus({required String attemptId}) async {
-    final dto = await _remote.fetchBindingStatus(attemptId: attemptId);
-    return XBindingStatus(
-      attemptId: dto.attemptId.isEmpty ? attemptId : dto.attemptId,
-      status: _mapStatus(dto.status),
-      connection: _mapConnection(dto.connection),
-      errorCode: dto.errorCode,
-    );
-  }
-
-  @override
-  Future<void> disconnect() => _remote.disconnectAccount();
 
   XAccountConnection _mapConnection(XAccountConnectionDto dto) {
     return XAccountConnection(
-      status: _mapStatus(dto.status),
-      xUserId: dto.xUserId,
+      status: dto.connected
+          ? XAccountStatus.connected
+          : XAccountStatus.disconnected,
       username: dto.username,
       displayName: dto.displayName,
       avatarUrl: dto.avatarUrl,
-      connectedAt: dto.connectedAt,
     );
-  }
-
-  XAccountStatus _mapStatus(XAccountConnectionStatus status) {
-    return switch (status) {
-      XAccountConnectionStatus.disconnected => XAccountStatus.disconnected,
-      XAccountConnectionStatus.connecting => XAccountStatus.connecting,
-      XAccountConnectionStatus.connected => XAccountStatus.connected,
-      XAccountConnectionStatus.expired => XAccountStatus.expired,
-    };
   }
 }

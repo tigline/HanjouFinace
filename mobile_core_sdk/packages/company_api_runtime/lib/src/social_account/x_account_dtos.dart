@@ -1,131 +1,54 @@
-enum XAccountConnectionStatus {
-  disconnected,
-  connecting,
-  connected,
-  expired;
-
-  static XAccountConnectionStatus fromJson(Object? value) {
-    return switch (value?.toString().trim().toLowerCase()) {
-      'connecting' || 'pending' => connecting,
-      'connected' ||
-      'bound' ||
-      'success' ||
-      'succeeded' ||
-      'completed' => connected,
-      'expired' || 'revoked' || 'invalid' => expired,
-      _ => disconnected,
-    };
-  }
-}
-
 class XAccountConnectionDto {
   const XAccountConnectionDto({
-    required this.status,
-    this.xUserId,
+    required this.connected,
     this.username,
     this.displayName,
     this.avatarUrl,
-    this.connectedAt,
   });
 
   const XAccountConnectionDto.disconnected()
-    : status = XAccountConnectionStatus.disconnected,
-      xUserId = null,
+    : connected = false,
       username = null,
       displayName = null,
-      avatarUrl = null,
-      connectedAt = null;
+      avatarUrl = null;
 
   factory XAccountConnectionDto.fromJson(Map<String, dynamic> json) {
-    final connected = _toBool(json['connected']);
-    final rawStatus = json['status'];
-    final status = rawStatus == null && connected
-        ? XAccountConnectionStatus.connected
-        : XAccountConnectionStatus.fromJson(rawStatus);
     return XAccountConnectionDto(
-      status: status,
-      xUserId: _toNullableString(json['xUserId'] ?? json['userId']),
+      connected: _toBool(json['connected']),
       username: _toNullableString(json['username']),
-      displayName: _toNullableString(json['displayName'] ?? json['name']),
-      avatarUrl: _toNullableString(
-        json['avatarUrl'] ?? json['profileImageUrl'],
-      ),
-      connectedAt: _toNullableDateTime(json['connectedAt']),
+      displayName: _toNullableString(json['displayName']),
+      avatarUrl: _toNullableString(json['avatarUrl']),
     );
   }
 
-  final XAccountConnectionStatus status;
-  final String? xUserId;
+  final bool connected;
   final String? username;
   final String? displayName;
   final String? avatarUrl;
-  final DateTime? connectedAt;
 }
 
-class XBindingAttemptDto {
-  const XBindingAttemptDto({
-    required this.attemptId,
-    required this.authorizationUrl,
-    this.expiresAt,
-  });
+class XOAuthStartDto {
+  const XOAuthStartDto({required this.authorizationUrl});
 
-  factory XBindingAttemptDto.fromJson(Map<String, dynamic> json) {
-    return XBindingAttemptDto(
-      attemptId: _toNullableString(json['attemptId']) ?? '',
-      authorizationUrl: _toNullableString(json['authorizationUrl']) ?? '',
-      expiresAt: _toNullableDateTime(json['expiresAt']),
+  factory XOAuthStartDto.fromJson(Map<String, dynamic> json) {
+    return XOAuthStartDto(
+      authorizationUrl:
+          _toNullableString(
+            json['authorizationUrl'] ??
+                json['authorizeUrl'] ??
+                json['authUrl'] ??
+                json['url'],
+          ) ??
+          '',
     );
   }
 
-  final String attemptId;
   final String authorizationUrl;
-  final DateTime? expiresAt;
-}
-
-class XBindingStatusDto {
-  const XBindingStatusDto({
-    required this.attemptId,
-    required this.status,
-    required this.connection,
-    this.errorCode,
-  });
-
-  factory XBindingStatusDto.fromJson(Map<String, dynamic> json) {
-    final connectionJson = _toStringMap(json['account'] ?? json['connection']);
-    return XBindingStatusDto(
-      attemptId: _toNullableString(json['attemptId']) ?? '',
-      status: XAccountConnectionStatus.fromJson(json['status']),
-      connection: connectionJson.isEmpty
-          ? XAccountConnectionDto.fromJson(json)
-          : XAccountConnectionDto.fromJson(connectionJson),
-      errorCode: _toNullableString(json['errorCode']),
-    );
-  }
-
-  final String attemptId;
-  final XAccountConnectionStatus status;
-  final XAccountConnectionDto connection;
-  final String? errorCode;
-}
-
-Map<String, dynamic> _toStringMap(Object? value) {
-  if (value is Map<String, dynamic>) {
-    return value;
-  }
-  if (value is Map) {
-    return Map<String, dynamic>.from(value);
-  }
-  return const <String, dynamic>{};
 }
 
 String? _toNullableString(Object? value) {
   final normalized = value?.toString().trim() ?? '';
   return normalized.isEmpty ? null : normalized;
-}
-
-DateTime? _toNullableDateTime(Object? value) {
-  final normalized = _toNullableString(value);
-  return normalized == null ? null : DateTime.tryParse(normalized);
 }
 
 bool _toBool(Object? value) {

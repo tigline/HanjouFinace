@@ -6025,23 +6025,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get xAccountStatusConnected => 'Connected';
 
   @override
-  String get xAccountStatusExpired => 'Authorization expired';
-
-  @override
   String get xAccountConnectAction => 'Connect X account';
-
-  @override
-  String get xAccountReconnectAction => 'Reconnect X account';
-
-  @override
-  String get xAccountDisconnectAction => 'Disconnect';
-
-  @override
-  String get xAccountDisconnectConfirmTitle => 'Disconnect X account?';
-
-  @override
-  String get xAccountDisconnectConfirmBody =>
-      'New posts will no longer be synced to this X account.';
 
   @override
   String get xAccountSecurityDescription =>
@@ -6052,17 +6036,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Unable to open X authorization.';
 
   @override
-  String get xAccountAuthorizationCancelled => 'X authorization was cancelled.';
-
-  @override
   String get xAccountConnectionFailed =>
       'Unable to update the X account connection.';
 
   @override
   String get xAccountConnectedNotice => 'X account connected.';
-
-  @override
-  String get xAccountDisconnectedNotice => 'X account disconnected.';
 
   @override
   String get kizunarkXConnectionPromptTitle => 'Connect your X account?';

@@ -10941,41 +10941,11 @@ abstract class AppLocalizations {
   /// **'Connected'**
   String get xAccountStatusConnected;
 
-  /// No description provided for @xAccountStatusExpired.
-  ///
-  /// In en, this message translates to:
-  /// **'Authorization expired'**
-  String get xAccountStatusExpired;
-
   /// No description provided for @xAccountConnectAction.
   ///
   /// In en, this message translates to:
   /// **'Connect X account'**
   String get xAccountConnectAction;
-
-  /// No description provided for @xAccountReconnectAction.
-  ///
-  /// In en, this message translates to:
-  /// **'Reconnect X account'**
-  String get xAccountReconnectAction;
-
-  /// No description provided for @xAccountDisconnectAction.
-  ///
-  /// In en, this message translates to:
-  /// **'Disconnect'**
-  String get xAccountDisconnectAction;
-
-  /// No description provided for @xAccountDisconnectConfirmTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Disconnect X account?'**
-  String get xAccountDisconnectConfirmTitle;
-
-  /// No description provided for @xAccountDisconnectConfirmBody.
-  ///
-  /// In en, this message translates to:
-  /// **'New posts will no longer be synced to this X account.'**
-  String get xAccountDisconnectConfirmBody;
 
   /// No description provided for @xAccountSecurityDescription.
   ///
@@ -10989,12 +10959,6 @@ abstract class AppLocalizations {
   /// **'Unable to open X authorization.'**
   String get xAccountAuthorizationOpenFailed;
 
-  /// No description provided for @xAccountAuthorizationCancelled.
-  ///
-  /// In en, this message translates to:
-  /// **'X authorization was cancelled.'**
-  String get xAccountAuthorizationCancelled;
-
   /// No description provided for @xAccountConnectionFailed.
   ///
   /// In en, this message translates to:
@@ -11006,12 +10970,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'X account connected.'**
   String get xAccountConnectedNotice;
-
-  /// No description provided for @xAccountDisconnectedNotice.
-  ///
-  /// In en, this message translates to:
-  /// **'X account disconnected.'**
-  String get xAccountDisconnectedNotice;
 
   /// No description provided for @kizunarkXConnectionPromptTitle.
   ///

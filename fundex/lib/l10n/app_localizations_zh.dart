@@ -5673,22 +5673,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get xAccountStatusConnected => '已关联';
 
   @override
-  String get xAccountStatusExpired => '授权已失效';
-
-  @override
   String get xAccountConnectAction => '关联 X 账户';
-
-  @override
-  String get xAccountReconnectAction => '重新关联 X 账户';
-
-  @override
-  String get xAccountDisconnectAction => '解除关联';
-
-  @override
-  String get xAccountDisconnectConfirmTitle => '解除 X 账户关联？';
-
-  @override
-  String get xAccountDisconnectConfirmBody => '之后发布的留言将不再同步到这个 X 账户。';
 
   @override
   String get xAccountSecurityDescription =>
@@ -5698,16 +5683,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get xAccountAuthorizationOpenFailed => '无法打开 X 授权页面。';
 
   @override
-  String get xAccountAuthorizationCancelled => '已取消 X 授权。';
-
-  @override
   String get xAccountConnectionFailed => '无法更新 X 账户关联状态。';
 
   @override
   String get xAccountConnectedNotice => 'X 账户关联成功。';
-
-  @override
-  String get xAccountDisconnectedNotice => '已解除 X 账户关联。';
 
   @override
   String get kizunarkXConnectionPromptTitle => '是否关联 X 账户？';
@@ -11405,22 +11384,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get xAccountStatusConnected => '已連結';
 
   @override
-  String get xAccountStatusExpired => '授權已失效';
-
-  @override
   String get xAccountConnectAction => '連結 X 帳戶';
-
-  @override
-  String get xAccountReconnectAction => '重新連結 X 帳戶';
-
-  @override
-  String get xAccountDisconnectAction => '解除連結';
-
-  @override
-  String get xAccountDisconnectConfirmTitle => '解除 X 帳戶連結？';
-
-  @override
-  String get xAccountDisconnectConfirmBody => '之後發佈的留言將不再同步到此 X 帳戶。';
 
   @override
   String get xAccountSecurityDescription =>
@@ -11430,16 +11394,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get xAccountAuthorizationOpenFailed => '無法開啟 X 授權頁面。';
 
   @override
-  String get xAccountAuthorizationCancelled => '已取消 X 授權。';
-
-  @override
   String get xAccountConnectionFailed => '無法更新 X 帳戶連結狀態。';
 
   @override
   String get xAccountConnectedNotice => 'X 帳戶連結成功。';
-
-  @override
-  String get xAccountDisconnectedNotice => '已解除 X 帳戶連結。';
 
   @override
   String get kizunarkXConnectionPromptTitle => '是否連結 X 帳戶？';

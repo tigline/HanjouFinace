@@ -52,43 +52,40 @@ ResponseBody _ok(String body) {
 
 void main() {
   group('XAccountApiClient', () {
-    test('starts a binding attempt with an app callback URI', () async {
+    test('starts OAuth without a request body and reads URL map', () async {
       final api = XAccountApiClient(
         _buildClient((options) async {
           expect(options.method, 'POST');
-          expect(options.path, XAccountApiPaths.startBinding);
+          expect(options.path, XAccountApiPaths.startOAuth);
           expect(options.extra['auth_required'], isTrue);
-          expect(options.data, <String, dynamic>{
-            'callbackUri': 'stellavia://oauth/x/result',
-          });
+          expect(options.data, isNull);
           return _ok(
-            '{"code":200,"data":{"attemptId":"attempt-1","authorizationUrl":"https://x.com/i/oauth2/authorize","expiresAt":"2026-06-23T10:00:00Z"}}',
+            '{"code":0,"data":{"url":"https://x.com/i/oauth2/authorize"}}',
           );
         }),
       );
 
-      final result = await api.startBinding(
-        callbackUri: 'stellavia://oauth/x/result',
-      );
+      final result = await api.startOAuth();
 
-      expect(result.attemptId, 'attempt-1');
       expect(result.authorizationUrl, startsWith('https://x.com/'));
     });
 
-    test('reads a connected account', () async {
+    test('reads SocialXAccountVO connected state', () async {
       final api = XAccountApiClient(
         _buildClient((options) async {
+          expect(options.method, 'GET');
           expect(options.path, XAccountApiPaths.account);
           return _ok(
-            '{"code":200,"data":{"status":"connected","xUserId":"42","username":"stellavia","displayName":"StellaVia"}}',
+            '{"code":200,"data":{"connected":true,"username":"stellavia","displayName":"StellaVia","avatarUrl":"https://cdn.example.com/x.png"}}',
           );
         }),
       );
 
       final account = await api.fetchAccount();
 
-      expect(account.status, XAccountConnectionStatus.connected);
+      expect(account.connected, isTrue);
       expect(account.username, 'stellavia');
+      expect(account.displayName, 'StellaVia');
     });
 
     test('maps an empty account response to disconnected', () async {
@@ -98,7 +95,7 @@ void main() {
 
       final account = await api.fetchAccount();
 
-      expect(account.status, XAccountConnectionStatus.disconnected);
+      expect(account.connected, isFalse);
     });
   });
 }

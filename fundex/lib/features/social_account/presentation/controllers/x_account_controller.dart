@@ -5,38 +5,34 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/x_account_models.dart';
 import '../../domain/usecases/x_account_usecases.dart';
 import '../state/x_account_state.dart';
-import '../support/x_oauth_callback.dart';
 
 class XAccountController extends StateNotifier<XAccountState> {
-  XAccountController(
-    this._loadConnection,
-    this._startBinding,
-    this._completeBinding,
-    this._disconnect,
-  ) : super(const XAccountState.initial()) {
+  XAccountController(this._loadConnection, this._startOAuth)
+    : super(const XAccountState.initial()) {
     unawaited(load());
   }
 
   final LoadXAccountConnectionUseCase _loadConnection;
-  final StartXAccountBindingUseCase _startBinding;
-  final CompleteXAccountBindingUseCase _completeBinding;
-  final DisconnectXAccountUseCase _disconnect;
+  final StartXOAuthUseCase _startOAuth;
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);
     try {
       final connection = await _loadConnection();
-      if (state.isCheckingBinding) {
+      if (state.isCheckingConnection) {
         state = state.copyWith(isLoading: false);
         return;
       }
       state = state.copyWith(
         connection: connection,
         isLoading: false,
+        isAwaitingAuthorization: connection.isConnected
+            ? false
+            : state.isAwaitingAuthorization,
         clearError: true,
       );
     } catch (error) {
-      if (state.isCheckingBinding) {
+      if (state.isCheckingConnection) {
         state = state.copyWith(isLoading: false);
         return;
       }
@@ -44,76 +40,69 @@ class XAccountController extends StateNotifier<XAccountState> {
     }
   }
 
-  Future<XBindingAttempt?> startBinding() async {
+  Future<XOAuthAuthorization?> startOAuth() async {
     if (state.isBusy) {
       return null;
     }
-    state = state.copyWith(isStartingBinding: true, clearError: true);
+    state = state.copyWith(isStartingOAuth: true, clearError: true);
     try {
-      final attempt = await _startBinding(
-        callbackUri: XOAuthCallback.callbackUri,
-      );
+      final authorization = await _startOAuth();
       state = state.copyWith(
-        isStartingBinding: false,
-        activeAttemptId: attempt.attemptId,
+        isStartingOAuth: false,
+        isAwaitingAuthorization: true,
         connection: const XAccountConnection(status: XAccountStatus.connecting),
         clearError: true,
       );
-      return attempt;
+      return authorization;
     } catch (error) {
-      state = state.copyWith(isStartingBinding: false, error: error);
+      state = state.copyWith(isStartingOAuth: false, error: error);
       return null;
     }
   }
 
-  Future<bool> handleCallback(XOAuthCallback callback) async {
-    if (state.isCheckingBinding || callback.wasCancelled) {
-      if (callback.wasCancelled) {
-        state = state.copyWith(
-          connection: const XAccountConnection.disconnected(),
-          clearActiveAttempt: true,
-        );
-      }
-      return false;
-    }
-    final activeAttemptId = state.activeAttemptId;
-    if (activeAttemptId != null && activeAttemptId != callback.attemptId) {
-      return false;
-    }
-    state = state.copyWith(isCheckingBinding: true, clearError: true);
-    try {
-      final result = await _completeBinding(attemptId: callback.attemptId);
-      final connected = result.status == XAccountStatus.connected;
-      state = state.copyWith(
-        connection: result.connection,
-        isCheckingBinding: false,
-        clearActiveAttempt: connected,
-        clearError: true,
-      );
-      return connected;
-    } catch (error) {
-      state = state.copyWith(isCheckingBinding: false, error: error);
-      return false;
-    }
+  void cancelAuthorizationLaunch() {
+    state = state.copyWith(
+      connection: const XAccountConnection.disconnected(),
+      isAwaitingAuthorization: false,
+    );
   }
 
-  Future<bool> disconnect() async {
-    if (state.isBusy || !state.connection.isConnected) {
-      return false;
+  Future<bool> confirmAuthorization({
+    int maxAttempts = 3,
+    Duration retryDelay = const Duration(milliseconds: 700),
+  }) async {
+    if (state.isCheckingConnection || !state.isAwaitingAuthorization) {
+      return state.connection.isConnected;
     }
-    state = state.copyWith(isDisconnecting: true, clearError: true);
-    try {
-      await _disconnect();
-      state = state.copyWith(
-        connection: const XAccountConnection.disconnected(),
-        isDisconnecting: false,
-        clearActiveAttempt: true,
-        clearError: true,
-      );
-      return true;
-    } catch (error) {
-      state = state.copyWith(isDisconnecting: false, error: error);
-      return false;
+    state = state.copyWith(isCheckingConnection: true, clearError: true);
+    Object? lastError;
+    final attempts = maxAttempts < 1 ? 1 : maxAttempts;
+    for (var attempt = 0; attempt < attempts; attempt++) {
+      try {
+        final connection = await _loadConnection();
+        if (connection.isConnected) {
+          state = state.copyWith(
+            connection: connection,
+            isCheckingConnection: false,
+            isAwaitingAuthorization: false,
+            clearError: true,
+          );
+          return true;
+        }
+      } catch (error) {
+        lastError = error;
+      }
+      if (attempt + 1 < attempts) {
+        await Future<void>.delayed(retryDelay);
+      }
     }
+    state = state.copyWith(
+      connection: const XAccountConnection.disconnected(),
+      isCheckingConnection: false,
+      isAwaitingAuthorization: false,
+      error: lastError,
+      clearError: lastError == null,
+    );
+    return false;
   }
 }

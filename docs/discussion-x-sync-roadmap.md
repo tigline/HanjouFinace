@@ -1,6 +1,6 @@
 # Discussion X Sync Roadmap
 
-Last updated: 2026-06-23
+Last updated: 2026-06-24
 
 ## Scope
 
@@ -25,7 +25,7 @@ Replies are out of scope for the first release.
 
 Implemented:
 
-- Typed X account connection, binding-attempt, and binding-status DTOs.
+- Typed X OAuth start and account connection DTOs matching member Swagger.
 - Backend API client and app Clean Architecture vertical slice.
 - Settings entry and X account connection page.
 - KIZUNARK tab entry prompt for authenticated users whose X account is not
@@ -34,38 +34,35 @@ Implemented:
   remains disabled until an X account is connected, and is not persisted in
   drafts or user preferences.
 - External-browser authorization launch.
-- `stellavia://oauth/x/result` callback registration on Android and iOS.
-- Cold-start and runtime callback capture through `app_links`.
-- Callback matching by one-time `attemptId`; no X code or token enters the app.
+- When the authorization browser returns the App to the foreground, the App
+  queries `/social/x/account` with a short bounded retry and treats
+  `connected` as the source of truth.
 
-## Provisional Backend Contract
+## Backend Contract
 
-The following paths are integration assumptions until backend Swagger or a
-confirmed contract is available:
+The member Swagger currently defines:
 
 ```text
-POST   /member/social/x/auth/start
-GET    /member/social/x/auth/status?attemptId=...
+POST   /member/social/x/oauth/start
+GET    /member/social/x/oauth/callback?code=...&state=...
 GET    /member/social/x/account
-DELETE /member/social/x/account
 ```
 
-`auth/start` accepts:
-
-```json
-{"callbackUri":"stellavia://oauth/x/result"}
-```
-
-It returns `attemptId`, `authorizationUrl`, and optional `expiresAt`. The
-backend callback must redirect to the app callback with only `attemptId` and a
-result value. It must never place an authorization code or token in that URI.
+- `oauth/start` has no request body and returns `R<Map<String, String>>`. The
+  App accepts the authorization URL under `authorizationUrl`, `authorizeUrl`,
+  `authUrl`, or `url` until the map key is documented explicitly.
+- `oauth/callback` is called by X and handled by the backend. It is not an App
+  callback and the App never receives the X authorization code.
+- `account` returns `R<SocialXAccountVO>` with `connected`, `username`,
+  `displayName`, and `avatarUrl`.
+- Swagger does not currently define an authorization-status endpoint or an
+  account-disconnect endpoint. The App does not call or expose either action.
 
 ## Next Tickets
 
-1. Confirm paths, methods, envelope success codes, callback redirect behavior,
-   and account/status payloads with the backend.
-2. Replace the custom scheme with verified Universal Links/App Links before
-   production if the product web domains can host AASA and assetlinks files.
+1. Confirm the exact authorization URL key returned by `oauth/start` and the
+   user-facing browser response produced by `oauth/callback`.
+2. Add a backend account-disconnect endpoint before restoring disconnect UI.
 3. Change discussion send to return a typed result containing `commentId` and
    X sync job status.
 4. Send the composer `syncToX` selection through top-level post submission.

@@ -7,9 +7,6 @@ import '../../domain/repositories/x_account_repository.dart';
 import '../../domain/usecases/x_account_usecases.dart';
 import '../controllers/x_account_controller.dart';
 import '../state/x_account_state.dart';
-import '../support/x_oauth_callback.dart';
-
-final xOAuthCallbackProvider = StateProvider<XOAuthCallback?>((ref) => null);
 
 final xAccountRemoteDataSourceProvider = Provider<XAccountRemoteDataSource>((
   ref,
@@ -26,8 +23,6 @@ final xAccountControllerProvider =
       final repository = ref.watch(xAccountRepositoryProvider);
       return XAccountController(
         LoadXAccountConnectionUseCase(repository),
-        StartXAccountBindingUseCase(repository),
-        CompleteXAccountBindingUseCase(repository),
-        DisconnectXAccountUseCase(repository),
+        StartXOAuthUseCase(repository),
       );
     });

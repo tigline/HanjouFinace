@@ -10,7 +10,6 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/x_account_models.dart';
 import '../providers/x_account_providers.dart';
 import '../state/x_account_state.dart';
-import '../support/x_oauth_callback.dart';
 
 class XAccountSettingsPage extends ConsumerStatefulWidget {
   const XAccountSettingsPage({super.key});
@@ -20,74 +19,67 @@ class XAccountSettingsPage extends ConsumerStatefulWidget {
       _XAccountSettingsPageState();
 }
 
-class _XAccountSettingsPageState extends ConsumerState<XAccountSettingsPage> {
-  bool _hasScheduledInitialCallback = false;
+class _XAccountSettingsPageState extends ConsumerState<XAccountSettingsPage>
+    with WidgetsBindingObserver {
+  bool _authorizationBrowserOpened = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed || !_authorizationBrowserOpened) {
+      return;
+    }
+    _authorizationBrowserOpened = false;
+    unawaited(_confirmAuthorization());
+  }
 
   Future<void> _startBinding() async {
     final controller = ref.read(xAccountControllerProvider.notifier);
-    final attempt = await controller.startBinding();
-    if (!mounted || attempt == null) {
+    final authorization = await controller.startOAuth();
+    if (!mounted || authorization == null) {
       return;
     }
+    _authorizationBrowserOpened = true;
     final launched = await launchUrl(
-      attempt.authorizationUri,
+      authorization.authorizationUri,
       mode: LaunchMode.externalApplication,
-    );
-    if (!mounted || launched) {
+    ).catchError((Object _) => false);
+    if (!mounted) {
       return;
     }
+    if (launched) {
+      return;
+    }
+    _authorizationBrowserOpened = false;
+    controller.cancelAuthorizationLaunch();
     AppNotice.show(
       context,
       message: context.l10n.xAccountAuthorizationOpenFailed,
     );
   }
 
-  Future<void> _handleCallback(XOAuthCallback callback) async {
+  Future<void> _confirmAuthorization() async {
     final connected = await ref
         .read(xAccountControllerProvider.notifier)
-        .handleCallback(callback);
+        .confirmAuthorization();
     if (!mounted) {
       return;
     }
-    ref.read(xOAuthCallbackProvider.notifier).state = null;
     AppNotice.show(
       context,
       message: connected
           ? context.l10n.xAccountConnectedNotice
-          : callback.wasCancelled
-          ? context.l10n.xAccountAuthorizationCancelled
-          : context.l10n.xAccountConnectionFailed,
-    );
-  }
-
-  Future<void> _confirmDisconnect() async {
-    final l10n = context.l10n;
-    final confirmed = await AppDialogs.showAdaptiveAlert<bool>(
-      context: context,
-      title: l10n.xAccountDisconnectConfirmTitle,
-      message: l10n.xAccountDisconnectConfirmBody,
-      actions: <AppDialogAction<bool>>[
-        AppDialogAction<bool>(label: l10n.profileGuardCancel, value: false),
-        AppDialogAction<bool>(
-          label: l10n.xAccountDisconnectAction,
-          value: true,
-          isDestructive: true,
-        ),
-      ],
-    );
-    if (confirmed != true || !mounted) {
-      return;
-    }
-    final disconnected = await ref
-        .read(xAccountControllerProvider.notifier)
-        .disconnect();
-    if (!mounted) {
-      return;
-    }
-    AppNotice.show(
-      context,
-      message: disconnected
-          ? context.l10n.xAccountDisconnectedNotice
           : context.l10n.xAccountConnectionFailed,
     );
   }
@@ -95,21 +87,6 @@ class _XAccountSettingsPageState extends ConsumerState<XAccountSettingsPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(xAccountControllerProvider);
-    ref.listen<XOAuthCallback?>(xOAuthCallbackProvider, (previous, next) {
-      if (next != null && next != previous) {
-        _hasScheduledInitialCallback = true;
-        unawaited(_handleCallback(next));
-      }
-    });
-    final initialCallback = ref.read(xOAuthCallbackProvider);
-    if (initialCallback != null && !_hasScheduledInitialCallback) {
-      _hasScheduledInitialCallback = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          unawaited(_handleCallback(initialCallback));
-        }
-      });
-    }
     ref.listen<XAccountState>(xAccountControllerProvider, (previous, next) {
       if (next.error != null && next.error != previous?.error) {
         AppNotice.show(context, message: context.l10n.xAccountConnectionFailed);
@@ -140,31 +117,16 @@ class _XAccountSettingsPageState extends ConsumerState<XAccountSettingsPage> {
                 children: <Widget>[
                   _XAccountSummary(connection: state.connection),
                   const SizedBox(height: 24),
-                  if (state.connection.isConnected)
-                    OutlinedButton.icon(
-                      onPressed: state.isBusy ? null : _confirmDisconnect,
-                      icon: state.isDisconnecting
-                          ? const SizedBox.square(
-                              dimension: 18,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.link_off_rounded),
-                      label: Text(context.l10n.xAccountDisconnectAction),
-                    )
-                  else
+                  if (!state.connection.isConnected)
                     FilledButton.icon(
                       onPressed: state.isBusy ? null : _startBinding,
-                      icon: state.isStartingBinding || state.isCheckingBinding
+                      icon: state.isStartingOAuth || state.isCheckingConnection
                           ? const SizedBox.square(
                               dimension: 18,
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.link_rounded),
-                      label: Text(
-                        state.connection.status == XAccountStatus.expired
-                            ? context.l10n.xAccountReconnectAction
-                            : context.l10n.xAccountConnectAction,
-                      ),
+                      label: Text(context.l10n.xAccountConnectAction),
                     ),
                   const SizedBox(height: 16),
                   Text(
@@ -193,7 +155,6 @@ class _XAccountSummary extends StatelessWidget {
       XAccountStatus.disconnected => context.l10n.xAccountStatusDisconnected,
       XAccountStatus.connecting => context.l10n.xAccountStatusConnecting,
       XAccountStatus.connected => context.l10n.xAccountStatusConnected,
-      XAccountStatus.expired => context.l10n.xAccountStatusExpired,
     };
     final username = connection.username?.trim() ?? '';
 

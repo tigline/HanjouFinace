@@ -4,11 +4,7 @@ import 'package:core_network/core_network.dart';
 abstract class XAccountRemoteDataSource {
   Future<XAccountConnectionDto> fetchAccount();
 
-  Future<XBindingAttemptDto> startBinding({required String callbackUri});
-
-  Future<XBindingStatusDto> fetchBindingStatus({required String attemptId});
-
-  Future<void> disconnectAccount();
+  Future<XOAuthStartDto> startOAuth();
 }
 
 class XAccountRemoteDataSourceImpl implements XAccountRemoteDataSource {
@@ -23,15 +19,5 @@ class XAccountRemoteDataSourceImpl implements XAccountRemoteDataSource {
   Future<XAccountConnectionDto> fetchAccount() => _apiClient.fetchAccount();
 
   @override
-  Future<XBindingAttemptDto> startBinding({required String callbackUri}) {
-    return _apiClient.startBinding(callbackUri: callbackUri);
-  }
-
-  @override
-  Future<XBindingStatusDto> fetchBindingStatus({required String attemptId}) {
-    return _apiClient.fetchBindingStatus(attemptId: attemptId);
-  }
-
-  @override
-  Future<void> disconnectAccount() => _apiClient.disconnectAccount();
+  Future<XOAuthStartDto> startOAuth() => _apiClient.startOAuth();
 }
