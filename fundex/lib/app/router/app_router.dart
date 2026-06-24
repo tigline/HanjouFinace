@@ -324,7 +324,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-                    StatefulShellBranch(
+          StatefulShellBranch(
             routes: <RouteBase>[
               GoRoute(
                 path: '/hotel-booking',
@@ -565,19 +565,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     },
                   ),
                   GoRoute(
-                    path: 'my/active-funds/:projectId',
-                    builder: (BuildContext context, GoRouterState state) {
-                      final projectId = state.pathParameters['projectId'] ?? '';
-                      final extra = state.extra;
-                      return MyPageActiveFundDetailPage(
-                        projectId: projectId,
-                        initialSeed: extra is MyPageActiveFundDetailSeed
-                            ? extra
-                            : null,
-                      );
-                    },
-                  ),
-                  GoRoute(
                     path: 'secondary-market',
                     redirect: (BuildContext context, GoRouterState state) {
                       return '/profile/my/secondary-market';
@@ -703,6 +690,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return MyPageSectionListPage(
             sectionType: sectionType ?? MyPageSectionType.pendingApplications,
             initialApplyFilter: applyFilter ?? MyPageApplyHistoryFilter.all,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/profile/my/active-funds/:projectId',
+        builder: (BuildContext context, GoRouterState state) {
+          final projectId = state.pathParameters['projectId'] ?? '';
+          final extra = state.extra;
+          return MyPageActiveFundDetailPage(
+            projectId: projectId,
+            initialSeed: extra is MyPageActiveFundDetailSeed ? extra : null,
           );
         },
       ),

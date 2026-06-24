@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/network/app_network_connectivity_providers.dart';
 import '../../domain/entities/fund_project.dart';
+import '../../../main_shell/presentation/providers/main_shell_providers.dart';
 import '../../../main_shell/presentation/widgets/main_shell_chrome_visibility.dart';
 import '../../../main_shell/presentation/widgets/main_shell_tab_refresh_scope.dart';
 import '../providers/fund_project_favorite_providers.dart';
@@ -406,7 +407,7 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
           child: ColoredBox(
             color: colors.background,
             child: MainShellTabRefreshScope(
-              tabIndex: 1,
+              tabIndex: MainShellTab.investment.index,
               onRefresh: _refreshInvestmentTab,
               scrollController: _scrollController,
               child: Container(
@@ -423,7 +424,10 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(left: 16, right: 16),
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                              ),
                               child: Text(
                                 l10n.fundListTitle,
                                 style: appText.pageTitle.copyWith(
@@ -433,7 +437,9 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                             ),
                             const SizedBox(height: 10),
                             AppFilterBar<_FundListFilter>(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               value: _effectiveSelectedFilter,
                               onChanged: (_FundListFilter value) {
                                 setState(() {
@@ -460,8 +466,9 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                     Expanded(
                       child: asyncProjects.when(
                         skipError: true,
-                        loading: () =>
-                            const Center(child: CircularProgressIndicator.adaptive()),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        ),
                         error: (Object error, StackTrace stackTrace) {
                           return Center(
                             child: Padding(
@@ -500,7 +507,12 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 children: <Widget>[
                                   Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      20,
+                                      80,
+                                      20,
+                                      20,
+                                    ),
                                     child: Text(
                                       l10n.fundListEmpty,
                                       textAlign: TextAlign.center,
@@ -513,14 +525,20 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                               ),
                             );
                           }
-            
+
                           return RefreshIndicator(
                             onRefresh: _refreshProjects,
                             child: ListView.separated(
                               controller: _scrollController,
-                              padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
+                              padding: const EdgeInsets.fromLTRB(
+                                16,
+                                14,
+                                16,
+                                20,
+                              ),
                               itemCount: visibleProjects.length,
-                              separatorBuilder: (_, __) => const SizedBox(height: 10),
+                              separatorBuilder: (_, __) =>
+                                  const SizedBox(height: 10),
                               itemBuilder: (BuildContext context, int index) {
                                 final project = visibleProjects[index];
                                 final projectId = project.id.trim();
@@ -543,14 +561,18 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                                       locale,
                                     );
                                 final periodText =
-                                    (project.investmentPeriod?.trim().isNotEmpty ??
+                                    (project.investmentPeriod
+                                            ?.trim()
+                                            .isNotEmpty ??
                                         false)
                                     ? project.investmentPeriod!.trim()
                                     : '--';
-            
+
                                 return _FundProjectCard(
                                   project: project,
-                                  isFavorite: favoriteProjectIds.contains(projectId),
+                                  isFavorite: favoriteProjectIds.contains(
+                                    projectId,
+                                  ),
                                   palette: palette,
                                   statusLabel: statusLabel,
                                   methodLabel: project.offeringMethod ?? '--',
@@ -563,16 +585,18 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                                     project,
                                     currencyFormatter,
                                   ),
-                                  annualYieldText: resolveFundProjectYieldDisplay(
-                                    project,
-                                  ),
+                                  annualYieldText:
+                                      resolveFundProjectYieldDisplay(project),
                                   periodValueText: periodText,
                                   minimumInvestmentLabel:
                                       l10n.fundDetailMinimumInvestmentLabel,
                                   minimumInvestmentText: minimumInvestmentText,
                                   locationText: _resolveLocationHint(project),
                                   viewDetailText: l10n.fundListViewDetail,
-                                  volumeText: _resolveVolumeLabel(context, project),
+                                  volumeText: _resolveVolumeLabel(
+                                    context,
+                                    project,
+                                  ),
                                   onFavoriteTap: () {
                                     ref
                                         .read(
@@ -582,7 +606,8 @@ class _InvestmentTabPageState extends ConsumerState<InvestmentTabPage> {
                                         .toggleFavorite(projectId);
                                   },
                                   favoriteAddedMessage: favoriteAddedMessage,
-                                  favoriteRemovedMessage: favoriteRemovedMessage,
+                                  favoriteRemovedMessage:
+                                      favoriteRemovedMessage,
                                 );
                               },
                             ),

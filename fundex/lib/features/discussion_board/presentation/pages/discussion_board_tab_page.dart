@@ -208,7 +208,9 @@ class _DiscussionBoardTabPageState
   Future<void> _maybeShowXConnectionPrompt() async {
     final xAccountState = ref.read(xAccountControllerProvider);
     if (!shouldPromptKizunarkXConnection(
-      isKizunarkTabActive: ref.read(mainShellCurrentTabIndexProvider) == 2,
+      isKizunarkTabActive:
+          ref.read(mainShellCurrentTabIndexProvider) ==
+          MainShellTab.kizunark.index,
       isAuthenticated: ref.read(isAuthenticatedProvider).asData?.value == true,
       hasPromptedForCurrentVisit: _hasPromptedXConnectionForCurrentVisit,
       isPromptOpen: _isXConnectionPromptOpen,
@@ -1056,7 +1058,7 @@ class _DiscussionBoardTabPageState
     });
 
     ref.listen<int>(mainShellCurrentTabIndexProvider, (previous, next) {
-      if (next != 2) {
+      if (next != MainShellTab.kizunark.index) {
         _hasPromptedXConnectionForCurrentVisit = false;
         return;
       }
@@ -1075,7 +1077,8 @@ class _DiscussionBoardTabPageState
           _scheduleXConnectionPrompt();
         }
       });
-      if (ref.watch(mainShellCurrentTabIndexProvider) == 2 &&
+      if (ref.watch(mainShellCurrentTabIndexProvider) ==
+              MainShellTab.kizunark.index &&
           !xAccountState.isLoading) {
         _scheduleXConnectionPrompt();
       }

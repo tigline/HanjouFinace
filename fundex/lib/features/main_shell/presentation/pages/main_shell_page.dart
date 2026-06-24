@@ -185,10 +185,10 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
         child: Scaffold(
           key: const Key('home_page'),
           body: SafeArea(
-          top: false,
-          bottom: false,
-          child: widget.navigationShell,
-        ),
+            top: false,
+            bottom: false,
+            child: widget.navigationShell,
+          ),
           bottomNavigationBar: DecoratedBox(
             decoration: BoxDecoration(color: colors.surface),
             child: Column(
@@ -229,30 +229,40 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                   height: 82,
                                   child: Column(
                                     children: [
-                                      const SizedBox(height: 12,),
+                                      const SizedBox(height: 12),
                                       Row(
                                         children: <Widget>[
                                           Expanded(
                                             child: _MainTabItem(
                                               label: l10n.mainTabHome,
-                                              isSelected: currentTabIndex == 0,
-                                              labelColor: currentTabIndex == 0
+                                              isSelected:
+                                                  currentTabIndex ==
+                                                  MainShellTab.home.index,
+                                              labelColor:
+                                                  currentTabIndex ==
+                                                      MainShellTab.home.index
                                                   ? colorScheme.primary
                                                   : shellNavigationTheme
                                                         .bottomTabInactiveColor,
-                                              onTap: () => _onDestinationSelected(
-                                                context,
-                                                0,
-                                              ),
+                                              onTap: () =>
+                                                  _onDestinationSelected(
+                                                    context,
+                                                    MainShellTab.home.index,
+                                                  ),
                                               badge: _MainTabBadge(
                                                 backgroundColor:
-                                                    currentTabIndex == 0
+                                                    currentTabIndex ==
+                                                        MainShellTab.home.index
                                                     ? colorScheme.primary
                                                     : inactiveTabBackgroundColor,
                                                 child: Icon(
                                                   Icons.home_rounded,
                                                   size: 24,
-                                                  color: currentTabIndex == 0
+                                                  color:
+                                                      currentTabIndex ==
+                                                          MainShellTab
+                                                              .home
+                                                              .index
                                                       ? colors.onDark
                                                       : shellNavigationTheme
                                                             .bottomTabInactiveColor,
@@ -263,21 +273,37 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                           Expanded(
                                             child: _MainTabItem(
                                               label: l10n.mainTabHotel,
-                                              isSelected: currentTabIndex == 1,
-                                              labelColor: currentTabIndex == 1
+                                              isSelected:
+                                                  currentTabIndex ==
+                                                  MainShellTab.hotel.index,
+                                              labelColor:
+                                                  currentTabIndex ==
+                                                      MainShellTab.hotel.index
                                                   ? colorScheme.primary
-                                                  : shellNavigationTheme.bottomTabInactiveColor,
-                                              onTap: () => _onDestinationSelected(context, 1),
+                                                  : shellNavigationTheme
+                                                        .bottomTabInactiveColor,
+                                              onTap: () =>
+                                                  _onDestinationSelected(
+                                                    context,
+                                                    MainShellTab.hotel.index,
+                                                  ),
                                               badge: _MainTabBadge(
-                                                backgroundColor: currentTabIndex == 1
+                                                backgroundColor:
+                                                    currentTabIndex ==
+                                                        MainShellTab.hotel.index
                                                     ? colorScheme.primary
                                                     : inactiveTabBackgroundColor,
                                                 child: Icon(
                                                   Icons.hotel_rounded,
                                                   size: 24,
-                                                  color: currentTabIndex == 1
+                                                  color:
+                                                      currentTabIndex ==
+                                                          MainShellTab
+                                                              .hotel
+                                                              .index
                                                       ? colors.onDark
-                                                      : shellNavigationTheme.bottomTabInactiveColor,
+                                                      : shellNavigationTheme
+                                                            .bottomTabInactiveColor,
                                                 ),
                                               ),
                                             ),
@@ -285,25 +311,41 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                           Expanded(
                                             child: _MainTabItem(
                                               label: l10n.mainTabInvestment,
-                                              isSelected: currentTabIndex == 2,
-                                              labelColor: currentTabIndex == 2
+                                              isSelected:
+                                                  currentTabIndex ==
+                                                  MainShellTab.investment.index,
+                                              labelColor:
+                                                  currentTabIndex ==
+                                                      MainShellTab
+                                                          .investment
+                                                          .index
                                                   ? colorScheme.primary
                                                   : shellNavigationTheme
                                                         .bottomTabInactiveColor,
-                                              onTap: () => _onDestinationSelected(
-                                                context,
-                                                2,
-                                              ),
+                                              onTap: () =>
+                                                  _onDestinationSelected(
+                                                    context,
+                                                    MainShellTab
+                                                        .investment
+                                                        .index,
+                                                  ),
                                               badge: _MainTabBadge(
                                                 backgroundColor:
-                                                    currentTabIndex == 2
+                                                    currentTabIndex ==
+                                                        MainShellTab
+                                                            .investment
+                                                            .index
                                                     ? colorScheme.primary
                                                     : inactiveTabBackgroundColor,
                                                 child: Icon(
                                                   Icons
                                                       .insert_chart_outlined_outlined,
                                                   size: 24,
-                                                  color: currentTabIndex == 2
+                                                  color:
+                                                      currentTabIndex ==
+                                                          MainShellTab
+                                                              .investment
+                                                              .index
                                                       ? colors.onDark
                                                       : shellNavigationTheme
                                                             .bottomTabInactiveColor,
@@ -314,18 +356,28 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                           Expanded(
                                             child: _MainTabItem(
                                               label: l10n.mainTabKizunark,
-                                              isSelected: currentTabIndex == 3,
-                                              labelColor: currentTabIndex == 3
+                                              isSelected:
+                                                  currentTabIndex ==
+                                                  MainShellTab.kizunark.index,
+                                              labelColor:
+                                                  currentTabIndex ==
+                                                      MainShellTab
+                                                          .kizunark
+                                                          .index
                                                   ? colorScheme.primary
                                                   : shellNavigationTheme
                                                         .bottomTabInactiveColor,
-                                              onTap: () => _onDestinationSelected(
-                                                context,
-                                                3,
-                                              ),
+                                              onTap: () =>
+                                                  _onDestinationSelected(
+                                                    context,
+                                                    MainShellTab.kizunark.index,
+                                                  ),
                                               badge: _MainTabBadge(
                                                 backgroundColor:
-                                                    currentTabIndex == 3
+                                                    currentTabIndex ==
+                                                        MainShellTab
+                                                            .kizunark
+                                                            .index
                                                     ? colorScheme.primary
                                                     : inactiveTabBackgroundColor,
                                                 child: Image.asset(
@@ -333,37 +385,54 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                   width: 24,
                                                   height: 24,
                                                   fit: BoxFit.contain,
-                                                  color: currentTabIndex == 3
+                                                  color:
+                                                      currentTabIndex ==
+                                                          MainShellTab
+                                                              .kizunark
+                                                              .index
                                                       ? colors.onDark
                                                       : shellNavigationTheme
                                                             .bottomTabInactiveColor,
-                                                  colorBlendMode: BlendMode.srcIn,
+                                                  colorBlendMode:
+                                                      BlendMode.srcIn,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          
+
                                           Expanded(
                                             child: _MainTabItem(
                                               label: l10n.mainTabProfile,
-                                              isSelected: currentTabIndex == 4,
-                                              labelColor: currentTabIndex == 4
+                                              isSelected:
+                                                  currentTabIndex ==
+                                                  MainShellTab.profile.index,
+                                              labelColor:
+                                                  currentTabIndex ==
+                                                      MainShellTab.profile.index
                                                   ? colorScheme.primary
                                                   : shellNavigationTheme
                                                         .bottomTabInactiveColor,
-                                              onTap: () => _onDestinationSelected(
-                                                context,
-                                                4,
-                                              ),
+                                              onTap: () =>
+                                                  _onDestinationSelected(
+                                                    context,
+                                                    MainShellTab.profile.index,
+                                                  ),
                                               badge: _MainTabBadge(
                                                 backgroundColor:
-                                                    currentTabIndex == 4
+                                                    currentTabIndex ==
+                                                        MainShellTab
+                                                            .profile
+                                                            .index
                                                     ? colorScheme.primary
                                                     : inactiveTabBackgroundColor,
                                                 child: Icon(
                                                   Icons.person_rounded,
                                                   size: 24,
-                                                  color: currentTabIndex == 4
+                                                  color:
+                                                      currentTabIndex ==
+                                                          MainShellTab
+                                                              .profile
+                                                              .index
                                                       ? colors.onDark
                                                       : shellNavigationTheme
                                                             .bottomTabInactiveColor,
@@ -514,15 +583,15 @@ class _MainTabBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: backgroundColor, 
+        color: backgroundColor,
         shape: BoxShape.circle,
         boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: backgroundColor.withValues(alpha: 0.32),
-                          blurRadius: 14,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
+          BoxShadow(
+            color: backgroundColor.withValues(alpha: 0.32),
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: SizedBox(width: 52, height: 52, child: Center(child: child)),
     );

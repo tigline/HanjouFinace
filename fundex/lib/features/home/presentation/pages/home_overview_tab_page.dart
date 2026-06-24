@@ -24,6 +24,7 @@ import '../widgets/home_official_site_link.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
+import '../../../main_shell/presentation/providers/main_shell_providers.dart';
 import '../../../main_shell/presentation/widgets/main_shell_tab_refresh_scope.dart';
 import '../../../member_profile/domain/entities/member_profile_details.dart';
 import '../../../member_profile/presentation/providers/member_profile_providers.dart';
@@ -208,7 +209,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
         //MainShellChromeVisibility(child: topNavigationBar),
         Expanded(
           child: MainShellTabRefreshScope(
-            tabIndex: 0,
+            tabIndex: MainShellTab.home.index,
             onRefresh: _refreshHomeOverviewTab,
             scrollController: _scrollController,
             child: RefreshIndicator(
@@ -221,13 +222,15 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                 children: <Widget>[
                   if (networkAccessState == AppNetworkAccessState.denied ||
                       (_isApplePlatform &&
-                          networkAvailability == AppNetworkAvailability.offline))
+                          networkAvailability ==
+                              AppNetworkAvailability.offline))
                     AppNetworkStatusBar(
                       title: l10n.networkAccessDeniedBannerTitle,
                       message: l10n.networkAccessDeniedBannerMessage,
                       icon: Icons.wifi_find_outlined,
                     )
-                  else if (networkAvailability == AppNetworkAvailability.offline)
+                  else if (networkAvailability ==
+                      AppNetworkAvailability.offline)
                     AppNetworkStatusBar(
                       title: l10n.networkOfflineBannerTitle,
                       message: l10n.networkOfflineBannerMessage,

@@ -11,6 +11,7 @@ import '../../../../app/support/app_compact_money_formatter.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../../investment/domain/entities/fund_project.dart';
 import '../../../investment/presentation/providers/fund_project_providers.dart';
+import '../../../main_shell/presentation/providers/main_shell_providers.dart';
 import '../../../main_shell/presentation/widgets/main_shell_tab_refresh_scope.dart';
 import '../../../notifications/presentation/providers/notifications_providers.dart';
 import '../../../home/presentation/support/home_display_name_resolver.dart';
@@ -94,7 +95,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
     };
 
     return MainShellTabRefreshScope(
-      tabIndex: 3,
+      tabIndex: MainShellTab.profile.index,
       onRefresh: (_) => _refreshPage(),
       scrollController: _scrollController,
       child: Scaffold(
@@ -107,15 +108,15 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _HeroHeaderActionButton(
-              icon: Icons.notifications_none_rounded,
-              showDot: hasUnreadNotifications,
-              onTap: () => context.push('/profile/notifications'),
-            ),
-            const SizedBox(width: 8),
-            _HeroHeaderActionButton(
-              icon: Icons.menu_rounded,
-              onTap: () => context.push('/profile/settings'),
-            ),
+                icon: Icons.notifications_none_rounded,
+                showDot: hasUnreadNotifications,
+                onTap: () => context.push('/profile/notifications'),
+              ),
+              const SizedBox(width: 8),
+              _HeroHeaderActionButton(
+                icon: Icons.menu_rounded,
+                onTap: () => context.push('/profile/settings'),
+              ),
             ],
           ),
         ),
