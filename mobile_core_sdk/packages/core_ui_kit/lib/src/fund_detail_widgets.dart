@@ -297,9 +297,11 @@ class FundDetailHeroHeader extends StatefulWidget {
     this.onImageTap,
     this.onBackTap,
     this.onFavoriteTap,
+    this.onShareTap,
     this.isFavorite = false,
     this.favoriteAddedMessage,
     this.favoriteRemovedMessage,
+    this.shareTooltip,
     this.height = 260,
   });
 
@@ -309,9 +311,11 @@ class FundDetailHeroHeader extends StatefulWidget {
   final ValueChanged<int>? onImageTap;
   final VoidCallback? onBackTap;
   final VoidCallback? onFavoriteTap;
+  final VoidCallback? onShareTap;
   final bool isFavorite;
   final String? favoriteAddedMessage;
   final String? favoriteRemovedMessage;
+  final String? shareTooltip;
   final double height;
 
   @override
@@ -456,7 +460,7 @@ class _FundDetailHeroHeaderState extends State<FundDetailHeroHeader> {
           ),
           Positioned(
             top: topInset,
-            right: 12,
+            right: 72,
             child: FundFavoriteButton(
               selected: widget.isFavorite,
               onTap: widget.onFavoriteTap,
@@ -465,6 +469,26 @@ class _FundDetailHeroHeaderState extends State<FundDetailHeroHeader> {
               unselectedToastMessage: widget.favoriteRemovedMessage,
             ),
           ),
+
+          Positioned(
+            top: topInset-4,
+            right: 16,
+            width: 42,
+            height: 42,
+            child: Container(
+              decoration: BoxDecoration(
+                color: colors.scrim,
+                borderRadius: BorderRadius.all(Radius.circular(999))
+                
+              ),
+              child: IconButton(
+              onPressed: widget.onShareTap,
+              tooltip: widget.shareTooltip,
+              icon: Icon(Icons.ios_share_rounded, color: colors.onDark),
+                        ),
+            ),
+          ),
+
           if (widget.badges.isNotEmpty)
             Positioned(
               left: 16,

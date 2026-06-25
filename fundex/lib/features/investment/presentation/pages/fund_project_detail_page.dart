@@ -319,6 +319,7 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
                   context.go('/funds');
                 },
                 isFavorite: isFavorite,
+                onShareTap: () => _shareFundProject(project),
                 onFavoriteTap: () {
                   ref
                       .read(fundProjectFavoritesControllerProvider.notifier)
@@ -326,6 +327,7 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
                 },
                 favoriteAddedMessage: favoriteAddedMessage,
                 favoriteRemovedMessage: favoriteRemovedMessage,
+                shareTooltip: context.l10n.fundDetailShareTooltip,
               ),
               Container(
                 color: colors.surface,
@@ -340,8 +342,6 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
                         children: <Widget>[
                           FundProjectDetailTitleBlock(
                             project: project,
-                            onShareTap: () => _shareFundProject(project),
-                            shareTooltip: context.l10n.fundDetailShareTooltip,
                           ),
                           if (featuresText != null) ...<Widget>[
                             const SizedBox(height: UiTokens.spacing16),
