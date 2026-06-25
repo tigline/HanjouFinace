@@ -170,9 +170,12 @@ class KizunarkComposeSheet extends StatefulWidget {
     required this.addImageLabel,
     required this.linkedFundLabel,
     required this.imageCounterBuilder,
-    required this.xSyncLabel,
-    required this.xSyncDescription,
-    required this.xSyncEnabled,
+    required this.xSyncConnectedLabel,
+    required this.xSyncDisconnectedLabel,
+    required this.xSyncConnectedDescription,
+    required this.xSyncDisconnectedDescription,
+    required this.xSyncInitiallyEnabled,
+    required this.onConnectXAccount,
     required this.controller,
     required this.selectedFund,
     required this.onPickImages,
@@ -198,9 +201,12 @@ class KizunarkComposeSheet extends StatefulWidget {
   final String addImageLabel;
   final String linkedFundLabel;
   final String Function(int count) imageCounterBuilder;
-  final String xSyncLabel;
-  final String xSyncDescription;
-  final bool xSyncEnabled;
+  final String xSyncConnectedLabel;
+  final String xSyncDisconnectedLabel;
+  final String xSyncConnectedDescription;
+  final String xSyncDisconnectedDescription;
+  final bool xSyncInitiallyEnabled;
+  final Future<bool> Function() onConnectXAccount;
   final TextEditingController controller;
   final SelectedComposerFund? selectedFund;
   final Future<List<String>> Function(int remainingCount) onPickImages;
@@ -228,11 +234,13 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
   bool _hasInputContent = false;
   bool _canSubmitContent = false;
   bool _syncToX = false;
+  late bool _xSyncEnabled;
 
   @override
   void initState() {
     super.initState();
     _selectedFund = widget.selectedFund;
+    _xSyncEnabled = widget.xSyncInitiallyEnabled;
     _hasInputContent = _hasDraftContent;
     _canSubmitContent = _hasSubmitContent;
     widget.controller.addListener(_syncInputContentState);
@@ -392,8 +400,23 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
     setState(() {
       _isSubmitting = true;
     });
-    unawaited(widget.onSubmit(List<String>.of(_validImageFilePaths), _syncToX));
+    unawaited(
+      widget.onSubmit(
+        List<String>.of(_validImageFilePaths),
+        _xSyncEnabled && _syncToX,
+      ),
+    );
     Navigator.of(context).pop();
+  }
+
+  Future<void> _connectXAccount() async {
+    final connected = await widget.onConnectXAccount();
+    if (!mounted || !connected) {
+      return;
+    }
+    setState(() {
+      _xSyncEnabled = true;
+    });
   }
 
   @override
@@ -447,15 +470,20 @@ class _KizunarkComposeSheetState extends State<KizunarkComposeSheet> {
                 ],
                 const SizedBox(height: 16),
                 _XSyncOption(
-                  label: widget.xSyncLabel,
-                  description: widget.xSyncDescription,
-                  enabled: widget.xSyncEnabled,
+                  label: _xSyncEnabled
+                      ? widget.xSyncConnectedLabel
+                      : widget.xSyncDisconnectedLabel,
+                  description: _xSyncEnabled
+                      ? widget.xSyncConnectedDescription
+                      : widget.xSyncDisconnectedDescription,
+                  enabled: _xSyncEnabled,
                   value: _syncToX,
                   onChanged: (bool value) {
                     setState(() {
                       _syncToX = value;
                     });
                   },
+                  onConnect: _connectXAccount,
                 ),
               ],
             ),
@@ -509,6 +537,7 @@ class _XSyncOption extends StatelessWidget {
     required this.enabled,
     required this.value,
     required this.onChanged,
+    required this.onConnect,
   });
 
   final String label;
@@ -516,65 +545,75 @@ class _XSyncOption extends StatelessWidget {
   final bool enabled;
   final bool value;
   final ValueChanged<bool> onChanged;
+  final Future<void> Function() onConnect;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.appColors;
     final appText = theme.appTextTheme;
+    final iconColor = enabled ? colors.textPrimary : colors.textTertiary;
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.symmetric(
           horizontal: BorderSide(color: colors.borderSoft),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 34,
-              height: 34,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: enabled ? colors.textPrimary : colors.borderSoft,
-                shape: BoxShape.circle,
-              ),
-              child: Text(
-                'X',
-                style: appText.bodyStrong.copyWith(
-                  color: enabled ? colors.surface : colors.textTertiary,
+      child: InkWell(
+        onTap: enabled ? null : onConnect,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 34,
+                height: 34,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: enabled ? colors.textPrimary : colors.borderSoft,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  'X',
+                  style: appText.bodyStrong.copyWith(
+                    color: enabled ? colors.surface : colors.textTertiary,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    label,
-                    style: appText.bodyStrong.copyWith(
-                      color: enabled ? colors.textPrimary : colors.textTertiary,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      label,
+                      style: appText.bodyStrong.copyWith(
+                        color: enabled
+                            ? colors.textPrimary
+                            : colors.textTertiary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    description,
-                    style: appText.meta.copyWith(color: colors.textTertiary),
-                  ),
-                ],
+                    const SizedBox(height: 2),
+                    Text(
+                      description,
+                      style: appText.meta.copyWith(color: colors.textTertiary),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Switch.adaptive(
-              key: const Key('kizunark_sync_to_x_switch'),
-              activeThumbColor: colors.primary,
-              activeTrackColor: colors.primaryAlt,
-              value: enabled && value,
-              onChanged: enabled ? onChanged : null,
-            ),
-          ],
+              const SizedBox(width: 10),
+              if (enabled)
+                Switch.adaptive(
+                  key: const Key('kizunark_sync_to_x_switch'),
+                  activeThumbColor: colors.primary,
+                  activeTrackColor: colors.primaryAlt,
+                  value: value,
+                  onChanged: onChanged,
+                )
+              else
+                Icon(Icons.chevron_right, color: iconColor),
+            ],
+          ),
         ),
       ),
     );

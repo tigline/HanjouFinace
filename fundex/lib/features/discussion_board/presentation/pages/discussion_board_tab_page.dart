@@ -70,6 +70,7 @@ class _PendingDiscussionSendJob {
 class _DiscussionBoardTabPageState
     extends ConsumerState<DiscussionBoardTabPage> {
   static const double _headerPostActionThreshold = 84;
+  static const bool _enableXConnectionPrompt = false;
 
   late final TextEditingController _composerController;
   late final ScrollController _scrollController;
@@ -198,6 +199,9 @@ class _DiscussionBoardTabPageState
   }
 
   void _scheduleXConnectionPrompt() {
+    if (!_enableXConnectionPrompt) {
+      return;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         unawaited(_maybeShowXConnectionPrompt());
@@ -814,11 +818,26 @@ class _DiscussionBoardTabPageState
           addImageLabel: context.l10n.kizunarkAddImageAction,
           linkedFundLabel: context.l10n.kizunarkAssociateFundAction,
           imageCounterBuilder: context.l10n.kizunarkImageCounter,
-          xSyncLabel: context.l10n.kizunarkXSyncLabel,
-          xSyncDescription: isXConnected
-              ? context.l10n.kizunarkXSyncConnectedDescription
-              : context.l10n.kizunarkXSyncDisconnectedDescription,
-          xSyncEnabled: isXConnected,
+          xSyncConnectedLabel: context.l10n.kizunarkXSyncLabel,
+          xSyncDisconnectedLabel: context.l10n.xAccountConnectAction,
+          xSyncConnectedDescription:
+              context.l10n.kizunarkXSyncConnectedDescription,
+          xSyncDisconnectedDescription:
+              context.l10n.kizunarkXSyncDisconnectedDescription,
+          xSyncInitiallyEnabled: isXConnected,
+          onConnectXAccount: () async {
+            await context.push<void>('/profile/settings/x-account');
+            if (!mounted) {
+              return false;
+            }
+            final connected = await ref
+                .read(xAccountControllerProvider.notifier)
+                .confirmAuthorization(requireAwaitingAuthorization: false);
+            if (!mounted) {
+              return connected;
+            }
+            return ref.read(xAccountControllerProvider).connection.isConnected;
+          },
           controller: _composerController,
           selectedFund: _selectedPostComposerFund,
           hasDrafts: hasDrafts,
