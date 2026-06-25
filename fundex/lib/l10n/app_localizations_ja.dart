@@ -1820,6 +1820,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelBookingUseGuestName => '予約者名を使用';
 
   @override
+  String get hotelBookingUseBookerInfoForGuest => '予約者情報を使用';
+
+  @override
   String get hotelBookingInvoiceTitle => '宛名';
 
   @override

@@ -819,6 +819,7 @@
   "hotelBookingChildren": "兒童數量",
   "hotelBookingInvoice": "發票",
   "hotelBookingUseGuestName": "預設使用預訂人姓名",
+  "hotelBookingUseBookerInfoForGuest": "使用預訂人資訊",
   "hotelBookingInvoiceTitle": "抬頭",
   "hotelBookingMessageTitle": "預訂留言",
   "hotelBookingMessageHint": "無法保證滿足您的特殊要求，但我們將盡力滿足您的要求",

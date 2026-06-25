@@ -1907,6 +1907,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use the booking guest name by default';
 
   @override
+  String get hotelBookingUseBookerInfoForGuest => 'Use booker information';
+
+  @override
   String get hotelBookingInvoiceTitle => 'Invoice title';
 
   @override

@@ -28,6 +28,7 @@ class HotelBookingGuestFormSection extends StatelessWidget {
     this.showTitle = true,
     this.wrapInCard = true,
     this.priceTipText = '',
+    this.enabled = true,
     this.onAdultsChanged,
     this.onKidsChanged,
   });
@@ -52,6 +53,7 @@ class HotelBookingGuestFormSection extends StatelessWidget {
   final bool showTitle;
   final bool wrapInCard;
   final String priceTipText;
+  final bool enabled;
   final ValueChanged<int>? onAdultsChanged;
   final ValueChanged<int>? onKidsChanged;
 
@@ -93,6 +95,7 @@ class HotelBookingGuestFormSection extends StatelessWidget {
           firstNameController: firstNameController,
           lastNameController: lastNameController,
           isRequired: isRequired,
+          enabled: enabled,
         ),
         const SizedBox(height: 14),
         _CountryDropdown(
@@ -100,12 +103,14 @@ class HotelBookingGuestFormSection extends StatelessWidget {
           selectedCountryCode: selectedCountryCode,
           onChanged: onCountryChanged,
           isRequired: isRequired,
+          enabled: enabled,
         ),
         const SizedBox(height: 14),
         HotelBookingTextField(
           controller: emailController,
           hintText: context.l10n.hotelBookingEmail,
           keyboardType: TextInputType.emailAddress,
+          enabled: enabled,
         ),
         if (showPhoneFields) ...<Widget>[
           const SizedBox(height: 14),
@@ -114,6 +119,7 @@ class HotelBookingGuestFormSection extends StatelessWidget {
             selectedIntlCode: selectedIntlCode,
             onIntlCodeChanged: onIntlCodeChanged,
             isRequired: isRequired,
+            enabled: enabled,
           ),
         ],
         if (adults != null && kids != null) ...<Widget>[
@@ -160,11 +166,13 @@ class _NameFields extends StatelessWidget {
     required this.firstNameController,
     required this.lastNameController,
     required this.isRequired,
+    required this.enabled,
   });
 
   final TextEditingController firstNameController;
   final TextEditingController lastNameController;
   final bool isRequired;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +185,7 @@ class _NameFields extends StatelessWidget {
             child: HotelBookingTextField(
               controller: lastNameController,
               hintText: context.l10n.hotelBookingLastName,
+              enabled: enabled,
             ),
           ),
           const SizedBox(width: 8),
@@ -184,6 +193,7 @@ class _NameFields extends StatelessWidget {
             child: HotelBookingTextField(
               controller: firstNameController,
               hintText: context.l10n.hotelBookingFirstName,
+              enabled: enabled,
             ),
           ),
         ],
@@ -198,12 +208,14 @@ class _CountryDropdown extends StatelessWidget {
     required this.selectedCountryCode,
     required this.onChanged,
     required this.isRequired,
+    required this.enabled,
   });
 
   final List<HotelCountryCode> countryCodes;
   final String? selectedCountryCode;
   final ValueChanged<String?> onChanged;
   final bool isRequired;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -244,7 +256,7 @@ class _CountryDropdown extends StatelessWidget {
               ),
             )
             .toList(growable: false),
-        onChanged: onChanged,
+        onChanged: enabled ? onChanged : null,
       ),
     );
   }
@@ -266,12 +278,14 @@ class _PhoneFields extends StatelessWidget {
     required this.selectedIntlCode,
     required this.onIntlCodeChanged,
     required this.isRequired,
+    required this.enabled,
   });
 
   final TextEditingController phoneController;
   final String selectedIntlCode;
   final ValueChanged<String> onIntlCodeChanged;
   final bool isRequired;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -304,11 +318,13 @@ class _PhoneFields extends StatelessWidget {
                     ),
                   )
                   .toList(growable: false),
-              onChanged: (value) {
-                if (value != null) {
-                  onIntlCodeChanged(value);
-                }
-              },
+              onChanged: enabled
+                  ? (value) {
+                      if (value != null) {
+                        onIntlCodeChanged(value);
+                      }
+                    }
+                  : null,
             ),
           ),
           const SizedBox(width: 8),
@@ -317,6 +333,7 @@ class _PhoneFields extends StatelessWidget {
               controller: phoneController,
               hintText: context.l10n.hotelBookingPhoneNumber,
               keyboardType: TextInputType.phone,
+              enabled: enabled,
             ),
           ),
         ],

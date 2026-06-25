@@ -1805,6 +1805,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelBookingUseGuestName => '默认使用预订人姓名';
 
   @override
+  String get hotelBookingUseBookerInfoForGuest => '使用预订人信息';
+
+  @override
   String get hotelBookingInvoiceTitle => '抬头';
 
   @override
@@ -7533,6 +7536,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelBookingUseGuestName => '預設使用預訂人姓名';
+
+  @override
+  String get hotelBookingUseBookerInfoForGuest => '使用預訂人資訊';
 
   @override
   String get hotelBookingInvoiceTitle => '抬頭';

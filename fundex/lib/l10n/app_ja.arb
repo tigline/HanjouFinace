@@ -819,6 +819,7 @@
   "hotelBookingChildren": "子供人数",
   "hotelBookingInvoice": "領収書",
   "hotelBookingUseGuestName": "予約者名を使用",
+  "hotelBookingUseBookerInfoForGuest": "予約者情報を使用",
   "hotelBookingInvoiceTitle": "宛名",
   "hotelBookingMessageTitle": "予約メッセージ",
   "hotelBookingMessageHint": "特別なご要望は保証できませんが、できる限り対応いたします",

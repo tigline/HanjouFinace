@@ -844,6 +844,7 @@
   "hotelBookingChildren": "Children",
   "hotelBookingInvoice": "Invoice",
   "hotelBookingUseGuestName": "Use the booking guest name by default",
+  "hotelBookingUseBookerInfoForGuest": "Use booker information",
   "hotelBookingInvoiceTitle": "Invoice title",
   "hotelBookingMessageTitle": "Booking note",
   "hotelBookingMessageHint": "Special requests cannot be guaranteed, but we will do our best.",

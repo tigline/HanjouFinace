@@ -3489,6 +3489,12 @@ abstract class AppLocalizations {
   /// **'Use the booking guest name by default'**
   String get hotelBookingUseGuestName;
 
+  /// No description provided for @hotelBookingUseBookerInfoForGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Use booker information'**
+  String get hotelBookingUseBookerInfoForGuest;
+
   /// No description provided for @hotelBookingInvoiceTitle.
   ///
   /// In en, this message translates to:

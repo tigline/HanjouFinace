@@ -39,18 +39,21 @@ class HotelBookingTextField extends StatelessWidget {
     this.hintText,
     this.keyboardType,
     this.maxLines = 1,
+    this.enabled = true,
   });
 
   final TextEditingController controller;
   final String? hintText;
   final TextInputType? keyboardType;
   final int maxLines;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     return TextField(
       controller: controller,
+      enabled: enabled,
       keyboardType: keyboardType,
       maxLines: maxLines,
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(

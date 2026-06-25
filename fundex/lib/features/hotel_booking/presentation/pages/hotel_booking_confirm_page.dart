@@ -51,6 +51,7 @@ class _HotelBookingConfirmPageState
   final List<String?> _roomCountryCodes = <String?>[];
   final List<String> _roomIntlCodes = <String>[];
   bool _useGuestNameForInvoice = true;
+  bool _useBookerInfoForFirstRoomGuest = true;
   bool _didApplyBookerAuthUser = false;
   bool _isSubmitting = false;
   bool _isQuoting = false;
@@ -79,6 +80,10 @@ class _HotelBookingConfirmPageState
     _bookerPhoneController = TextEditingController();
     _invoiceController = TextEditingController();
     _messageController = TextEditingController();
+    _bookerFirstNameController.addListener(_handleBookerInfoChanged);
+    _bookerLastNameController.addListener(_handleBookerInfoChanged);
+    _bookerEmailController.addListener(_handleBookerInfoChanged);
+    _bookerPhoneController.addListener(_handleBookerInfoChanged);
     _roomFirstNameControllers = <TextEditingController>[];
     _roomLastNameControllers = <TextEditingController>[];
     _roomEmailControllers = <TextEditingController>[];
@@ -96,6 +101,7 @@ class _HotelBookingConfirmPageState
       _roomCountryCodes.add('JP');
       _roomIntlCodes.add('+81');
     }
+    _syncFirstRoomGuestFromBooker();
     if (widget.seed.criteria.stayBenefit) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
@@ -107,6 +113,10 @@ class _HotelBookingConfirmPageState
 
   @override
   void dispose() {
+    _bookerFirstNameController.removeListener(_handleBookerInfoChanged);
+    _bookerLastNameController.removeListener(_handleBookerInfoChanged);
+    _bookerEmailController.removeListener(_handleBookerInfoChanged);
+    _bookerPhoneController.removeListener(_handleBookerInfoChanged);
     _bookerFirstNameController.dispose();
     _bookerLastNameController.dispose();
     _bookerEmailController.dispose();
@@ -237,11 +247,9 @@ class _HotelBookingConfirmPageState
                       emailController: _bookerEmailController,
                       phoneController: _bookerPhoneController,
                       selectedCountryCode: _bookerCountryCode,
-                      onCountryChanged: (value) =>
-                          setState(() => _bookerCountryCode = value),
+                      onCountryChanged: _setBookerCountryCode,
                       selectedIntlCode: _bookerIntlCode,
-                      onIntlCodeChanged: (value) =>
-                          setState(() => _bookerIntlCode = value),
+                      onIntlCodeChanged: _setBookerIntlCode,
                       isRequired: true,
                     ),
                     const SizedBox(height: 14),
@@ -251,7 +259,9 @@ class _HotelBookingConfirmPageState
                         _roomGuestTargets.length,
                         (index) {
                           final target = _roomGuestTargets[index];
-                          return HotelBookingGuestFormSection(
+                          final useBookerInfo =
+                              index == 0 && _useBookerInfoForFirstRoomGuest;
+                          final form = HotelBookingGuestFormSection(
                             title: context.l10n.hotelBookingRoomGuestInfoTitle,
                             roomName: _roomDisplayName(target),
                             countryCodes: preparation?.countryCodes ?? const [],
@@ -279,10 +289,25 @@ class _HotelBookingConfirmPageState
                             showTitle: false,
                             showPhoneFields: false,
                             wrapInCard: false,
+                            enabled: !useBookerInfo,
                             onAdultsChanged: (value) =>
                                 _setRoomAdults(index, value),
                             onKidsChanged: (value) =>
                                 _setRoomKids(index, value),
+                          );
+                          if (index != 0) {
+                            return form;
+                          }
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              _UseBookerInfoCheckbox(
+                                value: _useBookerInfoForFirstRoomGuest,
+                                onChanged: _setUseBookerInfoForFirstRoomGuest,
+                              ),
+                              const SizedBox(height: 10),
+                              form,
+                            ],
                           );
                         },
                       ),
@@ -734,8 +759,7 @@ class _HotelBookingConfirmPageState
       );
       if (guest.firstName.isEmpty ||
           guest.lastName.isEmpty ||
-          guest.nationality.isEmpty ||
-          guest.email.isEmpty) {
+          guest.nationality.isEmpty) {
         AppNotice.show(
           context,
           message: context.l10n.hotelBookingRoomGuestRequiredFieldsMissing,
@@ -795,7 +819,54 @@ class _HotelBookingConfirmPageState
 
     final intlCode = _normalizeSupportedIntlCode(user.intlTelCode ?? '');
     if (intlCode != null && _bookerIntlCode == '+81') {
-      setState(() => _bookerIntlCode = intlCode);
+      _setBookerIntlCode(intlCode);
+    }
+  }
+
+  void _handleBookerInfoChanged() {
+    _syncFirstRoomGuestFromBooker();
+  }
+
+  void _setBookerCountryCode(String? value) {
+    setState(() {
+      _bookerCountryCode = value;
+      if (_useBookerInfoForFirstRoomGuest && _roomCountryCodes.isNotEmpty) {
+        _roomCountryCodes[0] = value;
+      }
+    });
+  }
+
+  void _setBookerIntlCode(String value) {
+    setState(() {
+      _bookerIntlCode = value;
+      if (_useBookerInfoForFirstRoomGuest && _roomIntlCodes.isNotEmpty) {
+        _roomIntlCodes[0] = value;
+      }
+    });
+  }
+
+  void _setUseBookerInfoForFirstRoomGuest(bool value) {
+    setState(() {
+      _useBookerInfoForFirstRoomGuest = value;
+      if (value) {
+        _syncFirstRoomGuestFromBooker();
+      }
+    });
+  }
+
+  void _syncFirstRoomGuestFromBooker() {
+    if (!_useBookerInfoForFirstRoomGuest || _roomGuestTargets.isEmpty) {
+      return;
+    }
+    _setText(_roomLastNameControllers[0], _bookerLastNameController.text);
+    _setText(_roomFirstNameControllers[0], _bookerFirstNameController.text);
+    _setText(_roomEmailControllers[0], _bookerEmailController.text);
+    _setText(_roomPhoneControllers[0], _bookerPhoneController.text);
+    if (_roomCountryCodes.isNotEmpty) {
+      _roomCountryCodes[0] = _bookerCountryCode;
+    }
+    if (_roomIntlCodes.isNotEmpty) {
+      _roomIntlCodes[0] = _bookerIntlCode;
     }
   }
 
@@ -805,6 +876,13 @@ class _HotelBookingConfirmPageState
       return;
     }
     controller.text = trimmed;
+  }
+
+  void _setText(TextEditingController controller, String value) {
+    if (controller.text == value) {
+      return;
+    }
+    controller.text = value;
   }
 
   _BookerAuthUserName _resolveBookerAuthUserName(AuthUser user) {
@@ -943,6 +1021,34 @@ List<_RoomGuestFormTarget> _buildRoomGuestTargets(
     }
   }
   return targets;
+}
+
+class _UseBookerInfoCheckbox extends StatelessWidget {
+  const _UseBookerInfoCheckbox({required this.value, required this.onChanged});
+
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return CheckboxListTile(
+      contentPadding: EdgeInsets.zero,
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      value: value,
+      activeColor: colors.brandPrimary,
+      onChanged: (nextValue) => onChanged(nextValue ?? false),
+      title: Text(
+        context.l10n.hotelBookingUseBookerInfoForGuest,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: colors.textSecondary,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      controlAffinity: ListTileControlAffinity.leading,
+    );
+  }
 }
 
 class _RoomGuestFormTarget {
