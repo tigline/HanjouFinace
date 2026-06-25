@@ -6,6 +6,7 @@ class XAccountState {
     required this.isLoading,
     required this.isStartingOAuth,
     required this.isCheckingConnection,
+    required this.isDisconnecting,
     required this.isAwaitingAuthorization,
     this.error,
   });
@@ -15,6 +16,7 @@ class XAccountState {
       isLoading = true,
       isStartingOAuth = false,
       isCheckingConnection = false,
+      isDisconnecting = false,
       isAwaitingAuthorization = false,
       error = null;
 
@@ -22,16 +24,19 @@ class XAccountState {
   final bool isLoading;
   final bool isStartingOAuth;
   final bool isCheckingConnection;
+  final bool isDisconnecting;
   final bool isAwaitingAuthorization;
   final Object? error;
 
-  bool get isBusy => isLoading || isStartingOAuth || isCheckingConnection;
+  bool get isBusy =>
+      isLoading || isStartingOAuth || isCheckingConnection || isDisconnecting;
 
   XAccountState copyWith({
     XAccountConnection? connection,
     bool? isLoading,
     bool? isStartingOAuth,
     bool? isCheckingConnection,
+    bool? isDisconnecting,
     bool? isAwaitingAuthorization,
     Object? error,
     bool clearError = false,
@@ -41,6 +46,7 @@ class XAccountState {
       isLoading: isLoading ?? this.isLoading,
       isStartingOAuth: isStartingOAuth ?? this.isStartingOAuth,
       isCheckingConnection: isCheckingConnection ?? this.isCheckingConnection,
+      isDisconnecting: isDisconnecting ?? this.isDisconnecting,
       isAwaitingAuthorization:
           isAwaitingAuthorization ?? this.isAwaitingAuthorization,
       error: clearError ? null : error ?? this.error,

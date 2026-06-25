@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:gutingjun.com</string>
+		<string>applinks:stellavia.co.jp</string>
 	</array>
 	<key>aps-environment</key>
 	<string>development</string>

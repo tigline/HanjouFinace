@@ -6049,6 +6049,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get xAccountConnectedNotice => 'X account connected.';
 
   @override
+  String get xAccountDisconnectAction => 'Disconnect';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => 'Disconnect X account?';
+
+  @override
+  String get xAccountDisconnectConfirmBody =>
+      'After disconnecting, KIZUNARK posts can no longer sync to X. You can reconnect later.';
+
+  @override
+  String get xAccountDisconnectedNotice => 'X account disconnected.';
+
+  @override
+  String get xAccountDisconnectFailed => 'Unable to disconnect the X account.';
+
+  @override
   String get kizunarkXConnectionPromptTitle => 'Connect your X account?';
 
   @override

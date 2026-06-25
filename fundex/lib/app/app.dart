@@ -12,6 +12,7 @@ import 'accessibility/app_text_scale_providers.dart';
 import 'config/environment_provider.dart';
 import 'firebase/push_token_sync_providers.dart';
 import 'localization/app_locale_providers.dart';
+import 'navigation/app_link_coordinator.dart';
 import 'observability/app_observability_providers.dart';
 import 'observability/app_ui_message_localizer.dart';
 import 'push/app_push_dialog_host.dart';
@@ -43,6 +44,7 @@ class MemberTemplateApp extends ConsumerWidget {
     ref.watch(pushTokenSyncBootstrapProvider);
     ref.watch(homeCelebrationBootstrapProvider);
     ref.watch(appPushDialogBootstrapProvider);
+    ref.watch(appLinkCoordinatorProvider);
 
     final router = ref.watch(appRouterProvider);
     final environment = ref.watch(appEnvironmentProvider);

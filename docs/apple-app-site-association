@@ -1,0 +1,18 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "AY756KKKWF.com.fund.stellavia"
+        ],
+        "components": [
+          {
+            "/": "/app/social/x/callback",
+            "comment": "X OAuth callback"
+          }
+        ]
+      }
+    ]
+  }
+}

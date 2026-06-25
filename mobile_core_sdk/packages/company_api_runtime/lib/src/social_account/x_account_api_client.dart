@@ -64,6 +64,21 @@ class XAccountApiClient {
     );
   }
 
+  Future<void> disconnectAccount() async {
+    final response = await _client.dio.delete<dynamic>(
+      accountPath,
+      options: authRequired(true),
+    );
+    if (response.statusCode == 204) {
+      return;
+    }
+    final payload = _envelopeCodec.toJsonMap(response.data);
+    _envelopeCodec.assertSuccessIfEnvelope(
+      payload,
+      fallbackMessage: 'Failed to disconnect X account.',
+    );
+  }
+
   Map<String, dynamic> _extractData(
     Map<String, dynamic>? responseData, {
     required String fallbackMessage,

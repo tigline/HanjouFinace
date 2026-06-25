@@ -6,6 +6,7 @@ import 'package:fundex/features/social_account/presentation/controllers/x_accoun
 
 class _FakeXAccountRepository implements XAccountRepository {
   XAccountConnection connection = const XAccountConnection.disconnected();
+  var didDisconnect = false;
 
   @override
   Future<XAccountConnection> fetchConnection() async => connection;
@@ -16,6 +17,12 @@ class _FakeXAccountRepository implements XAccountRepository {
       authorizationUri: Uri.parse('https://x.com/i/oauth2/authorize'),
     );
   }
+
+  @override
+  Future<void> disconnectAccount() async {
+    didDisconnect = true;
+    connection = const XAccountConnection.disconnected();
+  }
 }
 
 void main() {
@@ -24,6 +31,7 @@ void main() {
     final controller = XAccountController(
       LoadXAccountConnectionUseCase(repository),
       StartXOAuthUseCase(repository),
+      DisconnectXAccountUseCase(repository),
     );
     addTearDown(controller.dispose);
     await pumpEventQueue();
@@ -46,5 +54,56 @@ void main() {
     expect(controller.state.connection.isConnected, isTrue);
     expect(controller.state.connection.username, 'stellavia');
     expect(controller.state.isAwaitingAuthorization, isFalse);
+  });
+
+  test(
+    'force confirms binding after callback when local awaiting state is gone',
+    () async {
+      final repository = _FakeXAccountRepository()
+        ..connection = const XAccountConnection(
+          status: XAccountStatus.connected,
+          username: 'stellavia',
+        );
+      final controller = XAccountController(
+        LoadXAccountConnectionUseCase(repository),
+        StartXOAuthUseCase(repository),
+        DisconnectXAccountUseCase(repository),
+      );
+      addTearDown(controller.dispose);
+      await pumpEventQueue();
+
+      expect(controller.state.isAwaitingAuthorization, isFalse);
+
+      final connected = await controller.confirmAuthorization(
+        retryDelay: Duration.zero,
+        requireAwaitingAuthorization: false,
+      );
+
+      expect(connected, isTrue);
+      expect(controller.state.connection.isConnected, isTrue);
+      expect(controller.state.connection.username, 'stellavia');
+    },
+  );
+
+  test('disconnects a connected X account', () async {
+    final repository = _FakeXAccountRepository()
+      ..connection = const XAccountConnection(
+        status: XAccountStatus.connected,
+        username: 'stellavia',
+      );
+    final controller = XAccountController(
+      LoadXAccountConnectionUseCase(repository),
+      StartXOAuthUseCase(repository),
+      DisconnectXAccountUseCase(repository),
+    );
+    addTearDown(controller.dispose);
+    await pumpEventQueue();
+
+    final disconnected = await controller.disconnect();
+
+    expect(disconnected, isTrue);
+    expect(repository.didDisconnect, isTrue);
+    expect(controller.state.connection.isConnected, isFalse);
+    expect(controller.state.isDisconnecting, isFalse);
   });
 }

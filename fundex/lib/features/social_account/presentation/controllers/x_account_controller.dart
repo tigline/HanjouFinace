@@ -7,13 +7,17 @@ import '../../domain/usecases/x_account_usecases.dart';
 import '../state/x_account_state.dart';
 
 class XAccountController extends StateNotifier<XAccountState> {
-  XAccountController(this._loadConnection, this._startOAuth)
-    : super(const XAccountState.initial()) {
+  XAccountController(
+    this._loadConnection,
+    this._startOAuth,
+    this._disconnectAccount,
+  ) : super(const XAccountState.initial()) {
     unawaited(load());
   }
 
   final LoadXAccountConnectionUseCase _loadConnection;
   final StartXOAuthUseCase _startOAuth;
+  final DisconnectXAccountUseCase _disconnectAccount;
 
   Future<void> load() async {
     state = state.copyWith(isLoading: true, clearError: true);
@@ -60,6 +64,26 @@ class XAccountController extends StateNotifier<XAccountState> {
     }
   }
 
+  Future<bool> disconnect() async {
+    if (state.isBusy || !state.connection.isConnected) {
+      return false;
+    }
+    state = state.copyWith(isDisconnecting: true, clearError: true);
+    try {
+      await _disconnectAccount();
+      state = state.copyWith(
+        connection: const XAccountConnection.disconnected(),
+        isDisconnecting: false,
+        isAwaitingAuthorization: false,
+        clearError: true,
+      );
+      return true;
+    } catch (error) {
+      state = state.copyWith(isDisconnecting: false, error: error);
+      return false;
+    }
+  }
+
   void cancelAuthorizationLaunch() {
     state = state.copyWith(
       connection: const XAccountConnection.disconnected(),
@@ -70,8 +94,10 @@ class XAccountController extends StateNotifier<XAccountState> {
   Future<bool> confirmAuthorization({
     int maxAttempts = 3,
     Duration retryDelay = const Duration(milliseconds: 700),
+    bool requireAwaitingAuthorization = true,
   }) async {
-    if (state.isCheckingConnection || !state.isAwaitingAuthorization) {
+    if (state.isCheckingConnection ||
+        (requireAwaitingAuthorization && !state.isAwaitingAuthorization)) {
       return state.connection.isConnected;
     }
     state = state.copyWith(isCheckingConnection: true, clearError: true);

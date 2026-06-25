@@ -16,3 +16,11 @@ class StartXOAuthUseCase {
 
   Future<XOAuthAuthorization> call() => _repository.startOAuth();
 }
+
+class DisconnectXAccountUseCase {
+  const DisconnectXAccountUseCase(this._repository);
+
+  final XAccountRepository _repository;
+
+  Future<void> call() => _repository.disconnectAccount();
+}

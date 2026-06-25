@@ -5752,6 +5752,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get xAccountConnectedNotice => 'Xアカウントを連携しました。';
 
   @override
+  String get xAccountDisconnectAction => '連携解除';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => 'Xアカウントの連携を解除しますか？';
+
+  @override
+  String get xAccountDisconnectConfirmBody =>
+      '解除すると、KIZUNARKで投稿した内容をXへ同期できなくなります。後から再連携できます。';
+
+  @override
+  String get xAccountDisconnectedNotice => 'Xアカウントの連携を解除しました。';
+
+  @override
+  String get xAccountDisconnectFailed => 'Xアカウントの連携を解除できませんでした。';
+
+  @override
   String get kizunarkXConnectionPromptTitle => 'Xアカウントを連携しますか？';
 
   @override

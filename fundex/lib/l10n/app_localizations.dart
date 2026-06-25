@@ -10983,6 +10983,36 @@ abstract class AppLocalizations {
   /// **'X account connected.'**
   String get xAccountConnectedNotice;
 
+  /// No description provided for @xAccountDisconnectAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get xAccountDisconnectAction;
+
+  /// No description provided for @xAccountDisconnectConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect X account?'**
+  String get xAccountDisconnectConfirmTitle;
+
+  /// No description provided for @xAccountDisconnectConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'After disconnecting, KIZUNARK posts can no longer sync to X. You can reconnect later.'**
+  String get xAccountDisconnectConfirmBody;
+
+  /// No description provided for @xAccountDisconnectedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'X account disconnected.'**
+  String get xAccountDisconnectedNotice;
+
+  /// No description provided for @xAccountDisconnectFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to disconnect the X account.'**
+  String get xAccountDisconnectFailed;
+
   /// No description provided for @kizunarkXConnectionPromptTitle.
   ///
   /// In en, this message translates to:

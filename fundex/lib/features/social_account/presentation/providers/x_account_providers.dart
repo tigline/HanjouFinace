@@ -24,5 +24,6 @@ final xAccountControllerProvider =
       return XAccountController(
         LoadXAccountConnectionUseCase(repository),
         StartXOAuthUseCase(repository),
+        DisconnectXAccountUseCase(repository),
       );
     });

@@ -5,6 +5,8 @@ abstract class XAccountRemoteDataSource {
   Future<XAccountConnectionDto> fetchAccount();
 
   Future<XOAuthStartDto> startOAuth();
+
+  Future<void> disconnectAccount();
 }
 
 class XAccountRemoteDataSourceImpl implements XAccountRemoteDataSource {
@@ -20,4 +22,7 @@ class XAccountRemoteDataSourceImpl implements XAccountRemoteDataSource {
 
   @override
   Future<XOAuthStartDto> startOAuth() => _apiClient.startOAuth();
+
+  @override
+  Future<void> disconnectAccount() => _apiClient.disconnectAccount();
 }

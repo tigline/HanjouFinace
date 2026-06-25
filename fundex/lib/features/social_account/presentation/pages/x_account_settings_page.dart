@@ -10,6 +10,7 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/x_account_models.dart';
 import '../providers/x_account_providers.dart';
 import '../state/x_account_state.dart';
+import '../support/x_oauth_callback.dart';
 
 class XAccountSettingsPage extends ConsumerStatefulWidget {
   const XAccountSettingsPage({super.key});
@@ -84,13 +85,59 @@ class _XAccountSettingsPageState extends ConsumerState<XAccountSettingsPage>
     );
   }
 
+  Future<void> _confirmDisconnect() async {
+    final confirmed = await AppDialogs.showAdaptiveAlert<bool>(
+      context: context,
+      title: context.l10n.xAccountDisconnectConfirmTitle,
+      message: context.l10n.xAccountDisconnectConfirmBody,
+      barrierDismissible: false,
+      actions: <AppDialogAction<bool>>[
+        AppDialogAction<bool>(label: context.l10n.commonCancel, value: false),
+        AppDialogAction<bool>(
+          label: context.l10n.xAccountDisconnectAction,
+          value: true,
+          isDestructive: true,
+        ),
+      ],
+    );
+    if (!mounted || confirmed != true) {
+      return;
+    }
+    final disconnected = await ref
+        .read(xAccountControllerProvider.notifier)
+        .disconnect();
+    if (!mounted) {
+      return;
+    }
+    AppNotice.show(
+      context,
+      message: disconnected
+          ? context.l10n.xAccountDisconnectedNotice
+          : context.l10n.xAccountDisconnectFailed,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(xAccountControllerProvider);
     ref.listen<XAccountState>(xAccountControllerProvider, (previous, next) {
+      if (previous?.isDisconnecting == true) {
+        return;
+      }
       if (next.error != null && next.error != previous?.error) {
         AppNotice.show(context, message: context.l10n.xAccountConnectionFailed);
       }
+    });
+    ref.listen<int>(xOAuthCallbackSignalProvider, (previous, next) {
+      if (previous == null || previous == next) {
+        return;
+      }
+      _authorizationBrowserOpened = false;
+      unawaited(
+        ref
+            .read(xAccountControllerProvider.notifier)
+            .confirmAuthorization(requireAwaitingAuthorization: false),
+      );
     });
 
     final colors = Theme.of(context).appColors;
@@ -115,7 +162,13 @@ class _XAccountSettingsPageState extends ConsumerState<XAccountSettingsPage>
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.fromLTRB(16, 20, 16, 32),
                 children: <Widget>[
-                  _XAccountSummary(connection: state.connection),
+                  _XAccountSummary(
+                    connection: state.connection,
+                    isDisconnecting: state.isDisconnecting,
+                    onDisconnect: state.connection.isConnected && !state.isBusy
+                        ? _confirmDisconnect
+                        : null,
+                  ),
                   const SizedBox(height: 24),
                   if (!state.connection.isConnected)
                     FilledButton.icon(
@@ -143,9 +196,15 @@ class _XAccountSettingsPageState extends ConsumerState<XAccountSettingsPage>
 }
 
 class _XAccountSummary extends StatelessWidget {
-  const _XAccountSummary({required this.connection});
+  const _XAccountSummary({
+    required this.connection,
+    required this.isDisconnecting,
+    required this.onDisconnect,
+  });
 
   final XAccountConnection connection;
+  final bool isDisconnecting;
+  final VoidCallback? onDisconnect;
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +279,18 @@ class _XAccountSummary extends StatelessWidget {
                 ],
               ),
             ),
+            if (connected) ...<Widget>[
+              const SizedBox(width: 12),
+              TextButton(
+                onPressed: onDisconnect,
+                child: isDisconnecting
+                    ? const SizedBox.square(
+                        dimension: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(context.l10n.xAccountDisconnectAction),
+              ),
+            ],
           ],
         ),
       ),

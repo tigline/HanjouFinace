@@ -4,4 +4,6 @@ abstract class XAccountRepository {
   Future<XAccountConnection> fetchConnection();
 
   Future<XOAuthAuthorization> startOAuth();
+
+  Future<void> disconnectAccount();
 }

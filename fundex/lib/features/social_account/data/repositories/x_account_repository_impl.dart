@@ -24,6 +24,9 @@ class XAccountRepositoryImpl implements XAccountRepository {
     return XOAuthAuthorization(authorizationUri: authorizationUri);
   }
 
+  @override
+  Future<void> disconnectAccount() => _remote.disconnectAccount();
+
   XAccountConnection _mapConnection(XAccountConnectionDto dto) {
     return XAccountConnection(
       status: dto.connected

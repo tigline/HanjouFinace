@@ -97,5 +97,31 @@ void main() {
 
       expect(account.connected, isFalse);
     });
+
+    test('disconnects X account with DELETE and member envelope', () async {
+      final api = XAccountApiClient(
+        _buildClient((options) async {
+          expect(options.method, 'DELETE');
+          expect(options.path, XAccountApiPaths.account);
+          expect(options.extra['auth_required'], isTrue);
+          return _ok('{"code":0,"data":null}');
+        }),
+      );
+
+      await api.disconnectAccount();
+    });
+
+    test('disconnects X account with 204 response', () async {
+      final api = XAccountApiClient(
+        _buildClient((options) async {
+          expect(options.method, 'DELETE');
+          expect(options.path, XAccountApiPaths.account);
+          expect(options.extra['auth_required'], isTrue);
+          return ResponseBody.fromString('', 204);
+        }),
+      );
+
+      await api.disconnectAccount();
+    });
   });
 }

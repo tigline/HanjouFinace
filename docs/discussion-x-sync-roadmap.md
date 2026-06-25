@@ -1,6 +1,6 @@
 # Discussion X Sync Roadmap
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
 
 ## Scope
 
@@ -34,9 +34,13 @@ Implemented:
   remains disabled until an X account is connected, and is not persisted in
   drafts or user preferences.
 - External-browser authorization launch.
-- When the authorization browser returns the App to the foreground, the App
-  queries `/social/x/account` with a short bounded retry and treats
-  `connected` as the source of truth.
+- App Universal Link callback registration for
+  `https://stellavia.co.jp/app/social/x/callback`, with
+  `stellavia://social/x/callback` kept as a fallback.
+- When the authorization browser returns the App through the callback URL or
+  foreground lifecycle, the App stays on the restored route and queries
+  `/social/x/account` with a short bounded retry. `connected` is treated as
+  the source of truth.
 
 ## Backend Contract
 
@@ -51,18 +55,38 @@ GET    /member/social/x/account
 - `oauth/start` has no request body and returns `R<Map<String, String>>`. The
   App accepts the authorization URL under `authorizationUrl`, `authorizeUrl`,
   `authUrl`, or `url` until the map key is documented explicitly.
-- `oauth/callback` is called by X and handled by the backend. It is not an App
-  callback and the App never receives the X authorization code.
+- `oauth/callback` is called by X and handled by the backend. The App never
+  receives the X authorization code.
+- After the backend finishes token exchange, the browser should be redirected
+  to the App Universal Link callback URL
+  `https://stellavia.co.jp/app/social/x/callback`.
+- The App callback URL is registered on iOS through Associated Domains and on
+  Android through an HTTPS App Link intent filter:
+  - Scheme: `https`
+  - Host: `stellavia.co.jp`
+  - Path: `/app/social/x/callback`
+  - Full URL: `https://stellavia.co.jp/app/social/x/callback`
+- The Apple App Site Association file is maintained at
+  `docs/apple-app-site-association` and must be deployed to
+  `https://stellavia.co.jp/.well-known/apple-app-site-association`.
+- `stellavia://social/x/callback` remains supported as a fallback custom
+  scheme while backend/browser compatibility is being tested.
+- The App treats the callback URL as a completion signal only. It does not use
+  the callback to navigate to a specific App route. Final binding state is
+  still confirmed through `GET /member/social/x/account`.
 - `account` returns `R<SocialXAccountVO>` with `connected`, `username`,
   `displayName`, and `avatarUrl`.
-- Swagger does not currently define an authorization-status endpoint or an
-  account-disconnect endpoint. The App does not call or expose either action.
+- `DELETE /member/social/x/account` removes the current member's X binding and
+  returns `R<Void>` or 204.
+- Swagger does not currently define an authorization-status endpoint. The App
+  uses `GET /member/social/x/account` as the source of truth.
 
 ## Next Tickets
 
-1. Confirm the exact authorization URL key returned by `oauth/start` and the
-   user-facing browser response produced by `oauth/callback`.
-2. Add a backend account-disconnect endpoint before restoring disconnect UI.
+1. Confirm the exact authorization URL key returned by `oauth/start`.
+2. Confirm the backend redirect page opens
+   `https://stellavia.co.jp/app/social/x/callback` after `oauth/callback`
+   completes successfully.
 3. Change discussion send to return a typed result containing `commentId` and
    X sync job status.
 4. Send the composer `syncToX` selection through top-level post submission.

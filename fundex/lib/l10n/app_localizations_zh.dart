@@ -5695,6 +5695,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get xAccountConnectedNotice => 'X 账户关联成功。';
 
   @override
+  String get xAccountDisconnectAction => '解除绑定';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => '解除 X 账户绑定？';
+
+  @override
+  String get xAccountDisconnectConfirmBody =>
+      '解除后，KIZUNARK 发布内容将无法同步到 X。之后仍可重新关联。';
+
+  @override
+  String get xAccountDisconnectedNotice => '已解除 X 账户绑定。';
+
+  @override
+  String get xAccountDisconnectFailed => '无法解除 X 账户绑定。';
+
+  @override
   String get kizunarkXConnectionPromptTitle => '是否关联 X 账户？';
 
   @override
@@ -11410,6 +11426,22 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get xAccountConnectedNotice => 'X 帳戶連結成功。';
+
+  @override
+  String get xAccountDisconnectAction => '解除綁定';
+
+  @override
+  String get xAccountDisconnectConfirmTitle => '解除 X 帳戶綁定？';
+
+  @override
+  String get xAccountDisconnectConfirmBody =>
+      '解除後，KIZUNARK 發布內容將無法同步到 X。之後仍可重新連結。';
+
+  @override
+  String get xAccountDisconnectedNotice => '已解除 X 帳戶綁定。';
+
+  @override
+  String get xAccountDisconnectFailed => '無法解除 X 帳戶綁定。';
 
   @override
   String get kizunarkXConnectionPromptTitle => '是否連結 X 帳戶？';
