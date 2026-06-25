@@ -21,6 +21,7 @@ class _FakeDiscussionBoardRemoteDataSource
   int? lastFetchProjectId;
   int? lastSendParentId;
   int? lastSendProjectId;
+  bool? lastSendSyncToX;
   String? lastSendContent;
   List<String>? lastSendImageUrls;
   List<String>? lastUploadFilePaths;
@@ -57,6 +58,7 @@ class _FakeDiscussionBoardRemoteDataSource
     List<String> imageUrls = const <String>[],
     int? parentId,
     int? projectId,
+    bool? syncToX,
   }) async {
     if (sendError != null) {
       throw sendError!;
@@ -66,6 +68,7 @@ class _FakeDiscussionBoardRemoteDataSource
     lastSendImageUrls = imageUrls;
     lastSendParentId = parentId;
     lastSendProjectId = projectId;
+    lastSendSyncToX = syncToX;
   }
 
   @override
@@ -308,11 +311,13 @@ void main() {
         fallbackName: 'fallback',
         fallbackHandle: 'usr***@',
         fallbackBadgeLabel: 'badge',
+        syncToX: true,
       );
 
       expect(remote.sendCallCount, 1);
       expect(remote.lastSendProjectId, 789);
       expect(remote.lastSendParentId, isNull);
+      expect(remote.lastSendSyncToX, isTrue);
       expect(remote.lastSendContent, 'scoped post');
       expect(remote.lastSendImageUrls, isEmpty);
     });

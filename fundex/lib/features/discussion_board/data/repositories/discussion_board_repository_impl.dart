@@ -52,6 +52,7 @@ class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
     String? fallbackAvatarUrl,
     int? linkedProjectId,
     String? linkedProjectName,
+    bool syncToX = false,
   }) async {
     final trimmed = content.trim();
     if (trimmed.isEmpty) {
@@ -63,6 +64,7 @@ class DiscussionBoardRepositoryImpl implements DiscussionBoardRepository {
       content: trimmed,
       imageUrls: imageUrls,
       projectId: effectiveProjectId,
+      syncToX: syncToX,
     );
     final refreshed = await _refreshFirstPageAfterMutation();
     if (trimmed.isNotEmpty &&

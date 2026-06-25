@@ -275,6 +275,7 @@ class _DiscussionBoardTabPageState
         }
       },
       contentOverride: job.content,
+      syncToX: job.syncToX,
     );
     if (!_isSendGenerationActive(generation)) {
       return false;

@@ -13,6 +13,7 @@ import 'package:fundex/features/discussion_board/presentation/controllers/discus
 
 class _FakeDiscussionBoardRepository implements DiscussionBoardRepository {
   List<String>? lastSubmittedImageUrls;
+  bool? lastSubmittedSyncToX;
   final uploadedFilePaths = <String>[];
 
   @override
@@ -34,8 +35,10 @@ class _FakeDiscussionBoardRepository implements DiscussionBoardRepository {
     String? fallbackAvatarUrl,
     int? linkedProjectId,
     String? linkedProjectName,
+    bool syncToX = false,
   }) async {
     lastSubmittedImageUrls = imageUrls;
+    lastSubmittedSyncToX = syncToX;
     return const <DiscussionThread>[];
   }
 
@@ -130,6 +133,7 @@ void main() {
           fallbackBadgeLabel: 'badge',
           imageUrls: const <String>['https://cdn.example.com/existing.jpg'],
           imageFilePaths: <String>[imageA.path, imageB.path],
+          syncToX: true,
         );
 
         expect(submitted, isTrue);
@@ -143,6 +147,7 @@ void main() {
           'https://cdn.example.com/optimized-a.jpg',
           'https://cdn.example.com/optimized-b.jpg',
         ]);
+        expect(repository.lastSubmittedSyncToX, isTrue);
       },
     );
   });

@@ -16,6 +16,7 @@ class SubmitDiscussionPostUseCase {
     String? fallbackAvatarUrl,
     int? linkedProjectId,
     String? linkedProjectName,
+    bool syncToX = false,
   }) {
     return _repository.submitPost(
       content: content,
@@ -27,6 +28,7 @@ class SubmitDiscussionPostUseCase {
       fallbackAvatarUrl: fallbackAvatarUrl,
       linkedProjectId: linkedProjectId,
       linkedProjectName: linkedProjectName,
+      syncToX: syncToX,
     );
   }
 }

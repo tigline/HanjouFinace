@@ -64,6 +64,7 @@ class DiscussionBoardApiClient {
     List<String> imageUrls = const <String>[],
     int? parentId,
     int? projectId,
+    bool? syncToX,
   }) async {
     final payload = <String, dynamic>{
       'content': content.trim(),
@@ -74,6 +75,9 @@ class DiscussionBoardApiClient {
     }
     if (projectId != null) {
       payload['projectId'] = projectId;
+    }
+    if (syncToX != null) {
+      payload['syncToX'] = syncToX;
     }
 
     final response = await _client.dio.post<Map<String, dynamic>>(

@@ -15,6 +15,7 @@ abstract class DiscussionBoardRepository {
     String? fallbackAvatarUrl,
     int? linkedProjectId,
     String? linkedProjectName,
+    bool syncToX = false,
   });
 
   Future<List<DiscussionThread>> submitReply({

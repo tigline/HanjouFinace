@@ -13,6 +13,7 @@ abstract class DiscussionBoardRemoteDataSource {
     List<String> imageUrls = const <String>[],
     int? parentId,
     int? projectId,
+    bool? syncToX,
   });
 
   Future<List<String>> uploadImages({
@@ -57,12 +58,14 @@ class DiscussionBoardRemoteDataSourceImpl
     List<String> imageUrls = const <String>[],
     int? parentId,
     int? projectId,
+    bool? syncToX,
   }) async {
     await _apiClient.sendComment(
       content: content,
       imageUrls: imageUrls,
       parentId: parentId,
       projectId: projectId,
+      syncToX: syncToX,
     );
   }
 

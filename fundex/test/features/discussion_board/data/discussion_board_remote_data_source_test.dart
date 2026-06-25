@@ -133,6 +133,7 @@ void main() {
           'imageUrls': <String>['https://cdn.example.com/comment.png'],
           'parentId': 101,
           'projectId': 123,
+          'syncToX': true,
         });
         return _jsonOk('{"msg":"success","code":200,"data":true}');
       });
@@ -143,6 +144,7 @@ void main() {
         imageUrls: const <String>['https://cdn.example.com/comment.png'],
         parentId: 101,
         projectId: 123,
+        syncToX: true,
       );
     });
 

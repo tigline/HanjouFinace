@@ -151,6 +151,7 @@ class DiscussionBoardController extends StateNotifier<DiscussionBoardState> {
     String? linkedProjectName,
     DiscussionSendProgressCallback? onProgress,
     String? contentOverride,
+    bool syncToX = false,
   }) async {
     final content = (contentOverride ?? state.composerText).trim();
     if (content.isEmpty || state.isPosting) {
@@ -175,6 +176,7 @@ class DiscussionBoardController extends StateNotifier<DiscussionBoardState> {
         fallbackAvatarUrl: fallbackAvatarUrl,
         linkedProjectId: linkedProjectId,
         linkedProjectName: linkedProjectName,
+        syncToX: syncToX,
       );
       state = state.copyWith(
         isPosting: false,

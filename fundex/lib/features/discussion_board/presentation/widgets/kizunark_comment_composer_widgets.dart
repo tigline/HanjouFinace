@@ -569,6 +569,8 @@ class _XSyncOption extends StatelessWidget {
             const SizedBox(width: 10),
             Switch.adaptive(
               key: const Key('kizunark_sync_to_x_switch'),
+              activeThumbColor: colors.primary,
+              activeTrackColor: colors.primaryAlt,
               value: enabled && value,
               onChanged: enabled ? onChanged : null,
             ),
