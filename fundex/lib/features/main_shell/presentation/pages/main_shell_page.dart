@@ -593,7 +593,7 @@ class _MainTabBadge extends StatelessWidget {
           ),
         ],
       ),
-      child: SizedBox(width: 52, height: 52, child: Center(child: child)),
+      child: SizedBox(width: 44, height: 44, child: Center(child: child)),
     );
   }
 }
