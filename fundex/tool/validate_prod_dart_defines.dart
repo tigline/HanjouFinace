@@ -35,12 +35,12 @@ void main(List<String> args) {
   _requireAnyNonEmpty(
     values,
     label: 'Google Maps Android API key',
-    keys: ['GOOGLE_MAPS_ANDROID_API_KEY', 'GOOGLE_MAPS_API_KEY'],
+    keys: ['GOOGLE_MAPS_API_KEY'],//'GOOGLE_MAPS_ANDROID_API_KEY', 
   );
   _requireAnyNonEmpty(
     values,
     label: 'Google Maps iOS API key',
-    keys: ['GOOGLE_MAPS_IOS_API_KEY', 'GOOGLE_MAPS_API_KEY'],
+    keys: ['GOOGLE_MAPS_API_KEY'],//'GOOGLE_MAPS_IOS_API_KEY', 
   );
 }
 
