@@ -656,7 +656,7 @@
   "hotelRoomFacilitySupplies": "Supplies",
   "hotelRoomFacilityLending": "Lending items",
   "hotelDetailPayableAmount": "Amount due",
-  "hotelDetailTaxNote": "{nights} days · {rooms} rooms · Taxes included",
+  "hotelDetailTaxNote": "{nights} days · {rooms} rooms",
   "@hotelDetailTaxNote": {
     "placeholders": {
       "nights": {

@@ -1524,7 +1524,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String hotelDetailTaxNote(int nights, int rooms) {
-    return '$nights日 · $rooms室 · 税込説明';
+    return '$nights日 · $rooms室';
   }
 
   @override

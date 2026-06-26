@@ -1601,7 +1601,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String hotelDetailTaxNote(int nights, int rooms) {
-    return '$nights days · $rooms rooms · Taxes included';
+    return '$nights days · $rooms rooms';
   }
 
   @override

@@ -631,7 +631,7 @@
   "hotelRoomFacilitySupplies": "备品",
   "hotelRoomFacilityLending": "借用品",
   "hotelDetailPayableAmount": "应付金额",
-  "hotelDetailTaxNote": "{nights}天 · {rooms}间 · 含税费说明",
+  "hotelDetailTaxNote": "{nights}天 · {rooms}间",
   "@hotelDetailTaxNote": {
     "placeholders": {
       "nights": {

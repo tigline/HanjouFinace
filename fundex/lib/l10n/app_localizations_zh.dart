@@ -1510,7 +1510,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String hotelDetailTaxNote(int nights, int rooms) {
-    return '$nights天 · $rooms间 · 含税费说明';
+    return '$nights天 · $rooms间';
   }
 
   @override
