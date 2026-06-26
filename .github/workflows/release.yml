@@ -162,6 +162,7 @@ jobs:
         env:
           BUILD_NAME: ${{ steps.android_meta.outputs.build_name }}
           BUILD_NUMBER: ${{ steps.android_meta.outputs.build_number }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.STELLAVIA_GOOGLE_MAPS_API_KEY }}
         run: |
           args=(
             build
@@ -395,6 +396,7 @@ jobs:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.STELLAVIA_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.STELLAVIA_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_PATH: ${{ env.APP_STORE_CONNECT_API_KEY_PATH }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.STELLAVIA_GOOGLE_MAPS_API_KEY }}
         run: |
           export PATH="$FLUTTER_ROOT/bin:$PATH"
           which flutter
