@@ -48,29 +48,29 @@ class _HotelCouponListPageState extends ConsumerState<HotelCouponListPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(42, 16, 42, 0),
-            child: AppDualSegmentedControl<_HotelCouponListSegment>(
-              value: _segment,
-              height: 40,
-              radius: 999,
-              onChanged: (value) => setState(() => _segment = value),
-              first: AppDualSegmentItem<_HotelCouponListSegment>(
-                value: _HotelCouponListSegment.coupons,
-                icon: Icons.local_offer_outlined,
-                label: context.l10n.hotelCouponsOrdinarySegment(
-                  couponsState.valueOrNull?.coupons.length ?? 0,
-                ),
-              ),
-              second: AppDualSegmentItem<_HotelCouponListSegment>(
-                value: _HotelCouponListSegment.fundBenefits,
-                icon: Icons.card_giftcard_rounded,
-                label: context.l10n.hotelFundBenefitTicketsSegment(
-                  fundBenefitState.valueOrNull?.length ?? 0,
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(42, 16, 42, 0),
+          //   child: AppDualSegmentedControl<_HotelCouponListSegment>(
+          //     value: _segment,
+          //     height: 40,
+          //     radius: 999,
+          //     onChanged: (value) => setState(() => _segment = value),
+          //     first: AppDualSegmentItem<_HotelCouponListSegment>(
+          //       value: _HotelCouponListSegment.coupons,
+          //       icon: Icons.local_offer_outlined,
+          //       label: context.l10n.hotelCouponsOrdinarySegment(
+          //         couponsState.valueOrNull?.coupons.length ?? 0,
+          //       ),
+          //     ),
+          //     second: AppDualSegmentItem<_HotelCouponListSegment>(
+          //       value: _HotelCouponListSegment.fundBenefits,
+          //       icon: Icons.card_giftcard_rounded,
+          //       label: context.l10n.hotelFundBenefitTicketsSegment(
+          //         fundBenefitState.valueOrNull?.length ?? 0,
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           Expanded(
             child: RefreshIndicator(

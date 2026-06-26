@@ -498,29 +498,29 @@ class _HotelCouponPickerSheetState extends State<HotelCouponPickerSheet> {
                 ),
             ],
           ),
-          const SizedBox(height: 14),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(42, 0, 42, 0),
-            child: AppDualSegmentedControl<_CouponSegment>(
-              value: _segment,
-              height: 40,
-              onChanged: (value) => setState(() => _segment = value),
-              first: AppDualSegmentItem<_CouponSegment>(
-                value: _CouponSegment.coupons,
-                icon: Icons.confirmation_number_outlined,
-                label: context.l10n.hotelCouponsOrdinarySegment(
-                  widget.coupons.length,
-                ),
-              ),
-              second: AppDualSegmentItem<_CouponSegment>(
-                value: _CouponSegment.fundBenefits,
-                icon: Icons.card_giftcard_rounded,
-                label: context.l10n.hotelFundBenefitTicketsSegment(
-                  widget.fundBenefitTickets.length,
-                ),
-              ),
-            ),
-          ),
+          // const SizedBox(height: 14),
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(42, 0, 42, 0),
+          //   child: AppDualSegmentedControl<_CouponSegment>(
+          //     value: _segment,
+          //     height: 40,
+          //     onChanged: (value) => setState(() => _segment = value),
+          //     first: AppDualSegmentItem<_CouponSegment>(
+          //       value: _CouponSegment.coupons,
+          //       icon: Icons.confirmation_number_outlined,
+          //       label: context.l10n.hotelCouponsOrdinarySegment(
+          //         widget.coupons.length,
+          //       ),
+          //     ),
+          //     second: AppDualSegmentItem<_CouponSegment>(
+          //       value: _CouponSegment.fundBenefits,
+          //       icon: Icons.card_giftcard_rounded,
+          //       label: context.l10n.hotelFundBenefitTicketsSegment(
+          //         widget.fundBenefitTickets.length,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 14),
           Expanded(
             child: _segment == _CouponSegment.coupons
