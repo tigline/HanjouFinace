@@ -1311,6 +1311,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelQuickActionOrders => '予約一覧';
 
   @override
+  String get hotelQuickActionContacts => '宿泊者';
+
+  @override
   String get hotelQuickActionCoupons => 'クーポン';
 
   @override
@@ -1674,6 +1677,36 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hotelFundBenefitTicketsEmpty => '宿泊特典券はありません';
+
+  @override
+  String get hotelMemberContactsTitle => 'よく使う宿泊者';
+
+  @override
+  String get hotelMemberContactsEmpty => 'よく使う宿泊者はまだありません。';
+
+  @override
+  String get hotelMemberContactsDefault => 'デフォルト';
+
+  @override
+  String get hotelMemberContactsAddAction => '連絡先を追加';
+
+  @override
+  String get hotelMemberContactsEditTitle => '連絡先を編集';
+
+  @override
+  String get hotelMemberContactsSaveAction => '保存';
+
+  @override
+  String get hotelMemberContactsRequiredMessage => '必須項目を入力してください。';
+
+  @override
+  String get hotelMemberContactsSavedMessage => '連絡先を保存しました。';
+
+  @override
+  String get hotelMemberContactsSaveFailedMessage => '連絡先を保存できませんでした。';
+
+  @override
+  String get hotelMemberContactsCountryLoading => '国/地域を読み込み中';
 
   @override
   String get hotelCouponsSelectTitle => 'クーポンを選択';

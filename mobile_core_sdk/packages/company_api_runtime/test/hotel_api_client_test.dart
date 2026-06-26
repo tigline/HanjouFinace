@@ -588,6 +588,53 @@ void main() {
       expect(result, equals('card-id'));
     });
 
+    test(
+      'saveOrUpdateMemberContact posts contact payload to hotel API',
+      () async {
+        final client = _buildClient((options) async {
+          expect(options.method, equals('POST'));
+          expect(options.path, equals(HotelApiPaths.memberContactsUpdate));
+          expect(options.extra['auth_required'], isTrue);
+          expect(
+            options.data,
+            equals(<String, dynamic>{
+              'firstName': 'Hou',
+              'lastName': 'Aaron',
+              'email': 'aaron.hou@51fanxing.co.jp',
+              'intlCode': '81',
+              'mobile': '102938474',
+              'nationality': 'AQ',
+              'defaultOption': false,
+              'id': '157',
+              'memberId': 76177,
+              'name': 'Aaron Hou',
+              'dr': 0,
+              'nationalityText': '南極',
+            }),
+          );
+          return _jsonOk('{"msg":"success","code":200,"data":null}');
+        });
+        final api = HotelApiClient(client);
+
+        await api.saveOrUpdateMemberContact(
+          const HotelMemberContactSaveRequestDto(
+            id: '157',
+            memberId: 76177,
+            name: 'Aaron Hou',
+            firstName: 'Hou',
+            lastName: 'Aaron',
+            email: 'aaron.hou@51fanxing.co.jp',
+            intlCode: '81',
+            mobile: '102938474',
+            nationality: 'AQ',
+            defaultOption: false,
+            dr: 0,
+            nationalityText: '南極',
+          ),
+        );
+      },
+    );
+
     test('payWithRegisteredCard posts card id and parses secure url', () async {
       final client = _buildClient((options) async {
         expect(options.method, equals('POST'));

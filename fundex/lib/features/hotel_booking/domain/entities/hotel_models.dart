@@ -463,6 +463,94 @@ class HotelBookingPreparation {
   final List<HotelBookingRoomPriceElement> roomPriceElements;
 }
 
+class HotelMemberContact {
+  const HotelMemberContact({
+    required this.id,
+    required this.memberId,
+    required this.name,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.intlCode,
+    required this.mobile,
+    required this.nationality,
+    required this.nationalityText,
+    required this.isDefault,
+    this.dr,
+  });
+
+  final String id;
+  final int? memberId;
+  final String name;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String intlCode;
+  final String mobile;
+  final String nationality;
+  final String nationalityText;
+  final bool isDefault;
+  final int? dr;
+
+  String get displayName {
+    final trimmedName = name.trim();
+    if (trimmedName.isNotEmpty) {
+      return trimmedName;
+    }
+    return <String>[
+      lastName,
+      firstName,
+    ].where((part) => part.trim().isNotEmpty).join(' ').trim();
+  }
+}
+
+class HotelMemberContactDraft {
+  const HotelMemberContactDraft({
+    this.id,
+    this.memberId,
+    this.name,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.intlCode,
+    required this.mobile,
+    required this.nationality,
+    required this.isDefault,
+    this.dr,
+    this.nationalityText,
+  });
+
+  factory HotelMemberContactDraft.fromContact(HotelMemberContact contact) {
+    return HotelMemberContactDraft(
+      id: contact.id,
+      memberId: contact.memberId,
+      name: contact.name,
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+      intlCode: contact.intlCode,
+      mobile: contact.mobile,
+      nationality: contact.nationality,
+      isDefault: contact.isDefault,
+      dr: contact.dr,
+      nationalityText: contact.nationalityText,
+    );
+  }
+
+  final String? id;
+  final int? memberId;
+  final String? name;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String intlCode;
+  final String mobile;
+  final String nationality;
+  final bool isDefault;
+  final int? dr;
+  final String? nationalityText;
+}
+
 class HotelBookingQuote {
   const HotelBookingQuote({
     required this.quotedPrice,

@@ -307,6 +307,42 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
+  Future<List<HotelMemberContact>> fetchMemberContacts({
+    required String languageCode,
+  }) async {
+    final rows = await _remote.fetchMemberContacts(languageCode: languageCode);
+    return rows.map(_mapMemberContact).toList(growable: false);
+  }
+
+  @override
+  Future<List<HotelCountryCode>> fetchCountryCodes({
+    required String languageCode,
+  }) async {
+    final rows = await _remote.fetchCountryCodeList(languageCode: languageCode);
+    return _mapCountryCodes(rows);
+  }
+
+  @override
+  Future<void> saveMemberContact(HotelMemberContactDraft draft) {
+    return _remote.saveOrUpdateMemberContact(
+      HotelMemberContactSaveRequestDto(
+        id: draft.id,
+        memberId: draft.memberId,
+        name: draft.name,
+        firstName: draft.firstName.trim(),
+        lastName: draft.lastName.trim(),
+        email: draft.email.trim(),
+        intlCode: _normalizeIntlCode(draft.intlCode),
+        mobile: draft.mobile.trim(),
+        nationality: draft.nationality.trim(),
+        defaultOption: draft.isDefault,
+        dr: draft.dr,
+        nationalityText: draft.nationalityText,
+      ),
+    );
+  }
+
+  @override
   Future<HotelOrderListResult> fetchOrderList({
     required String languageCode,
     required HotelOrderStatusFilter status,
@@ -920,6 +956,23 @@ HotelFundBenefitTicket _mapFundBenefitTicket(HotelFundBenefitTicketDto dto) {
     bookingOrderId: dto.bookingOrderId,
     createdTime: dto.createdTime.trim(),
     updatedTime: dto.updatedTime.trim(),
+  );
+}
+
+HotelMemberContact _mapMemberContact(Map<String, dynamic> raw) {
+  return HotelMemberContact(
+    id: _stringOrEmpty(raw['id']),
+    memberId: _intOrNull(raw['memberId']),
+    name: _stringOrEmpty(raw['name']),
+    firstName: _stringOrEmpty(raw['firstName']),
+    lastName: _stringOrEmpty(raw['lastName']),
+    email: _stringOrEmpty(raw['email']),
+    intlCode: _normalizeIntlCode(_stringOrEmpty(raw['intlCode'])),
+    mobile: _stringOrEmpty(raw['mobile']),
+    nationality: _stringOrEmpty(raw['nationality']),
+    nationalityText: _stringOrEmpty(raw['nationalityText']),
+    isDefault: raw['defaultOption'] == true,
+    dr: _intOrNull(raw['dr']),
   );
 }
 

@@ -1384,6 +1384,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelQuickActionOrders => 'My orders';
 
   @override
+  String get hotelQuickActionContacts => 'Guests';
+
+  @override
   String get hotelQuickActionCoupons => 'Coupons';
 
   @override
@@ -1760,6 +1763,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hotelFundBenefitTicketsEmpty => 'No stay benefit tickets yet';
+
+  @override
+  String get hotelMemberContactsTitle => 'Frequent guests';
+
+  @override
+  String get hotelMemberContactsEmpty => 'No frequent guests yet.';
+
+  @override
+  String get hotelMemberContactsDefault => 'Default';
+
+  @override
+  String get hotelMemberContactsAddAction => 'Add contact';
+
+  @override
+  String get hotelMemberContactsEditTitle => 'Edit contact';
+
+  @override
+  String get hotelMemberContactsSaveAction => 'Save';
+
+  @override
+  String get hotelMemberContactsRequiredMessage =>
+      'Please fill in the required fields.';
+
+  @override
+  String get hotelMemberContactsSavedMessage => 'Contact saved.';
+
+  @override
+  String get hotelMemberContactsSaveFailedMessage =>
+      'Could not save the contact.';
+
+  @override
+  String get hotelMemberContactsCountryLoading => 'Loading countries/regions';
 
   @override
   String get hotelCouponsSelectTitle => 'Select coupon';

@@ -90,6 +90,7 @@ class HotelApiClient {
     this.memberInfoPath = HotelApiPaths.memberInfo,
     this.memberInfoUpdatePath = HotelApiPaths.memberInfoUpdate,
     this.memberContactsListPath = HotelApiPaths.memberContactsList,
+    this.memberContactsUpdatePath = HotelApiPaths.memberContactsUpdate,
     this.cardPayAuthPath = HotelApiPaths.cardPayAuth,
     this.cardPayJoinPath = HotelApiPaths.cardPayJoin,
     this.cardRegisterListPath = HotelApiPaths.cardRegisterList,
@@ -135,6 +136,7 @@ class HotelApiClient {
   final String memberInfoPath;
   final String memberInfoUpdatePath;
   final String memberContactsListPath;
+  final String memberContactsUpdatePath;
   final String cardPayAuthPath;
   final String cardPayJoinPath;
   final String cardRegisterListPath;
@@ -460,6 +462,21 @@ class HotelApiClient {
     return _envelopeCodec.extractDataList(
       _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to load hotel member contacts.',
+    );
+  }
+
+  Future<void> saveOrUpdateMemberContact(
+    HotelMemberContactSaveRequestDto request,
+  ) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      memberContactsUpdatePath,
+      data: request.toJson(),
+      options: authRequired(true),
+    );
+
+    _envelopeCodec.assertSuccessIfEnvelope(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to save hotel member contact.',
     );
   }
 

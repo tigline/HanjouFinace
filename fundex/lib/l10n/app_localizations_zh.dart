@@ -1297,6 +1297,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelQuickActionOrders => '我的订单';
 
   @override
+  String get hotelQuickActionContacts => '常用住宿人';
+
+  @override
   String get hotelQuickActionCoupons => '优惠券';
 
   @override
@@ -1659,6 +1662,36 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hotelFundBenefitTicketsEmpty => '暂无宿泊特典券';
+
+  @override
+  String get hotelMemberContactsTitle => '常用住宿人';
+
+  @override
+  String get hotelMemberContactsEmpty => '暂无常用住宿人。';
+
+  @override
+  String get hotelMemberContactsDefault => '默认';
+
+  @override
+  String get hotelMemberContactsAddAction => '添加联系人';
+
+  @override
+  String get hotelMemberContactsEditTitle => '编辑联系人';
+
+  @override
+  String get hotelMemberContactsSaveAction => '保存';
+
+  @override
+  String get hotelMemberContactsRequiredMessage => '请填写必填项目。';
+
+  @override
+  String get hotelMemberContactsSavedMessage => '联系人已保存。';
+
+  @override
+  String get hotelMemberContactsSaveFailedMessage => '联系人保存失败。';
+
+  @override
+  String get hotelMemberContactsCountryLoading => '正在加载国家/地区';
 
   @override
   String get hotelCouponsSelectTitle => '选择优惠券';
@@ -7030,6 +7063,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelQuickActionOrders => '我的訂單';
 
   @override
+  String get hotelQuickActionContacts => '常用住宿人';
+
+  @override
   String get hotelQuickActionCoupons => '優惠券';
 
   @override
@@ -7392,6 +7428,36 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelFundBenefitTicketsEmpty => '暫無宿泊特典券';
+
+  @override
+  String get hotelMemberContactsTitle => '常用住宿人';
+
+  @override
+  String get hotelMemberContactsEmpty => '暫無常用住宿人。';
+
+  @override
+  String get hotelMemberContactsDefault => '預設';
+
+  @override
+  String get hotelMemberContactsAddAction => '添加聯絡人';
+
+  @override
+  String get hotelMemberContactsEditTitle => '編輯聯絡人';
+
+  @override
+  String get hotelMemberContactsSaveAction => '保存';
+
+  @override
+  String get hotelMemberContactsRequiredMessage => '請填寫必填項目。';
+
+  @override
+  String get hotelMemberContactsSavedMessage => '聯絡人已保存。';
+
+  @override
+  String get hotelMemberContactsSaveFailedMessage => '聯絡人保存失敗。';
+
+  @override
+  String get hotelMemberContactsCountryLoading => '正在載入國家/地區';
 
   @override
   String get hotelCouponsSelectTitle => '選擇優惠券';

@@ -93,6 +93,64 @@ abstract class HotelBuildingCodeDto with _$HotelBuildingCodeDto {
       _$HotelBuildingCodeDtoFromJson(json);
 }
 
+class HotelMemberContactSaveRequestDto {
+  const HotelMemberContactSaveRequestDto({
+    this.id,
+    this.memberId,
+    this.name,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.intlCode,
+    required this.mobile,
+    required this.nationality,
+    required this.defaultOption,
+    this.dr,
+    this.nationalityText,
+  });
+
+  final String? id;
+  final int? memberId;
+  final String? name;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String intlCode;
+  final String mobile;
+  final String nationality;
+  final bool defaultOption;
+  final int? dr;
+  final String? nationalityText;
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'intlCode': intlCode,
+      'mobile': mobile,
+      'nationality': nationality,
+      'defaultOption': defaultOption,
+    };
+    void putIfPresent(String key, Object? value) {
+      if (value == null) {
+        return;
+      }
+      if (value is String && value.trim().isEmpty) {
+        return;
+      }
+      json[key] = value;
+    }
+
+    putIfPresent('id', id);
+    putIfPresent('memberId', memberId);
+    putIfPresent('name', name);
+    putIfPresent('dr', dr);
+    putIfPresent('nationalityText', nationalityText);
+    return json;
+  }
+}
+
 class HotelStayBenefitPeriodDto {
   const HotelStayBenefitPeriodDto({required this.month, required this.days});
 

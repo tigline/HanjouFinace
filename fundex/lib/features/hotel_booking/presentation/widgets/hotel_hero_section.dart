@@ -108,11 +108,13 @@ class _HotelHeroSectionState extends ConsumerState<HotelHeroSection> {
               HotelQuickActionSection(
                 userInfoLabel: context.l10n.hotelQuickActionStayBenefits,
                 ordersLabel: context.l10n.hotelQuickActionOrders,
+                contactsLabel: context.l10n.hotelQuickActionContacts,
                 couponsLabel: context.l10n.hotelQuickActionCoupons,
                 contactLabel: context.l10n.hotelQuickActionContact,
                 onUserInfoTap: () =>
                     context.push('/hotel-booking/stay-benefits'),
                 onOrdersTap: widget.onOrdersTap,
+                onContactsTap: () => context.push('/hotel-booking/contacts'),
                 onCouponsTap: widget.onCouponsTap,
                 onContactTap: () => context.push('/profile/settings/contact'),
               ),

@@ -6,61 +6,138 @@ class HotelQuickActionSection extends StatelessWidget {
     super.key,
     required this.userInfoLabel,
     required this.ordersLabel,
+    required this.contactsLabel,
     required this.couponsLabel,
     required this.contactLabel,
     required this.onUserInfoTap,
     required this.onOrdersTap,
+    required this.onContactsTap,
     required this.onCouponsTap,
     required this.onContactTap,
   });
 
   final String userInfoLabel;
   final String ordersLabel;
+  final String contactsLabel;
   final String couponsLabel;
   final String contactLabel;
   final VoidCallback onUserInfoTap;
   final VoidCallback onOrdersTap;
+  final VoidCallback onContactsTap;
   final VoidCallback onCouponsTap;
   final VoidCallback onContactTap;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 104,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: _HotelQuickActionItem(
-              icon: Icons.card_giftcard_rounded,
-              label: userInfoLabel,
-              onTap: onUserInfoTap,
+    return Row(
+      children: <Widget>[
+        // Expanded(
+        //   child: _HotelQuickActionItem(
+        //     icon: Icons.card_giftcard_rounded,
+        //     label: userInfoLabel,
+        //     onTap: onUserInfoTap,
+        //   ),
+        // ),
+        // const SizedBox(width: 12),
+        Expanded(
+          child: _HotelQuickActionItem(
+            icon: Icons.receipt_long_outlined,
+            label: ordersLabel,
+            onTap: onOrdersTap,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _HotelQuickActionItem(
+            icon: Icons.group_add_outlined,
+            label: contactsLabel,
+            onTap: onContactsTap,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _HotelQuickActionItem(
+            icon: Icons.confirmation_num_outlined,
+            label: couponsLabel,
+            onTap: onCouponsTap,
+          ),
+        ),
+
+        // const SizedBox(width: 12),
+        // Expanded(
+        //   child: _HotelQuickActionItem(
+        //     icon: Icons.call_outlined,
+        //     label: contactLabel,
+        //     onTap: onContactTap,
+        //   ),
+        // ),
+      ],
+    );
+  }
+}
+
+// ignore: unused_element
+class _HotelQuickActionFlatItem extends StatelessWidget {
+  const _HotelQuickActionFlatItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return Semantics(
+      button: true,
+      label: label,
+      child: Material(
+        color: colors.brandWhite.withValues(alpha: 0.94),
+        borderRadius: BorderRadius.circular(UiTokens.radius12),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 58,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(UiTokens.radius12),
+              border: Border.all(
+                color: colors.brandWhite.withValues(alpha: 0.64),
+              ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: colors.scrim.withValues(alpha: 0.08),
+                  blurRadius: 18,
+                  spreadRadius: -3,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(icon, color: colors.brandPrimary, size: 24),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: colors.brandPrimaryDark,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _HotelQuickActionItem(
-              icon: Icons.receipt_long_outlined,
-              label: ordersLabel,
-              onTap: onOrdersTap,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _HotelQuickActionItem(
-              icon: Icons.confirmation_num_outlined,
-              label: couponsLabel,
-              onTap: onCouponsTap,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: _HotelQuickActionItem(
-              icon: Icons.call_outlined,
-              label: contactLabel,
-              onTap: onContactTap,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

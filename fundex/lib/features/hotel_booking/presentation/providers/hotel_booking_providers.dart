@@ -20,10 +20,12 @@ import '../../domain/usecases/create_hotel_credit_card_token_usecase.dart';
 import '../../domain/usecases/create_hotel_booking_usecase.dart';
 import '../../domain/usecases/fetch_hotel_building_filters_usecase.dart';
 import '../../domain/usecases/fetch_hotel_booking_preparation_usecase.dart';
+import '../../domain/usecases/fetch_hotel_country_codes_usecase.dart';
 import '../../domain/usecases/fetch_hotel_coupons_usecase.dart';
 import '../../domain/usecases/fetch_hotel_credit_cards_usecase.dart';
 import '../../domain/usecases/fetch_hotel_detail_usecase.dart';
 import '../../domain/usecases/fetch_hotel_fund_benefit_tickets_usecase.dart';
+import '../../domain/usecases/fetch_hotel_member_contacts_usecase.dart';
 import '../../domain/usecases/fetch_hotel_member_profile_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_cancel_rule_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_detail_usecase.dart';
@@ -35,6 +37,7 @@ import '../../domain/usecases/pay_hotel_order_with_credit_card_token_usecase.dar
 import '../../domain/usecases/quote_hotel_booking_price_usecase.dart';
 import '../../domain/usecases/register_hotel_credit_card_usecase.dart';
 import '../../domain/usecases/request_hotel_order_invoice_usecase.dart';
+import '../../domain/usecases/save_hotel_member_contact_usecase.dart';
 import '../../domain/usecases/search_hotels_usecase.dart';
 import '../../domain/usecases/sync_hotel_optimism_payment_usecase.dart';
 import '../../domain/usecases/unregister_hotel_credit_card_usecase.dart';
@@ -123,6 +126,27 @@ final fetchHotelCouponsUseCaseProvider = Provider<FetchHotelCouponsUseCase>((
 final fetchHotelFundBenefitTicketsUseCaseProvider =
     Provider<FetchHotelFundBenefitTicketsUseCase>((ref) {
       return FetchHotelFundBenefitTicketsUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
+final fetchHotelMemberContactsUseCaseProvider =
+    Provider<FetchHotelMemberContactsUseCase>((ref) {
+      return FetchHotelMemberContactsUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
+final fetchHotelCountryCodesUseCaseProvider =
+    Provider<FetchHotelCountryCodesUseCase>((ref) {
+      return FetchHotelCountryCodesUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
+final saveHotelMemberContactUseCaseProvider =
+    Provider<SaveHotelMemberContactUseCase>((ref) {
+      return SaveHotelMemberContactUseCase(
         ref.watch(hotelBookingRepositoryProvider),
       );
     });
@@ -330,6 +354,22 @@ final hotelCouponsProvider = FutureProvider.autoDispose<HotelCouponListResult>((
 final hotelFundBenefitTicketsProvider =
     FutureProvider.autoDispose<List<HotelFundBenefitTicket>>((ref) {
       return ref.watch(fetchHotelFundBenefitTicketsUseCaseProvider)();
+    });
+
+final hotelMemberContactsProvider =
+    FutureProvider.autoDispose<List<HotelMemberContact>>((ref) {
+      final languageCode = ref.watch(hotelLocaleLanguageCodeProvider);
+      return ref.watch(fetchHotelMemberContactsUseCaseProvider)(
+        languageCode: languageCode,
+      );
+    });
+
+final hotelCountryCodesProvider =
+    FutureProvider.autoDispose<List<HotelCountryCode>>((ref) {
+      final languageCode = ref.watch(hotelLocaleLanguageCodeProvider);
+      return ref.watch(fetchHotelCountryCodesUseCaseProvider)(
+        languageCode: languageCode,
+      );
     });
 
 final hotelMaxFundBenefitTicketAmountProvider =

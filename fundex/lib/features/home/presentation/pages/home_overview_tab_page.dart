@@ -79,7 +79,8 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
     final asyncVerificationStatus = ref.watch(
       settingsRemoteVerificationStatusProvider,
     );
-    final showLotteryEntry = ref.watch(homeLotteryEntryVisibilityProvider);
+    bool showLotteryEntry = false;
+   // ref.watch(homeLotteryEntryVisibilityProvider);
     final memberProfile = asyncMemberProfile.valueOrNull;
     final verificationStatus = asyncVerificationStatus.valueOrNull;
     final projects = asyncProjects.valueOrNull ?? const <FundProject>[];

@@ -2589,6 +2589,12 @@ abstract class AppLocalizations {
   /// **'My orders'**
   String get hotelQuickActionOrders;
 
+  /// No description provided for @hotelQuickActionContacts.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests'**
+  String get hotelQuickActionContacts;
+
   /// No description provided for @hotelQuickActionCoupons.
   ///
   /// In en, this message translates to:
@@ -3224,6 +3230,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No stay benefit tickets yet'**
   String get hotelFundBenefitTicketsEmpty;
+
+  /// No description provided for @hotelMemberContactsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequent guests'**
+  String get hotelMemberContactsTitle;
+
+  /// No description provided for @hotelMemberContactsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No frequent guests yet.'**
+  String get hotelMemberContactsEmpty;
+
+  /// No description provided for @hotelMemberContactsDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get hotelMemberContactsDefault;
+
+  /// No description provided for @hotelMemberContactsAddAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add contact'**
+  String get hotelMemberContactsAddAction;
+
+  /// No description provided for @hotelMemberContactsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contact'**
+  String get hotelMemberContactsEditTitle;
+
+  /// No description provided for @hotelMemberContactsSaveAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get hotelMemberContactsSaveAction;
+
+  /// No description provided for @hotelMemberContactsRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in the required fields.'**
+  String get hotelMemberContactsRequiredMessage;
+
+  /// No description provided for @hotelMemberContactsSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact saved.'**
+  String get hotelMemberContactsSavedMessage;
+
+  /// No description provided for @hotelMemberContactsSaveFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the contact.'**
+  String get hotelMemberContactsSaveFailedMessage;
+
+  /// No description provided for @hotelMemberContactsCountryLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading countries/regions'**
+  String get hotelMemberContactsCountryLoading;
 
   /// No description provided for @hotelCouponsSelectTitle.
   ///

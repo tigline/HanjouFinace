@@ -42,6 +42,16 @@ abstract class HotelBookingRepository {
 
   Future<List<HotelFundBenefitTicket>> fetchFundBenefitTickets();
 
+  Future<List<HotelMemberContact>> fetchMemberContacts({
+    required String languageCode,
+  });
+
+  Future<List<HotelCountryCode>> fetchCountryCodes({
+    required String languageCode,
+  });
+
+  Future<void> saveMemberContact(HotelMemberContactDraft draft);
+
   Future<String> createBooking(HotelBookingCreateDraft draft);
 
   Future<HotelOrderListResult> fetchOrderList({

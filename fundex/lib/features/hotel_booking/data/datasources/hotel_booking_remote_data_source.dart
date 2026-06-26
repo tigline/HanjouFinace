@@ -64,6 +64,10 @@ abstract class HotelBookingRemoteDataSource {
     required String languageCode,
   });
 
+  Future<void> saveOrUpdateMemberContact(
+    HotelMemberContactSaveRequestDto request,
+  );
+
   Future<List<HotelCreditCardDto>> fetchRegisteredCards();
 
   Future<HotelMemberPayInfoDto> fetchMemberPayInfo();
@@ -251,6 +255,13 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
     required String languageCode,
   }) {
     return _client.fetchMemberContacts(lang: languageCode);
+  }
+
+  @override
+  Future<void> saveOrUpdateMemberContact(
+    HotelMemberContactSaveRequestDto request,
+  ) {
+    return _client.saveOrUpdateMemberContact(request);
   }
 
   @override
