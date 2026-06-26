@@ -2964,7 +2964,7 @@ abstract class AppLocalizations {
   /// No description provided for @hotelDetailTaxNote.
   ///
   /// In en, this message translates to:
-  /// **'{nights} days · {rooms} rooms · Taxes included'**
+  /// **'{nights} days · {rooms} rooms'**
   String hotelDetailTaxNote(int nights, int rooms);
 
   /// No description provided for @hotelDetailBookNow.
