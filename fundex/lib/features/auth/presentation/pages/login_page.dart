@@ -289,7 +289,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     return Scaffold(
       key: const Key('login_page'),
       body: DecoratedBox(
-        decoration: BoxDecoration(color: theme.colorScheme.primary),
+        decoration: BoxDecoration(color: theme.appColors.brandPrimaryDark),
         child: SafeArea(
           bottom: false,
           child: DecoratedBox(

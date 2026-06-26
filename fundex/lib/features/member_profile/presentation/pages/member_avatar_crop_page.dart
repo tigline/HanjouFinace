@@ -4,6 +4,7 @@ import "dart:ui" as ui;
 
 import "package:core_ui_kit/core_ui_kit.dart";
 import "package:flutter/material.dart";
+import "package:go_router/go_router.dart";
 
 import "../../../../app/localization/app_localizations_ext.dart";
 
@@ -201,11 +202,16 @@ class _MemberAvatarCropPageState extends State<MemberAvatarCropPage> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: colors.primary,
-      appBar: AppBar(
-        backgroundColor: colors.primary,
-        foregroundColor: colors.onDark,
-        title: Text(l10n.discussionAvatarCropTitle),
+      backgroundColor: colors.surface,
+      appBar: AppNavigationBar(
+        backgroundColor: colors.surfaceAlt,
+        foregroundColor: colors.textPrimary,
+        title: l10n.discussionAvatarCropTitle,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: () => context.pop(),
+          foregroundColor: colors.textPrimary,
+        ),
       ),
       body: SafeArea(
         child: LayoutBuilder(

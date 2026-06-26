@@ -39,7 +39,7 @@ class _HotelOrderDetailPageState extends ConsumerState<HotelOrderDetailPage> {
     return Scaffold(
       backgroundColor: colors.surfaceAlt,
       body: SafeArea(
-        top: true,
+        top: false,
         bottom: false,
         child: detailState.when(
           loading: () => const Center(child: CircularProgressIndicator()),

@@ -356,7 +356,16 @@ class _MemberAvatarPageState extends ConsumerState<MemberAvatarPage> {
 
     return Scaffold(
       backgroundColor: colors.background,
-      appBar: AppBar(title: Text(l10n.discussionAvatarPageTitle)),
+      appBar: AppNavigationBar(
+        backgroundColor: colors.surfaceAlt,
+        foregroundColor: colors.textPrimary,
+        title: l10n.discussionAvatarPageTitle,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: () => context.pop(),
+          foregroundColor: colors.textPrimary,
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: <Widget>[

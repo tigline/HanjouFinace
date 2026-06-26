@@ -23,23 +23,24 @@ class HotelBookingResultHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
+    final topInset = MediaQuery.paddingOf(context).top;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.brandPrimaryDark,
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(34)),
       ),
       child: SizedBox(
-        height: 166,
+        height: 166 + topInset,
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: 12,
+              top: 12 + topInset,
               right: 12,
               child: _HeroCloseButton(onTap: onClose),
             ),
             Positioned.fill(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
+                padding: EdgeInsets.fromLTRB(16, 6 + topInset, 16, 6),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[

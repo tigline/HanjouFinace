@@ -32,6 +32,7 @@ class HotelBookingResultPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: colors.surfaceAlt,
       body: SafeArea(
+        top: false,
         bottom: false,
         child: ListView(
           padding: EdgeInsets.zero,
