@@ -68,6 +68,8 @@ abstract class HotelBookingRemoteDataSource {
     HotelMemberContactSaveRequestDto request,
   );
 
+  Future<void> deleteMemberContact({required String id});
+
   Future<List<HotelCreditCardDto>> fetchRegisteredCards();
 
   Future<HotelMemberPayInfoDto> fetchMemberPayInfo();
@@ -262,6 +264,11 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
     HotelMemberContactSaveRequestDto request,
   ) {
     return _client.saveOrUpdateMemberContact(request);
+  }
+
+  @override
+  Future<void> deleteMemberContact({required String id}) {
+    return _client.deleteMemberContact(id: id);
   }
 
   @override

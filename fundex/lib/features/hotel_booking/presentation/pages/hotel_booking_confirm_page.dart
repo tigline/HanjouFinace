@@ -17,6 +17,7 @@ import '../widgets/hotel_booking_order_summary_card.dart';
 import '../widgets/hotel_booking_payment_section.dart';
 import '../widgets/hotel_booking_section_card.dart';
 import '../widgets/hotel_coupon_list_widgets.dart';
+import '../widgets/hotel_member_contact_picker_sheet.dart';
 import '../widgets/hotel_state_views.dart';
 
 class HotelBookingConfirmPage extends ConsumerStatefulWidget {
@@ -251,6 +252,7 @@ class _HotelBookingConfirmPageState
                       selectedIntlCode: _bookerIntlCode,
                       onIntlCodeChanged: _setBookerIntlCode,
                       isRequired: true,
+                      onSavedContactTap: _openSavedContactPickerForBooker,
                     ),
                     const SizedBox(height: 14),
                     _RoomGuestFormsCard(
@@ -290,6 +292,9 @@ class _HotelBookingConfirmPageState
                             showPhoneFields: false,
                             wrapInCard: false,
                             enabled: !useBookerInfo,
+                            onSavedContactTap: useBookerInfo
+                                ? null
+                                : () => _openSavedContactPickerForRoom(index),
                             onAdultsChanged: (value) =>
                                 _setRoomAdults(index, value),
                             onKidsChanged: (value) =>
@@ -357,6 +362,55 @@ class _HotelBookingConfirmPageState
 
   void _showComingSoon() {
     AppNotice.show(context, message: context.l10n.hotelDetailBookingComingSoon);
+  }
+
+  Future<void> _openSavedContactPickerForBooker() async {
+    final contact = await showHotelMemberContactPickerSheet(context: context);
+    if (!mounted || contact == null) {
+      return;
+    }
+    _applyContactToBooker(contact);
+  }
+
+  Future<void> _openSavedContactPickerForRoom(int index) async {
+    final contact = await showHotelMemberContactPickerSheet(context: context);
+    if (!mounted || contact == null) {
+      return;
+    }
+    _applyContactToRoom(index, contact);
+  }
+
+  void _applyContactToBooker(HotelMemberContact contact) {
+    _setText(_bookerLastNameController, contact.lastName);
+    _setText(_bookerFirstNameController, contact.firstName);
+    _setText(_bookerEmailController, contact.email);
+    _setText(_bookerPhoneController, contact.mobile);
+    _setBookerCountryCode(
+      contact.nationality.trim().isEmpty ? null : contact.nationality.trim(),
+    );
+    final intlCode = _normalizeSupportedIntlCode(contact.intlCode);
+    if (intlCode != null) {
+      _setBookerIntlCode(intlCode);
+    }
+  }
+
+  void _applyContactToRoom(int index, HotelMemberContact contact) {
+    if (index < 0 || index >= _roomGuestTargets.length) {
+      return;
+    }
+    setState(() {
+      _setText(_roomLastNameControllers[index], contact.lastName);
+      _setText(_roomFirstNameControllers[index], contact.firstName);
+      _setText(_roomEmailControllers[index], contact.email);
+      _setText(_roomPhoneControllers[index], contact.mobile);
+      _roomCountryCodes[index] = contact.nationality.trim().isEmpty
+          ? null
+          : contact.nationality.trim();
+      final intlCode = _normalizeSupportedIntlCode(contact.intlCode);
+      if (intlCode != null) {
+        _roomIntlCodes[index] = intlCode;
+      }
+    });
   }
 
   String? _couponRowSelectedName(HotelBookingPresenter presenter) {

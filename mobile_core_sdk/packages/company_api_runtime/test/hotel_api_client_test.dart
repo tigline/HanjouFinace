@@ -635,6 +635,19 @@ void main() {
       },
     );
 
+    test('deleteMemberContact posts contact id to hotel API', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.memberContactsDelete));
+        expect(options.extra['auth_required'], isTrue);
+        expect(options.data, equals(<String, dynamic>{'id': '157'}));
+        return _jsonOk('{"msg":"success","code":200,"data":null}');
+      });
+      final api = HotelApiClient(client);
+
+      await api.deleteMemberContact(id: '157');
+    });
+
     test('payWithRegisteredCard posts card id and parses secure url', () async {
       final client = _buildClient((options) async {
         expect(options.method, equals('POST'));

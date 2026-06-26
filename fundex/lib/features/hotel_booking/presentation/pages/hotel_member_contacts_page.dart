@@ -73,6 +73,7 @@ class HotelMemberContactsPage extends ConsumerWidget {
                 return _HotelMemberContactCard(
                   contact: contact,
                   onTap: () => _openContactForm(context, ref, contact: contact),
+                  onDelete: () => _confirmDeleteContact(context, ref, contact),
                 );
               },
               separatorBuilder: (_, __) => const SizedBox(height: 12),
@@ -109,6 +110,54 @@ class HotelMemberContactsPage extends ConsumerWidget {
     );
     if (saved == true) {
       ref.invalidate(hotelMemberContactsProvider);
+    }
+  }
+
+  Future<void> _confirmDeleteContact(
+    BuildContext context,
+    WidgetRef ref,
+    HotelMemberContact contact,
+  ) async {
+    final id = contact.id.trim();
+    if (id.isEmpty) {
+      return;
+    }
+    final confirmed = await AppDialogs.showAdaptiveAlert<bool>(
+      context: context,
+      title: context.l10n.hotelMemberContactsDeleteConfirmTitle,
+      message: context.l10n.hotelMemberContactsDeleteConfirmMessage,
+      actions: <AppDialogAction<bool>>[
+        AppDialogAction<bool>(label: context.l10n.commonCancel, value: false),
+        AppDialogAction<bool>(
+          label: context.l10n.hotelMemberContactsDeleteAction,
+          value: true,
+          isDestructive: true,
+        ),
+      ],
+    );
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+    try {
+      await AppLoadingDialog.run(
+        context,
+        () => ref.read(deleteHotelMemberContactUseCaseProvider)(id: id),
+        message: context.l10n.commonPleaseWait,
+      );
+      ref.invalidate(hotelMemberContactsProvider);
+      if (context.mounted) {
+        AppNotice.show(
+          context,
+          message: context.l10n.hotelMemberContactsDeletedMessage,
+        );
+      }
+    } catch (_) {
+      if (context.mounted) {
+        AppNotice.show(
+          context,
+          message: context.l10n.hotelMemberContactsDeleteFailedMessage,
+        );
+      }
     }
   }
 }
@@ -151,10 +200,15 @@ class _EmptyContactsView extends StatelessWidget {
 }
 
 class _HotelMemberContactCard extends StatelessWidget {
-  const _HotelMemberContactCard({required this.contact, required this.onTap});
+  const _HotelMemberContactCard({
+    required this.contact,
+    required this.onTap,
+    required this.onDelete,
+  });
 
   final HotelMemberContact contact;
   final VoidCallback onTap;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +243,7 @@ class _HotelMemberContactCard extends StatelessWidget {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text(
+                   Text(
                         name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -199,6 +253,7 @@ class _HotelMemberContactCard extends StatelessWidget {
                               fontWeight: FontWeight.w900,
                             ),
                       ),
+                    
                     if (contact.isDefault) ...<Widget>[
                       const SizedBox(width: 10),
                       _DefaultBadge(),
@@ -209,7 +264,6 @@ class _HotelMemberContactCard extends StatelessWidget {
                       color: colors.textTertiary,
                       size: 20,
                     ),
-                    
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -228,6 +282,26 @@ class _HotelMemberContactCard extends StatelessWidget {
                 _InfoLine(
                   icon: Icons.mail_outline_rounded,
                   value: contact.email.isEmpty ? '-' : contact.email,
+                ),
+                //const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: onDelete,
+                    icon: const Icon(Icons.delete_outline_rounded, size: 18),
+                    label: Text(context.l10n.hotelMemberContactsDeleteAction),
+                    style: TextButton.styleFrom(
+                      foregroundColor: colors.danger,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      minimumSize: const Size(0, 34),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      textStyle: Theme.of(context).textTheme.labelLarge
+                          ?.copyWith(fontWeight: FontWeight.w800),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -256,7 +330,7 @@ class _DefaultBadge extends StatelessWidget {
     final colors = Theme.of(context).appColors;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.brandSecondary.withValues(alpha: 0.12),
+        color: colors.highlightGold.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Padding(
@@ -264,7 +338,7 @@ class _DefaultBadge extends StatelessWidget {
         child: Text(
           context.l10n.hotelMemberContactsDefault,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: colors.brandSecondary,
+            color: colors.highlightGold,
             fontWeight: FontWeight.w800,
           ),
         ),

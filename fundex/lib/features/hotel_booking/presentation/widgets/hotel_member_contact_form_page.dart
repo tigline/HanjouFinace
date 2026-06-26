@@ -234,9 +234,7 @@ class _HotelMemberContactFormPageState
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    AppNotice.show(context, message: message);
   }
 
   String _displayIntlCode(String value) {

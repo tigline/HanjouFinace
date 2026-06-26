@@ -343,6 +343,11 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
+  Future<void> deleteMemberContact({required String id}) {
+    return _remote.deleteMemberContact(id: id.trim());
+  }
+
+  @override
   Future<HotelOrderListResult> fetchOrderList({
     required String languageCode,
     required HotelOrderStatusFilter status,

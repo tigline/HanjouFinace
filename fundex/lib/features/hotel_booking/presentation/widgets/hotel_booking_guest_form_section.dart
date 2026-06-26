@@ -29,6 +29,7 @@ class HotelBookingGuestFormSection extends StatelessWidget {
     this.wrapInCard = true,
     this.priceTipText = '',
     this.enabled = true,
+    this.onSavedContactTap,
     this.onAdultsChanged,
     this.onKidsChanged,
   });
@@ -54,6 +55,7 @@ class HotelBookingGuestFormSection extends StatelessWidget {
   final bool wrapInCard;
   final String priceTipText;
   final bool enabled;
+  final VoidCallback? onSavedContactTap;
   final ValueChanged<int>? onAdultsChanged;
   final ValueChanged<int>? onKidsChanged;
 
@@ -72,22 +74,24 @@ class HotelBookingGuestFormSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (showTitle) ...<Widget>[
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          _SectionHeader(
+            title: title,
+            titleStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: colors.textPrimary,
               fontWeight: FontWeight.w700,
             ),
+            onSavedContactTap: onSavedContactTap,
           ),
         ],
         if (roomName != null && roomName!.isNotEmpty) ...<Widget>[
           if (showTitle) const SizedBox(height: 6),
-          Text(
-            roomName!,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          _SectionHeader(
+            title: roomName!,
+            titleStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: colors.textPrimary,
               fontWeight: FontWeight.w700,
             ),
+            onSavedContactTap: showTitle ? null : onSavedContactTap,
           ),
         ],
         const SizedBox(height: 18),
@@ -154,6 +158,52 @@ class HotelBookingGuestFormSection extends StatelessWidget {
             minValue: 0,
             maxValue: maxKids,
             onChanged: onKidsChanged,
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({
+    required this.title,
+    required this.titleStyle,
+    required this.onSavedContactTap,
+  });
+
+  final String title;
+  final TextStyle? titleStyle;
+  final VoidCallback? onSavedContactTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Text(
+            title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: titleStyle,
+          ),
+        ),
+        if (onSavedContactTap != null) ...<Widget>[
+          const SizedBox(width: 12),
+          TextButton.icon(
+            onPressed: onSavedContactTap,
+            icon: const Icon(Icons.person_search_outlined, size: 18),
+            label: Text(context.l10n.hotelBookingUseSavedContactAction),
+            style: TextButton.styleFrom(
+              foregroundColor: colors.primary,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              minimumSize: const Size(0, 34),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              textStyle: Theme.of(
+                context,
+              ).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w800),
+            ),
           ),
         ],
       ],

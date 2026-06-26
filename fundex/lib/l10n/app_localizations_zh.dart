@@ -1694,6 +1694,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelMemberContactsCountryLoading => '正在加载国家/地区';
 
   @override
+  String get hotelMemberContactsDeleteAction => '删除';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmTitle => '删除联系人？';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmMessage => '删除后无法恢复此联系人。';
+
+  @override
+  String get hotelMemberContactsDeletedMessage => '联系人已删除。';
+
+  @override
+  String get hotelMemberContactsDeleteFailedMessage => '联系人删除失败。';
+
+  @override
+  String get hotelBookingUseSavedContactAction => '已录入住宿人';
+
+  @override
   String get hotelCouponsSelectTitle => '选择优惠券';
 
   @override
@@ -7458,6 +7476,24 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelMemberContactsCountryLoading => '正在載入國家/地區';
+
+  @override
+  String get hotelMemberContactsDeleteAction => '刪除';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmTitle => '刪除聯絡人？';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmMessage => '刪除後無法恢復此聯絡人。';
+
+  @override
+  String get hotelMemberContactsDeletedMessage => '聯絡人已刪除。';
+
+  @override
+  String get hotelMemberContactsDeleteFailedMessage => '聯絡人刪除失敗。';
+
+  @override
+  String get hotelBookingUseSavedContactAction => '已錄入住客';
 
   @override
   String get hotelCouponsSelectTitle => '選擇優惠券';

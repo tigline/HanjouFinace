@@ -1709,6 +1709,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelMemberContactsCountryLoading => '国/地域を読み込み中';
 
   @override
+  String get hotelMemberContactsDeleteAction => '削除';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmTitle => '連絡先を削除しますか？';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmMessage => '削除した連絡先は元に戻せません。';
+
+  @override
+  String get hotelMemberContactsDeletedMessage => '連絡先を削除しました。';
+
+  @override
+  String get hotelMemberContactsDeleteFailedMessage => '連絡先を削除できませんでした。';
+
+  @override
+  String get hotelBookingUseSavedContactAction => '登録済み宿泊者';
+
+  @override
   String get hotelCouponsSelectTitle => 'クーポンを選択';
 
   @override

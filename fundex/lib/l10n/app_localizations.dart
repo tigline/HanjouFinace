@@ -3291,6 +3291,42 @@ abstract class AppLocalizations {
   /// **'Loading countries/regions'**
   String get hotelMemberContactsCountryLoading;
 
+  /// No description provided for @hotelMemberContactsDeleteAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get hotelMemberContactsDeleteAction;
+
+  /// No description provided for @hotelMemberContactsDeleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete contact?'**
+  String get hotelMemberContactsDeleteConfirmTitle;
+
+  /// No description provided for @hotelMemberContactsDeleteConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted contacts cannot be restored.'**
+  String get hotelMemberContactsDeleteConfirmMessage;
+
+  /// No description provided for @hotelMemberContactsDeletedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact deleted.'**
+  String get hotelMemberContactsDeletedMessage;
+
+  /// No description provided for @hotelMemberContactsDeleteFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete the contact.'**
+  String get hotelMemberContactsDeleteFailedMessage;
+
+  /// No description provided for @hotelBookingUseSavedContactAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved guests'**
+  String get hotelBookingUseSavedContactAction;
+
   /// No description provided for @hotelCouponsSelectTitle.
   ///
   /// In en, this message translates to:

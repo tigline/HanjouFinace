@@ -107,14 +107,14 @@ class _HotelDetailHeroGalleryState extends State<HotelDetailHeroGallery> {
               onPressed: widget.onBack,
             ),
           ),
-          Positioned(
-            top: topPadding + 12,
-            right: 16,
-            child: _HeroCircleButton(
-              icon: Icons.favorite_border_rounded,
-              onPressed: widget.onFavorite,
-            ),
-          ),
+          // Positioned(
+          //   top: topPadding + 12,
+          //   right: 16,
+          //   child: _HeroCircleButton(
+          //     icon: Icons.favorite_border_rounded,
+          //     onPressed: widget.onFavorite,
+          //   ),
+          // ),
           if (imageUrls.length > 1)
             Positioned(
               left: 0,

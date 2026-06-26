@@ -91,6 +91,7 @@ class HotelApiClient {
     this.memberInfoUpdatePath = HotelApiPaths.memberInfoUpdate,
     this.memberContactsListPath = HotelApiPaths.memberContactsList,
     this.memberContactsUpdatePath = HotelApiPaths.memberContactsUpdate,
+    this.memberContactsDeletePath = HotelApiPaths.memberContactsDelete,
     this.cardPayAuthPath = HotelApiPaths.cardPayAuth,
     this.cardPayJoinPath = HotelApiPaths.cardPayJoin,
     this.cardRegisterListPath = HotelApiPaths.cardRegisterList,
@@ -137,6 +138,7 @@ class HotelApiClient {
   final String memberInfoUpdatePath;
   final String memberContactsListPath;
   final String memberContactsUpdatePath;
+  final String memberContactsDeletePath;
   final String cardPayAuthPath;
   final String cardPayJoinPath;
   final String cardRegisterListPath;
@@ -477,6 +479,19 @@ class HotelApiClient {
     _envelopeCodec.assertSuccessIfEnvelope(
       _envelopeCodec.toJsonMap(response.data),
       fallbackMessage: 'Failed to save hotel member contact.',
+    );
+  }
+
+  Future<void> deleteMemberContact({required String id}) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      memberContactsDeletePath,
+      data: <String, dynamic>{'id': id.trim()},
+      options: authRequired(true),
+    );
+
+    _envelopeCodec.assertSuccessIfEnvelope(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to delete hotel member contact.',
     );
   }
 

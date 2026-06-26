@@ -52,6 +52,8 @@ abstract class HotelBookingRepository {
 
   Future<void> saveMemberContact(HotelMemberContactDraft draft);
 
+  Future<void> deleteMemberContact({required String id});
+
   Future<String> createBooking(HotelBookingCreateDraft draft);
 
   Future<HotelOrderListResult> fetchOrderList({

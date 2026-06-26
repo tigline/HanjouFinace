@@ -1797,6 +1797,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelMemberContactsCountryLoading => 'Loading countries/regions';
 
   @override
+  String get hotelMemberContactsDeleteAction => 'Delete';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmTitle => 'Delete contact?';
+
+  @override
+  String get hotelMemberContactsDeleteConfirmMessage =>
+      'Deleted contacts cannot be restored.';
+
+  @override
+  String get hotelMemberContactsDeletedMessage => 'Contact deleted.';
+
+  @override
+  String get hotelMemberContactsDeleteFailedMessage =>
+      'Could not delete the contact.';
+
+  @override
+  String get hotelBookingUseSavedContactAction => 'Saved guests';
+
+  @override
   String get hotelCouponsSelectTitle => 'Select coupon';
 
   @override

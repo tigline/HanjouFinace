@@ -18,6 +18,7 @@ import '../../domain/usecases/cancel_hotel_order_usecase.dart';
 import '../../domain/usecases/create_hotel_alipay_payment_usecase.dart';
 import '../../domain/usecases/create_hotel_credit_card_token_usecase.dart';
 import '../../domain/usecases/create_hotel_booking_usecase.dart';
+import '../../domain/usecases/delete_hotel_member_contact_usecase.dart';
 import '../../domain/usecases/fetch_hotel_building_filters_usecase.dart';
 import '../../domain/usecases/fetch_hotel_booking_preparation_usecase.dart';
 import '../../domain/usecases/fetch_hotel_country_codes_usecase.dart';
@@ -147,6 +148,13 @@ final fetchHotelCountryCodesUseCaseProvider =
 final saveHotelMemberContactUseCaseProvider =
     Provider<SaveHotelMemberContactUseCase>((ref) {
       return SaveHotelMemberContactUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
+final deleteHotelMemberContactUseCaseProvider =
+    Provider<DeleteHotelMemberContactUseCase>((ref) {
+      return DeleteHotelMemberContactUseCase(
         ref.watch(hotelBookingRepositoryProvider),
       );
     });
