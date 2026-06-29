@@ -102,7 +102,6 @@ jobs:
           ANDROID_KEY_ALIAS: ${{ secrets.STELLAVIA_ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.STELLAVIA_ANDROID_KEY_PASSWORD }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.STELLAVIA_GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-          GOOGLE_MAPS_API_KEY: ${{ secrets.STELLAVIA_GOOGLE_MAPS_API_KEY }}
           UPLOAD_ANDROID: ${{ inputs.upload_android }}
         run: |
           missing=()
@@ -163,7 +162,6 @@ jobs:
         env:
           BUILD_NAME: ${{ steps.android_meta.outputs.build_name }}
           BUILD_NUMBER: ${{ steps.android_meta.outputs.build_number }}
-          GOOGLE_MAPS_API_KEY: ${{ secrets.STELLAVIA_GOOGLE_MAPS_API_KEY }}
         run: |
           args=(
             build
@@ -304,7 +302,6 @@ jobs:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.STELLAVIA_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.STELLAVIA_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_P8_BASE64: ${{ secrets.STELLAVIA_APP_STORE_CONNECT_API_KEY_P8_BASE64 }}
-          GOOGLE_MAPS_API_KEY: ${{ secrets.STELLAVIA_GOOGLE_MAPS_API_KEY }}
           UPLOAD_IOS: ${{ inputs.upload_ios }}
         run: |
           missing=()
@@ -398,7 +395,6 @@ jobs:
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.STELLAVIA_APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.STELLAVIA_APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY_PATH: ${{ env.APP_STORE_CONNECT_API_KEY_PATH }}
-          GOOGLE_MAPS_API_KEY: ${{ secrets.STELLAVIA_GOOGLE_MAPS_API_KEY }}
         run: |
           export PATH="$FLUTTER_ROOT/bin:$PATH"
           which flutter
