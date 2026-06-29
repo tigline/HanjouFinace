@@ -7,6 +7,7 @@ class WalletHistoryListItem extends StatelessWidget {
     required this.title,
     required this.dateText,
     required this.amountText,
+    required this.balanceText,
     required this.amountColor,
     required this.indicatorColor,
   });
@@ -14,6 +15,7 @@ class WalletHistoryListItem extends StatelessWidget {
   final String title;
   final String dateText;
   final String amountText;
+  final String balanceText;
   final Color amountColor;
   final Color indicatorColor;
 
@@ -70,10 +72,26 @@ class WalletHistoryListItem extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Text(
-                amountText,
-                textAlign: TextAlign.right,
-                style: appText.bodyStrong.copyWith(color: amountColor),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    amountText,
+                    textAlign: TextAlign.right,
+                    style: appText.bodyStrong.copyWith(color: amountColor),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    balanceText,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
+                    style: appText.meta.copyWith(
+                      color: colors.textTertiary,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

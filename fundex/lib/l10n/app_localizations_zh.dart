@@ -4231,6 +4231,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get walletHistoryUnknownType => '交易';
 
   @override
+  String get walletHistoryBalanceLabel => '余额';
+
+  @override
   String get walletBankAccountMissingDescription => '当前还没有专用入金账户，请先申请账户后再进行入金。';
 
   @override
@@ -10016,6 +10019,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get walletHistoryUnknownType => '交易';
+
+  @override
+  String get walletHistoryBalanceLabel => '餘額';
 
   @override
   String get walletBankAccountMissingDescription => '目前尚未取得專用入金帳戶，請先申請帳戶後再入金。';

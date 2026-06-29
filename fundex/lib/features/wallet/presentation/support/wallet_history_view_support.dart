@@ -93,6 +93,16 @@ String formatWalletHistoryAmountText({
   return '$sign${formatter.format(value)}';
 }
 
+String formatWalletHistoryBalanceText({
+  required AppLocalizations l10n,
+  required WalletAccountHistory item,
+  required NumberFormat formatter,
+}) {
+  final balance = item.balance;
+  final balanceText = balance == null ? '--' : formatter.format(balance);
+  return '${l10n.walletHistoryBalanceLabel} $balanceText';
+}
+
 String formatWalletHistoryDateText(String? value) {
   if (value == null || value.trim().isEmpty) {
     return '--';

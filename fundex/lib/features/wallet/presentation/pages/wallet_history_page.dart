@@ -165,6 +165,11 @@ class _WalletHistoryPageState extends ConsumerState<WalletHistoryPage> {
         item: item,
         formatter: formatter,
       ),
+      balanceText: formatWalletHistoryBalanceText(
+        l10n: l10n,
+        item: item,
+        formatter: formatter,
+      ),
       amountColor: resolveWalletHistoryAmountColor(context, item),
       indicatorColor: resolveWalletHistoryIndicatorColor(context, item),
     );

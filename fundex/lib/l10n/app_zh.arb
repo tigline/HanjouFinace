@@ -1796,6 +1796,7 @@
   "walletHistoryMoreAction": "查看全部",
   "walletHistoryEmpty": "暂无记录。",
   "walletHistoryUnknownType": "交易",
+  "walletHistoryBalanceLabel": "余额",
   "walletBankAccountMissingDescription": "当前还没有专用入金账户，请先申请账户后再进行入金。",
   "walletBankAccountApplyAction": "申请账户",
   "walletBankAccountApplySuccess": "已提交入金账户申请，正在刷新账户信息。",

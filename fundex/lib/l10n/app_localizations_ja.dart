@@ -4266,6 +4266,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get walletHistoryUnknownType => '取引';
 
   @override
+  String get walletHistoryBalanceLabel => '残高';
+
+  @override
   String get walletBankAccountMissingDescription =>
       'お客様専用の入金口座がまだありません。口座を申請してからご入金ください。';
 

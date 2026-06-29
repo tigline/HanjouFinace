@@ -8145,6 +8145,12 @@ abstract class AppLocalizations {
   /// **'Record'**
   String get walletHistoryUnknownType;
 
+  /// No description provided for @walletHistoryBalanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get walletHistoryBalanceLabel;
+
   /// No description provided for @walletBankAccountMissingDescription.
   ///
   /// In en, this message translates to:

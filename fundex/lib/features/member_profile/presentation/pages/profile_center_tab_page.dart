@@ -411,6 +411,11 @@ Widget _buildTransactionHistorySection(
                         item: item,
                         formatter: formatter,
                       ),
+                      balanceText: formatWalletHistoryBalanceText(
+                        l10n: l10n,
+                        item: item,
+                        formatter: formatter,
+                      ),
                       amountColor: resolveWalletHistoryAmountColor(
                         context,
                         item,

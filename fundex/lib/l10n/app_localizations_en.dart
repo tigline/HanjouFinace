@@ -4470,6 +4470,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get walletHistoryUnknownType => 'Record';
 
   @override
+  String get walletHistoryBalanceLabel => 'Balance';
+
+  @override
   String get walletBankAccountMissingDescription =>
       'No dedicated deposit account has been issued yet. Please apply for one before making a deposit.';
 

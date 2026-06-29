@@ -1796,6 +1796,7 @@
   "walletHistoryMoreAction": "查看全部",
   "walletHistoryEmpty": "暫無紀錄。",
   "walletHistoryUnknownType": "交易",
+  "walletHistoryBalanceLabel": "餘額",
   "walletBankAccountMissingDescription": "目前尚未取得專用入金帳戶，請先申請帳戶後再入金。",
   "walletBankAccountApplyAction": "申請帳戶",
   "walletBankAccountApplySuccess": "已送出入金帳戶申請，正在更新帳戶資訊。",

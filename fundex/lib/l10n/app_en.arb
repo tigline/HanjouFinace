@@ -1826,6 +1826,7 @@
   "walletHistoryMoreAction": "View All",
   "walletHistoryEmpty": "No history yet.",
   "walletHistoryUnknownType": "Record",
+  "walletHistoryBalanceLabel": "Balance",
   "walletBankAccountMissingDescription": "No dedicated deposit account has been issued yet. Please apply for one before making a deposit.",
   "walletBankAccountApplyAction": "Apply for Account",
   "walletBankAccountApplySuccess": "Deposit account application submitted. Refreshing account info.",
