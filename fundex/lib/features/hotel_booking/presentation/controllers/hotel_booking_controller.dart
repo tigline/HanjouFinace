@@ -8,35 +8,54 @@ class HotelBookingState {
     required this.criteria,
     this.hotels = const <HotelSummary>[],
     this.totalCount = 0,
+    this.nextPage = 1,
+    this.limit = 9,
     this.isLoading = false,
     this.isRefreshing = false,
+    this.isLoadingMore = false,
     this.error,
+    this.loadMoreError,
   });
 
   final HotelSearchCriteria criteria;
   final List<HotelSummary> hotels;
   final int totalCount;
+  final int nextPage;
+  final int limit;
   final bool isLoading;
   final bool isRefreshing;
+  final bool isLoadingMore;
   final Object? error;
+  final Object? loadMoreError;
 
   bool get hasContent => hotels.isNotEmpty;
+  bool get hasMore => hotels.length < totalCount;
 
   HotelBookingState copyWith({
     HotelSearchCriteria? criteria,
     List<HotelSummary>? hotels,
     int? totalCount,
+    int? nextPage,
+    int? limit,
     bool? isLoading,
     bool? isRefreshing,
+    bool? isLoadingMore,
     Object? error = _unchanged,
+    Object? loadMoreError = _unchanged,
   }) {
     return HotelBookingState(
       criteria: criteria ?? this.criteria,
       hotels: hotels ?? this.hotels,
       totalCount: totalCount ?? this.totalCount,
+      nextPage: nextPage ?? this.nextPage,
+      limit: limit ?? this.limit,
       isLoading: isLoading ?? this.isLoading,
       isRefreshing: isRefreshing ?? this.isRefreshing,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       error: identical(error, _unchanged) ? this.error : error,
+      loadMoreError: identical(loadMoreError, _unchanged)
+          ? this.loadMoreError
+          : loadMoreError,
     );
   }
 }
@@ -65,20 +84,25 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
     state = state.copyWith(
       isLoading: !keepContent,
       isRefreshing: keepContent,
+      isLoadingMore: false,
       error: null,
+      loadMoreError: null,
     );
     try {
       final result = await _searchHotels(
         criteria: state.criteria,
         languageCode: _languageCode,
-        limit: 9,
+        page: 1,
+        limit: state.limit,
       );
       state = state.copyWith(
         hotels: result.hotels,
         totalCount: result.totalCount,
+        nextPage: 2,
         isLoading: false,
         isRefreshing: false,
         error: null,
+        loadMoreError: null,
       );
     } catch (error) {
       state = state.copyWith(
@@ -108,6 +132,9 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         checkOutDate: nextCheckOut,
         stayBenefit: false,
       ),
+      totalCount: 0,
+      nextPage: 1,
+      loadMoreError: null,
     );
     return refresh();
   }
@@ -127,6 +154,9 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         roomCount: criteria.roomCount.clamp(1, 10),
         stayBenefit: false,
       ),
+      totalCount: 0,
+      nextPage: 1,
+      loadMoreError: null,
     );
     return refresh();
   }
@@ -137,6 +167,9 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         buildingCode: buildingCode,
         stayBenefit: false,
       ),
+      totalCount: 0,
+      nextPage: 1,
+      loadMoreError: null,
     );
     return refresh();
   }
@@ -147,6 +180,9 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         priceSort: priceSort,
         stayBenefit: false,
       ),
+      totalCount: 0,
+      nextPage: 1,
+      loadMoreError: null,
     );
     return refresh();
   }
@@ -163,8 +199,42 @@ class HotelBookingController extends StateNotifier<HotelBookingState> {
         roomCount: rooms.clamp(1, 10),
         stayBenefit: false,
       ),
+      totalCount: 0,
+      nextPage: 1,
+      loadMoreError: null,
     );
     return refresh();
+  }
+
+  Future<void> loadMore() async {
+    if (state.isLoading ||
+        state.isRefreshing ||
+        state.isLoadingMore ||
+        !state.hasMore) {
+      return;
+    }
+    final page = state.nextPage;
+    state = state.copyWith(isLoadingMore: true, loadMoreError: null);
+    try {
+      final result = await _searchHotels(
+        criteria: state.criteria,
+        languageCode: _languageCode,
+        page: page,
+        limit: state.limit,
+      );
+      final nextHotels = <HotelSummary>[...state.hotels, ...result.hotels];
+      state = state.copyWith(
+        hotels: nextHotels,
+        totalCount: result.hotels.isEmpty
+            ? nextHotels.length
+            : result.totalCount,
+        nextPage: page + 1,
+        isLoadingMore: false,
+        loadMoreError: null,
+      );
+    } catch (error) {
+      state = state.copyWith(isLoadingMore: false, loadMoreError: error);
+    }
   }
 }
 
