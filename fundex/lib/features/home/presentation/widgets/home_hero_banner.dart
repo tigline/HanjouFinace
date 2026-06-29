@@ -278,7 +278,7 @@ class _HomeHeroVisual extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: colors.background),
       child: AspectRatio(
-        aspectRatio: 5 / 3,
+        aspectRatio: 782 / 500,
         child: FundHeroMediaBackground(
           gradientColors: <Color>[colors.heroMiddle, colors.primaryAlt],
           imageUrls: imageUrls,
@@ -296,7 +296,7 @@ List<String> _resolveHomeHeroImageUrls(Locale locale) {
   return List<String>.generate(
     _homeHeroBannerImageCount,
     (index) =>
-        '$_homeHeroBannerBaseUrl/banner.${index + 1}.$localeSuffix.jpg'
+        '$_homeHeroBannerBaseUrl/newbanner.${index + 1}.$localeSuffix.jpg'
         '?v=$_homeHeroBannerCacheVersion',
     growable: false,
   );
