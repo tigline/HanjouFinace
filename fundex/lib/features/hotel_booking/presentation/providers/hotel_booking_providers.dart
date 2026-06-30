@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:company_api_runtime/company_api_runtime.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -40,6 +42,7 @@ import '../../domain/usecases/register_hotel_credit_card_usecase.dart';
 import '../../domain/usecases/request_hotel_order_invoice_usecase.dart';
 import '../../domain/usecases/save_hotel_member_contact_usecase.dart';
 import '../../domain/usecases/search_hotels_usecase.dart';
+import '../../domain/usecases/set_hotel_user_language_usecase.dart';
 import '../../domain/usecases/sync_hotel_optimism_payment_usecase.dart';
 import '../../domain/usecases/unregister_hotel_credit_card_usecase.dart';
 import '../../domain/usecases/update_hotel_member_profile_usecase.dart';
@@ -274,6 +277,13 @@ final requestHotelOrderInvoiceUseCaseProvider =
       );
     });
 
+final setHotelUserLanguageUseCaseProvider =
+    Provider<SetHotelUserLanguageUseCase>((ref) {
+      return SetHotelUserLanguageUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
 final fetchHotelMemberProfileUseCaseProvider =
     Provider<FetchHotelMemberProfileUseCase>((ref) {
       return FetchHotelMemberProfileUseCase(
@@ -290,6 +300,62 @@ final updateHotelMemberProfileUseCaseProvider =
 
 final hotelLocaleLanguageCodeProvider = Provider<String>((ref) {
   return resolveHotelApiLanguageCode(ref.watch(appEffectiveLocaleProvider));
+});
+
+final hotelUserLanguageSyncBootstrapProvider = Provider<void>((ref) {
+  String? lastSyncedLanguageCode;
+  Future<void>? inFlightSync;
+  var disposed = false;
+  ref.onDispose(() {
+    disposed = true;
+  });
+
+  Future<void> sync(String languageCode) async {
+    if (lastSyncedLanguageCode == languageCode) {
+      return;
+    }
+    final existingSync = inFlightSync;
+    if (existingSync != null) {
+      try {
+        await existingSync;
+      } catch (_) {
+        // The caller below intentionally swallows sync failures.
+      }
+      if (lastSyncedLanguageCode == languageCode) {
+        return;
+      }
+    }
+    final syncFuture = ref
+        .read(setHotelUserLanguageUseCaseProvider)
+        .call(languageCode: languageCode)
+        .then((_) {
+          lastSyncedLanguageCode = languageCode;
+        })
+        .whenComplete(() {
+          inFlightSync = null;
+        });
+    inFlightSync = syncFuture;
+    try {
+      await syncFuture;
+    } catch (_) {
+      // This backend setting only controls localized hotel messages. Do not
+      // block app startup or language switching when it is temporarily failing.
+    }
+  }
+
+  unawaited(() async {
+    await ref.read(appLanguageProvider.notifier).ready;
+    if (disposed) {
+      return;
+    }
+    await sync(ref.read(hotelLocaleLanguageCodeProvider));
+  }());
+  ref.listen<String>(hotelLocaleLanguageCodeProvider, (previous, next) {
+    if (previous == next) {
+      return;
+    }
+    unawaited(sync(next));
+  });
 });
 
 final hotelBuildingFiltersProvider =

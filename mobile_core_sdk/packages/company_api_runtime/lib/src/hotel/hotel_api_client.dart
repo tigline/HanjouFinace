@@ -27,6 +27,7 @@ class HotelApiPaths {
   static const String orderList = '/pms/order/list';
   static const String orderDetail = '/pms/order/detail';
   static const String orderInvoice = '/pms/order/invoice';
+  static const String setUserLang = '/pms/setUserLang';
   static const String permitMemberPay = '/pms/book/permitMemberPay';
   static const String cancelOrderRule = '/pms/book/cancelOrderRule';
   static const String cancelOrder = '/pms/book/cancelOrder/v2';
@@ -76,6 +77,7 @@ class HotelApiClient {
     this.orderListPath = HotelApiPaths.orderList,
     this.orderDetailPath = HotelApiPaths.orderDetail,
     this.orderInvoicePath = HotelApiPaths.orderInvoice,
+    this.setUserLangPath = HotelApiPaths.setUserLang,
     this.permitMemberPayPath = HotelApiPaths.permitMemberPay,
     this.cancelOrderRulePath = HotelApiPaths.cancelOrderRule,
     this.cancelOrderPath = HotelApiPaths.cancelOrder,
@@ -123,6 +125,7 @@ class HotelApiClient {
   final String orderListPath;
   final String orderDetailPath;
   final String orderInvoicePath;
+  final String setUserLangPath;
   final String permitMemberPayPath;
   final String cancelOrderRulePath;
   final String cancelOrderPath;
@@ -708,6 +711,19 @@ class HotelApiClient {
     return _envelopeCodec.resolveErrorMessage(
       payload,
       fallbackMessage: 'success',
+    );
+  }
+
+  Future<void> setUserLanguage({required String lang}) async {
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      setUserLangPath,
+      queryParameters: <String, dynamic>{'lang': lang.trim()},
+      options: authRequired(true),
+    );
+
+    _envelopeCodec.assertSuccessIfEnvelope(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to set hotel user language.',
     );
   }
 

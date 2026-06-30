@@ -74,6 +74,8 @@ abstract class HotelBookingRepository {
     required String email,
   });
 
+  Future<void> setUserLanguage({required String languageCode});
+
   Future<HotelOrderCancelRule> fetchCancelOrderRule({
     required String languageCode,
     required String orderId,

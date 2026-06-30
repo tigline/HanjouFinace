@@ -416,6 +416,11 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
+  Future<void> setUserLanguage({required String languageCode}) {
+    return _remote.setUserLanguage(languageCode: languageCode);
+  }
+
+  @override
   Future<HotelOrderCancelRule> fetchCancelOrderRule({
     required String languageCode,
     required String orderId,

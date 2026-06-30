@@ -113,6 +113,8 @@ abstract class HotelBookingRemoteDataSource {
     required String email,
   });
 
+  Future<void> setUserLanguage({required String languageCode});
+
   Future<HotelOrderCancelRuleResultDto> fetchCancelOrderRule({
     required String languageCode,
     required String orderId,
@@ -362,6 +364,11 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
       receiptTitle: receiptTitle,
       email: email,
     );
+  }
+
+  @override
+  Future<void> setUserLanguage({required String languageCode}) {
+    return _client.setUserLanguage(lang: languageCode);
   }
 
   @override

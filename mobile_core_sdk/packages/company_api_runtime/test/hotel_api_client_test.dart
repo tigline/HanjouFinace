@@ -142,6 +142,23 @@ void main() {
       expect(result.last.localizedNames['EN'], equals('Aparthotel'));
     });
 
+    test('setUserLanguage calls hotel language endpoint', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('GET'));
+        expect(options.path, equals(HotelApiPaths.setUserLang));
+        expect(
+          options.queryParameters,
+          equals(<String, dynamic>{'lang': 'JP'}),
+        );
+        expect(options.extra['auth_required'], isFalse);
+
+        return _jsonOk('{"code":200,"msg":"success"}');
+      });
+      final api = HotelApiClient(client);
+
+      await api.setUserLanguage(lang: 'JP');
+    });
+
     test('fetchStayBenefitPeriods loads public homepage periods', () async {
       final client = _buildClient((options) async {
         expect(options.method, equals('POST'));

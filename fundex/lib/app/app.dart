@@ -23,6 +23,7 @@ import 'router/app_router.dart';
 import 'network/app_network_providers.dart';
 import 'network/app_network_connectivity_providers.dart';
 import '../features/auth/presentation/providers/auth_providers.dart';
+import '../features/hotel_booking/presentation/providers/hotel_booking_providers.dart';
 import '../features/investment/presentation/providers/fund_project_providers.dart';
 import '../features/home/presentation/providers/home_celebration_providers.dart';
 import '../features/home/presentation/widgets/home_celebration_dialog.dart';
@@ -45,6 +46,7 @@ class MemberTemplateApp extends ConsumerWidget {
     ref.watch(homeCelebrationBootstrapProvider);
     ref.watch(appPushDialogBootstrapProvider);
     ref.watch(appLinkCoordinatorProvider);
+    ref.watch(hotelUserLanguageSyncBootstrapProvider);
 
     final router = ref.watch(appRouterProvider);
     final environment = ref.watch(appEnvironmentProvider);
