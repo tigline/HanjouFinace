@@ -54,7 +54,7 @@ Future<void> runHotelOrderCancelFlow({
     if (!context.mounted || !rule.canCancel || shouldCancel != true) {
       return;
     }
-    final message = await AppLoadingDialog.run(
+    await AppLoadingDialog.run(
       context,
       () => ref.read(cancelHotelOrderUseCaseProvider)(
         languageCode: languageCode,
@@ -64,10 +64,7 @@ Future<void> runHotelOrderCancelFlow({
     if (!context.mounted) {
       return;
     }
-    AppNotice.show(
-      context,
-      message: message.trim().isEmpty ? l10n.hotelOrdersCancelFailed : message,
-    );
+    AppNotice.show(context, message: l10n.hotelOrdersCancelSuccess);
     await onCancelled?.call();
   } catch (error) {
     if (!context.mounted) {
@@ -78,11 +75,5 @@ Future<void> runHotelOrderCancelFlow({
 }
 
 String _cancelErrorMessage(Object error, AppLocalizations l10n) {
-  if (error is StateError) {
-    final message = error.message.trim();
-    if (message.isNotEmpty) {
-      return message;
-    }
-  }
   return l10n.hotelOrdersCancelFailed;
 }

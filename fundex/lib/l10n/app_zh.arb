@@ -890,6 +890,7 @@
   "hotelOrdersDetailAction": "查看详情",
   "hotelOrdersRebookComingSoon": "再次预订流程稍后接入",
   "hotelOrdersCancelComingSoon": "取消功能稍后接入",
+  "hotelOrdersCancelSuccess": "取消成功",
   "hotelOrdersCancelFailed": "取消订单失败，请稍后再试。",
   "hotelOrdersDetailComingSoon": "订单详情稍后接入",
   "hotelOrderDetailTitle": "订单详情",
