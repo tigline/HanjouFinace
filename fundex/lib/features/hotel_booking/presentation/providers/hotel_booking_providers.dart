@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/config/environment_provider.dart';
 import '../../../../app/localization/app_locale_providers.dart';
 import '../../../../app/network/app_network_providers.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
 import '../../data/datasources/hotel_credit_card_token_remote_data_source.dart';
 import '../../data/datasources/hotel_booking_remote_data_source.dart';
 import '../../data/repositories/hotel_credit_card_token_repository_impl.dart';
@@ -311,6 +312,11 @@ final hotelUserLanguageSyncBootstrapProvider = Provider<void>((ref) {
   });
 
   Future<void> sync(String languageCode) async {
+    final isAuthenticated =
+        ref.read(isAuthenticatedProvider).asData?.value ?? false;
+    if (!isAuthenticated) {
+      return;
+    }
     if (lastSyncedLanguageCode == languageCode) {
       return;
     }
@@ -343,13 +349,27 @@ final hotelUserLanguageSyncBootstrapProvider = Provider<void>((ref) {
     }
   }
 
-  unawaited(() async {
+  Future<void> syncCurrentLanguageIfAuthenticated() async {
     await ref.read(appLanguageProvider.notifier).ready;
     if (disposed) {
       return;
     }
     await sync(ref.read(hotelLocaleLanguageCodeProvider));
-  }());
+  }
+
+  unawaited(syncCurrentLanguageIfAuthenticated());
+  ref.listen<AsyncValue<bool>>(isAuthenticatedProvider, (previous, next) {
+    final wasAuthenticated = previous?.asData?.value ?? false;
+    final isAuthenticated = next.asData?.value ?? false;
+    if (wasAuthenticated == isAuthenticated) {
+      return;
+    }
+    if (!isAuthenticated) {
+      lastSyncedLanguageCode = null;
+      return;
+    }
+    unawaited(syncCurrentLanguageIfAuthenticated());
+  });
   ref.listen<String>(hotelLocaleLanguageCodeProvider, (previous, next) {
     if (previous == next) {
       return;
