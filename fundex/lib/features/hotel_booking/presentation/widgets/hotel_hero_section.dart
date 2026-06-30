@@ -87,50 +87,45 @@ class _HotelHeroSectionState extends ConsumerState<HotelHeroSection> {
       widget.criteria.roomCount,
     );
 
-    return Stack(
+    return Column(
       children: <Widget>[
-        AspectRatio(aspectRatio: 0.9, child: _HeroPhoto()),
-        Positioned(
-          left: 20,
-          top: 180,
-          right: 16,
-          bottom: 0,
-          child: Column(
-            children: <Widget>[
-              HotelSearchSummaryBar(
-                summaryLine: summaryLine,
-                guestLine: guestLine,
-                onTap: () => _openSearchConditions(filters),
-              ),
-
-              const SizedBox(height: 20),
-
-              HotelQuickActionSection(
-                userInfoLabel: context.l10n.hotelQuickActionStayBenefits,
-                ordersLabel: context.l10n.hotelQuickActionOrders,
-                contactsLabel: context.l10n.hotelQuickActionContacts,
-                couponsLabel: context.l10n.hotelQuickActionCoupons,
-                contactLabel: context.l10n.hotelQuickActionContact,
-                onUserInfoTap: () =>
-                    context.push('/hotel-booking/stay-benefits'),
-                onOrdersTap: widget.onOrdersTap,
-                onContactsTap: () => context.push('/hotel-booking/contacts'),
-                onCouponsTap: widget.onCouponsTap,
-                onContactTap: () => context.push('/profile/settings/contact'),
-              ),
-
-              const Spacer(),
-
-              HotelFilterSection(
-                state: widget.state,
-                presenter: widget.presenter,
-                onPriceSortSelected: widget.onPriceSortSelected,
-                onCriteriaApplied: widget.onCriteriaApplied,
-                onMapTap: widget.onMapTap,
-              ),
-            ],
+        AspectRatio(aspectRatio: 2, child: _HeroPhoto()),
+        Transform.translate(
+          offset: const Offset(0, -23),
+          child: HotelSearchSummaryBar(
+            summaryLine: summaryLine,
+            guestLine: guestLine,
+            onTap: () => _openSearchConditions(filters),
           ),
+
         ),
+        
+        //const SizedBox(height: 20),
+
+        HotelQuickActionSection(
+          userInfoLabel: context.l10n.hotelQuickActionStayBenefits,
+          ordersLabel: context.l10n.hotelQuickActionOrders,
+          contactsLabel: context.l10n.hotelQuickActionContacts,
+          couponsLabel: context.l10n.hotelQuickActionCoupons,
+          contactLabel: context.l10n.hotelQuickActionContact,
+          onUserInfoTap: () =>
+              context.push('/hotel-booking/stay-benefits'),
+          onOrdersTap: widget.onOrdersTap,
+          onContactsTap: () => context.push('/hotel-booking/contacts'),
+          onCouponsTap: widget.onCouponsTap,
+          onContactTap: () => context.push('/profile/settings/contact'),
+        ),
+
+        const SizedBox(height: 20),
+
+        HotelFilterSection(
+          state: widget.state,
+          presenter: widget.presenter,
+          onPriceSortSelected: widget.onPriceSortSelected,
+          onCriteriaApplied: widget.onCriteriaApplied,
+          onMapTap: widget.onMapTap,
+        ),
+
       ],
     );
   }
@@ -147,7 +142,7 @@ class _HeroPhoto extends StatelessWidget {
         fit: StackFit.expand,
         children: <Widget>[
           Image.asset(
-            'assets/images/hotel-booking-ui/hotel_bg.png',
+            'assets/images/hotel-booking-ui/hotel-bg.png',
             fit: BoxFit.fitWidth,
           ),
           FundHeroMediaBackground(
