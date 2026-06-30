@@ -234,76 +234,90 @@ class _HotelMemberContactCard extends StatelessWidget {
       child: Material(
         color: colors.surface.withValues(alpha: 0),
         child: InkWell(
-          onTap: onTap,
+          //onTap: onTap,
           borderRadius: BorderRadius.circular(UiTokens.radius12),
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                   Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: colors.textPrimary,
-                              fontWeight: FontWeight.w900,
-                            ),
-                      ),
-                    
-                    if (contact.isDefault) ...<Widget>[
-                      const SizedBox(width: 10),
-                      _DefaultBadge(),
-                    ],
-                    const Spacer(),
-                    Icon(
-                      Icons.edit_outlined,
-                      color: colors.textTertiary,
-                      size: 20,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: <Widget>[
-                    _InlineInfo(
-                      icon: Icons.public_outlined,
-                      value: country.isEmpty ? '-' : country,
-                    ),
-
-                    const SizedBox(width: 14),
-                    _InlineInfo(icon: Icons.call_outlined, value: phone),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                _InfoLine(
-                  icon: Icons.mail_outline_rounded,
-                  value: contact.email.isEmpty ? '-' : contact.email,
-                ),
-                //const SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton.icon(
-                    onPressed: onDelete,
-                    icon: const Icon(Icons.delete_outline_rounded, size: 18),
-                    label: Text(context.l10n.hotelMemberContactsDeleteAction),
-                    style: TextButton.styleFrom(
-                      foregroundColor: colors.danger,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
-                      ),
-                      minimumSize: const Size(0, 34),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      textStyle: Theme.of(context).textTheme.labelLarge
-                          ?.copyWith(fontWeight: FontWeight.w800),
+            child: 
+            
+            IntrinsicHeight(
+              child: Row(
+                children: [
+              
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                           Icon(Icons.person, color: colors.highlightGold),
+                           const SizedBox(width: 4),
+                           Text(
+                                name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(
+                                      color: colors.textPrimary,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                              ),
+                            
+                            if (contact.isDefault) ...<Widget>[
+                              const SizedBox(width: 10),
+                              _DefaultBadge(),
+                            ],
+                            
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        _InlineInfo(
+                          icon: Icons.public_outlined,
+                          value: country.isEmpty ? '-' : country,
+                        ),
+                        const SizedBox(height: 8),  
+                        _InlineInfo(icon: Icons.call_outlined, value: phone),
+                        const SizedBox(height: 8),
+                        _InfoLine(
+                          icon: Icons.mail_outline_rounded,
+                          value: contact.email.isEmpty ? '-' : contact.email,
+                        ),
+                        //const SizedBox(height: 10),
+                        
+                      ],
                     ),
                   ),
-                ),
-              ],
+              
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        color: colors.textTertiary,
+                        iconSize: 20,
+                        onPressed: () => onTap(),
+                      ),
+                      
+                      TextButton.icon(
+                          onPressed: onDelete,
+                          icon: const Icon(Icons.delete_outline_rounded, size: 18),
+                          label: Text(context.l10n.hotelMemberContactsDeleteAction),
+                          style: TextButton.styleFrom(
+                            foregroundColor: colors.danger,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 6,
+                            ),
+                            minimumSize: const Size(0, 34),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            textStyle: Theme.of(context).textTheme.labelLarge
+                                ?.copyWith(fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
