@@ -71,7 +71,7 @@ class _HotelPaymentMethodPageState
                 selected: _paymentMethod,
                 registeredCardCount: cardsState.valueOrNull?.length ?? 0,
                 accountBalance:
-                    accountStatisticState.valueOrNull?.firstLevelAccountTotal,
+                    accountStatisticState.valueOrNull?.withdrawableAmount,
                 isAccountBalanceLoading: accountStatisticState.isLoading,
                 payableAmount: widget.args.totalAmount,
                 onChanged: (value) {
@@ -154,7 +154,7 @@ class _HotelPaymentMethodPageState
         (ref
                     .read(myPageAccountStatisticProvider)
                     .valueOrNull
-                    ?.firstLevelAccountTotal ??
+                    ?.withdrawableAmount ??
                 0) <
             widget.args.totalAmount) {
       AppNotice.show(

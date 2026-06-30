@@ -231,7 +231,7 @@ class _HotelBookingConfirmPageState
                             preparation?.registeredCardCount ?? 0,
                         accountBalance: accountStatisticState
                             .valueOrNull
-                            ?.firstLevelAccountTotal,
+                            ?.withdrawableAmount,
                         isAccountBalanceLoading:
                             accountStatisticState.isLoading,
                         payableAmount: amount ?? 0,
