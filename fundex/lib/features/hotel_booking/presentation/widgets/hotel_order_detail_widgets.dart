@@ -333,10 +333,7 @@ bool _isAwaitingPayment(HotelOrderSummary summary) {
 }
 
 bool _canCancel(HotelOrderSummary summary) {
-  return switch (summary.orderStatusCode) {
-    25 || 30 || 40 => true,
-    _ => false,
-  };
+  return summary.canRefund;
 }
 
 bool _isTerminalDetailOrderStatus(int? code) {
