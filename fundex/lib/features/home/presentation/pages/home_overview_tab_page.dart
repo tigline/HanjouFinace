@@ -176,6 +176,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
           ? null
           : () => context.push('/login?openRegister=1'),
       onNotificationTap: () => context.push('/profile/notifications'),
+      onSettingsTap: () => context.push('/profile/settings'),
       showGuestActions: !isAuthenticated,
     );
     final attractionSection = HomeAttractionSection(

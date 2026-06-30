@@ -18,6 +18,7 @@ class HomeHeroBanner extends StatelessWidget {
     required this.showGuestActions,
     required this.onNotificationTap,
     required this.showNotificationDot,
+    required this.onSettingsTap,
     this.onRegisterTap,
     this.onLoginTap,
   });
@@ -31,6 +32,7 @@ class HomeHeroBanner extends StatelessWidget {
   final VoidCallback? onRegisterTap;
   final VoidCallback? onLoginTap;
   final VoidCallback? onNotificationTap;
+  final VoidCallback? onSettingsTap;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -65,12 +67,21 @@ class HomeHeroBanner extends StatelessWidget {
                   Positioned(
                     top: 55,
                     right: 25,
-                    child: _HomeHeroNotificationButton(
-                      showDot: showNotificationDot,
-                      onTap: onNotificationTap,
-                    ),
+                    child: showGuestActions
+                        ? AppNavigationIconButton(
+                            icon: Icons.menu_rounded,
+                            size: 40,
+                            borderRadius: 12,
+                            backgroundColor: colors.onDark.withValues(
+                              alpha: 0.08,
+                            ),
+                            onTap: onSettingsTap,
+                          )
+                        : _HomeHeroNotificationButton(
+                            showDot: showNotificationDot,
+                            onTap: onNotificationTap,
+                          ),
                   ),
-                  
                 ],
               ),
               if (showGuestActions)
