@@ -229,7 +229,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                   height: 82,
                                   child: Column(
                                     children: [
-                                      const SizedBox(height: 12),
+                                      
                                       Row(
                                         children: <Widget>[
                                           Expanded(
@@ -310,6 +310,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                           ),
                                           Expanded(
                                             child: _MainTabItem(
+                                              center: true,
                                               label: l10n.mainTabInvestment,
                                               isSelected:
                                                   currentTabIndex ==
@@ -330,6 +331,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                         .index,
                                                   ),
                                               badge: _MainTabBadge(
+                                                center: true,
                                                 backgroundColor:
                                                     currentTabIndex ==
                                                         MainShellTab
@@ -541,6 +543,7 @@ class _MainTabItem extends StatelessWidget {
     required this.labelColor,
     required this.onTap,
     required this.badge,
+    this.center = false,
   });
 
   final String label;
@@ -548,6 +551,7 @@ class _MainTabItem extends StatelessWidget {
   final Color labelColor;
   final VoidCallback onTap;
   final Widget badge;
+  final bool center;
 
   @override
   Widget build(BuildContext context) {
@@ -558,6 +562,7 @@ class _MainTabItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          SizedBox(height: center ? 3 : 10),
           badge,
           const SizedBox(height: 4),
           Text(
@@ -574,10 +579,17 @@ class _MainTabItem extends StatelessWidget {
 }
 
 class _MainTabBadge extends StatelessWidget {
-  const _MainTabBadge({required this.backgroundColor, required this.child});
+  const _MainTabBadge({
+    required this.backgroundColor,
+    required this.child,
+    this.center = false,
+  });
 
   final Color backgroundColor;
   final Widget child;
+  final bool center;
+
+  double get size => center ? 54 : 44;
 
   @override
   Widget build(BuildContext context) {
@@ -593,7 +605,11 @@ class _MainTabBadge extends StatelessWidget {
           ),
         ],
       ),
-      child: SizedBox(width: 44, height: 44, child: Center(child: child)),
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Center(child: child),
+      ),
     );
   }
 }

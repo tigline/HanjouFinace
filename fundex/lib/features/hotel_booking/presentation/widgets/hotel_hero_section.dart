@@ -147,7 +147,7 @@ class _HeroPhoto extends StatelessWidget {
         fit: StackFit.expand,
         children: <Widget>[
           Image.asset(
-            'assets/images/hotel-booking-ui/hotelbg.jpg',
+            'assets/images/hotel-booking-ui/hotel_bg.png',
             fit: BoxFit.fitWidth,
           ),
           FundHeroMediaBackground(

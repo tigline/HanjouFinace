@@ -107,7 +107,7 @@ class _HomeAttractionCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 10,
                   overflow: TextOverflow.ellipsis,
-                  style: appText.bodyStrong.copyWith(
+                  style: appText.body.copyWith(
                     color: colors.textPrimary,
                     height: 1.45,
                   ),

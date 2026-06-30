@@ -111,7 +111,9 @@ FundFeaturedFundTagData? _buildMethodTag(
   }
   return FundFeaturedFundTagData(
     label: label,
-    backgroundColor: Theme.of(context).appColors.textPrimary.withValues(alpha: 0.68),
+    backgroundColor: Theme.of(
+      context,
+    ).appColors.textPrimary.withValues(alpha: 0.68),
     foregroundColor: Theme.of(context).appColors.onDark.withValues(alpha: 0.92),
   );
 }
@@ -228,18 +230,14 @@ double _normalizeProgress(double? ratio) {
   if (ratio == null) {
     return 0;
   }
-  if (ratio < 0) {
-    return 0;
-  }
-  final normalized = ratio > 1 ? ratio / 100 : ratio;
-  return normalized.clamp(0, 1).toDouble();
+  return ratio.clamp(0, 1).toDouble();
 }
 
 String _formatProgressPercent(double? ratio) {
   if (ratio == null) {
     return '--';
   }
-  final percentage = _normalizeProgress(ratio) * 100;
+  final percentage = ratio * 100;
   final truncated = (percentage * 100).truncate() / 100;
   final formatted = truncated
       .toStringAsFixed(2)
