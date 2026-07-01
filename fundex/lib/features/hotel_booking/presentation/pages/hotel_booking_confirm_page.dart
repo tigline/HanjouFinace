@@ -59,18 +59,12 @@ class _HotelBookingConfirmPageState
   int _quoteRevision = 0;
   HotelCoupon? _selectedCoupon;
   HotelFundBenefitTicket? _selectedFundBenefitTicket;
-  List<HotelFundBenefitTicket> _fundBenefitTickets =
+  final List<HotelFundBenefitTicket> _fundBenefitTickets =
       const <HotelFundBenefitTicket>[];
   num? _quotedAmountOverride;
   num? _quotedOriginalAmountOverride;
   List<HotelBookingRoomPriceElement> _roomPriceElements =
       const <HotelBookingRoomPriceElement>[];
-  bool _isLoadingFundBenefitTickets = false;
-  bool _didFetchFundBenefitTickets = false;
-  bool _didFailFundBenefitTickets = false;
-  bool _allowStayBenefitBookingWithoutTicket = false;
-  bool _isShowingNoSuitableTicketDialog = false;
-  num? _lastFundBenefitMatchAmount;
 
   @override
   void initState() {
@@ -103,13 +97,6 @@ class _HotelBookingConfirmPageState
       _roomIntlCodes.add('+81');
     }
     _syncFirstRoomGuestFromBooker();
-    if (widget.seed.criteria.stayBenefit) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          _fetchFundBenefitTicketsForBooking();
-        }
-      });
-    }
   }
 
   @override
@@ -156,7 +143,6 @@ class _HotelBookingConfirmPageState
         _quotedAmountOverride ??
         preparation?.quotedPrice ??
         widget.seed.fallbackAmount;
-    _scheduleFundBenefitTicketMatch(amount);
     final usesFundBenefitTicket = _selectedFundBenefitTicket != null;
     final payableAmount = usesFundBenefitTicket ? 0 : amount;
     final originalAmount = usesFundBenefitTicket
@@ -425,135 +411,6 @@ class _HotelBookingConfirmPageState
     return '宿泊特典・${presenter.amount(ticket.benefitAmount)}円';
   }
 
-  Future<void> _fetchFundBenefitTicketsForBooking() async {
-    if (_didFetchFundBenefitTickets || _isLoadingFundBenefitTickets) {
-      return;
-    }
-    setState(() {
-      _didFetchFundBenefitTickets = true;
-      _didFailFundBenefitTickets = false;
-      _isLoadingFundBenefitTickets = true;
-    });
-    try {
-      final tickets = await ref.read(
-        fetchHotelFundBenefitTicketsUseCaseProvider,
-      )();
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _fundBenefitTickets = tickets;
-        _isLoadingFundBenefitTickets = false;
-      });
-    } catch (_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _didFailFundBenefitTickets = true;
-        _isLoadingFundBenefitTickets = false;
-      });
-      AppNotice.show(
-        context,
-        message: context.l10n.hotelStayBenefitStatusInfoUnavailable,
-      );
-    }
-  }
-
-  void _scheduleFundBenefitTicketMatch(num? amount) {
-    if (!widget.seed.criteria.stayBenefit ||
-        _isLoadingFundBenefitTickets ||
-        !_didFetchFundBenefitTickets ||
-        _didFailFundBenefitTickets ||
-        _selectedCoupon != null ||
-        (_allowStayBenefitBookingWithoutTicket &&
-            _selectedFundBenefitTicket == null) ||
-        amount == null ||
-        amount <= 0) {
-      return;
-    }
-    if (_lastFundBenefitMatchAmount == amount) {
-      return;
-    }
-    _lastFundBenefitMatchAmount = amount;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
-        return;
-      }
-      _applyFundBenefitTicketMatch(amount);
-    });
-  }
-
-  void _applyFundBenefitTicketMatch(num amount) {
-    final ticket = _closestFundBenefitTicketAbove(amount);
-    if (ticket != null) {
-      if (_selectedFundBenefitTicket?.id == ticket.id) {
-        return;
-      }
-      setState(() {
-        _selectedCoupon = null;
-        _selectedFundBenefitTicket = ticket;
-        _allowStayBenefitBookingWithoutTicket = false;
-      });
-      return;
-    }
-    if (_selectedFundBenefitTicket != null) {
-      setState(() => _selectedFundBenefitTicket = null);
-    }
-    if (_allowStayBenefitBookingWithoutTicket ||
-        _isShowingNoSuitableTicketDialog) {
-      return;
-    }
-    _showNoSuitableFundBenefitTicketDialog();
-  }
-
-  HotelFundBenefitTicket? _closestFundBenefitTicketAbove(num amount) {
-    final candidates = _fundBenefitTickets
-        .where(_isUnusedFundBenefitTicket)
-        .where((ticket) => (ticket.benefitAmount ?? 0) > amount)
-        .toList(growable: false);
-    if (candidates.isEmpty) {
-      return null;
-    }
-    candidates.sort(
-      (a, b) => (a.benefitAmount ?? 0).compareTo(b.benefitAmount ?? 0),
-    );
-    return candidates.first;
-  }
-
-  bool _isUnusedFundBenefitTicket(HotelFundBenefitTicket ticket) {
-    return ticket.ticketStatus == 1 &&
-        ticket.usedTime.trim().isEmpty &&
-        ticket.bookingOrderId == null &&
-        (ticket.benefitAmount ?? 0) > 0;
-  }
-
-  Future<void> _showNoSuitableFundBenefitTicketDialog() async {
-    _isShowingNoSuitableTicketDialog = true;
-    final result = await AppDialogs.showAdaptiveAlert<bool>(
-      context: context,
-      title: context.l10n.hotelStayBenefitNoSuitableTicketTitle,
-      message: context.l10n.hotelStayBenefitNoSuitableTicketMessage,
-      actions: <AppDialogAction<bool>>[
-        AppDialogAction<bool>(label: context.l10n.commonCancel, value: false),
-        AppDialogAction<bool>(
-          label: context.l10n.hotelStayBenefitNoSuitableTicketConfirm,
-          value: true,
-          isDefaultAction: true,
-        ),
-      ],
-    );
-    if (!mounted) {
-      return;
-    }
-    _isShowingNoSuitableTicketDialog = false;
-    if (result == true) {
-      setState(() => _allowStayBenefitBookingWithoutTicket = true);
-      return;
-    }
-    context.pop();
-  }
-
   int? _maxGuestsFor(int index) {
     final maxGuests = _roomGuestTargets[index].maxGuests;
     return maxGuests != null && maxGuests > 0 ? maxGuests : null;
@@ -643,7 +500,6 @@ class _HotelBookingConfirmPageState
       setState(() {
         _selectedCoupon = null;
         _selectedFundBenefitTicket = null;
-        _allowStayBenefitBookingWithoutTicket = true;
       });
       if (hadCoupon) {
         await _requoteCouponSelection(null, preparation);
@@ -656,7 +512,6 @@ class _HotelBookingConfirmPageState
       setState(() {
         _selectedCoupon = null;
         _selectedFundBenefitTicket = nextFundBenefitTicket;
-        _allowStayBenefitBookingWithoutTicket = false;
       });
       if (hadCoupon) {
         await _requoteCouponSelection(null, preparation);
@@ -670,7 +525,6 @@ class _HotelBookingConfirmPageState
     setState(() {
       _selectedCoupon = nextCoupon;
       _selectedFundBenefitTicket = null;
-      _allowStayBenefitBookingWithoutTicket = true;
     });
     await _requoteCouponSelection(nextCoupon, preparation);
   }

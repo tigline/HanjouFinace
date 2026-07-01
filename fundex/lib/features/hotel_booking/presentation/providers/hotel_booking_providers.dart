@@ -28,7 +28,6 @@ import '../../domain/usecases/fetch_hotel_country_codes_usecase.dart';
 import '../../domain/usecases/fetch_hotel_coupons_usecase.dart';
 import '../../domain/usecases/fetch_hotel_credit_cards_usecase.dart';
 import '../../domain/usecases/fetch_hotel_detail_usecase.dart';
-import '../../domain/usecases/fetch_hotel_fund_benefit_tickets_usecase.dart';
 import '../../domain/usecases/fetch_hotel_member_contacts_usecase.dart';
 import '../../domain/usecases/fetch_hotel_member_profile_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_cancel_rule_usecase.dart';
@@ -127,13 +126,6 @@ final fetchHotelCouponsUseCaseProvider = Provider<FetchHotelCouponsUseCase>((
 ) {
   return FetchHotelCouponsUseCase(ref.watch(hotelBookingRepositoryProvider));
 });
-
-final fetchHotelFundBenefitTicketsUseCaseProvider =
-    Provider<FetchHotelFundBenefitTicketsUseCase>((ref) {
-      return FetchHotelFundBenefitTicketsUseCase(
-        ref.watch(hotelBookingRepositoryProvider),
-      );
-    });
 
 final fetchHotelMemberContactsUseCaseProvider =
     Provider<FetchHotelMemberContactsUseCase>((ref) {
@@ -447,7 +439,7 @@ final hotelCouponsProvider = FutureProvider.autoDispose<HotelCouponListResult>((
 
 final hotelFundBenefitTicketsProvider =
     FutureProvider.autoDispose<List<HotelFundBenefitTicket>>((ref) {
-      return ref.watch(fetchHotelFundBenefitTicketsUseCaseProvider)();
+      return const <HotelFundBenefitTicket>[];
     });
 
 final hotelMemberContactsProvider =
@@ -467,22 +459,8 @@ final hotelCountryCodesProvider =
     });
 
 final hotelMaxFundBenefitTicketAmountProvider =
-    FutureProvider.autoDispose<int?>((ref) async {
-      final tickets = await ref.watch(hotelFundBenefitTicketsProvider.future);
-      int? maxAmount;
-      for (final ticket in tickets) {
-        if (ticket.ticketStatus != 1) {
-          continue;
-        }
-        final amount = ticket.benefitAmount;
-        if (amount == null) {
-          continue;
-        }
-        if (maxAmount == null || amount > maxAmount) {
-          maxAmount = amount;
-        }
-      }
-      return maxAmount;
+    FutureProvider.autoDispose<int?>((ref) {
+      return null;
     });
 
 final hotelStayBenefitPeriodsProvider =

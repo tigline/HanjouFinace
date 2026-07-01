@@ -20,13 +20,17 @@ class HotelCouponListPage extends ConsumerStatefulWidget {
 }
 
 class _HotelCouponListPageState extends ConsumerState<HotelCouponListPage> {
-  _HotelCouponListSegment _segment = _HotelCouponListSegment.coupons;
+  final _HotelCouponListSegment _segment = _HotelCouponListSegment.coupons;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     final couponsState = ref.watch(hotelCouponsProvider);
-    final fundBenefitState = ref.watch(hotelFundBenefitTicketsProvider);
+    final fundBenefitState = _segment == _HotelCouponListSegment.fundBenefits
+        ? ref.watch(hotelFundBenefitTicketsProvider)
+        : const AsyncValue<List<HotelFundBenefitTicket>>.data(
+            <HotelFundBenefitTicket>[],
+          );
     return Scaffold(
       backgroundColor: colors.surfaceAlt,
       appBar: AppNavigationBar(
@@ -71,7 +75,6 @@ class _HotelCouponListPageState extends ConsumerState<HotelCouponListPage> {
           //     ),
           //   ),
           // ),
-
           Expanded(
             child: RefreshIndicator(
               onRefresh: _refresh,
@@ -94,7 +97,6 @@ class _HotelCouponListPageState extends ConsumerState<HotelCouponListPage> {
   Future<void> _refresh() async {
     await Future.wait<void>(<Future<void>>[
       ref.refresh(hotelCouponsProvider.future).then((_) {}),
-      ref.refresh(hotelFundBenefitTicketsProvider.future).then((_) {}),
     ]);
   }
 
