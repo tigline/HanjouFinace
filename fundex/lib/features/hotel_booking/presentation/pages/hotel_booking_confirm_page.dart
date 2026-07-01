@@ -11,6 +11,7 @@ import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
 import '../support/hotel_booking_result_route_args.dart';
+import '../support/hotel_phone_intl_codes.dart';
 import '../widgets/hotel_booking_extra_sections.dart';
 import '../widgets/hotel_booking_guest_form_section.dart';
 import '../widgets/hotel_booking_order_summary_card.dart';
@@ -374,7 +375,7 @@ class _HotelBookingConfirmPageState
     _setBookerCountryCode(
       contact.nationality.trim().isEmpty ? null : contact.nationality.trim(),
     );
-    final intlCode = _normalizeSupportedIntlCode(contact.intlCode);
+    final intlCode = normalizeHotelPhoneIntlCode(contact.intlCode);
     if (intlCode != null) {
       _setBookerIntlCode(intlCode);
     }
@@ -392,7 +393,7 @@ class _HotelBookingConfirmPageState
       _roomCountryCodes[index] = contact.nationality.trim().isEmpty
           ? null
           : contact.nationality.trim();
-      final intlCode = _normalizeSupportedIntlCode(contact.intlCode);
+      final intlCode = normalizeHotelPhoneIntlCode(contact.intlCode);
       if (intlCode != null) {
         _roomIntlCodes[index] = intlCode;
       }
@@ -725,7 +726,7 @@ class _HotelBookingConfirmPageState
       _firstNonEmpty(<String?>[user.phone, user.mobile]),
     );
 
-    final intlCode = _normalizeSupportedIntlCode(user.intlTelCode ?? '');
+    final intlCode = normalizeHotelPhoneIntlCode(user.intlTelCode ?? '');
     if (intlCode != null && _bookerIntlCode == '+81') {
       _setBookerIntlCode(intlCode);
     }
@@ -808,17 +809,6 @@ class _HotelBookingConfirmPageState
       }
     }
     return '';
-  }
-
-  String? _normalizeSupportedIntlCode(String rawCode) {
-    final trimmed = rawCode.trim();
-    if (trimmed.isEmpty) {
-      return null;
-    }
-    final normalized = trimmed.startsWith('+') ? trimmed : '+$trimmed';
-    return const <String>{'+81', '+86', '+82', '+1'}.contains(normalized)
-        ? normalized
-        : null;
   }
 
   String _roomDisplayName(_RoomGuestFormTarget target) {

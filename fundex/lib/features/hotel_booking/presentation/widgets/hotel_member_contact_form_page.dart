@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
+import '../support/hotel_phone_intl_codes.dart';
 import 'hotel_booking_section_card.dart';
 
 class HotelMemberContactFormPage extends ConsumerStatefulWidget {
@@ -38,7 +39,7 @@ class _HotelMemberContactFormPageState
     );
     _phoneController = TextEditingController(text: contact?.mobile ?? '');
     _emailController = TextEditingController(text: contact?.email ?? '');
-    _intlCode = _displayIntlCode(contact?.intlCode ?? '81');
+    _intlCode = resolveHotelPhoneIntlCode(contact?.intlCode ?? '81');
     _nationality = (contact?.nationality.trim().isEmpty ?? true)
         ? null
         : contact!.nationality.trim();
@@ -236,14 +237,6 @@ class _HotelMemberContactFormPageState
   void _showMessage(String message) {
     AppNotice.show(context, message: message);
   }
-
-  String _displayIntlCode(String value) {
-    final trimmed = value.trim();
-    if (trimmed.isEmpty) {
-      return '+81';
-    }
-    return trimmed.startsWith('+') ? trimmed : '+$trimmed';
-  }
 }
 
 class _CountryField extends StatelessWidget {
@@ -324,13 +317,7 @@ class _PhoneField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    final codes = <String>{
-      if (intlCode.trim().isNotEmpty) intlCode,
-      '+81',
-      '+86',
-      '+82',
-      '+1',
-    }.toList(growable: false);
+    final selectedIntlCode = resolveHotelPhoneIntlCode(intlCode);
     return _LabeledField(
       label: context.l10n.hotelBookingPhoneNumber,
       requiredMark: false,
@@ -339,7 +326,7 @@ class _PhoneField extends StatelessWidget {
           SizedBox(
             width: 104,
             child: DropdownButtonFormField<String>(
-              initialValue: codes.contains(intlCode) ? intlCode : '+81',
+              initialValue: selectedIntlCode,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                 enabledBorder: OutlineInputBorder(
@@ -351,7 +338,7 @@ class _PhoneField extends StatelessWidget {
                   borderSide: BorderSide(color: colors.brandSecondary),
                 ),
               ),
-              items: codes
+              items: hotelPhoneIntlCodes
                   .map(
                     (code) => DropdownMenuItem<String>(
                       value: code,

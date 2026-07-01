@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/hotel_models.dart';
+import '../support/hotel_phone_intl_codes.dart';
 import 'hotel_booking_section_card.dart';
 
 class HotelBookingGuestFormSection extends StatelessWidget {
@@ -360,7 +361,7 @@ class _PhoneFields extends StatelessWidget {
                   borderSide: BorderSide(color: colors.brandSecondary),
                 ),
               ),
-              items: const <String>['+81', '+86', '+82', '+1']
+              items: hotelPhoneIntlCodes
                   .map(
                     (code) => DropdownMenuItem<String>(
                       value: code,
