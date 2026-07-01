@@ -947,6 +947,7 @@ class FundFeaturedFundCard extends StatelessWidget {
     final actionForegroundColor = isApplyAction
         ? colors.textPrimary
         : colors.onDark;
+    final showDaysRemaining = data.daysRemaining.trim().isNotEmpty;
 
     Widget dataBlock(String title, String value) {
       return Expanded(
@@ -1087,7 +1088,7 @@ class FundFeaturedFundCard extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          const SizedBox(height: 16,),
+                          const SizedBox(height: 16),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -1123,7 +1124,8 @@ class FundFeaturedFundCard extends StatelessWidget {
                                   TextSpan(
                                     children: <InlineSpan>[
                                       TextSpan(
-                                        text: '$fundDetailAchievementRateLabel ',
+                                        text:
+                                            '$fundDetailAchievementRateLabel ',
                                       ),
                                       TextSpan(
                                         text: data.progressLabel ?? '',
@@ -1138,13 +1140,15 @@ class FundFeaturedFundCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: UiTokens.spacing8),
-                              Text(
-                                data.daysRemaining,
-                                style: appText.bodyMuted.copyWith(
-                                  color: secondaryTextColor,
+                              if (showDaysRemaining) ...<Widget>[
+                                const SizedBox(width: UiTokens.spacing8),
+                                Text(
+                                  data.daysRemaining,
+                                  style: appText.bodyMuted.copyWith(
+                                    color: secondaryTextColor,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ],
                           ),
                           const SizedBox(height: UiTokens.spacing16),

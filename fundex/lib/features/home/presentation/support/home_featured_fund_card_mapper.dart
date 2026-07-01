@@ -27,9 +27,7 @@ FundFeaturedFundCardData buildHomeFeaturedFundCardData(
     ),
     metadata: metadata,
     progress: _normalizeProgress(project.achievementRate),
-    daysRemaining: context.l10n.homeFeaturedFundRemainingDays(
-      project.daysRemaining?.toString() ?? context.l10n.fundDetailUnknownValue,
-    ),
+    daysRemaining: _buildDaysRemainingLabel(context, project.daysRemaining),
     actionLabel: status == 1
         ? context.l10n.homeFeaturedFundApplyAction
         : context.l10n.homeFeaturedFundViewDetailAction,
@@ -44,6 +42,15 @@ FundFeaturedFundCardData buildHomeFeaturedFundCardData(
     artworkGradientColors: _featuredArtworkGradientColors(context, status),
     imageUrls: project.photos,
     onTap: () => context.push('/funds/${project.id}'),
+  );
+}
+
+String _buildDaysRemainingLabel(BuildContext context, int? daysRemaining) {
+  if (daysRemaining == 0) {
+    return '';
+  }
+  return context.l10n.homeFeaturedFundRemainingDays(
+    daysRemaining?.toString() ?? context.l10n.fundDetailUnknownValue,
   );
 }
 
