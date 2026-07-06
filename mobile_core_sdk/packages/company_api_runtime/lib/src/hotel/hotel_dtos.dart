@@ -902,7 +902,7 @@ abstract class HotelBookingCreateParentDto with _$HotelBookingCreateParentDto {
 abstract class HotelBookingOrderEntityDto with _$HotelBookingOrderEntityDto {
   @JsonSerializable(includeIfNull: false, explicitToJson: true)
   const factory HotelBookingOrderEntityDto({
-    @Default('gl_web') String brandStr,
+    @Default('stella_asset') String brandStr,
     String? adultCount,
     required String checkIn,
     required String checkOut,

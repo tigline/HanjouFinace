@@ -258,7 +258,7 @@ void main() {
             equals(<String, dynamic>{
               'parent': <String, dynamic>{
                 'bookingOrderEntity': <String, dynamic>{
-                  'brandStr': 'gl_web',
+                  'brandStr': 'stella_asset',
                   'checkIn': '2026-06-01 00:00:00',
                   'checkOut': '2026-06-03 00:00:00',
                   'bookingDate': '',
@@ -311,6 +311,7 @@ void main() {
                 },
               },
               'site': '38',
+              'fundBenefitTicketNo': '',
             }),
           );
           return _jsonOk('{"code":200,"msg":"success","data":1290827}');

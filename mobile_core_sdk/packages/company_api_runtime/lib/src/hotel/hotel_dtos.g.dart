@@ -939,7 +939,7 @@ Map<String, dynamic> _$HotelBookingCreateParentDtoToJson(
 _HotelBookingOrderEntityDto _$HotelBookingOrderEntityDtoFromJson(
   Map<String, dynamic> json,
 ) => _HotelBookingOrderEntityDto(
-  brandStr: json['brandStr'] as String? ?? 'gl_web',
+  brandStr: json['brandStr'] as String? ?? 'stella_asset',
   adultCount: json['adultCount'] as String?,
   checkIn: json['checkIn'] as String,
   checkOut: json['checkOut'] as String,
