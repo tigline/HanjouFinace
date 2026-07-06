@@ -88,9 +88,11 @@ class HotelTodayCheckInPage extends ConsumerWidget {
                           : () => context.push(
                               '/hotel-booking/check-in/${Uri.encodeComponent(item.id)}',
                             ),
-                      onCheckIn: () {
-                        // The first slice only exposes the check-in list.
-                      },
+                      onCheckIn: item.id.isEmpty
+                          ? null
+                          : () => context.push(
+                              '/hotel-booking/check-in/${Uri.encodeComponent(item.id)}',
+                            ),
                     );
                   },
                 ),
