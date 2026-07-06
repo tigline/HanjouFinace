@@ -6,11 +6,13 @@ class HotelQuickActionSection extends StatelessWidget {
     super.key,
     required this.userInfoLabel,
     required this.ordersLabel,
+    required this.checkInLabel,
     required this.contactsLabel,
     required this.couponsLabel,
     required this.contactLabel,
     required this.onUserInfoTap,
     required this.onOrdersTap,
+    required this.onCheckInTap,
     required this.onContactsTap,
     required this.onCouponsTap,
     required this.onContactTap,
@@ -18,11 +20,13 @@ class HotelQuickActionSection extends StatelessWidget {
 
   final String userInfoLabel;
   final String ordersLabel;
+  final String checkInLabel;
   final String contactsLabel;
   final String couponsLabel;
   final String contactLabel;
   final VoidCallback onUserInfoTap;
   final VoidCallback onOrdersTap;
+  final VoidCallback onCheckInTap;
   final VoidCallback onContactsTap;
   final VoidCallback onCouponsTap;
   final VoidCallback onContactTap;
@@ -44,6 +48,14 @@ class HotelQuickActionSection extends StatelessWidget {
             icon: Icons.receipt_long_outlined,
             label: ordersLabel,
             onTap: onOrdersTap,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _HotelQuickActionItem(
+            icon: Icons.login_rounded,
+            label: checkInLabel,
+            onTap: onCheckInTap,
           ),
         ),
         const SizedBox(width: 12),

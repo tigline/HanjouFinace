@@ -24,6 +24,8 @@ import '../../features/hotel_booking/presentation/pages/hotel_order_detail_page.
 import '../../features/hotel_booking/presentation/pages/hotel_order_list_page.dart';
 import '../../features/hotel_booking/presentation/pages/hotel_payment_method_page.dart';
 import '../../features/hotel_booking/presentation/pages/hotel_stay_benefit_page.dart';
+import '../../features/hotel_booking/presentation/pages/hotel_today_checkin_detail_page.dart';
+import '../../features/hotel_booking/presentation/pages/hotel_today_checkin_page.dart';
 import '../../features/hotel_booking/presentation/support/hotel_booking_result_route_args.dart';
 import '../../features/hotel_booking/presentation/support/hotel_map_route_args.dart';
 import '../../features/hotel_booking/presentation/support/hotel_payment_route_args.dart';
@@ -128,6 +130,7 @@ String? resolveAuthRedirect({
   final isHotelProtectedChildRoute =
       isHotelMemberProfile ||
       location.startsWith('/hotel-booking/orders') ||
+      location == '/hotel-booking/check-in' ||
       location == '/hotel-booking/contacts' ||
       location == '/hotel-booking/coupons' ||
       location.endsWith('/confirm') ||
@@ -379,6 +382,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     parentNavigatorKey: _rootNavigatorKey,
                     builder: (BuildContext context, GoRouterState state) {
                       return const HotelOrderListPage();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'check-in',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const HotelTodayCheckInPage();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'check-in/:orderId',
+                    parentNavigatorKey: _rootNavigatorKey,
+                    builder: (BuildContext context, GoRouterState state) {
+                      final orderId = state.pathParameters['orderId'] ?? '';
+                      return HotelTodayCheckInDetailPage(orderId: orderId);
                     },
                   ),
                   GoRoute(

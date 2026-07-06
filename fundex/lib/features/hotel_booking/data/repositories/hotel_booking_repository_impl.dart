@@ -370,6 +370,22 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
+  Future<List<HotelTodayCheckIn>> fetchTodayCheckIns({
+    required String languageCode,
+  }) async {
+    const pageCodes = <String>['APP007', 'APP003', 'APP008'];
+    await Future.wait(
+      pageCodes.map(
+        (pageCode) => _remote
+            .fetchPageText(languageCode: languageCode, pageCode: pageCode)
+            .catchError((_) => const <String, String>{}),
+      ),
+    );
+    final rows = await _remote.fetchTodayCheckIns(languageCode: languageCode);
+    return rows.map(_mapTodayCheckIn).toList(growable: false);
+  }
+
+  @override
   Future<HotelOrderDetail> fetchOrderDetail({
     required String languageCode,
     required String orderId,
@@ -441,6 +457,11 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
     required String orderId,
   }) {
     return _remote.cancelOrder(languageCode: languageCode, orderId: orderId);
+  }
+
+  @override
+  Future<String> checkInOrderCustomer({required String orderId}) {
+    return _remote.checkInOrderCustomer(orderId: orderId.trim());
   }
 
   @override
@@ -1242,6 +1263,32 @@ HotelOrderSummary _mapOrderSummary(HotelOrderDto dto) {
     totalAmount: dto.totalAmount ?? dto.paidAmount ?? price ?? originalPrice,
     canPay: dto.pay ?? false,
     canRefund: dto.refund ?? false,
+  );
+}
+
+HotelTodayCheckIn _mapTodayCheckIn(HotelOrderDto dto) {
+  final checkedInText = dto.checkedIn?.trim();
+  final checkedIn = checkedInText == '1' || checkedInText == 'true';
+  return HotelTodayCheckIn(
+    id: (dto.orderId.isNotEmpty ? dto.orderId : dto.id ?? '').trim(),
+    hotelName: dto.hotelName?.trim() ?? '',
+    buildingName: dto.buildingName?.trim() ?? '',
+    hotelImageUrl: _firstNotEmpty(<String?>[
+      dto.hotelImage,
+      dto.hotelHomeImage,
+    ]),
+    hotelAddress: _firstNotEmpty(<String?>[dto.hotelAddress, dto.address]),
+    checkIn: dto.checkIn?.trim() ?? '',
+    checkOut: dto.checkOut?.trim() ?? '',
+    orderStatus: dto.orderStatusStr?.trim().isNotEmpty == true
+        ? dto.orderStatusStr!.trim()
+        : dto.orderStatus?.trim() ?? _stringOrEmpty(dto.status),
+    orderStatusCode: dto.orderStatusCode,
+    paymentStatus: dto.paymentStatus?.trim() ?? '',
+    paymentStatusCode: dto.paymentStatusCode,
+    totalAmount: dto.totalAmount ?? dto.paidAmount,
+    roomNo: dto.roomNo?.trim() ?? '',
+    checkedIn: checkedIn,
   );
 }
 

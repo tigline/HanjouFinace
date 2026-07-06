@@ -1303,6 +1303,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelQuickActionOrders => '我的订单';
 
   @override
+  String get hotelQuickActionCheckIn => '入住';
+
+  @override
   String get hotelQuickActionContacts => '常用住宿人';
 
   @override
@@ -1310,6 +1313,64 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get hotelQuickActionContact => '联系我们';
+
+  @override
+  String get hotelTodayCheckInTitle => '今日入住';
+
+  @override
+  String get hotelTodayCheckInEmpty => '今天没有可办理入住的订单。';
+
+  @override
+  String get hotelTodayCheckInAction => '办理入住';
+
+  @override
+  String get hotelTodayCheckInDialogTitle => '办理入住';
+
+  @override
+  String get hotelTodayCheckInDialogMessage => '您已到达酒店并正在办理入住手续吗？';
+
+  @override
+  String get hotelTodayCheckInSuccess => '入住办理成功。';
+
+  @override
+  String get hotelTodayCheckInFailed => '入住办理失败。';
+
+  @override
+  String get hotelTodayCheckInCompleted => '已入住';
+
+  @override
+  String get hotelTodayCheckInWaiting => '待办理入住';
+
+  @override
+  String get hotelTodayCheckInTimeLabel => '入住时间：';
+
+  @override
+  String get hotelTodayCheckOutTimeLabel => '退房时间：';
+
+  @override
+  String get hotelTodayCheckInRoomTypeLabel => '房间类型：';
+
+  @override
+  String get hotelTodayCheckInGuestLabel => '住宿人：';
+
+  @override
+  String get hotelTodayCheckInGuestCountLabel => '人数：';
+
+  @override
+  String get hotelTodayCheckInStatusLabel => '入住状态：';
+
+  @override
+  String get hotelTodayCheckInWifiLabel => 'Wi-Fi：';
+
+  @override
+  String hotelTodayCheckInWifiPassword(Object password) {
+    return '密码：$password';
+  }
+
+  @override
+  String hotelTodayCheckInRoomNo(Object roomNo) {
+    return '房间 $roomNo';
+  }
 
   @override
   String get hotelMemberProfileTitle => '用户信息';
@@ -7099,6 +7160,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelQuickActionOrders => '我的訂單';
 
   @override
+  String get hotelQuickActionCheckIn => '入住';
+
+  @override
   String get hotelQuickActionContacts => '常用住宿人';
 
   @override
@@ -7106,6 +7170,64 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelQuickActionContact => '聯絡我們';
+
+  @override
+  String get hotelTodayCheckInTitle => '今日入住';
+
+  @override
+  String get hotelTodayCheckInEmpty => '今天沒有可辦理入住的訂單。';
+
+  @override
+  String get hotelTodayCheckInAction => '辦理入住';
+
+  @override
+  String get hotelTodayCheckInDialogTitle => '辦理入住';
+
+  @override
+  String get hotelTodayCheckInDialogMessage => '您已抵達酒店並正在辦理入住手續嗎？';
+
+  @override
+  String get hotelTodayCheckInSuccess => '入住辦理成功。';
+
+  @override
+  String get hotelTodayCheckInFailed => '入住辦理失敗。';
+
+  @override
+  String get hotelTodayCheckInCompleted => '已入住';
+
+  @override
+  String get hotelTodayCheckInWaiting => '待辦理入住';
+
+  @override
+  String get hotelTodayCheckInTimeLabel => '入住時間：';
+
+  @override
+  String get hotelTodayCheckOutTimeLabel => '退房時間：';
+
+  @override
+  String get hotelTodayCheckInRoomTypeLabel => '房間類型：';
+
+  @override
+  String get hotelTodayCheckInGuestLabel => '住宿人：';
+
+  @override
+  String get hotelTodayCheckInGuestCountLabel => '人數：';
+
+  @override
+  String get hotelTodayCheckInStatusLabel => '入住狀態：';
+
+  @override
+  String get hotelTodayCheckInWifiLabel => 'Wi-Fi：';
+
+  @override
+  String hotelTodayCheckInWifiPassword(Object password) {
+    return '密碼：$password';
+  }
+
+  @override
+  String hotelTodayCheckInRoomNo(Object roomNo) {
+    return '房間 $roomNo';
+  }
 
   @override
   String get hotelMemberProfileTitle => '用戶資訊';

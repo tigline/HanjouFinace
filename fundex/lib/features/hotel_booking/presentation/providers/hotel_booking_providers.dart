@@ -18,6 +18,7 @@ import '../../domain/repositories/hotel_credit_card_token_repository.dart';
 import '../../domain/repositories/hotel_booking_repository.dart';
 import '../../domain/usecases/assign_hotel_occupancy_usecase.dart';
 import '../../domain/usecases/cancel_hotel_order_usecase.dart';
+import '../../domain/usecases/check_in_hotel_order_customer_usecase.dart';
 import '../../domain/usecases/create_hotel_alipay_payment_usecase.dart';
 import '../../domain/usecases/create_hotel_credit_card_token_usecase.dart';
 import '../../domain/usecases/create_hotel_booking_usecase.dart';
@@ -34,6 +35,7 @@ import '../../domain/usecases/fetch_hotel_order_cancel_rule_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_detail_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_list_usecase.dart';
 import '../../domain/usecases/fetch_hotel_stay_benefit_periods_usecase.dart';
+import '../../domain/usecases/fetch_hotel_today_checkins_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_with_registered_card_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_with_credit_card_token_usecase.dart';
@@ -48,6 +50,7 @@ import '../../domain/usecases/unregister_hotel_credit_card_usecase.dart';
 import '../../domain/usecases/update_hotel_member_profile_usecase.dart';
 import '../controllers/hotel_booking_controller.dart';
 import '../controllers/hotel_order_list_controller.dart';
+import '../controllers/hotel_today_checkin_controller.dart';
 import '../support/hotel_native_payment_service.dart';
 import '../support/hotel_native_payment_settings.dart';
 
@@ -243,6 +246,13 @@ final fetchHotelOrderListUseCaseProvider = Provider<FetchHotelOrderListUseCase>(
   },
 );
 
+final fetchHotelTodayCheckInsUseCaseProvider =
+    Provider<FetchHotelTodayCheckInsUseCase>((ref) {
+      return FetchHotelTodayCheckInsUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
+
 final fetchHotelOrderDetailUseCaseProvider =
     Provider<FetchHotelOrderDetailUseCase>((ref) {
       return FetchHotelOrderDetailUseCase(
@@ -262,6 +272,13 @@ final cancelHotelOrderUseCaseProvider = Provider<CancelHotelOrderUseCase>((
 ) {
   return CancelHotelOrderUseCase(ref.watch(hotelBookingRepositoryProvider));
 });
+
+final checkInHotelOrderCustomerUseCaseProvider =
+    Provider<CheckInHotelOrderCustomerUseCase>((ref) {
+      return CheckInHotelOrderCustomerUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
 
 final requestHotelOrderInvoiceUseCaseProvider =
     Provider<RequestHotelOrderInvoiceUseCase>((ref) {
@@ -492,6 +509,17 @@ final hotelOrderListControllerProvider =
     >((ref) {
       return HotelOrderListController(
         fetchOrderList: ref.watch(fetchHotelOrderListUseCaseProvider),
+        languageCode: ref.watch(hotelLocaleLanguageCodeProvider),
+      );
+    });
+
+final hotelTodayCheckInControllerProvider =
+    StateNotifierProvider.autoDispose<
+      HotelTodayCheckInController,
+      HotelTodayCheckInState
+    >((ref) {
+      return HotelTodayCheckInController(
+        fetchTodayCheckIns: ref.watch(fetchHotelTodayCheckInsUseCaseProvider),
         languageCode: ref.watch(hotelLocaleLanguageCodeProvider),
       );
     });

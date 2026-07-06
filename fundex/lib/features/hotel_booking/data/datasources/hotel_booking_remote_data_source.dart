@@ -102,6 +102,10 @@ abstract class HotelBookingRemoteDataSource {
     required Object? status,
   });
 
+  Future<List<HotelOrderDto>> fetchTodayCheckIns({
+    required String languageCode,
+  });
+
   Future<HotelOrderDto> fetchOrderDetail({
     required String languageCode,
     required String orderId,
@@ -124,6 +128,8 @@ abstract class HotelBookingRemoteDataSource {
     required String languageCode,
     required String orderId,
   });
+
+  Future<String> checkInOrderCustomer({required String orderId});
 
   Future<HotelMemberInfoDto> fetchMemberInfo();
 
@@ -346,6 +352,13 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
   }
 
   @override
+  Future<List<HotelOrderDto>> fetchTodayCheckIns({
+    required String languageCode,
+  }) {
+    return _client.fetchTodayCheckIns(lang: languageCode);
+  }
+
+  @override
   Future<HotelOrderDto> fetchOrderDetail({
     required String languageCode,
     required String orderId,
@@ -388,6 +401,11 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
     required String orderId,
   }) {
     return _client.cancelOrder(lang: languageCode, bookingOrderId: orderId);
+  }
+
+  @override
+  Future<String> checkInOrderCustomer({required String orderId}) {
+    return _client.checkInOrderCustomer(bookingOrderId: orderId);
   }
 
   @override

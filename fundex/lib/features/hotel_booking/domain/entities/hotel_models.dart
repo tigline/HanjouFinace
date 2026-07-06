@@ -797,6 +797,40 @@ class HotelOrderListResult {
   bool get hasMore => orders.length < totalCount;
 }
 
+class HotelTodayCheckIn {
+  const HotelTodayCheckIn({
+    required this.id,
+    required this.hotelName,
+    required this.buildingName,
+    required this.hotelImageUrl,
+    required this.hotelAddress,
+    required this.checkIn,
+    required this.checkOut,
+    required this.orderStatus,
+    required this.orderStatusCode,
+    required this.paymentStatus,
+    required this.paymentStatusCode,
+    required this.totalAmount,
+    required this.roomNo,
+    required this.checkedIn,
+  });
+
+  final String id;
+  final String hotelName;
+  final String buildingName;
+  final String hotelImageUrl;
+  final String hotelAddress;
+  final String checkIn;
+  final String checkOut;
+  final String orderStatus;
+  final int? orderStatusCode;
+  final String paymentStatus;
+  final int? paymentStatusCode;
+  final num? totalAmount;
+  final String roomNo;
+  final bool checkedIn;
+}
+
 class HotelOrderCancelRule {
   const HotelOrderCancelRule({required this.canCancel, required this.message});
 

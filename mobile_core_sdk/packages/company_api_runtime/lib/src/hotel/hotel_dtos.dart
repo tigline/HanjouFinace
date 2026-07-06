@@ -1007,7 +1007,7 @@ abstract class HotelOrderDto with _$HotelOrderDto {
     Object? lng,
     String? name,
     String? checkIn,
-    String? checkedIn,
+    @JsonKey(fromJson: hotelNullableStringFromJson) String? checkedIn,
     String? checkOut,
     String? bookingOrderTime,
     String? createdTime,

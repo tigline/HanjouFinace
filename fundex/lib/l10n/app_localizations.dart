@@ -2601,6 +2601,12 @@ abstract class AppLocalizations {
   /// **'My orders'**
   String get hotelQuickActionOrders;
 
+  /// No description provided for @hotelQuickActionCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in'**
+  String get hotelQuickActionCheckIn;
+
   /// No description provided for @hotelQuickActionContacts.
   ///
   /// In en, this message translates to:
@@ -2618,6 +2624,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact us'**
   String get hotelQuickActionContact;
+
+  /// No description provided for @hotelTodayCheckInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s check-ins'**
+  String get hotelTodayCheckInTitle;
+
+  /// No description provided for @hotelTodayCheckInEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no bookings available for check-in today.'**
+  String get hotelTodayCheckInEmpty;
+
+  /// No description provided for @hotelTodayCheckInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in'**
+  String get hotelTodayCheckInAction;
+
+  /// No description provided for @hotelTodayCheckInDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in'**
+  String get hotelTodayCheckInDialogTitle;
+
+  /// No description provided for @hotelTodayCheckInDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Have you arrived at the hotel and are you completing check-in?'**
+  String get hotelTodayCheckInDialogMessage;
+
+  /// No description provided for @hotelTodayCheckInSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in completed.'**
+  String get hotelTodayCheckInSuccess;
+
+  /// No description provided for @hotelTodayCheckInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not complete check-in.'**
+  String get hotelTodayCheckInFailed;
+
+  /// No description provided for @hotelTodayCheckInCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked in'**
+  String get hotelTodayCheckInCompleted;
+
+  /// No description provided for @hotelTodayCheckInWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for check-in'**
+  String get hotelTodayCheckInWaiting;
+
+  /// No description provided for @hotelTodayCheckInTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in time:'**
+  String get hotelTodayCheckInTimeLabel;
+
+  /// No description provided for @hotelTodayCheckOutTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-out time:'**
+  String get hotelTodayCheckOutTimeLabel;
+
+  /// No description provided for @hotelTodayCheckInRoomTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Room type:'**
+  String get hotelTodayCheckInRoomTypeLabel;
+
+  /// No description provided for @hotelTodayCheckInGuestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest:'**
+  String get hotelTodayCheckInGuestLabel;
+
+  /// No description provided for @hotelTodayCheckInGuestCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Guests:'**
+  String get hotelTodayCheckInGuestCountLabel;
+
+  /// No description provided for @hotelTodayCheckInStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Check-in status:'**
+  String get hotelTodayCheckInStatusLabel;
+
+  /// No description provided for @hotelTodayCheckInWifiLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi:'**
+  String get hotelTodayCheckInWifiLabel;
+
+  /// No description provided for @hotelTodayCheckInWifiPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'PW: {password}'**
+  String hotelTodayCheckInWifiPassword(Object password);
+
+  /// No description provided for @hotelTodayCheckInRoomNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Room {roomNo}'**
+  String hotelTodayCheckInRoomNo(Object roomNo);
 
   /// No description provided for @hotelMemberProfileTitle.
   ///

@@ -926,6 +926,73 @@ void main() {
       expect(call, equals(2));
     });
 
+    test('fetchTodayCheckIns uses authenticated GET endpoint', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('GET'));
+        expect(options.path, equals(HotelApiPaths.todayCheckIn));
+        expect(
+          options.queryParameters,
+          equals(<String, dynamic>{'lang': 'JP'}),
+        );
+        expect(options.extra['auth_required'], isTrue);
+        return _jsonOk(
+          '{"code":200,"msg":"success","data":[{"id":"1298936","totalAmount":7237,"paymentStatus":"支払い完了","paymentStatusCode":45,"receiptBookSent":0,"receiptTitle":"Kevin chen","contactEmail":"21342345245@11.com","orderStatus":"確認済みです","orderStatusStr":"予約完了","orderStatusCode":null,"hotelName":"谷町君・星ﾎﾃﾙ・九条27","buildingName":"谷町君･星ﾎﾃﾙ･九条27","hotelImage":"https://img.gutingjun.com/hotel/445626447180922880.jpg","hotelAddress":"大阪府大阪市西区九条南2−24−14","checkIn":"2026-07-29 15:00:00","checkedIn":0,"checkOut":"2026-07-30 10:00:00","pay":false,"refund":false,"roomId":231,"roomNo":"203","bookingType":0,"sendItem":false,"roomClear":false}]}',
+        );
+      });
+      final api = HotelApiClient(client);
+
+      final rows = await api.fetchTodayCheckIns(lang: 'JP');
+
+      expect(rows, hasLength(1));
+      expect(rows.first.orderId, equals('1298936'));
+      expect(rows.first.hotelName, contains('九条27'));
+      expect(rows.first.checkedIn, equals('0'));
+      expect(rows.first.roomNo, equals('203'));
+      expect(rows.first.totalAmount, equals(7237));
+    });
+
+    test('checkInOrderCustomer posts checked-in payload', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.checkInOrderCustomer));
+        expect(options.extra['auth_required'], isTrue);
+        expect(
+          options.data,
+          equals(<String, dynamic>{
+            'roomId': null,
+            'bookingOrderId': '1298936',
+            'checkedIn': 1,
+          }),
+        );
+        return _jsonOk('{"code":200,"msg":"success","data":null}');
+      });
+      final api = HotelApiClient(client);
+
+      final message = await api.checkInOrderCustomer(bookingOrderId: '1298936');
+
+      expect(message, equals('success'));
+    });
+
+    test('checkInOrderCustomer surfaces backend failure message', () async {
+      final client = _buildClient((_) async {
+        return _jsonOk(
+          '{"code":500,"msg":"チェックインはチェックイン時間まで受け付けていません","data":null}',
+        );
+      });
+      final api = HotelApiClient(client);
+
+      expect(
+        () => api.checkInOrderCustomer(bookingOrderId: '1298936'),
+        throwsA(
+          isA<StateError>().having(
+            (error) => error.message,
+            'message',
+            contains('チェックインはチェックイン時間まで受け付けていません'),
+          ),
+        ),
+      );
+    });
+
     test('fetchOrderDetail parses authenticated detail payload', () async {
       final client = _buildClient((options) async {
         expect(options.method, equals('POST'));

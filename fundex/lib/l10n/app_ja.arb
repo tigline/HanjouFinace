@@ -471,9 +471,38 @@
   "hotelQuickActionUserInfo": "会員情報",
   "hotelQuickActionStayBenefits": "宿泊特典",
   "hotelQuickActionOrders": "予約一覧",
+  "hotelQuickActionCheckIn": "チェックイン",
   "hotelQuickActionContacts": "宿泊者",
   "hotelQuickActionCoupons": "クーポン",
   "hotelQuickActionContact": "お問い合わせ",
+  "hotelTodayCheckInTitle": "本日のチェックイン",
+  "hotelTodayCheckInEmpty": "本日チェックインできる予約はありません。",
+  "hotelTodayCheckInAction": "チェックインする",
+  "hotelTodayCheckInDialogTitle": "チェックイン",
+  "hotelTodayCheckInDialogMessage": "ホテルに到着してチェックイン手続きを行っていますか？",
+  "hotelTodayCheckInSuccess": "チェックインしました。",
+  "hotelTodayCheckInFailed": "チェックインできませんでした。",
+  "hotelTodayCheckInCompleted": "チェックイン済み",
+  "hotelTodayCheckInWaiting": "チェックイン待ち",
+  "hotelTodayCheckInTimeLabel": "チェックイン時間：",
+  "hotelTodayCheckOutTimeLabel": "チェックアウト時間：",
+  "hotelTodayCheckInRoomTypeLabel": "部屋タイプ：",
+  "hotelTodayCheckInGuestLabel": "宿泊者：",
+  "hotelTodayCheckInGuestCountLabel": "客数：",
+  "hotelTodayCheckInStatusLabel": "チェックイン状況：",
+  "hotelTodayCheckInWifiLabel": "Wi-Fi：",
+  "hotelTodayCheckInWifiPassword": "PW: {password}",
+  "@hotelTodayCheckInWifiPassword": {
+    "placeholders": {
+      "password": {}
+    }
+  },
+  "hotelTodayCheckInRoomNo": "客室 {roomNo}",
+  "@hotelTodayCheckInRoomNo": {
+    "placeholders": {
+      "roomNo": {}
+    }
+  },
   "hotelMemberProfileTitle": "プロフィール",
   "hotelStayBenefitsTitle": "宿泊特典",
   "hotelStayBenefitSingleNightOnly": "宿泊特典は1泊のみ選択できます",

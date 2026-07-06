@@ -25,12 +25,14 @@ class HotelApiPaths {
   static const String aliAppPay = '/ali/app/pay';
   static const String optimismPayment = '/pms/optimismPayment';
   static const String orderList = '/pms/order/list';
+  static const String todayCheckIn = '/pms/order/todayCheckIn';
   static const String orderDetail = '/pms/order/detail';
   static const String orderInvoice = '/pms/order/invoice';
   static const String setUserLang = '/pms/setUserLang';
   static const String permitMemberPay = '/pms/book/permitMemberPay';
   static const String cancelOrderRule = '/pms/book/cancelOrderRule';
   static const String cancelOrder = '/pms/book/cancelOrder/v2';
+  static const String checkInOrderCustomer = '/pms/book/cust/checked';
   static const String priceByDate = '/pms/priceByDate';
   static const String assignOccupancy = '/pms/assign/occupancy';
   static const String countryCodeList = '/pms/countryCodeList';
@@ -75,12 +77,14 @@ class HotelApiClient {
     this.aliAppPayPath = HotelApiPaths.aliAppPay,
     this.optimismPaymentPath = HotelApiPaths.optimismPayment,
     this.orderListPath = HotelApiPaths.orderList,
+    this.todayCheckInPath = HotelApiPaths.todayCheckIn,
     this.orderDetailPath = HotelApiPaths.orderDetail,
     this.orderInvoicePath = HotelApiPaths.orderInvoice,
     this.setUserLangPath = HotelApiPaths.setUserLang,
     this.permitMemberPayPath = HotelApiPaths.permitMemberPay,
     this.cancelOrderRulePath = HotelApiPaths.cancelOrderRule,
     this.cancelOrderPath = HotelApiPaths.cancelOrder,
+    this.checkInOrderCustomerPath = HotelApiPaths.checkInOrderCustomer,
     this.priceByDatePath = HotelApiPaths.priceByDate,
     this.assignOccupancyPath = HotelApiPaths.assignOccupancy,
     this.countryCodeListPath = HotelApiPaths.countryCodeList,
@@ -123,12 +127,14 @@ class HotelApiClient {
   final String aliAppPayPath;
   final String optimismPaymentPath;
   final String orderListPath;
+  final String todayCheckInPath;
   final String orderDetailPath;
   final String orderInvoicePath;
   final String setUserLangPath;
   final String permitMemberPayPath;
   final String cancelOrderRulePath;
   final String cancelOrderPath;
+  final String checkInOrderCustomerPath;
   final String priceByDatePath;
   final String assignOccupancyPath;
   final String countryCodeListPath;
@@ -664,6 +670,20 @@ class HotelApiClient {
     return HotelOrderListDto.fromJson(data);
   }
 
+  Future<List<HotelOrderDto>> fetchTodayCheckIns({required String lang}) async {
+    final response = await _client.dio.get<Map<String, dynamic>>(
+      todayCheckInPath,
+      queryParameters: <String, dynamic>{'lang': lang},
+      options: authRequired(true),
+    );
+
+    final rows = _envelopeCodec.extractDataList(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to load hotel check-ins.',
+    );
+    return rows.map(HotelOrderDto.fromJson).toList(growable: false);
+  }
+
   Future<HotelOrderDto> fetchOrderDetail({
     required String orderId,
     required String lang,
@@ -791,6 +811,28 @@ class HotelApiClient {
       payload,
       fallbackMessage: 'Failed to cancel hotel order.',
     );
+  }
+
+  Future<String> checkInOrderCustomer({
+    required String bookingOrderId,
+    Object? roomId,
+  }) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      checkInOrderCustomerPath,
+      data: <String, dynamic>{
+        'roomId': roomId,
+        'bookingOrderId': bookingOrderId,
+        'checkedIn': 1,
+      },
+      options: authRequired(true),
+    );
+
+    final payload = _envelopeCodec.toJsonMap(response.data);
+    _envelopeCodec.assertSuccessIfEnvelope(
+      payload,
+      fallbackMessage: 'Failed to check in.',
+    );
+    return _envelopeCodec.resolveErrorMessage(payload, fallbackMessage: '');
   }
 
   Future<HotelPaymentResultDto> payForOrder(Pay4OrderRequestDto request) async {

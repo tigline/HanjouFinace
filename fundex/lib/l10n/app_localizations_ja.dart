@@ -1317,6 +1317,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelQuickActionOrders => '予約一覧';
 
   @override
+  String get hotelQuickActionCheckIn => 'チェックイン';
+
+  @override
   String get hotelQuickActionContacts => '宿泊者';
 
   @override
@@ -1324,6 +1327,64 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hotelQuickActionContact => 'お問い合わせ';
+
+  @override
+  String get hotelTodayCheckInTitle => '本日のチェックイン';
+
+  @override
+  String get hotelTodayCheckInEmpty => '本日チェックインできる予約はありません。';
+
+  @override
+  String get hotelTodayCheckInAction => 'チェックインする';
+
+  @override
+  String get hotelTodayCheckInDialogTitle => 'チェックイン';
+
+  @override
+  String get hotelTodayCheckInDialogMessage => 'ホテルに到着してチェックイン手続きを行っていますか？';
+
+  @override
+  String get hotelTodayCheckInSuccess => 'チェックインしました。';
+
+  @override
+  String get hotelTodayCheckInFailed => 'チェックインできませんでした。';
+
+  @override
+  String get hotelTodayCheckInCompleted => 'チェックイン済み';
+
+  @override
+  String get hotelTodayCheckInWaiting => 'チェックイン待ち';
+
+  @override
+  String get hotelTodayCheckInTimeLabel => 'チェックイン時間：';
+
+  @override
+  String get hotelTodayCheckOutTimeLabel => 'チェックアウト時間：';
+
+  @override
+  String get hotelTodayCheckInRoomTypeLabel => '部屋タイプ：';
+
+  @override
+  String get hotelTodayCheckInGuestLabel => '宿泊者：';
+
+  @override
+  String get hotelTodayCheckInGuestCountLabel => '客数：';
+
+  @override
+  String get hotelTodayCheckInStatusLabel => 'チェックイン状況：';
+
+  @override
+  String get hotelTodayCheckInWifiLabel => 'Wi-Fi：';
+
+  @override
+  String hotelTodayCheckInWifiPassword(Object password) {
+    return 'PW: $password';
+  }
+
+  @override
+  String hotelTodayCheckInRoomNo(Object roomNo) {
+    return '客室 $roomNo';
+  }
 
   @override
   String get hotelMemberProfileTitle => 'プロフィール';

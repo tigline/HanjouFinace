@@ -496,9 +496,38 @@
   "hotelQuickActionUserInfo": "User info",
   "hotelQuickActionStayBenefits": "Stay benefits",
   "hotelQuickActionOrders": "My orders",
+  "hotelQuickActionCheckIn": "Check-in",
   "hotelQuickActionContacts": "Guests",
   "hotelQuickActionCoupons": "Coupons",
   "hotelQuickActionContact": "Contact us",
+  "hotelTodayCheckInTitle": "Today's check-ins",
+  "hotelTodayCheckInEmpty": "There are no bookings available for check-in today.",
+  "hotelTodayCheckInAction": "Check in",
+  "hotelTodayCheckInDialogTitle": "Check-in",
+  "hotelTodayCheckInDialogMessage": "Have you arrived at the hotel and are you completing check-in?",
+  "hotelTodayCheckInSuccess": "Check-in completed.",
+  "hotelTodayCheckInFailed": "Could not complete check-in.",
+  "hotelTodayCheckInCompleted": "Checked in",
+  "hotelTodayCheckInWaiting": "Waiting for check-in",
+  "hotelTodayCheckInTimeLabel": "Check-in time:",
+  "hotelTodayCheckOutTimeLabel": "Check-out time:",
+  "hotelTodayCheckInRoomTypeLabel": "Room type:",
+  "hotelTodayCheckInGuestLabel": "Guest:",
+  "hotelTodayCheckInGuestCountLabel": "Guests:",
+  "hotelTodayCheckInStatusLabel": "Check-in status:",
+  "hotelTodayCheckInWifiLabel": "Wi-Fi:",
+  "hotelTodayCheckInWifiPassword": "PW: {password}",
+  "@hotelTodayCheckInWifiPassword": {
+    "placeholders": {
+      "password": {}
+    }
+  },
+  "hotelTodayCheckInRoomNo": "Room {roomNo}",
+  "@hotelTodayCheckInRoomNo": {
+    "placeholders": {
+      "roomNo": {}
+    }
+  },
   "hotelMemberProfileTitle": "User info",
   "hotelStayBenefitsTitle": "Stay benefits",
   "hotelStayBenefitSingleNightOnly": "Stay benefits support one night only",

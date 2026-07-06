@@ -1110,7 +1110,7 @@ _HotelOrderDto _$HotelOrderDtoFromJson(Map<String, dynamic> json) =>
       lng: json['lng'],
       name: json['name'] as String?,
       checkIn: json['checkIn'] as String?,
-      checkedIn: json['checkedIn'] as String?,
+      checkedIn: hotelNullableStringFromJson(json['checkedIn']),
       checkOut: json['checkOut'] as String?,
       bookingOrderTime: json['bookingOrderTime'] as String?,
       createdTime: json['createdTime'] as String?,

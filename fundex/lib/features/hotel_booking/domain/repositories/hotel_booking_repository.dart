@@ -63,6 +63,10 @@ abstract class HotelBookingRepository {
     int limit = 5,
   });
 
+  Future<List<HotelTodayCheckIn>> fetchTodayCheckIns({
+    required String languageCode,
+  });
+
   Future<HotelOrderDetail> fetchOrderDetail({
     required String languageCode,
     required String orderId,
@@ -85,6 +89,8 @@ abstract class HotelBookingRepository {
     required String languageCode,
     required String orderId,
   });
+
+  Future<String> checkInOrderCustomer({required String orderId});
 
   Future<HotelMemberProfile> fetchMemberProfile();
 

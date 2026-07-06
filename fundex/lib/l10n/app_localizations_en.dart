@@ -1390,6 +1390,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelQuickActionOrders => 'My orders';
 
   @override
+  String get hotelQuickActionCheckIn => 'Check-in';
+
+  @override
   String get hotelQuickActionContacts => 'Guests';
 
   @override
@@ -1397,6 +1400,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hotelQuickActionContact => 'Contact us';
+
+  @override
+  String get hotelTodayCheckInTitle => 'Today\'s check-ins';
+
+  @override
+  String get hotelTodayCheckInEmpty =>
+      'There are no bookings available for check-in today.';
+
+  @override
+  String get hotelTodayCheckInAction => 'Check in';
+
+  @override
+  String get hotelTodayCheckInDialogTitle => 'Check-in';
+
+  @override
+  String get hotelTodayCheckInDialogMessage =>
+      'Have you arrived at the hotel and are you completing check-in?';
+
+  @override
+  String get hotelTodayCheckInSuccess => 'Check-in completed.';
+
+  @override
+  String get hotelTodayCheckInFailed => 'Could not complete check-in.';
+
+  @override
+  String get hotelTodayCheckInCompleted => 'Checked in';
+
+  @override
+  String get hotelTodayCheckInWaiting => 'Waiting for check-in';
+
+  @override
+  String get hotelTodayCheckInTimeLabel => 'Check-in time:';
+
+  @override
+  String get hotelTodayCheckOutTimeLabel => 'Check-out time:';
+
+  @override
+  String get hotelTodayCheckInRoomTypeLabel => 'Room type:';
+
+  @override
+  String get hotelTodayCheckInGuestLabel => 'Guest:';
+
+  @override
+  String get hotelTodayCheckInGuestCountLabel => 'Guests:';
+
+  @override
+  String get hotelTodayCheckInStatusLabel => 'Check-in status:';
+
+  @override
+  String get hotelTodayCheckInWifiLabel => 'Wi-Fi:';
+
+  @override
+  String hotelTodayCheckInWifiPassword(Object password) {
+    return 'PW: $password';
+  }
+
+  @override
+  String hotelTodayCheckInRoomNo(Object roomNo) {
+    return 'Room $roomNo';
+  }
 
   @override
   String get hotelMemberProfileTitle => 'User info';

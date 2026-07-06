@@ -471,9 +471,38 @@
   "hotelQuickActionUserInfo": "用戶資訊",
   "hotelQuickActionStayBenefits": "宿泊特典",
   "hotelQuickActionOrders": "我的訂單",
+  "hotelQuickActionCheckIn": "入住",
   "hotelQuickActionContacts": "常用住宿人",
   "hotelQuickActionCoupons": "優惠券",
   "hotelQuickActionContact": "聯絡我們",
+  "hotelTodayCheckInTitle": "今日入住",
+  "hotelTodayCheckInEmpty": "今天沒有可辦理入住的訂單。",
+  "hotelTodayCheckInAction": "辦理入住",
+  "hotelTodayCheckInDialogTitle": "辦理入住",
+  "hotelTodayCheckInDialogMessage": "您已抵達酒店並正在辦理入住手續嗎？",
+  "hotelTodayCheckInSuccess": "入住辦理成功。",
+  "hotelTodayCheckInFailed": "入住辦理失敗。",
+  "hotelTodayCheckInCompleted": "已入住",
+  "hotelTodayCheckInWaiting": "待辦理入住",
+  "hotelTodayCheckInTimeLabel": "入住時間：",
+  "hotelTodayCheckOutTimeLabel": "退房時間：",
+  "hotelTodayCheckInRoomTypeLabel": "房間類型：",
+  "hotelTodayCheckInGuestLabel": "住宿人：",
+  "hotelTodayCheckInGuestCountLabel": "人數：",
+  "hotelTodayCheckInStatusLabel": "入住狀態：",
+  "hotelTodayCheckInWifiLabel": "Wi-Fi：",
+  "hotelTodayCheckInWifiPassword": "密碼：{password}",
+  "@hotelTodayCheckInWifiPassword": {
+    "placeholders": {
+      "password": {}
+    }
+  },
+  "hotelTodayCheckInRoomNo": "房間 {roomNo}",
+  "@hotelTodayCheckInRoomNo": {
+    "placeholders": {
+      "roomNo": {}
+    }
+  },
   "hotelMemberProfileTitle": "用戶資訊",
   "hotelStayBenefitsTitle": "宿泊特典",
   "hotelStayBenefitSingleNightOnly": "宿泊特典僅支援選擇一天",
