@@ -1402,11 +1402,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelQuickActionContact => 'Contact us';
 
   @override
-  String get hotelTodayCheckInTitle => 'Today\'s check-ins';
+  String get hotelTodayCheckInTitle => 'Check-in';
 
   @override
   String get hotelTodayCheckInEmpty =>
-      'There are no bookings available for check-in today.';
+      'There are no bookings available for check-in.';
 
   @override
   String get hotelTodayCheckInAction => 'Check in';

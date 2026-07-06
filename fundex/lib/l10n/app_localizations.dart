@@ -2628,13 +2628,13 @@ abstract class AppLocalizations {
   /// No description provided for @hotelTodayCheckInTitle.
   ///
   /// In en, this message translates to:
-  /// **'Today\'s check-ins'**
+  /// **'Check-in'**
   String get hotelTodayCheckInTitle;
 
   /// No description provided for @hotelTodayCheckInEmpty.
   ///
   /// In en, this message translates to:
-  /// **'There are no bookings available for check-in today.'**
+  /// **'There are no bookings available for check-in.'**
   String get hotelTodayCheckInEmpty;
 
   /// No description provided for @hotelTodayCheckInAction.

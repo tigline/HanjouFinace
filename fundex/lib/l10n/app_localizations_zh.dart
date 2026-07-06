@@ -1315,10 +1315,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelQuickActionContact => '联系我们';
 
   @override
-  String get hotelTodayCheckInTitle => '今日入住';
+  String get hotelTodayCheckInTitle => '入住';
 
   @override
-  String get hotelTodayCheckInEmpty => '今天没有可办理入住的订单。';
+  String get hotelTodayCheckInEmpty => '没有可办理入住的订单。';
 
   @override
   String get hotelTodayCheckInAction => '办理入住';
@@ -7172,10 +7172,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelQuickActionContact => '聯絡我們';
 
   @override
-  String get hotelTodayCheckInTitle => '今日入住';
+  String get hotelTodayCheckInTitle => '入住';
 
   @override
-  String get hotelTodayCheckInEmpty => '今天沒有可辦理入住的訂單。';
+  String get hotelTodayCheckInEmpty => '沒有可辦理入住的訂單。';
 
   @override
   String get hotelTodayCheckInAction => '辦理入住';

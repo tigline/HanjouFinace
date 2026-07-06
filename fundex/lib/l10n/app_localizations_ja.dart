@@ -1329,10 +1329,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelQuickActionContact => 'お問い合わせ';
 
   @override
-  String get hotelTodayCheckInTitle => '本日のチェックイン';
+  String get hotelTodayCheckInTitle => 'チェックイン';
 
   @override
-  String get hotelTodayCheckInEmpty => '本日チェックインできる予約はありません。';
+  String get hotelTodayCheckInEmpty => 'チェックインできる予約はありません。';
 
   @override
   String get hotelTodayCheckInAction => 'チェックインする';
