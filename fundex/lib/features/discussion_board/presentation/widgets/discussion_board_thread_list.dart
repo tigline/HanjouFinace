@@ -69,6 +69,12 @@ class DiscussionBoardThreadList extends StatelessWidget {
                         fallbackLabel: reply.timeLabel,
                       ),
                       body: reply.body,
+                      imageUrls: reply.imageUrls,
+                      onImageTap: (int index) => _openCommentImageViewer(
+                        context,
+                        reply.imageUrls,
+                        index,
+                      ),
                       quoteTitle: reply.quote?.sourceText,
                       quoteBody: reply.quote?.body,
                     ),
@@ -105,6 +111,9 @@ class DiscussionBoardThreadList extends StatelessWidget {
                   fallbackLabel: thread.timeLabel,
                 ),
                 body: thread.body,
+                imageUrls: thread.imageUrls,
+                onImageTap: (int index) =>
+                    _openCommentImageViewer(context, thread.imageUrls, index),
                 commentCount: thread.commentCount,
                 onToggleRepliesTap: () => controller.toggleReplies(thread.id),
                 showReplies: expanded,
@@ -113,6 +122,27 @@ class DiscussionBoardThreadList extends StatelessWidget {
             );
           })
           .toList(growable: false),
+    );
+  }
+
+  Future<void> _openCommentImageViewer(
+    BuildContext context,
+    List<String> imageUrls,
+    int initialIndex,
+  ) {
+    return openAppImageViewer(
+      context,
+      initialIndex: initialIndex,
+      items: imageUrls
+          .map((String url) => AppImageViewerItem(source: url))
+          .toList(growable: false),
+      texts: AppImageViewerTexts(
+        loadingLabel: l10n.imageViewerLoadingLabel,
+        loadFailedLabel: l10n.imageViewerLoadFailedLabel,
+        retryLabel: l10n.imageViewerRetryLabel,
+        invalidSourceNotice: l10n.imageViewerInvalidSourceNotice,
+        closeTooltip: l10n.imageViewerCloseTooltip,
+      ),
     );
   }
 }
