@@ -10,6 +10,7 @@ import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
 import '../support/hotel_map_route_args.dart';
 import '../widgets/hotel_filter_section.dart';
+import '../widgets/hotel_price_discount_dialog.dart';
 import '../widgets/hotel_search_conditions_sheet.dart';
 import '../widgets/hotel_search_summary_bar.dart';
 import '../widgets/hotel_state_views.dart';
@@ -220,6 +221,14 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
                     return HotelSummaryCard(
                       hotel: hotel,
                       presenter: presenter,
+                      onDiscountTap: hotel.id.trim().isEmpty
+                          ? null
+                          : () => showHotelPriceDiscountDialog(
+                              context: context,
+                              hotelId: hotel.id,
+                              criteria: _criteria,
+                              presenter: presenter,
+                            ),
                       statusText: hotel.stayBenefitParticipate
                           ? null
                           : context.l10n.hotelStayBenefitUnavailableForDate,

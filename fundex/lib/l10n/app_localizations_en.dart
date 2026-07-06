@@ -2459,6 +2459,25 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get hotelDiscountDetailTitle => 'Discount details';
+
+  @override
+  String get hotelDiscountDetailOriginalPrice => 'Original price';
+
+  @override
+  String get hotelDiscountDetailDiscount => 'Discount';
+
+  @override
+  String get hotelDiscountDetailFinalPrice => 'Discounted price';
+
+  @override
+  String get hotelDiscountDetailBookAction => 'Book';
+
+  @override
+  String get hotelDiscountDetailLoadFailed =>
+      'Could not load discount details.';
+
+  @override
   String hotelResultsCount(int count) {
     return '$count stays';
   }

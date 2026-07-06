@@ -11,6 +11,7 @@ import '../support/hotel_booking_presenter.dart';
 import '../widgets/hotel_map_canvas.dart';
 import '../widgets/hotel_map_controls.dart';
 import '../widgets/hotel_map_selected_card.dart';
+import '../widgets/hotel_price_discount_dialog.dart';
 import '../widgets/hotel_search_conditions_sheet.dart';
 import '../widgets/hotel_state_views.dart';
 
@@ -136,6 +137,14 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
                 child: HotelMapSelectedCard(
                   hotel: selectedHotel,
                   presenter: presenter,
+                  onDiscountTap: () => showHotelPriceDiscountDialog(
+                    context: context,
+                    hotelId: selectedHotel.id,
+                    criteria: effectiveCriteria,
+                    presenter: presenter,
+                    showBookingAction: true,
+                    onBookingTap: () => _openHotelDetail(selectedHotel, effectiveCriteria),
+                  ),
                   showStayBenefitUnavailable:
                       effectiveCriteria.stayBenefit &&
                       !selectedHotel.stayBenefitParticipate,

@@ -1036,6 +1036,12 @@
       "discount": {}
     }
   },
+  "hotelDiscountDetailTitle": "折扣详情",
+  "hotelDiscountDetailOriginalPrice": "原价",
+  "hotelDiscountDetailDiscount": "折扣",
+  "hotelDiscountDetailFinalPrice": "折扣后价格",
+  "hotelDiscountDetailBookAction": "预订",
+  "hotelDiscountDetailLoadFailed": "折扣详情加载失败。",
   "hotelResultsCount": "{count}个住宿",
   "@hotelResultsCount": {
     "placeholders": {

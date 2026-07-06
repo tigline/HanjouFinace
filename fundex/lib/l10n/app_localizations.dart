@@ -4503,6 +4503,42 @@ abstract class AppLocalizations {
   /// **'{discount}%OFF'**
   String hotelDiscountBadgeValue(Object discount);
 
+  /// No description provided for @hotelDiscountDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount details'**
+  String get hotelDiscountDetailTitle;
+
+  /// No description provided for @hotelDiscountDetailOriginalPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Original price'**
+  String get hotelDiscountDetailOriginalPrice;
+
+  /// No description provided for @hotelDiscountDetailDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get hotelDiscountDetailDiscount;
+
+  /// No description provided for @hotelDiscountDetailFinalPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Discounted price'**
+  String get hotelDiscountDetailFinalPrice;
+
+  /// No description provided for @hotelDiscountDetailBookAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Book'**
+  String get hotelDiscountDetailBookAction;
+
+  /// No description provided for @hotelDiscountDetailLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load discount details.'**
+  String get hotelDiscountDetailLoadFailed;
+
   /// No description provided for @hotelResultsCount.
   ///
   /// In en, this message translates to:

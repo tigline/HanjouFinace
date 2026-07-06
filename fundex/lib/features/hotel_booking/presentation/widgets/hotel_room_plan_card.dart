@@ -22,6 +22,7 @@ class HotelRoomPlanCard extends StatelessWidget {
     this.extraGuestCount = 0,
     this.extraGuestPrice,
     this.onTap,
+    this.onDiscountTap,
     required this.onDecrement,
     required this.onIncrement,
   });
@@ -37,6 +38,7 @@ class HotelRoomPlanCard extends StatelessWidget {
   final int extraGuestCount;
   final num? extraGuestPrice;
   final VoidCallback? onTap;
+  final VoidCallback? onDiscountTap;
   final VoidCallback onDecrement;
   final VoidCallback onIncrement;
 
@@ -94,6 +96,7 @@ class HotelRoomPlanCard extends StatelessWidget {
               showQuantityControls: showQuantityControls,
               extraGuestCount: extraGuestCount,
               extraGuestPrice: extraGuestPrice,
+              onDiscountTap: onDiscountTap,
               onDecrement: onDecrement,
               onIncrement: onIncrement,
             ),
@@ -207,6 +210,7 @@ class _RoomPlanCardContent extends StatelessWidget {
     required this.showQuantityControls,
     required this.extraGuestCount,
     required this.extraGuestPrice,
+    required this.onDiscountTap,
     required this.onDecrement,
     required this.onIncrement,
   });
@@ -226,6 +230,7 @@ class _RoomPlanCardContent extends StatelessWidget {
   final bool showQuantityControls;
   final int extraGuestCount;
   final num? extraGuestPrice;
+  final VoidCallback? onDiscountTap;
   final VoidCallback onDecrement;
   final VoidCallback onIncrement;
 
@@ -295,6 +300,7 @@ class _RoomPlanCardContent extends StatelessWidget {
                   HotelDiscountBadge(
                     name: room.discountName,
                     discount: room.discount,
+                    onTap: onDiscountTap,
                   ),
                   if (hasDiscount) const SizedBox(height: 8),
                   if (oldPrice.isNotEmpty)

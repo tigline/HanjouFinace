@@ -13,12 +13,14 @@ class HotelMapSelectedCard extends StatelessWidget {
     required this.hotel,
     required this.presenter,
     required this.onTap,
+    this.onDiscountTap,
     this.showStayBenefitUnavailable = false,
   });
 
   final HotelSummary hotel;
   final HotelBookingPresenter presenter;
   final VoidCallback onTap;
+  final VoidCallback? onDiscountTap;
   final bool showStayBenefitUnavailable;
 
   @override
@@ -70,8 +72,10 @@ class HotelMapSelectedCard extends StatelessWidget {
                             count: hotel.isBookable
                                 ? hotel.remainingRooms ?? 0
                                 : 0,
-                            unit: hotelRemainingUnitFromBuildingType(
-                              hotel.buildingType,
+                            unit: hotelRemainingUnitForHotelSummary(
+                              buildingType: hotel.buildingType,
+                              buildingCode: hotel.buildingCode,
+                              bookingType: hotel.bookingType,
                             ),
                           ),
                         ],
@@ -113,6 +117,7 @@ class HotelMapSelectedCard extends StatelessWidget {
                                 HotelDiscountBadge(
                                   name: hotel.discountName,
                                   discount: hotel.discount,
+                                  onTap: onDiscountTap,
                                 ),
                               ],
                             ),

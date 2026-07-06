@@ -120,6 +120,38 @@ void main() {
       expect(result.hotels.first.tags, equals(<String>['station', 'business']));
     });
 
+    test('fetchPriceDiscount posts date language and hotel id', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.priceDiscount));
+        expect(options.extra['auth_required'], isFalse);
+        expect(
+          options.data,
+          equals(<String, dynamic>{
+            'startDate': '2026-10-14',
+            'endDate': '2026-10-15',
+            'lang': 'JP',
+            'hotelId': '1',
+          }),
+        );
+        return _jsonOk(
+          '{"code":200,"msg":"success","data":{"discount":33,"discountName":"年間割引","discountAmount":13365,"memberDiscount":7,"memberDiscountName":"会員割引","memberDiscountAmount":2835,"originalAmount":40500,"finalAmount":24300,"totalDiscountAmount":16200}}',
+        );
+      });
+      final api = HotelApiClient(client);
+
+      final result = await api.fetchPriceDiscount(
+        startDate: '2026-10-14',
+        endDate: '2026-10-15',
+        lang: 'JP',
+        hotelId: '1',
+      );
+
+      expect(result['discount'], equals(33));
+      expect(result['discountName'], equals('年間割引'));
+      expect(result['finalAmount'], equals(24300));
+    });
+
     test('fetchBuildingCodes preserves all option and localized names', () async {
       final client = _buildClient((options) async {
         expect(options.method, equals('POST'));

@@ -1036,6 +1036,12 @@
       "discount": {}
     }
   },
+  "hotelDiscountDetailTitle": "割引の詳細",
+  "hotelDiscountDetailOriginalPrice": "元の価格",
+  "hotelDiscountDetailDiscount": "割引",
+  "hotelDiscountDetailFinalPrice": "割引後の価格",
+  "hotelDiscountDetailBookAction": "予約する",
+  "hotelDiscountDetailLoadFailed": "割引詳細を読み込めませんでした。",
   "hotelResultsCount": "{count}件の宿泊施設",
   "@hotelResultsCount": {
     "placeholders": {

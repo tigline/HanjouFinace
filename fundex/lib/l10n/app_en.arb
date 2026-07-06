@@ -1061,6 +1061,12 @@
       "discount": {}
     }
   },
+  "hotelDiscountDetailTitle": "Discount details",
+  "hotelDiscountDetailOriginalPrice": "Original price",
+  "hotelDiscountDetailDiscount": "Discount",
+  "hotelDiscountDetailFinalPrice": "Discounted price",
+  "hotelDiscountDetailBookAction": "Book",
+  "hotelDiscountDetailLoadFailed": "Could not load discount details.",
   "hotelResultsCount": "{count} stays",
   "@hotelResultsCount": {
     "placeholders": {

@@ -10,6 +10,7 @@ import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
 import '../support/hotel_map_route_args.dart';
 import '../widgets/hotel_hero_section.dart';
+import '../widgets/hotel_price_discount_dialog.dart';
 import '../widgets/hotel_state_views.dart';
 import '../widgets/hotel_summary_card.dart';
 
@@ -108,6 +109,19 @@ class _HotelBookingTabContent extends ConsumerWidget {
                         return HotelSummaryCard(
                           hotel: hotel,
                           presenter: presenter,
+                          onDiscountTap: hotel.id.trim().isEmpty
+                              ? null
+                              : () => showHotelPriceDiscountDialog(
+                                  context: context,
+                                  hotelId: hotel.id,
+                                  criteria: state.criteria,
+                                  presenter: presenter,
+                                  showBookingAction: true,
+                                  onBookingTap: () => context.push(
+                                    '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
+                                    extra: state.criteria,
+                                  ),
+                                ),
                           onTap: hotel.id.trim().isEmpty
                               ? null
                               : () => context.push(

@@ -8,10 +8,12 @@ class HotelDiscountBadge extends StatelessWidget {
     super.key,
     required this.name,
     required this.discount,
+    this.onTap,
   });
 
   final String name;
   final num? discount;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class HotelDiscountBadge extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return ConstrainedBox(
+    final badge = ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 240),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(UiTokens.radius8),
@@ -74,6 +76,14 @@ class HotelDiscountBadge extends StatelessWidget {
           ),
         ),
       ),
+    );
+    if (onTap == null) {
+      return badge;
+    }
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: badge,
     );
   }
 

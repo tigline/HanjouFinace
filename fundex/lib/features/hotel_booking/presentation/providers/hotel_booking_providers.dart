@@ -34,6 +34,7 @@ import '../../domain/usecases/fetch_hotel_member_profile_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_cancel_rule_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_detail_usecase.dart';
 import '../../domain/usecases/fetch_hotel_order_list_usecase.dart';
+import '../../domain/usecases/fetch_hotel_price_discount_usecase.dart';
 import '../../domain/usecases/fetch_hotel_stay_benefit_periods_usecase.dart';
 import '../../domain/usecases/fetch_hotel_today_checkins_usecase.dart';
 import '../../domain/usecases/pay_hotel_order_usecase.dart';
@@ -109,6 +110,13 @@ final fetchHotelDetailUseCaseProvider = Provider<FetchHotelDetailUseCase>((
 ) {
   return FetchHotelDetailUseCase(ref.watch(hotelBookingRepositoryProvider));
 });
+
+final fetchHotelPriceDiscountUseCaseProvider =
+    Provider<FetchHotelPriceDiscountUseCase>((ref) {
+      return FetchHotelPriceDiscountUseCase(
+        ref.watch(hotelBookingRepositoryProvider),
+      );
+    });
 
 final assignHotelOccupancyUseCaseProvider =
     Provider<AssignHotelOccupancyUseCase>((ref) {
@@ -436,6 +444,16 @@ final hotelDetailProvider = FutureProvider.autoDispose
       );
     });
 
+final hotelPriceDiscountProvider = FutureProvider.autoDispose
+    .family<HotelPriceDiscount, HotelPriceDiscountQuery>((ref, query) {
+      final languageCode = ref.watch(hotelLocaleLanguageCodeProvider);
+      return ref.watch(fetchHotelPriceDiscountUseCaseProvider)(
+        hotelId: query.hotelId,
+        criteria: query.criteria,
+        languageCode: languageCode,
+      );
+    });
+
 final hotelBookingPreparationProvider = FutureProvider.autoDispose
     .family<HotelBookingPreparation, HotelBookingConfirmSeed>((ref, seed) {
       final languageCode = ref.watch(hotelLocaleLanguageCodeProvider);
@@ -542,6 +560,37 @@ class HotelDetailQuery {
   @override
   bool operator ==(Object other) {
     return other is HotelDetailQuery &&
+        other.hotelId == hotelId &&
+        other.criteria.checkInDate == criteria.checkInDate &&
+        other.criteria.checkOutDate == criteria.checkOutDate &&
+        other.criteria.occupancy == criteria.occupancy &&
+        other.criteria.kids == criteria.kids &&
+        other.criteria.roomCount == criteria.roomCount;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    hotelId,
+    criteria.checkInDate,
+    criteria.checkOutDate,
+    criteria.occupancy,
+    criteria.kids,
+    criteria.roomCount,
+  );
+}
+
+class HotelPriceDiscountQuery {
+  const HotelPriceDiscountQuery({
+    required this.hotelId,
+    required this.criteria,
+  });
+
+  final String hotelId;
+  final HotelSearchCriteria criteria;
+
+  @override
+  bool operator ==(Object other) {
+    return other is HotelPriceDiscountQuery &&
         other.hotelId == hotelId &&
         other.criteria.checkInDate == criteria.checkInDate &&
         other.criteria.checkOutDate == criteria.checkOutDate &&

@@ -15,6 +15,7 @@ class HotelSummaryCard extends StatelessWidget {
     required this.presenter,
     this.onTap,
     this.onMapTap,
+    this.onDiscountTap,
     this.showPricing = true,
     this.statusText,
     this.statusTone = HotelSummaryCardStatusTone.normal,
@@ -24,6 +25,7 @@ class HotelSummaryCard extends StatelessWidget {
   final HotelBookingPresenter presenter;
   final VoidCallback? onTap;
   final VoidCallback? onMapTap;
+  final VoidCallback? onDiscountTap;
   final bool showPricing;
   final String? statusText;
   final HotelSummaryCardStatusTone statusTone;
@@ -141,6 +143,7 @@ class HotelSummaryCard extends StatelessWidget {
                               HotelDiscountBadge(
                                 name: hotel.discountName,
                                 discount: hotel.discount,
+                                onTap: onDiscountTap,
                               ),
                               if (hotel.discountName.isNotEmpty &&
                                   (hotel.discount ?? 0) > 0)
@@ -278,7 +281,11 @@ class _HotelSummaryStatusLine extends StatelessWidget {
     if (text == null || text.isEmpty) {
       return HotelRemainingRoomsLabel(
         count: hotel.isBookable ? remainingRooms ?? 0 : 0,
-        unit: hotelRemainingUnitFromBuildingType(hotel.buildingType),
+        unit: hotelRemainingUnitForHotelSummary(
+          buildingType: hotel.buildingType,
+          buildingCode: hotel.buildingCode,
+          bookingType: hotel.bookingType,
+        ),
       );
     }
     final colors = Theme.of(context).appColors;

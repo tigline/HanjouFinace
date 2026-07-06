@@ -13,6 +13,7 @@ class HotelApiPaths {
   static const String buildingCode = '/hotel/buildingCode';
   static const String stayBenefitPeriods = '/hotel/homePage/stayBenefitPeriods';
   static const String stayBenefitPeriod = '/hotel/homePage/stayBenefitPeriod';
+  static const String priceDiscount = '/hotel/homePage/priceDiscount';
   static const String page = '/pms/page';
   static const String refundStrategyText = '/pms/refundStrategyText';
   static const String roomFacility = '/pms/esLoadRoomFacility';
@@ -68,6 +69,7 @@ class HotelApiClient {
     this.buildingCodePath = HotelApiPaths.buildingCode,
     this.stayBenefitPeriodsPath = HotelApiPaths.stayBenefitPeriods,
     this.stayBenefitPeriodPath = HotelApiPaths.stayBenefitPeriod,
+    this.priceDiscountPath = HotelApiPaths.priceDiscount,
     this.pagePath = HotelApiPaths.page,
     this.refundStrategyTextPath = HotelApiPaths.refundStrategyText,
     this.roomFacilityPath = HotelApiPaths.roomFacility,
@@ -118,6 +120,7 @@ class HotelApiClient {
   final String buildingCodePath;
   final String stayBenefitPeriodsPath;
   final String stayBenefitPeriodPath;
+  final String priceDiscountPath;
   final String pagePath;
   final String refundStrategyTextPath;
   final String roomFacilityPath;
@@ -251,6 +254,29 @@ class HotelApiClient {
         .map(HotelStayBenefitPeriodDto.fromJson)
         .where((period) => period.month.isNotEmpty && period.days.isNotEmpty)
         .toList(growable: false);
+  }
+
+  Future<Map<String, dynamic>> fetchPriceDiscount({
+    required String startDate,
+    required String endDate,
+    required String lang,
+    required String hotelId,
+  }) async {
+    final response = await _client.dio.post<Map<String, dynamic>>(
+      priceDiscountPath,
+      data: <String, dynamic>{
+        'startDate': startDate,
+        'endDate': endDate,
+        'lang': lang,
+        'hotelId': hotelId,
+      },
+      options: authRequired(false),
+    );
+
+    return _envelopeCodec.extractDataMap(
+      _envelopeCodec.toJsonMap(response.data),
+      fallbackMessage: 'Failed to load hotel discount.',
+    );
   }
 
   Object _hotelIdPayload(String hotelId) {

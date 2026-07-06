@@ -18,6 +18,12 @@ abstract class HotelBookingRepository {
     required String hotelId,
   });
 
+  Future<HotelPriceDiscount> fetchPriceDiscount({
+    required String hotelId,
+    required HotelSearchCriteria criteria,
+    required String languageCode,
+  });
+
   Future<HotelDetail> fetchHotelDetail({
     required String hotelId,
     required HotelSearchCriteria criteria,

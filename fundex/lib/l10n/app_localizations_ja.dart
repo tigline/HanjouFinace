@@ -2351,6 +2351,24 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get hotelDiscountDetailTitle => '割引の詳細';
+
+  @override
+  String get hotelDiscountDetailOriginalPrice => '元の価格';
+
+  @override
+  String get hotelDiscountDetailDiscount => '割引';
+
+  @override
+  String get hotelDiscountDetailFinalPrice => '割引後の価格';
+
+  @override
+  String get hotelDiscountDetailBookAction => '予約する';
+
+  @override
+  String get hotelDiscountDetailLoadFailed => '割引詳細を読み込めませんでした。';
+
+  @override
   String hotelResultsCount(int count) {
     return '$count件の宿泊施設';
   }

@@ -84,6 +84,21 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
     return _mapStayBenefitPeriods(rows);
   }
 
+  @override
+  Future<HotelPriceDiscount> fetchPriceDiscount({
+    required String hotelId,
+    required HotelSearchCriteria criteria,
+    required String languageCode,
+  }) async {
+    final raw = await _remote.fetchPriceDiscount(
+      startDate: _wireDateFormat.format(criteria.checkInDate),
+      endDate: _wireDateFormat.format(criteria.checkOutDate),
+      languageCode: languageCode,
+      hotelId: hotelId,
+    );
+    return _mapPriceDiscount(raw);
+  }
+
   List<HotelStayBenefitPeriod> _mapStayBenefitPeriods(
     List<HotelStayBenefitPeriodDto> rows,
   ) {
@@ -945,6 +960,8 @@ HotelSummary _mapHotelSummary(HotelSummaryDto dto) {
     beforeDiscountPrice: dto.beforeDiscountPrice ?? dto.basePrice,
     discount: discount,
     discountName: discountName.trim(),
+    bookingType: _intOrNull(dto.bookingType),
+    buildingCode: dto.buildingCode?.trim() ?? '',
     bookingTypeLabel: _formatBookingType(dto.bookingType),
     buildingType: dto.buildingType?.trim() ?? '',
     isBookable: dto.bookingStatus ?? true,
@@ -954,6 +971,20 @@ HotelSummary _mapHotelSummary(HotelSummaryDto dto) {
         .map((tag) => tag.trim())
         .where((tag) => tag.isNotEmpty)
         .toList(growable: false),
+  );
+}
+
+HotelPriceDiscount _mapPriceDiscount(Map<String, dynamic> raw) {
+  return HotelPriceDiscount(
+    discount: _numOrNull(raw['discount']),
+    discountName: _stringOrEmpty(raw['discountName']),
+    discountAmount: _numOrNull(raw['discountAmount']),
+    memberDiscount: _numOrNull(raw['memberDiscount']),
+    memberDiscountName: _stringOrEmpty(raw['memberDiscountName']),
+    memberDiscountAmount: _numOrNull(raw['memberDiscountAmount']),
+    originalAmount: _numOrNull(raw['originalAmount']),
+    finalAmount: _numOrNull(raw['finalAmount']),
+    totalDiscountAmount: _numOrNull(raw['totalDiscountAmount']),
   );
 }
 

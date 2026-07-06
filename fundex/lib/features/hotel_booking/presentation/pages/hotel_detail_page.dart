@@ -15,6 +15,7 @@ import '../widgets/hotel_detail_hero_gallery.dart';
 import '../widgets/hotel_detail_info_section.dart';
 import '../widgets/hotel_detail_map_section.dart';
 import '../widgets/hotel_detail_stay_summary_bar.dart';
+import '../widgets/hotel_price_discount_dialog.dart';
 import '../widgets/hotel_remaining_rooms_label.dart';
 import '../widgets/hotel_room_detail_sheet.dart';
 import '../widgets/hotel_room_plan_card.dart';
@@ -606,6 +607,12 @@ class _HotelDetailContent extends StatelessWidget {
                           showQuantityControls: _usesRoomPlanSelection,
                           canIncrementQuantity: canAddMoreRooms,
                           remainingUnit: _remainingUnitForDetail(detail),
+                          onDiscountTap: () => showHotelPriceDiscountDialog(
+                            context: context,
+                            hotelId: detail.id,
+                            criteria: criteria,
+                            presenter: presenter,
+                          ),
                           extraGuestCount:
                               extraGuestPrice?.extraGuestCount ?? 0,
                           extraGuestPrice: extraGuestPrice?.extraGuestPrice,

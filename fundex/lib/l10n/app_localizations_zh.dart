@@ -2331,6 +2331,24 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get hotelDiscountDetailTitle => '折扣详情';
+
+  @override
+  String get hotelDiscountDetailOriginalPrice => '原价';
+
+  @override
+  String get hotelDiscountDetailDiscount => '折扣';
+
+  @override
+  String get hotelDiscountDetailFinalPrice => '折扣后价格';
+
+  @override
+  String get hotelDiscountDetailBookAction => '预订';
+
+  @override
+  String get hotelDiscountDetailLoadFailed => '折扣详情加载失败。';
+
+  @override
   String hotelResultsCount(int count) {
     return '$count个住宿';
   }
@@ -8194,6 +8212,24 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String hotelDiscountBadgeValue(Object discount) {
     return '$discount%OFF';
   }
+
+  @override
+  String get hotelDiscountDetailTitle => '折扣詳情';
+
+  @override
+  String get hotelDiscountDetailOriginalPrice => '原價';
+
+  @override
+  String get hotelDiscountDetailDiscount => '折扣';
+
+  @override
+  String get hotelDiscountDetailFinalPrice => '折扣後價格';
+
+  @override
+  String get hotelDiscountDetailBookAction => '預訂';
+
+  @override
+  String get hotelDiscountDetailLoadFailed => '折扣詳情載入失敗。';
 
   @override
   String hotelResultsCount(int count) {

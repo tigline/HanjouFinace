@@ -63,6 +63,8 @@ HotelSummary _hotel(String id) {
     beforeDiscountPrice: null,
     discount: null,
     discountName: '',
+    bookingType: null,
+    buildingCode: '',
     bookingTypeLabel: '',
     buildingType: '',
     isBookable: true,

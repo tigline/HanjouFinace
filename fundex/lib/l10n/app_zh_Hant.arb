@@ -1036,6 +1036,12 @@
       "discount": {}
     }
   },
+  "hotelDiscountDetailTitle": "折扣詳情",
+  "hotelDiscountDetailOriginalPrice": "原價",
+  "hotelDiscountDetailDiscount": "折扣",
+  "hotelDiscountDetailFinalPrice": "折扣後價格",
+  "hotelDiscountDetailBookAction": "預訂",
+  "hotelDiscountDetailLoadFailed": "折扣詳情載入失敗。",
   "hotelResultsCount": "{count}個住宿",
   "@hotelResultsCount": {
     "placeholders": {

@@ -24,6 +24,13 @@ abstract class HotelBookingRemoteDataSource {
     required String hotelId,
   });
 
+  Future<Map<String, dynamic>> fetchPriceDiscount({
+    required String startDate,
+    required String endDate,
+    required String languageCode,
+    required String hotelId,
+  });
+
   Future<HotelAssignOccupancyResultDto> assignOccupancy(
     HotelAssignOccupancyRequestDto request,
   );
@@ -190,6 +197,21 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
     required String hotelId,
   }) {
     return _client.fetchStayBenefitPeriodsForHotel(hotelId: hotelId);
+  }
+
+  @override
+  Future<Map<String, dynamic>> fetchPriceDiscount({
+    required String startDate,
+    required String endDate,
+    required String languageCode,
+    required String hotelId,
+  }) {
+    return _client.fetchPriceDiscount(
+      startDate: startDate,
+      endDate: endDate,
+      lang: languageCode,
+      hotelId: hotelId,
+    );
   }
 
   @override

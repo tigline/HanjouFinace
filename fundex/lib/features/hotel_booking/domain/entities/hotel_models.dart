@@ -91,6 +91,8 @@ class HotelSummary {
     required this.beforeDiscountPrice,
     required this.discount,
     required this.discountName,
+    required this.bookingType,
+    required this.buildingCode,
     required this.bookingTypeLabel,
     required this.buildingType,
     required this.isBookable,
@@ -110,6 +112,8 @@ class HotelSummary {
   final num? beforeDiscountPrice;
   final num? discount;
   final String discountName;
+  final int? bookingType;
+  final String buildingCode;
   final String bookingTypeLabel;
   final String buildingType;
   final bool isBookable;
@@ -123,6 +127,30 @@ class HotelBuildingFilter {
 
   final String code;
   final String name;
+}
+
+class HotelPriceDiscount {
+  const HotelPriceDiscount({
+    required this.discount,
+    required this.discountName,
+    required this.discountAmount,
+    required this.memberDiscount,
+    required this.memberDiscountName,
+    required this.memberDiscountAmount,
+    required this.originalAmount,
+    required this.finalAmount,
+    required this.totalDiscountAmount,
+  });
+
+  final num? discount;
+  final String discountName;
+  final num? discountAmount;
+  final num? memberDiscount;
+  final String memberDiscountName;
+  final num? memberDiscountAmount;
+  final num? originalAmount;
+  final num? finalAmount;
+  final num? totalDiscountAmount;
 }
 
 class HotelStayBenefitPeriod {
