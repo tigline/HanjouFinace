@@ -152,7 +152,7 @@ class _HeroPhoto extends StatelessWidget {
             autoPlay: heroImageUrls.length > 1,
             autoPlayInterval: const Duration(seconds: 25),
           ),
-          Positioned(left: 20, top: 80, right: 16, child: _HeroCopy()),
+          Positioned(left: 20, bottom: 40, right: 16, child: _HeroCopy()),
         ],
       ),
     );
