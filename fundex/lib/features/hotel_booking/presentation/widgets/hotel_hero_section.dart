@@ -97,19 +97,16 @@ class _HotelHeroSectionState extends ConsumerState<HotelHeroSection> {
             guestLine: guestLine,
             onTap: () => _openSearchConditions(filters),
           ),
-
         ),
-        
-        //const SizedBox(height: 20),
 
+        //const SizedBox(height: 20),
         HotelQuickActionSection(
           userInfoLabel: context.l10n.hotelQuickActionStayBenefits,
           ordersLabel: context.l10n.hotelQuickActionOrders,
           contactsLabel: context.l10n.hotelQuickActionContacts,
           couponsLabel: context.l10n.hotelQuickActionCoupons,
           contactLabel: context.l10n.hotelQuickActionContact,
-          onUserInfoTap: () =>
-              context.push('/hotel-booking/stay-benefits'),
+          onUserInfoTap: () => context.push('/hotel-booking/stay-benefits'),
           onOrdersTap: widget.onOrdersTap,
           onContactsTap: () => context.push('/hotel-booking/contacts'),
           onCouponsTap: widget.onCouponsTap,
@@ -125,7 +122,6 @@ class _HotelHeroSectionState extends ConsumerState<HotelHeroSection> {
           onCriteriaApplied: widget.onCriteriaApplied,
           onMapTap: widget.onMapTap,
         ),
-
       ],
     );
   }
@@ -152,7 +148,7 @@ class _HeroPhoto extends StatelessWidget {
             autoPlay: heroImageUrls.length > 1,
             autoPlayInterval: const Duration(seconds: 25),
           ),
-          Positioned(left: 20, bottom: 40, right: 16, child: _HeroCopy()),
+          Positioned(left: 20, bottom: 44, right: 16, child: _HeroCopy()),
         ],
       ),
     );
@@ -190,28 +186,19 @@ class _HeroCopy extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          context.l10n.hotelBrandMark,
+          context.l10n.hotelHeroTitle,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             color: colors.onDark,
             fontWeight: FontWeight.w900,
             letterSpacing: 0,
           ),
         ),
-        //const SizedBox(height: 10),
-        // Text(
-        //   context.l10n.hotelTabHeadline,
-        //   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-        //     color: colors.onDark,
-        //     fontWeight: FontWeight.w900,
-        //     letterSpacing: 0,
-        //   ),
-        // ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         Text(
-          context.l10n.hotelTabSubtitle,
+          context.l10n.hotelHeroSubtitle,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: colors.onDark.withValues(alpha: 0.80),
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],

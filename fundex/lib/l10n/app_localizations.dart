@@ -2471,6 +2471,18 @@ abstract class AppLocalizations {
   /// **'STELLAVIA STAY'**
   String get hotelBrandMark;
 
+  /// No description provided for @hotelHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn investment into more tangible value.'**
+  String get hotelHeroTitle;
+
+  /// No description provided for @hotelHeroSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Book stays operated by TJ BROTHERS.'**
+  String get hotelHeroSubtitle;
+
   /// No description provided for @hotelTabHeadline.
   ///
   /// In en, this message translates to:

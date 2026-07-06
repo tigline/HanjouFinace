@@ -699,7 +699,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mainTabHome => 'ホーム';
 
   @override
-  String get mainTabHotel => 'ホテル';
+  String get mainTabHotel => '宿泊';
 
   @override
   String get mainTabDiscussion => '掲示板';
@@ -1238,6 +1238,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get hotelBrandMark => 'STELLAVIA STAY';
+
+  @override
+  String get hotelHeroTitle => '投資をもっとリアルな価値へ。';
+
+  @override
+  String get hotelHeroSubtitle => 'TJ BROTHERS運営の宿を予約できます。';
 
   @override
   String get hotelTabHeadline => '京都町家と厳選民泊';

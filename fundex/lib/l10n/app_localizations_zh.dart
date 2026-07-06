@@ -1226,6 +1226,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelBrandMark => 'STELLAVIA STAY';
 
   @override
+  String get hotelHeroTitle => '让投资连接更真实的价值。';
+
+  @override
+  String get hotelHeroSubtitle => '可预订由 TJ BROTHERS 运营的旅宿。';
+
+  @override
   String get hotelTabHeadline => '京都町家与精选民宿';
 
   @override
@@ -7014,6 +7020,12 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelBrandMark => 'STELLAVIA STAY';
+
+  @override
+  String get hotelHeroTitle => '讓投資連結更真實的價值。';
+
+  @override
+  String get hotelHeroSubtitle => '可預訂由 TJ BROTHERS 營運的旅宿。';
 
   @override
   String get hotelTabHeadline => '京都町家與精選民宿';

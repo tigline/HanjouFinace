@@ -1312,6 +1312,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelBrandMark => 'STELLAVIA STAY';
 
   @override
+  String get hotelHeroTitle => 'Turn investment into more tangible value.';
+
+  @override
+  String get hotelHeroSubtitle => 'Book stays operated by TJ BROTHERS.';
+
+  @override
   String get hotelTabHeadline => 'Kyoto Machiya & Selected Stays';
 
   @override
