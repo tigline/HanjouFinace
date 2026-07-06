@@ -53,17 +53,9 @@ class HotelQuickActionSection extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _HotelQuickActionItem(
-            icon: Icons.login_rounded,
+            icon: Icons.room_service_outlined,
             label: checkInLabel,
             onTap: onCheckInTap,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _HotelQuickActionItem(
-            icon: Icons.group_add_outlined,
-            label: contactsLabel,
-            onTap: onContactsTap,
           ),
         ),
         const SizedBox(width: 12),
@@ -72,6 +64,14 @@ class HotelQuickActionSection extends StatelessWidget {
             icon: Icons.confirmation_num_outlined,
             label: couponsLabel,
             onTap: onCouponsTap,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _HotelQuickActionItem(
+            icon: Icons.group_add_outlined,
+            label: contactsLabel,
+            onTap: onContactsTap,
           ),
         ),
 
