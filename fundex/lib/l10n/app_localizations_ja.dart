@@ -2379,11 +2379,19 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String hotelRemainingRoomsFew(int count) {
-    return '残りわずか：$count間';
+    return '残りわずか：$count室';
   }
 
   @override
   String get hotelRemainingRoomsMany => '残り4部屋以上';
+
+  @override
+  String hotelRemainingBuildingsFew(int count) {
+    return '残りわずか：$count棟';
+  }
+
+  @override
+  String get hotelRemainingBuildingsMany => '残り4棟以上';
 
   @override
   String get hotelNoRooms => '空室なし';

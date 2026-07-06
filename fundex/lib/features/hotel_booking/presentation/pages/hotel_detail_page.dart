@@ -605,6 +605,7 @@ class _HotelDetailContent extends StatelessWidget {
                           isBusy: isAssigningOccupancy,
                           showQuantityControls: _usesRoomPlanSelection,
                           canIncrementQuantity: canAddMoreRooms,
+                          remainingUnit: _remainingUnitForDetail(detail),
                           extraGuestCount:
                               extraGuestPrice?.extraGuestCount ?? 0,
                           extraGuestPrice: extraGuestPrice?.extraGuestPrice,
@@ -932,11 +933,18 @@ class _AvailableRoomsHeader extends StatelessWidget {
         ),
         HotelRemainingRoomsLabel(
           count: remainingRooms,
+          unit: _remainingUnitForDetail(detail),
           textAlign: TextAlign.end,
         ),
       ],
     );
   }
+}
+
+HotelRemainingUnit _remainingUnitForDetail(HotelDetail detail) {
+  return detail.bookingType == 0
+      ? HotelRemainingUnit.room
+      : HotelRemainingUnit.building;
 }
 
 class _NoRoomsNotice extends StatelessWidget {

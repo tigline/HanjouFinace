@@ -18,6 +18,7 @@ class HotelRoomPlanCard extends StatelessWidget {
     this.isBusy = false,
     this.showQuantityControls = true,
     this.canIncrementQuantity = true,
+    this.remainingUnit = HotelRemainingUnit.room,
     this.extraGuestCount = 0,
     this.extraGuestPrice,
     this.onTap,
@@ -32,6 +33,7 @@ class HotelRoomPlanCard extends StatelessWidget {
   final bool isBusy;
   final bool showQuantityControls;
   final bool canIncrementQuantity;
+  final HotelRemainingUnit remainingUnit;
   final int extraGuestCount;
   final num? extraGuestPrice;
   final VoidCallback? onTap;
@@ -86,6 +88,7 @@ class HotelRoomPlanCard extends StatelessWidget {
               oldPrice: oldPrice,
               hasDiscount: hasDiscount,
               remainingRooms: remainingRooms,
+              remainingUnit: remainingUnit,
               canIncrement: canIncrement,
               isBusy: isBusy,
               showQuantityControls: showQuantityControls,
@@ -198,6 +201,7 @@ class _RoomPlanCardContent extends StatelessWidget {
     required this.oldPrice,
     required this.hasDiscount,
     required this.remainingRooms,
+    required this.remainingUnit,
     required this.canIncrement,
     required this.isBusy,
     required this.showQuantityControls,
@@ -216,6 +220,7 @@ class _RoomPlanCardContent extends StatelessWidget {
   final String oldPrice;
   final bool hasDiscount;
   final int? remainingRooms;
+  final HotelRemainingUnit remainingUnit;
   final bool canIncrement;
   final bool isBusy;
   final bool showQuantityControls;
@@ -346,6 +351,7 @@ class _RoomPlanCardContent extends StatelessWidget {
                   _RoomQuantityStepper(
                     quantity: quantity,
                     remainingRooms: remainingRooms,
+                    remainingUnit: remainingUnit,
                     onDecrement: isBusy ? null : onDecrement,
                     onIncrement: isBusy || !canIncrement ? null : onIncrement,
                   ),
@@ -354,6 +360,7 @@ class _RoomPlanCardContent extends StatelessWidget {
             else if (remainingRooms != null && remainingRooms! >= 0)
               HotelRemainingRoomsLabel(
                 count: remainingRooms!,
+                unit: remainingUnit,
                 textAlign: TextAlign.end,
               ),
           ],
@@ -447,12 +454,14 @@ class _RoomQuantityStepper extends StatelessWidget {
   const _RoomQuantityStepper({
     required this.quantity,
     required this.remainingRooms,
+    required this.remainingUnit,
     required this.onDecrement,
     required this.onIncrement,
   });
 
   final int quantity;
   final int? remainingRooms;
+  final HotelRemainingUnit remainingUnit;
   final VoidCallback? onDecrement;
   final VoidCallback? onIncrement;
 
@@ -466,6 +475,7 @@ class _RoomQuantityStepper extends StatelessWidget {
         if (shouldShowRemaining) ...<Widget>[
           HotelRemainingRoomsLabel(
             count: remainingRooms!,
+            unit: remainingUnit,
             textAlign: TextAlign.end,
           ),
           const SizedBox(height: 6),

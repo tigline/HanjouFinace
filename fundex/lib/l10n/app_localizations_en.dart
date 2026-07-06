@@ -2494,6 +2494,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelRemainingRoomsMany => '4+ rooms left';
 
   @override
+  String hotelRemainingBuildingsFew(int count) {
+    return 'Only $count buildings left';
+  }
+
+  @override
+  String get hotelRemainingBuildingsMany => '4+ buildings left';
+
+  @override
   String get hotelNoRooms => 'No vacancy';
 
   @override

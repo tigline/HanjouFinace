@@ -7,10 +7,12 @@ class HotelRemainingRoomsLabel extends StatelessWidget {
   const HotelRemainingRoomsLabel({
     super.key,
     required this.count,
+    this.unit = HotelRemainingUnit.room,
     this.textAlign = TextAlign.start,
   });
 
   final int count;
+  final HotelRemainingUnit unit;
   final TextAlign textAlign;
 
   @override
@@ -31,9 +33,48 @@ class HotelRemainingRoomsLabel extends StatelessWidget {
     if (count <= 0) {
       return context.l10n.hotelNoRooms;
     }
+    return switch (unit) {
+      HotelRemainingUnit.room => _roomLabel(context),
+      HotelRemainingUnit.building => _buildingLabel(context),
+    };
+  }
+
+  String _roomLabel(BuildContext context) {
     if (count < 5) {
       return context.l10n.hotelRemainingRoomsFew(count);
     }
     return context.l10n.hotelRemainingRoomsMany;
   }
+
+  String _buildingLabel(BuildContext context) {
+    if (count < 5) {
+      return context.l10n.hotelRemainingBuildingsFew(count);
+    }
+    return context.l10n.hotelRemainingBuildingsMany;
+  }
+}
+
+enum HotelRemainingUnit { room, building }
+
+HotelRemainingUnit hotelRemainingUnitFromBuildingType(String buildingType) {
+  final normalized = buildingType.trim().toLowerCase();
+  if (normalized.isEmpty) {
+    return HotelRemainingUnit.room;
+  }
+  if (normalized.contains('町屋') ||
+      normalized.contains('町家') ||
+      normalized.contains('棟') ||
+      normalized.contains('戸建') ||
+      normalized.contains('一軒家') ||
+      normalized.contains('タウンハウス') ||
+      normalized.contains('聯排別墅') ||
+      normalized.contains('别墅') ||
+      normalized.contains('別墅') ||
+      normalized.contains('Townhouse') ||
+      normalized.contains('Town house') ||
+      normalized.contains('villa') ||
+      normalized.contains('house')) {
+    return HotelRemainingUnit.building;
+  }
+  return HotelRemainingUnit.room;
 }

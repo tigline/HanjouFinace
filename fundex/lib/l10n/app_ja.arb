@@ -1065,7 +1065,7 @@
       }
     }
   },
-  "hotelRemainingRoomsFew": "残りわずか：{count}間",
+  "hotelRemainingRoomsFew": "残りわずか：{count}室",
   "@hotelRemainingRoomsFew": {
     "placeholders": {
       "count": {
@@ -1074,6 +1074,15 @@
     }
   },
   "hotelRemainingRoomsMany": "残り4部屋以上",
+  "hotelRemainingBuildingsFew": "残りわずか：{count}棟",
+  "@hotelRemainingBuildingsFew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelRemainingBuildingsMany": "残り4棟以上",
   "hotelNoRooms": "空室なし",
   "hotelRefreshFailed": "更新できませんでした。前回の結果を表示しています。",
   "hotelLoadFailed": "ホテル情報を読み込めませんでした。",

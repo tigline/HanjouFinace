@@ -4557,6 +4557,18 @@ abstract class AppLocalizations {
   /// **'4+ rooms left'**
   String get hotelRemainingRoomsMany;
 
+  /// No description provided for @hotelRemainingBuildingsFew.
+  ///
+  /// In en, this message translates to:
+  /// **'Only {count} buildings left'**
+  String hotelRemainingBuildingsFew(int count);
+
+  /// No description provided for @hotelRemainingBuildingsMany.
+  ///
+  /// In en, this message translates to:
+  /// **'4+ buildings left'**
+  String get hotelRemainingBuildingsMany;
+
   /// No description provided for @hotelNoRooms.
   ///
   /// In en, this message translates to:

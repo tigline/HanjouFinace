@@ -278,6 +278,7 @@ class _HotelSummaryStatusLine extends StatelessWidget {
     if (text == null || text.isEmpty) {
       return HotelRemainingRoomsLabel(
         count: hotel.isBookable ? remainingRooms ?? 0 : 0,
+        unit: hotelRemainingUnitFromBuildingType(hotel.buildingType),
       );
     }
     final colors = Theme.of(context).appColors;

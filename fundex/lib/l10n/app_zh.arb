@@ -1074,6 +1074,15 @@
     }
   },
   "hotelRemainingRoomsMany": "剩余4间房以上",
+  "hotelRemainingBuildingsFew": "仅剩余：{count}栋",
+  "@hotelRemainingBuildingsFew": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hotelRemainingBuildingsMany": "剩余4栋以上",
   "hotelNoRooms": "无空房",
   "hotelRefreshFailed": "刷新失败，已保留上次结果。",
   "hotelLoadFailed": "酒店列表加载失败。",

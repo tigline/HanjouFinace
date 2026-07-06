@@ -70,6 +70,9 @@ class HotelMapSelectedCard extends StatelessWidget {
                             count: hotel.isBookable
                                 ? hotel.remainingRooms ?? 0
                                 : 0,
+                            unit: hotelRemainingUnitFromBuildingType(
+                              hotel.buildingType,
+                            ),
                           ),
                         ],
                       ),
