@@ -902,7 +902,7 @@
   "hotelBookingResultPaymentMethod": "支付方式",
   "hotelBookingResultPaymentAmount": "支付金额",
   "hotelBookingResultNoticeTitle": "请在15分钟内完成支付",
-  "hotelBookingResultNotice": "本页面会从谷町君旅行跳转到支付信息输入页面。点击下方按钮后将进入支付信息输入流程。若15分钟内未完成支付，订单将被取消。",
+  "hotelBookingResultNotice": "本页面会从 MR.T Travel 跳转到支付信息输入页面。点击下方按钮后将进入支付信息输入流程。若15分钟内未完成支付，订单将被取消。",
   "hotelBookingResultBackToOrders": "订单履历",
   "hotelBookingResultPay": "去支付",
   "hotelOrdersTitle": "我的订单",
