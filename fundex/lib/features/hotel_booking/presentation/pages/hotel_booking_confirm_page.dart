@@ -882,34 +882,32 @@ List<_RoomGuestFormTarget> _buildRoomGuestTargets(
     ];
   }
 
-  final assignedOccupanciesByRoomId = <String, List<int>>{};
-  for (final assignment in seed.roomTypeCustNums) {
-    if (assignment.occupancy <= 0) {
-      continue;
-    }
-    assignedOccupanciesByRoomId
-        .putIfAbsent(assignment.roomTypeId, () => <int>[])
-        .add(assignment.occupancy);
-  }
+  final maxAdultsByRoom = <int?>[
+    for (final selection in seed.selectedRooms)
+      for (var index = 0; index < selection.quantity; index += 1)
+        selection.room.adultCapacity ?? selection.room.occupancy,
+  ];
+  final initialAdultsByRoom = _distributeInitialRoomAdults(
+    totalAdults: seed.criteria.occupancy,
+    maxAdultsByRoom: maxAdultsByRoom,
+  );
 
   final targets = <_RoomGuestFormTarget>[];
+  var targetIndex = 0;
   for (final selection in seed.selectedRooms) {
-    final assignedOccupancies =
-        assignedOccupanciesByRoomId[selection.room.id] ?? <int>[];
     for (var index = 0; index < selection.quantity; index += 1) {
-      final assignedAdults = assignedOccupancies.isNotEmpty
-          ? assignedOccupancies.removeAt(0)
-          : 1;
       final maxGuests = selection.room.occupancy;
       final maxAdults = selection.room.adultCapacity ?? maxGuests;
       final maxKids = selection.room.childCapacity;
+      final initialAdults = targetIndex < initialAdultsByRoom.length
+          ? initialAdultsByRoom[targetIndex]
+          : 1;
+      targetIndex += 1;
       targets.add(
         _RoomGuestFormTarget(
           room: selection.room,
           instanceNumber: index + 1,
-          initialAdults: maxAdults == null
-              ? assignedAdults.clamp(1, 99).toInt()
-              : assignedAdults.clamp(1, maxAdults).toInt(),
+          initialAdults: initialAdults,
           initialKids: 0,
           maxGuests: maxGuests,
           maxAdults: maxAdults,
@@ -919,6 +917,39 @@ List<_RoomGuestFormTarget> _buildRoomGuestTargets(
     }
   }
   return targets;
+}
+
+List<int> _distributeInitialRoomAdults({
+  required int totalAdults,
+  required List<int?> maxAdultsByRoom,
+}) {
+  if (maxAdultsByRoom.isEmpty) {
+    return const <int>[];
+  }
+
+  final allocations = List<int>.filled(maxAdultsByRoom.length, 1);
+  var remainingAdults = totalAdults - maxAdultsByRoom.length;
+  if (remainingAdults <= 0) {
+    return allocations;
+  }
+
+  var cursor = 0;
+  var skippedInCycle = 0;
+  while (remainingAdults > 0 && skippedInCycle < allocations.length) {
+    final configuredMaxAdults = maxAdultsByRoom[cursor];
+    final maxAdults = configuredMaxAdults != null && configuredMaxAdults > 0
+        ? configuredMaxAdults
+        : 99;
+    if (allocations[cursor] < maxAdults) {
+      allocations[cursor] += 1;
+      remainingAdults -= 1;
+      skippedInCycle = 0;
+    } else {
+      skippedInCycle += 1;
+    }
+    cursor = (cursor + 1) % allocations.length;
+  }
+  return allocations;
 }
 
 class _UseBookerInfoCheckbox extends StatelessWidget {
