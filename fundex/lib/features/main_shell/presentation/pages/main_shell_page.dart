@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -229,7 +231,6 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                   height: 82,
                                   child: Column(
                                     children: [
-                                      
                                       Row(
                                         children: <Widget>[
                                           Expanded(
@@ -331,6 +332,11 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                         .index,
                                                   ),
                                               badge: _MainTabBadge(
+                                                isSelected:
+                                                    currentTabIndex ==
+                                                    MainShellTab
+                                                        .investment
+                                                        .index,
                                                 center: true,
                                                 backgroundColor:
                                                     currentTabIndex ==
@@ -340,8 +346,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                     ? colorScheme.primary
                                                     : inactiveTabBackgroundColor,
                                                 child: Icon(
-                                                  Icons
-                                                      .insert_chart_outlined_outlined,
+                                                  Icons.show_chart_rounded,
                                                   size: 24,
                                                   color:
                                                       currentTabIndex ==
@@ -562,7 +567,7 @@ class _MainTabItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(height: center ? 3 : 10),
+          const SizedBox(height: 8),
           badge,
           const SizedBox(height: 4),
           Text(
@@ -583,20 +588,27 @@ class _MainTabBadge extends StatelessWidget {
     required this.backgroundColor,
     required this.child,
     this.center = false,
+    this.isSelected = false,
   });
 
   final Color backgroundColor;
   final Widget child;
   final bool center;
+  final bool isSelected;
 
-  double get size => center ? 54 : 44;
+  double get size => center ? 50 : 44;
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    final colors = Theme.of(context).appColors;
+    final showGoldRing = center && !isSelected;
+    final badge = DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor,
         shape: BoxShape.circle,
+        border: center && isSelected
+            ? Border.all(color: colors.primary, width: 4)
+            : null,
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: backgroundColor.withValues(alpha: 0.32),
@@ -611,5 +623,72 @@ class _MainTabBadge extends StatelessWidget {
         child: Center(child: child),
       ),
     );
+    if (!showGoldRing) {
+      return badge;
+    }
+    return CustomPaint(
+      foregroundPainter: _MainTabGoldRingPainter(
+        baseGold: colors.highlightGold,
+        lightGold: colors.warningBorder,
+        glowColor: colors.highlightGold.withValues(alpha: 0.45),
+      ),
+      child: badge,
+    );
+  }
+}
+
+class _MainTabGoldRingPainter extends CustomPainter {
+  const _MainTabGoldRingPainter({
+    required this.baseGold,
+    required this.lightGold,
+    required this.glowColor,
+  });
+
+  final Color baseGold;
+  final Color lightGold;
+  final Color glowColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final shortestSide = math.min(size.width, size.height);
+    final center = Offset(size.width / 2, size.height / 2);
+    final strokeWidth = shortestSide * 0.09;
+    final radius = shortestSide / 2 - strokeWidth / 2;
+    final rect = Rect.fromCircle(center: center, radius: radius);
+
+    final glowPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth * 1.35
+      ..color = glowColor
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, strokeWidth * 0.7);
+    canvas.drawCircle(center, radius, glowPaint);
+
+    final ringPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth
+      ..strokeCap = StrokeCap.round
+      ..shader = SweepGradient(
+        transform: const GradientRotation(-math.pi / 4),
+        colors: <Color>[
+          lightGold,
+          baseGold,
+          baseGold,
+          baseGold,
+          lightGold,
+          baseGold,
+          baseGold,
+          baseGold,
+          lightGold,
+        ],
+        stops: const <double>[0, 0.06, 0.18, 0.44, 0.50, 0.56, 0.82, 0.94, 1],
+      ).createShader(rect);
+    canvas.drawCircle(center, radius, ringPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _MainTabGoldRingPainter oldDelegate) {
+    return oldDelegate.baseGold != baseGold ||
+        oldDelegate.lightGold != lightGold ||
+        oldDelegate.glowColor != glowColor;
   }
 }
