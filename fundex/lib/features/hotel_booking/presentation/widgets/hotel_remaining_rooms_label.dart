@@ -56,38 +56,25 @@ class HotelRemainingRoomsLabel extends StatelessWidget {
 
 enum HotelRemainingUnit { room, building }
 
-HotelRemainingUnit hotelRemainingUnitForHotelSummary({
-  required String buildingType,
-  required String buildingCode,
-  required int? bookingType,
-}) {
-  if (bookingType != null && bookingType != 0) {
-    return HotelRemainingUnit.building;
-  }
-  final normalized = '$buildingType $buildingCode'.trim().toLowerCase();
-  if (normalized.isEmpty) {
-    return HotelRemainingUnit.room;
-  }
-  if (normalized.contains('町屋') ||
-      normalized.contains('町家') ||
-      normalized.contains('まちや') ||
-      normalized.contains('machiya') ||
-      normalized.contains('棟') ||
-      normalized.contains('戸建') ||
-      normalized.contains('一軒家') ||
-      normalized.contains('タウンハウス') ||
-      normalized.contains('联排') ||
-      normalized.contains('聯排') ||
-      normalized.contains('聯排別墅') ||
-      normalized.contains('别墅') ||
-      normalized.contains('別墅') ||
-      normalized.contains('townhouse') ||
-      normalized.contains('town house') ||
-      normalized.contains('rowhouse') ||
-      normalized.contains('terrace house') ||
-      normalized.contains('villa') ||
-      normalized.contains('house')) {
-    return HotelRemainingUnit.building;
-  }
-  return HotelRemainingUnit.room;
+HotelRemainingUnit hotelRemainingUnitForBuildingCode(String? buildingCode) {
+  return switch (buildingCode?.trim()) {
+    '02' || '03' => HotelRemainingUnit.building,
+    _ => HotelRemainingUnit.room,
+  };
+}
+
+HotelRemainingUnit hotelRemainingUnitForHotelSummary({String? buildingCode}) {
+  return hotelRemainingUnitForBuildingCode(buildingCode);
+}
+
+String hotelBuildingTypeLabelForCode(
+  BuildContext context,
+  String? buildingCode,
+) {
+  return switch (buildingCode?.trim()) {
+    '01' => context.l10n.hotelBuildingTypeApartment,
+    '02' => context.l10n.hotelBuildingTypeMachiya,
+    '03' => context.l10n.hotelBuildingTypeTownhouse,
+    _ => '',
+  };
 }

@@ -205,6 +205,7 @@ abstract class HotelDetailDto with _$HotelDetailDto {
     Object? lat,
     Object? lng,
     int? bookingType,
+    String? buildingTypeStr,
     bool? bookingStatus,
     num? entirePrice,
     String? checkInMessage,

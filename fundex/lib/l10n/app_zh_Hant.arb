@@ -1101,6 +1101,9 @@
     }
   },
   "hotelRemainingBuildingsMany": "剩餘4棟以上",
+  "hotelBuildingTypeApartment": "公寓型",
+  "hotelBuildingTypeMachiya": "町屋",
+  "hotelBuildingTypeTownhouse": "聯排別墅",
   "hotelNoRooms": "無空房",
   "hotelRefreshFailed": "重新整理失敗，已保留上次結果。",
   "hotelLoadFailed": "酒店列表載入失敗。",

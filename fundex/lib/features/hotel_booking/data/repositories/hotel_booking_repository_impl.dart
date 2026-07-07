@@ -1134,6 +1134,7 @@ HotelDetail _mapHotelDetail(
     latitude: _doubleOrNull(dto.lat),
     longitude: _doubleOrNull(dto.lng),
     bookingType: dto.bookingType,
+    buildingTypeStr: dto.buildingTypeStr?.trim() ?? '',
     isBookable: dto.bookingStatus ?? true,
     entirePrice: dto.entirePrice,
     checkInMessage: dto.checkInMessage?.trim() ?? '',

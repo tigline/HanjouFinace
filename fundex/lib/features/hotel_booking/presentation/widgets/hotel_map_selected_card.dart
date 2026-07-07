@@ -73,9 +73,7 @@ class HotelMapSelectedCard extends StatelessWidget {
                                 ? hotel.remainingRooms ?? 0
                                 : 0,
                             unit: hotelRemainingUnitForHotelSummary(
-                              buildingType: hotel.buildingType,
                               buildingCode: hotel.buildingCode,
-                              bookingType: hotel.bookingType,
                             ),
                           ),
                         ],

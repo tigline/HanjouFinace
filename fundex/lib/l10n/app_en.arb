@@ -1126,6 +1126,9 @@
     }
   },
   "hotelRemainingBuildingsMany": "4+ buildings left",
+  "hotelBuildingTypeApartment": "Apartment",
+  "hotelBuildingTypeMachiya": "Machiya",
+  "hotelBuildingTypeTownhouse": "Townhouse",
   "hotelNoRooms": "No vacancy",
   "hotelRefreshFailed": "Unable to refresh. Showing the previous results.",
   "hotelLoadFailed": "Unable to load hotels.",

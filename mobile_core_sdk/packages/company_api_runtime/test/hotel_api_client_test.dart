@@ -252,7 +252,7 @@ void main() {
         );
 
         return _jsonOk(
-          '{"code":0,"msg":"success","data":{"id":"h1","name":"Tokyo Business Stay","address":"Shinagawa","tags":"{\\"tags\\":[]}","bookingType":0,"bookingStatus":true,"entirePrice":36000,"checkInMessage":"ok","hotelPictures":[{"relativeUrl":"https://cdn.example.com/h1-1.jpg","description":"front"}],"roomTypeDTO4APPs":[{"id":"r1","name":"Twin","price":18000,"occupancy":2,"roomIds":[101,"102"],"roomPictures":[{"relativeUrl":"https://cdn.example.com/r1.jpg"}],"roomTypeBeds":[{"name":"Single","num":2}]}]}}',
+          '{"code":0,"msg":"success","data":{"id":"h1","name":"Tokyo Business Stay","address":"Shinagawa","tags":"{\\"tags\\":[]}","bookingType":0,"buildingTypeStr":"アパートメントホテル","bookingStatus":true,"entirePrice":36000,"checkInMessage":"ok","hotelPictures":[{"relativeUrl":"https://cdn.example.com/h1-1.jpg","description":"front"}],"roomTypeDTO4APPs":[{"id":"r1","name":"Twin","price":18000,"occupancy":2,"roomIds":[101,"102"],"roomPictures":[{"relativeUrl":"https://cdn.example.com/r1.jpg"}],"roomTypeBeds":[{"name":"Single","num":2}]}]}}',
         );
       });
       final api = HotelApiClient(client);
@@ -269,6 +269,7 @@ void main() {
 
       expect(detail.id, equals('h1'));
       expect(detail.bookingType, equals(0));
+      expect(detail.buildingTypeStr, equals('アパートメントホテル'));
       expect(detail.pictures.first.relativeUrl, contains('h1-1.jpg'));
       expect(detail.roomTypes, hasLength(1));
       expect(detail.roomTypes.first.id, equals('r1'));

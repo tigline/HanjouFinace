@@ -2557,6 +2557,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelRemainingBuildingsMany => '4+ buildings left';
 
   @override
+  String get hotelBuildingTypeApartment => 'Apartment';
+
+  @override
+  String get hotelBuildingTypeMachiya => 'Machiya';
+
+  @override
+  String get hotelBuildingTypeTownhouse => 'Townhouse';
+
+  @override
   String get hotelNoRooms => 'No vacancy';
 
   @override

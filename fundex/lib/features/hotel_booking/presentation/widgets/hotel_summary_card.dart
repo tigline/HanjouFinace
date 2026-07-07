@@ -80,7 +80,7 @@ class HotelSummaryCard extends StatelessWidget {
                   Positioned(
                     top: 12,
                     right: 12,
-                    child: HotelTypeBadge(label: _resolveTypeLabel()),
+                    child: HotelTypeBadge(label: _resolveTypeLabel(context)),
                   ),
                 ],
               ),
@@ -248,7 +248,14 @@ class HotelSummaryCard extends StatelessWidget {
     return context.l10n.hotelDefaultDestination;
   }
 
-  String _resolveTypeLabel() {
+  String _resolveTypeLabel(BuildContext context) {
+    final codeLabel = hotelBuildingTypeLabelForCode(
+      context,
+      hotel.buildingCode,
+    );
+    if (codeLabel.isNotEmpty) {
+      return codeLabel;
+    }
     if (hotel.buildingType.isNotEmpty) {
       return hotel.buildingType;
     }
@@ -287,9 +294,7 @@ class _HotelSummaryStatusLine extends StatelessWidget {
       return HotelRemainingRoomsLabel(
         count: hotel.isBookable ? remainingRooms ?? 0 : 0,
         unit: hotelRemainingUnitForHotelSummary(
-          buildingType: hotel.buildingType,
           buildingCode: hotel.buildingCode,
-          bookingType: hotel.bookingType,
         ),
       );
     }

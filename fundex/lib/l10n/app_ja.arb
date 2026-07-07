@@ -1101,6 +1101,9 @@
     }
   },
   "hotelRemainingBuildingsMany": "残り4棟以上",
+  "hotelBuildingTypeApartment": "アパートメント",
+  "hotelBuildingTypeMachiya": "町屋",
+  "hotelBuildingTypeTownhouse": "タウンハウス",
   "hotelNoRooms": "空室なし",
   "hotelRefreshFailed": "更新できませんでした。前回の結果を表示しています。",
   "hotelLoadFailed": "ホテル情報を読み込めませんでした。",

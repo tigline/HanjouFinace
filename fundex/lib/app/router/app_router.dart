@@ -27,6 +27,7 @@ import '../../features/hotel_booking/presentation/pages/hotel_stay_benefit_page.
 import '../../features/hotel_booking/presentation/pages/hotel_today_checkin_detail_page.dart';
 import '../../features/hotel_booking/presentation/pages/hotel_today_checkin_page.dart';
 import '../../features/hotel_booking/presentation/support/hotel_booking_result_route_args.dart';
+import '../../features/hotel_booking/presentation/support/hotel_detail_route_args.dart';
 import '../../features/hotel_booking/presentation/support/hotel_map_route_args.dart';
 import '../../features/hotel_booking/presentation/support/hotel_payment_route_args.dart';
 import '../../features/discussion_board/presentation/widgets/kizunark_comment_composer_widgets.dart';
@@ -448,11 +449,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                         return const _HotelBookingConfirmMissingSeedRedirect();
                       }
                       final extra = state.extra;
+                      final criteria = extra is HotelDetailRouteArgs
+                          ? extra.criteria
+                          : extra is HotelSearchCriteria
+                          ? extra
+                          : HotelSearchCriteria.initial(DateTime.now());
                       return HotelDetailPage(
                         hotelId: id,
-                        initialCriteria: extra is HotelSearchCriteria
-                            ? extra
-                            : HotelSearchCriteria.initial(DateTime.now()),
+                        initialCriteria: criteria,
+                        buildingCode: extra is HotelDetailRouteArgs
+                            ? extra.buildingCode
+                            : null,
                       );
                     },
                   ),

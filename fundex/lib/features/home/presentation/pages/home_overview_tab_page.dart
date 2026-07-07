@@ -12,6 +12,7 @@ import '../../../benefit_lottery/presentation/support/benefit_lottery_mock_catal
 import '../../../benefit_lottery/presentation/support/benefit_lottery_mock_draw_source.dart';
 import '../../../benefit_lottery/presentation/widgets/benefit_lottery_draw_dialog.dart';
 import '../../../hotel_booking/presentation/support/hotel_booking_presenter.dart';
+import '../../../hotel_booking/presentation/support/hotel_detail_route_args.dart';
 import '../../../hotel_booking/presentation/widgets/hotel_price_discount_dialog.dart';
 import '../../../hotel_booking/presentation/widgets/hotel_summary_card.dart';
 import '../providers/home_featured_hotels_provider.dart';
@@ -185,7 +186,10 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                         ? null
                         : () => context.push(
                             '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
-                            extra: featuredHotels.criteria,
+                            extra: HotelDetailRouteArgs(
+                              criteria: featuredHotels.criteria,
+                              buildingCode: hotel.buildingCode,
+                            ),
                           ),
                   ),
                 ),
@@ -394,7 +398,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                               ],
                             ),
                           )
-                          else 
+                        else
                           const SizedBox(height: UiTokens.spacing20),
 
                         const SizedBox(height: UiTokens.spacing20),

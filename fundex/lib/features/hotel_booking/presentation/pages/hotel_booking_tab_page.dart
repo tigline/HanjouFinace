@@ -8,6 +8,7 @@ import '../../../main_shell/presentation/providers/main_shell_providers.dart';
 import '../../../main_shell/presentation/widgets/main_shell_tab_refresh_scope.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
+import '../support/hotel_detail_route_args.dart';
 import '../support/hotel_map_route_args.dart';
 import '../widgets/hotel_hero_section.dart';
 import '../widgets/hotel_price_discount_dialog.dart';
@@ -136,14 +137,20 @@ class _HotelBookingTabContentState
                                   showBookingAction: true,
                                   onBookingTap: () => context.push(
                                     '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
-                                    extra: state.criteria,
+                                    extra: HotelDetailRouteArgs(
+                                      criteria: state.criteria,
+                                      buildingCode: hotel.buildingCode,
+                                    ),
                                   ),
                                 ),
                           onTap: hotel.id.trim().isEmpty
                               ? null
                               : () => context.push(
                                   '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
-                                  extra: state.criteria,
+                                  extra: HotelDetailRouteArgs(
+                                    criteria: state.criteria,
+                                    buildingCode: hotel.buildingCode,
+                                  ),
                                 ),
                           onMapTap: mapArgs.hasValidTarget
                               ? () => context.push(

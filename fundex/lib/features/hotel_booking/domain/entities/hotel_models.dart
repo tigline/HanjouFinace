@@ -303,6 +303,7 @@ class HotelDetail {
     required this.latitude,
     required this.longitude,
     required this.bookingType,
+    required this.buildingTypeStr,
     required this.isBookable,
     required this.entirePrice,
     required this.checkInMessage,
@@ -329,6 +330,7 @@ class HotelDetail {
   final double? latitude;
   final double? longitude;
   final int? bookingType;
+  final String buildingTypeStr;
   final bool isBookable;
   final num? entirePrice;
   final String checkInMessage;

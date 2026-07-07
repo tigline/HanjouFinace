@@ -2448,6 +2448,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelRemainingBuildingsMany => '残り4棟以上';
 
   @override
+  String get hotelBuildingTypeApartment => 'アパートメント';
+
+  @override
+  String get hotelBuildingTypeMachiya => '町屋';
+
+  @override
+  String get hotelBuildingTypeTownhouse => 'タウンハウス';
+
+  @override
   String get hotelNoRooms => '空室なし';
 
   @override

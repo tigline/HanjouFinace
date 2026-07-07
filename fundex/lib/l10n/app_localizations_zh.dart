@@ -2428,6 +2428,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelRemainingBuildingsMany => '剩余4栋以上';
 
   @override
+  String get hotelBuildingTypeApartment => '公寓型';
+
+  @override
+  String get hotelBuildingTypeMachiya => '町屋';
+
+  @override
+  String get hotelBuildingTypeTownhouse => '联排别墅';
+
+  @override
   String get hotelNoRooms => '无空房';
 
   @override
@@ -8345,6 +8354,15 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get hotelRemainingBuildingsMany => '剩餘4棟以上';
+
+  @override
+  String get hotelBuildingTypeApartment => '公寓型';
+
+  @override
+  String get hotelBuildingTypeMachiya => '町屋';
+
+  @override
+  String get hotelBuildingTypeTownhouse => '聯排別墅';
 
   @override
   String get hotelNoRooms => '無空房';

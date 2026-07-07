@@ -28,10 +28,12 @@ class HotelDetailPage extends ConsumerStatefulWidget {
     super.key,
     required this.hotelId,
     required this.initialCriteria,
+    this.buildingCode,
   });
 
   final String hotelId;
   final HotelSearchCriteria initialCriteria;
+  final String? buildingCode;
 
   @override
   ConsumerState<HotelDetailPage> createState() => _HotelDetailPageState();
@@ -98,6 +100,7 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
             data: (detail) => _HotelDetailContent(
               detail: detail,
               criteria: _criteria,
+              buildingCode: widget.buildingCode,
               presenter: presenter,
               roomQuantities: _roomQuantities,
               expandedInfoSectionIds: _expandedInfoSectionIds,
@@ -488,6 +491,7 @@ class _HotelDetailContent extends StatelessWidget {
   const _HotelDetailContent({
     required this.detail,
     required this.criteria,
+    required this.buildingCode,
     required this.presenter,
     required this.roomQuantities,
     required this.expandedInfoSectionIds,
@@ -506,6 +510,7 @@ class _HotelDetailContent extends StatelessWidget {
 
   final HotelDetail detail;
   final HotelSearchCriteria criteria;
+  final String? buildingCode;
   final HotelBookingPresenter presenter;
   final Map<String, int> roomQuantities;
   final Set<String> expandedInfoSectionIds;
@@ -531,6 +536,7 @@ class _HotelDetailContent extends StatelessWidget {
         ? selectedRooms
         : criteria.roomCount;
     final stayBenefitDecision = _stayBenefitDecision(context, amount);
+    final remainingUnit = hotelRemainingUnitForBuildingCode(buildingCode);
 
     return Stack(
       children: <Widget>[
@@ -572,7 +578,10 @@ class _HotelDetailContent extends StatelessWidget {
                 delegate: SliverChildListDelegate(<Widget>[
                   _HotelDetailHeading(detail: detail),
                   const SizedBox(height: 24),
-                  _AvailableRoomsHeader(detail: detail),
+                  _AvailableRoomsHeader(
+                    detail: detail,
+                    remainingUnit: remainingUnit,
+                  ),
                   if (detail.checkInMessage.trim().isNotEmpty) ...<Widget>[
                     const SizedBox(height: 12),
                     HotelRoomListNoticeCard(message: detail.checkInMessage),
@@ -606,7 +615,7 @@ class _HotelDetailContent extends StatelessWidget {
                           isBusy: isAssigningOccupancy,
                           showQuantityControls: _usesRoomPlanSelection,
                           canIncrementQuantity: canAddMoreRooms,
-                          remainingUnit: _remainingUnitForDetail(detail),
+                          remainingUnit: remainingUnit,
                           onDiscountTap: () => showHotelPriceDiscountDialog(
                             context: context,
                             hotelId: detail.id,
@@ -916,9 +925,13 @@ class _HotelDetailHeading extends StatelessWidget {
 }
 
 class _AvailableRoomsHeader extends StatelessWidget {
-  const _AvailableRoomsHeader({required this.detail});
+  const _AvailableRoomsHeader({
+    required this.detail,
+    required this.remainingUnit,
+  });
 
   final HotelDetail detail;
+  final HotelRemainingUnit remainingUnit;
 
   @override
   Widget build(BuildContext context) {
@@ -940,18 +953,12 @@ class _AvailableRoomsHeader extends StatelessWidget {
         ),
         HotelRemainingRoomsLabel(
           count: remainingRooms,
-          unit: _remainingUnitForDetail(detail),
+          unit: remainingUnit,
           textAlign: TextAlign.end,
         ),
       ],
     );
   }
-}
-
-HotelRemainingUnit _remainingUnitForDetail(HotelDetail detail) {
-  return detail.bookingType == 0
-      ? HotelRemainingUnit.room
-      : HotelRemainingUnit.building;
 }
 
 class _NoRoomsNotice extends StatelessWidget {

@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
+import '../support/hotel_detail_route_args.dart';
 import '../widgets/hotel_map_canvas.dart';
 import '../widgets/hotel_map_controls.dart';
 import '../widgets/hotel_map_selected_card.dart';
@@ -143,7 +144,8 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
                     criteria: effectiveCriteria,
                     presenter: presenter,
                     showBookingAction: true,
-                    onBookingTap: () => _openHotelDetail(selectedHotel, effectiveCriteria),
+                    onBookingTap: () =>
+                        _openHotelDetail(selectedHotel, effectiveCriteria),
                   ),
                   showStayBenefitUnavailable:
                       effectiveCriteria.stayBenefit &&
@@ -225,7 +227,10 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
     }
     context.push(
       '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
-      extra: criteria,
+      extra: HotelDetailRouteArgs(
+        criteria: criteria,
+        buildingCode: hotel.buildingCode,
+      ),
     );
   }
 

@@ -8,6 +8,7 @@ import '../../domain/entities/hotel_models.dart';
 import '../controllers/hotel_booking_controller.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
+import '../support/hotel_detail_route_args.dart';
 import '../support/hotel_map_route_args.dart';
 import '../widgets/hotel_filter_section.dart';
 import '../widgets/hotel_price_discount_dialog.dart';
@@ -239,7 +240,10 @@ class _HotelStayBenefitPageState extends ConsumerState<HotelStayBenefitPage> {
                           ? null
                           : () => context.push(
                               '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
-                              extra: _criteria,
+                              extra: HotelDetailRouteArgs(
+                                criteria: _criteria,
+                                buildingCode: hotel.buildingCode,
+                              ),
                             ),
                       onMapTap: mapArgs.hasValidTarget
                           ? () => context.push(
