@@ -352,12 +352,17 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                             children: featuredFundCards,
                           ),
                         if (featuredHotelCards.isNotEmpty)
-                          FundFeaturedFundCarousel(
-                            title: l10n.homeFeaturedHotelsTitle,
-                            actionLabel: l10n.homeViewAllAction,
-                            onActionTap: () => context.go('/hotel-booking'),
-                            headerSpacing: 8,
-                            children: featuredHotelCards,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 2.5,
+                            ),
+                            child: FundFeaturedFundCarousel(
+                              title: l10n.homeFeaturedHotelsTitle,
+                              actionLabel: l10n.homeViewAllAction,
+                              onActionTap: () => context.go('/hotel-booking'),
+                              headerSpacing: 8,
+                              children: featuredHotelCards,
+                            ),
                           ),
                         if (showGuide)
                           Padding(
