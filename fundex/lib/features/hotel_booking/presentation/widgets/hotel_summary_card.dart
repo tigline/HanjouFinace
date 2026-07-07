@@ -47,10 +47,15 @@ class HotelSummaryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(UiTokens.radius20),
         border: Border.all(color: colors.borderSoft.withValues(alpha: 0.58)),
         boxShadow: <BoxShadow>[
+          // BoxShadow(
+          //   color: colors.brandPrimary.withValues(alpha: 0.10),
+          //   blurRadius: 34,
+          //   offset: const Offset(0, 14),
+          // ),
           BoxShadow(
             color: colors.brandPrimary.withValues(alpha: 0.10),
-            blurRadius: 34,
-            offset: const Offset(0, 14),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
           ),
         ],
       ),

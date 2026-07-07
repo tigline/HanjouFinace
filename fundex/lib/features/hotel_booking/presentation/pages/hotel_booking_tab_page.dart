@@ -23,13 +23,28 @@ class HotelBookingTabPage extends ConsumerWidget {
   }
 }
 
-class _HotelBookingTabContent extends ConsumerWidget {
+class _HotelBookingTabContent extends ConsumerStatefulWidget {
   const _HotelBookingTabContent();
+
+  @override
+  ConsumerState<_HotelBookingTabContent> createState() =>
+      _HotelBookingTabContentState();
+}
+
+class _HotelBookingTabContentState
+    extends ConsumerState<_HotelBookingTabContent> {
+  final ScrollController _scrollController = ScrollController();
 
   static const double _loadMoreTriggerExtent = 480;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(hotelBookingControllerProvider);
     final controller = ref.read(hotelBookingControllerProvider.notifier);
     final colors = Theme.of(context).appColors;
@@ -40,6 +55,7 @@ class _HotelBookingTabContent extends ConsumerWidget {
     return MainShellTabRefreshScope(
       tabIndex: MainShellTab.hotel.index,
       onRefresh: (_) => controller.refresh(),
+      scrollController: _scrollController,
       child: ColoredBox(
         color: colors.surfaceAlt,
         child: RefreshIndicator(
@@ -58,6 +74,7 @@ class _HotelBookingTabContent extends ConsumerWidget {
             },
             child: CustomScrollView(
               key: const Key('hotel_tab_content'),
+              controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: <Widget>[
                 SliverToBoxAdapter(

@@ -922,11 +922,11 @@ class FundFeaturedFundCard extends StatelessWidget {
     final colors = theme.appColors;
     final appText = theme.appTextTheme;
     final isDark = theme.brightness == Brightness.dark;
-    final borderColor = isDark
-        ? colors.primary.withValues(alpha: 0.28)
-        : colors.primary.withValues(alpha: 0.14);
+    // final borderColor = isDark
+    //     ? colors.primary.withValues(alpha: 0.28)
+    //     : colors.primary.withValues(alpha: 0.14);
     final shadowColor = colors.scrim;
-    final cardRadius = BorderRadius.circular(UiTokens.radius16);
+    final cardRadius = BorderRadius.circular(UiTokens.radius20);
     final cardBackgroundColor = isDark
         ? Color.alphaBlend(
             colors.primary.withValues(alpha: 0.46),
@@ -995,7 +995,7 @@ class FundFeaturedFundCard extends StatelessWidget {
             color: colors.surface,
             shape: RoundedRectangleBorder(
               borderRadius: cardRadius,
-              side: BorderSide(color: borderColor),
+              //side: BorderSide(color: borderColor),
             ),
             clipBehavior: Clip.antiAlias,
             child: InkWell(

@@ -93,12 +93,18 @@ class _DiscussionBoardTabPageState
     _scrollControllerRegistry = ref.read(
       mainShellScrollControllerRegistryProvider,
     );
-    _scrollControllerRegistry.attach(2, _scrollController);
+    _scrollControllerRegistry.attach(
+      MainShellTab.kizunark.index,
+      _scrollController,
+    );
   }
 
   @override
   void dispose() {
-    _scrollControllerRegistry.detach(2, _scrollController);
+    _scrollControllerRegistry.detach(
+      MainShellTab.kizunark.index,
+      _scrollController,
+    );
     _scrollController.removeListener(_handleScroll);
     _scrollController.dispose();
     _composerController.dispose();
