@@ -70,6 +70,7 @@ BUILD_ARGS=(
   -t lib/main_prod.dart
   --dart-define-from-file="$DEFINE_FILE"
   --export-options-plist="$EXPORT_OPTIONS_PLIST"
+  --no-tree-shake-icons
 )
 
 if [[ -n "$BUILD_NAME" ]]; then
