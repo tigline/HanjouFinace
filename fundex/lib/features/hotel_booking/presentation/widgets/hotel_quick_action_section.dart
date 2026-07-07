@@ -1,6 +1,13 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+
+// Keep this as a direct const IconData reference so Flutter's release icon
+// tree shaker includes the Material Symbols concierge glyph in TestFlight builds.
+const IconData _conciergeIcon = IconData(
+  0xf561,
+  fontFamily: 'MaterialSymbolsOutlined',
+  fontPackage: 'material_symbols_icons',
+);
 
 class HotelQuickActionSection extends StatelessWidget {
   const HotelQuickActionSection({
@@ -54,7 +61,7 @@ class HotelQuickActionSection extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _HotelQuickActionItem(
-            icon: Symbols.concierge,
+            icon: _conciergeIcon,
             label: checkInLabel,
             onTap: onCheckInTap,
           ),
