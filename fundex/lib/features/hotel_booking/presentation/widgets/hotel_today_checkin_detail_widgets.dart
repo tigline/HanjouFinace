@@ -6,15 +6,19 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/hotel_models.dart';
 import 'hotel_detail_image_placeholder.dart';
 
+typedef HotelCheckInRoomAction = void Function(String? roomId);
+
 class HotelTodayCheckInDetailContent extends StatelessWidget {
   const HotelTodayCheckInDetailContent({
     super.key,
     required this.detail,
     required this.onCheckIn,
+    required this.onCheckOut,
   });
 
   final HotelOrderDetail detail;
-  final VoidCallback onCheckIn;
+  final HotelCheckInRoomAction onCheckIn;
+  final HotelCheckInRoomAction onCheckOut;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +37,7 @@ class HotelTodayCheckInDetailContent extends StatelessWidget {
                 index: index,
                 total: entries.length,
                 onCheckIn: onCheckIn,
+                onCheckOut: onCheckOut,
               );
             },
           ),
@@ -66,6 +71,8 @@ class _CheckInRoomEntry {
   final HotelOrderRoomGuest? guest;
 }
 
+enum _CheckInStage { waiting, staying, checkedOut }
+
 class _CheckInRoomDetailCard extends StatelessWidget {
   const _CheckInRoomDetailCard({
     required this.detail,
@@ -73,13 +80,15 @@ class _CheckInRoomDetailCard extends StatelessWidget {
     required this.index,
     required this.total,
     required this.onCheckIn,
+    required this.onCheckOut,
   });
 
   final HotelOrderDetail detail;
   final _CheckInRoomEntry entry;
   final int index;
   final int total;
-  final VoidCallback onCheckIn;
+  final HotelCheckInRoomAction onCheckIn;
+  final HotelCheckInRoomAction onCheckOut;
 
   @override
   Widget build(BuildContext context) {
@@ -108,15 +117,28 @@ class _CheckInRoomDetailCard extends StatelessWidget {
       summary.hotelName,
     ]);
     final guestCount = guest?.guestCount ?? detail.adultCount ?? 1;
-    final checkInStatus = _firstNotEmpty(<String>[
+    final statusText = _firstNotEmpty(<String>[
       guest?.checkedInText ?? '',
       detail.checkedInText,
-      context.l10n.hotelTodayCheckInWaiting,
     ]);
+    final stage = _stageFor(context, guest, detail, statusText);
+    final checkInStatus = statusText.isNotEmpty
+        ? statusText
+        : switch (stage) {
+            _CheckInStage.staying => context.l10n.hotelTodayCheckInStaying,
+            _CheckInStage.checkedOut =>
+              context.l10n.hotelTodayCheckOutCompleted,
+            _CheckInStage.waiting => context.l10n.hotelTodayCheckInWaiting,
+          };
     final password = _firstNotEmpty(<String>[
       guest?.password ?? '',
       detail.gatePassword,
     ]);
+    final roomId = _firstNotEmpty(<String>[guest?.roomId ?? '', detail.roomId]);
+    final roomNo = _firstNotEmpty(<String>[guest?.roomNo ?? '', detail.roomNo]);
+    final showRoomPassword = stage == _CheckInStage.staying;
+    final showAction = stage != _CheckInStage.checkedOut;
+    final isCheckOutAction = stage == _CheckInStage.staying;
 
     return Material(
       color: colors.brandWhite,
@@ -208,6 +230,11 @@ class _CheckInRoomDetailCard extends StatelessWidget {
               label: context.l10n.hotelTodayCheckInRoomTypeLabel,
               value: roomType,
             ),
+            if (roomNo.isNotEmpty)
+              _InfoRow(
+                label: context.l10n.hotelTodayCheckInRoomNoLabel,
+                value: roomNo,
+              ),
             _InfoRow(
               label: context.l10n.hotelTodayCheckInGuestLabel,
               value: guestName,
@@ -220,12 +247,31 @@ class _CheckInRoomDetailCard extends StatelessWidget {
               label: context.l10n.hotelTodayCheckInStatusLabel,
               value: checkInStatus,
             ),
-            _WifiInfoRow(password: password),
-            const SizedBox(height: 18),
-            _CheckInSubmitButton(
-              label: context.l10n.hotelTodayCheckInAction,
-              onPressed: onCheckIn,
-            ),
+            if (showRoomPassword)
+              _InfoRow(
+                label: context.l10n.hotelTodayCheckInRoomPasswordLabel,
+                value: password.trim().isEmpty
+                    ? context.l10n.hotelTodayCheckInNoData
+                    : password,
+                emphasize: true,
+              ),
+            const _WifiInfoRow(),
+            if (showAction) ...<Widget>[
+              const SizedBox(height: 18),
+              _CheckInSubmitButton(
+                label: isCheckOutAction
+                    ? context.l10n.hotelTodayCheckOutAction
+                    : context.l10n.hotelTodayCheckInAction,
+                onPressed: () {
+                  if (isCheckOutAction) {
+                    onCheckOut(roomId);
+                    return;
+                  }
+                  onCheckIn(roomId);
+                },
+                danger: isCheckOutAction,
+              ),
+            ],
           ],
         ),
       ),
@@ -252,6 +298,46 @@ class _CheckInRoomDetailCard extends StatelessWidget {
       }
     }
     return '';
+  }
+
+  _CheckInStage _stageFor(
+    BuildContext context,
+    HotelOrderRoomGuest? guest,
+    HotelOrderDetail detail,
+    String statusText,
+  ) {
+    final status = guest?.checkedInStatus ?? detail.checkedInStatus;
+    if (status == 1) {
+      return _CheckInStage.staying;
+    }
+    if (status == 2) {
+      return _CheckInStage.checkedOut;
+    }
+    final text = statusText.trim().toLowerCase();
+    if (text.isEmpty) {
+      return _CheckInStage.waiting;
+    }
+    final stayingLabels = <String>[
+      context.l10n.hotelTodayCheckInStaying,
+      '宿泊中',
+      '入住中',
+      'staying',
+      'checked in',
+    ];
+    if (stayingLabels.any((label) => text.contains(label.toLowerCase()))) {
+      return _CheckInStage.staying;
+    }
+    final checkedOutLabels = <String>[
+      context.l10n.hotelTodayCheckOutCompleted,
+      'チェックアウト',
+      '退房',
+      'checked out',
+      'checkout',
+    ];
+    if (checkedOutLabels.any((label) => text.contains(label.toLowerCase()))) {
+      return _CheckInStage.checkedOut;
+    }
+    return _CheckInStage.waiting;
   }
 }
 
@@ -283,10 +369,15 @@ class _RoomCountBadge extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.label, required this.value});
+  const _InfoRow({
+    required this.label,
+    required this.value,
+    this.emphasize = false,
+  });
 
   final String label;
   final String value;
+  final bool emphasize;
 
   @override
   Widget build(BuildContext context) {
@@ -297,20 +388,21 @@ class _InfoRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-              label,
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: colors.textPrimary,
-                fontWeight: FontWeight.w800,
-              ),
+            label,
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              color: emphasize ? colors.dangerForeground : colors.textPrimary,
+              fontWeight: FontWeight.w800,
             ),
-          
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
               value.trim().isEmpty ? '--' : value.trim(),
               textAlign: TextAlign.end,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: colors.textSecondary,
+                color: emphasize
+                    ? colors.dangerForeground
+                    : colors.textSecondary,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -322,14 +414,11 @@ class _InfoRow extends StatelessWidget {
 }
 
 class _WifiInfoRow extends StatelessWidget {
-  const _WifiInfoRow({required this.password});
-
-  final String password;
+  const _WifiInfoRow();
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    final hasPassword = password.trim().isNotEmpty;
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
       child: Row(
@@ -349,9 +438,7 @@ class _WifiInfoRow extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Text(
-              hasPassword
-                  ? context.l10n.hotelTodayCheckInWifiPassword(password.trim())
-                  : '--',
+              context.l10n.hotelTodayCheckInWifiValue,
               textAlign: TextAlign.end,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 color: colors.textSecondary,
@@ -366,10 +453,15 @@ class _WifiInfoRow extends StatelessWidget {
 }
 
 class _CheckInSubmitButton extends StatelessWidget {
-  const _CheckInSubmitButton({required this.label, required this.onPressed});
+  const _CheckInSubmitButton({
+    required this.label,
+    required this.onPressed,
+    required this.danger,
+  });
 
   final String label;
   final VoidCallback onPressed;
+  final bool danger;
 
   @override
   Widget build(BuildContext context) {
@@ -379,9 +471,11 @@ class _CheckInSubmitButton extends StatelessWidget {
       child: FilledButton(
         onPressed: onPressed,
         style: FilledButton.styleFrom(
-          backgroundColor: colors.brandPrimary,
+          backgroundColor: danger ? colors.danger : colors.brandPrimary,
           foregroundColor: colors.onDark,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(UiTokens.radius12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(UiTokens.radius12),
+          ),
         ),
         child: Text(
           label,

@@ -475,8 +475,16 @@ class HotelBookingRepositoryImpl implements HotelBookingRepository {
   }
 
   @override
-  Future<String> checkInOrderCustomer({required String orderId}) {
-    return _remote.checkInOrderCustomer(orderId: orderId.trim());
+  Future<String> checkInOrderCustomer({
+    required String orderId,
+    required int checkedIn,
+    String? roomId,
+  }) {
+    return _remote.checkInOrderCustomer(
+      orderId: orderId.trim(),
+      checkedIn: checkedIn,
+      roomId: roomId,
+    );
   }
 
   @override
@@ -1344,6 +1352,7 @@ HotelOrderDetail _mapOrderDetail(
     contactIntlCode: dto.contactIntlCode?.trim() ?? '',
     contactMobile: dto.contactMobile?.trim() ?? '',
     nationalityText: dto.nationalityText?.trim() ?? '',
+    checkedInStatus: _intOrNull(dto.checkedIn),
     checkedInText: dto.checkedInText?.trim() ?? '',
     adultCount: dto.adultCount,
     childCount: dto.childCount,
@@ -1364,6 +1373,7 @@ HotelOrderDetail _mapOrderDetail(
         for (final guest in room.guests) guest.password,
     ]),
     rooms: rooms,
+    roomId: dto.roomId?.toString() ?? '',
     roomNo: dto.roomNo?.trim() ?? '',
     bookingType: dto.bookingType,
     pageTexts: pageTexts,
@@ -1426,6 +1436,11 @@ List<HotelOrderRoomSummary> _mapOrderRooms(
 HotelOrderRoomGuest _mapOrderRoomGuest(Map<String, Object?> raw) {
   return HotelOrderRoomGuest(
     roomTypeName: _stringOrEmpty(raw['roomTypeName']),
+    roomId: _firstNotEmpty(<String?>[
+      _stringOrEmpty(raw['roomId']),
+      _stringOrEmpty(raw['roomID']),
+      _stringOrEmpty(raw['id']),
+    ]),
     roomNo: _stringOrEmpty(raw['roomNo']),
     name: _stringOrEmpty(raw['custName']),
     nationalityText: _stringOrEmpty(raw['nationalityText']),
@@ -1435,6 +1450,8 @@ HotelOrderRoomGuest _mapOrderRoomGuest(Map<String, Object?> raw) {
       _stringOrEmpty(raw['custEmail']),
       _stringOrEmpty(raw['contactEmail']),
     ]),
+    checkedInStatus:
+        _intOrNull(raw['checkedIn']) ?? _intOrNull(raw['checkedInStatus']),
     checkedInText: _stringOrEmpty(raw['checkedInText']),
     password: _stringOrEmpty(raw['password']),
   );

@@ -1005,6 +1005,54 @@ void main() {
       expect(message, equals('success'));
     });
 
+    test('checkInOrderCustomer posts room id when provided', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.checkInOrderCustomer));
+        expect(
+          options.data,
+          equals(<String, dynamic>{
+            'roomId': '453',
+            'bookingOrderId': '1232586',
+            'checkedIn': 1,
+          }),
+        );
+        return _jsonOk('{"code":200,"msg":"success","data":null}');
+      });
+      final api = HotelApiClient(client);
+
+      final message = await api.checkInOrderCustomer(
+        bookingOrderId: '1232586',
+        roomId: '453',
+      );
+
+      expect(message, equals('success'));
+    });
+
+    test('checkInOrderCustomer posts checked-out payload', () async {
+      final client = _buildClient((options) async {
+        expect(options.method, equals('POST'));
+        expect(options.path, equals(HotelApiPaths.checkInOrderCustomer));
+        expect(
+          options.data,
+          equals(<String, dynamic>{
+            'roomId': null,
+            'bookingOrderId': '1298936',
+            'checkedIn': 2,
+          }),
+        );
+        return _jsonOk('{"code":200,"msg":"success","data":null}');
+      });
+      final api = HotelApiClient(client);
+
+      final message = await api.checkInOrderCustomer(
+        bookingOrderId: '1298936',
+        checkedIn: 2,
+      );
+
+      expect(message, equals('success'));
+    });
+
     test('checkInOrderCustomer surfaces backend failure message', () async {
       final client = _buildClient((_) async {
         return _jsonOk(

@@ -96,7 +96,11 @@ abstract class HotelBookingRepository {
     required String orderId,
   });
 
-  Future<String> checkInOrderCustomer({required String orderId});
+  Future<String> checkInOrderCustomer({
+    required String orderId,
+    required int checkedIn,
+    String? roomId,
+  });
 
   Future<HotelMemberProfile> fetchMemberProfile();
 

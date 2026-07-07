@@ -921,6 +921,7 @@ class HotelOrderDetail {
     required this.contactIntlCode,
     required this.contactMobile,
     required this.nationalityText,
+    required this.checkedInStatus,
     required this.checkedInText,
     required this.adultCount,
     required this.childCount,
@@ -936,6 +937,7 @@ class HotelOrderDetail {
     required this.cancelRule,
     required this.gatePassword,
     required this.rooms,
+    required this.roomId,
     required this.roomNo,
     required this.bookingType,
     required this.pageTexts,
@@ -956,6 +958,7 @@ class HotelOrderDetail {
   final String contactIntlCode;
   final String contactMobile;
   final String nationalityText;
+  final int? checkedInStatus;
   final String checkedInText;
   final int? adultCount;
   final int? childCount;
@@ -971,6 +974,7 @@ class HotelOrderDetail {
   final String cancelRule;
   final String gatePassword;
   final List<HotelOrderRoomSummary> rooms;
+  final String roomId;
   final String roomNo;
   final int? bookingType;
   final Map<String, Map<String, String>> pageTexts;
@@ -1015,21 +1019,25 @@ class HotelOrderRoomSummary {
 class HotelOrderRoomGuest {
   const HotelOrderRoomGuest({
     required this.roomTypeName,
+    required this.roomId,
     required this.roomNo,
     required this.name,
     required this.nationalityText,
     required this.guestCount,
     required this.email,
+    required this.checkedInStatus,
     required this.checkedInText,
     required this.password,
   });
 
   final String roomTypeName;
+  final String roomId;
   final String roomNo;
   final String name;
   final String nationalityText;
   final int? guestCount;
   final String email;
+  final int? checkedInStatus;
   final String checkedInText;
   final String password;
 }

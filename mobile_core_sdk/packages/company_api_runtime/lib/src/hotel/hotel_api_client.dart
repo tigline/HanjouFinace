@@ -841,6 +841,7 @@ class HotelApiClient {
 
   Future<String> checkInOrderCustomer({
     required String bookingOrderId,
+    int checkedIn = 1,
     Object? roomId,
   }) async {
     final response = await _client.dio.post<Map<String, dynamic>>(
@@ -848,7 +849,7 @@ class HotelApiClient {
       data: <String, dynamic>{
         'roomId': roomId,
         'bookingOrderId': bookingOrderId,
-        'checkedIn': 1,
+        'checkedIn': checkedIn,
       },
       options: authRequired(true),
     );

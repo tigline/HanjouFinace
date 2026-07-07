@@ -1412,11 +1412,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelTodayCheckInAction => 'Check in';
 
   @override
+  String get hotelTodayCheckOutAction => 'Check out';
+
+  @override
   String get hotelTodayCheckInDialogTitle => 'Check-in';
 
   @override
   String get hotelTodayCheckInDialogMessage =>
       'Have you arrived at the hotel and are you completing check-in?';
+
+  @override
+  String get hotelTodayCheckOutDialogTitle => 'Check-out';
+
+  @override
+  String get hotelTodayCheckOutDialogMessage => 'Are you checking out now?';
 
   @override
   String get hotelTodayCheckInSuccess => 'Check-in completed.';
@@ -1425,10 +1434,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelTodayCheckInFailed => 'Could not complete check-in.';
 
   @override
+  String get hotelTodayCheckOutSuccess => 'Check-out completed.';
+
+  @override
+  String get hotelTodayCheckOutFailed => 'Could not complete check-out.';
+
+  @override
   String get hotelTodayCheckInCompleted => 'Checked in';
 
   @override
   String get hotelTodayCheckInWaiting => 'Waiting for check-in';
+
+  @override
+  String get hotelTodayCheckInStaying => 'Staying';
+
+  @override
+  String get hotelTodayCheckOutCompleted => 'Checked out';
 
   @override
   String get hotelTodayCheckInTimeLabel => 'Check-in time:';
@@ -1440,6 +1461,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelTodayCheckInRoomTypeLabel => 'Room type:';
 
   @override
+  String get hotelTodayCheckInRoomNoLabel => 'Room number:';
+
+  @override
   String get hotelTodayCheckInGuestLabel => 'Guest:';
 
   @override
@@ -1449,7 +1473,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hotelTodayCheckInStatusLabel => 'Check-in status:';
 
   @override
+  String get hotelTodayCheckInRoomPasswordLabel => 'Room password:';
+
+  @override
+  String get hotelTodayCheckInNoData => 'No data';
+
+  @override
   String get hotelTodayCheckInWifiLabel => 'Wi-Fi:';
+
+  @override
+  String get hotelTodayCheckInWifiValue => 'ID: Tanimachikun\nPW: 12345678';
 
   @override
   String hotelTodayCheckInWifiPassword(Object password) {

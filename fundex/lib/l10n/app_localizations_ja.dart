@@ -1338,10 +1338,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelTodayCheckInAction => 'チェックインする';
 
   @override
+  String get hotelTodayCheckOutAction => 'チェックアウト';
+
+  @override
   String get hotelTodayCheckInDialogTitle => 'チェックイン';
 
   @override
   String get hotelTodayCheckInDialogMessage => 'ホテルに到着してチェックイン手続きを行っていますか？';
+
+  @override
+  String get hotelTodayCheckOutDialogTitle => 'チェックアウト';
+
+  @override
+  String get hotelTodayCheckOutDialogMessage => 'チェックアウト手続きを行いますか？';
 
   @override
   String get hotelTodayCheckInSuccess => 'チェックインしました。';
@@ -1350,10 +1359,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelTodayCheckInFailed => 'チェックインできませんでした。';
 
   @override
+  String get hotelTodayCheckOutSuccess => 'チェックアウトしました。';
+
+  @override
+  String get hotelTodayCheckOutFailed => 'チェックアウトできませんでした。';
+
+  @override
   String get hotelTodayCheckInCompleted => 'チェックイン済み';
 
   @override
   String get hotelTodayCheckInWaiting => 'チェックイン待ち';
+
+  @override
+  String get hotelTodayCheckInStaying => '宿泊中';
+
+  @override
+  String get hotelTodayCheckOutCompleted => 'チェックアウト済み';
 
   @override
   String get hotelTodayCheckInTimeLabel => 'チェックイン時間：';
@@ -1365,6 +1386,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelTodayCheckInRoomTypeLabel => '部屋タイプ：';
 
   @override
+  String get hotelTodayCheckInRoomNoLabel => '部屋番号：';
+
+  @override
   String get hotelTodayCheckInGuestLabel => '宿泊者：';
 
   @override
@@ -1374,7 +1398,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelTodayCheckInStatusLabel => 'チェックイン状況：';
 
   @override
+  String get hotelTodayCheckInRoomPasswordLabel => '部屋のパスワード：';
+
+  @override
+  String get hotelTodayCheckInNoData => 'データなし';
+
+  @override
   String get hotelTodayCheckInWifiLabel => 'Wi-Fi：';
+
+  @override
+  String get hotelTodayCheckInWifiValue => 'ID: Tanimachikun\nPW: 12345678';
 
   @override
   String hotelTodayCheckInWifiPassword(Object password) {

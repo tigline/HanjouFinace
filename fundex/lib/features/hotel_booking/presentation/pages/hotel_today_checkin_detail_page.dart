@@ -53,22 +53,41 @@ class _HotelTodayCheckInDetailPageState
         ),
         data: (detail) => HotelTodayCheckInDetailContent(
           detail: detail,
-          onCheckIn: () => _runCheckIn(detail.summary.id),
+          onCheckIn: (roomId) => _runCheckStatus(
+            orderId: detail.summary.id,
+            checkedIn: 1,
+            roomId: roomId,
+          ),
+          onCheckOut: (roomId) => _runCheckStatus(
+            orderId: detail.summary.id,
+            checkedIn: 2,
+            roomId: roomId,
+          ),
         ),
       ),
     );
   }
 
-  Future<void> _runCheckIn(String orderId) async {
+  Future<void> _runCheckStatus({
+    required String orderId,
+    required int checkedIn,
+    String? roomId,
+  }) async {
     final trimmedOrderId = orderId.trim();
+    final trimmedRoomId = roomId?.trim();
     if (trimmedOrderId.isEmpty) {
       return;
     }
     final l10n = context.l10n;
+    final isCheckOut = checkedIn == 2;
     final confirmed = await AppDialogs.showAdaptiveAlert<bool>(
       context: context,
-      title: l10n.hotelTodayCheckInDialogTitle,
-      message: l10n.hotelTodayCheckInDialogMessage,
+      title: isCheckOut
+          ? l10n.hotelTodayCheckOutDialogTitle
+          : l10n.hotelTodayCheckInDialogTitle,
+      message: isCheckOut
+          ? l10n.hotelTodayCheckOutDialogMessage
+          : l10n.hotelTodayCheckInDialogMessage,
       barrierDismissible: false,
       actions: <AppDialogAction<bool>>[
         AppDialogAction<bool>(label: l10n.commonCancel, value: false),
@@ -87,13 +106,20 @@ class _HotelTodayCheckInDetailPageState
         context,
         () => ref.read(checkInHotelOrderCustomerUseCaseProvider)(
           orderId: trimmedOrderId,
+          checkedIn: checkedIn,
+          roomId: trimmedRoomId?.isEmpty == true ? null : trimmedRoomId,
         ),
         message: l10n.commonPleaseWait,
       );
       if (!mounted) {
         return;
       }
-      AppNotice.show(context, message: l10n.hotelTodayCheckInSuccess);
+      AppNotice.show(
+        context,
+        message: isCheckOut
+            ? l10n.hotelTodayCheckOutSuccess
+            : l10n.hotelTodayCheckInSuccess,
+      );
       ref.invalidate(hotelOrderDetailProvider(widget.orderId));
       ref.invalidate(hotelTodayCheckInControllerProvider);
     } catch (error) {
@@ -104,7 +130,9 @@ class _HotelTodayCheckInDetailPageState
         context,
         message: resolveAppRequestErrorMessage(
           error,
-          l10n.hotelTodayCheckInFailed,
+          isCheckOut
+              ? l10n.hotelTodayCheckOutFailed
+              : l10n.hotelTodayCheckInFailed,
         ),
       );
     }

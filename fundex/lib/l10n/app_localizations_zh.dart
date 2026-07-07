@@ -1324,10 +1324,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelTodayCheckInAction => '办理入住';
 
   @override
+  String get hotelTodayCheckOutAction => 'Check out';
+
+  @override
   String get hotelTodayCheckInDialogTitle => '办理入住';
 
   @override
   String get hotelTodayCheckInDialogMessage => '您已到达酒店并正在办理入住手续吗？';
+
+  @override
+  String get hotelTodayCheckOutDialogTitle => '退房';
+
+  @override
+  String get hotelTodayCheckOutDialogMessage => '要办理退房手续吗？';
 
   @override
   String get hotelTodayCheckInSuccess => '入住办理成功。';
@@ -1336,10 +1345,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelTodayCheckInFailed => '入住办理失败。';
 
   @override
+  String get hotelTodayCheckOutSuccess => '退房办理成功。';
+
+  @override
+  String get hotelTodayCheckOutFailed => '退房办理失败。';
+
+  @override
   String get hotelTodayCheckInCompleted => '已入住';
 
   @override
   String get hotelTodayCheckInWaiting => '待办理入住';
+
+  @override
+  String get hotelTodayCheckInStaying => '住宿中';
+
+  @override
+  String get hotelTodayCheckOutCompleted => '已退房';
 
   @override
   String get hotelTodayCheckInTimeLabel => '入住时间：';
@@ -1351,6 +1372,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelTodayCheckInRoomTypeLabel => '房间类型：';
 
   @override
+  String get hotelTodayCheckInRoomNoLabel => '房间号：';
+
+  @override
   String get hotelTodayCheckInGuestLabel => '住宿人：';
 
   @override
@@ -1360,7 +1384,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hotelTodayCheckInStatusLabel => '入住状态：';
 
   @override
+  String get hotelTodayCheckInRoomPasswordLabel => '房间密码：';
+
+  @override
+  String get hotelTodayCheckInNoData => '无数据';
+
+  @override
   String get hotelTodayCheckInWifiLabel => 'Wi-Fi：';
+
+  @override
+  String get hotelTodayCheckInWifiValue => 'ID: Tanimachikun\nPW: 12345678';
 
   @override
   String hotelTodayCheckInWifiPassword(Object password) {
@@ -7207,10 +7240,19 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelTodayCheckInAction => '辦理入住';
 
   @override
+  String get hotelTodayCheckOutAction => 'Check out';
+
+  @override
   String get hotelTodayCheckInDialogTitle => '辦理入住';
 
   @override
   String get hotelTodayCheckInDialogMessage => '您已抵達酒店並正在辦理入住手續嗎？';
+
+  @override
+  String get hotelTodayCheckOutDialogTitle => '退房';
+
+  @override
+  String get hotelTodayCheckOutDialogMessage => '要辦理退房手續嗎？';
 
   @override
   String get hotelTodayCheckInSuccess => '入住辦理成功。';
@@ -7219,10 +7261,22 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelTodayCheckInFailed => '入住辦理失敗。';
 
   @override
+  String get hotelTodayCheckOutSuccess => '退房辦理成功。';
+
+  @override
+  String get hotelTodayCheckOutFailed => '退房辦理失敗。';
+
+  @override
   String get hotelTodayCheckInCompleted => '已入住';
 
   @override
   String get hotelTodayCheckInWaiting => '待辦理入住';
+
+  @override
+  String get hotelTodayCheckInStaying => '住宿中';
+
+  @override
+  String get hotelTodayCheckOutCompleted => '已退房';
 
   @override
   String get hotelTodayCheckInTimeLabel => '入住時間：';
@@ -7234,6 +7288,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelTodayCheckInRoomTypeLabel => '房間類型：';
 
   @override
+  String get hotelTodayCheckInRoomNoLabel => '房間號：';
+
+  @override
   String get hotelTodayCheckInGuestLabel => '住宿人：';
 
   @override
@@ -7243,7 +7300,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get hotelTodayCheckInStatusLabel => '入住狀態：';
 
   @override
+  String get hotelTodayCheckInRoomPasswordLabel => '房間密碼：';
+
+  @override
+  String get hotelTodayCheckInNoData => '無資料';
+
+  @override
   String get hotelTodayCheckInWifiLabel => 'Wi-Fi：';
+
+  @override
+  String get hotelTodayCheckInWifiValue => 'ID: Tanimachikun\nPW: 12345678';
 
   @override
   String hotelTodayCheckInWifiPassword(Object password) {

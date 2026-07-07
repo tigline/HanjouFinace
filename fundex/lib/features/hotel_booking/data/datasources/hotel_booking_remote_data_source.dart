@@ -136,7 +136,11 @@ abstract class HotelBookingRemoteDataSource {
     required String orderId,
   });
 
-  Future<String> checkInOrderCustomer({required String orderId});
+  Future<String> checkInOrderCustomer({
+    required String orderId,
+    required int checkedIn,
+    String? roomId,
+  });
 
   Future<HotelMemberInfoDto> fetchMemberInfo();
 
@@ -426,8 +430,16 @@ class HotelBookingRemoteDataSourceImpl implements HotelBookingRemoteDataSource {
   }
 
   @override
-  Future<String> checkInOrderCustomer({required String orderId}) {
-    return _client.checkInOrderCustomer(bookingOrderId: orderId);
+  Future<String> checkInOrderCustomer({
+    required String orderId,
+    required int checkedIn,
+    String? roomId,
+  }) {
+    return _client.checkInOrderCustomer(
+      bookingOrderId: orderId,
+      checkedIn: checkedIn,
+      roomId: roomId?.trim().isEmpty == true ? null : roomId?.trim(),
+    );
   }
 
   @override
