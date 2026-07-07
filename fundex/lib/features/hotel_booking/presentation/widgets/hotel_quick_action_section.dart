@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class HotelQuickActionSection extends StatelessWidget {
   const HotelQuickActionSection({
@@ -53,7 +54,7 @@ class HotelQuickActionSection extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: _HotelQuickActionItem(
-            icon: Icons.room_service_outlined,
+            icon: Symbols.concierge,
             label: checkInLabel,
             onTap: onCheckInTap,
           ),

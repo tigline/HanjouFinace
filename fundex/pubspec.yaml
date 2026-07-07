@@ -57,6 +57,7 @@ dependencies:
   path_provider: ^2.1.5
   fluwx: ^5.7.5
   sensors_plus: ^7.1.0
+  material_symbols_icons: ^4.2951.0
 
 dev_dependencies:
   flutter_test:

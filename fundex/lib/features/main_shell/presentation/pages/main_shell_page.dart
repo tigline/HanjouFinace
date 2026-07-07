@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../discussion_board/presentation/providers/discussion_board_providers.dart';
@@ -397,7 +398,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                     ? colorScheme.primary
                                                     : inactiveTabBackgroundColor,
                                                 child: Icon(
-                                                  Icons.show_chart_rounded,
+                                                  Symbols.finance_mode,
                                                   size: 24,
                                                   color:
                                                       currentTabIndex ==
