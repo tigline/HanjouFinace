@@ -13,4 +13,5 @@ class UiTokens {
   static const double radius16 = 16;
   static const double radius20 = 20;
   static const double radius28 = 28;
+  static const double circle = 999;
 }

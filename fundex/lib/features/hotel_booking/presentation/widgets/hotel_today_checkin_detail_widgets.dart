@@ -296,19 +296,16 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            flex: 4,
-            child: Text(
+          Text(
               label,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 color: colors.textPrimary,
                 fontWeight: FontWeight.w800,
               ),
             ),
-          ),
-          const SizedBox(width: 16),
+          
+          const SizedBox(width: 10),
           Expanded(
-            flex: 5,
             child: Text(
               value.trim().isEmpty ? '--' : value.trim(),
               textAlign: TextAlign.end,
@@ -384,7 +381,7 @@ class _CheckInSubmitButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: colors.brandPrimary,
           foregroundColor: colors.onDark,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(UiTokens.radius12)),
         ),
         child: Text(
           label,
