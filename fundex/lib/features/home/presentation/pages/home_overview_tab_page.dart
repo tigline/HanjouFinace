@@ -368,6 +368,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: UiTokens.spacing16,
+                              vertical: UiTokens.spacing16,
                             ),
                             child: HomeInvestmentFlowSection(
                               title: l10n.homeInvestmentFlowTitle,
@@ -393,7 +394,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                               ],
                             ),
                           ),
-                        const SizedBox(height: UiTokens.spacing32),
+                        const SizedBox(height: UiTokens.spacing20),
                         // Padding(
                         //   padding: const EdgeInsets.symmetric(
                         //     horizontal: UiTokens.spacing16,
