@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:core_ui_kit/core_ui_kit.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../discussion_board/presentation/providers/discussion_board_providers.dart';
@@ -24,10 +27,13 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
     with SingleTickerProviderStateMixin {
   static const double _chromeRevealScrollDistance = 96;
   static const double _chromeRevealActivationDistance = 18;
+  static const double _defaultGoldRingRotation = math.pi / 2;
 
   late final AnimationController _chromeSnapController;
   Animation<double>? _chromeSnapAnimation;
+  StreamSubscription<AccelerometerEvent>? _accelerometerSubscription;
   double _pendingChromeRevealDistance = 0;
+  double _goldRingRotation = _defaultGoldRingRotation;
 
   @override
   void initState() {
@@ -43,12 +49,55 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
           }
           _setChromeReveal(animation.value);
         });
+    _startGoldRingMotionTracking();
   }
 
   @override
   void dispose() {
+    _accelerometerSubscription?.cancel();
     _chromeSnapController.dispose();
     super.dispose();
+  }
+
+  void _startGoldRingMotionTracking() {
+    if (kIsWeb) {
+      return;
+    }
+    _accelerometerSubscription =
+        accelerometerEventStream(
+          samplingPeriod: SensorInterval.uiInterval,
+        ).listen(
+          _handleAccelerometerEvent,
+          onError: (_) {
+            _accelerometerSubscription?.cancel();
+            _accelerometerSubscription = null;
+          },
+          cancelOnError: true,
+        );
+  }
+
+  void _handleAccelerometerEvent(AccelerometerEvent event) {
+    final verticalMagnitude = math.sqrt(event.y * event.y + event.z * event.z);
+    if (verticalMagnitude < 0.8) {
+      return;
+    }
+    final xAxisPitch = math.atan2(event.z, event.y.abs());
+    final targetRotation = _defaultGoldRingRotation + xAxisPitch;
+    final nextRotation = _lerpAngle(_goldRingRotation, targetRotation, 0.14);
+    if ((nextRotation - _goldRingRotation).abs() < 0.01) {
+      return;
+    }
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _goldRingRotation = nextRotation;
+    });
+  }
+
+  double _lerpAngle(double current, double target, double factor) {
+    final delta = (target - current + math.pi) % (math.pi * 2) - math.pi;
+    return current + delta * factor;
   }
 
   void _onDestinationSelected(BuildContext context, int index) {
@@ -338,6 +387,8 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                         .investment
                                                         .index,
                                                 center: true,
+                                                goldRingRotation:
+                                                    _goldRingRotation,
                                                 backgroundColor:
                                                     currentTabIndex ==
                                                         MainShellTab
@@ -589,12 +640,14 @@ class _MainTabBadge extends StatelessWidget {
     required this.child,
     this.center = false,
     this.isSelected = false,
+    this.goldRingRotation = _MainShellPageState._defaultGoldRingRotation,
   });
 
   final Color backgroundColor;
   final Widget child;
   final bool center;
   final bool isSelected;
+  final double goldRingRotation;
 
   double get size => center ? 50 : 44;
 
@@ -631,6 +684,7 @@ class _MainTabBadge extends StatelessWidget {
         baseGold: colors.highlightGold,
         lightGold: colors.warningBorder,
         glowColor: colors.highlightGold.withValues(alpha: 0.45),
+        rotation: goldRingRotation,
       ),
       child: badge,
     );
@@ -642,11 +696,13 @@ class _MainTabGoldRingPainter extends CustomPainter {
     required this.baseGold,
     required this.lightGold,
     required this.glowColor,
+    required this.rotation,
   });
 
   final Color baseGold;
   final Color lightGold;
   final Color glowColor;
+  final double rotation;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -668,7 +724,7 @@ class _MainTabGoldRingPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round
       ..shader = SweepGradient(
-        transform: const GradientRotation(-math.pi / 4),
+        transform: GradientRotation(rotation),
         colors: <Color>[
           lightGold,
           baseGold,
@@ -689,6 +745,7 @@ class _MainTabGoldRingPainter extends CustomPainter {
   bool shouldRepaint(covariant _MainTabGoldRingPainter oldDelegate) {
     return oldDelegate.baseGold != baseGold ||
         oldDelegate.lightGold != lightGold ||
-        oldDelegate.glowColor != glowColor;
+        oldDelegate.glowColor != glowColor ||
+        oldDelegate.rotation != rotation;
   }
 }
