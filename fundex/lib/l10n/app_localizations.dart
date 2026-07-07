@@ -2081,6 +2081,12 @@ abstract class AppLocalizations {
   /// **'Latest Funds'**
   String get homeFeaturedFundsTitle;
 
+  /// No description provided for @homeFeaturedHotelsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotels'**
+  String get homeFeaturedHotelsTitle;
+
   /// No description provided for @homeFeaturedFundRemainingDays.
   ///
   /// In en, this message translates to:

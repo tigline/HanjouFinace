@@ -1103,6 +1103,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeFeaturedFundsTitle => 'Latest Funds';
 
   @override
+  String get homeFeaturedHotelsTitle => 'Hotels';
+
+  @override
   String homeFeaturedFundRemainingDays(Object days) {
     return '$days days left';
   }

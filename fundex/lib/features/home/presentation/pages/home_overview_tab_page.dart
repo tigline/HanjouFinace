@@ -11,7 +11,10 @@ import '../../../../app/navigation/app_root_tab_refresh.dart';
 import '../../../benefit_lottery/presentation/support/benefit_lottery_mock_catalog.dart';
 import '../../../benefit_lottery/presentation/support/benefit_lottery_mock_draw_source.dart';
 import '../../../benefit_lottery/presentation/widgets/benefit_lottery_draw_dialog.dart';
-import '../providers/home_lottery_providers.dart';
+import '../../../hotel_booking/presentation/support/hotel_booking_presenter.dart';
+import '../../../hotel_booking/presentation/widgets/hotel_price_discount_dialog.dart';
+import '../../../hotel_booking/presentation/widgets/hotel_summary_card.dart';
+import '../providers/home_featured_hotels_provider.dart';
 import '../support/home_featured_fund_card_mapper.dart';
 import '../support/home_member_profile_reminder_support.dart';
 import '../widgets/home_attraction_detail_sheet.dart';
@@ -75,12 +78,12 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
         .watch(settingsEmailVerifiedProvider)
         .valueOrNull;
     final asyncProjects = ref.watch(fundProjectListProvider);
+    final asyncFeaturedHotels = ref.watch(homeFeaturedHotelsProvider);
     final asyncMemberProfile = ref.watch(memberProfileDetailsProvider);
     final asyncVerificationStatus = ref.watch(
       settingsRemoteVerificationStatusProvider,
     );
-    bool showLotteryEntry = false;
-   // ref.watch(homeLotteryEntryVisibilityProvider);
+    final showLotteryEntry = _isHomeLotteryEntryEnabled;
     final memberProfile = asyncMemberProfile.valueOrNull;
     final verificationStatus = asyncVerificationStatus.valueOrNull;
     final projects = asyncProjects.valueOrNull ?? const <FundProject>[];
@@ -157,6 +160,37 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
           ),
         )
         .toList(growable: false);
+    final featuredHotels = asyncFeaturedHotels.valueOrNull;
+    final hotelPresenter = HotelBookingPresenter(
+      Localizations.localeOf(context).toLanguageTag(),
+    );
+    final featuredHotelCards = featuredHotels == null
+        ? const <Widget>[]
+        : featuredHotels.hotels
+              .map(
+                (hotel) => SizedBox(
+                  width: 320,
+                  child: HotelSummaryCard(
+                    hotel: hotel,
+                    presenter: hotelPresenter,
+                    onDiscountTap: hotel.id.trim().isEmpty
+                        ? null
+                        : () => showHotelPriceDiscountDialog(
+                            context: context,
+                            hotelId: hotel.id,
+                            criteria: featuredHotels.criteria,
+                            presenter: hotelPresenter,
+                          ),
+                    onTap: hotel.id.trim().isEmpty
+                        ? null
+                        : () => context.push(
+                            '/hotel-booking/${Uri.encodeComponent(hotel.id)}',
+                            extra: featuredHotels.criteria,
+                          ),
+                  ),
+                ),
+              )
+              .toList(growable: false);
     final loadError = asyncProjects.asError;
 
     final bool showGuide =
@@ -317,6 +351,14 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                             onActionTap: () => context.go('/funds'),
                             children: featuredFundCards,
                           ),
+                        if (featuredHotelCards.isNotEmpty)
+                          FundFeaturedFundCarousel(
+                            title: l10n.homeFeaturedHotelsTitle,
+                            actionLabel: l10n.homeViewAllAction,
+                            onActionTap: () => context.go('/hotel-booking'),
+                            headerSpacing: 8,
+                            children: featuredHotelCards,
+                          ),
                         if (showGuide)
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -392,15 +434,19 @@ bool get _isApplePlatform =>
     (defaultTargetPlatform == TargetPlatform.iOS ||
         defaultTargetPlatform == TargetPlatform.macOS);
 
+bool get _isHomeLotteryEntryEnabled => false;
+
 Future<void> _refreshHomeOverviewTab(WidgetRef ref) async {
   if (shouldSkipAppNetworkRefresh(ref)) {
     return;
   }
   ref.invalidate(fundProjectListProvider);
+  ref.invalidate(homeFeaturedHotelsProvider);
   ref.invalidate(memberProfileDetailsProvider);
   await Future.wait<void>(<Future<void>>[
     refreshRootTabSharedData(ref),
     ref.refresh(fundProjectListProvider.future).then((_) {}),
+    ref.refresh(homeFeaturedHotelsProvider.future).then((_) {}),
     ref.refresh(memberProfileDetailsProvider.future).then((_) {}),
   ]);
 }

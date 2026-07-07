@@ -370,6 +370,7 @@
   "homeReminderCoolingOffBadge": "5 days left",
   "homeReminderCoolingOffAction": "Cancel contract",
   "homeFeaturedFundsTitle": "Latest Funds",
+  "homeFeaturedHotelsTitle": "Hotels",
   "homeFeaturedFundRemainingDays": "{days} days left",
   "@homeFeaturedFundRemainingDays": {
     "placeholders": {

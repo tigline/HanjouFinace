@@ -1021,6 +1021,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get homeFeaturedFundsTitle => '最新基金';
 
   @override
+  String get homeFeaturedHotelsTitle => '酒店';
+
+  @override
   String homeFeaturedFundRemainingDays(Object days) {
     return '剩余 $days 天';
   }
@@ -6935,6 +6938,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get homeFeaturedFundsTitle => '基金';
+
+  @override
+  String get homeFeaturedHotelsTitle => '酒店';
 
   @override
   String homeFeaturedFundRemainingDays(Object days) {

@@ -345,6 +345,7 @@
   "homeReminderCoolingOffBadge": "残り5日",
   "homeReminderCoolingOffAction": "取消手続き",
   "homeFeaturedFundsTitle": "最新ファンド",
+  "homeFeaturedHotelsTitle": "宿泊施設",
   "homeFeaturedFundRemainingDays": "残り {days}日",
   "@homeFeaturedFundRemainingDays": {
     "placeholders": {

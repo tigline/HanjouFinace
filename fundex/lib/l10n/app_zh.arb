@@ -345,6 +345,7 @@
   "homeReminderCoolingOffBadge": "剩余5天",
   "homeReminderCoolingOffAction": "办理取消",
   "homeFeaturedFundsTitle": "最新基金",
+  "homeFeaturedHotelsTitle": "酒店",
   "homeFeaturedFundRemainingDays": "剩余 {days} 天",
   "@homeFeaturedFundRemainingDays": {
     "placeholders": {

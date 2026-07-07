@@ -1035,6 +1035,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get homeFeaturedFundsTitle => '最新ファンド';
 
   @override
+  String get homeFeaturedHotelsTitle => '宿泊施設';
+
+  @override
   String homeFeaturedFundRemainingDays(Object days) {
     return '残り $days日';
   }
