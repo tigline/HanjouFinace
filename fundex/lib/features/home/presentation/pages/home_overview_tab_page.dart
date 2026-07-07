@@ -393,7 +393,10 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                                 ),
                               ],
                             ),
-                          ),
+                          )
+                          else 
+                          const SizedBox(height: UiTokens.spacing20),
+
                         const SizedBox(height: UiTokens.spacing20),
                         // Padding(
                         //   padding: const EdgeInsets.symmetric(
