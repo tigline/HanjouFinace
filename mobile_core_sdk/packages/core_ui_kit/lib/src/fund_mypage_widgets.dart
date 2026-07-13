@@ -131,9 +131,9 @@ class FundMyPageAssetOverview extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Flexible(
+                Expanded(
                   child: Text(
                     displayName,
                     maxLines: 2,
@@ -151,7 +151,6 @@ class FundMyPageAssetOverview extends StatelessWidget {
                 ],
                 if (nameTrailing != null) ...<Widget>[
                   const Spacer(),
-                  const SizedBox(width: 12),
                   nameTrailing!,
                 ],
               ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/navigation/app_root_tab_refresh.dart';
@@ -168,7 +169,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
                     ),
                   ],
                   nameTrailing: _HeroHeaderActionButton(
-                    icon: Icons.ios_share_rounded,
+                    icon: Symbols.open_in_new,
                     onTap: () => _showShareSheet(
                       summary: shareSummary,
                       currencyFormatter: currencyFormatter,
