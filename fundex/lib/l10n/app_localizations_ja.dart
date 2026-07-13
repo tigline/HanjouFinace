@@ -4156,6 +4156,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get myPageWelcomeBack => 'おかえりなさい';
 
   @override
+  String get myPageShareCardTitle => '私の投資ジャーニー';
+
+  @override
+  String get myPageShareCardSubtitle => '一つひとつの投資が、未来につながる';
+
+  @override
+  String get myPageShareInvestedLabel => '累計投資額';
+
+  @override
+  String get myPageShareProfitLabel => '累計利益';
+
+  @override
+  String get myPageShareProfitRateLabel => '利益率';
+
+  @override
+  String get myPageShareSendToAction => '送信先';
+
+  @override
+  String get myPageShareText => 'STE//AVIAでの投資状況をシェアします';
+
+  @override
+  String get myPageShareFailedNotice => '画像を共有できませんでした。';
+
+  @override
   String get myPageTotalAssetsCaption => '運用中 + 待機資金';
 
   @override

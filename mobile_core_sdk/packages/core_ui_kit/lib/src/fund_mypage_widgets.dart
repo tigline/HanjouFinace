@@ -65,6 +65,7 @@ class FundMyPageAssetOverview extends StatelessWidget {
     required this.quickActions,
     this.verificationBadge,
     this.headerActions = const <Widget>[],
+    this.nameTrailing,
   });
 
   final String brandLabel;
@@ -77,6 +78,7 @@ class FundMyPageAssetOverview extends StatelessWidget {
   final List<FundMyPageQuickActionData> quickActions;
   final FundMyPageVerificationBadgeData? verificationBadge;
   final List<Widget> headerActions;
+  final Widget? nameTrailing;
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +148,11 @@ class FundMyPageAssetOverview extends StatelessWidget {
                 if (verificationBadge != null) ...<Widget>[
                   const SizedBox(width: 8),
                   _FundMyPageVerificationBadge(data: verificationBadge!),
+                ],
+                if (nameTrailing != null) ...<Widget>[
+                  const Spacer(),
+                  const SizedBox(width: 12),
+                  nameTrailing!,
                 ],
               ],
             ),

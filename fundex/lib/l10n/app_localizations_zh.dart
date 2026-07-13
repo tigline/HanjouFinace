@@ -4122,6 +4122,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get myPageWelcomeBack => '欢迎回来';
 
   @override
+  String get myPageShareCardTitle => '我的投资旅程';
+
+  @override
+  String get myPageShareCardSubtitle => '每一笔投资，都在连接更好的未来';
+
+  @override
+  String get myPageShareInvestedLabel => '累计投资';
+
+  @override
+  String get myPageShareProfitLabel => '累计盈利';
+
+  @override
+  String get myPageShareProfitRateLabel => '盈利比例';
+
+  @override
+  String get myPageShareSendToAction => '发送到';
+
+  @override
+  String get myPageShareText => '分享我在 STE//AVIA 的投资状况';
+
+  @override
+  String get myPageShareFailedNotice => '暂时无法分享图片。';
+
+  @override
   String get myPageTotalAssetsCaption => '运用中 + 待机资金';
 
   @override
@@ -10051,6 +10075,30 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get myPageWelcomeBack => '歡迎回來';
+
+  @override
+  String get myPageShareCardTitle => '我的投資旅程';
+
+  @override
+  String get myPageShareCardSubtitle => '每一筆投資，都在連接更好的未來';
+
+  @override
+  String get myPageShareInvestedLabel => '累計投資';
+
+  @override
+  String get myPageShareProfitLabel => '累計盈利';
+
+  @override
+  String get myPageShareProfitRateLabel => '盈利比例';
+
+  @override
+  String get myPageShareSendToAction => '發送到';
+
+  @override
+  String get myPageShareText => '分享我在 STE//AVIA 的投資狀況';
+
+  @override
+  String get myPageShareFailedNotice => '暫時無法分享圖片。';
 
   @override
   String get myPageTotalAssetsCaption => '運用中 + 待機資金';

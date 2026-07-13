@@ -4350,6 +4350,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myPageWelcomeBack => 'Welcome back';
 
   @override
+  String get myPageShareCardTitle => 'My investment journey';
+
+  @override
+  String get myPageShareCardSubtitle =>
+      'Building the future, one investment at a time';
+
+  @override
+  String get myPageShareInvestedLabel => 'Total invested';
+
+  @override
+  String get myPageShareProfitLabel => 'Total profit';
+
+  @override
+  String get myPageShareProfitRateLabel => 'Profit rate';
+
+  @override
+  String get myPageShareSendToAction => 'Send to';
+
+  @override
+  String get myPageShareText => 'My investment journey on STE//AVIA';
+
+  @override
+  String get myPageShareFailedNotice => 'Unable to share the image.';
+
+  @override
   String get myPageTotalAssetsCaption => 'Operating + standby cash';
 
   @override

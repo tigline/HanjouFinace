@@ -7923,6 +7923,54 @@ abstract class AppLocalizations {
   /// **'Welcome back'**
   String get myPageWelcomeBack;
 
+  /// No description provided for @myPageShareCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My investment journey'**
+  String get myPageShareCardTitle;
+
+  /// No description provided for @myPageShareCardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Building the future, one investment at a time'**
+  String get myPageShareCardSubtitle;
+
+  /// No description provided for @myPageShareInvestedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total invested'**
+  String get myPageShareInvestedLabel;
+
+  /// No description provided for @myPageShareProfitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total profit'**
+  String get myPageShareProfitLabel;
+
+  /// No description provided for @myPageShareProfitRateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit rate'**
+  String get myPageShareProfitRateLabel;
+
+  /// No description provided for @myPageShareSendToAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to'**
+  String get myPageShareSendToAction;
+
+  /// No description provided for @myPageShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'My investment journey on STE//AVIA'**
+  String get myPageShareText;
+
+  /// No description provided for @myPageShareFailedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to share the image.'**
+  String get myPageShareFailedNotice;
+
   /// No description provided for @myPageTotalAssetsCaption.
   ///
   /// In en, this message translates to:

@@ -24,10 +24,12 @@ import '../../domain/entities/mypage_models.dart';
 import '../providers/member_profile_providers.dart';
 import '../providers/mypage_providers.dart';
 import '../support/mypage_section_support.dart';
+import '../support/mypage_share_summary.dart';
 import '../support/mypage_withdraw_action.dart';
 import '../widgets/my_page_apply_investor_type_panel.dart';
 import '../widgets/my_page_active_fund_summary_card.dart';
 import '../widgets/my_page_asset_trend_card.dart';
+import '../widgets/mypage_share_sheet.dart';
 
 class ProfileCenterTabPage extends ConsumerStatefulWidget {
   const ProfileCenterTabPage({super.key});
@@ -88,6 +90,14 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
     final walletHistoryAsync = ref.watch(walletHistoryProvider);
     final assetTrendAsync = ref.watch(myPageAssetTrendProvider(trendRange));
     final investmentRecords = investmentAsync.valueOrNull;
+    final displayName = _resolveMyPageDisplayName(
+      locale: locale,
+      profile: basicProfile,
+    );
+    final shareSummary = MyPageShareSummary.fromRecords(
+      statistic: accountStatistic,
+      records: investmentRecords,
+    );
     final fundProjects =
         ref.watch(fundProjectListProvider).valueOrNull ?? const <FundProject>[];
     final fundProjectsById = <String, FundProject>{
@@ -132,10 +142,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
                 FundMyPageAssetOverview(
                   brandLabel: 'STE//AVIA',
                   welcomeLabel: l10n.myPageWelcomeBack,
-                  displayName: _resolveMyPageDisplayName(
-                    locale: locale,
-                    profile: basicProfile,
-                  ),
+                  displayName: displayName,
                   verificationBadge: authUserAsync.whenOrNull(
                     data: (user) => _resolveMyPageVerificationBadge(
                       l10n,
@@ -160,6 +167,13 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
                       onTap: () => context.push('/profile/settings'),
                     ),
                   ],
+                  nameTrailing: _HeroHeaderActionButton(
+                    icon: Icons.ios_share_rounded,
+                    onTap: () => _showShareSheet(
+                      summary: shareSummary,
+                      currencyFormatter: currencyFormatter,
+                    ),
+                  ),
                   metrics: <FundMyPageMetricData>[
                     FundMyPageMetricData(
                       label: l10n.myPageMetricOperating,
@@ -267,6 +281,36 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
           )
           .then((_) {}),
     ]);
+  }
+
+  Future<void> _showShareSheet({
+    required MyPageShareSummary summary,
+    required NumberFormat currencyFormatter,
+  }) {
+    final l10n = context.l10n;
+    final profitPrefix = summary.profitAmount > 0 ? '+' : '';
+    final ratePrefix = summary.profitRate > 0 ? '+' : '';
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      backgroundColor: Theme.of(context).appColors.surface,
+      showDragHandle: false,
+      builder: (context) => MyPageShareSheet(
+        title: l10n.myPageShareCardTitle,
+        subtitle: l10n.myPageShareCardSubtitle,
+        investedLabel: l10n.myPageShareInvestedLabel,
+        investedValue: currencyFormatter.format(summary.investedAmount),
+        profitLabel: l10n.myPageShareProfitLabel,
+        profitValue:
+            '$profitPrefix${currencyFormatter.format(summary.profitAmount)}',
+        profitRateLabel: l10n.myPageShareProfitRateLabel,
+        profitRateValue: '$ratePrefix${summary.profitRate.toStringAsFixed(2)}%',
+        shareActionLabel: l10n.myPageShareSendToAction,
+        shareText: l10n.myPageShareText,
+        shareFailedNotice: l10n.myPageShareFailedNotice,
+      ),
+    );
   }
 
   DateTime _resolveTrendEndDate() {
