@@ -13,6 +13,7 @@ import '../../../benefit_lottery/presentation/support/benefit_lottery_mock_draw_
 import '../../../benefit_lottery/presentation/widgets/benefit_lottery_draw_dialog.dart';
 import '../../../hotel_booking/presentation/support/hotel_booking_presenter.dart';
 import '../../../hotel_booking/presentation/support/hotel_detail_route_args.dart';
+import '../../../hotel_booking/presentation/support/hotel_map_route_args.dart';
 import '../../../hotel_booking/presentation/widgets/hotel_price_discount_dialog.dart';
 import '../../../hotel_booking/presentation/widgets/hotel_summary_card.dart';
 import '../providers/home_featured_hotels_provider.dart';
@@ -168,8 +169,12 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
     final featuredHotelCards = featuredHotels == null
         ? const <Widget>[]
         : featuredHotels.hotels
-              .map(
-                (hotel) => SizedBox(
+              .map((hotel) {
+                final mapArgs = HotelMapRouteArgs.fromHotel(
+                  criteria: featuredHotels.criteria,
+                  hotel: hotel,
+                );
+                return SizedBox(
                   width: 320,
                   child: HotelSummaryCard(
                     hotel: hotel,
@@ -191,9 +196,13 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                               buildingCode: hotel.buildingCode,
                             ),
                           ),
+                    onMapTap: mapArgs.hasValidTarget
+                        ? () =>
+                              context.push('/hotel-booking/map', extra: mapArgs)
+                        : null,
                   ),
-                ),
-              )
+                );
+              })
               .toList(growable: false);
     final loadError = asyncProjects.asError;
 

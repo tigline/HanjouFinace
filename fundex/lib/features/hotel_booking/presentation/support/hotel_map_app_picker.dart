@@ -6,9 +6,13 @@ import '../../../../app/localization/app_localizations_ext.dart';
 
 Future<void> showHotelMapAppPicker({
   required BuildContext context,
-  required FundPropertyCoordinate coordinate,
   required String queryLabel,
+  FundPropertyCoordinate? coordinate,
 }) {
+  final trimmedLabel = queryLabel.trim();
+  if (coordinate == null && trimmedLabel.isEmpty) {
+    return Future<void>.value();
+  }
   final platform = Theme.of(context).platform;
   final options = <_HotelMapAppOption>[
     if (platform == TargetPlatform.iOS)
@@ -18,7 +22,7 @@ Future<void> showHotelMapAppPicker({
         uri: _mapUri(
           _HotelMapAppType.apple,
           coordinate: coordinate,
-          queryLabel: queryLabel,
+          queryLabel: trimmedLabel,
           isIos: true,
         ),
       ),
@@ -28,7 +32,7 @@ Future<void> showHotelMapAppPicker({
       uri: _mapUri(
         _HotelMapAppType.google,
         coordinate: coordinate,
-        queryLabel: queryLabel,
+        queryLabel: trimmedLabel,
         isIos: platform == TargetPlatform.iOS,
       ),
     ),
@@ -38,7 +42,7 @@ Future<void> showHotelMapAppPicker({
       uri: _mapUri(
         _HotelMapAppType.yahoo,
         coordinate: coordinate,
-        queryLabel: queryLabel,
+        queryLabel: trimmedLabel,
         isIos: platform == TargetPlatform.iOS,
       ),
     ),
@@ -48,7 +52,7 @@ Future<void> showHotelMapAppPicker({
       uri: _mapUri(
         _HotelMapAppType.amap,
         coordinate: coordinate,
-        queryLabel: queryLabel,
+        queryLabel: trimmedLabel,
         isIos: platform == TargetPlatform.iOS,
       ),
     ),
@@ -107,13 +111,31 @@ Future<void> showHotelMapAppPicker({
 
 Uri _mapUri(
   _HotelMapAppType type, {
-  required FundPropertyCoordinate coordinate,
+  required FundPropertyCoordinate? coordinate,
   required String queryLabel,
   required bool isIos,
 }) {
+  final encodedLabel = Uri.encodeComponent(queryLabel);
+  if (coordinate == null) {
+    return switch (type) {
+      _HotelMapAppType.apple => Uri.parse('maps://?q=$encodedLabel'),
+      _HotelMapAppType.google =>
+        isIos
+            ? Uri.parse('comgooglemaps://?q=$encodedLabel')
+            : Uri.parse('geo:0,0?q=$encodedLabel'),
+      _HotelMapAppType.yahoo => Uri.parse('yjmap://search?query=$encodedLabel'),
+      _HotelMapAppType.amap =>
+        isIos
+            ? Uri.parse(
+                'iosamap://poi?sourceApplication=StellaVia&keywords=$encodedLabel&dev=0',
+              )
+            : Uri.parse(
+                'androidamap://poi?sourceApplication=StellaVia&keywords=$encodedLabel&dev=0',
+              ),
+    };
+  }
   final lat = coordinate.latitude;
   final lng = coordinate.longitude;
-  final encodedLabel = Uri.encodeComponent(queryLabel);
   return switch (type) {
     _HotelMapAppType.apple => Uri.parse('maps://?q=$encodedLabel&ll=$lat,$lng'),
     _HotelMapAppType.google =>

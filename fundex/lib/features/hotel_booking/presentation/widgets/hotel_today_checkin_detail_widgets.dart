@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../domain/entities/hotel_models.dart';
+import '../support/hotel_map_app_picker.dart';
 import 'hotel_detail_image_placeholder.dart';
 
 typedef HotelCheckInRoomAction = void Function(String? roomId);
@@ -173,29 +174,9 @@ class _CheckInRoomDetailCard extends StatelessWidget {
                       ),
                       if (address.isNotEmpty) ...<Widget>[
                         const SizedBox(height: 6),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.location_on_outlined,
-                              size: 18,
-                              color: colors.textPrimary,
-                            ),
-                            const SizedBox(width: 3),
-                            Flexible(
-                              child: Text(
-                                address,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyMedium
-                                    ?.copyWith(
-                                      color: colors.textPrimary,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                              ),
-                            ),
-                          ],
+                        _CheckInDetailAddressLine(
+                          address: address,
+                          coordinate: _coordinateFor(detail),
                         ),
                       ],
                     ],
@@ -300,6 +281,21 @@ class _CheckInRoomDetailCard extends StatelessWidget {
     return '';
   }
 
+  FundPropertyCoordinate? _coordinateFor(HotelOrderDetail detail) {
+    final latitude = detail.latitude;
+    final longitude = detail.longitude;
+    if (latitude == null || longitude == null) {
+      return null;
+    }
+    if (latitude < -90 ||
+        latitude > 90 ||
+        longitude < -180 ||
+        longitude > 180) {
+      return null;
+    }
+    return FundPropertyCoordinate(latitude: latitude, longitude: longitude);
+  }
+
   _CheckInStage _stageFor(
     BuildContext context,
     HotelOrderRoomGuest? guest,
@@ -338,6 +334,55 @@ class _CheckInRoomDetailCard extends StatelessWidget {
       return _CheckInStage.checkedOut;
     }
     return _CheckInStage.waiting;
+  }
+}
+
+class _CheckInDetailAddressLine extends StatelessWidget {
+  const _CheckInDetailAddressLine({
+    required this.address,
+    required this.coordinate,
+  });
+
+  final String address;
+  final FundPropertyCoordinate? coordinate;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).appColors;
+    return InkWell(
+      onTap: () => showHotelMapAppPicker(
+        context: context,
+        queryLabel: address,
+        coordinate: coordinate,
+      ),
+      borderRadius: BorderRadius.circular(UiTokens.radius8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.location_on_outlined,
+              size: 18,
+              color: colors.brandSecondary,
+            ),
+            const SizedBox(width: 3),
+            Flexible(
+              child: Text(
+                address,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: colors.brandSecondary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

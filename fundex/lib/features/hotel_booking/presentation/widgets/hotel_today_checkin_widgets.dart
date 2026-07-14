@@ -101,16 +101,17 @@ class HotelTodayCheckInCard extends StatelessWidget {
                                 ),
                           ),
                           const SizedBox(height: 5),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: colors.textSecondary,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                          ),
+                          if (subtitle.isNotEmpty)
+                            Text(
+                              subtitle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: colors.textSecondary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
                           if (item.roomNo.isNotEmpty) ...<Widget>[
                             const SizedBox(height: 5),
                             Text(
