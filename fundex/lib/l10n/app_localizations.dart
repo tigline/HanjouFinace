@@ -4005,6 +4005,12 @@ abstract class AppLocalizations {
   /// **'This page leads from Tanimachikun Travel to the payment information entry page. Press the button below to continue to payment. If payment is not completed within 15 minutes, the order will be cancelled.'**
   String get hotelBookingResultNotice;
 
+  /// No description provided for @hotelBookingServiceProviderFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'The accommodation booking service is provided by MR.T Travel Co., Ltd.'**
+  String get hotelBookingServiceProviderFooter;
+
   /// No description provided for @hotelBookingResultBackToOrders.
   ///
   /// In en, this message translates to:

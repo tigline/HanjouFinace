@@ -915,6 +915,7 @@
   "hotelBookingResultPaymentAmount": "支付金額",
   "hotelBookingResultNoticeTitle": "請在15分鐘內完成支付",
   "hotelBookingResultNotice": "本頁面會從 MR.T Travel 跳轉到支付資訊輸入頁面。點擊下方按鈕後將進入支付資訊輸入流程。若15分鐘內未完成支付，訂單將被取消。",
+  "hotelBookingServiceProviderFooter": "住宿預訂服務由 MR.T Travel 株式會社提供。",
   "hotelBookingResultBackToOrders": "訂單履歷",
   "hotelBookingResultPay": "去支付",
   "hotelOrdersTitle": "我的訂單",

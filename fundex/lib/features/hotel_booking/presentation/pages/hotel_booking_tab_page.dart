@@ -10,6 +10,7 @@ import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
 import '../support/hotel_detail_route_args.dart';
 import '../support/hotel_map_route_args.dart';
+import '../widgets/hotel_booking_service_footer.dart';
 import '../widgets/hotel_hero_section.dart';
 import '../widgets/hotel_price_discount_dialog.dart';
 import '../widgets/hotel_state_views.dart';
@@ -172,6 +173,7 @@ class _HotelBookingTabContentState
                     )
                   else
                     const SliverToBoxAdapter(child: SizedBox(height: 24)),
+                  const SliverToBoxAdapter(child: HotelBookingServiceFooter()),
                 ],
               ],
             ),

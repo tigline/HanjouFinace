@@ -2068,6 +2068,9 @@ class AppLocalizationsZh extends AppLocalizations {
       '本页面会从 MR.T Travel 跳转到支付信息输入页面。点击下方按钮后将进入支付信息输入流程。若15分钟内未完成支付，订单将被取消。';
 
   @override
+  String get hotelBookingServiceProviderFooter => '住宿预订服务由 MR.T Travel 株式会社提供。';
+
+  @override
   String get hotelBookingResultBackToOrders => '订单履历';
 
   @override
@@ -8089,6 +8092,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String get hotelBookingResultNotice =>
       '本頁面會從 MR.T Travel 跳轉到支付資訊輸入頁面。點擊下方按鈕後將進入支付資訊輸入流程。若15分鐘內未完成支付，訂單將被取消。';
+
+  @override
+  String get hotelBookingServiceProviderFooter => '住宿預訂服務由 MR.T Travel 株式會社提供。';
 
   @override
   String get hotelBookingResultBackToOrders => '訂單履歷';

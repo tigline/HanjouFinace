@@ -16,6 +16,7 @@ import '../widgets/hotel_booking_extra_sections.dart';
 import '../widgets/hotel_booking_guest_form_section.dart';
 import '../widgets/hotel_booking_order_summary_card.dart';
 import '../widgets/hotel_booking_payment_section.dart';
+import '../widgets/hotel_booking_service_footer.dart';
 import '../widgets/hotel_booking_section_card.dart';
 import '../widgets/hotel_coupon_list_widgets.dart';
 import '../widgets/hotel_member_contact_picker_sheet.dart';
@@ -313,6 +314,8 @@ class _HotelBookingConfirmPageState
                     ),
                     const SizedBox(height: 14),
                     HotelBookingMessageSection(controller: _messageController),
+                    const SizedBox(height: 14),
+                    const HotelBookingServiceFooter(),
                   ]),
                 ),
               ),

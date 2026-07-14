@@ -2188,6 +2188,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'This page leads from Tanimachikun Travel to the payment information entry page. Press the button below to continue to payment. If payment is not completed within 15 minutes, the order will be cancelled.';
 
   @override
+  String get hotelBookingServiceProviderFooter =>
+      'The accommodation booking service is provided by MR.T Travel Co., Ltd.';
+
+  @override
   String get hotelBookingResultBackToOrders => 'Order history';
 
   @override

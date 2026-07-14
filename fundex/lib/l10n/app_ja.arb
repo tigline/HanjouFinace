@@ -915,6 +915,7 @@
   "hotelBookingResultPaymentAmount": "支払金額",
   "hotelBookingResultNoticeTitle": "15分以内にお支払いください",
   "hotelBookingResultNotice": "本画面は MR.T Travel から決済情報入力ページに誘導する画面です。下記ボタンを押すと決済情報入力画面に遷移します。15分以内に支払いがない場合、注文はキャンセルされます。",
+  "hotelBookingServiceProviderFooter": "宿泊予約サービスは、MR.T Travel株式会社が提供しています。",
   "hotelBookingResultBackToOrders": "注文履歴へ",
   "hotelBookingResultPay": "支払いへ",
   "hotelOrdersTitle": "注文履歴",

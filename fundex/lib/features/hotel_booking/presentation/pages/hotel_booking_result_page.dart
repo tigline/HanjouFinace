@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:fundex/features/hotel_booking/presentation/widgets/hotel_booking_service_footer.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
@@ -72,6 +73,8 @@ class HotelBookingResultPage extends StatelessWidget {
                       goToOrders();
                     },
                   ),
+                  const SizedBox(height: 14),
+                  const HotelBookingServiceFooter(),
                 ],
               ),
             ),

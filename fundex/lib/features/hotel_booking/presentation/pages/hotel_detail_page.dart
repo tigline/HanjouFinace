@@ -10,6 +10,7 @@ import '../../../member_profile/presentation/support/member_profile_action_guard
 import '../../domain/entities/hotel_models.dart';
 import '../providers/hotel_booking_providers.dart';
 import '../support/hotel_booking_presenter.dart';
+import '../widgets/hotel_booking_service_footer.dart';
 import '../widgets/hotel_detail_bottom_bar.dart';
 import '../widgets/hotel_detail_hero_gallery.dart';
 import '../widgets/hotel_detail_info_section.dart';
@@ -650,6 +651,7 @@ class _HotelDetailContent extends StatelessWidget {
                     }),
                   const SizedBox(height: 18),
                   ..._detailInfoSections(context),
+                  const HotelBookingServiceFooter(),
                   const SizedBox(height: 122),
                 ]),
               ),

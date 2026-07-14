@@ -2087,6 +2087,10 @@ class AppLocalizationsJa extends AppLocalizations {
       '本画面は MR.T Travel から決済情報入力ページに誘導する画面です。下記ボタンを押すと決済情報入力画面に遷移します。15分以内に支払いがない場合、注文はキャンセルされます。';
 
   @override
+  String get hotelBookingServiceProviderFooter =>
+      '宿泊予約サービスは、MR.T Travel株式会社が提供しています。';
+
+  @override
   String get hotelBookingResultBackToOrders => '注文履歴へ';
 
   @override
