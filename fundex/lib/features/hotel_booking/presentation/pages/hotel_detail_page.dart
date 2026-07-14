@@ -651,6 +651,7 @@ class _HotelDetailContent extends StatelessWidget {
                     }),
                   const SizedBox(height: 18),
                   ..._detailInfoSections(context),
+                  const SizedBox(height: 18),
                   const HotelBookingServiceFooter(),
                   const SizedBox(height: 122),
                 ]),

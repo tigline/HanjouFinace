@@ -73,7 +73,7 @@ class HotelBookingResultPage extends StatelessWidget {
                       goToOrders();
                     },
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 18),
                   const HotelBookingServiceFooter(),
                 ],
               ),

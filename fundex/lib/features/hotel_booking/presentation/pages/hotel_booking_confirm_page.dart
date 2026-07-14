@@ -314,7 +314,7 @@ class _HotelBookingConfirmPageState
                     ),
                     const SizedBox(height: 14),
                     HotelBookingMessageSection(controller: _messageController),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 18),
                     const HotelBookingServiceFooter(),
                   ]),
                 ),
