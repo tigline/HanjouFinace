@@ -10,7 +10,7 @@ class HotelBookingServiceFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+      padding: const EdgeInsets.fromLTRB(1, 8, 1, 34),
       child: Text(
         context.l10n.hotelBookingServiceProviderFooter,
         textAlign: TextAlign.center,
