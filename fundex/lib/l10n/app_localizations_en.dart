@@ -6317,4 +6317,83 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kizunarkXSyncDisconnectedDescription =>
       'Connect an X account to enable syncing.';
+
+  @override
+  String get commonCopy => 'Copy';
+
+  @override
+  String get inviteFriendsTitle => 'Invite friends';
+
+  @override
+  String get inviteFriendsHeroTitle => 'Enjoy StellaVia together';
+
+  @override
+  String get inviteFriendsHeroDescription =>
+      'Share your invitation with friends and welcome them to StellaVia.';
+
+  @override
+  String get inviteFriendsCountLabel => 'friends invited so far';
+
+  @override
+  String get inviteFriendsCodeLabel => 'Invitation code';
+
+  @override
+  String get inviteFriendsCodeDescription =>
+      'Your personal invitation code can be entered when registering with the StellaVia App.';
+
+  @override
+  String get inviteFriendsLinkLabel => 'Invitation link';
+
+  @override
+  String get inviteFriendsLinkDescription =>
+      'Registration opens with your invitation code already applied.';
+
+  @override
+  String get inviteFriendsCodeCopied => 'Invitation code copied.';
+
+  @override
+  String get inviteFriendsLinkCopied => 'Invitation link copied.';
+
+  @override
+  String get inviteFriendsShareAction => 'Send';
+
+  @override
+  String get inviteFriendsShareHint => 'Choose an app to send your invitation.';
+
+  @override
+  String get inviteFriendsShareTitle => 'Invitation to StellaVia';
+
+  @override
+  String inviteFriendsShareMessage(String inviteCode, String inviteLink) {
+    return 'Would you like to enjoy new experiences together on StellaVia?\n\nInvitation code: $inviteCode (enter when registering with the StellaVia App)\nRegister here: $inviteLink';
+  }
+
+  @override
+  String get inviteFriendsShareUnavailable =>
+      'Sharing is not available on this device.';
+
+  @override
+  String get inviteFriendsLoadErrorTitle => 'Unable to load your invitation';
+
+  @override
+  String get inviteFriendsLoadErrorDescription =>
+      'Check your connection and try again.';
+
+  @override
+  String get inviteFriendsForbiddenTitle => 'Invitations are not available';
+
+  @override
+  String get inviteFriendsForbiddenDescription =>
+      'Your current account does not have permission to use the friend invitation feature.';
+
+  @override
+  String get inviteFriendsReturnToSettings => 'Back to settings';
+
+  @override
+  String get inviteFriendsRequestErrorTitle =>
+      'Unable to display your invitation';
+
+  @override
+  String get inviteFriendsRequestErrorDescription =>
+      'The invitation service is temporarily unavailable. Please try again later.';
 }

@@ -6010,4 +6010,79 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get kizunarkXSyncDisconnectedDescription => 'Xアカウントを連携すると同期できます。';
+
+  @override
+  String get commonCopy => 'コピー';
+
+  @override
+  String get inviteFriendsTitle => '友達を招待';
+
+  @override
+  String get inviteFriendsHeroTitle => 'StellaViaを一緒に楽しもう';
+
+  @override
+  String get inviteFriendsHeroDescription =>
+      '友達に招待を送り、StellaViaでの新しい体験を一緒に始めましょう。';
+
+  @override
+  String get inviteFriendsCountLabel => 'これまでに招待した友達';
+
+  @override
+  String get inviteFriendsCodeLabel => '招待コード';
+
+  @override
+  String get inviteFriendsCodeDescription =>
+      'StellaVia Appで会員登録するときに入力できる、あなた専用のコードです。';
+
+  @override
+  String get inviteFriendsLinkLabel => '招待リンク';
+
+  @override
+  String get inviteFriendsLinkDescription => '招待コードが反映された会員登録ページを開きます。';
+
+  @override
+  String get inviteFriendsCodeCopied => '招待コードをコピーしました。';
+
+  @override
+  String get inviteFriendsLinkCopied => '招待リンクをコピーしました。';
+
+  @override
+  String get inviteFriendsShareAction => '送信する';
+
+  @override
+  String get inviteFriendsShareHint => '送信先のアプリを選んで、友達に招待を送りましょう。';
+
+  @override
+  String get inviteFriendsShareTitle => 'StellaViaへの招待';
+
+  @override
+  String inviteFriendsShareMessage(String inviteCode, String inviteLink) {
+    return 'StellaViaで一緒に、新しい体験を楽しみませんか？\n\n招待コード：$inviteCode（StellaVia Appでの会員登録時に入力）\n登録はこちら：$inviteLink';
+  }
+
+  @override
+  String get inviteFriendsShareUnavailable => 'この端末では共有機能を利用できません。';
+
+  @override
+  String get inviteFriendsLoadErrorTitle => '招待情報を読み込めませんでした';
+
+  @override
+  String get inviteFriendsLoadErrorDescription => '通信状況を確認して、もう一度お試しください。';
+
+  @override
+  String get inviteFriendsForbiddenTitle => '友達招待を利用できません';
+
+  @override
+  String get inviteFriendsForbiddenDescription =>
+      'ご利用中のアカウントには、友達招待機能の利用権限がありません。';
+
+  @override
+  String get inviteFriendsReturnToSettings => '設定に戻る';
+
+  @override
+  String get inviteFriendsRequestErrorTitle => '招待情報を表示できません';
+
+  @override
+  String get inviteFriendsRequestErrorDescription =>
+      '招待サービスを一時的に利用できません。時間をおいてもう一度お試しください。';
 }

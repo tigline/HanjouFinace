@@ -5953,6 +5953,77 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get kizunarkXSyncDisconnectedDescription => '关联 X 账户后即可使用同步功能。';
+
+  @override
+  String get commonCopy => '复制';
+
+  @override
+  String get inviteFriendsTitle => '邀请好友';
+
+  @override
+  String get inviteFriendsHeroTitle => '一起体验 StellaVia';
+
+  @override
+  String get inviteFriendsHeroDescription => '向好友发送邀请，一起开启 StellaVia 的全新体验。';
+
+  @override
+  String get inviteFriendsCountLabel => '已邀请好友';
+
+  @override
+  String get inviteFriendsCodeLabel => '邀请码';
+
+  @override
+  String get inviteFriendsCodeDescription => '使用 StellaVia App 注册时可输入的专属邀请码。';
+
+  @override
+  String get inviteFriendsLinkLabel => '邀请链接';
+
+  @override
+  String get inviteFriendsLinkDescription => '打开已自动带入邀请码的注册页面。';
+
+  @override
+  String get inviteFriendsCodeCopied => '已复制邀请码。';
+
+  @override
+  String get inviteFriendsLinkCopied => '已复制邀请链接。';
+
+  @override
+  String get inviteFriendsShareAction => '发送至';
+
+  @override
+  String get inviteFriendsShareHint => '选择一个应用，将邀请发送给好友。';
+
+  @override
+  String get inviteFriendsShareTitle => 'StellaVia 好友邀请';
+
+  @override
+  String inviteFriendsShareMessage(String inviteCode, String inviteLink) {
+    return '和我一起在 StellaVia 开启全新体验吧！\n\n邀请码：$inviteCode（使用 StellaVia App 注册时输入）\n注册链接：$inviteLink';
+  }
+
+  @override
+  String get inviteFriendsShareUnavailable => '当前设备无法使用系统分享功能。';
+
+  @override
+  String get inviteFriendsLoadErrorTitle => '无法加载邀请信息';
+
+  @override
+  String get inviteFriendsLoadErrorDescription => '请检查网络连接后重试。';
+
+  @override
+  String get inviteFriendsForbiddenTitle => '无法使用好友邀请';
+
+  @override
+  String get inviteFriendsForbiddenDescription => '当前账户没有使用好友邀请功能的权限。';
+
+  @override
+  String get inviteFriendsReturnToSettings => '返回设置';
+
+  @override
+  String get inviteFriendsRequestErrorTitle => '无法显示邀请信息';
+
+  @override
+  String get inviteFriendsRequestErrorDescription => '邀请服务暂时不可用，请稍后重试。';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -11908,4 +11979,75 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get kizunarkXSyncDisconnectedDescription => '連結 X 帳戶後即可使用同步功能。';
+
+  @override
+  String get commonCopy => '複製';
+
+  @override
+  String get inviteFriendsTitle => '邀請好友';
+
+  @override
+  String get inviteFriendsHeroTitle => '一起體驗 StellaVia';
+
+  @override
+  String get inviteFriendsHeroDescription => '向好友發送邀請，一起開啟 StellaVia 的全新體驗。';
+
+  @override
+  String get inviteFriendsCountLabel => '已邀請好友';
+
+  @override
+  String get inviteFriendsCodeLabel => '邀請碼';
+
+  @override
+  String get inviteFriendsCodeDescription => '使用 StellaVia App 註冊時可輸入的專屬邀請碼。';
+
+  @override
+  String get inviteFriendsLinkLabel => '邀請連結';
+
+  @override
+  String get inviteFriendsLinkDescription => '開啟已自動帶入邀請碼的註冊頁面。';
+
+  @override
+  String get inviteFriendsCodeCopied => '已複製邀請碼。';
+
+  @override
+  String get inviteFriendsLinkCopied => '已複製邀請連結。';
+
+  @override
+  String get inviteFriendsShareAction => '傳送至';
+
+  @override
+  String get inviteFriendsShareHint => '選擇一個應用程式，將邀請傳送給好友。';
+
+  @override
+  String get inviteFriendsShareTitle => 'StellaVia 好友邀請';
+
+  @override
+  String inviteFriendsShareMessage(String inviteCode, String inviteLink) {
+    return '和我一起在 StellaVia 開啟全新體驗吧！\n\n邀請碼：$inviteCode（使用 StellaVia App 註冊時輸入）\n註冊連結：$inviteLink';
+  }
+
+  @override
+  String get inviteFriendsShareUnavailable => '目前裝置無法使用系統分享功能。';
+
+  @override
+  String get inviteFriendsLoadErrorTitle => '無法載入邀請資訊';
+
+  @override
+  String get inviteFriendsLoadErrorDescription => '請檢查網路連線後重試。';
+
+  @override
+  String get inviteFriendsForbiddenTitle => '無法使用好友邀請';
+
+  @override
+  String get inviteFriendsForbiddenDescription => '目前帳戶沒有使用好友邀請功能的權限。';
+
+  @override
+  String get inviteFriendsReturnToSettings => '返回設定';
+
+  @override
+  String get inviteFriendsRequestErrorTitle => '無法顯示邀請資訊';
+
+  @override
+  String get inviteFriendsRequestErrorDescription => '邀請服務暫時無法使用，請稍後重試。';
 }

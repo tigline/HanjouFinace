@@ -66,6 +66,7 @@ import '../../features/settings/presentation/pages/settings_contract_documents_p
 import '../../features/settings/presentation/pages/settings_credit_card_page.dart';
 import '../../features/settings/presentation/pages/settings_email_verification_page.dart';
 import '../../features/settings/presentation/pages/settings_faq_page.dart';
+import '../../features/settings/presentation/pages/invite_friends_page.dart';
 import '../../features/settings/presentation/pages/settings_operating_company_page.dart';
 import '../../features/settings/presentation/pages/settings_phone_verification_page.dart';
 import '../../features/settings/presentation/pages/settings_two_factor_page.dart';
@@ -676,6 +677,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: 'x-account',
             builder: (BuildContext context, GoRouterState state) {
               return const XAccountSettingsPage();
+            },
+          ),
+          GoRoute(
+            path: 'invite',
+            builder: (BuildContext context, GoRouterState state) {
+              return const InviteFriendsPage();
             },
           ),
           GoRoute(

@@ -436,6 +436,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   iconForegroundColor: colors.textPrimary,
                   onTap: () => context.push('/profile/settings/x-account'),
                 ),
+                AppMenuItem(
+                  icon: Icons.group_add_rounded,
+                  label: l10n.inviteFriendsTitle,
+                  iconBackgroundColor: colors.primarySubtle,
+                  iconForegroundColor: colors.primary,
+                  onTap: () => context.push('/profile/settings/invite'),
+                ),
               ],
             ),
             AppMenuSection(

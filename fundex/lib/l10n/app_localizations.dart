@@ -11486,6 +11486,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connect an X account to enable syncing.'**
   String get kizunarkXSyncDisconnectedDescription;
+
+  /// No description provided for @commonCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get commonCopy;
+
+  /// No description provided for @inviteFriendsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite friends'**
+  String get inviteFriendsTitle;
+
+  /// No description provided for @inviteFriendsHeroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoy StellaVia together'**
+  String get inviteFriendsHeroTitle;
+
+  /// No description provided for @inviteFriendsHeroDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Share your invitation with friends and welcome them to StellaVia.'**
+  String get inviteFriendsHeroDescription;
+
+  /// No description provided for @inviteFriendsCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'friends invited so far'**
+  String get inviteFriendsCountLabel;
+
+  /// No description provided for @inviteFriendsCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation code'**
+  String get inviteFriendsCodeLabel;
+
+  /// No description provided for @inviteFriendsCodeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal invitation code can be entered when registering with the StellaVia App.'**
+  String get inviteFriendsCodeDescription;
+
+  /// No description provided for @inviteFriendsLinkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation link'**
+  String get inviteFriendsLinkLabel;
+
+  /// No description provided for @inviteFriendsLinkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration opens with your invitation code already applied.'**
+  String get inviteFriendsLinkDescription;
+
+  /// No description provided for @inviteFriendsCodeCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation code copied.'**
+  String get inviteFriendsCodeCopied;
+
+  /// No description provided for @inviteFriendsLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation link copied.'**
+  String get inviteFriendsLinkCopied;
+
+  /// No description provided for @inviteFriendsShareAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get inviteFriendsShareAction;
+
+  /// No description provided for @inviteFriendsShareHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an app to send your invitation.'**
+  String get inviteFriendsShareHint;
+
+  /// No description provided for @inviteFriendsShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation to StellaVia'**
+  String get inviteFriendsShareTitle;
+
+  /// No description provided for @inviteFriendsShareMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to enjoy new experiences together on StellaVia?\n\nInvitation code: {inviteCode} (enter when registering with the StellaVia App)\nRegister here: {inviteLink}'**
+  String inviteFriendsShareMessage(String inviteCode, String inviteLink);
+
+  /// No description provided for @inviteFriendsShareUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharing is not available on this device.'**
+  String get inviteFriendsShareUnavailable;
+
+  /// No description provided for @inviteFriendsLoadErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load your invitation'**
+  String get inviteFriendsLoadErrorTitle;
+
+  /// No description provided for @inviteFriendsLoadErrorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your connection and try again.'**
+  String get inviteFriendsLoadErrorDescription;
+
+  /// No description provided for @inviteFriendsForbiddenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitations are not available'**
+  String get inviteFriendsForbiddenTitle;
+
+  /// No description provided for @inviteFriendsForbiddenDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current account does not have permission to use the friend invitation feature.'**
+  String get inviteFriendsForbiddenDescription;
+
+  /// No description provided for @inviteFriendsReturnToSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to settings'**
+  String get inviteFriendsReturnToSettings;
+
+  /// No description provided for @inviteFriendsRequestErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to display your invitation'**
+  String get inviteFriendsRequestErrorTitle;
+
+  /// No description provided for @inviteFriendsRequestErrorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The invitation service is temporarily unavailable. Please try again later.'**
+  String get inviteFriendsRequestErrorDescription;
 }
 
 class _AppLocalizationsDelegate
