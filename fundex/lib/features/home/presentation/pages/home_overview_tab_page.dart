@@ -358,16 +358,21 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
                             ),
                           ),
                         if (featuredFundCards.isNotEmpty)
-                          FundFeaturedFundCarousel(
-                            title: l10n.homeFeaturedFundsTitle,
-                            actionLabel: l10n.homeViewAllAction,
-                            onActionTap: () => context.go('/funds'),
-                            children: featuredFundCards,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: UiTokens.spacing16,
+                            ),
+                            child: FundFeaturedFundCarousel(
+                              title: l10n.homeFeaturedFundsTitle,
+                              actionLabel: l10n.homeViewAllAction,
+                              onActionTap: () => context.go('/funds'),
+                              children: featuredFundCards,
+                            ),
                           ),
                         if (featuredHotelCards.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 2.5,
+                              horizontal: UiTokens.spacing16,
                             ),
                             child: FundFeaturedFundCarousel(
                               title: l10n.homeFeaturedHotelsTitle,

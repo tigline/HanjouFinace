@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class HomeAttractionSection extends StatelessWidget {
   const HomeAttractionSection({
@@ -115,7 +116,7 @@ class _HomeAttractionCard extends StatelessWidget {
                 const Spacer(),
                 const SizedBox(height: 8),
                 Icon(
-                  Icons.arrow_forward_rounded,
+                  Symbols.keyboard_arrow_down,
                   size: 18,
                   color: colors.highlightGold,
                 ),
