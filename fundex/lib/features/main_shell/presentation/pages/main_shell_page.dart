@@ -257,6 +257,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                       .cancelAll(),
                 ),
                 ClipRect(
+                  clipBehavior: Clip.none,
                   child: Opacity(
                     opacity: chromeReveal,
                     child: Align(
@@ -278,7 +279,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                 top: false,
                                 child: SizedBox(
                                   key: const Key('main_tab_bar'),
-                                  height: 82,
+                                  height: 78,
                                   child: Column(
                                     children: [
                                       Row(
@@ -372,8 +373,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                           .investment
                                                           .index
                                                   ? colorScheme.primary
-                                                  : shellNavigationTheme
-                                                        .bottomTabInactiveColor,
+                                                  : colors.highlightGold,
                                               onTap: () =>
                                                   _onDestinationSelected(
                                                     context,
@@ -406,8 +406,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                                               .investment
                                                               .index
                                                       ? colors.onDark
-                                                      : shellNavigationTheme
-                                                            .bottomTabInactiveColor,
+                                                      : colors.highlightGold,
                                                 ),
                                               ),
                                             ),
@@ -619,14 +618,22 @@ class _MainTabItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const SizedBox(height: 8),
-          badge,
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: labelStyle?.copyWith(
-              color: labelColor,
-              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+          //const SizedBox(height: 4),
+          Transform.translate(
+            offset: Offset(0, center ? -4 : 0),
+            child: Column(
+              children: [
+                const SizedBox(height: 4),
+                badge,
+                SizedBox(height: center ? 4 : 4),
+                Text(
+                  label,
+                  style: labelStyle?.copyWith(
+                    color: labelColor,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -650,19 +657,17 @@ class _MainTabBadge extends StatelessWidget {
   final bool isSelected;
   final double goldRingRotation;
 
-  double get size => center ? 50 : 44;
+  static const double _layoutSize = 40;
+  static const double _centerVisualSize = 60;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    final showGoldRing = center && !isSelected;
+    final showGoldRing = center;
     final badge = DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor,
         shape: BoxShape.circle,
-        border: center && isSelected
-            ? Border.all(color: colors.primary, width: 4)
-            : null,
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: backgroundColor.withValues(alpha: 0.32),
@@ -672,22 +677,37 @@ class _MainTabBadge extends StatelessWidget {
         ],
       ),
       child: SizedBox(
-        width: size,
-        height: size,
+        width: _layoutSize,
+        height: _layoutSize,
         child: Center(child: child),
       ),
     );
-    if (!showGoldRing) {
+    final paintedBadge = Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: colors.surface,
+          width: 4,
+        ),
+      ),
+      child: CustomPaint(
+        foregroundPainter: _MainTabGoldRingPainter(
+          baseGold: colors.highlightGold,
+          lightGold: colors.warningBorder,
+          glowColor: colors.highlightGold.withValues(alpha: 0.45),
+          rotation: goldRingRotation,
+        ),
+        child: badge,
+      ),
+    );
+
+    if (!center) {
       return badge;
     }
-    return CustomPaint(
-      foregroundPainter: _MainTabGoldRingPainter(
-        baseGold: colors.highlightGold,
-        lightGold: colors.warningBorder,
-        glowColor: colors.highlightGold.withValues(alpha: 0.45),
-        rotation: goldRingRotation,
-      ),
-      child: badge,
+    return Transform.scale(
+      scale: _centerVisualSize / _layoutSize,
+      alignment: Alignment.bottomCenter,
+      child: paintedBadge,
     );
   }
 }
@@ -709,7 +729,7 @@ class _MainTabGoldRingPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final shortestSide = math.min(size.width, size.height);
     final center = Offset(size.width / 2, size.height / 2);
-    final strokeWidth = shortestSide * 0.09;
+    final strokeWidth = shortestSide * 0.07;
     final radius = shortestSide / 2 - strokeWidth / 2;
     final rect = Rect.fromCircle(center: center, radius: radius);
 
