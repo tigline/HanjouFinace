@@ -65,13 +65,13 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
         AppNetworkAvailability.online;
     final networkAccessState = ref.watch(appNetworkAccessStateProvider);
     final isAuthenticated = authState.asData?.value ?? false;
-    final hasUnreadNotifications =
-        isAuthenticated &&
-        ref.watch(
-          notificationsControllerProvider.select(
-            (state) => state.unreadCount > 0,
-          ),
-        );
+    final unreadNotificationCount = isAuthenticated
+        ? ref.watch(
+            notificationsControllerProvider.select(
+              (state) => state.unreadCount,
+            ),
+          )
+        : 0;
     final currentUser = ref.watch(currentAuthUserProvider).asData?.value;
     final isMemberProfileCompleted = ref
         .watch(isMemberProfileCompletedProvider)
@@ -216,7 +216,7 @@ class _HomeOverviewTabPageState extends ConsumerState<HomeOverviewTabPage> {
       registerBonusTitle: l10n.homeGuestRegisterBonusTitle,
       registerBonusBody: l10n.homeGuestRegisterBonusBar,
       registerLabel: l10n.homeTopBannerRegisterAction,
-      showNotificationDot: hasUnreadNotifications,
+      notificationUnreadCount: unreadNotificationCount,
       loginLabel: l10n.loginSubmit,
       onLoginTap: isAuthenticated ? null : () => context.push('/login'),
       onRegisterTap: isAuthenticated

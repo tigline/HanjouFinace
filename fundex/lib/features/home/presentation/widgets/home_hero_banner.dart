@@ -17,7 +17,7 @@ class HomeHeroBanner extends StatelessWidget {
     required this.loginLabel,
     required this.showGuestActions,
     required this.onNotificationTap,
-    required this.showNotificationDot,
+    required this.notificationUnreadCount,
     required this.onSettingsTap,
     this.onRegisterTap,
     this.onLoginTap,
@@ -28,7 +28,7 @@ class HomeHeroBanner extends StatelessWidget {
   final String registerLabel;
   final String loginLabel;
   final bool showGuestActions;
-  final bool showNotificationDot;
+  final int notificationUnreadCount;
   final VoidCallback? onRegisterTap;
   final VoidCallback? onLoginTap;
   final VoidCallback? onNotificationTap;
@@ -78,7 +78,7 @@ class HomeHeroBanner extends StatelessWidget {
                             onTap: onSettingsTap,
                           )
                         : _HomeHeroNotificationButton(
-                            showDot: showNotificationDot,
+                            unreadCount: notificationUnreadCount,
                             onTap: onNotificationTap,
                           ),
                   ),
@@ -134,13 +134,13 @@ class HomeHeroTopBar extends StatelessWidget {
   const HomeHeroTopBar({
     super.key,
     required this.showGuestActions,
-    this.showNotificationDot = false,
+    this.notificationUnreadCount = 0,
     this.onSettingsTap,
     this.onNotificationTap,
   });
 
   final bool showGuestActions;
-  final bool showNotificationDot;
+  final int notificationUnreadCount;
   final VoidCallback? onSettingsTap;
   final VoidCallback? onNotificationTap;
 
@@ -174,7 +174,7 @@ class HomeHeroTopBar extends StatelessWidget {
               )
             else
               _HomeHeroNotificationButton(
-                showDot: showNotificationDot,
+                unreadCount: notificationUnreadCount,
                 onTap: onNotificationTap,
               ),
           ],
@@ -229,11 +229,11 @@ class _HomeHeroBannerArcClipper extends CustomClipper<Path> {
 
 class _HomeHeroNotificationButton extends StatelessWidget {
   const _HomeHeroNotificationButton({
-    required this.showDot,
+    required this.unreadCount,
     required this.onTap,
   });
 
-  final bool showDot;
+  final int unreadCount;
   final VoidCallback? onTap;
 
   @override
@@ -255,18 +255,13 @@ class _HomeHeroNotificationButton extends StatelessWidget {
               onTap: onTap,
             ),
           ),
-          if (showDot)
+          if (unreadCount > 0)
             Positioned(
-              right: 7,
-              top: 7,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: colors.danger,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colors.heroStart, width: 1.5),
-                ),
+              left: 24,
+              top: 3,
+              child: AppNotificationCountBadge(
+                count: unreadCount,
+                borderColor: colors.heroStart,
               ),
             ),
         ],

@@ -71,8 +71,8 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
       symbol: '¥',
       decimalDigits: 0,
     );
-    final hasUnreadNotifications = ref.watch(
-      notificationsControllerProvider.select((state) => state.unreadCount > 0),
+    final unreadNotificationCount = ref.watch(
+      notificationsControllerProvider.select((state) => state.unreadCount),
     );
     final accountStatisticAsync = ref.watch(myPageAccountStatisticProvider);
     final accountStatistic = accountStatisticAsync.valueOrNull;
@@ -120,7 +120,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
             children: [
               _HeroHeaderActionButton(
                 icon: Icons.notifications_none_rounded,
-                showDot: hasUnreadNotifications,
+                unreadCount: unreadNotificationCount,
                 onTap: () => context.push('/profile/notifications'),
               ),
               const SizedBox(width: 8),
@@ -160,7 +160,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
                   headerActions: <Widget>[
                     _HeroHeaderActionButton(
                       icon: Icons.notifications_none_rounded,
-                      showDot: hasUnreadNotifications,
+                      unreadCount: unreadNotificationCount,
                       onTap: () => context.push('/profile/notifications'),
                     ),
                     _HeroHeaderActionButton(
@@ -1065,12 +1065,12 @@ class _HeroHeaderActionButton extends StatelessWidget {
   const _HeroHeaderActionButton({
     required this.icon,
     this.onTap,
-    this.showDot = false,
+    this.unreadCount = 0,
   });
 
   final IconData icon;
   final VoidCallback? onTap;
-  final bool showDot;
+  final int unreadCount;
 
   @override
   Widget build(BuildContext context) {
@@ -1092,18 +1092,13 @@ class _HeroHeaderActionButton extends StatelessWidget {
               ),
             ),
           ),
-          if (showDot)
+          if (unreadCount > 0)
             Positioned(
-              right: 6,
-              top: 6,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: colors.danger,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colors.heroStart, width: 1.5),
-                ),
+              left: 22,
+              top: 2,
+              child: AppNotificationCountBadge(
+                count: unreadCount,
+                borderColor: colors.heroStart,
               ),
             ),
         ],

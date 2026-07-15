@@ -131,11 +131,11 @@ class AppNavigationBar extends StatelessWidget implements PreferredSizeWidget {
               if (bottomSpacing > 0) SizedBox(height: bottomSpacing),
 
               if (showDivider)
-              Container(
-                height: 1,
-                width: double.infinity,
-                color: colors.borderSoft,
-              ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  color: colors.borderSoft,
+                ),
             ],
           ),
         ),
@@ -177,6 +177,52 @@ class AppNavigationIconButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
           onTap: onTap,
           child: Icon(icon, size: 18, color: effectiveForegroundColor),
+        ),
+      ),
+    );
+  }
+}
+
+class AppNotificationCountBadge extends StatelessWidget {
+  const AppNotificationCountBadge({
+    super.key,
+    required this.count,
+    this.borderColor,
+  });
+
+  final int count;
+  final Color? borderColor;
+
+  @override
+  Widget build(BuildContext context) {
+    if (count <= 0) {
+      return const SizedBox.shrink();
+    }
+    final theme = Theme.of(context);
+    final colors = theme.appColors;
+    final displayCount = count.clamp(1, 99);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.danger,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: displayCount < 10 ? 0 : 3),
+          child: Center(
+            widthFactor: 1,
+            heightFactor: 1,
+            child: Text(
+              '$displayCount',
+              maxLines: 1,
+              style: theme.appTextTheme.micro.copyWith(
+                color: colors.onDark,
+                fontWeight: FontWeight.w700,
+                height: 1,
+              ),
+            ),
+          ),
         ),
       ),
     );
