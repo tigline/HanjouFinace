@@ -242,7 +242,15 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
             child: widget.navigationShell,
           ),
           bottomNavigationBar: DecoratedBox(
-            decoration: BoxDecoration(color: colors.surface),
+            decoration: BoxDecoration(color: colors.surfaceAlt,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: colors.highlightGold.withValues(alpha: 0.8),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -270,11 +278,11 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Container(
-                                height: 1,
-                                width: double.infinity,
-                                color: colors.border,
-                              ),
+                              // Container(
+                              //   height: 1,
+                              //   width: double.infinity,
+                              //   color: colors.border,
+                              // ),
                               SafeArea(
                                 top: false,
                                 child: SizedBox(
@@ -686,7 +694,7 @@ class _MainTabBadge extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: colors.surface,
+          color: colors.surfaceAlt,
           width: 4,
         ),
       ),
