@@ -663,7 +663,7 @@ class _MainTabBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    final showGoldRing = center;
+    //final showGoldRing = center;
     final badge = DecoratedBox(
       decoration: BoxDecoration(
         color: backgroundColor,
