@@ -287,7 +287,7 @@ class _MainShellPageState extends ConsumerState<MainShellPage>
                                 top: false,
                                 child: SizedBox(
                                   key: const Key('main_tab_bar'),
-                                  height: 78,
+                                  height: 70,
                                   child: Column(
                                     children: [
                                       Row(
@@ -627,23 +627,18 @@ class _MainTabItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           //const SizedBox(height: 4),
-          Transform.translate(
-            offset: Offset(0, center ? -4 : 0),
-            child: Column(
-              children: [
-                const SizedBox(height: 4),
-                badge,
-                SizedBox(height: center ? 4 : 4),
-                Text(
-                  label,
-                  style: labelStyle?.copyWith(
-                    color: labelColor,
-                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  ),
-                ),
-              ],
+          
+          const SizedBox(height: 4),
+          badge,
+          SizedBox(height: center ? 4 : 4),
+          Text(
+            label,
+            style: labelStyle?.copyWith(
+              color: labelColor,
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
             ),
           ),
+
         ],
       ),
     );
