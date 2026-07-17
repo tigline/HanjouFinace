@@ -628,9 +628,9 @@ class _MainTabItem extends StatelessWidget {
         children: <Widget>[
           //const SizedBox(height: 4),
           
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           badge,
-          SizedBox(height: center ? 4 : 4),
+          SizedBox(height: center ? 0 : 2),
           Text(
             label,
             style: labelStyle?.copyWith(
@@ -661,7 +661,7 @@ class _MainTabBadge extends StatelessWidget {
   final double goldRingRotation;
 
   static const double _layoutSize = 40;
-  static const double _centerVisualSize = 60;
+  static const double _centerVisualSize = 56;
 
   @override
   Widget build(BuildContext context) {

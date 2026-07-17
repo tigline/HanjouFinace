@@ -150,7 +150,7 @@ class _HeroPhoto extends StatelessWidget {
             autoPlay: heroImageUrls.length > 1,
             autoPlayInterval: const Duration(seconds: 25),
           ),
-          Positioned(left: 20, bottom: 44, right: 16, child: _HeroCopy()),
+          Positioned(left: 20, bottom: 40, right: 16, child: _HeroCopy()),
         ],
       ),
     );
@@ -195,7 +195,7 @@ class _HeroCopy extends StatelessWidget {
             letterSpacing: 0,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         Text(
           context.l10n.hotelHeroSubtitle,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
