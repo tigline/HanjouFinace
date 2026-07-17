@@ -57,6 +57,7 @@ void main() {
         expect(options.method, 'GET');
         expect(options.path, ChannelApiPaths.detail);
         expect(options.extra['auth_required'], isTrue);
+        expect(options.extra['refresh_on_forbidden'], isTrue);
         return _ok(
           '{"code":0,"data":{"inviteCode":"STAR2026","countNum":12,"channelName":"Friends"}}',
         );

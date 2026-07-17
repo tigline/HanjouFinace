@@ -47,7 +47,7 @@ Use three layers of coordination:
 
 - Active login/register flow uses email registration and unified `/login` flow.
 - OAuth client authorization uses the StellaVia Basic authorization value in SDK auth client.
-- Token refresh is implemented in `core_network`; 401 retry requests carry `token_retry_attempt`.
+- Token refresh is implemented in `core_network`; 401 retry requests carry `token_retry_attempt`. Endpoints affected by stale JWT permission claims may explicitly opt into one 403 refresh/retry with `refreshOnForbidden`; ordinary 403 responses remain permission failures, and this compatibility retry never clears the session on failure.
 - Phone verification rule is strict: `/member/login/index` `phone` non-empty means verified. `mobileAuth` is not used for phone verification.
 - Member profile completion and protected action guards are reused by booking-like flows through `memberProfileActionGuardProvider`.
 - Face verification and legacy profile steps have been reduced according to recent product decisions.

@@ -142,7 +142,7 @@ template_v2/
 
 1. 先把 Core SDK 做到“可发布可复用”
     .完成 core_storage 真正实现（flutter_secure_storage + shared_preferences 适配器），替换内存 TokenStore。
-    .补齐 core_network 错误模型与并发刷新测试（401 并发、多次重试、刷新失败统一登出）。
+    .补齐 core_network 错误模型与并发刷新测试（401 并发、多次重试、刷新失败统一登出）；对权限写入 JWT 且旧 token 可能缺少新接口权限的 API，可显式启用一次 403 刷新重试，普通 403 不自动刷新，兼容重试失败也不清理会话。
     .给 mobile_core_sdk 增加版本发布规范（melos + changelog + tag 流程）。
     .关键文件起点：token_refresh_interceptor.dart、storage_contract.dart。
 2. 完成 App 基础设施（模板必须具备）

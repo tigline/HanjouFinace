@@ -114,6 +114,155 @@ void main() {
       expect(await store.readRefreshToken(), 'newR');
     });
 
+    test('does not refresh an ordinary 403 response', () async {
+      final store = InMemoryTokenStore();
+      await store.save(
+        const TokenPair(accessToken: 'oldA', refreshToken: 'validR'),
+      );
+
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+      dio.httpClientAdapter = _FakeAdapter((_) async {
+        return ResponseBody.fromString('forbidden', 403);
+      });
+
+      var refreshCount = 0;
+      final client = CoreHttpClient(
+        baseUrl: 'https://api.example.com',
+        tokenStore: store,
+        tokenRefresher: _FakeTokenRefresher((_) async {
+          refreshCount += 1;
+          return const TokenPair(accessToken: 'newA', refreshToken: 'newR');
+        }),
+        dio: dio,
+      );
+
+      await expectLater(
+        () => client.dio.get<dynamic>('/forbidden'),
+        throwsA(isA<DioException>()),
+      );
+
+      expect(refreshCount, 0);
+      expect(await store.readAccessToken(), 'oldA');
+    });
+
+    test('refreshes and retries once for an opted-in 403 response', () async {
+      final store = InMemoryTokenStore();
+      await store.save(
+        const TokenPair(accessToken: 'oldA', refreshToken: 'validR'),
+      );
+
+      var callCount = 0;
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+      dio.httpClientAdapter = _FakeAdapter((options) async {
+        callCount += 1;
+        if (callCount == 1) {
+          return ResponseBody.fromString('forbidden', 403);
+        }
+
+        expect(options.headers['Authorization'], 'Bearer newA');
+        expect(options.extra['token_retry_attempt'], 1);
+        expect(options.extra['refresh_on_forbidden'], isTrue);
+        return _jsonOk();
+      });
+
+      var refreshCount = 0;
+      final client = CoreHttpClient(
+        baseUrl: 'https://api.example.com',
+        tokenStore: store,
+        tokenRefresher: _FakeTokenRefresher((refreshToken) async {
+          refreshCount += 1;
+          expect(refreshToken, 'validR');
+          return const TokenPair(accessToken: 'newA', refreshToken: 'newR');
+        }),
+        dio: dio,
+      );
+
+      final response = await client.dio.get<dynamic>(
+        '/new-permission',
+        options: authRequired(true, refreshOnForbidden: true),
+      );
+
+      expect(response.statusCode, 200);
+      expect(refreshCount, 1);
+      expect(callCount, 2);
+      expect(await store.readAccessToken(), 'newA');
+    });
+
+    test('keeps the session when an opted-in 403 refresh fails', () async {
+      final store = InMemoryTokenStore();
+      await store.save(
+        const TokenPair(accessToken: 'oldA', refreshToken: 'validR'),
+      );
+
+      final failureHandler = _FakeAuthFailureHandler();
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+      dio.httpClientAdapter = _FakeAdapter((_) async {
+        return ResponseBody.fromString('forbidden', 403);
+      });
+
+      final client = CoreHttpClient(
+        baseUrl: 'https://api.example.com',
+        tokenStore: store,
+        tokenRefresher: _FakeTokenRefresher((_) async => null),
+        authFailureHandler: failureHandler,
+        dio: dio,
+      );
+
+      await expectLater(
+        () => client.dio.get<dynamic>(
+          '/new-permission',
+          options: authRequired(true, refreshOnForbidden: true),
+        ),
+        throwsA(isA<DioException>()),
+      );
+
+      expect(failureHandler.reasons, isEmpty);
+      expect(await store.readAccessToken(), 'oldA');
+      expect(await store.readRefreshToken(), 'validR');
+    });
+
+    test('keeps the session when an opted-in 403 remains forbidden', () async {
+      final store = InMemoryTokenStore();
+      await store.save(
+        const TokenPair(accessToken: 'oldA', refreshToken: 'validR'),
+      );
+
+      final failureHandler = _FakeAuthFailureHandler();
+      var callCount = 0;
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com'));
+      dio.httpClientAdapter = _FakeAdapter((_) async {
+        callCount += 1;
+        return ResponseBody.fromString('forbidden', 403);
+      });
+
+      var refreshCount = 0;
+      final client = CoreHttpClient(
+        baseUrl: 'https://api.example.com',
+        tokenStore: store,
+        tokenRefresher: _FakeTokenRefresher((_) async {
+          refreshCount += 1;
+          return const TokenPair(accessToken: 'newA', refreshToken: 'newR');
+        }),
+        authFailureHandler: failureHandler,
+        maxAuthRetryAttempts: 3,
+        dio: dio,
+      );
+
+      await expectLater(
+        () => client.dio.get<dynamic>(
+          '/new-permission',
+          options: authRequired(true, refreshOnForbidden: true),
+        ),
+        throwsA(isA<DioException>()),
+      );
+
+      expect(refreshCount, 1);
+      expect(callCount, 2);
+      expect(failureHandler.reasons, isEmpty);
+      expect(await store.readAccessToken(), 'newA');
+      expect(await store.readRefreshToken(), 'newR');
+    });
+
     test('uses one refresh for concurrent 401 responses', () async {
       final store = InMemoryTokenStore();
       await store.save(

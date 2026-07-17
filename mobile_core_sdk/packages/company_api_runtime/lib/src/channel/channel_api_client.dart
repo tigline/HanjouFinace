@@ -29,7 +29,7 @@ class ChannelApiClient {
   Future<ChannelPartnerDto> fetchMyChannelDetail() async {
     final response = await _client.dio.get<Map<String, dynamic>>(
       detailPath,
-      options: authRequired(true),
+      options: authRequired(true, refreshOnForbidden: true),
     );
     final data = _envelopeCodec.extractDataMap(
       _envelopeCodec.toJsonMap(response.data),

@@ -42,7 +42,11 @@ class TokenRefreshInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    if (_isUnauthorized(err.requestOptions, err.response?.statusCode) &&
+    final isUnauthorized = _isUnauthorized(
+      err.requestOptions,
+      err.response?.statusCode,
+    );
+    if (isUnauthorized &&
         !_shouldRefresh(err.requestOptions, err.response?.statusCode)) {
       await _handleAuthFailure(AuthFailureReason.retryExhausted);
       handler.next(err);
@@ -55,7 +59,8 @@ class TokenRefreshInterceptor extends Interceptor {
     }
 
     _logTokenRefreshProbe(
-      '[TokenRefreshProbe] 401 received; starting refresh. '
+      '[TokenRefreshProbe] ${err.response?.statusCode} received; '
+      'starting refresh. '
       'path=${err.requestOptions.path}',
     );
 
@@ -65,7 +70,9 @@ class TokenRefreshInterceptor extends Interceptor {
         '[TokenRefreshProbe] refresh skipped; missing refreshToken. '
         'path=${err.requestOptions.path}',
       );
-      await _handleAuthFailure(AuthFailureReason.missingRefreshToken);
+      if (isUnauthorized) {
+        await _handleAuthFailure(AuthFailureReason.missingRefreshToken);
+      }
       handler.next(err);
       return;
     }
@@ -78,7 +85,9 @@ class TokenRefreshInterceptor extends Interceptor {
         '[TokenRefreshProbe] refresh request failed. '
         'path=${err.requestOptions.path}',
       );
-      await _handleAuthFailure(AuthFailureReason.refreshRequestFailed);
+      if (isUnauthorized) {
+        await _handleAuthFailure(AuthFailureReason.refreshRequestFailed);
+      }
       handler.next(err);
       return;
     } catch (_) {
@@ -86,7 +95,9 @@ class TokenRefreshInterceptor extends Interceptor {
         '[TokenRefreshProbe] refresh request failed. '
         'path=${err.requestOptions.path}',
       );
-      await _handleAuthFailure(AuthFailureReason.refreshRequestFailed);
+      if (isUnauthorized) {
+        await _handleAuthFailure(AuthFailureReason.refreshRequestFailed);
+      }
       handler.next(err);
       return;
     }
@@ -96,7 +107,9 @@ class TokenRefreshInterceptor extends Interceptor {
         '[TokenRefreshProbe] refresh returned null. '
         'path=${err.requestOptions.path}',
       );
-      await _handleAuthFailure(AuthFailureReason.refreshReturnedNull);
+      if (isUnauthorized) {
+        await _handleAuthFailure(AuthFailureReason.refreshReturnedNull);
+      }
       handler.next(err);
       return;
     }
@@ -142,12 +155,21 @@ class TokenRefreshInterceptor extends Interceptor {
     return statusCode == 401 && isAuthRequired(request);
   }
 
-  bool _shouldRefresh(RequestOptions request, int? statusCode) {
-    if (!_isUnauthorized(request, statusCode)) {
-      return false;
-    }
+  bool _isRefreshableForbidden(RequestOptions request, int? statusCode) {
+    return statusCode == 403 &&
+        isAuthRequired(request) &&
+        shouldRefreshOnForbidden(request);
+  }
 
-    return _readRetryAttempt(request) < _maxRetryAttempts;
+  bool _shouldRefresh(RequestOptions request, int? statusCode) {
+    final retryAttempt = _readRetryAttempt(request);
+    if (_isUnauthorized(request, statusCode)) {
+      return retryAttempt < _maxRetryAttempts;
+    }
+    if (_isRefreshableForbidden(request, statusCode)) {
+      return retryAttempt < 1;
+    }
+    return false;
   }
 
   int _readRetryAttempt(RequestOptions request) {

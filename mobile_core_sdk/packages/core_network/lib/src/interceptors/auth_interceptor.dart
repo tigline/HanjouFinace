@@ -3,13 +3,23 @@ import 'package:dio/dio.dart';
 import '../auth/token_store.dart';
 
 const String _authRequiredExtraKey = 'auth_required';
+const String _refreshOnForbiddenExtraKey = 'refresh_on_forbidden';
 
-Options authRequired(bool required) {
-  return Options(extra: <String, dynamic>{_authRequiredExtraKey: required});
+Options authRequired(bool required, {bool refreshOnForbidden = false}) {
+  return Options(
+    extra: <String, dynamic>{
+      _authRequiredExtraKey: required,
+      if (refreshOnForbidden) _refreshOnForbiddenExtraKey: true,
+    },
+  );
 }
 
 bool isAuthRequired(RequestOptions options) {
   return options.extra[_authRequiredExtraKey] != false;
+}
+
+bool shouldRefreshOnForbidden(RequestOptions options) {
+  return options.extra[_refreshOnForbiddenExtraKey] == true;
 }
 
 class AuthInterceptor extends Interceptor {

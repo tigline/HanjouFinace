@@ -71,7 +71,7 @@ rtk fvm flutter gen-l10n
 
 - Phone verification: `/member/login/index` `phone` non-empty means verified. `mobileAuth` is not used, and there is no fallback to `mobile` for verification.
 - Fund detail distribution section: use `periodType` with `SEASON` and `YEAR`; render under basic info with `FundDetailInfoTable(columns: 1)`.
-- Auth/token refresh: 401 should attempt refresh when refresh token exists; failed refresh should route through centralized auth failure handling.
+- Auth/token refresh: 401 should attempt refresh when refresh token exists; failed refresh should route through centralized auth failure handling. A 403 may refresh and retry once only for endpoints explicitly marked `refreshOnForbidden`; this compatibility path must not clear the session when refresh fails or the retried request remains forbidden.
 - Push token sync: account changes should force backend sync even if the device token did not change.
 - Member profile protected actions should reuse existing guard providers instead of duplicating checks.
 
