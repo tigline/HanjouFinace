@@ -168,13 +168,13 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
                       onTap: () => context.push('/profile/settings'),
                     ),
                   ],
-                  nameTrailing: _HeroHeaderActionButton(
-                    icon: Symbols.open_in_new,
-                    onTap: () => _showShareSheet(
-                      summary: shareSummary,
-                      currencyFormatter: currencyFormatter,
-                    ),
-                  ),
+                  // nameTrailing: _HeroHeaderActionButton(
+                  //   icon: Symbols.open_in_new,
+                  //   onTap: () => _showShareSheet(
+                  //     summary: shareSummary,
+                  //     currencyFormatter: currencyFormatter,
+                  //   ),
+                  // ),
                   metrics: <FundMyPageMetricData>[
                     FundMyPageMetricData(
                       label: l10n.myPageMetricOperating,
