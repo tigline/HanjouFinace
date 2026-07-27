@@ -6022,11 +6022,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inviteFriendsTitle => '友達を招待';
 
   @override
-  String get inviteFriendsHeroTitle => 'StellaViaを一緒に楽しもう';
+  String get inviteFriendsHeroTitle => 'StellaViaに招待しよう';
 
   @override
-  String get inviteFriendsHeroDescription =>
-      '友達に招待を送り、StellaViaでの新しい体験を一緒に始めましょう。';
+  String get inviteFriendsHeroDescription => '友達を招待して、投資で素敵な旅を体験しましょう。';
 
   @override
   String get inviteFriendsCountLabel => 'これまでに招待した友達';
@@ -6035,14 +6034,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inviteFriendsCodeLabel => '招待コード';
 
   @override
-  String get inviteFriendsCodeDescription =>
-      'StellaVia Appで会員登録するときに入力できる、あなた専用のコードです。';
+  String get inviteFriendsCodeDescription => '会員登録時に入力する招待コードです。';
 
   @override
   String get inviteFriendsLinkLabel => '招待リンク';
 
   @override
-  String get inviteFriendsLinkDescription => '招待コードが反映された会員登録ページを開きます。';
+  String get inviteFriendsLinkDescription => 'こちらのURLから会員登録できます。';
 
   @override
   String get inviteFriendsCodeCopied => '招待コードをコピーしました。';
@@ -6051,7 +6049,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inviteFriendsLinkCopied => '招待リンクをコピーしました。';
 
   @override
-  String get inviteFriendsShareAction => '送信する';
+  String get inviteFriendsShareAction => '友達にシェア';
 
   @override
   String get inviteFriendsShareHint => '送信先のアプリを選んで、友達に招待を送りましょう。';

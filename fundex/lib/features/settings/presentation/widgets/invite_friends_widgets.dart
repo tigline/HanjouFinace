@@ -79,14 +79,14 @@ class InviteFriendsContent extends StatelessWidget {
             label: Text(shareLabel),
           ),
         ),
-        const SizedBox(height: 10),
-        Text(
-          shareHint,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).appColors.textSecondary,
-          ),
-        ),
+        // const SizedBox(height: 10),
+        // Text(
+        //   shareHint,
+        //   textAlign: TextAlign.center,
+        //   style: Theme.of(context).textTheme.bodySmall?.copyWith(
+        //     color: Theme.of(context).appColors.textSecondary,
+        //   ),
+        // ),
       ],
     );
   }
