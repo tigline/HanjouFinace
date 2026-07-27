@@ -6329,11 +6329,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inviteFriendsTitle => 'Invite friends';
 
   @override
-  String get inviteFriendsHeroTitle => 'Enjoy StellaVia together';
+  String get inviteFriendsHeroTitle => 'Invite friends to StellaVia';
 
   @override
   String get inviteFriendsHeroDescription =>
-      'Share your invitation with friends and welcome them to StellaVia.';
+      'Invite your friends and embark on a rewarding investment journey together.';
 
   @override
   String get inviteFriendsCountLabel => 'friends invited so far';
@@ -6343,14 +6343,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inviteFriendsCodeDescription =>
-      'Your personal invitation code can be entered when registering with the StellaVia App.';
+      'Enter this invitation code when creating an account.';
 
   @override
   String get inviteFriendsLinkLabel => 'Invitation link';
 
   @override
   String get inviteFriendsLinkDescription =>
-      'Registration opens with your invitation code already applied.';
+      'Use this URL to create an account.';
 
   @override
   String get inviteFriendsCodeCopied => 'Invitation code copied.';
@@ -6359,7 +6359,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inviteFriendsLinkCopied => 'Invitation link copied.';
 
   @override
-  String get inviteFriendsShareAction => 'Send';
+  String get inviteFriendsShareAction => 'Share with friends';
 
   @override
   String get inviteFriendsShareHint => 'Choose an app to send your invitation.';

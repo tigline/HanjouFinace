@@ -11508,13 +11508,13 @@ abstract class AppLocalizations {
   /// No description provided for @inviteFriendsHeroTitle.
   ///
   /// In en, this message translates to:
-  /// **'Enjoy StellaVia together'**
+  /// **'Invite friends to StellaVia'**
   String get inviteFriendsHeroTitle;
 
   /// No description provided for @inviteFriendsHeroDescription.
   ///
   /// In en, this message translates to:
-  /// **'Share your invitation with friends and welcome them to StellaVia.'**
+  /// **'Invite your friends and embark on a rewarding investment journey together.'**
   String get inviteFriendsHeroDescription;
 
   /// No description provided for @inviteFriendsCountLabel.
@@ -11532,7 +11532,7 @@ abstract class AppLocalizations {
   /// No description provided for @inviteFriendsCodeDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your personal invitation code can be entered when registering with the StellaVia App.'**
+  /// **'Enter this invitation code when creating an account.'**
   String get inviteFriendsCodeDescription;
 
   /// No description provided for @inviteFriendsLinkLabel.
@@ -11544,7 +11544,7 @@ abstract class AppLocalizations {
   /// No description provided for @inviteFriendsLinkDescription.
   ///
   /// In en, this message translates to:
-  /// **'Registration opens with your invitation code already applied.'**
+  /// **'Use this URL to create an account.'**
   String get inviteFriendsLinkDescription;
 
   /// No description provided for @inviteFriendsCodeCopied.
@@ -11562,7 +11562,7 @@ abstract class AppLocalizations {
   /// No description provided for @inviteFriendsShareAction.
   ///
   /// In en, this message translates to:
-  /// **'Send'**
+  /// **'Share with friends'**
   String get inviteFriendsShareAction;
 
   /// No description provided for @inviteFriendsShareHint.

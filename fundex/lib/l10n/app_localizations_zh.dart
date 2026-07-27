@@ -5964,10 +5964,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inviteFriendsTitle => '邀请好友';
 
   @override
-  String get inviteFriendsHeroTitle => '一起体验 StellaVia';
+  String get inviteFriendsHeroTitle => '邀请好友加入 StellaVia';
 
   @override
-  String get inviteFriendsHeroDescription => '向好友发送邀请，一起开启 StellaVia 的全新体验。';
+  String get inviteFriendsHeroDescription => '邀请好友，一起开启精彩的投资之旅。';
 
   @override
   String get inviteFriendsCountLabel => '已邀请好友';
@@ -5976,13 +5976,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inviteFriendsCodeLabel => '邀请码';
 
   @override
-  String get inviteFriendsCodeDescription => '使用 StellaVia App 注册时可输入的专属邀请码。';
+  String get inviteFriendsCodeDescription => '这是注册会员时输入的邀请码。';
 
   @override
   String get inviteFriendsLinkLabel => '邀请链接';
 
   @override
-  String get inviteFriendsLinkDescription => '打开已自动带入邀请码的注册页面。';
+  String get inviteFriendsLinkDescription => '可通过此链接注册会员。';
 
   @override
   String get inviteFriendsCodeCopied => '已复制邀请码。';
@@ -5991,7 +5991,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inviteFriendsLinkCopied => '已复制邀请链接。';
 
   @override
-  String get inviteFriendsShareAction => '发送至';
+  String get inviteFriendsShareAction => '分享给好友';
 
   @override
   String get inviteFriendsShareHint => '选择一个应用，将邀请发送给好友。';
@@ -11993,10 +11993,10 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get inviteFriendsTitle => '邀請好友';
 
   @override
-  String get inviteFriendsHeroTitle => '一起體驗 StellaVia';
+  String get inviteFriendsHeroTitle => '邀請好友加入 StellaVia';
 
   @override
-  String get inviteFriendsHeroDescription => '向好友發送邀請，一起開啟 StellaVia 的全新體驗。';
+  String get inviteFriendsHeroDescription => '邀請好友，一起開啟精彩的投資之旅。';
 
   @override
   String get inviteFriendsCountLabel => '已邀請好友';
@@ -12005,13 +12005,13 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get inviteFriendsCodeLabel => '邀請碼';
 
   @override
-  String get inviteFriendsCodeDescription => '使用 StellaVia App 註冊時可輸入的專屬邀請碼。';
+  String get inviteFriendsCodeDescription => '這是註冊會員時輸入的邀請碼。';
 
   @override
   String get inviteFriendsLinkLabel => '邀請連結';
 
   @override
-  String get inviteFriendsLinkDescription => '開啟已自動帶入邀請碼的註冊頁面。';
+  String get inviteFriendsLinkDescription => '可透過此連結註冊會員。';
 
   @override
   String get inviteFriendsCodeCopied => '已複製邀請碼。';
@@ -12020,7 +12020,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get inviteFriendsLinkCopied => '已複製邀請連結。';
 
   @override
-  String get inviteFriendsShareAction => '傳送至';
+  String get inviteFriendsShareAction => '分享給好友';
 
   @override
   String get inviteFriendsShareHint => '選擇一個應用程式，將邀請傳送給好友。';
