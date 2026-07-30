@@ -19,6 +19,35 @@
 - 除酒店业务外，后续 API 实现不再以老工程 `http_conf.dart` 作为来源。
 - 本文件的作用是补充“真实请求/响应样例报文”，用于 DTO/错误处理/兼容性测试；若与 Swagger 冲突，以 Swagger 为准，并在此文件更新样例。
 
+- 邮编地址查询（来源：ZipCloud 第三方 API，2026-07-30）
+
+  1. `GET https://zipcloud.ibsnet.co.jp/api/search`
+    - Query:
+      - `zipcode`: 7 位日本邮编（required）
+    - 不发送 App 鉴权信息。
+    - ZipCloud 响应头为 `Content-Type: text/plain;charset=utf-8`，SDK 必须将响应文本显式解码为 JSON。
+    - Response:
+      ```json
+      {
+        "message": null,
+        "results": [
+          {
+            "address1": "石川県",
+            "address2": "金沢市",
+            "address3": "太陽が丘",
+            "kana1": "ｲｼｶﾜｹﾝ",
+            "kana2": "ｶﾅｻﾞﾜｼ",
+            "kana3": "ﾀｲﾖｳｶﾞｵｶ",
+            "prefcode": "17",
+            "zipcode": "9201154"
+          }
+        ],
+        "status": 200
+      }
+      ```
+    - SDK 兼容转换：只读取首条结果的 `address1/address2/address3`；转换为现有 `MemberProfileRegionDto` 两级结构，其中 `address1` 为 `regionType = 0`，`address2 + address3` 为 `regionType = 1`。上层 repository、use case 和 UI 数据契约保持不变。
+    - `status != 200` 按业务错误处理；`results` 为 `null` 或空数组时返回空列表。
+
 - 入金通知（来源：业务提供样例，2026-05-28）
 
   1. `GET /member/wx/account/payment-confirmation`

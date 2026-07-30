@@ -33,6 +33,16 @@ ResponseBody _jsonOk([String body = '{}']) {
   );
 }
 
+ResponseBody _textOk(String body) {
+  return ResponseBody.fromString(
+    body,
+    200,
+    headers: <String, List<String>>{
+      Headers.contentTypeHeader: <String>['text/plain;charset=utf-8'],
+    },
+  );
+}
+
 Dio _buildDio(Future<ResponseBody> Function(RequestOptions options) handler) {
   final dio = Dio(BaseOptions(baseUrl: 'https://api.example.com/api'));
   dio.httpClientAdapter = _FakeAdapter(handler);
@@ -56,6 +66,72 @@ void main() {
       if (tempDir.existsSync()) {
         await tempDir.delete(recursive: true);
       }
+    });
+
+    test(
+      'fetchRegionsByZip maps ZipCloud address fields to existing regions',
+      () async {
+        final dio = _buildDio((options) async {
+          expect(options.method, equals('GET'));
+          expect(
+            options.uri.toString(),
+            equals('https://zipcloud.ibsnet.co.jp/api/search?zipcode=9201154'),
+          );
+          expect(options.extra['auth_required'], isFalse);
+
+          return _textOk(
+            '{"message":null,"results":[{"address1":"石川県",'
+            '"address2":"金沢市","address3":"太陽が丘",'
+            '"kana1":"ｲｼｶﾜｹﾝ","kana2":"ｶﾅｻﾞﾜｼ","kana3":"ﾀｲﾖｳｶﾞｵｶ",'
+            '"prefcode":"17","zipcode":"9201154"}],"status":200}',
+          );
+        });
+        final api = MemberProfileApiClient(dioForPath: (_) => dio);
+
+        final regions = await api.fetchRegionsByZip(zip: '9201154');
+
+        expect(regions, hasLength(2));
+        expect(regions[0].jpName, equals('石川県'));
+        expect(regions[0].regionType, equals(0));
+        expect(regions[1].jpName, equals('金沢市太陽が丘'));
+        expect(regions[1].regionType, equals(1));
+        expect(regions.every((region) => region.regionId == null), isTrue);
+      },
+    );
+
+    test(
+      'fetchRegionsByZip returns empty regions when no result exists',
+      () async {
+        final dio = _buildDio(
+          (_) async => _jsonOk('{"message":null,"results":null,"status":200}'),
+        );
+        final api = MemberProfileApiClient(dioForPath: (_) => dio);
+
+        final regions = await api.fetchRegionsByZip(zip: '0000000');
+
+        expect(regions, isEmpty);
+      },
+    );
+
+    test('fetchRegionsByZip throws ZipCloud business error', () async {
+      final dio = _buildDio(
+        (_) async => _jsonOk(
+          '{"message":"パラメータ「郵便番号」の桁数が不正です。",'
+          '"results":null,"status":400}',
+        ),
+      );
+      final api = MemberProfileApiClient(dioForPath: (_) => dio);
+
+      expect(
+        () => api.fetchRegionsByZip(zip: '123'),
+        throwsA(
+          isA<StateError>().having(
+            (error) => error.message,
+            'message',
+            'パラメータ「郵便番号」の桁数が不正です。',
+          ),
+        ),
+      );
     });
 
     test('uploadAvatar posts multipart and returns uploaded url', () async {

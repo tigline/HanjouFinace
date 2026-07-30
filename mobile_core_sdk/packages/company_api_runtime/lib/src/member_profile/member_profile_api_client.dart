@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:core_network/core_network.dart';
@@ -12,7 +13,8 @@ class MemberProfileApiPaths {
 
   static const String saveMemberInfo = '/crowdfunding/user/save-member-info';
   static const String uploadPhoto = '/crowdfunding/user/upload/photo';
-  static const String regionByZip = '/crowdfunding/user/region/zip';
+  // Third-party contract: see fundex/README_API.md (ZipCloud postal lookup).
+  static const String regionByZip = 'https://zipcloud.ibsnet.co.jp/api/search';
   static const String uploadRealPersonPhoto = '/member/real/person/upload';
   static const String uploadAvatar = '/member/user/avatar-upload';
 }
@@ -46,21 +48,14 @@ class MemberProfileApiClient {
   Future<List<MemberProfileRegionDto>> fetchRegionsByZip({
     required String zip,
   }) async {
-    final response = await _dioForPath(regionByZipPath)
-        .get<Map<String, dynamic>>(
-          regionByZipPath,
-          queryParameters: <String, dynamic>{'zip': zip},
-          options: authRequired(true),
-        );
-
-    final rows = _extractRegionRows(
-      _envelopeCodec.toJsonMap(response.data),
-      fallbackMessage: 'Failed to lookup address by postal code.',
+    final response = await _dioForPath(regionByZipPath).get<dynamic>(
+      regionByZipPath,
+      queryParameters: <String, dynamic>{'zipcode': zip},
+      // ZipCloud returns JSON with a text/plain content type.
+      options: authRequired(false),
     );
 
-    return rows
-        .map((Map<String, dynamic> row) => MemberProfileRegionDto.fromJson(row))
-        .toList(growable: false);
+    return _mapZipCloudRegions(_decodeZipCloudPayload(response.data));
   }
 
   Future<String> uploadDocumentPhoto({required String filePath}) async {
@@ -150,18 +145,56 @@ class MemberProfileApiClient {
     return normalizedPath;
   }
 
-  List<Map<String, dynamic>> _extractRegionRows(
-    Map<String, dynamic> payload, {
-    required String fallbackMessage,
-  }) {
-    final dataRows = _envelopeCodec.extractDataList(
-      payload,
-      fallbackMessage: fallbackMessage,
-    );
-    if (dataRows.isNotEmpty) {
-      return dataRows;
+  List<MemberProfileRegionDto> _mapZipCloudRegions(
+    Map<String, dynamic> payload,
+  ) {
+    const fallbackMessage = 'Failed to lookup address by postal code.';
+    final status = int.tryParse(payload['status']?.toString() ?? '');
+    if (status != HttpStatus.ok) {
+      final message = payload['message']?.toString().trim() ?? '';
+      throw StateError(message.isEmpty ? fallbackMessage : message);
     }
-    return _envelopeCodec.toJsonMapList(payload['rows']);
+
+    final results = _envelopeCodec.toJsonMapList(payload['results']);
+    if (results.isEmpty) {
+      return const <MemberProfileRegionDto>[];
+    }
+
+    final result = results.first;
+    final prefecture = result['address1']?.toString().trim() ?? '';
+    final city = result['address2']?.toString().trim() ?? '';
+    final town = result['address3']?.toString().trim() ?? '';
+    final cityAddress = '$city$town';
+
+    return <MemberProfileRegionDto>[
+      if (prefecture.isNotEmpty)
+        MemberProfileRegionDto(
+          jpName: prefecture,
+          parentId: null,
+          regionId: null,
+          regionType: 0,
+          roomName: '',
+        ),
+      if (cityAddress.isNotEmpty)
+        MemberProfileRegionDto(
+          jpName: cityAddress,
+          parentId: null,
+          regionId: null,
+          regionType: 1,
+          roomName: '',
+        ),
+    ];
+  }
+
+  Map<String, dynamic> _decodeZipCloudPayload(dynamic data) {
+    if (data is String) {
+      try {
+        return _envelopeCodec.toJsonMap(jsonDecode(data));
+      } on FormatException {
+        throw StateError('Failed to lookup address by postal code.');
+      }
+    }
+    return _envelopeCodec.toJsonMap(data);
   }
 
   void _assertSelfieUploadSucceeded({
