@@ -5,6 +5,32 @@ import 'package:fundex/l10n/app_localizations_ja.dart';
 import 'package:intl/intl.dart';
 
 void main() {
+  group('buildActiveFundInvestorSummaryData', () {
+    final l10n = AppLocalizationsJa();
+
+    test('uses fallback investor code and assumed yield', () {
+      final result = buildActiveFundInvestorSummaryData(
+        l10n,
+        record: const MyPageInvestmentRecord(
+          projectId: 'p1',
+          projectName: 'Fund',
+          investorCode: '優先投資者',
+          earningType: 'FIXED',
+          earningRadio: 0.06,
+        ),
+      );
+
+      expect(result.investorCode, '優先投資者');
+      expect(result.returnText, '想定利回り 6%');
+    });
+
+    test('omits the summary when investor and return data are absent', () {
+      final result = buildActiveFundInvestorSummaryData(l10n);
+
+      expect(result.isNotEmpty, isFalse);
+    });
+  });
+
   group('buildApplyResultDetailsData', () {
     final l10n = AppLocalizationsJa();
     final formatter = NumberFormat.currency(

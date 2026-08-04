@@ -59,6 +59,13 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
       records,
       initialSeed: initialSeed,
     );
+    final latestRecord = _latestInvestmentRecord(records);
+    final investorSummary = buildActiveFundInvestorSummaryData(
+      l10n,
+      record: latestRecord,
+      fallbackInvestorCode: summary.investorCode,
+      fallbackEarningRatio: summary.earningRatio,
+    );
     final hiwariDisplay = buildMyPageHiwariCardDisplayData(
       l10n,
       records
@@ -156,6 +163,8 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
               ],
               periodLabel: l10n.fundListPeriodLabel,
               periodValue: operationPeriod ?? l10n.myPageResultAnnouncementTbd,
+              investorCode: investorSummary.investorCode,
+              returnText: investorSummary.returnText,
             ),
             if (hiwariDisplay.isNotEmpty) ...<Widget>[
               const SizedBox(height: 14),
@@ -451,6 +460,17 @@ List<MyPageInvestmentRecord> _matchingInvestmentRecords(
   return source
       .where((record) => record.projectId.trim() == normalizedProjectId)
       .toList(growable: false);
+}
+
+MyPageInvestmentRecord? _latestInvestmentRecord(
+  List<MyPageInvestmentRecord> records,
+) {
+  if (records.isEmpty) {
+    return null;
+  }
+  final sorted = [...records]
+    ..sort((a, b) => compareByDateDesc(a.createTime, b.createTime));
+  return sorted.first;
 }
 
 FundProject? _findFundProject(List<FundProject> projects, String projectId) {

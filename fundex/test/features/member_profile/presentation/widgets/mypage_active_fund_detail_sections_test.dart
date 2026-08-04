@@ -34,6 +34,8 @@ void main() {
               secondaryMetrics: <ActiveFundOverviewMetricData>[],
               periodLabel: '運用期間',
               periodValue: '2026/04～2027/03',
+              investorCode: '優先投資者',
+              returnText: '想定利回り 6%',
             ),
           ),
         ),
@@ -44,5 +46,8 @@ void main() {
     expect(find.text('運用期間'), findsOneWidget);
     expect(find.text('2026/04～2027/03'), findsOneWidget);
     expect(find.byIcon(Icons.calendar_month_outlined), findsOneWidget);
+    expect(find.text('優先投資者'), findsOneWidget);
+    expect(find.text('想定利回り 6%'), findsOneWidget);
+    expect(find.byIcon(Icons.badge_outlined), findsOneWidget);
   });
 }

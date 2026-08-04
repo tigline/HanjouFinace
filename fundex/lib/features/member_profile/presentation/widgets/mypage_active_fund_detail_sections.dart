@@ -40,6 +40,8 @@ class ActiveFundOverviewHeroCard extends StatelessWidget {
     required this.secondaryMetrics,
     this.periodLabel,
     this.periodValue,
+    this.investorCode,
+    this.returnText,
     this.onTitleTap,
     this.titleColor,
   });
@@ -54,6 +56,8 @@ class ActiveFundOverviewHeroCard extends StatelessWidget {
   final List<ActiveFundOverviewMetricData> secondaryMetrics;
   final String? periodLabel;
   final String? periodValue;
+  final String? investorCode;
+  final String? returnText;
   final VoidCallback? onTitleTap;
   final Color? titleColor;
 
@@ -213,6 +217,59 @@ class ActiveFundOverviewHeroCard extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ],
+                if (investorCode != null || returnText != null) ...<Widget>[
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.surface.withValues(alpha: 0.82),
+                      borderRadius: BorderRadius.circular(UiTokens.radius12),
+                      border: Border.all(color: colors.borderSoft),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        if (investorCode != null) ...<Widget>[
+                          Icon(
+                            Icons.badge_outlined,
+                            size: 16,
+                            color: colors.primary,
+                          ),
+                          const SizedBox(width: 6),
+                          Flexible(
+                            child: Text(
+                              investorCode ?? '',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: appText.bodyStrong.copyWith(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                        ],
+                        if (investorCode != null && returnText != null)
+                          const SizedBox(width: 12),
+                        if (returnText != null) ...<Widget>[
+                          const Spacer(),
+                          Text(
+                              returnText!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.right,
+                              style: appText.bodyStrong.copyWith(
+                                color: colors.highlightGold,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          
+                        ],
+                      ],
+                    ),
                   ),
                 ],
                 const SizedBox(height: 16),

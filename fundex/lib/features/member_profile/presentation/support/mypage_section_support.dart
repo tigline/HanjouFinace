@@ -653,6 +653,61 @@ class MyPageInvestorTypeDisplayText {
   final String returnText;
 }
 
+class MyPageActiveFundInvestorSummaryData {
+  const MyPageActiveFundInvestorSummaryData({
+    this.investorCode,
+    this.returnText,
+  });
+
+  final String? investorCode;
+  final String? returnText;
+
+  bool get isNotEmpty => investorCode != null || returnText != null;
+}
+
+MyPageActiveFundInvestorSummaryData buildActiveFundInvestorSummaryData(
+  AppLocalizations l10n, {
+  MyPageInvestmentRecord? record,
+  String? fallbackInvestorCode,
+  double? fallbackEarningRatio,
+}) {
+  final investorType = record?.investorType;
+  final investorCode = _nonEmptyDisplayText(
+    investorType?.investorCode ?? record?.investorCode ?? fallbackInvestorCode,
+  );
+
+  if (investorType != null) {
+    final display = resolveInvestorTypeDisplayText(l10n, investorType);
+    return MyPageActiveFundInvestorSummaryData(
+      investorCode: investorCode,
+      returnText: _nonEmptyDisplayText(display.returnText),
+    );
+  }
+
+  final earningType = record?.earningType?.trim().toUpperCase();
+  final earningRatio = record?.earningRadio ?? fallbackEarningRatio;
+  final returnText = earningType == 'FLOATING'
+      ? l10n.myPageInvestorReturnFloating
+      : earningRatio == null
+      ? null
+      : '${l10n.homeEstimatedYieldLabel} ${formatYieldPercent(earningRatio)}';
+  return MyPageActiveFundInvestorSummaryData(
+    investorCode: investorCode,
+    returnText: returnText,
+  );
+}
+
+String? _nonEmptyDisplayText(String? value) {
+  final normalized = value?.trim();
+  if (normalized == null ||
+      normalized.isEmpty ||
+      normalized == '-' ||
+      normalized == '--') {
+    return null;
+  }
+  return normalized;
+}
+
 MyPageInvestorTypeDisplayText resolveInvestorTypeDisplayText(
   AppLocalizations l10n,
   MyPageInvestorType? investorType, {
