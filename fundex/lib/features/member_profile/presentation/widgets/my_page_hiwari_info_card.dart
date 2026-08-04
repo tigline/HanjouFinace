@@ -111,7 +111,7 @@ class _HiwariInfoRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        const Spacer(),
         Flexible(
           child: Text(
             data.value,
