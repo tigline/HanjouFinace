@@ -2058,6 +2058,21 @@
     }
   },
   "myPageActiveFundDetailTitle": "運用中基金詳情",
+  "myPageHiwariPreOpExplain": "若在運用開始日前完成購買及入金，從完成後至運用開始日前一天期間，也會依照本基金的預期收益率按日產生收益。",
+  "myPageHiwariInfoTitle": "按日收益資訊",
+  "myPageHiwariRevenueBaseDate": "收益基準日",
+  "myPageHiwariContractUnits": "成交口數",
+  "myPageHiwariPreOpProRataBadge": "運用開始前的按日收益",
+  "myPageHiwariReturnPeriod": "收益期間",
+  "myPageHiwariEffectiveDays": "適用天數",
+  "myPageHiwariMissingValue": "—",
+  "myPageHiwariPeriodRange": "{start}～{end}",
+  "@myPageHiwariPeriodRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
   "myPageActiveFundMetaTitle": "合約資訊",
   "myPageActiveFundValidInvestmentAmountLabel": "有效投資額",
   "myPageActiveFundInvestUnitsLabel": "投資口數",

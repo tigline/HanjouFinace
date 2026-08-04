@@ -180,7 +180,7 @@ void main() {
           equals(<String, dynamic>{'startPage': 1, 'limit': 20}),
         );
         return _jsonOk(
-          '{"msg":"success","code":200,"data":{"rows":[{"projectId":"p-3","projectName":"渋谷区 オフィスビル #12","investMoney":1000000}]}}',
+          '{"msg":"success","code":200,"data":{"rows":[{"projectId":"p-3","projectName":"渋谷区 オフィスビル #12","investMoney":1000000,"hiwariJobs":[{"processId":null,"startDate":"2026-03-10","endDate":"2026-03-31","num":"500"},{"processId":"proc-3","startDate":"2026-04-01","endDate":null,"num":""}]}]}}',
         );
       });
       final api = UserInvestmentApiClient(dioForPath: (_) => dio);
@@ -191,6 +191,13 @@ void main() {
       expect(rows.first.projectId, equals('p-3'));
       expect(rows.first.projectName, equals('渋谷区 オフィスビル #12'));
       expect(rows.first.investMoney, equals(1000000));
+      expect(rows.first.hiwariJobs, hasLength(2));
+      expect(rows.first.hiwariJobs.first.processId, isNull);
+      expect(rows.first.hiwariJobs.first.startDate, equals('2026-03-10'));
+      expect(rows.first.hiwariJobs.first.endDate, equals('2026-03-31'));
+      expect(rows.first.hiwariJobs.first.num, equals(500));
+      expect(rows.first.hiwariJobs.last.processId, equals('proc-3'));
+      expect(rows.first.hiwariJobs.last.num, isNull);
     });
   });
 }

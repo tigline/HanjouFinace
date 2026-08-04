@@ -444,6 +444,29 @@ class UserInvestmentOrderInquiryRecordDto {
   final List<UserInvestmentOrderInquiryApplyResultDto> applyResultList;
 }
 
+class UserInvestmentHiwariJobDto {
+  const UserInvestmentHiwariJobDto({
+    this.processId,
+    this.startDate,
+    this.endDate,
+    this.num,
+  });
+
+  factory UserInvestmentHiwariJobDto.fromJson(Map<String, dynamic> json) {
+    return UserInvestmentHiwariJobDto(
+      processId: _stringOrNull(json['processId']),
+      startDate: _stringOrNull(json['startDate']),
+      endDate: _stringOrNull(json['endDate']),
+      num: _intOrNull(json['num']),
+    );
+  }
+
+  final String? processId;
+  final String? startDate;
+  final String? endDate;
+  final int? num;
+}
+
 class UserInvestmentRecordDto {
   const UserInvestmentRecordDto({
     required this.projectId,
@@ -468,6 +491,7 @@ class UserInvestmentRecordDto {
     this.earnings,
     this.checkTimes,
     this.investorType,
+    this.hiwariJobs = const <UserInvestmentHiwariJobDto>[],
   });
 
   factory UserInvestmentRecordDto.fromJson(Map<String, dynamic> json) {
@@ -501,6 +525,12 @@ class UserInvestmentRecordDto {
           : UserInvestmentInvestorTypeDto.fromJson(
               _toJsonMap(json['investorType']),
             ),
+      hiwariJobs: _toList(json['hiwariJobs'])
+          .map(
+            (dynamic item) =>
+                UserInvestmentHiwariJobDto.fromJson(_toJsonMap(item)),
+          )
+          .toList(growable: false),
     );
   }
 
@@ -526,6 +556,7 @@ class UserInvestmentRecordDto {
   final num? earnings;
   final int? checkTimes;
   final UserInvestmentInvestorTypeDto? investorType;
+  final List<UserInvestmentHiwariJobDto> hiwariJobs;
 }
 
 class UserInvestmentBenefitDetailDto {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MyPageActiveFundSummaryCardData {
   const MyPageActiveFundSummaryCardData({
     required this.title,
-    required this.periodText,
+    this.periodText,
     required this.investorCode,
     required this.investorType,
     required this.returnText,
@@ -19,11 +19,12 @@ class MyPageActiveFundSummaryCardData {
     required this.statusForegroundColor,
     this.progress,
     this.imageUrls = const <String>[],
+    this.detailLabel,
     this.onTap,
   });
 
   final String title;
-  final String periodText;
+  final String? periodText;
   final String investorCode;
   final String investorType;
   final String returnText;
@@ -38,6 +39,7 @@ class MyPageActiveFundSummaryCardData {
   final Color statusForegroundColor;
   final double? progress;
   final List<String> imageUrls;
+  final String? detailLabel;
   final VoidCallback? onTap;
 }
 
@@ -137,23 +139,49 @@ class MyPageActiveFundSummaryCard extends StatelessWidget {
                               accumulatedEarningsValue:
                                   data.accumulatedEarningsValue,
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              data.periodText,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: appText.cardTitle.copyWith(
-                                color: colors.textSecondary,
-                                fontSize: 12,
-                                height: 1.35,
-                                fontWeight: FontWeight.w600,
+                            if (data.periodText != null) ...<Widget>[
+                              const SizedBox(height: 4),
+                              Text(
+                                data.periodText!,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: appText.cardTitle.copyWith(
+                                  color: colors.textSecondary,
+                                  fontSize: 12,
+                                  height: 1.35,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            ),
+                            ],
                           ],
                         ),
                       ),
                     ],
                   ),
+                  if (data.detailLabel != null) ...<Widget>[
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            data.detailLabel!,
+                            style: appText.caption.copyWith(
+                              color: colors.primary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(width: 2),
+                          Icon(
+                            Icons.chevron_right_rounded,
+                            size: 18,
+                            color: colors.primary,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -259,15 +287,15 @@ class _ActiveFundMetricRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: appText.micro.copyWith(
-              color: colors.textSecondary,
-              fontWeight: FontWeight.w700,
-            ),
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: appText.micro.copyWith(
+            color: colors.textSecondary,
+            fontWeight: FontWeight.w700,
           ),
-        
+        ),
+
         //const SizedBox(width: 8),
         Expanded(
           child: Text(

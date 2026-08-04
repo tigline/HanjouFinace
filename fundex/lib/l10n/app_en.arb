@@ -2088,6 +2088,21 @@
     }
   },
   "myPageActiveFundDetailTitle": "Active Fund Detail",
+  "myPageHiwariPreOpExplain": "When your purchase and payment are completed before operations begin, earnings accrue daily through the day before the operation start date based on the fund's assumed yield.",
+  "myPageHiwariInfoTitle": "Prorated Earnings Details",
+  "myPageHiwariRevenueBaseDate": "Earnings base date",
+  "myPageHiwariContractUnits": "Contracted units",
+  "myPageHiwariPreOpProRataBadge": "Pre-operation prorated earnings",
+  "myPageHiwariReturnPeriod": "Earnings period",
+  "myPageHiwariEffectiveDays": "Eligible days",
+  "myPageHiwariMissingValue": "—",
+  "myPageHiwariPeriodRange": "{start}–{end}",
+  "@myPageHiwariPeriodRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
   "myPageActiveFundMetaTitle": "Contract Info",
   "myPageActiveFundValidInvestmentAmountLabel": "Valid investment amount",
   "myPageActiveFundInvestUnitsLabel": "Investment units",

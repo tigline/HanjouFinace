@@ -4948,6 +4948,36 @@ class AppLocalizationsJa extends AppLocalizations {
   String get myPageActiveFundDetailTitle => '運用中ファンド詳細';
 
   @override
+  String get myPageHiwariPreOpExplain =>
+      '運用開始日前に購入・入金が完了した場合、運用開始日の前日までの間も、当ファンドの想定利回りに基づき日割りで収益が発生します。';
+
+  @override
+  String get myPageHiwariInfoTitle => '日割り収益情報';
+
+  @override
+  String get myPageHiwariRevenueBaseDate => '収益基準日';
+
+  @override
+  String get myPageHiwariContractUnits => '約定口数';
+
+  @override
+  String get myPageHiwariPreOpProRataBadge => '運用開始前の日割り収益';
+
+  @override
+  String get myPageHiwariReturnPeriod => '収益期間';
+
+  @override
+  String get myPageHiwariEffectiveDays => '対象日数';
+
+  @override
+  String get myPageHiwariMissingValue => '—';
+
+  @override
+  String myPageHiwariPeriodRange(Object start, Object end) {
+    return '$start～$end';
+  }
+
+  @override
   String get myPageActiveFundMetaTitle => '契約情報';
 
   @override

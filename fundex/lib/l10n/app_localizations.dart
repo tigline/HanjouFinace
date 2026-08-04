@@ -9447,6 +9447,60 @@ abstract class AppLocalizations {
   /// **'Active Fund Detail'**
   String get myPageActiveFundDetailTitle;
 
+  /// No description provided for @myPageHiwariPreOpExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'When your purchase and payment are completed before operations begin, earnings accrue daily through the day before the operation start date based on the fund\'s assumed yield.'**
+  String get myPageHiwariPreOpExplain;
+
+  /// No description provided for @myPageHiwariInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Prorated Earnings Details'**
+  String get myPageHiwariInfoTitle;
+
+  /// No description provided for @myPageHiwariRevenueBaseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings base date'**
+  String get myPageHiwariRevenueBaseDate;
+
+  /// No description provided for @myPageHiwariContractUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'Contracted units'**
+  String get myPageHiwariContractUnits;
+
+  /// No description provided for @myPageHiwariPreOpProRataBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-operation prorated earnings'**
+  String get myPageHiwariPreOpProRataBadge;
+
+  /// No description provided for @myPageHiwariReturnPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings period'**
+  String get myPageHiwariReturnPeriod;
+
+  /// No description provided for @myPageHiwariEffectiveDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Eligible days'**
+  String get myPageHiwariEffectiveDays;
+
+  /// No description provided for @myPageHiwariMissingValue.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get myPageHiwariMissingValue;
+
+  /// No description provided for @myPageHiwariPeriodRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{start}–{end}'**
+  String myPageHiwariPeriodRange(Object start, Object end);
+
   /// No description provided for @myPageActiveFundMetaTitle.
   ///
   /// In en, this message translates to:

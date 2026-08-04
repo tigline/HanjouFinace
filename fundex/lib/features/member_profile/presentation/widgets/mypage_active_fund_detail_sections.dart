@@ -38,6 +38,8 @@ class ActiveFundOverviewHeroCard extends StatelessWidget {
     required this.totalBenefitValue,
     required this.primaryMetrics,
     required this.secondaryMetrics,
+    this.periodLabel,
+    this.periodValue,
     this.onTitleTap,
     this.titleColor,
   });
@@ -50,6 +52,8 @@ class ActiveFundOverviewHeroCard extends StatelessWidget {
   final String totalBenefitValue;
   final List<ActiveFundOverviewMetricData> primaryMetrics;
   final List<ActiveFundOverviewMetricData> secondaryMetrics;
+  final String? periodLabel;
+  final String? periodValue;
   final VoidCallback? onTitleTap;
   final Color? titleColor;
 
@@ -179,6 +183,38 @@ class ActiveFundOverviewHeroCard extends StatelessWidget {
                     ),
                   ),
                 ),
+                if (periodLabel != null && periodValue != null) ...<Widget>[
+                  const SizedBox(height: 12),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.calendar_month_outlined,
+                        size: 16,
+                        color: colors.primary,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        periodLabel!,
+                        style: appText.bodyMuted.copyWith(
+                          color: colors.textSecondary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          periodValue!,
+                          textAlign: TextAlign.right,
+                          style: appText.bodyStrong.copyWith(
+                            color: colors.textPrimary,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                 const SizedBox(height: 16),
                 ActiveFundBenefitBalanceCard(
                   title: totalBenefitLabel,

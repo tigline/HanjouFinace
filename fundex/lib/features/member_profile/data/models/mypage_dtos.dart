@@ -11,7 +11,8 @@ export 'package:company_api_runtime/company_api_runtime.dart'
         UserInvestmentPdfDocumentDto,
         UserInvestmentProjectBenefitDto,
         UserInvestmentPdfUrlDto,
-        UserInvestmentRecordDto;
+        UserInvestmentRecordDto,
+        UserInvestmentHiwariJobDto;
 
 import 'package:company_api_runtime/company_api_runtime.dart'
     show
@@ -26,7 +27,8 @@ import 'package:company_api_runtime/company_api_runtime.dart'
         UserInvestmentPdfDocumentDto,
         UserInvestmentProjectBenefitDto,
         UserInvestmentPdfUrlDto,
-        UserInvestmentRecordDto;
+        UserInvestmentRecordDto,
+        UserInvestmentHiwariJobDto;
 
 import '../../domain/entities/mypage_models.dart';
 
@@ -35,6 +37,7 @@ typedef MyPageAssetTrendDto = UserInvestmentAssetTrendDto;
 typedef MyPageLockedAmountDto = UserInvestmentLockedAmountDto;
 typedef MyPageApplyRecordDto = UserInvestmentApplyRecordDto;
 typedef MyPageInvestmentRecordDto = UserInvestmentRecordDto;
+typedef MyPageHiwariJobDto = UserInvestmentHiwariJobDto;
 typedef MyPageInvestorTypeDto = UserInvestmentInvestorTypeDto;
 typedef MyPageBenefitDetailDto = UserInvestmentBenefitDetailDto;
 typedef MyPageProjectBenefitDto = UserInvestmentProjectBenefitDto;
@@ -232,6 +235,20 @@ extension MyPageInvestmentRecordDtoMapper on MyPageInvestmentRecordDto {
       earnings: earnings,
       checkTimes: checkTimes,
       investorType: investorType?.toEntity(),
+      hiwariJobs: hiwariJobs
+          .map((MyPageHiwariJobDto item) => item.toEntity())
+          .toList(growable: false),
+    );
+  }
+}
+
+extension MyPageHiwariJobDtoMapper on MyPageHiwariJobDto {
+  MyPageHiwariJob toEntity() {
+    return MyPageHiwariJob(
+      processId: processId,
+      startDate: startDate,
+      endDate: endDate,
+      num: this.num,
     );
   }
 }

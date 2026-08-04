@@ -5190,6 +5190,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myPageActiveFundDetailTitle => 'Active Fund Detail';
 
   @override
+  String get myPageHiwariPreOpExplain =>
+      'When your purchase and payment are completed before operations begin, earnings accrue daily through the day before the operation start date based on the fund\'s assumed yield.';
+
+  @override
+  String get myPageHiwariInfoTitle => 'Prorated Earnings Details';
+
+  @override
+  String get myPageHiwariRevenueBaseDate => 'Earnings base date';
+
+  @override
+  String get myPageHiwariContractUnits => 'Contracted units';
+
+  @override
+  String get myPageHiwariPreOpProRataBadge => 'Pre-operation prorated earnings';
+
+  @override
+  String get myPageHiwariReturnPeriod => 'Earnings period';
+
+  @override
+  String get myPageHiwariEffectiveDays => 'Eligible days';
+
+  @override
+  String get myPageHiwariMissingValue => '—';
+
+  @override
+  String myPageHiwariPeriodRange(Object start, Object end) {
+    return '$start–$end';
+  }
+
+  @override
   String get myPageActiveFundMetaTitle => 'Contract Info';
 
   @override

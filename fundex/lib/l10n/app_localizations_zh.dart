@@ -4903,6 +4903,36 @@ class AppLocalizationsZh extends AppLocalizations {
   String get myPageActiveFundDetailTitle => '运用中基金详情';
 
   @override
+  String get myPageHiwariPreOpExplain =>
+      '如果在运用开始日前完成购买和入金，从完成后至运用开始日前一天期间，也会按照本基金的预期收益率按日产生收益。';
+
+  @override
+  String get myPageHiwariInfoTitle => '按日收益信息';
+
+  @override
+  String get myPageHiwariRevenueBaseDate => '收益基准日';
+
+  @override
+  String get myPageHiwariContractUnits => '成交口数';
+
+  @override
+  String get myPageHiwariPreOpProRataBadge => '运用开始前的按日收益';
+
+  @override
+  String get myPageHiwariReturnPeriod => '收益期间';
+
+  @override
+  String get myPageHiwariEffectiveDays => '适用天数';
+
+  @override
+  String get myPageHiwariMissingValue => '—';
+
+  @override
+  String myPageHiwariPeriodRange(Object start, Object end) {
+    return '$start～$end';
+  }
+
+  @override
   String get myPageActiveFundMetaTitle => '合约信息';
 
   @override
@@ -10930,6 +10960,36 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get myPageActiveFundDetailTitle => '運用中基金詳情';
+
+  @override
+  String get myPageHiwariPreOpExplain =>
+      '若在運用開始日前完成購買及入金，從完成後至運用開始日前一天期間，也會依照本基金的預期收益率按日產生收益。';
+
+  @override
+  String get myPageHiwariInfoTitle => '按日收益資訊';
+
+  @override
+  String get myPageHiwariRevenueBaseDate => '收益基準日';
+
+  @override
+  String get myPageHiwariContractUnits => '成交口數';
+
+  @override
+  String get myPageHiwariPreOpProRataBadge => '運用開始前的按日收益';
+
+  @override
+  String get myPageHiwariReturnPeriod => '收益期間';
+
+  @override
+  String get myPageHiwariEffectiveDays => '適用天數';
+
+  @override
+  String get myPageHiwariMissingValue => '—';
+
+  @override
+  String myPageHiwariPeriodRange(Object start, Object end) {
+    return '$start～$end';
+  }
 
   @override
   String get myPageActiveFundMetaTitle => '合約資訊';

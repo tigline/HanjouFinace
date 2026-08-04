@@ -558,9 +558,6 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
     return MyPageActiveFundSummaryCard(
       data: MyPageActiveFundSummaryCardData(
         title: group.projectName,
-        periodText: formatMyPageActiveFundPeriod(context, project) != null
-            ? '${l10n.fundListPeriodLabel}：${formatMyPageActiveFundPeriod(context, project)!}'
-            : l10n.myPageResultAnnouncementTbd,
         investorCode: investorTypeDisplay.investorCode,
         investorType: investorTypeDisplay.investorType,
         returnText: investorTypeDisplay.returnText,
@@ -587,6 +584,7 @@ class _MyPageSectionListPageState extends ConsumerState<MyPageSectionListPage> {
         ),
         progress: resolveMyPageActiveFundProgress(project),
         imageUrls: project?.photos ?? const <String>[],
+        detailLabel: l10n.homeFeaturedFundViewDetailAction,
         onTap: _buildActiveFundTapHandler(context, group, seed: seed),
       ),
     );

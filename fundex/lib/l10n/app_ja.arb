@@ -2058,6 +2058,21 @@
     }
   },
   "myPageActiveFundDetailTitle": "運用中ファンド詳細",
+  "myPageHiwariPreOpExplain": "運用開始日前に購入・入金が完了した場合、運用開始日の前日までの間も、当ファンドの想定利回りに基づき日割りで収益が発生します。",
+  "myPageHiwariInfoTitle": "日割り収益情報",
+  "myPageHiwariRevenueBaseDate": "収益基準日",
+  "myPageHiwariContractUnits": "約定口数",
+  "myPageHiwariPreOpProRataBadge": "運用開始前の日割り収益",
+  "myPageHiwariReturnPeriod": "収益期間",
+  "myPageHiwariEffectiveDays": "対象日数",
+  "myPageHiwariMissingValue": "—",
+  "myPageHiwariPeriodRange": "{start}～{end}",
+  "@myPageHiwariPeriodRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
   "myPageActiveFundMetaTitle": "契約情報",
   "myPageActiveFundValidInvestmentAmountLabel": "有効投資額",
   "myPageActiveFundInvestUnitsLabel": "投資口数",

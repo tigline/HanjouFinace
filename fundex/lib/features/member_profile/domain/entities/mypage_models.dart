@@ -178,6 +178,22 @@ class MyPageOrderInquiryRecord {
   final List<MyPageOrderInquiryApplyResult> applyResultList;
 }
 
+class MyPageHiwariJob {
+  const MyPageHiwariJob({
+    this.processId,
+    this.startDate,
+    this.endDate,
+    this.num,
+  });
+
+  final String? processId;
+  final String? startDate;
+  final String? endDate;
+  final int? num;
+
+  bool get isPreOperation => processId == null || processId!.trim().isEmpty;
+}
+
 class MyPageInvestmentRecord {
   const MyPageInvestmentRecord({
     required this.projectId,
@@ -202,6 +218,7 @@ class MyPageInvestmentRecord {
     this.earnings,
     this.checkTimes,
     this.investorType,
+    this.hiwariJobs = const <MyPageHiwariJob>[],
   });
 
   final String projectId;
@@ -226,6 +243,7 @@ class MyPageInvestmentRecord {
   final num? earnings;
   final int? checkTimes;
   final MyPageInvestorType? investorType;
+  final List<MyPageHiwariJob> hiwariJobs;
 }
 
 class MyPageBenefitDetail {

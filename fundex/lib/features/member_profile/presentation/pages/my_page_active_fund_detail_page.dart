@@ -10,9 +10,13 @@ import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/support/app_request_error_message_resolver.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/support/identity_auth_guard.dart';
+import '../../../investment/domain/entities/fund_project.dart';
+import '../../../investment/presentation/providers/fund_project_providers.dart';
 import '../../domain/entities/mypage_models.dart';
 import '../providers/mypage_providers.dart';
+import '../support/mypage_hiwari_card_display.dart';
 import '../support/mypage_section_support.dart';
+import '../widgets/my_page_hiwari_info_card.dart';
 import '../widgets/mypage_active_fund_detail_sections.dart';
 
 class MyPageActiveFundDetailPage extends ConsumerWidget {
@@ -39,6 +43,10 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
     );
 
     final benefitAsync = ref.watch(myPageProjectBenefitProvider(projectId));
+    final fundProjects =
+        ref.watch(fundProjectListProvider).valueOrNull ?? const <FundProject>[];
+    final project = _findFundProject(fundProjects, projectId);
+    final operationPeriod = formatMyPageActiveFundPeriod(context, project);
     final fallbackRecords = ref
         .watch(myPageInvestmentListProvider)
         .asData
@@ -51,6 +59,12 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
       records,
       initialSeed: initialSeed,
     );
+    final hiwariDisplay = buildMyPageHiwariCardDisplayData(
+      l10n,
+      records
+          .expand((MyPageInvestmentRecord record) => record.hiwariJobs)
+          .toList(growable: false),
+    );
     final sellingUnits = _subtractCounts(
       summary.investNum,
       summary.investNumRemaining,
@@ -61,7 +75,11 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
         : summary.projectName.isNotEmpty
         ? summary.projectName
         : projectId;
-    final statusLabel = resolveMyPageActiveFundStatusLabel(l10n, summary.projectStatus, investNumValid:summary.investNumValid);
+    final statusLabel = resolveMyPageActiveFundStatusLabel(
+      l10n,
+      summary.projectStatus,
+      investNumValid: summary.investNumValid,
+    );
     //final canShowResale = summary.projectStatus == 4;
 
     return Scaffold(
@@ -127,16 +145,22 @@ class MyPageActiveFundDetailPage extends ConsumerWidget {
                   label: l10n.myPageActiveFundInvestUnitsLabel,
                   value: _formatCount(summary.investNum),
                 ),
-                ActiveFundOverviewMetricData(
-                  label: l10n.myPageActiveFundSellingUnitsLabel,
-                  value: _formatCount(sellingUnits),
-                ),
+                // ActiveFundOverviewMetricData(
+                //   label: l10n.myPageActiveFundSellingUnitsLabel,
+                //   value: _formatCount(sellingUnits),
+                // ),
                 ActiveFundOverviewMetricData(
                   label: l10n.myPageActiveFundRemainingUnitsLabel,
                   value: _formatCount(summary.investNumValid),
                 ),
               ],
+              periodLabel: l10n.fundListPeriodLabel,
+              periodValue: operationPeriod ?? l10n.myPageResultAnnouncementTbd,
             ),
+            if (hiwariDisplay.isNotEmpty) ...<Widget>[
+              const SizedBox(height: 14),
+              MyPageHiwariInfoCard(data: hiwariDisplay),
+            ],
             // const SizedBox(height: 14),
             // ActiveFundInfoCard(
             //   title: l10n.myPageActiveFundMetaTitle,
@@ -427,6 +451,16 @@ List<MyPageInvestmentRecord> _matchingInvestmentRecords(
   return source
       .where((record) => record.projectId.trim() == normalizedProjectId)
       .toList(growable: false);
+}
+
+FundProject? _findFundProject(List<FundProject> projects, String projectId) {
+  final normalizedProjectId = projectId.trim();
+  for (final project in projects) {
+    if (project.id.trim() == normalizedProjectId) {
+      return project;
+    }
+  }
+  return null;
 }
 
 String _formatCount(num? value) {

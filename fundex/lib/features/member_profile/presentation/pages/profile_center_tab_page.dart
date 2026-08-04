@@ -713,10 +713,6 @@ Widget _buildActiveFundsSection(
             return MyPageActiveFundSummaryCard(
               data: MyPageActiveFundSummaryCardData(
                 title: group.projectName,
-                periodText:
-                    formatMyPageActiveFundPeriod(context, project) != null
-                    ? '${l10n.fundListPeriodLabel}：${formatMyPageActiveFundPeriod(context, project)!}'
-                    : l10n.myPageResultAnnouncementTbd,
                 investorCode: investorTypeDisplay.investorCode,
                 investorType: investorTypeDisplay.investorType,
                 returnText: investorTypeDisplay.returnText,
@@ -757,6 +753,7 @@ Widget _buildActiveFundsSection(
                     ),
                 progress: resolveMyPageActiveFundProgress(project),
                 imageUrls: project?.photos ?? const <String>[],
+                detailLabel: l10n.homeFeaturedFundViewDetailAction,
                 onTap: _buildActiveFundDetailTapHandler(
                   context,
                   seed: MyPageActiveFundDetailSeed.fromRecord(record),

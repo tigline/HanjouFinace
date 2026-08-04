@@ -176,7 +176,7 @@ void main() {
         expect(options.data, <String, dynamic>{'startPage': 1, 'limit': 20});
 
         return _jsonOk(
-          '{"msg":"success","code":200,"data":{"total":1,"limit":20,"currentPage":1,"rows":[{"projectId":"p-3","projectName":"渋谷区 オフィスビル #12","investMoney":1000000,"investNum":1,"projectStatus":4,"processId":"proc-3","earningRadio":0.072,"earnings":36000,"investorType":{"projectId":"p-3","investorCode":"優先出資者A","earningsRadio":0.072}}]}}',
+          '{"msg":"success","code":200,"data":{"total":1,"limit":20,"currentPage":1,"rows":[{"projectId":"p-3","projectName":"渋谷区 オフィスビル #12","investMoney":1000000,"investNum":1,"projectStatus":4,"processId":"proc-3","earningRadio":0.072,"earnings":36000,"investorType":{"projectId":"p-3","investorCode":"優先出資者A","earningsRadio":0.072},"hiwariJobs":[{"processId":null,"startDate":"2026-03-10","endDate":"2026-03-31","num":500}]}]}}',
         );
       });
       final source = MyPageRemoteDataSourceImpl(client);
@@ -189,6 +189,10 @@ void main() {
       expect(rows.first.investMoney, 1000000);
       expect(rows.first.earningRadio, 0.072);
       expect(rows.first.earnings, 36000);
+      expect(rows.first.hiwariJobs, hasLength(1));
+      expect(rows.first.hiwariJobs.single.startDate, '2026-03-10');
+      expect(rows.first.hiwariJobs.single.endDate, '2026-03-31');
+      expect(rows.first.hiwariJobs.single.num, 500);
     });
   });
 }
