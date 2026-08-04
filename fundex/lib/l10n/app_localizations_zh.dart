@@ -4176,6 +4176,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get myPagePendingApplicationsTitle => '申请中・抽签等待中';
 
   @override
+  String get myPageApplyHistoryTitle => '申购记录';
+
+  @override
   String get myPageCoolingOffTitle => '冷静期中（合同已成立）';
 
   @override
@@ -10233,6 +10236,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get myPagePendingApplicationsTitle => '申請中・抽籤等待中';
+
+  @override
+  String get myPageApplyHistoryTitle => '申購記錄';
 
   @override
   String get myPageCoolingOffTitle => '冷靜期中（合約已成立）';

@@ -127,6 +127,35 @@ final myPagePendingApplyListProvider =
           .call(statuses: const <int>[0, 2]);
     });
 
+class MyPageHomeApplySectionData {
+  const MyPageHomeApplySectionData({
+    required this.records,
+    required this.showsHistory,
+  });
+
+  final List<MyPageApplyRecord> records;
+  final bool showsHistory;
+}
+
+final myPageHomeApplySectionProvider =
+    FutureProvider.autoDispose<MyPageHomeApplySectionData>((ref) async {
+      final pendingRecords = await ref.watch(
+        myPagePendingApplyListProvider.future,
+      );
+      if (pendingRecords.isNotEmpty) {
+        return MyPageHomeApplySectionData(
+          records: pendingRecords,
+          showsHistory: false,
+        );
+      }
+
+      final historyRecords = await ref.watch(myPageApplyListProvider.future);
+      return MyPageHomeApplySectionData(
+        records: historyRecords,
+        showsHistory: true,
+      );
+    });
+
 final myPageAccountStatisticProvider =
     FutureProvider.autoDispose<MyPageAccountStatistic?>((ref) async {
       final isAuthenticated = ref.watch(isAuthenticatedProvider).asData?.value;

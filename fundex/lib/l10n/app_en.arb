@@ -1819,6 +1819,7 @@
   "myPageDepositAction": "Deposit",
   "myPageWithdrawAction": "Withdraw",
   "myPagePendingApplicationsTitle": "Pending Applications",
+  "myPageApplyHistoryTitle": "Application History",
   "myPageCoolingOffTitle": "Cooling-off Period",
   "myPageOrderInquirySectionTitle": "Sell Order Inquiry",
   "myPageOrderInquiryListTitle": "Order Inquiry",

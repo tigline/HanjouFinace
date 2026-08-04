@@ -8031,6 +8031,12 @@ abstract class AppLocalizations {
   /// **'Pending Applications'**
   String get myPagePendingApplicationsTitle;
 
+  /// No description provided for @myPageApplyHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Application History'**
+  String get myPageApplyHistoryTitle;
+
   /// No description provided for @myPageCoolingOffTitle.
   ///
   /// In en, this message translates to:

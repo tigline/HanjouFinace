@@ -4,6 +4,26 @@ import 'package:fundex/features/member_profile/presentation/support/mypage_secti
 import 'package:fundex/l10n/app_localizations_ja.dart';
 
 void main() {
+  group('sortApplyRecords', () {
+    test('returns the latest three records regardless of status', () {
+      final records = <MyPageApplyRecord>[
+        _applyRecord('invalid', status: 5, applyTime: '2026-01-01T00:00:00Z'),
+        _applyRecord('completed', status: 3, applyTime: '2026-04-01T00:00:00Z'),
+        _applyRecord('applying', status: 0, applyTime: '2026-03-01T00:00:00Z'),
+        _applyRecord('cancelled', status: 4, applyTime: '2026-02-01T00:00:00Z'),
+      ];
+
+      final result = sortApplyRecords(records, maxItems: 3);
+
+      expect(result.map((record) => record.projectName), <String>[
+        'completed',
+        'applying',
+        'cancelled',
+      ]);
+      expect(result.map((record) => record.status), <int?>[3, 0, 4]);
+    });
+  });
+
   group('filterInvestmentRecordsByActiveFundFilter', () {
     test('selects operating and ended records by project status', () {
       final records = <MyPageInvestmentRecord>[
@@ -83,6 +103,18 @@ void main() {
       );
     });
   });
+}
+
+MyPageApplyRecord _applyRecord(
+  String projectName, {
+  required int status,
+  required String applyTime,
+}) {
+  return MyPageApplyRecord(
+    projectName: projectName,
+    status: status,
+    applyTime: applyTime,
+  );
 }
 
 MyPageInvestmentRecord _record({

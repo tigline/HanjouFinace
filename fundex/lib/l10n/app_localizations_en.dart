@@ -4406,6 +4406,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myPagePendingApplicationsTitle => 'Pending Applications';
 
   @override
+  String get myPageApplyHistoryTitle => 'Application History';
+
+  @override
   String get myPageCoolingOffTitle => 'Cooling-off Period';
 
   @override

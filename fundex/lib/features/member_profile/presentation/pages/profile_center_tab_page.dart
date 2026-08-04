@@ -85,7 +85,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
       accountStatistic?.crowdfundingTotal,
       loanTypeFunds,
     );
-    final applyAsync = ref.watch(myPagePendingApplyListProvider);
+    final applyAsync = ref.watch(myPageHomeApplySectionProvider);
     //final orderInquiryAsync = ref.watch(myPageOrderInquiryListProvider);
     final investmentAsync = ref.watch(myPageInvestmentListProvider);
     final walletHistoryAsync = ref.watch(walletHistoryProvider);
@@ -359,7 +359,7 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
   List<Widget> _buildSectionChildren(
     BuildContext context,
     WidgetRef ref, {
-    required AsyncValue<List<MyPageApplyRecord>> applyAsync,
+    required AsyncValue<MyPageHomeApplySectionData> applyAsync,
     // required AsyncValue<List<MyPageOrderInquiryRecord>> orderInquiryAsync,
     required AsyncValue<List<MyPageInvestmentRecord>> investmentAsync,
     required AsyncValue<List<WalletAccountHistory>> walletHistoryAsync,
@@ -368,16 +368,14 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
   }) {
     final children = <Widget>[];
 
-    if (_shouldShowHomePendingSection(applyAsync)) {
-      children.add(
-        _buildPendingApplicationsSection(
-          context,
-          ref,
-          asyncValue: applyAsync,
-          formatter: currencyFormatter,
-        ),
-      );
-    }
+    children.add(
+      _buildPendingApplicationsSection(
+        context,
+        ref,
+        asyncValue: applyAsync,
+        formatter: currencyFormatter,
+      ),
+    );
 
     // if (_shouldShowHomeOrderInquirySection(
     //   orderInquiryAsync,
@@ -496,7 +494,7 @@ Widget _buildTransactionHistorySection(
 Widget _buildPendingApplicationsSection(
   BuildContext context,
   WidgetRef ref, {
-  required AsyncValue<List<MyPageApplyRecord>> asyncValue,
+  required AsyncValue<MyPageHomeApplySectionData> asyncValue,
   required NumberFormat formatter,
 }) {
   final l10n = context.l10n;
@@ -504,8 +502,8 @@ Widget _buildPendingApplicationsSection(
 
   return asyncValue.when(
     skipError: true,
-    data: (records) {
-      final displayRecords = sortApplyRecords(records, maxItems: 3);
+    data: (sectionData) {
+      final displayRecords = sortApplyRecords(sectionData.records, maxItems: 3);
       final cards = displayRecords
           .map((record) {
             final investorTypeDisplay = resolveInvestorTypeDisplayText(
@@ -551,13 +549,19 @@ Widget _buildPendingApplicationsSection(
           .toList(growable: false);
 
       return FundSectionList(
-        title: l10n.myPagePendingApplicationsTitle,
+        title: sectionData.showsHistory
+            ? l10n.myPageApplyHistoryTitle
+            : l10n.myPagePendingApplicationsTitle,
         initialVisibleCount: cards.isEmpty ? 1 : 3,
         actionLabel: l10n.homeViewAllAction,
         onActionTap: () => context.push(
           '/profile/my/section-list?type=${MyPageSectionType.pendingApplications.queryValue}',
         ),
-        children: cards.isEmpty ? const <Widget>[] : cards,
+        children: cards.isEmpty
+            ? <Widget>[
+                _SectionStateCard(message: l10n.myPageApplyHistoryEmptyState),
+              ]
+            : cards,
       );
     },
     loading: () => FundSectionList(
@@ -572,7 +576,7 @@ Widget _buildPendingApplicationsSection(
         _SectionStateCard(
           message: l10n.myPageSectionLoadError,
           actionLabel: l10n.fundListRetry,
-          onActionTap: () => ref.invalidate(myPagePendingApplyListProvider),
+          onActionTap: () => _invalidateHomeApplySection(ref),
         ),
       ],
     ),
@@ -806,14 +810,21 @@ Future<void> refreshProfileCenterTabPage(WidgetRef ref) async {
   await refreshMemberProfileVerificationState(ref);
   ref.invalidate(fundProjectListProvider);
   ref.invalidate(myPageAssetTrendProvider);
+  _invalidateHomeApplySection(ref);
   await Future.wait<void>(<Future<void>>[
     refreshRootTabSharedData(ref),
     ref.refresh(fundProjectListProvider.future).then((_) {}),
     ref.refresh(myPageAccountStatisticProvider.future).then((_) {}),
-    ref.refresh(myPagePendingApplyListProvider.future).then((_) {}),
+    ref.refresh(myPageHomeApplySectionProvider.future).then((_) {}),
     ref.refresh(myPageOrderInquiryListProvider.future).then((_) {}),
     ref.refresh(myPageInvestmentListProvider.future).then((_) {}),
   ]);
+}
+
+void _invalidateHomeApplySection(WidgetRef ref) {
+  ref.invalidate(myPagePendingApplyListProvider);
+  ref.invalidate(myPageApplyListProvider);
+  ref.invalidate(myPageHomeApplySectionProvider);
 }
 
 Future<void> _handleWithdrawTap(BuildContext context, WidgetRef ref) async {
@@ -1113,17 +1124,6 @@ class _SectionLoadingCard extends StatelessWidget {
       indicator: CircularProgressIndicator.adaptive(strokeWidth: 2),
     );
   }
-}
-
-bool _shouldShowHomePendingSection(
-  AsyncValue<List<MyPageApplyRecord>> asyncValue,
-) {
-  return asyncValue.when(
-    skipError: true,
-    data: (records) => records.isNotEmpty,
-    loading: () => true,
-    error: (_, __) => true,
-  );
 }
 
 // ignore: unused_element

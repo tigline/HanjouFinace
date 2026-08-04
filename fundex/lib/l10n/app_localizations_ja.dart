@@ -4211,6 +4211,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get myPagePendingApplicationsTitle => '申込中・抽選待ち';
 
   @override
+  String get myPageApplyHistoryTitle => 'お申込み履歴';
+
+  @override
   String get myPageCoolingOffTitle => 'クーリングオフ期間中（契約成立）';
 
   @override

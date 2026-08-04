@@ -1794,6 +1794,7 @@
   "myPageDepositAction": "入金",
   "myPageWithdrawAction": "出金",
   "myPagePendingApplicationsTitle": "申请中・抽签等待中",
+  "myPageApplyHistoryTitle": "申购记录",
   "myPageCoolingOffTitle": "冷静期中（合同已成立）",
   "myPageOrderInquirySectionTitle": "卖却订单照会",
   "myPageOrderInquiryListTitle": "订单照会",
