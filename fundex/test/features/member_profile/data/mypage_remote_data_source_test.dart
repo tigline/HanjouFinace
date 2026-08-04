@@ -119,7 +119,7 @@ void main() {
         expect(options.method, 'POST');
         expect(options.path, UserInvestmentApiPaths.applyList);
         expect(options.extra['auth_required'], true);
-        expect(options.data, isNull);
+        expect(options.data, equals(<String, dynamic>{}));
 
         return _jsonOk(
           '{"msg":"success","code":200,"data":{"total":1,"limit":20,"currentPage":1,"rows":[{"projecId":"p-1","projectName":"プレミアムレジデンス赤坂","status":2,"applyMoney":500000,"applyTime":"2025-03-01 10:00:00","passTime":"2025-03-20 00:00:00","investMoney":0,"processId":"proc-1","investorType":{"projectId":"p-1","investorCode":"優先出資者A","earningsRadio":0.062}}]}}',

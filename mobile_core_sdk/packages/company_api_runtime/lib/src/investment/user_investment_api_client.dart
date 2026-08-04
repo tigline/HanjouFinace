@@ -154,7 +154,7 @@ class UserInvestmentApiClient {
     final response = await _dioForPath(applyListPath)
         .post<Map<String, dynamic>>(
           applyListPath,
-          data: body.isEmpty ? null : body,
+          data: body,
           options: authRequired(true),
         );
 

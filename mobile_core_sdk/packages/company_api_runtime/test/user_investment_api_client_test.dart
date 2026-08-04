@@ -99,12 +99,12 @@ void main() {
       expect(rows.last.totalAccount, equals(150000));
     });
 
-    test('fetchApplyList without params posts no body and parses rows', () async {
+    test('fetchApplyList without params posts an empty body and parses rows', () async {
       final dio = _buildDio((options) async {
         expect(options.method, equals('POST'));
         expect(options.path, equals(UserInvestmentApiPaths.applyList));
         expect(options.extra['auth_required'], isTrue);
-        expect(options.data, isNull);
+        expect(options.data, equals(<String, dynamic>{}));
         return _jsonOk(
           '{"msg":"success","code":200,"data":{"rows":[{"projecId":"p-1","projectName":"プレミアムレジデンス赤坂","status":2}]}}',
         );
