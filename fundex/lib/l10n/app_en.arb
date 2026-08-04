@@ -2073,6 +2073,22 @@
   "myPageApplyStatusPaid": "Paid",
   "myPageApplyStatusCancellationReview": "Cancellation in review",
   "myPageApplyStatusCancelled": "Cancelled",
+  "myPageApplyWinningUnitsDetail": "Winning units: {count}",
+  "@myPageApplyWinningUnitsDetail": {
+    "placeholders": {"count": {"type": "String"}}
+  },
+  "myPageApplyInvestmentUnitsDetail": "Investment units: {count}",
+  "@myPageApplyInvestmentUnitsDetail": {
+    "placeholders": {"count": {"type": "String"}}
+  },
+  "myPageApplyInvestmentAmountDetail": "Investment amount: {amount}",
+  "@myPageApplyInvestmentAmountDetail": {
+    "placeholders": {"amount": {"type": "String"}}
+  },
+  "myPageApplyPurchaseSucceededAtDetail": "Purchase completed at: {dateTime}",
+  "@myPageApplyPurchaseSucceededAtDetail": {
+    "placeholders": {"dateTime": {"type": "String"}}
+  },
   "myPageCoolingOffDeadlineRemaining": "Until {date} ({days} days left)",
   "@myPageCoolingOffDeadlineRemaining": {
     "placeholders": {

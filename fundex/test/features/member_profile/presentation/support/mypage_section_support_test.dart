@@ -2,8 +2,81 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fundex/features/member_profile/domain/entities/mypage_models.dart';
 import 'package:fundex/features/member_profile/presentation/support/mypage_section_support.dart';
 import 'package:fundex/l10n/app_localizations_ja.dart';
+import 'package:intl/intl.dart';
 
 void main() {
+  group('buildApplyResultDetailsData', () {
+    final l10n = AppLocalizationsJa();
+    final formatter = NumberFormat.currency(
+      locale: 'ja_JP',
+      symbol: '¥',
+      decimalDigits: 0,
+    );
+
+    test('builds all available purchase-success details', () {
+      final result = buildApplyResultDetailsData(
+        l10n,
+        _applyRecord(
+          'completed',
+          status: 3,
+          passNum: 2,
+          investNum: 2,
+          investMoney: 20000,
+          actualArrivalTime: '2026-05-19 16:47:35',
+        ),
+        formatter,
+      );
+
+      expect(result.lines, <String>[
+        '当選口数: 2',
+        '投資口数: 2 / 投資金額: ¥20,000',
+        '購入成功日時: 2026-05-19 16:47:35',
+      ]);
+    });
+
+    test('omits purchase-success time when actual arrival time is absent', () {
+      final result = buildApplyResultDetailsData(
+        l10n,
+        _applyRecord(
+          'completed',
+          status: 3,
+          passNum: 1,
+          investNum: 1,
+          investMoney: 100000,
+        ),
+        formatter,
+      );
+
+      expect(result.lines, <String>['当選口数: 1', '投資口数: 1 / 投資金額: ¥100,000']);
+    });
+
+    test('shows only populated result fields for invalid records', () {
+      final result = buildApplyResultDetailsData(
+        l10n,
+        _applyRecord('invalid', status: 5, investMoney: 100000),
+        formatter,
+      );
+
+      expect(result.lines, <String>['投資金額: ¥100,000']);
+    });
+
+    test('does not show result details for a pending application', () {
+      final result = buildApplyResultDetailsData(
+        l10n,
+        _applyRecord(
+          'pending',
+          status: 0,
+          passNum: 1,
+          investNum: 1,
+          investMoney: 100000,
+        ),
+        formatter,
+      );
+
+      expect(result.isEmpty, isTrue);
+    });
+  });
+
   group('sortApplyRecords', () {
     test('returns the latest three records regardless of status', () {
       final records = <MyPageApplyRecord>[
@@ -108,12 +181,20 @@ void main() {
 MyPageApplyRecord _applyRecord(
   String projectName, {
   required int status,
-  required String applyTime,
+  String? applyTime,
+  int? passNum,
+  int? investNum,
+  num? investMoney,
+  String? actualArrivalTime,
 }) {
   return MyPageApplyRecord(
     projectName: projectName,
     status: status,
     applyTime: applyTime,
+    passNum: passNum,
+    investNum: investNum,
+    investMoney: investMoney,
+    actualArrivalTime: actualArrivalTime,
   );
 }
 

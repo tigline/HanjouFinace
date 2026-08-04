@@ -2043,6 +2043,22 @@
   "myPageApplyStatusPaid": "入金済み",
   "myPageApplyStatusCancellationReview": "キャンセル審査中",
   "myPageApplyStatusCancelled": "キャンセル済み",
+  "myPageApplyWinningUnitsDetail": "当選口数: {count}",
+  "@myPageApplyWinningUnitsDetail": {
+    "placeholders": {"count": {"type": "String"}}
+  },
+  "myPageApplyInvestmentUnitsDetail": "投資口数: {count}",
+  "@myPageApplyInvestmentUnitsDetail": {
+    "placeholders": {"count": {"type": "String"}}
+  },
+  "myPageApplyInvestmentAmountDetail": "投資金額: {amount}",
+  "@myPageApplyInvestmentAmountDetail": {
+    "placeholders": {"amount": {"type": "String"}}
+  },
+  "myPageApplyPurchaseSucceededAtDetail": "購入成功日時: {dateTime}",
+  "@myPageApplyPurchaseSucceededAtDetail": {
+    "placeholders": {"dateTime": {"type": "String"}}
+  },
   "myPageCoolingOffDeadlineRemaining": "{date}まで（残り{days}日）",
   "@myPageCoolingOffDeadlineRemaining": {
     "placeholders": {

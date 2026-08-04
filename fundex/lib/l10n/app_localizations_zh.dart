@@ -4893,6 +4893,26 @@ class AppLocalizationsZh extends AppLocalizations {
   String get myPageApplyStatusCancelled => '已取消';
 
   @override
+  String myPageApplyWinningUnitsDetail(String count) {
+    return '中签口数: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentUnitsDetail(String count) {
+    return '投资口数: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentAmountDetail(String amount) {
+    return '投资金额: $amount';
+  }
+
+  @override
+  String myPageApplyPurchaseSucceededAtDetail(String dateTime) {
+    return '购买成功时间: $dateTime';
+  }
+
+  @override
   String myPageCoolingOffDeadlineRemaining(Object date, int days) {
     return '截止 $date（剩余 $days 天）';
   }
@@ -10953,6 +10973,26 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get myPageApplyStatusCancelled => '已取消';
+
+  @override
+  String myPageApplyWinningUnitsDetail(String count) {
+    return '中籤口數: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentUnitsDetail(String count) {
+    return '投資口數: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentAmountDetail(String amount) {
+    return '投資金額: $amount';
+  }
+
+  @override
+  String myPageApplyPurchaseSucceededAtDetail(String dateTime) {
+    return '購買成功時間: $dateTime';
+  }
 
   @override
   String myPageCoolingOffDeadlineRemaining(Object date, int days) {

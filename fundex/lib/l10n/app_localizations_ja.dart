@@ -4938,6 +4938,26 @@ class AppLocalizationsJa extends AppLocalizations {
   String get myPageApplyStatusCancelled => 'キャンセル済み';
 
   @override
+  String myPageApplyWinningUnitsDetail(String count) {
+    return '当選口数: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentUnitsDetail(String count) {
+    return '投資口数: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentAmountDetail(String amount) {
+    return '投資金額: $amount';
+  }
+
+  @override
+  String myPageApplyPurchaseSucceededAtDetail(String dateTime) {
+    return '購入成功日時: $dateTime';
+  }
+
+  @override
   String myPageCoolingOffDeadlineRemaining(Object date, int days) {
     return '$dateまで（残り$days日）';
   }

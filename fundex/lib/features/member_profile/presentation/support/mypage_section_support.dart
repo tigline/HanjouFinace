@@ -406,6 +406,75 @@ FundLabeledValue buildApplySecondaryRow(
   };
 }
 
+class MyPageApplyResultDetailsData {
+  const MyPageApplyResultDetailsData({this.lines = const <String>[]});
+
+  final List<String> lines;
+
+  bool get isEmpty => lines.isEmpty;
+  bool get isNotEmpty => lines.isNotEmpty;
+}
+
+MyPageApplyResultDetailsData buildApplyResultDetailsData(
+  AppLocalizations l10n,
+  MyPageApplyRecord record,
+  NumberFormat currencyFormatter,
+) {
+  if (record.status != 1 &&
+      record.status != 3 &&
+      record.status != 4 &&
+      record.status != 5) {
+    return const MyPageApplyResultDetailsData();
+  }
+
+  final lines = <String>[];
+  final winningUnits = _positiveIntOrNull(record.passNum);
+  if (winningUnits != null) {
+    lines.add(l10n.myPageApplyWinningUnitsDetail(winningUnits.toString()));
+  }
+
+  final investmentSegments = <String>[];
+  final investmentUnits = _positiveIntOrNull(record.investNum);
+  if (investmentUnits != null) {
+    investmentSegments.add(
+      l10n.myPageApplyInvestmentUnitsDetail(investmentUnits.toString()),
+    );
+  }
+  if (record.investMoney != null && record.investMoney! > 0) {
+    investmentSegments.add(
+      l10n.myPageApplyInvestmentAmountDetail(
+        currencyFormatter.format(record.investMoney),
+      ),
+    );
+  }
+  if (investmentSegments.isNotEmpty) {
+    lines.add(investmentSegments.join(' / '));
+  }
+
+  if (record.status == 3) {
+    final purchaseSucceededAt = _formatPurchaseSucceededAt(
+      record.actualArrivalTime,
+    );
+    if (purchaseSucceededAt != null) {
+      lines.add(l10n.myPageApplyPurchaseSucceededAtDetail(purchaseSucceededAt));
+    }
+  }
+
+  return MyPageApplyResultDetailsData(lines: lines);
+}
+
+String? _formatPurchaseSucceededAt(String? raw) {
+  final normalized = raw?.trim();
+  if (normalized == null || normalized.isEmpty) {
+    return null;
+  }
+  final date = parseApiDate(normalized);
+  if (date == null) {
+    return normalized;
+  }
+  return DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+}
+
 bool canShowApplyCancelAction(int? status) {
   return switch (status) {
     0 || 2 => true,

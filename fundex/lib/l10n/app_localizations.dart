@@ -9435,6 +9435,30 @@ abstract class AppLocalizations {
   /// **'Cancelled'**
   String get myPageApplyStatusCancelled;
 
+  /// No description provided for @myPageApplyWinningUnitsDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Winning units: {count}'**
+  String myPageApplyWinningUnitsDetail(String count);
+
+  /// No description provided for @myPageApplyInvestmentUnitsDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment units: {count}'**
+  String myPageApplyInvestmentUnitsDetail(String count);
+
+  /// No description provided for @myPageApplyInvestmentAmountDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Investment amount: {amount}'**
+  String myPageApplyInvestmentAmountDetail(String amount);
+
+  /// No description provided for @myPageApplyPurchaseSucceededAtDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase completed at: {dateTime}'**
+  String myPageApplyPurchaseSucceededAtDetail(String dateTime);
+
   /// No description provided for @myPageCoolingOffDeadlineRemaining.
   ///
   /// In en, this message translates to:

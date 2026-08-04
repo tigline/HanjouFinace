@@ -27,7 +27,7 @@ import '../providers/mypage_providers.dart';
 import '../support/mypage_section_support.dart';
 import '../support/mypage_share_summary.dart';
 import '../support/mypage_withdraw_action.dart';
-import '../widgets/my_page_apply_investor_type_panel.dart';
+import '../widgets/my_page_apply_card_detail.dart';
 import '../widgets/my_page_active_fund_summary_card.dart';
 import '../widgets/my_page_asset_trend_card.dart';
 import '../widgets/mypage_share_sheet.dart';
@@ -526,10 +526,15 @@ Widget _buildPendingApplicationsSection(
                 ),
                 buildApplySecondaryRow(l10n, record),
               ],
-              detail: MyPageApplyInvestorTypePanel(
-                label: l10n.myPageOrderInvestorTypeLabel,
+              detail: MyPageApplyCardDetail(
+                investorTypeLabel: l10n.myPageOrderInvestorTypeLabel,
                 investorCode: investorTypeDisplay.investorCode,
                 returnText: investorTypeDisplay.returnText,
+                resultDetails: buildApplyResultDetailsData(
+                  l10n,
+                  record,
+                  formatter,
+                ),
               ),
               footer: canSubmitApplyWithdraw(record)
                   ? OutlinedButton(

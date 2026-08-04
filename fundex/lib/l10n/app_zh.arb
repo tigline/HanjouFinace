@@ -2043,6 +2043,22 @@
   "myPageApplyStatusPaid": "已入金",
   "myPageApplyStatusCancellationReview": "取消审核中",
   "myPageApplyStatusCancelled": "已取消",
+  "myPageApplyWinningUnitsDetail": "中签口数: {count}",
+  "@myPageApplyWinningUnitsDetail": {
+    "placeholders": {"count": {"type": "String"}}
+  },
+  "myPageApplyInvestmentUnitsDetail": "投资口数: {count}",
+  "@myPageApplyInvestmentUnitsDetail": {
+    "placeholders": {"count": {"type": "String"}}
+  },
+  "myPageApplyInvestmentAmountDetail": "投资金额: {amount}",
+  "@myPageApplyInvestmentAmountDetail": {
+    "placeholders": {"amount": {"type": "String"}}
+  },
+  "myPageApplyPurchaseSucceededAtDetail": "购买成功时间: {dateTime}",
+  "@myPageApplyPurchaseSucceededAtDetail": {
+    "placeholders": {"dateTime": {"type": "String"}}
+  },
   "myPageCoolingOffDeadlineRemaining": "截止 {date}（剩余 {days} 天）",
   "@myPageCoolingOffDeadlineRemaining": {
     "placeholders": {

@@ -5180,6 +5180,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myPageApplyStatusCancelled => 'Cancelled';
 
   @override
+  String myPageApplyWinningUnitsDetail(String count) {
+    return 'Winning units: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentUnitsDetail(String count) {
+    return 'Investment units: $count';
+  }
+
+  @override
+  String myPageApplyInvestmentAmountDetail(String amount) {
+    return 'Investment amount: $amount';
+  }
+
+  @override
+  String myPageApplyPurchaseSucceededAtDetail(String dateTime) {
+    return 'Purchase completed at: $dateTime';
+  }
+
+  @override
   String myPageCoolingOffDeadlineRemaining(Object date, int days) {
     return 'Until $date ($days days left)';
   }
