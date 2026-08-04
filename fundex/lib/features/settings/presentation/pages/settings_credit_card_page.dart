@@ -34,7 +34,9 @@ class SettingsCreditCardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = Theme.of(context).appColors;
+    final theme = Theme.of(context);
+    final colors = theme.appColors;
+    final appText = theme.appTextTheme;
     final cardsState = ref.watch(hotelCreditCardsProvider);
 
     return Scaffold(
@@ -51,6 +53,13 @@ class SettingsCreditCardPage extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
           children: <Widget>[
+            Text(
+              context.l10n.creditCardManagementSubtitle,
+              style: appText.bodyMuted.copyWith(color: colors.textSecondary),
+            ),
+            const SizedBox(height: 10),
+            Divider(height: 1, color: colors.borderSoft),
+            const SizedBox(height: 16),
             SettingsRegisteredCreditCardSection(
               cardsState: cardsState,
               onRetry: () => ref.invalidate(hotelCreditCardsProvider),

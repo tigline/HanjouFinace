@@ -2894,13 +2894,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonReplaceText => 'Change';
 
   @override
-  String get menuItemBankSettings => 'Bank account settings';
+  String get menuItemBankSettings => 'Withdrawal Account Management';
 
   @override
-  String get menuItemCreditCardSettings => 'Credit cards';
+  String get menuItemCreditCardSettings => 'Credit Card Management';
 
   @override
-  String get creditCardListTitle => 'Credit cards';
+  String get creditCardListTitle => 'Credit Card Management';
+
+  @override
+  String get creditCardManagementSubtitle =>
+      'Manage credit cards used to pay for hotel reservations';
 
   @override
   String get creditCardSettingsTitle => 'Add credit card';
@@ -4665,6 +4669,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walletBankSettingsRegisteredTitle => 'Registered Accounts';
+
+  @override
+  String get walletBankSettingsSubtitle =>
+      'Manage bank accounts used for withdrawals';
 
   @override
   String get walletBankSettingsEmptyMessage =>

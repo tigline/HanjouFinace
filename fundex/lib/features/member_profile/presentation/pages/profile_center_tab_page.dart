@@ -367,15 +367,18 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
     required Map<String, FundProject> fundProjectsById,
   }) {
     final children = <Widget>[];
-
-    children.add(
-      _buildPendingApplicationsSection(
-        context,
-        ref,
-        asyncValue: applyAsync,
-        formatter: currencyFormatter,
-      ),
+    final applySection = _buildPendingApplicationsSection(
+      context,
+      ref,
+      asyncValue: applyAsync,
+      formatter: currencyFormatter,
     );
+    final showsApplyHistory = applyAsync.valueOrNull?.showsHistory == true;
+
+    if (!showsApplyHistory) {
+      children.add(applySection);
+      children.add(const SizedBox(height: UiTokens.spacing12));
+    }
 
     // if (_shouldShowHomeOrderInquirySection(
     //   orderInquiryAsync,
@@ -396,9 +399,6 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
     //   );
     // }
 
-    if (children.isNotEmpty) {
-      children.add(const SizedBox(height: UiTokens.spacing12));
-    }
     children.add(
       _buildActiveFundsSection(
         context,
@@ -407,6 +407,10 @@ class _ProfileCenterTabPageState extends ConsumerState<ProfileCenterTabPage> {
         fundProjectsById: fundProjectsById,
       ),
     );
+    if (showsApplyHistory) {
+      children.add(const SizedBox(height: UiTokens.spacing12));
+      children.add(applySection);
+    }
     children.add(const SizedBox(height: UiTokens.spacing32));
     children.add(
       _buildTransactionHistorySection(

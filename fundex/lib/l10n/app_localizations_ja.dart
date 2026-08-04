@@ -2772,13 +2772,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get commonReplaceText => '変更';
 
   @override
-  String get menuItemBankSettings => '銀行口座設定';
+  String get menuItemBankSettings => '出金口座管理';
 
   @override
-  String get menuItemCreditCardSettings => 'クレジットカード';
+  String get menuItemCreditCardSettings => 'クレジットカード管理';
 
   @override
-  String get creditCardListTitle => 'クレジットカード';
+  String get creditCardListTitle => 'クレジットカード管理';
+
+  @override
+  String get creditCardManagementSubtitle => '宿泊予約決済用クレジットカードの管理';
 
   @override
   String get creditCardSettingsTitle => 'クレジットカードを追加';
@@ -4455,6 +4458,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get walletBankSettingsRegisteredTitle => '登録済み口座';
+
+  @override
+  String get walletBankSettingsSubtitle => '出金先銀行口座の管理';
 
   @override
   String get walletBankSettingsEmptyMessage =>

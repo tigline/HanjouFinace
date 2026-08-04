@@ -152,6 +152,15 @@ class _WalletBankSettingsPageState
             return ListView(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
               children: <Widget>[
+                Text(
+                  l10n.walletBankSettingsSubtitle,
+                  style: appText.bodyMuted.copyWith(
+                    color: colors.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Divider(height: 1, color: colors.borderSoft),
+                const SizedBox(height: 16),
                 if (accounts.isEmpty)
                   _WalletBankAccountEmptyCard(onAdd: _openAddBankAccountPage)
                 else ...<Widget>[

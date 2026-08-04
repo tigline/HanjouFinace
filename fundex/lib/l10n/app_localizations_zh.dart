@@ -2750,13 +2750,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get commonReplaceText => '更换';
 
   @override
-  String get menuItemBankSettings => '银行账户设置';
+  String get menuItemBankSettings => '提现账户管理';
 
   @override
-  String get menuItemCreditCardSettings => '信用卡';
+  String get menuItemCreditCardSettings => '信用卡管理';
 
   @override
-  String get creditCardListTitle => '信用卡';
+  String get creditCardListTitle => '信用卡管理';
+
+  @override
+  String get creditCardManagementSubtitle => '管理用于酒店预订付款的信用卡';
 
   @override
   String get creditCardSettingsTitle => '添加信用卡';
@@ -4418,6 +4421,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get walletBankSettingsRegisteredTitle => '已登记账户';
+
+  @override
+  String get walletBankSettingsSubtitle => '管理用于提现的收款银行账户';
 
   @override
   String get walletBankSettingsEmptyMessage => '当前还没有已登记的银行账户，请先添加。';
@@ -8829,13 +8835,16 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get commonReplaceText => '更換';
 
   @override
-  String get menuItemBankSettings => '銀行帳戶設定';
+  String get menuItemBankSettings => '提領帳戶管理';
 
   @override
-  String get menuItemCreditCardSettings => '信用卡';
+  String get menuItemCreditCardSettings => '信用卡管理';
 
   @override
-  String get creditCardListTitle => '信用卡';
+  String get creditCardListTitle => '信用卡管理';
+
+  @override
+  String get creditCardManagementSubtitle => '管理用於住宿預訂付款的信用卡';
 
   @override
   String get creditCardSettingsTitle => '新增信用卡';
@@ -10500,6 +10509,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get walletBankSettingsRegisteredTitle => '已登記帳戶';
+
+  @override
+  String get walletBankSettingsSubtitle => '管理用於提領款項的銀行帳戶';
 
   @override
   String get walletBankSettingsEmptyMessage => '目前尚未登記銀行帳戶，請先新增。';

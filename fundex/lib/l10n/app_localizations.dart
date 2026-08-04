@@ -5298,20 +5298,26 @@ abstract class AppLocalizations {
   /// No description provided for @menuItemBankSettings.
   ///
   /// In en, this message translates to:
-  /// **'Bank account settings'**
+  /// **'Withdrawal Account Management'**
   String get menuItemBankSettings;
 
   /// No description provided for @menuItemCreditCardSettings.
   ///
   /// In en, this message translates to:
-  /// **'Credit cards'**
+  /// **'Credit Card Management'**
   String get menuItemCreditCardSettings;
 
   /// No description provided for @creditCardListTitle.
   ///
   /// In en, this message translates to:
-  /// **'Credit cards'**
+  /// **'Credit Card Management'**
   String get creditCardListTitle;
+
+  /// No description provided for @creditCardManagementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage credit cards used to pay for hotel reservations'**
+  String get creditCardManagementSubtitle;
 
   /// No description provided for @creditCardSettingsTitle.
   ///
@@ -8510,6 +8516,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Registered Accounts'**
   String get walletBankSettingsRegisteredTitle;
+
+  /// No description provided for @walletBankSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage bank accounts used for withdrawals'**
+  String get walletBankSettingsSubtitle;
 
   /// No description provided for @walletBankSettingsEmptyMessage.
   ///
