@@ -503,7 +503,7 @@ Widget _buildPendingApplicationsSection(
   return asyncValue.when(
     skipError: true,
     data: (sectionData) {
-      final displayRecords = sortApplyRecords(sectionData.records, maxItems: 3);
+      final displayRecords = sortApplyRecords(sectionData.records, maxItems: 1);
       final cards = displayRecords
           .map((record) {
             final investorTypeDisplay = resolveInvestorTypeDisplayText(
