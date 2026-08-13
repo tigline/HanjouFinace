@@ -2525,11 +2525,11 @@ abstract class AppLocalizations {
   /// **'Kyoto'**
   String get hotelAreaKyoto;
 
-  /// No description provided for @hotelAreaTokyo.
+  /// No description provided for @hotelAreaHakuba.
   ///
   /// In en, this message translates to:
-  /// **'Tokyo'**
-  String get hotelAreaTokyo;
+  /// **'Hakuba'**
+  String get hotelAreaHakuba;
 
   /// No description provided for @hotelPropertyTypeLabel.
   ///

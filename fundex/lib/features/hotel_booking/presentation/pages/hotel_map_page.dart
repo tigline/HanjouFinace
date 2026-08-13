@@ -341,8 +341,8 @@ class _HotelMapPageState extends ConsumerState<HotelMapPage> {
     switch (criteria.area.trim()) {
       case 'kyoto':
         return const gmaps.LatLng(35.0028469, 135.7566056);
-      case 'tokyo':
-        return const gmaps.LatLng(35.6563391, 139.7400959);
+      case 'nagano':
+        return const gmaps.LatLng(36.6982, 137.8619);
       case 'osaka':
       default:
         return const gmaps.LatLng(34.6552488, 135.5011531);

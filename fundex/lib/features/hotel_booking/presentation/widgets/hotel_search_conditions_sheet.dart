@@ -18,7 +18,7 @@ List<HotelAreaOption> hotelAreaOptions(BuildContext context) {
     HotelAreaOption(value: '', label: context.l10n.hotelDefaultDestination),
     HotelAreaOption(value: 'osaka', label: context.l10n.hotelAreaOsaka),
     HotelAreaOption(value: 'kyoto', label: context.l10n.hotelAreaKyoto),
-    HotelAreaOption(value: 'tokyo', label: context.l10n.hotelAreaTokyo),
+    HotelAreaOption(value: 'nagano', label: context.l10n.hotelAreaHakuba),
   ];
 }
 

@@ -1267,7 +1267,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hotelAreaKyoto => '京都';
 
   @override
-  String get hotelAreaTokyo => '東京';
+  String get hotelAreaHakuba => '白馬';
 
   @override
   String get hotelPropertyTypeLabel => '宿泊タイプ';
