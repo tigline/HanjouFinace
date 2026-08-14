@@ -51,6 +51,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get commonRetry => '再試行';
 
   @override
+  String get commonBack => '戻る';
+
+  @override
   String get pushDialogDefaultBlockTitle => 'このアプリは利用できません';
 
   @override

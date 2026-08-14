@@ -1,6 +1,6 @@
 # Hotel Booking Roadmap
 
-Last updated: 2026-08-13
+Last updated: 2026-08-14
 
 This document defines the working plan for the upcoming hotel booking feature. It should be read before opening task threads related to hotel list, hotel detail, room selection, booking, payment, or hotel orders.
 
@@ -31,6 +31,7 @@ Current behavior:
 - Entering the stay-benefits list no longer requests `/pms/my/fundBenefitTickets` while that endpoint is temporarily disabled in the app layer; stay-benefit ticket amount is treated as unavailable for now.
 - Hotel home shows selected search conditions as a compact summary bar; tapping the summary bar or search icon opens the full four-row search condition sheet over the tab bar. The sheet edits a local draft and refreshes the list only after "Check availability". Hotel date picking uses the shared custom range calendar across home/search and detail; home/search shows date cells without prices, while detail injects `/pms/priceByDate` prices into the same calendar.
 - Hotel list cards navigate to the public detail route `/hotel-booking/:id` with the current search criteria.
+- Full-page hotel loading failures show both retry and back actions. Back pops the existing route stack when possible and otherwise returns to `/hotel-booking`, so direct-entry API failures do not trap the user.
 - Hotel remaining inventory labels distinguish room-based properties from whole-building properties using only the hotel `buildingCode`: `"1"` displays room units, while `"2"` machiya and `"3"` townhouse display building units. Detail responses do not currently include `buildingCode`, so hotel detail route entries pass the selected summary hotel's `buildingCode` into the detail page for room-card display.
 - Hotel discount badges can open a discount-detail dialog backed by `POST /hotel/homePage/priceDiscount` with the current stay dates, language, and hotel id. On the main hotel list, the dialog includes a booking action that navigates to hotel detail with the current criteria; other discount-badge entry points show details only.
 - Hotel detail has a first UI/data slice: hero gallery, stay summary, room-plan selection, detail sections, refund policy text, and sticky booking amount bar. Booking submit is still a placeholder action.

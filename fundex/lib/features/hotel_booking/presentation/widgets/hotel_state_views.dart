@@ -1,5 +1,6 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
 import '../../../../app/support/app_request_error_message_resolver.dart';
@@ -42,9 +43,15 @@ class HotelInlineErrorNotice extends StatelessWidget {
 }
 
 class HotelFullPageError extends StatelessWidget {
-  const HotelFullPageError({super.key, required this.onRetry, this.error});
+  const HotelFullPageError({
+    super.key,
+    required this.onRetry,
+    this.onBack,
+    this.error,
+  });
 
   final VoidCallback onRetry;
+  final VoidCallback? onBack;
   final Object? error;
 
   @override
@@ -66,10 +73,23 @@ class HotelFullPageError extends StatelessWidget {
               onPressed: onRetry,
               child: Text(context.l10n.commonRetry),
             ),
+            const SizedBox(height: 4),
+            TextButton(
+              onPressed: onBack ?? () => _handleBack(context),
+              child: Text(context.l10n.commonBack),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _handleBack(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    context.go('/hotel-booking');
   }
 }
 

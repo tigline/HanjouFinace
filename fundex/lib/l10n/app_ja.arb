@@ -14,6 +14,7 @@
   "commonCancel": "キャンセル",
   "commonApply": "適用",
   "commonRetry": "再試行",
+  "commonBack": "戻る",
   "pushDialogDefaultBlockTitle": "このアプリは利用できません",
   "pushDialogDefaultBlockBody": "指定されたアプリをご利用ください。",
   "pushDialogDefaultUpdateTitle": "新しいバージョンがあります",

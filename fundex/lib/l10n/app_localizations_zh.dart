@@ -51,6 +51,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get commonRetry => '重试';
 
   @override
+  String get commonBack => '返回';
+
+  @override
   String get pushDialogDefaultBlockTitle => '当前 App 无法使用';
 
   @override
@@ -6133,6 +6136,9 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get commonRetry => '重試';
+
+  @override
+  String get commonBack => '返回';
 
   @override
   String get pushDialogDefaultBlockTitle => '目前 App 無法使用';

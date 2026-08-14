@@ -52,6 +52,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonRetry => 'Retry';
 
   @override
+  String get commonBack => 'Back';
+
+  @override
   String get pushDialogDefaultBlockTitle => 'This app is unavailable';
 
   @override
