@@ -707,11 +707,15 @@ class _FundLotteryApplyFlowPageState
     final accountStatisticAsync = ref.watch(myPageAccountStatisticProvider);
 
     return detailAsync.when(
-      loading: () => _FlowLoadingScaffold(title: l10n.lotteryApplyFlowTitle),
+      loading: () => _FlowLoadingScaffold(
+        title: l10n.lotteryApplyFlowTitle,
+        onBack: _goPreviousOrPop,
+      ),
       error: (Object _, StackTrace __) => _FlowErrorScaffold(
         title: l10n.lotteryApplyFlowTitle,
         body: l10n.fundListLoadError,
         retryLabel: l10n.fundListRetry,
+        onBack: _goPreviousOrPop,
         onRetry: () {
           ref.invalidate(fundProjectDetailProvider(widget.projectId));
           ref.invalidate(fundProjectApplyDetailProvider(widget.projectId));
@@ -719,13 +723,17 @@ class _FundLotteryApplyFlowPageState
       ),
       data: (FundProject project) {
         if (applyDetailAsync.isLoading) {
-          return _FlowLoadingScaffold(title: l10n.lotteryApplyFlowTitle);
+          return _FlowLoadingScaffold(
+            title: l10n.lotteryApplyFlowTitle,
+            onBack: _goPreviousOrPop,
+          );
         }
         if (applyDetailAsync.hasError || !applyDetailAsync.hasValue) {
           return _FlowErrorScaffold(
             title: l10n.lotteryApplyFlowTitle,
             body: l10n.fundListLoadError,
             retryLabel: l10n.fundListRetry,
+            onBack: _goPreviousOrPop,
             onRetry: () {
               ref.invalidate(fundProjectDetailProvider(widget.projectId));
               ref.invalidate(fundProjectApplyDetailProvider(widget.projectId));
@@ -1103,9 +1111,10 @@ class _FundLotteryApplyFlowPageState
 }
 
 class _FlowLoadingScaffold extends StatelessWidget {
-  const _FlowLoadingScaffold({required this.title});
+  const _FlowLoadingScaffold({required this.title, required this.onBack});
 
   final String title;
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -1116,6 +1125,12 @@ class _FlowLoadingScaffold extends StatelessWidget {
         title: title,
         backgroundColor: colors.surface,
         foregroundColor: colors.textPrimary,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: onBack,
+          backgroundColor: colors.surface.withValues(alpha: 0),
+          foregroundColor: colors.textPrimary,
+        ),
       ),
       body: const Center(child: CircularProgressIndicator.adaptive()),
     );
@@ -1162,12 +1177,14 @@ class _FlowErrorScaffold extends StatelessWidget {
     required this.body,
     required this.retryLabel,
     required this.onRetry,
+    required this.onBack,
   });
 
   final String title;
   final String body;
   final String retryLabel;
   final VoidCallback onRetry;
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -1180,6 +1197,12 @@ class _FlowErrorScaffold extends StatelessWidget {
         title: title,
         backgroundColor: colors.surface,
         foregroundColor: colors.textPrimary,
+        leading: AppNavigationIconButton(
+          icon: Icons.arrow_back_rounded,
+          onTap: onBack,
+          backgroundColor: colors.surface.withValues(alpha: 0),
+          foregroundColor: colors.textPrimary,
+        ),
       ),
       body: Center(
         child: Padding(
@@ -1194,6 +1217,11 @@ class _FlowErrorScaffold extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               OutlinedButton(onPressed: onRetry, child: Text(retryLabel)),
+              const SizedBox(height: UiTokens.spacing4),
+              TextButton(
+                onPressed: onBack,
+                child: Text(context.l10n.commonBack),
+              ),
             ],
           ),
         ),

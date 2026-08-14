@@ -54,6 +54,14 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
     ref.invalidate(fundProjectApplyDetailProvider(projectId));
   }
 
+  void _handleBack() {
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    context.go('/funds');
+  }
+
   Future<void> _showFundApplyVerificationRequiredDialog() {
     final l10n = context.l10n;
     return AppDialogs.showAdaptiveAlert<void>(
@@ -166,10 +174,12 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
     final favoriteRemovedMessage = context.l10n.favoriteRemovedToast;
 
     return detailAsync.when(
-      loading: () => const FundProjectDetailScaffold(
-        body: Center(child: CircularProgressIndicator.adaptive()),
+      loading: () => FundProjectDetailScaffold(
+        onBack: _handleBack,
+        body: const Center(child: CircularProgressIndicator.adaptive()),
       ),
       error: (Object error, StackTrace stackTrace) => FundProjectDetailScaffold(
+        onBack: _handleBack,
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -191,6 +201,11 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
                   },
                   child: Text(context.l10n.fundListRetry),
                 ),
+                const SizedBox(height: UiTokens.spacing4),
+                TextButton(
+                  onPressed: _handleBack,
+                  child: Text(context.l10n.commonBack),
+                ),
               ],
             ),
           ),
@@ -198,12 +213,14 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
       ),
       data: (FundProject project) {
         if (applyDetailAsync.isLoading) {
-          return const FundProjectDetailScaffold(
-            body: Center(child: CircularProgressIndicator.adaptive()),
+          return FundProjectDetailScaffold(
+            onBack: _handleBack,
+            body: const Center(child: CircularProgressIndicator.adaptive()),
           );
         }
         if (applyDetailAsync.hasError || !applyDetailAsync.hasValue) {
           return FundProjectDetailScaffold(
+            onBack: _handleBack,
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.all(24),
@@ -226,6 +243,11 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
                         );
                       },
                       child: Text(context.l10n.fundListRetry),
+                    ),
+                    const SizedBox(height: UiTokens.spacing4),
+                    TextButton(
+                      onPressed: _handleBack,
+                      child: Text(context.l10n.commonBack),
                     ),
                   ],
                 ),
@@ -340,9 +362,7 @@ class _FundProjectDetailPageState extends ConsumerState<FundProjectDetailPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          FundProjectDetailTitleBlock(
-                            project: project,
-                          ),
+                          FundProjectDetailTitleBlock(project: project),
                           if (featuresText != null) ...<Widget>[
                             const SizedBox(height: UiTokens.spacing16),
                             FundDetailContentCard(

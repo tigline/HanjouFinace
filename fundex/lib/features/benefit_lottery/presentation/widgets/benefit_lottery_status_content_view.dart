@@ -1060,9 +1060,14 @@ class _WheelStage extends StatelessWidget {
 }
 
 class BenefitLotteryStatusLoadError extends StatelessWidget {
-  const BenefitLotteryStatusLoadError({required this.onRetry, super.key});
+  const BenefitLotteryStatusLoadError({
+    required this.onRetry,
+    required this.onBack,
+    super.key,
+  });
 
   final VoidCallback onRetry;
+  final VoidCallback onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -1084,6 +1089,8 @@ class BenefitLotteryStatusLoadError extends StatelessWidget {
               onPressed: onRetry,
               child: Text(context.l10n.fundListRetry),
             ),
+            const SizedBox(height: UiTokens.spacing4),
+            TextButton(onPressed: onBack, child: Text(context.l10n.commonBack)),
           ],
         ),
       ),

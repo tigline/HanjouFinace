@@ -1,6 +1,6 @@
 # AI Project Control Playbook
 
-Last updated: 2026-05-12
+Last updated: 2026-08-14
 
 This document is the control-plane memory for long-running AI-assisted work in this repository. It should be read at the start of any major new thread, especially when starting a new feature module such as hotel booking.
 
@@ -65,6 +65,7 @@ Use three layers of coordination:
   - YouTube links use `youtube_player_flutter`.
   - Non-resource external links use a reference-video row with a browser action.
 - Fund image display uses cached image provider patterns to reduce placeholder flicker.
+- Fund detail and lottery-application initial loading states retain a back action. Their full-page load failures show both retry and back actions, with direct-entry fallbacks to the funds flow.
 
 ### Wallet / Deposit / Withdraw
 
@@ -94,6 +95,7 @@ Use three layers of coordination:
 - The status page currently derives eligibility from `myPageInvestmentListProvider` and checks whether the authenticated user has at least one operating investment record (`MyPageInvestmentRecord.projectStatus == 4`). This is a temporary adapter until the lottery eligibility API exists.
 - Eligible users see the reusable wheel, evaluation factors, the mock prize catalog, mock winning history, and usage rules. Ineligible users see the locked wheel and investment CTA design.
 - Tapping an available winning-history voucher switches to the Hotel tab and opens `/hotel-booking/stay-benefits`; used and expired entries remain non-interactive.
+- The benefit-lottery status loading state retains its page header and back action. Its full-page load failure shows both retry and back actions, with a direct-entry fallback to `/home`.
 - Evaluation copy, usage rules, prize notices, locked-state copy, and temporary winning-history data are localized in `fundex/assets/content/benefit_lottery_status_content.json`; headings and UI actions remain in ARB localization.
 - Prize-list and winning-history backend integration plus final result presentation are not implemented yet.
 
