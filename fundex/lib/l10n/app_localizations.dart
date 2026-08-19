@@ -3057,6 +3057,12 @@ abstract class AppLocalizations {
   /// **'{count} rooms left'**
   String hotelDetailRemainingRoomsShort(int count);
 
+  /// No description provided for @hotelDetailMinimumStay.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum stay: {count} nights'**
+  String hotelDetailMinimumStay(int count);
+
   /// No description provided for @hotelDetailRoomCapacity.
   ///
   /// In en, this message translates to:

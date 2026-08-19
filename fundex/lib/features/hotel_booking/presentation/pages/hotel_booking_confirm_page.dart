@@ -864,6 +864,7 @@ List<_RoomGuestFormTarget> _buildRoomGuestTargets(
             bedroomCount: null,
             bathroomCount: null,
             remainingRooms: 1,
+            minimumStayNights: null,
             description: seed.detail.description,
             facilityCategories: const <HotelRoomFacilityCategory>[],
             images: seed.detail.images,

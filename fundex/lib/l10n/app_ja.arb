@@ -595,6 +595,14 @@
       }
     }
   },
+  "hotelDetailMinimumStay": "最低宿泊日数{count}泊",
+  "@hotelDetailMinimumStay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hotelDetailRoomCapacity": "{count}名まで",
   "@hotelDetailRoomCapacity": {
     "placeholders": {

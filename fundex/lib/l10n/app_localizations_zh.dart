@@ -1543,6 +1543,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String hotelDetailMinimumStay(int count) {
+    return '最低入住天数$count天';
+  }
+
+  @override
   String hotelDetailRoomCapacity(int count) {
     return '可住 $count 人';
   }
@@ -7628,6 +7633,11 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   @override
   String hotelDetailRemainingRoomsShort(int count) {
     return '僅剩 $count 間';
+  }
+
+  @override
+  String hotelDetailMinimumStay(int count) {
+    return '最低入住天數$count天';
   }
 
   @override

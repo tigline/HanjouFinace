@@ -279,6 +279,7 @@ _HotelRoomTypeDto _$HotelRoomTypeDtoFromJson(Map<String, dynamic> json) =>
       bedRoomCount: (json['bedRoomCount'] as num?)?.toInt(),
       bathRoomCount: (json['bathRoomCount'] as num?)?.toInt(),
       roomCount: (json['roomCount'] as num?)?.toInt(),
+      minStay: (json['minStay'] as num?)?.toInt(),
       roomFacility: json['roomFacility'],
       roomTypeFacilities: json['roomTypeFacilities'] == null
           ? const <Map<String, Object?>>[]
@@ -318,6 +319,7 @@ Map<String, dynamic> _$HotelRoomTypeDtoToJson(_HotelRoomTypeDto instance) =>
       'bedRoomCount': instance.bedRoomCount,
       'bathRoomCount': instance.bathRoomCount,
       'roomCount': instance.roomCount,
+      'minStay': instance.minStay,
       'roomFacility': instance.roomFacility,
       'roomTypeFacilities': instance.roomTypeFacilities,
       'description': instance.description,

@@ -620,6 +620,14 @@
       }
     }
   },
+  "hotelDetailMinimumStay": "Minimum stay: {count} nights",
+  "@hotelDetailMinimumStay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hotelDetailRoomCapacity": "Sleeps {count}",
   "@hotelDetailRoomCapacity": {
     "placeholders": {

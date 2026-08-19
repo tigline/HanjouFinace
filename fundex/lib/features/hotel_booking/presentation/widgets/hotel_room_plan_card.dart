@@ -54,7 +54,13 @@ class HotelRoomPlanCard extends StatelessWidget {
     final hasDiscount =
         room.discountName.isNotEmpty && (room.discount ?? 0) > 0;
     final remainingRooms = room.remainingRooms;
+    final minimumStayNights = room.minimumStayNights;
+    final meetsMinimumStay =
+        minimumStayNights == null ||
+        minimumStayNights <= 0 ||
+        nights >= minimumStayNights;
     final canIncrement =
+        meetsMinimumStay &&
         canIncrementQuantity &&
         (remainingRooms == null ||
             remainingRooms < 0 ||
@@ -90,6 +96,7 @@ class HotelRoomPlanCard extends StatelessWidget {
               oldPrice: oldPrice,
               hasDiscount: hasDiscount,
               remainingRooms: remainingRooms,
+              minimumStayNights: meetsMinimumStay ? null : minimumStayNights,
               remainingUnit: remainingUnit,
               canIncrement: canIncrement,
               isBusy: isBusy,
@@ -204,6 +211,7 @@ class _RoomPlanCardContent extends StatelessWidget {
     required this.oldPrice,
     required this.hasDiscount,
     required this.remainingRooms,
+    required this.minimumStayNights,
     required this.remainingUnit,
     required this.canIncrement,
     required this.isBusy,
@@ -224,6 +232,7 @@ class _RoomPlanCardContent extends StatelessWidget {
   final String oldPrice;
   final bool hasDiscount;
   final int? remainingRooms;
+  final int? minimumStayNights;
   final HotelRemainingUnit remainingUnit;
   final bool canIncrement;
   final bool isBusy;
@@ -357,6 +366,7 @@ class _RoomPlanCardContent extends StatelessWidget {
                   _RoomQuantityStepper(
                     quantity: quantity,
                     remainingRooms: remainingRooms,
+                    minimumStayNights: minimumStayNights,
                     remainingUnit: remainingUnit,
                     onDecrement: isBusy ? null : onDecrement,
                     onIncrement: isBusy || !canIncrement ? null : onIncrement,
@@ -460,6 +470,7 @@ class _RoomQuantityStepper extends StatelessWidget {
   const _RoomQuantityStepper({
     required this.quantity,
     required this.remainingRooms,
+    required this.minimumStayNights,
     required this.remainingUnit,
     required this.onDecrement,
     required this.onIncrement,
@@ -467,6 +478,7 @@ class _RoomQuantityStepper extends StatelessWidget {
 
   final int quantity;
   final int? remainingRooms;
+  final int? minimumStayNights;
   final HotelRemainingUnit remainingUnit;
   final VoidCallback? onDecrement;
   final VoidCallback? onIncrement;
@@ -478,12 +490,22 @@ class _RoomQuantityStepper extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (shouldShowRemaining) ...<Widget>[
-          HotelRemainingRoomsLabel(
-            count: remainingRooms!,
-            unit: remainingUnit,
-            textAlign: TextAlign.end,
-          ),
+        if (minimumStayNights != null || shouldShowRemaining) ...<Widget>[
+          if (minimumStayNights != null)
+            Text(
+              context.l10n.hotelDetailMinimumStay(minimumStayNights!),
+              textAlign: TextAlign.end,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: colors.danger,
+                fontWeight: FontWeight.w700,
+              ),
+            )
+          else
+            HotelRemainingRoomsLabel(
+              count: remainingRooms!,
+              unit: remainingUnit,
+              textAlign: TextAlign.end,
+            ),
           const SizedBox(height: 6),
         ],
         DecoratedBox(

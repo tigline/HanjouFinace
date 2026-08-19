@@ -445,6 +445,7 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
           bedroomCount: firstRoom.bedroomCount,
           bathroomCount: firstRoom.bathroomCount,
           remainingRooms: firstRoom.remainingRooms,
+          minimumStayNights: firstRoom.minimumStayNights,
           description: firstRoom.description,
           facilityCategories: firstRoom.facilityCategories,
           images: firstRoom.images,
@@ -471,6 +472,7 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
         bedroomCount: null,
         bathroomCount: null,
         remainingRooms: 1,
+        minimumStayNights: null,
         description: detail.description,
         facilityCategories: const <HotelRoomFacilityCategory>[],
         images: detail.images,
@@ -599,9 +601,15 @@ class _HotelDetailContent extends StatelessWidget {
                       final selectedRoomCount = _selectedRooms;
                       final isStayBenefitRoomLimitReached =
                           criteria.stayBenefit && selectedRoomCount >= 1;
+                      final minimumStayNights = room.minimumStayNights;
+                      final meetsMinimumStay =
+                          minimumStayNights == null ||
+                          minimumStayNights <= 0 ||
+                          criteria.nights >= minimumStayNights;
                       final canAddMoreRooms =
                           !_usesRoomPlanSelection ||
-                          (!isStayBenefitRoomLimitReached &&
+                          (meetsMinimumStay &&
+                              !isStayBenefitRoomLimitReached &&
                               selectedRoomCount < criteria.occupancy);
                       final extraGuestPrice = _extraGuestPriceFor(room);
                       return Padding(
@@ -635,7 +643,7 @@ class _HotelDetailContent extends StatelessWidget {
                             _RoomQuantityChange(key, quantity - 1),
                           ),
                           onIncrement: () {
-                            if (!canAddMoreRooms) {
+                            if (!meetsMinimumStay || !canAddMoreRooms) {
                               return;
                             }
                             if (remainingRooms != null &&

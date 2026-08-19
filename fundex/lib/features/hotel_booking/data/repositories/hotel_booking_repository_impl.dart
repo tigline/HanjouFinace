@@ -1185,6 +1185,7 @@ HotelRoomPlan _mapRoomPlan(HotelRoomTypeDto dto) {
     bedroomCount: dto.bedRoomCount,
     bathroomCount: dto.bathRoomCount,
     remainingRooms: dto.roomCount,
+    minimumStayNights: dto.minStay,
     description: dto.description?.trim() ?? '',
     facilityCategories: _mapRoomFacilityCategories(dto),
     images: dto.pictures.map(_mapDetailImage).toList(growable: false),

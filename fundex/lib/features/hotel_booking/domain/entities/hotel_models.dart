@@ -385,6 +385,7 @@ class HotelRoomPlan {
     required this.bedroomCount,
     required this.bathroomCount,
     required this.remainingRooms,
+    required this.minimumStayNights,
     required this.description,
     required this.facilityCategories,
     required this.images,
@@ -405,6 +406,7 @@ class HotelRoomPlan {
   final int? bedroomCount;
   final int? bathroomCount;
   final int? remainingRooms;
+  final int? minimumStayNights;
   final String description;
   final List<HotelRoomFacilityCategory> facilityCategories;
   final List<HotelDetailImage> images;

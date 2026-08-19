@@ -265,6 +265,7 @@ abstract class HotelRoomTypeDto with _$HotelRoomTypeDto {
     int? bedRoomCount,
     int? bathRoomCount,
     int? roomCount,
+    int? minStay,
     Object? roomFacility,
     @JsonKey(fromJson: hotelMapListFromJson)
     @Default(<Map<String, Object?>>[])

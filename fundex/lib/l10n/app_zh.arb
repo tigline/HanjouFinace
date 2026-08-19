@@ -595,6 +595,14 @@
       }
     }
   },
+  "hotelDetailMinimumStay": "最低入住天数{count}天",
+  "@hotelDetailMinimumStay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "hotelDetailRoomCapacity": "可住 {count} 人",
   "@hotelDetailRoomCapacity": {
     "placeholders": {

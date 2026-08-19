@@ -1557,6 +1557,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String hotelDetailMinimumStay(int count) {
+    return '最低宿泊日数$count泊';
+  }
+
+  @override
   String hotelDetailRoomCapacity(int count) {
     return '$count名まで';
   }
