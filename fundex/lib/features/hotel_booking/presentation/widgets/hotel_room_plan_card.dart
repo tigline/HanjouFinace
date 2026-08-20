@@ -487,7 +487,6 @@ class _RoomQuantityStepper extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     final shouldShowRemaining = remainingRooms != null && remainingRooms! >= 0;
-    debugPrint('remainingRooms: $remainingRooms, shouldShowRemaining: $shouldShowRemaining');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -555,21 +554,37 @@ class _StepperButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(18),
-      child: SizedBox(
-        width: 46,
-        height: 46,
-        child: Icon(
-          icon,
-          color: onTap == null ? colors.disabled : colors.brandPrimaryDark,
-          size: 24,
-        ),
+    final isEnabled = onTap != null;
+    final buttonContent = SizedBox(
+      width: 46,
+      height: 46,
+      child: Icon(
+        icon,
+        color: isEnabled ? colors.brandPrimaryDark : colors.disabled,
+        size: 24,
       ),
+    );
+    return Semantics(
+      button: true,
+      enabled: isEnabled,
+      child: isEnabled
+          ? InkWell(
+              onTap: onTap,
+              excludeFromSemantics: true,
+              borderRadius: BorderRadius.circular(18),
+              child: buttonContent,
+            )
+          : GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _absorbDisabledStepperTap,
+              excludeFromSemantics: true,
+              child: buttonContent,
+            ),
     );
   }
 }
+
+void _absorbDisabledStepperTap() {}
 
 class _RoomFact {
   const _RoomFact(this.icon, this.label);

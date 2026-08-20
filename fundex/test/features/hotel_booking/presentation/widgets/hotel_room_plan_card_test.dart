@@ -14,6 +14,8 @@ void main() {
     WidgetTester tester,
   ) async {
     var incrementCount = 0;
+    var decrementCount = 0;
+    var cardTapCount = 0;
 
     await tester.pumpWidget(
       MaterialApp(
@@ -27,7 +29,8 @@ void main() {
             presenter: HotelBookingPresenter('zh'),
             quantity: 0,
             nights: 3,
-            onDecrement: () {},
+            onTap: () => cardTapCount += 1,
+            onDecrement: () => decrementCount += 1,
             onIncrement: () => incrementCount += 1,
           ),
         ),
@@ -37,9 +40,12 @@ void main() {
     expect(find.text('最低入住天数5天'), findsOneWidget);
     expect(find.text('仅剩余：4间'), findsNothing);
 
-    final addButton = tester.widget<InkWell>(_addButtonFinder);
-    expect(addButton.onTap, isNull);
+    await tester.tap(find.byIcon(Icons.add_rounded));
+    await tester.tap(find.byIcon(Icons.remove_rounded));
+
     expect(incrementCount, 0);
+    expect(decrementCount, 0);
+    expect(cardTapCount, 0);
   });
 
   testWidgets('room can be added when selected nights meet minimum stay', (
@@ -73,14 +79,6 @@ void main() {
     expect(incrementCount, 1);
   });
 }
-
-final Finder _addButtonFinder = find.byWidgetPredicate((widget) {
-  if (widget is! InkWell || widget.child is! SizedBox) {
-    return false;
-  }
-  final child = (widget.child! as SizedBox).child;
-  return child is Icon && child.icon == Icons.add_rounded;
-});
 
 HotelRoomPlan _room({required int? minimumStayNights}) {
   return HotelRoomPlan(

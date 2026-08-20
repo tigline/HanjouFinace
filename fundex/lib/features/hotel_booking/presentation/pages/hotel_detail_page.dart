@@ -609,9 +609,7 @@ class _HotelDetailContent extends StatelessWidget {
                           criteria.nights >= minimumStayNights;
                       final canAddMoreRooms =
                           !_usesRoomPlanSelection ||
-                          (meetsMinimumStay &&
-                              !isStayBenefitRoomLimitReached &&
-                              selectedRoomCount < criteria.occupancy);
+                          (meetsMinimumStay && !isStayBenefitRoomLimitReached);
                       final extraGuestPrice = _extraGuestPriceFor(room);
                       return Padding(
                         padding: EdgeInsets.only(
