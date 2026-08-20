@@ -256,11 +256,12 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
     HotelDetail detail,
     _StayBenefitDecision stayBenefitDecision,
   ) async {
-    final usesRoomPlanSelection = detail.bookingType == 0;
-    final selectedRooms = usesRoomPlanSelection
-        ? _selectedRoomsFor(detail, _roomQuantities)
-        : <HotelSelectedRoom>[_wholePropertySelection(detail)];
-    if (usesRoomPlanSelection && selectedRooms.isEmpty) {
+    //final usesRoomPlanSelection = detail.bookingType == 0;
+    // final selectedRooms = usesRoomPlanSelection
+    //     ? _selectedRoomsFor(detail, _roomQuantities)
+    //     : <HotelSelectedRoom>[_wholePropertySelection(detail)];
+    final selectedRooms = _selectedRoomsFor(detail, _roomQuantities);
+    if (selectedRooms.isEmpty) {
       AppNotice.show(context, message: context.l10n.hotelDetailSelectRoomFirst);
       return;
     }
@@ -268,7 +269,8 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
       0,
       (sum, selection) => sum + selection.subtotal,
     );
-    if (!usesRoomPlanSelection && fallbackAmount <= 0) {
+    //!usesRoomPlanSelection && 
+    if (fallbackAmount <= 0) {
       AppNotice.show(context, message: context.l10n.hotelBookingCreateFailed);
       return;
     }
@@ -300,7 +302,7 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
       return;
     }
     HotelAssignOccupancyResult? finalAssignResult;
-    if (usesRoomPlanSelection) {
+    //if (usesRoomPlanSelection) {
       finalAssignResult = await _runFinalAssignOccupancyCheck(
         detail,
         selectedRooms,
@@ -317,14 +319,14 @@ class _HotelDetailPageState extends ConsumerState<HotelDetailPage> {
           return;
         }
       }
-    } else if (detail.checkInMessage.trim().isNotEmpty) {
-      final shouldContinue = await _showAssignOccupancyMessageDialog(
-        detail.checkInMessage.trim(),
-      );
-      if (!mounted || !shouldContinue) {
-        return;
-      }
-    }
+    // } else if (detail.checkInMessage.trim().isNotEmpty) {
+    //   final shouldContinue = await _showAssignOccupancyMessageDialog(
+    //     detail.checkInMessage.trim(),
+    //   );
+    //   if (!mounted || !shouldContinue) {
+    //     return;
+    //   }
+    // }
 
     context.push(
       '/hotel-booking/${Uri.encodeComponent(detail.id)}/confirm',
@@ -535,9 +537,8 @@ class _HotelDetailContent extends StatelessWidget {
     final colors = Theme.of(context).appColors;
     final selectedRooms = _selectedRooms;
     final amount = _payableAmount;
-    final roomsForNote = _usesRoomPlanSelection
-        ? selectedRooms
-        : criteria.roomCount;
+    final roomsForNote = selectedRooms;
+    //final roomsForNote = _usesRoomPlanSelection ? selectedRooms : criteria.roomCount;
     final stayBenefitDecision = _stayBenefitDecision(context, amount);
     final remainingUnit = hotelRemainingUnitForBuildingCode(buildingCode);
 

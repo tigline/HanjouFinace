@@ -1,4 +1,5 @@
 import 'package:core_ui_kit/core_ui_kit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../app/localization/app_localizations_ext.dart';
@@ -65,7 +66,6 @@ class HotelRoomPlanCard extends StatelessWidget {
         (remainingRooms == null ||
             remainingRooms < 0 ||
             quantity < remainingRooms);
-
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.brandWhite,
@@ -352,7 +352,7 @@ class _RoomPlanCardContent extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            if (showQuantityControls)
+            //if (showQuantityControls)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
@@ -373,12 +373,12 @@ class _RoomPlanCardContent extends StatelessWidget {
                   ),
                 ],
               )
-            else if (remainingRooms != null && remainingRooms! >= 0)
-              HotelRemainingRoomsLabel(
-                count: remainingRooms!,
-                unit: remainingUnit,
-                textAlign: TextAlign.end,
-              ),
+            //else if (remainingRooms != null && remainingRooms! >= 0)
+              // HotelRemainingRoomsLabel(
+              //   count: remainingRooms!,
+              //   unit: remainingUnit,
+              //   textAlign: TextAlign.end,
+              // ),
           ],
         ),
       ],
@@ -487,11 +487,12 @@ class _RoomQuantityStepper extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).appColors;
     final shouldShowRemaining = remainingRooms != null && remainingRooms! >= 0;
+    debugPrint('remainingRooms: $remainingRooms, shouldShowRemaining: $shouldShowRemaining');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         if (minimumStayNights != null || shouldShowRemaining) ...<Widget>[
-          if (minimumStayNights != null)
+          if (minimumStayNights != null && remainingRooms! > 0)
             Text(
               context.l10n.hotelDetailMinimumStay(minimumStayNights!),
               textAlign: TextAlign.end,
